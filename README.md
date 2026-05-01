@@ -57,3 +57,27 @@ Using Plotly Dash
 
 ### Goal
 *Deep-dive analysis and exploration of personal preferences*
+
+
+##
+### Potential future ideas
+- tagging system
+- weighted scoring
+- import from external API
+
+
+##
+### Tech Stack (Planned)
+- Frontend: HTML, CSS, JavaScript
+- Backend: Python (FastAPI)
+- Database: SQLite (initial)
+- Analytics:
+    - Chart.js (Phase 2)
+    - Plotly Dash (Phase 3)
+
+
+##
+### Definition of Done (Phase 1)
+- Can add, edit, and delete entries
+- Data persists between sessions
+- UI is usable without friction
