@@ -4,14 +4,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Optional
 from datetime import date
+import json
 
 from models.media_item import MediaItem
 from models.scoring_profile import SCORING_PROFILES 
 from models.score import Score
 from models.entry import Entry
+from db import init_db, get_connection
 
 
 app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -33,6 +36,11 @@ class EntryCreate(BaseModel):
 
 
 entries = []
+
+
+@app.on_event("startup")
+def startup():
+    init_db()
 
 
 @app.post("/entries/")
@@ -66,7 +74,26 @@ def create_entry(entry_data: EntryCreate):
         completion_status=entry_data.completion_status
     )
 
-    entries.append(entry)
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO entries (
+        id, title, media_type, genre, notes, date_consumed, completion_status, total_score
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        entry.id,
+        entry.media_item.title,
+        entry.media_item.media_type,
+        entry.media_item.genre,
+        entry.notes,
+        entry.date_consumed.isoformat(),
+        entry.completion_status,
+        entry.total_score()
+    ))
+
+    conn.commit()
+    conn.close()
 
     return {
         "message": "Entry created",
@@ -79,53 +106,69 @@ def create_entry(entry_data: EntryCreate):
 
 @app.get("/entries/")
 def get_entries():
-    return [entry.to_dict() for entry in entries]
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM entries")
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    return [dict(row) for row in rows]
 
 
 @app.get("/entries/{entry_id}")
 def get_entry(entry_id: str):
-    for entry in entries:
-        if entry.id == entry_id:
-            return entry.to_dict()
+    conn = get_connection()
+    cursor = conn.cursor()
 
-    raise HTTPException(status_code=404, detail="Entry not found")
+    cursor.execute("SELECT * FROM entries WHERE id = ?", (entry_id,))
+    row = cursor.fetchone()
+
+    conn.close()
+
+    if not row:
+        raise HTTPException(status_code=404, detail="Entry not found")
+
+    return dict(row)
 
 
 @app.delete("/entries/{entry_id}")
 def delete_entry(entry_id: str):
+    conn = get_connection()
+    cursor = conn.cursor()
 
-    for index, entry in enumerate(entries):
-        if entry.id == entry_id:
-            entries.pop(index)
-            return {"message": "Entry deleted"}
+    cursor.execute("DELETE FROM entries WHERE id = ?", (entry_id,))
+    conn.commit()
 
-    raise HTTPException(status_code=404, detail="Entry not found")
+    conn.close()
+
+    return {"message": "Entry deleted"}
 
 
 @app.get("/stats/")
 def get_stats():
-    total_entries = len(entries)
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM entries")
+    rows = cursor.fetchall()
+    conn.close()
+
+    total_entries = len(rows)
+
     completed_entries = sum(
-        1 for entry in entries 
-        if entry.completion_status == "completed"
+        1 for r in rows if r["completion_status"] == "completed"
     )
-    total_score = sum(
-        entry.total_score() for entry in entries
-    )
-    average_score = (
-        total_score / total_entries 
-        if total_entries > 0 else 0
-    )
+
+    total_score = sum(r["total_score"] for r in rows)
+    average_score = total_score / total_entries if total_entries else 0
 
     media_breakdown = {}
 
-    for entry in entries:
-        media_type = entry.media_item.media_type
-
-        if media_type not in media_breakdown:
-            media_breakdown[media_type] = 0
-        
-        media_breakdown[media_type] += 1
+    for r in rows:
+        mt = r["media_type"]
+        media_breakdown[mt] = media_breakdown.get(mt, 0) + 1
 
     return {
         "total_entries": total_entries,
