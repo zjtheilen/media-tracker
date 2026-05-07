@@ -47,9 +47,15 @@ def create_entry(entry_data: EntryCreate):
 
     scores = []
     for name, value in entry_data.scores.items():
-        if name not in category_lookup:
-            raise HTTPException(status_code=400, detail=f"Invalid scoring category: {name}")
-        category_obj = category_lookup[name]
+        normalized_name = name.lower()
+
+        if normalized_name not in category_lookup:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid scoring category: {name}"
+            )
+
+        category_obj = category_lookup[normalized_name]
         scores.append(Score(category_obj, value))
     
     entry = Entry(
@@ -77,18 +83,23 @@ def get_entries():
 
 
 @app.get("/entries/{entry_id}")
-def get_entry(entry_id: int):
-    if entry_id < 0 or entry_id >= len(entries):
-        raise HTTPException(status_code=404, detail="Entry not found")
-    return entries[entry_id].to_dict()
+def get_entry(entry_id: str):
+    for entry in entries:
+        if entry.id == entry_id:
+            return entry.to_dict()
+
+    raise HTTPException(status_code=404, detail="Entry not found")
 
 
 @app.delete("/entries/{entry_id}")
-def delete_entry(entry_id: int):
-    if entry_id < 0 or entry_id >= len(entries):
-        raise HTTPException(status_code=404, detail="Entry not found")
-    entries.pop(entry_id)
-    return {"message": "Entry deleted"}
+def delete_entry(entry_id: str):
+
+    for index, entry in enumerate(entries):
+        if entry.id == entry_id:
+            entries.pop(index)
+            return {"message": "Entry deleted"}
+
+    raise HTTPException(status_code=404, detail="Entry not found")
 
 
 @app.get("/stats/")
