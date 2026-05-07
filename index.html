@@ -1,0 +1,96 @@
+<! DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Tracker</title>
+</head>
+
+<body>
+
+    <h1>Media Tracker</h1>
+    <p>Welcome to the Media Tracker!</p>
+
+    <h2>Add Entry</h2>
+
+    <form id="entry-form">
+        <input type="text" id="title" placeholder="Title" required>
+
+        <select id="media-type">
+            <option value="video">video</option>
+            <option value="game">game</option>
+            <option value="book">book</option>
+        </select>
+
+        <input type="text" id="genre" placeholder="Genre">
+
+        <textarea id="notes" placeholder="Notes"></textarea>
+
+        <button type="submit">Add Entry</button>
+    </form>
+
+    <h2>Entries</h2>
+
+    <div id="entries-container"></div>
+
+    <script>
+    const form = document.getElementById('entry-form');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const data = {
+            title: document.getElementById('title').value,
+            media_type: document.getElementById('media-type').value,
+            genre: document.getElementById('genre').value,
+            scores: {
+                "writing": 8,
+                "pacing": 7
+            },
+            notes: document.getElementById('notes').value,
+        };
+
+        const response = await fetch("http://127.0.0.1:8000/entries/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        
+        console.log(result);
+
+        await loadEntries();
+    });
+
+    async function loadEntries() {
+        const response = await fetch("http://127.0.0.1:8000/entries/");
+        const entries = await response.json();
+
+        const container = document.getElementById('entries-container');
+        container.innerHTML = '';
+
+        entries.forEach(entry => {
+            const div = document.createElement('div');
+
+            div.innerHTML = `
+                <h3>${entry.media_item.title}</h3>
+                <p>Type: ${entry.media_item.media_type}</p>
+                <p>Genre: ${entry.media_item.genre}</p>
+                <p>Total Score: ${entry.total_score.toFixed(2)}</p>
+                <p>Notes: ${entry.notes}</p>
+                <hr>
+            `;
+
+            container.appendChild(div);
+        })
+    }
+
+    loadEntries();
+</script>
+
+</body>
+
+</html>
