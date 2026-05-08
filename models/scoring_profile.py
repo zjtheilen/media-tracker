@@ -3,13 +3,14 @@ from models.scoring_category import ScoringCategory
 SCORING_PROFILES  = {
     "video": [
         ScoringCategory("Writing"),
-        ScoringCategory("Acting"),
-        ScoringCategory("Cinematography"),
-        ScoringCategory("Sound"),
         ScoringCategory("Pacing"),
         ScoringCategory("Originality"),
         ScoringCategory("Engagement"),
-        ScoringCategory("Thought Provoking")
+        ScoringCategory("Thought Provoking"),
+        ScoringCategory("Emotional Impact"),
+        ScoringCategory("Sound"),
+        ScoringCategory("Acting"),
+        ScoringCategory("Cinematography"),
     ],
     "book": [
         ScoringCategory("Writing"),
@@ -17,25 +18,21 @@ SCORING_PROFILES  = {
         ScoringCategory("Originality"),
         ScoringCategory("Engagement"),
         ScoringCategory("Thought Provoking"),
-        ScoringCategory("Setting"),
         ScoringCategory("Emotional Impact"),
-        ScoringCategory("Curiosity")
+        ScoringCategory("Setting"),
+        ScoringCategory("Curiosity"),
+        ScoringCategory("Formatting")
     ],
     "game": [
-        ScoringCategory("Gameplay"),
-        ScoringCategory("Sound"),
-        ScoringCategory("Story"),
-        ScoringCategory("Creativity"),
-        ScoringCategory("Emotional Impact"),
+        ScoringCategory("Writing"),
+        ScoringCategory("Pacing"),
+        ScoringCategory("Originality"),
+        ScoringCategory("Engagement"),
         ScoringCategory("Thought Provoking"),
-        ScoringCategory("Replayability"),
+        ScoringCategory("Emotional Impact"),
+        ScoringCategory("Sound"),
+        ScoringCategory("Gameplay"),
         ScoringCategory("Art")
     ]
 }
 
-
-
-# class ScoringProfile:
-#     def __init__ (self, media_type, categories=None):
-#         self.media_type = media_type
-#         self.categories = categories if categories is not None else []

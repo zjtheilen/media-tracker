@@ -3,13 +3,14 @@ const form = document.getElementById("entry-form");
 const scoringProfiles = {
   video: [
     "Writing",
-    "Acting",
-    "Cinematography",
-    "Sound",
     "Pacing",
     "Originality",
     "Engagement",
     "Thought Provoking",
+    "Emotional Impact",
+    "Sound",
+    "Acting",
+    "Cinematography",
   ],
   book: [
     "Writing",
@@ -17,18 +18,20 @@ const scoringProfiles = {
     "Originality",
     "Engagement",
     "Thought Provoking",
-    "Setting",
     "Emotional Impact",
+    "Setting",
     "Curiosity",
+    "Formatting",
   ],
   game: [
-    "Gameplay",
-    "Sound",
-    "Story",
-    "Creativity",
-    "Emotional Impact",
+    "Writing",
+    "Pacing",
+    "Originality",
+    "Engagement",
     "Thought Provoking",
-    "Replayability",
+    "Emotional Impact",
+    "Sound",
+    "Gameplay",
     "Art",
   ],
 };
@@ -45,12 +48,14 @@ function renderScoreInputs(mediaType) {
     const wrapper = document.createElement("div");
 
     wrapper.innerHTML = `
-                    <label>
+    <div class="score-row">
+                    <label style="width: 33%" for="${category}">
                         ${category}:
                         <span id="11${category}-value">3</span>
                     </label>
 
-                    <input type="range" min="1" max="5" value="3" id="${category}">
+                    <input type="range" min="1" max="5" value="3" id="${category}" style="width: 67%">
+                    </div>
                 `;
 
     scoreContainer.appendChild(wrapper);
@@ -65,6 +70,25 @@ function renderScoreInputs(mediaType) {
 }
 
 renderScoreInputs(mediaTypeSelect.value);
+
+function renderScoreBars(scores) {
+  return Object.entries(scores)
+    .map(([category, value]) => {
+      const max = 5;
+      const percent = (value / max) * 100;
+
+      return `
+            <div class="score-row">
+                <span class="score-label">${category}</span>
+                <div class="score-bar-bg">
+                    <div class="score-bar-fill" style="width: ${percent}%"></div>
+                </div>
+                <span class="score-value">${value}</span>
+            </div>
+        `;
+    })
+    .join("");
+}
 
 mediaTypeSelect.addEventListener("change", () => {
   renderScoreInputs(mediaTypeSelect.value);
@@ -119,26 +143,47 @@ async function loadEntries() {
     const percentScore = ((entry.total_score / 5) * 100).toFixed(0);
 
     div.innerHTML = `
-                    <h3>${entry.title}</h3>
+            <h3>${entry.title}</h3>
 
-                    <p><strong>Date:</strong> ${entry.date_consumed || "N/A"}</p>
-                    <p><strong>Type:</strong> ${entry.media_type}</p>
-                    <p><strong>Genre:</strong> ${entry.genre}</p>
+            <p><strong>Date:</strong> ${entry.date_consumed || "N/A"}</p>
+            <p><strong>Type:</strong> ${entry.media_type}</p>
+            <p><strong>Genre:</strong> ${entry.genre}</p>
 
-                    <p><strong>Scores:</strong></p>
-                    <ul>
-                        ${Object.entries(entry.scores || {})
-                          .map(([k, v]) => `<li>${k}: ${v}</li>`)
-                          .join("")}
-                    </ul>
+            <p><strong>Total Score:</strong> ${percentScore}%</p>
 
-                    <p><strong>Total Score:</strong> ${entry.total_score.toFixed(2)} / 5 (${percentScore}%)</p>
+            <div class="scores-block">
+                ${renderScoreBars(entry.scores || {})}
+            </div>
 
-                    <p><strong>Notes:</strong> ${entry.notes}</p>
-                    <hr>
-                `;
+            <p><strong>Notes:</strong> ${entry.notes}</p>
+            <canvas id="chart-${entry.id}"></canvas>
+            <hr>
+    `;
 
     container.appendChild(div);
+
+    const ctx = document.getElementById(`chart-${entry.id}`).getContext("2d");
+
+    new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: Object.keys(entry.scores),
+        datasets: [
+          {
+            label: entry.title,
+            data: Object.values(entry.scores),
+          },
+        ],
+      },
+      options: {
+        scales: {
+          r: {
+            min: 1,
+            max: 5,
+          },
+        },
+      },
+    });
   });
 }
 
