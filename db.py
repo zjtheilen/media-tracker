@@ -21,7 +21,8 @@ def init_db():
         completion_status TEXT,
         total_score REAL,
         notes TEXT,
-        date_consumed TEXT
+        date_consumed TEXT,
+        scores TEXT
     )
     """)
 

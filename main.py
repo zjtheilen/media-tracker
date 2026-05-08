@@ -77,20 +77,24 @@ def create_entry(entry_data: EntryCreate):
     conn = get_connection()
     cursor = conn.cursor()
 
+
+
     cursor.execute("""
-    INSERT INTO entries (
-        id, title, media_type, genre, notes, date_consumed, completion_status, total_score
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    """, (
-        entry.id,
-        entry.media_item.title,
-        entry.media_item.media_type,
-        entry.media_item.genre,
-        entry.notes,
-        entry.date_consumed.isoformat(),
-        entry.completion_status,
-        entry.total_score()
-    ))
+        INSERT INTO entries (
+            id, title, media_type, genre, notes, date_consumed, completion_status, total_score, scores
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            entry.id,
+            entry.media_item.title,
+            entry.media_item.media_type,
+            entry.media_item.genre,
+            entry.notes,
+            entry.date_consumed.isoformat(),
+            entry.completion_status,
+            entry.total_score(),
+            json.dumps(entry_data.scores)
+        )
+    )
 
     conn.commit()
     conn.close()
@@ -112,9 +116,13 @@ def get_entries():
     cursor.execute("SELECT * FROM entries")
     rows = cursor.fetchall()
 
-    conn.close()
+    entries = []
+    for row in rows:
+        entry = dict(row)
+        entry["scores"] = json.loads(entry["scores"]) if entry["scores"] else {}
+        entries.append(entry)
 
-    return [dict(row) for row in rows]
+    return entries
 
 
 @app.get("/entries/{entry_id}")
