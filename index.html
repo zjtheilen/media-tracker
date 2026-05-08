@@ -1,0 +1,42 @@
+<! DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+    <title>Media Tracker</title>
+</head>
+
+<body>
+
+    <h1>Media Tracker</h1>
+    <p>Welcome to the Media Tracker!</p>
+
+    <h2>Add Entry</h2>
+
+    <form id="entry-form">
+        <input type="text" id="title" placeholder="Title" required>
+
+        <select id="media-type">
+            <option value="video">video</option>
+            <option value="game">game</option>
+            <option value="book">book</option>
+        </select>
+
+        <input type="text" id="genre" placeholder="Genre">
+
+        <textarea id="notes" placeholder="Notes"></textarea>
+
+        <div id="score-container"></div>
+
+        <button type="submit">Add Entry</button>
+    </form>
+
+    <h2>Entries</h2>
+
+    <div id="entries-container"></div>
+
+</body>
+
+</html>
