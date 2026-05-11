@@ -137,6 +137,12 @@ const closeBtn = document.getElementById("closeBtn");
 openBtn.onclick = () => modal.showModal();
 closeBtn.onclick = () => modal.close();
 
+const deleteModal = document.getElementById("deleteModal");
+const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+
+let pendingDeleteId = null;
+
 async function loadEntries() {
   const response = await fetch("http://127.0.0.1:8000/entries/");
   const entries = await response.json();
@@ -176,7 +182,7 @@ async function loadEntries() {
                 </div>
 
                 <p><strong>Notes:</strong> ${entry.notes}</p>
-                <button onclick="deleteEntry('${entry.id}')">Delete</button>
+                <button onclick="openDeleteModal('${entry.id}')">Delete</button>
             </div>
             <hr>
     `;
@@ -225,3 +231,20 @@ async function deleteEntry(id) {
 
     await loadEntries();
 }
+
+function openDeleteModal(id) {
+    pendingDeleteId = id;
+    deleteModal.showModal();
+}
+
+confirmDeleteBtn.onclick = async () => {
+    await deleteEntry(pendingDeleteId);
+
+    deleteModal.close();
+    pendingDeleteId = null;
+};
+
+cancelDeleteBtn.onclick = () => {
+    deleteModal.close();
+    pendingDeleteId = null;
+};
