@@ -130,6 +130,13 @@ form.addEventListener("submit", async (event) => {
   await loadEntries();
 });
 
+const modal = document.getElementById("entryModal");
+const openBtn = document.getElementById("openBtn");
+const closeBtn = document.getElementById("closeBtn");
+
+openBtn.onclick = () => modal.showModal();
+closeBtn.onclick = () => modal.close();
+
 async function loadEntries() {
   const response = await fetch("http://127.0.0.1:8000/entries/");
   const entries = await response.json();
@@ -143,20 +150,34 @@ async function loadEntries() {
     const percentScore = ((entry.total_score / 5) * 100).toFixed(0);
 
     div.innerHTML = `
-            <h3>${entry.title}</h3>
+            <div id="entries-head" class="row" style="display: flex;">
+                <div id="head-top-row-left" style="width: 50%; ">
+                    <div id="entry-details">
+                        <h3>${entry.title}</h3>
 
-            <p><strong>Date:</strong> ${entry.date_consumed || "N/A"}</p>
-            <p><strong>Type:</strong> ${entry.media_type}</p>
-            <p><strong>Genre:</strong> ${entry.genre}</p>
+                        <p><strong>Date:</strong></br> ${entry.date_consumed || "N/A"}</p>
+                        <p><strong>Type:</strong></br> ${entry.media_type}</p>
+                        <p><strong>Genre:</strong></br> ${entry.genre}</p>
 
-            <p><strong>Total Score:</strong> ${percentScore}%</p>
+                        <p><strong>Total Score:</strong></br> ${percentScore}%</p>
+                        <p><strong>Entry ID:</strong></br> ${entry.id}</p>
 
-            <div class="scores-block">
-                ${renderScoreBars(entry.scores || {})}
+                    </div>
+                </div>
+                <div id="head-top-row-right" style="width: 50%">
+                    <div id="radar-container" style="width: 100%; margin: auto;">
+                        <canvas id="chart-${entry.id}"></canvas>
+                    </div>
+                </div>
             </div>
+            <div id="scores-and-notes" class="row">
+                <div class="scores-block">
+                    ${renderScoreBars(entry.scores || {})}
+                </div>
 
-            <p><strong>Notes:</strong> ${entry.notes}</p>
-            <canvas id="chart-${entry.id}"></canvas>
+                <p><strong>Notes:</strong> ${entry.notes}</p>
+                <button onclick="deleteEntry('${entry.id}')">Delete</button>
+            </div>
             <hr>
     `;
 
@@ -176,8 +197,16 @@ async function loadEntries() {
         ],
       },
       options: {
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
         scales: {
           r: {
+            ticks: {
+                display: false,
+            },
             min: 1,
             max: 5,
           },
@@ -188,3 +217,11 @@ async function loadEntries() {
 }
 
 loadEntries();
+
+async function deleteEntry(id) {
+    await fetch(`http://127.0.0.1:8000/entries/${id}`, {
+        method: "DELETE",
+    });
+
+    await loadEntries();
+}

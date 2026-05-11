@@ -14,25 +14,31 @@
     <h1>Media Tracker</h1>
     <p>Welcome to the Media Tracker!</p>
 
-    <h2>Add Entry</h2>
+    <button id="openBtn">Add an Entry</button>
+    <dialog id="entryModal">
 
-    <form id="entry-form">
-        <input type="text" id="title" placeholder="Title" required>
+        <form id="entry-form">
+            <input type="text" id="title" placeholder="Title" required>
 
-        <select id="media-type">
-            <option value="video">video</option>
-            <option value="game">game</option>
-            <option value="book">book</option>
-        </select>
+            <select id="media-type">
+                <option value="video">video</option>
+                <option value="game">game</option>
+                <option value="book">book</option>
+            </select>
 
-        <input type="text" id="genre" placeholder="Genre">
+            <input type="text" id="genre" placeholder="Genre">
 
-        <textarea id="notes" placeholder="Notes"></textarea>
+            <textarea id="notes" placeholder="Notes"></textarea>
 
-        <div id="score-container"></div>
+            <div id="score-container"></div>
 
-        <button type="submit">Add Entry</button>
-    </form>
+            <div class="row" style="display: flex;">
+                <button type="submit" style="width: 50%; margin: 5px;">Add Entry</button>
+                <button id="closeBtn" style="width: 50%; margin: 5px;">Close</button>
+            </div>
+            
+        </form>
+    </dialog>
 
     <h2>Entries</h2>
 
