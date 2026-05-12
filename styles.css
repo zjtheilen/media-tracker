@@ -49,7 +49,9 @@ button:hover {
   position: absolute;
 }
 
-.delete-btn:hover {
+.delete-btn:hover,
+#confirmDeleteBtn:hover,
+#closeBtn:hover {
   background: #e74c3c;
 }
 
@@ -89,4 +91,11 @@ button:hover {
 #head-top-row-right {
     width: 50%;
     margin-top: -1vh;
+}
+
+#entryModal,
+#deleteModal {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 20px 10px rgba(0, 0, 0, 0.1);
 }
