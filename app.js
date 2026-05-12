@@ -182,7 +182,7 @@ async function loadEntries() {
                 </div>
 
                 <p><strong>Notes:</strong> ${entry.notes}</p>
-                <button onclick="openDeleteModal('${entry.id}')">Delete</button>
+                <button class="delete-btn" onclick="openDeleteModal('${entry.id}')">Delete</button>
             </div>
             <hr>
     `;
