@@ -238,6 +238,25 @@ async function loadEntries() {
 
     const ctx = document.getElementById(`chart-${entry.id}`).getContext("2d");
 
+    radarDotColor = "";
+    radarBorderColor = "";
+    radarBackgroundColor = "";
+
+    if (entry.media_type === "video") {
+      radarDotColor = "rgba(255, 99, 132, 1)";
+      radarBorderColor = "rgba(255, 99, 132, 1)";
+      radarBackgroundColor = "rgba(255, 99, 132, 0.2)";
+    } else if (entry.media_type === "book") {
+      radarDotColor = "rgba(54, 162, 235, 1)";
+      radarBorderColor = "rgba(54, 162, 235, 1)";
+      radarBackgroundColor = "rgba(54, 162, 235, 0.2)";
+    } else if (entry.media_type === "game") {
+      radarDotColor = "rgba(255, 206, 86, 1)";
+      radarBorderColor = "rgba(255, 206, 86, 1)";
+      radarBackgroundColor = "rgba(255, 206, 86, 0.2)";
+    }
+
+
     new Chart(ctx, {
       type: "radar",
       data: {
@@ -246,6 +265,10 @@ async function loadEntries() {
           {
             label: entry.title,
             data: Object.values(entry.scores),
+            fill: true,
+            backgroundColor: radarBackgroundColor,
+            borderColor: radarBorderColor,
+            pointBackgroundColor: radarDotColor,
           },
         ],
       },
