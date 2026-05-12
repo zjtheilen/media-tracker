@@ -166,7 +166,6 @@ async function loadEntries() {
                         <p><strong>Genre:</strong></br> ${entry.genre}</p>
 
                         <p><strong>Total Score:</strong></br> ${percentScore}%</p>
-                        <p><strong>Entry ID:</strong></br> ${entry.id}</p>
 
                     </div>
                 </div>

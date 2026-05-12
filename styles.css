@@ -85,3 +85,8 @@ button:hover {
     text-align: right;
     font-size: 13px;
 }
+
+#head-top-row-right {
+    width: 50%;
+    margin-top: -1vh;
+}
