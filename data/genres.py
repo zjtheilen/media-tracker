@@ -1,0 +1,36 @@
+PRIMARY_GENRES = {
+    "Horror",
+    "Sci-Fi",
+    "Fantasy",
+    "Romance",
+    "Comedy",
+    "Thriller",
+    "Mystery",
+    "Drama",
+    "Action",
+    "Adventure",
+    "Crime",
+    "Psychological",
+    "Slice of Life",
+    "Satire",
+}
+
+GAME_GENRES = {
+    "RPG",
+    "Puzzle",
+    "Platformer",
+    "Shooter",
+    "Strategy",
+    "Racing",
+    "Simulation",
+    "Visual Novel",
+    "Fighting",
+    "Beat 'em up",
+    "Stealth",
+    "Survival",
+    "Rhythm",
+    "Battle Royale",
+    "Metroidvania",
+    "Sports",
+    "Party"
+}

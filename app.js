@@ -36,6 +36,43 @@ const scoringProfiles = {
   ],
 };
 
+const PRIMARY_GENRES = [
+  "Horror",
+  "Sci-Fi",
+  "Fantasy",
+  "Romance",
+  "Comedy",
+  "Thriller",
+  "Mystery",
+  "Drama",
+  "Action",
+  "Adventure",
+  "Crime",
+  "Psychological",
+  "Slice of Life",
+  "Satire",
+];
+
+const GAME_GENRES = [
+  "RPG",
+  "Puzzle",
+  "Platformer",
+  "Shooter",
+  "Strategy",
+  "Racing",
+  "Simulation",
+  "Visual Novel",
+  "Fighting",
+  "Beat 'em up",
+  "Stealth",
+  "Survival",
+  "Rhythm",
+  "Battle Royale",
+  "Metroidvania",
+  "Sports",
+  "Party",
+];
+
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
 
@@ -97,10 +134,21 @@ mediaTypeSelect.addEventListener("change", () => {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
+  const genreSelect = document.getElementById("genres");
+
+  const selectedGenres = Array.from(genreSelect.selectedOptions).map(
+    (opt) => opt.value,
+  );
+
+  if (selectedGenres.length > 3) {
+    alert("Select up to 3 genres only.");
+    return;
+  }
+
   const data = {
     title: document.getElementById("title").value,
     media_type: document.getElementById("media-type").value,
-    genre: document.getElementById("genre").value,
+    genres: selectedGenres,
     notes: document.getElementById("notes").value,
   };
 
@@ -163,7 +211,7 @@ async function loadEntries() {
 
                         <p><strong>Date:</strong></br> ${entry.date_consumed || "N/A"}</p>
                         <p><strong>Type:</strong></br> ${entry.media_type}</p>
-                        <p><strong>Genre:</strong></br> ${entry.genre}</p>
+                        <p><strong>Genres:</strong></br> ${entry.genres.join(", ")}</p>
 
                         <p><strong>Total Score:</strong></br> ${percentScore}%</p>
 
@@ -210,7 +258,7 @@ async function loadEntries() {
         scales: {
           r: {
             ticks: {
-                display: false,
+              display: false,
             },
             min: 1,
             max: 5,
@@ -224,26 +272,52 @@ async function loadEntries() {
 loadEntries();
 
 async function deleteEntry(id) {
-    await fetch(`http://127.0.0.1:8000/entries/${id}`, {
-        method: "DELETE",
-    });
+  await fetch(`http://127.0.0.1:8000/entries/${id}`, {
+    method: "DELETE",
+  });
 
-    await loadEntries();
+  await loadEntries();
 }
 
 function openDeleteModal(id) {
-    pendingDeleteId = id;
-    deleteModal.showModal();
+  pendingDeleteId = id;
+  deleteModal.showModal();
 }
 
 confirmDeleteBtn.onclick = async () => {
-    await deleteEntry(pendingDeleteId);
+  await deleteEntry(pendingDeleteId);
 
-    deleteModal.close();
-    pendingDeleteId = null;
+  deleteModal.close();
+  pendingDeleteId = null;
 };
 
 cancelDeleteBtn.onclick = () => {
-    deleteModal.close();
-    pendingDeleteId = null;
+  deleteModal.close();
+  pendingDeleteId = null;
 };
+
+const genreSelect = document.getElementById("genres");
+
+function renderGenres(mediaType) {
+  genreSelect.innerHTML = "";
+
+  const base = [...PRIMARY_GENRES];
+
+  const extra = mediaType === "game" ? GAME_GENRES : [];
+
+  const allGenres = [...base, ...extra];
+
+  allGenres.forEach((g) => {
+    const option = document.createElement("option");
+    option.value = g;
+    option.textContent = g;
+    genreSelect.appendChild(option);
+  });
+}
+
+renderGenres(mediaTypeSelect.value);
+
+mediaTypeSelect.addEventListener("change", () => {
+  renderScoreInputs(mediaTypeSelect.value);
+  renderGenres(mediaTypeSelect.value);
+});

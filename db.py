@@ -8,22 +8,23 @@ def get_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+
 def init_db():
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS entries (
-        id TEXT PRIMARY KEY,
-        media_type TEXT,
-        title TEXT,
-        genre TEXT,
-        completion_status TEXT,
-        total_score REAL,
-        notes TEXT,
-        date_consumed TEXT,
-        scores TEXT
-    )
+        CREATE TABLE IF NOT EXISTS entries (
+            id TEXT PRIMARY KEY,
+            media_type TEXT,
+            title TEXT,
+            genres TEXT,
+            completion_status TEXT,
+            total_score REAL,
+            notes TEXT,
+            date_consumed TEXT,
+            scores TEXT
+        )
     """)
 
     conn.commit()

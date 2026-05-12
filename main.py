@@ -8,6 +8,7 @@ import json
 
 from models.media_item import MediaItem
 from models.scoring_profile import SCORING_PROFILES 
+from data.genres import PRIMARY_GENRES, GAME_GENRES
 from models.score import Score
 from models.entry import Entry
 from db import init_db, get_connection
@@ -28,7 +29,7 @@ app.add_middleware(
 class EntryCreate(BaseModel):
     title: str
     media_type: str
-    genre: str
+    genres: list[str]
     scores: Dict[str, int]
     notes: Optional[str] = ""
     date_consumed: Optional[date] = None
@@ -45,13 +46,25 @@ def startup():
 
 @app.post("/entries/")
 def create_entry(entry_data: EntryCreate):
-    media_item = MediaItem(entry_data.title, entry_data.media_type, entry_data.genre)
+    media_item = MediaItem(entry_data.title, entry_data.media_type)
 
     valid_categories = SCORING_PROFILES.get(media_item.media_type)
     if not valid_categories:
         raise HTTPException(status_code=400, detail=f"Invalid media type: {media_item.media_type}")
 
     category_lookup = {cat.name.lower(): cat for cat in valid_categories}
+
+    allowed = set(PRIMARY_GENRES)
+
+    if entry_data.media_type == "game":
+        allowed = allowed.union(GAME_GENRES)
+    
+    for g in entry_data.genres:
+        if g not in allowed:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid genre for {entry_data.media_type}: {g}"
+            )
 
     scores = []
     for name, value in entry_data.scores.items():
@@ -68,6 +81,7 @@ def create_entry(entry_data: EntryCreate):
     
     entry = Entry(
         media_item=media_item, 
+        genres=entry_data.genres,
         scores=scores, 
         notes=entry_data.notes, 
         date_consumed=entry_data.date_consumed, 
@@ -81,18 +95,18 @@ def create_entry(entry_data: EntryCreate):
 
     cursor.execute("""
         INSERT INTO entries (
-            id, title, media_type, genre, notes, date_consumed, completion_status, total_score, scores
+            id, title, media_type, genres, notes, date_consumed, completion_status, total_score, scores
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             entry.id,
             entry.media_item.title,
             entry.media_item.media_type,
-            entry.media_item.genre,
+            json.dumps(entry_data.genres),
             entry.notes,
             entry.date_consumed.isoformat(),
             entry.completion_status,
             entry.total_score(),
-            json.dumps(entry_data.scores)
+            json.dumps(entry_data.scores),
         )
     )
 
@@ -119,7 +133,10 @@ def get_entries():
     entries = []
     for row in rows:
         entry = dict(row)
+
         entry["scores"] = json.loads(entry["scores"]) if entry["scores"] else {}
+        entry["genres"] = json.loads(entry["genres"]) if entry["genres"] else []
+        
         entries.append(entry)
 
     return entries
