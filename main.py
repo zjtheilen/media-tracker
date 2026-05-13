@@ -171,6 +171,99 @@ def delete_entry(entry_id: str):
     return {"message": "Entry deleted"}
 
 
+@app.put("/entries/{entry_id}")
+def update_entry(entry_id: str, entry_data: EntryCreate):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM entries WHERE id = ?", (entry_id,))
+    existing = cursor.fetchone()
+
+    if not existing:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Entry not found")
+    
+    media_item = MediaItem(entry_data.title, entry_data.media_type)
+
+    valid_categories = SCORING_PROFILES.get(media_item.media_type)
+
+    if not valid_categories:
+        conn.close()
+        raise HTTPException(status_code=400, detail=f"Invalid media type: {media_item.media_type}")
+    
+    category_lookup = {cat.name.lower(): cat for cat in valid_categories}
+
+    allowed = set(PRIMARY_GENRES)
+
+    if entry_data.media_type == "game":
+        allowed = allowed.union(GAME_GENRES)
+
+    for g in entry_data.genres:
+        if g not in allowed:
+            conn.close()
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid genre for {entry_data.media_type}: {g}"
+            )
+    
+    scores = []
+
+    for name, value in entry_data.scores.items():
+        normalized_name = name.lower()
+
+        if normalized_name not in category_lookup:
+            conn.close()
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid scoring category: {name}"
+            )
+
+        category_obj = category_lookup[normalized_name]
+        scores.append(Score(category_obj, value))
+    
+    updated_entry = Entry(
+        media_item=media_item,
+        genres=entry_data.genres,
+        scores=scores,
+        notes=entry_data.notes,
+        date_consumed=entry_data.date_consumed,
+        completion_status=entry_data.completion_status
+    )
+
+    cursor.execute("""
+        UPDATE entries SET 
+            title = ?, 
+            media_type = ?, 
+            genres = ?, 
+            notes = ?, 
+            date_consumed = ?, 
+            completion_status = ?, 
+            total_score = ?, 
+            scores = ?
+        WHERE id = ?
+    """, (
+        updated_entry.media_item.title,
+        updated_entry.media_item.media_type,
+        json.dumps(entry_data.genres),
+        updated_entry.notes,
+        updated_entry.date_consumed.isoformat(),
+        updated_entry.completion_status,
+        updated_entry.total_score(),
+        json.dumps(entry_data.scores),
+        entry_id
+    ))
+
+    print(cursor.rowcount)
+
+    conn.commit()
+    conn.close()
+
+    return {
+        "message": "Entry updated",
+        "entry_id": entry_id,
+        "total_score": updated_entry.total_score()}
+
+
 @app.get("/stats/")
 def get_stats():
     conn = get_connection()

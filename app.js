@@ -73,27 +73,38 @@ const GAME_GENRES = [
   "Party",
 ];
 
+let editingEntryId = null;
+
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
 
-function renderScoreInputs(mediaType) {
+function renderScoreInputs(mediaType, existingScores = {}) {
   scoreContainer.innerHTML = "";
 
   const categories = scoringProfiles[mediaType];
 
   categories.forEach((category) => {
+    const scoreValue = existingScores[category] || 5;
+
     const wrapper = document.createElement("div");
 
     wrapper.innerHTML = `
-    <div class="score-row">
-                    <label style="width: 33%" for="${category}">
-                        ${category}:
-                        <span id="11${category}-value">3</span>
-                    </label>
+      <div class="score-row">
+        <label style="width: 33%" for="${category}">
+          ${category}:
+          <span id="11${category}-value">${scoreValue}</span>
+        </label>
 
-                    <input type="range" min="1" max="5" value="3" id="${category}" style="width: 67%">
-                    </div>
-                `;
+        <input 
+          type="range"
+          min="1"
+          max="5"
+          value="${scoreValue}"
+          id="${category}"
+          style="width: 67%"
+        >
+      </div>
+    `;
 
     scoreContainer.appendChild(wrapper);
 
@@ -229,6 +240,7 @@ async function loadEntries() {
                 </div>
 
                 <p><strong>Notes:</strong> ${entry.notes}</p>
+                <button onclick="startEdit('${entry.id}')">Edit</button>
                 <button class="delete-btn" onclick="openDeleteModal('${entry.id}')">Delete</button>
             </div>
             <hr>
@@ -341,6 +353,23 @@ function renderGenres(mediaType) {
 renderGenres(mediaTypeSelect.value);
 
 mediaTypeSelect.addEventListener("change", () => {
-  renderScoreInputs(mediaTypeSelect.value);
+  renderScoreInputs(mediaTypeSelect.value, {});
   renderGenres(mediaTypeSelect.value);
 });
+
+
+async function startEdit(id) {
+    const response = await fetch(`http://127.0.0.1:8000/entries/${id}`);
+    const entry = await response.json();
+
+    editingEntryId = id;
+
+    document.getElementById("title").value = entry.title;
+    document.getElementById("media-type").value = entry.media_type;
+    document.getElementById("notes").value = entry.notes || "";
+
+    renderScoreInputs(entry.media_type, entry.scores);
+
+    document.getElementById("entryModal").showModal();
+}
+
