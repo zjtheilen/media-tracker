@@ -155,7 +155,12 @@ def get_entry(entry_id: str):
     if not row:
         raise HTTPException(status_code=404, detail="Entry not found")
 
-    return dict(row)
+    entry = dict(row)
+
+    entry["scores"] = json.loads(entry["scores"]) if entry["scores"] else {}
+    entry["genres"] = json.loads(entry["genres"]) if entry["genres"] else []
+
+    return entry
 
 
 @app.delete("/entries/{entry_id}")

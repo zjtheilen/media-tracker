@@ -77,26 +77,26 @@ Weighted averages are calculated automatically when entries are created.
 The app uses a structured genre/tag system.
 
 Universal genres include:
-- Horror
-- Sci-Fi
-- Fantasy
-- Romance
-- Comedy
-- Thriller
-- Mystery
-- Drama
-- Action
-- Adventure
+- horror
+- sci-fi
+- fantasy
+- romance
+- comedy
+- thriller
+- mystery
+- drama
+- action
+- adventure
 
 Media-specific genres are also supported.
 
 Example game-only genres:
-- RPG
-- Platformer
-- Racing
-- Visual Novel
-- Shooter
-- Metroidvania
+- rpg
+- platformer
+- racing
+- visual novel
+- shooter
+- metroidvania
 
 Genres are validated by the backend.
 

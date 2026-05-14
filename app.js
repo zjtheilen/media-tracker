@@ -37,40 +37,40 @@ const scoringProfiles = {
 };
 
 const PRIMARY_GENRES = [
-  "Horror",
-  "Sci-Fi",
-  "Fantasy",
-  "Romance",
-  "Comedy",
-  "Thriller",
-  "Mystery",
-  "Drama",
-  "Action",
-  "Adventure",
-  "Crime",
-  "Psychological",
-  "Slice of Life",
-  "Satire",
+  "horror",
+  "sci-fi",
+  "fantasy",
+  "romance",
+  "comedy",
+  "thriller",
+  "mystery",
+  "drama",
+  "action",
+  "adventure",
+  "crime",
+  "psychological",
+  "slice of life",
+  "satire",
 ];
 
 const GAME_GENRES = [
-  "RPG",
-  "Puzzle",
-  "Platformer",
-  "Shooter",
-  "Strategy",
-  "Racing",
-  "Simulation",
-  "Visual Novel",
-  "Fighting",
-  "Beat 'em up",
-  "Stealth",
-  "Survival",
-  "Rhythm",
-  "Battle Royale",
-  "Metroidvania",
-  "Sports",
-  "Party",
+  "rpg",
+  "puzzle",
+  "platformer",
+  "shooter",
+  "strategy",
+  "racing",
+  "simulation",
+  "visual novel",
+  "fighting",
+  "beat 'em up",
+  "stealth",
+  "survial",
+  "rhythm",
+  "battle royale",
+  "metroidvania",
+  "sports",
+  "party",
 ];
 
 let editingEntryId = null;
@@ -78,13 +78,26 @@ let editingEntryId = null;
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
 
+function resetFormState() {
+    editingEntryId = null;
+
+    form.reset();
+
+    document.getElementById("completion-status").value = "completed";
+
+    renderGenres(mediaTypeSelect.value);
+    renderScoreInputs(mediaTypeSelect.value, {});
+
+    modal.close();
+}
+
 function renderScoreInputs(mediaType, existingScores = {}) {
   scoreContainer.innerHTML = "";
 
   const categories = scoringProfiles[mediaType];
 
   categories.forEach((category) => {
-    const scoreValue = existingScores[category] || 5;
+    const scoreValue = existingScores[category.toLowerCase()] || 5;
 
     const wrapper = document.createElement("div");
 
@@ -161,31 +174,46 @@ form.addEventListener("submit", async (event) => {
     media_type: document.getElementById("media-type").value,
     genres: selectedGenres,
     notes: document.getElementById("notes").value,
+    date_consumed: document.getElementById("date-consumed").value || null,
+    completion_status: document.getElementById("completion-status").value,
   };
 
   const scores = {};
-
   const categories = scoringProfiles[data.media_type];
 
   categories.forEach((category) => {
     const slider = document.getElementById(category);
-    scores[category] = Number(slider.value);
+    scores[category.toLowerCase()] = Number(slider.value);
   });
 
   data.scores = scores;
 
-  const response = await fetch("http://127.0.0.1:8000/entries/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  let response;
+
+  if (editingEntryId) {
+    response = await fetch(`http://127.0.0.1:8000/entries/${editingEntryId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    editingEntryId = null; // IMPORTANT: reset after edit
+  } else {
+    response = await fetch("http://127.0.0.1:8000/entries/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  }
 
   const result = await response.json();
-
   console.log(result);
 
+  resetFormState();
   await loadEntries();
 });
 
@@ -194,7 +222,7 @@ const openBtn = document.getElementById("openBtn");
 const closeBtn = document.getElementById("closeBtn");
 
 openBtn.onclick = () => modal.showModal();
-closeBtn.onclick = () => modal.close();
+closeBtn.onclick = () => resetFormState();
 
 const deleteModal = document.getElementById("deleteModal");
 const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
@@ -345,17 +373,16 @@ function renderGenres(mediaType) {
   allGenres.forEach((g) => {
     const option = document.createElement("option");
     option.value = g;
-    option.textContent = g;
+    option.textContent = g
+        .split(" ")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
     genreSelect.appendChild(option);
   });
 }
 
 renderGenres(mediaTypeSelect.value);
 
-mediaTypeSelect.addEventListener("change", () => {
-  renderScoreInputs(mediaTypeSelect.value, {});
-  renderGenres(mediaTypeSelect.value);
-});
 
 
 async function startEdit(id) {
@@ -371,5 +398,18 @@ async function startEdit(id) {
     renderScoreInputs(entry.media_type, entry.scores);
 
     document.getElementById("entryModal").showModal();
+
+    renderGenres(mediaTypeSelect.value);
+
+    const genreSelect = document.getElementById("genres");
+
+    Array.from(genreSelect.options).forEach((option) => {
+        option.selected = entry.genres.includes(option.value);
+    });
+
+    mediaTypeSelect.addEventListener("change", () => {
+        renderScoreInputs(mediaTypeSelect.value, {});
+        renderGenres(mediaTypeSelect.value);
+    });
 }
 
