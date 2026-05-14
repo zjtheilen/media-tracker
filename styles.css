@@ -99,3 +99,24 @@ button:hover {
     border-radius: 10px;
     box-shadow: 0 20px 10px rgba(0, 0, 0, 0.1);
 }
+
+#form-message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    display: none;
+}
+
+#form-message.error {
+    display: block;
+    background: #ffe6e6;
+    color: #b00020;
+    border: 1px solid #ffb3b3;
+}
+
+#form-message.success {
+    display: block;
+    background: #e6ffed;
+    color: #1b5e20;
+    border: 1px solid #a5d6a7;
+}
