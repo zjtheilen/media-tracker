@@ -14,6 +14,25 @@ class EntryResponse(BaseModel):
     completion_status: str
     total_score: float
 
+
+class UpdateEntryResponse(BaseModel):
+    message: str
+    entry_id: str
+    total_score: float
+
+
+class DeleteEntryResponse(BaseModel):
+    message: str
+    entry_id: str
+
+
+class StatsResponse(BaseModel):
+    total_entries: int
+    completed_entries: int
+    average_score: float
+    media_type_counts: Dict[str, int]
+    genre_counts: Dict[str, int]
+
 def row_to_entry_response(row) -> EntryResponse:
     scores_raw = row["scores"]
 
