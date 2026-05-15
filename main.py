@@ -5,16 +5,25 @@ from pydantic import BaseModel
 from typing import Dict, Optional
 from datetime import date
 import json
+from contextlib import asynccontextmanager
 
 from models.media_item import MediaItem
+from models.responses import row_to_entry_response
 from models.scoring_profile import SCORING_PROFILES 
 from data.genres import PRIMARY_GENRES, GAME_GENRES
 from models.score import Score
 from models.entry import Entry
 from db import init_db, get_connection
+from models.responses import EntryResponse
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("Starting up...")
+    init_db()
+    yield
+    print("Shutting down...")
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -23,7 +32,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
 
 
 class EntryCreate(BaseModel):
@@ -36,35 +44,91 @@ class EntryCreate(BaseModel):
     completion_status: Optional[str] = "completed"
 
 
-entries = []
+def validate_entry(entry_data: EntryCreate):
+    validate_media_type(entry_data.media_type)
+    title = validate_title(entry_data.title)
+    validate_genres(entry_data.media_type, entry_data.genres)
+    validate_scores(entry_data.scores)
+    validate_score_categories(entry_data.media_type, entry_data.scores)
 
+    return title
 
-@app.on_event("startup")
-def startup():
-    init_db()
+def validate_title(title: str):
+    title = title.strip()
+    if not title:
+        raise HTTPException(status_code=400, detail="Title cannot be empty")
+    return title
+
+def validate_scores(scores: Dict[str, int]):
+    for name, value in scores.items():
+
+        if not isinstance(value, int):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Score for {name} must be an integer"
+            )
+
+        if value < 1 or value > 5:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Score for {name} must be between 1 and 5"
+            )
+
+def get_allowed_genres(media_type: str) -> set[str]:
+    allowed = set(PRIMARY_GENRES)
+
+    if media_type == "game":
+        allowed |= GAME_GENRES
+    
+    return allowed
+
+def validate_genres(media_type: str, genres: list[str]):
+    allowed = get_allowed_genres(media_type)
+
+    normalized_genres = list(dict.fromkeys(
+        g.strip().lower() for g in genres
+    ))
+
+    for g in normalized_genres:
+        if g not in allowed:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid genre for {media_type}: {g}"
+            )
+
+def validate_media_type(media_type: str):
+    if media_type not in SCORING_PROFILES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid media type: {media_type}"
+        )
+
+def get_category_lookup(media_type: str):
+    return {
+        cat.name.lower(): cat for cat in SCORING_PROFILES[media_type]
+    }
+
+def validate_score_categories(media_type: str, scores: Dict[str, int]):
+    valid_categories = {
+        cat.name.lower() for cat in SCORING_PROFILES[media_type]
+    }
+
+    for name in scores:
+        if name.lower() not in valid_categories:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid scoring category for {media_type}: {name}"
+            )
 
 
 @app.post("/entries/")
 def create_entry(entry_data: EntryCreate):
-    media_item = MediaItem(entry_data.title, entry_data.media_type)
 
-    valid_categories = SCORING_PROFILES.get(media_item.media_type)
-    if not valid_categories:
-        raise HTTPException(status_code=400, detail=f"Invalid media type: {media_item.media_type}")
+    title = validate_entry(entry_data)
 
-    category_lookup = {cat.name.lower(): cat for cat in valid_categories}
+    media_item = MediaItem(title, entry_data.media_type)
 
-    allowed = set(PRIMARY_GENRES)
-
-    if entry_data.media_type == "game":
-        allowed = allowed.union(GAME_GENRES)
-    
-    for g in entry_data.genres:
-        if g not in allowed:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Invalid genre for {entry_data.media_type}: {g}"
-            )
+    category_lookup = get_category_lookup(entry_data.media_type)
 
     scores = []
     for name, value in entry_data.scores.items():
@@ -103,7 +167,7 @@ def create_entry(entry_data: EntryCreate):
             entry.media_item.media_type,
             json.dumps(entry_data.genres),
             entry.notes,
-            entry.date_consumed.isoformat(),
+            entry.date_consumed.isoformat() if entry.date_consumed else None,
             entry.completion_status,
             entry.total_score(),
             json.dumps(entry_data.scores),
@@ -111,56 +175,40 @@ def create_entry(entry_data: EntryCreate):
     )
 
     conn.commit()
+
+    cursor.execute("SELECT * FROM entries WHERE id = ?", (entry.id,))
+    row = cursor.fetchone()
+    
     conn.close()
 
-    return {
-        "message": "Entry created",
-        "title": entry.media_item.title,
-        "media_type": entry.media_item.media_type,
-        "total_score": entry.total_score(),
-        "entry_id": entry.id,
-    }
+    return row_to_entry_response(row)
 
 
-@app.get("/entries/")
+@app.get("/entries/", response_model=list[EntryResponse])
 def get_entries():
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM entries")
     rows = cursor.fetchall()
+    conn.close()
 
-    entries = []
-    for row in rows:
-        entry = dict(row)
-
-        entry["scores"] = json.loads(entry["scores"]) if entry["scores"] else {}
-        entry["genres"] = json.loads(entry["genres"]) if entry["genres"] else []
-        
-        entries.append(entry)
-
-    return entries
+    return [row_to_entry_response(row) for row in rows]
 
 
-@app.get("/entries/{entry_id}")
+@app.get("/entries/{entry_id}", response_model=EntryResponse)
 def get_entry(entry_id: str):
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM entries WHERE id = ?", (entry_id,))
     row = cursor.fetchone()
-
     conn.close()
 
     if not row:
         raise HTTPException(status_code=404, detail="Entry not found")
 
-    entry = dict(row)
-
-    entry["scores"] = json.loads(entry["scores"]) if entry["scores"] else {}
-    entry["genres"] = json.loads(entry["genres"]) if entry["genres"] else []
-
-    return entry
+    return row_to_entry_response(row)
 
 
 @app.delete("/entries/{entry_id}")
@@ -187,29 +235,13 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
     if not existing:
         conn.close()
         raise HTTPException(status_code=404, detail="Entry not found")
+    title = validate_entry(entry_data)
     
-    media_item = MediaItem(entry_data.title, entry_data.media_type)
+    media_item = MediaItem(title, entry_data.media_type)
 
-    valid_categories = SCORING_PROFILES.get(media_item.media_type)
-
-    if not valid_categories:
-        conn.close()
-        raise HTTPException(status_code=400, detail=f"Invalid media type: {media_item.media_type}")
+    category_lookup = get_category_lookup(entry_data.media_type)
     
-    category_lookup = {cat.name.lower(): cat for cat in valid_categories}
-
-    allowed = set(PRIMARY_GENRES)
-
-    if entry_data.media_type == "game":
-        allowed = allowed.union(GAME_GENRES)
-
-    for g in entry_data.genres:
-        if g not in allowed:
-            conn.close()
-            raise HTTPException(
-                status_code=400,
-                detail=f"Invalid genre for {entry_data.media_type}: {g}"
-            )
+    # category_lookup = {cat.name.lower(): cat for cat in valid_categories}
     
     scores = []
 
@@ -251,7 +283,7 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
         updated_entry.media_item.media_type,
         json.dumps(entry_data.genres),
         updated_entry.notes,
-        updated_entry.date_consumed.isoformat(),
+        updated_entry.date_consumed.isoformat() if updated_entry.date_consumed else None,
         updated_entry.completion_status,
         updated_entry.total_score(),
         json.dumps(entry_data.scores),

@@ -65,7 +65,7 @@ const GAME_GENRES = [
   "fighting",
   "beat 'em up",
   "stealth",
-  "survial",
+  "survival",
   "rhythm",
   "battle royale",
   "metroidvania",
@@ -293,103 +293,6 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-// form.addEventListener("submit", async (event) => {
-//   event.preventDefault();
-
-//   clearMessage();
-
-//   if (!data.title.trim()) {
-//     showError("Title is required.");
-//     submitBtn.disabled = false;
-//     updateSubmitButton();
-//     return;
-//   }
-
-//   const genreSelect = document.getElementById("genres");
-
-//   const selectedGenres = Array.from(genreSelect.selectedOptions).map(
-//     (opt) => opt.value,
-//   );
-
-//   if (selectedGenres.length === 0) {
-//     showError("Select at least 1 genre.");
-//     submitBtn.disabled = false;
-//     updateSubmitButton();
-//     return;
-//   }
-
-//   if (selectedGenres.length > 3) {
-//     showError("Select up to 3 genres only.");
-//     submitBtn.disabled = false;
-//     updateSubmitButton();
-//     return;
-//   }
-
-//   submitBtn.disabled = true;
-//   submitBtn.textContent = "Saving...";
-
-//   const data = {
-//     title: document.getElementById("title").value,
-//     media_type: document.getElementById("media-type").value,
-//     genres: selectedGenres,
-//     notes: document.getElementById("notes").value,
-//     date_consumed: document.getElementById("date-consumed").value || null,
-//     completion_status: document.getElementById("completion-status").value,
-//   };
-
-//   const scores = {};
-//   const categories = scoringProfiles[data.media_type];
-
-//   categories.forEach((category) => {
-//     const slider = document.getElementById(category);
-//     scores[category.toLowerCase()] = Number(slider.value);
-//   });
-
-//   data.scores = scores;
-
-//   let response;
-
-//   if (editingEntryId) {
-//     response = await fetch(`http://127.0.0.1:8000/entries/${editingEntryId}`, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(data),
-//     });
-
-//     editingEntryId = null; // IMPORTANT: reset after edit
-//   } else {
-//     response = await fetch("http://127.0.0.1:8000/entries/", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(data),
-//     });
-//   }
-
-// //   const result = await response.json();
-// //   console.log(result);
-
-//   const result = await response.json();
-
-//     if (!response.ok) {
-//         showError(result.detail || "Something went wrong.");
-//         return;
-//     }
-
-//     showSuccess(editingEntryId ? "Entry updated successfully!" : "Entry added successfully!");
-
-//     console.log(result);
-
-//     submitBtn.disabled = false;
-//     updateSubmitButton();
-
-//   resetFormState();
-//   await loadEntries();
-// });
-
 const modal = document.getElementById("entryModal");
 const openBtn = document.getElementById("openBtn");
 const closeBtn = document.getElementById("closeBtn");
@@ -473,7 +376,8 @@ async function loadEntries() {
     new Chart(ctx, {
       type: "radar",
       data: {
-        labels: Object.keys(entry.scores),
+        labels: Object.keys(entry.scores || {}),
+        data: Object.values(entry.scores || {}),
         datasets: [
           {
             label: entry.title,

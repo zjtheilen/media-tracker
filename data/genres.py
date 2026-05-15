@@ -27,7 +27,7 @@ GAME_GENRES = {
     "fighting",
     "beat 'em up",
     "stealth",
-    "survial",
+    "survival",
     "rhythm",
     "battle royale",
     "metroidvania",
