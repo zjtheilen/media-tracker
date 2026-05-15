@@ -1,5 +1,5 @@
-from fastapi import FastAPI
-from fastapi import HTTPException
+from fastapi import FastAPI, HTTPException
+# from fastapi import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Optional
@@ -8,13 +8,11 @@ import json
 from contextlib import asynccontextmanager
 
 from models.media_item import MediaItem
-# from models.responses import row_to_entry_response
 from models.scoring_profile import SCORING_PROFILES 
 from data.genres import PRIMARY_GENRES, GAME_GENRES
 from models.score import Score
 from models.entry import Entry
 from db import init_db, get_connection
-# from models.responses import EntryResponse
 from models.responses import (
     EntryResponse,
     UpdateEntryResponse,
@@ -64,7 +62,8 @@ def build_scores(media_type: str, scores_data: Dict[str, int]) -> list[Score]:
     scores = []
 
     for name, value in scores_data.items():
-        category_object = category_lookup.get(name.lower())
+        # category_object = category_lookup.get(name.lower())
+        category_object = category_lookup[name.lower()]
         scores.append(Score(category_object, value))
     
     return scores
@@ -93,12 +92,6 @@ def validate_title(title: str):
     return title
 
 def validate_scores(scores: Dict[str, int]):
-    if len(scores) != len(set(scores.keys())):
-        raise HTTPException(
-            status_code=400,
-            detail="Duplicate scoring categories are not allowed"
-        )
-    
     for name, value in scores.items():
 
         if not isinstance(value, int):
@@ -192,19 +185,6 @@ def create_entry(entry_data: EntryCreate):
     media_item = MediaItem(title, entry_data.media_type)
 
     category_lookup = get_category_lookup(entry_data.media_type)
-
-    # scores = []
-    # for name, value in entry_data.scores.items():
-    #     normalized_name = name.lower()
-
-    #     if normalized_name not in category_lookup:
-    #         raise HTTPException(
-    #             status_code=400,
-    #             detail=f"Invalid scoring category: {name}"
-    #         )
-
-    #     category_obj = category_lookup[normalized_name]
-    #     scores.append(Score(category_obj, value))
     scores = build_scores(entry_data.media_type, entry_data.scores)
     
     entry = Entry(
@@ -288,7 +268,10 @@ def delete_entry(entry_id: str):
 
     conn.close()
 
-    return {"message": "Entry deleted"}
+    return {
+        "message": "Entry deleted",
+        "entry_id": entry_id
+    }
 
 
 @app.put(
@@ -310,21 +293,6 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
     media_item = MediaItem(title, entry_data.media_type)
 
     category_lookup = get_category_lookup(entry_data.media_type)
-    
-    # scores = []
-
-    # for name, value in entry_data.scores.items():
-    #     normalized_name = name.lower()
-
-    #     if normalized_name not in category_lookup:
-    #         conn.close()
-    #         raise HTTPException(
-    #             status_code=400,
-    #             detail=f"Invalid scoring category: {name}"
-    #         )
-
-    #     category_obj = category_lookup[normalized_name]
-    #     scores.append(Score(category_obj, value))
     scores = build_scores(entry_data.media_type, entry_data.scores)
     
     updated_entry = Entry(
