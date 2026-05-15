@@ -1,5 +1,5 @@
-from fastapi import FastAPI, HTTPException
-# from fastapi import HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Optional
@@ -45,6 +45,29 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    print(exc)
+    return JSONResponse(
+        status_code=exc.status_code,
+        content = {
+            "error": "http_error",
+            "detail": exc.detail
+        }
+    )
+
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    print(exc)
+    
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": "internal_service_error",
+            "detail": "An unexpected error occured"
+        }
+    )
+
 
 class EntryCreate(BaseModel):
     title: str
@@ -62,7 +85,6 @@ def build_scores(media_type: str, scores_data: Dict[str, int]) -> list[Score]:
     scores = []
 
     for name, value in scores_data.items():
-        # category_object = category_lookup.get(name.lower())
         category_object = category_lookup[name.lower()]
         scores.append(Score(category_object, value))
     
