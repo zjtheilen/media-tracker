@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Media Tracker</title>
 </head>
 
@@ -13,25 +14,54 @@
     <h1>Media Tracker</h1>
     <p>Welcome to the Media Tracker!</p>
 
-    <h2>Add Entry</h2>
+    <button id="openBtn">Add an Entry</button>
+    <dialog id="entryModal">
 
-    <form id="entry-form">
-        <input type="text" id="title" placeholder="Title" required>
+        <form id="entry-form">
+            <input type="text" id="title" placeholder="Title" required>
 
-        <select id="media-type">
-            <option value="video">video</option>
-            <option value="game">game</option>
-            <option value="book">book</option>
-        </select>
+            <select id="media-type">
+                <option value="video">video</option>
+                <option value="game">game</option>
+                <option value="book">book</option>
+            </select>
 
-        <input type="text" id="genre" placeholder="Genre">
+            <select id="genres" multiple></select>
 
-        <textarea id="notes" placeholder="Notes"></textarea>
+            <textarea id="notes" placeholder="Notes"></textarea>
 
-        <div id="score-container"></div>
+            <label for="date-consumed">Date Consumed</label>
+            <input type="date" id="date-consumed">
 
-        <button type="submit">Add Entry</button>
-    </form>
+            <label for="completion-status">Completion Status</label>
+            <select id="completion-status">
+                <option value="completed">Completed</option>
+                <option value="in-progress">In Progress</option>
+                <option value="dropped">Dropped</option>
+            </select>
+
+            <div id="score-container"></div>
+
+            <div id="form-message"></div>
+
+            <div class="row">
+                <button type="submit" id="submitBtn">Add Entry</button>
+                <button id="closeBtn">Cancel</button>
+            </div>
+            
+        </form>
+    </dialog>
+    <dialog id="deleteModal">
+        <p>
+            Are you sure you want to delete this entry?
+            This cannot be undone.
+        </p>
+
+        <div class="row">
+            <button type="button" id="confirmDeleteBtn">Confirm Delete</button>
+            <button type="button" id="cancelDeleteBtn">Cancel</button>
+        </div>
+    </dialog>
 
     <h2>Entries</h2>
 
