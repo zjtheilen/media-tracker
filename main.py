@@ -206,7 +206,6 @@ def create_entry(entry_data: EntryCreate):
 
     media_item = MediaItem(title, entry_data.media_type)
 
-    category_lookup = get_category_lookup(entry_data.media_type)
     scores = build_scores(entry_data.media_type, entry_data.scores)
     
     entry = Entry(
@@ -314,7 +313,6 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
     
     media_item = MediaItem(title, entry_data.media_type)
 
-    category_lookup = get_category_lookup(entry_data.media_type)
     scores = build_scores(entry_data.media_type, entry_data.scores)
     
     updated_entry = Entry(
