@@ -12,7 +12,7 @@ from models.scoring_profile import (
     SCORING_CATEGORIES,
     VALID_MEDIA_TYPES
 )
-from models.genre_registry import get_allowed_genres
+# from models.genre_registry import get_allowed_genres
 from models.score import Score
 from models.entry import Entry
 from db import init_db, get_connection
@@ -23,7 +23,14 @@ from models.responses import (
     StatsResponse,
     row_to_entry_response
 )
-from data.genres import CORE_GENRES, GAME_ONLY_GENRES, VIDEO_ONLY_GENRES, BOOK_ONLY_GENRES
+# from data.genres import CORE_GENRES, GAME_ONLY_GENRES, VIDEO_ONLY_GENRES, BOOK_ONLY_GENRES
+from models.genre_registry import (
+    CORE_GENRES,
+    GAME_GENRES,
+    BOOK_GENRES,
+    VIDEO_GENRES,
+    get_allowed_genres
+)
 
 VALID_COMPLETION_STATUSES = {
     "completed",
@@ -270,9 +277,9 @@ def get_entry(entry_id: str):
 def get_genres():
     return {
         "core": list(CORE_GENRES),
-        "game": list(GAME_ONLY_GENRES),
-        "book": list(BOOK_ONLY_GENRES),
-        "video": list(VIDEO_ONLY_GENRES),
+        "game": list(GAME_GENRES),
+        "book": list(BOOK_GENRES),
+        "video": list(VIDEO_GENRES),
     }
 
 

@@ -1,22 +1,5 @@
 const form = document.getElementById("entry-form");
 
-const core= [
-    "horror",
-    "thriller",
-    "sci-fi",
-    "fantasy",
-    "drama",
-    "comedy",
-    "mystery",
-    "romance",
-    "action",
-    "adventure",
-    "psychological",
-    "surreal",
-    "documentary",
-    "experimental",
-]
-
 const scoringProfiles = {
   video: [
     "Emotional Impact",
@@ -46,44 +29,10 @@ const scoringProfiles = {
   ],
 };
 
-const PRIMARY_GENRES = [
-  "horror",
-  "sci-fi",
-  "fantasy",
-  "romance",
-  "comedy",
-  "thriller",
-  "mystery",
-  "drama",
-  "action",
-  "adventure",
-  "crime",
-  "psychological",
-  "slice of life",
-  "satire",
-];
-
-const GAME_GENRES = [
-  "rpg",
-  "puzzle",
-  "platformer",
-  "shooter",
-  "strategy",
-  "racing",
-  "simulation",
-  "visual novel",
-  "fighting",
-  "beat 'em up",
-  "stealth",
-  "survival",
-  "rhythm",
-  "battle royale",
-  "metroidvania",
-  "sports",
-  "party",
-];
+let genreRegistry = {};
 
 let editingEntryId = null;
+let selectedGenres = [];
 
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
@@ -101,7 +50,9 @@ function resetFormState() {
 
   document.getElementById("completion-status").value = "completed";
 
-  renderGenres(mediaTypeSelect.value);
+  //   renderGenres(mediaTypeSelect.value);
+  selectedGenres = [];
+  renderGenreSelector(mediaTypeSelect.value);
   renderScoreInputs(mediaTypeSelect.value, {});
 
   clearMessage();
@@ -135,11 +86,8 @@ function renderScoreInputs(mediaType, existingScores = {}) {
   const categories = scoringProfiles[mediaType];
 
   categories.forEach((category) => {
-    // const scoreValue = existingScores[category.toLowerCase()] || 5;
-    const normalizedKey = category
-        .toLowerCase()
-        .replaceAll(" ", "_");
-    
+    const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
+
     const scoreValue = existingScores[normalizedKey] || 5;
 
     const wrapper = document.createElement("div");
@@ -194,8 +142,32 @@ function renderScoreBars(scores) {
     .join("");
 }
 
+function renderGenreChips(genres) {
+  return genres
+    .map((genre) => {
+      const formatted = genre
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
+      return `
+        <span class="genre-chip">
+          ${formatted}
+        </span>
+      `;
+    })
+    .join("");
+}
+
+// mediaTypeSelect.addEventListener("change", () => {
+//   renderScoreInputs(mediaTypeSelect.value);
+//   renderGenres(mediaTypeSelect.value)
+// });
 mediaTypeSelect.addEventListener("change", () => {
-  renderScoreInputs(mediaTypeSelect.value);
+  selectedGenres = [];
+
+  renderScoreInputs(mediaTypeSelect.value, {});
+  renderGenreSelector(mediaTypeSelect.value);
 });
 
 form.addEventListener("submit", async (event) => {
@@ -208,11 +180,11 @@ form.addEventListener("submit", async (event) => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Saving...";
 
-  const genreSelect = document.getElementById("genres");
+  //   const genreSelect = document.getElementById("genres");
 
-  const selectedGenres = Array.from(genreSelect.selectedOptions).map(
-    (opt) => opt.value,
-  );
+  //   const selectedGenres = Array.from(genreSelect.selectedOptions).map(
+  //     (opt) => opt.value,
+  //   );
 
   const data = {
     title: document.getElementById("title").value.trim(),
@@ -222,8 +194,6 @@ form.addEventListener("submit", async (event) => {
     date_consumed: document.getElementById("date-consumed").value || null,
     completion_status: document.getElementById("completion-status").value,
   };
-
-  // VALIDATION
 
   if (!data.title) {
     showError("Title is required.");
@@ -249,19 +219,14 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  // SCORES
-
   const scores = {};
   const categories = scoringProfiles[data.media_type];
 
   categories.forEach((category) => {
     const slider = document.getElementById(category);
 
-    // scores[category.toLowerCase()] = Number(slider.value);
-    const normalizedKey = category
-        .toLowerCase()
-        .replaceAll(" ", "_");
-    
+    const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
+
     scores[normalizedKey] = Number(slider.value);
   });
 
@@ -325,6 +290,18 @@ const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
 
 let pendingDeleteId = null;
 
+async function initializeApp() {
+  await loadGenres();
+
+  // renderGenres(mediaTypeSelect.value);
+  renderGenreSelector(mediaTypeSelect.value);
+  renderScoreInputs(mediaTypeSelect.value);
+
+  await loadEntries();
+}
+
+initializeApp();
+
 async function loadEntries() {
   const response = await fetch("http://127.0.0.1:8000/entries/");
   const entries = await response.json();
@@ -345,7 +322,9 @@ async function loadEntries() {
 
                         <p><strong>Date:</strong></br> ${entry.date_consumed || "N/A"}</p>
                         <p><strong>Type:</strong></br> ${entry.media_type}</p>
-                        <p><strong>Genres:</strong></br> ${entry.genres.join(", ")}</p>
+                        <div class="genre-chip-container">
+                            ${renderGenreChips(entry.genres)}
+                        </div>
 
                         <p><strong>Total Score:</strong></br> ${percentScore}%</p>
 
@@ -427,7 +406,7 @@ async function loadEntries() {
   });
 }
 
-loadEntries();
+// loadEntries();
 
 async function deleteEntry(id) {
   await fetch(`http://127.0.0.1:8000/entries/${id}`, {
@@ -454,24 +433,78 @@ cancelDeleteBtn.onclick = () => {
   pendingDeleteId = null;
 };
 
+async function loadGenres() {
+  const response = await fetch("http://127.0.0.1:8000/genres");
+  genreRegistry = await response.json();
+}
+
+function renderGenreSelector(mediaType) {
+  const container = document.getElementById("genre-selector");
+
+  container.innerHTML = "";
+
+  const coreGenres = genreRegistry.core || [];
+  const mediaGenres = genreRegistry[mediaType] || [];
+
+  const allGenres = [...new Set([...coreGenres, ...mediaGenres])];
+
+  allGenres.forEach((genre) => {
+    const chip = document.createElement("button");
+
+    chip.type = "button";
+
+    chip.className = "genre-select-chip";
+
+    if (selectedGenres.includes(genre)) {
+      chip.classList.add("selected");
+    }
+
+    chip.textContent = genre;
+
+    chip.addEventListener("click", () => {
+      toggleGenre(genre);
+    });
+
+    container.appendChild(chip);
+  });
+}
+
+function toggleGenre(genre) {
+  if (selectedGenres.includes(genre)) {
+    selectedGenres = selectedGenres.filter((g) => g !== genre);
+  } else {
+    if (selectedGenres.length >= 3) {
+      showError("Maximum 3 genres allowed");
+      return;
+    }
+
+    selectedGenres.push(genre);
+  }
+  clearMessage();
+
+  renderGenreSelector(mediaTypeSelect.value);
+}
+
 const genreSelect = document.getElementById("genres");
 
 function renderGenres(mediaType) {
   genreSelect.innerHTML = "";
 
-  const base = [...PRIMARY_GENRES];
+  const coreGenres = genreRegistry.core || [];
+  const mediaGenres = genreRegistry[mediaType] || [];
 
-  const extra = mediaType === "game" ? GAME_GENRES : [];
-
-  const allGenres = [...base, ...extra];
+  const allGenres = [...new Set([...coreGenres, ...mediaGenres])];
 
   allGenres.forEach((g) => {
     const option = document.createElement("option");
+
     option.value = g;
+
     option.textContent = g
       .split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
+
     genreSelect.appendChild(option);
   });
 }
@@ -499,14 +532,17 @@ async function startEdit(id) {
 
   renderGenres(mediaTypeSelect.value);
 
-  const genreSelect = document.getElementById("genres");
+  //   const genreSelect = document.getElementById("genres");
 
-  Array.from(genreSelect.options).forEach((option) => {
-    option.selected = entry.genres.includes(option.value);
-  });
+  //   Array.from(genreSelect.options).forEach((option) => {
+  //     option.selected = entry.genres.includes(option.value);
+  //   });
+  selectedGenres = [...entry.genres];
 
-  mediaTypeSelect.addEventListener("change", () => {
-    renderScoreInputs(mediaTypeSelect.value, {});
-    renderGenres(mediaTypeSelect.value);
-  });
+  renderGenreSelector(entry.media_type);
+
+  //   mediaTypeSelect.addEventListener("change", () => {
+  //     renderScoreInputs(mediaTypeSelect.value, {});
+  //     renderGenres(mediaTypeSelect.value);
+  //   });
 }
