@@ -12,7 +12,7 @@ from models.scoring_profile import (
     SCORING_CATEGORIES,
     VALID_MEDIA_TYPES
 )
-from data.genres import PRIMARY_GENRES, GAME_GENRES
+from models.genre_registry import get_allowed_genres
 from models.score import Score
 from models.entry import Entry
 from db import init_db, get_connection
@@ -147,13 +147,13 @@ def validate_scores(scores: Dict[str, int]):
                 detail=f"Score for {name} must be between 1 and 10"
             )
 
-def get_allowed_genres(media_type: str) -> set[str]:
-    allowed = set(PRIMARY_GENRES)
+# def get_allowed_genres(media_type: str) -> set[str]:
+#     allowed = set(PRIMARY_GENRES)
 
-    if media_type == "game":
-        allowed |= GAME_GENRES
+#     if media_type == "game":
+#         allowed |= GAME_GENRES
     
-    return allowed
+#     return allowed
 
 def validate_genres(media_type: str, genres: list[str]):
     if not genres:
