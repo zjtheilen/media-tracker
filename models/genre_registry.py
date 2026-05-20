@@ -1,5 +1,3 @@
-# models/genre_registry.py
-
 CORE_GENRES = [
     "horror",
     "thriller",
@@ -17,44 +15,47 @@ CORE_GENRES = [
     "experimental",
 ]
 
-GENRE_MODIFIERS = [
-    "dark",
-    "lighthearted",
-    "gritty",
-    "slow-burn",
-    "fast-paced",
-    "atmospheric",
-    "character-driven",
-    "plot-driven",
-    "worldbuilding-heavy",
+# TODO work genre modifiers into genre tagging system
+# GENRE_MODIFIERS = [
+#     "dark",
+#     "lighthearted",
+#     "gritty",
+#     "slow-burn",
+#     "fast-paced",
+#     "atmospheric",
+#     "character-driven",
+#     "plot-driven",
+#     "worldbuilding-heavy",
+# ]
+
+GAME_GENRES = [
+    "rpg",
+    "strategy",
+    "puzzle",
+    "platformer",
+    "simulation",
+    "sandbox",
+    "roguelike",
 ]
 
-MEDIA_SPECIFIC_GENRES = {
-    "game": [
-        "rpg",
-        "strategy",
-        "puzzle",
-        "platformer",
-        "simulation",
-        "sandbox",
-        "roguelike",
-    ],
-    "book": [
-        "literary fiction",
-        "memoir",
-        "biography",
-        "litrpg",
-        "non fiction",
-    ],
-    "video": [
-        "biopic",
-        "documentary-series",
-    ],
+BOOK_GENRES = [
+    "literary fiction",
+    "memoir",
+    "biography",
+    "litrpg",
+    "non fiction",
+]
+
+VIDEO_GENRES = [
+    "biopic",
+    "documentary",
+]
+
+GENRE_REGISTRY = {
+    "game": set(CORE_GENRES + GAME_GENRES),
+    "video": set(CORE_GENRES + VIDEO_GENRES),
+    "book": set(CORE_GENRES + BOOK_GENRES)
 }
 
 def get_allowed_genres(media_type: str) -> set[str]:
-    base =set(CORE_GENRES)
-
-    specific = set(MEDIA_SPECIFIC_GENRES.get(media_type, []))
-
-    return base | specific
+    return GENRE_REGISTRY.get(media_type, set(CORE_GENRES))
