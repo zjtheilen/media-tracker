@@ -10,7 +10,6 @@ from contextlib import asynccontextmanager
 from models.media_item import MediaItem
 from models.scoring_profile import (
     SCORING_CATEGORIES,
-    CATEGORY_WEIGHTS,
     VALID_MEDIA_TYPES
 )
 from data.genres import PRIMARY_GENRES, GAME_GENRES
