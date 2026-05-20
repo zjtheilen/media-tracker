@@ -1,7 +1,5 @@
 class Score:
-    def __init__ (self, category, value):
-        if not 1 <= value <= 10:
-            raise ValueError("Score value must be between 1 and 10.")
+    def __init__ (self, category: str, value: int):
         self.category = category
         self.value = value
     

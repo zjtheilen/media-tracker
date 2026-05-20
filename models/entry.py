@@ -4,6 +4,7 @@ import uuid
 
 from models.media_item import MediaItem
 from models.score import Score
+from models.scoring_profile import CATEGORY_WEIGHTS
 
 class Entry:
     def __init__(self, media_item: MediaItem, genres: List[str], scores: List[Score] = None, notes: str = "", date_consumed: date = None, completion_status: str = "completed"):
@@ -16,15 +17,13 @@ class Entry:
         self.genres = genres
     
     def total_score(self):
-        total = 0
-        weight_sum = 0
+        weighted_total = 0
 
         for score in self.scores:
-            weight = score.category.weight
-            total += score.value * weight
-            weight_sum += weight
-
-        return total / weight_sum if weight_sum else 0
+            weight = CATEGORY_WEIGHTS[score.category]
+            weighted_total += score.value * weight
+        
+        return round(weighted_total * 20, 2)
     
     def to_dict(self):
         return {

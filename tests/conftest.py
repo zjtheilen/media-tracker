@@ -1,6 +1,5 @@
 import pytest
 from fastapi.testclient import TestClient
-import os
 import sqlite3
 from db import init_db
 

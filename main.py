@@ -86,10 +86,9 @@ def build_scores(scores_dict):
     built_scores = []
 
     for category_name, value in scores_dict.items():
-        category = SCORING_CATEGORIES[category_name]
 
         built_scores.append(
-            Score(category=category, value=value)
+            Score(category=category_name, value=value)
         )
 
     return built_scores
@@ -208,8 +207,6 @@ def create_entry(entry_data: EntryCreate):
         completion_status=entry_data.completion_status
     )
 
-    # conn = get_connection()
-    # cursor = conn.cursor()
     with get_connection() as conn:
         cursor = conn.cursor()
 
@@ -232,8 +229,6 @@ def create_entry(entry_data: EntryCreate):
             )
         )
 
-        # conn.commit()
-
         cursor.execute("SELECT * FROM entries WHERE id = ?", (entry.id,))
         row = cursor.fetchone()
         
@@ -246,22 +241,17 @@ def create_entry(entry_data: EntryCreate):
 
 @app.get("/entries/", response_model=list[EntryResponse])
 def get_entries():
-    # conn = get_connection()
-    # cursor = conn.cursor()
     with get_connection() as conn:
         cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM entries")
         rows = cursor.fetchall()
-        # conn.commit()
 
     return [row_to_entry_response(row) for row in rows]
 
 
 @app.get("/entries/{entry_id}", response_model=EntryResponse)
 def get_entry(entry_id: str):
-    # conn = get_connection()
-    # cursor = conn.cursor()
     with get_connection() as conn:
         cursor = conn.cursor()
 
@@ -272,7 +262,6 @@ def get_entry(entry_id: str):
         if not row:
             raise HTTPException(status_code=404, detail="Entry not found")
         
-        # conn.commit()
 
     return row_to_entry_response(row)
 
@@ -282,8 +271,6 @@ def get_entry(entry_id: str):
     response_model=DeleteEntryResponse
 )
 def delete_entry(entry_id: str):
-    # conn = get_connection()
-    # cursor = conn.cursor()
 
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -304,8 +291,6 @@ def delete_entry(entry_id: str):
     response_model=UpdateEntryResponse
 )
 def update_entry(entry_id: str, entry_data: EntryCreate):
-    # conn = get_connection()
-    # cursor = conn.cursor()
     with get_connection() as conn:
         cursor = conn.cursor()
 
@@ -368,8 +353,6 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
     response_model=StatsResponse
 )
 def get_stats():
-    # conn = get_connection()
-    # cursor = conn.cursor()
     with get_connection() as conn:
         cursor = conn.cursor()
 
@@ -400,7 +383,6 @@ def get_stats():
             for genre in genres:
                 genre_counts[genre] = genre_counts.get(genre, 0) + 1
 
-        # conn.commit()
 
     return {
         "total_entries": total_entries,
