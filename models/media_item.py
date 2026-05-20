@@ -1,4 +1,4 @@
-VALID_MEDIA_TYPES = {"book", "video", "game"}
+from models.scoring_profile import VALID_MEDIA_TYPES
 
 class MediaItem:
     def __init__ (self, title, media_type):

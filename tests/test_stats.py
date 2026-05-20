@@ -1,3 +1,5 @@
+import copy
+
 def test_stats_empty(client):
     response = client.get("/stats/")
 
@@ -23,7 +25,7 @@ def test_stats_single_entry(client, valid_game_payload):
 def test_stats_multiple_entries(client, valid_game_payload):
     client.post("/entries/", json=valid_game_payload)
 
-    second = valid_game_payload
+    second = copy.deepcopy(valid_game_payload)
     second["title"] = "Game 2"
     client.post("/entries/", json=second)
 
