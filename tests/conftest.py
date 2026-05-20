@@ -1,33 +1,53 @@
+import os
 import pytest
-from fastapi.testclient import TestClient
 import sqlite3
-from db import init_db
-
+from fastapi.testclient import TestClient
+import db
 from main import app
 
-DB_PATH = "database.db"
+TEST_DB = "test_database.db"
 
-init_db()
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_db():
+
+    os.environ["DB_PATH"] = TEST_DB
+
+    # if os.path.exists(TEST_DB):
+    #     os.remove(TEST_DB)
+
+    db.init_db()
+
+    yield
+
+    # if os.path.exists(TEST_DB):
+    #     os.remove(TEST_DB)
 
 
 @pytest.fixture(autouse=True)
-def reset_db():
-    conn = sqlite3.connect(DB_PATH)
+def clean_entries():
+
+    conn = sqlite3.connect(TEST_DB)
     cursor = conn.cursor()
 
+    # cursor.execute("""
+    #     SELECT name FROM sqlite_master
+    #     WHERE type='table' AND name='entries'
+    # """)
+    # if not cursor.fetchone():
+    #     conn.close()
+    #     return
+
     cursor.execute("DELETE FROM entries")
+    # cursor.execute("DROP TABLE IF EXISTS entries")
 
     conn.commit()
     conn.close()
 
-    yield
-
-
 
 @pytest.fixture
 def client():
-    with TestClient(app) as client:
-        yield client
+    return TestClient(app)
 
 
 @pytest.fixture

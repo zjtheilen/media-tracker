@@ -14,7 +14,7 @@ def test_stats_empty(client):
 def test_stats_single_entry(client, valid_game_payload):
     client.post("/entries/", json=valid_game_payload)
 
-    response = client.get("/stats")
+    response = client.get("/stats/")
 
     data = response.json()
 
@@ -29,7 +29,7 @@ def test_stats_multiple_entries(client, valid_game_payload):
     second["title"] = "Game 2"
     client.post("/entries/", json=second)
 
-    response = client.get("/stats")
+    response = client.get("/stats/")
     data = response.json()
 
     assert data["total_entries"] == 2
