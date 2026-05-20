@@ -1,38 +1,48 @@
 const form = document.getElementById("entry-form");
 
+const core= [
+    "horror",
+    "thriller",
+    "sci-fi",
+    "fantasy",
+    "drama",
+    "comedy",
+    "mystery",
+    "romance",
+    "action",
+    "adventure",
+    "psychological",
+    "surreal",
+    "documentary",
+    "experimental",
+]
+
 const scoringProfiles = {
   video: [
-    "Writing",
-    "Pacing",
-    "Originality",
-    "Engagement",
-    "Thought Provoking",
     "Emotional Impact",
-    "Sound",
-    "Acting",
-    "Cinematography",
+    "Depth",
+    "Craft",
+    "Engagement",
+    "Presentation",
+    "Originality",
   ],
+
   book: [
-    "Writing",
-    "Pacing",
-    "Originality",
-    "Engagement",
-    "Thought Provoking",
     "Emotional Impact",
-    "Setting",
-    "Curiosity",
-    "Formatting",
+    "Depth",
+    "Craft",
+    "Engagement",
+    "Presentation",
+    "Originality",
   ],
+
   game: [
-    "Writing",
-    "Pacing",
-    "Originality",
-    "Engagement",
-    "Thought Provoking",
     "Emotional Impact",
-    "Sound",
-    "Gameplay",
-    "Art",
+    "Depth",
+    "Craft",
+    "Engagement",
+    "Presentation",
+    "Originality",
   ],
 };
 
@@ -81,42 +91,42 @@ const scoreContainer = document.getElementById("score-container");
 const submitBtn = document.getElementById("submitBtn");
 
 function updateSubmitButton() {
-    submitBtn.textContent = editingEntryId ? "Save Changes" : "Add Entry";
+  submitBtn.textContent = editingEntryId ? "Save Changes" : "Add Entry";
 }
 
 function resetFormState() {
-    editingEntryId = null;
+  editingEntryId = null;
 
-    form.reset();
+  form.reset();
 
-    document.getElementById("completion-status").value = "completed";
+  document.getElementById("completion-status").value = "completed";
 
-    renderGenres(mediaTypeSelect.value);
-    renderScoreInputs(mediaTypeSelect.value, {});
+  renderGenres(mediaTypeSelect.value);
+  renderScoreInputs(mediaTypeSelect.value, {});
 
-    clearMessage();
+  clearMessage();
 
-    updateSubmitButton();
-    submitBtn.disabled = false;
+  updateSubmitButton();
+  submitBtn.disabled = false;
 
-    modal.close();
+  modal.close();
 }
 
 const formMessage = document.getElementById("form-message");
 
 function showError(message) {
-    formMessage.textContent = message;
-    formMessage.className = "error";
+  formMessage.textContent = message;
+  formMessage.className = "error";
 }
 
 function showSuccess(message) {
-    formMessage.textContent = message;
-    formMessage.className = "success";
+  formMessage.textContent = message;
+  formMessage.className = "success";
 }
 
 function clearMessage() {
-    formMessage.textContent = "";
-    formMessage.className = "";
+  formMessage.textContent = "";
+  formMessage.className = "";
 }
 
 function renderScoreInputs(mediaType, existingScores = {}) {
@@ -125,7 +135,12 @@ function renderScoreInputs(mediaType, existingScores = {}) {
   const categories = scoringProfiles[mediaType];
 
   categories.forEach((category) => {
-    const scoreValue = existingScores[category.toLowerCase()] || 5;
+    // const scoreValue = existingScores[category.toLowerCase()] || 5;
+    const normalizedKey = category
+        .toLowerCase()
+        .replaceAll(" ", "_");
+    
+    const scoreValue = existingScores[normalizedKey] || 5;
 
     const wrapper = document.createElement("div");
 
@@ -139,7 +154,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
         <input 
           type="range"
           min="1"
-          max="5"
+          max="10"
           value="${scoreValue}"
           id="${category}"
           style="width: 67%"
@@ -163,7 +178,7 @@ renderScoreInputs(mediaTypeSelect.value);
 function renderScoreBars(scores) {
   return Object.entries(scores)
     .map(([category, value]) => {
-      const max = 5;
+      const max = 10;
       const percent = (value / max) * 100;
 
       return `
@@ -242,7 +257,12 @@ form.addEventListener("submit", async (event) => {
   categories.forEach((category) => {
     const slider = document.getElementById(category);
 
-    scores[category.toLowerCase()] = Number(slider.value);
+    // scores[category.toLowerCase()] = Number(slider.value);
+    const normalizedKey = category
+        .toLowerCase()
+        .replaceAll(" ", "_");
+    
+    scores[normalizedKey] = Number(slider.value);
   });
 
   data.scores = scores;
@@ -283,7 +303,6 @@ form.addEventListener("submit", async (event) => {
     resetFormState();
 
     await loadEntries();
-
   } catch (error) {
     console.error(error);
     showError("Unable to save entry.");
@@ -316,7 +335,7 @@ async function loadEntries() {
   entries.forEach((entry) => {
     const div = document.createElement("div");
 
-    const percentScore = ((entry.total_score / 5) * 100).toFixed(0);
+    const percentScore = ((entry.total_score / 10) * 100).toFixed(0);
 
     div.innerHTML = `
             <div id="entries-head" class="row" style="display: flex;">
@@ -372,7 +391,6 @@ async function loadEntries() {
       radarBackgroundColor = "rgba(255, 206, 86, 0.2)";
     }
 
-
     new Chart(ctx, {
       type: "radar",
       data: {
@@ -401,7 +419,7 @@ async function loadEntries() {
               display: false,
             },
             min: 1,
-            max: 5,
+            max: 10,
           },
         },
       },
@@ -451,46 +469,44 @@ function renderGenres(mediaType) {
     const option = document.createElement("option");
     option.value = g;
     option.textContent = g
-        .split(" ")
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
     genreSelect.appendChild(option);
   });
 }
 
 renderGenres(mediaTypeSelect.value);
 
-
-
 async function startEdit(id) {
-    const response = await fetch(`http://127.0.0.1:8000/entries/${id}`);
-    const entry = await response.json();
+  const response = await fetch(`http://127.0.0.1:8000/entries/${id}`);
+  const entry = await response.json();
 
-    editingEntryId = id;
+  editingEntryId = id;
 
-    document.getElementById("title").value = entry.title;
-    document.getElementById("media-type").value = entry.media_type;
-    document.getElementById("notes").value = entry.notes || "";
-    document.getElementById("date-consumed").value = entry.date_consumed || "";
-    document.getElementById("completion-status").value = entry.completion_status || "completed";
+  document.getElementById("title").value = entry.title;
+  document.getElementById("media-type").value = entry.media_type;
+  document.getElementById("notes").value = entry.notes || "";
+  document.getElementById("date-consumed").value = entry.date_consumed || "";
+  document.getElementById("completion-status").value =
+    entry.completion_status || "completed";
 
-    submitBtn.textContent = "Save Changes";
+  submitBtn.textContent = "Save Changes";
 
-    renderScoreInputs(entry.media_type, entry.scores);
+  renderScoreInputs(entry.media_type, entry.scores);
 
-    document.getElementById("entryModal").showModal();
+  document.getElementById("entryModal").showModal();
 
+  renderGenres(mediaTypeSelect.value);
+
+  const genreSelect = document.getElementById("genres");
+
+  Array.from(genreSelect.options).forEach((option) => {
+    option.selected = entry.genres.includes(option.value);
+  });
+
+  mediaTypeSelect.addEventListener("change", () => {
+    renderScoreInputs(mediaTypeSelect.value, {});
     renderGenres(mediaTypeSelect.value);
-
-    const genreSelect = document.getElementById("genres");
-
-    Array.from(genreSelect.options).forEach((option) => {
-        option.selected = entry.genres.includes(option.value);
-    });
-
-    mediaTypeSelect.addEventListener("change", () => {
-        renderScoreInputs(mediaTypeSelect.value, {});
-        renderGenres(mediaTypeSelect.value);
-    });
+  });
 }
-

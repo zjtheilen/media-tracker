@@ -43,12 +43,11 @@ BOOK_GENRES = [
     "memoir",
     "biography",
     "litrpg",
-    "non fiction",
+    "non-fiction",
 ]
 
 VIDEO_GENRES = [
     "biopic",
-    "documentary",
 ]
 
 GENRE_REGISTRY = {

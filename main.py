@@ -23,6 +23,7 @@ from models.responses import (
     StatsResponse,
     row_to_entry_response
 )
+from data.genres import CORE_GENRES, GAME_ONLY_GENRES, VIDEO_ONLY_GENRES, BOOK_ONLY_GENRES
 
 VALID_COMPLETION_STATUSES = {
     "completed",
@@ -263,6 +264,16 @@ def get_entry(entry_id: str):
         
 
     return row_to_entry_response(row)
+
+
+@app.get("/genres")
+def get_genres():
+    return {
+        "core": list(CORE_GENRES),
+        "game": list(GAME_ONLY_GENRES),
+        "book": list(BOOK_ONLY_GENRES),
+        "video": list(VIDEO_ONLY_GENRES),
+    }
 
 
 @app.delete(
