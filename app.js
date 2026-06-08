@@ -50,7 +50,6 @@ function resetFormState() {
 
   document.getElementById("completion-status").value = "completed";
 
-  //   renderGenres(mediaTypeSelect.value);
   selectedGenres = [];
   renderGenreSelector(mediaTypeSelect.value);
   renderScoreInputs(mediaTypeSelect.value, {});
@@ -158,11 +157,6 @@ function renderGenreChips(genres) {
     })
     .join("");
 }
-
-// mediaTypeSelect.addEventListener("change", () => {
-//   renderScoreInputs(mediaTypeSelect.value);
-//   renderGenres(mediaTypeSelect.value)
-// });
 mediaTypeSelect.addEventListener("change", () => {
   selectedGenres = [];
 
@@ -179,12 +173,6 @@ form.addEventListener("submit", async (event) => {
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Saving...";
-
-  //   const genreSelect = document.getElementById("genres");
-
-  //   const selectedGenres = Array.from(genreSelect.selectedOptions).map(
-  //     (opt) => opt.value,
-  //   );
 
   const data = {
     title: document.getElementById("title").value.trim(),
@@ -293,11 +281,12 @@ let pendingDeleteId = null;
 async function initializeApp() {
   await loadGenres();
 
-  // renderGenres(mediaTypeSelect.value);
   renderGenreSelector(mediaTypeSelect.value);
   renderScoreInputs(mediaTypeSelect.value);
 
   await loadEntries();
+//   await loadMediaDistributionChart();
+  await renderMediaDistributionChart();
 }
 
 initializeApp();
@@ -406,8 +395,6 @@ async function loadEntries() {
   });
 }
 
-// loadEntries();
-
 async function deleteEntry(id) {
   await fetch(`http://127.0.0.1:8000/entries/${id}`, {
     method: "DELETE",
@@ -485,32 +472,6 @@ function toggleGenre(genre) {
   renderGenreSelector(mediaTypeSelect.value);
 }
 
-// const genreSelect = document.getElementById("genres");
-
-// function renderGenres(mediaType) {
-//   genreSelect.innerHTML = "";
-
-//   const coreGenres = genreRegistry.core || [];
-//   const mediaGenres = genreRegistry[mediaType] || [];
-
-//   const allGenres = [...new Set([...coreGenres, ...mediaGenres])];
-
-//   allGenres.forEach((g) => {
-//     const option = document.createElement("option");
-
-//     option.value = g;
-
-//     option.textContent = g
-//       .split(" ")
-//       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-//       .join(" ");
-
-//     genreSelect.appendChild(option);
-//   });
-// }
-
-// renderGenres(mediaTypeSelect.value);
-
 async function startEdit(id) {
   const response = await fetch(`http://127.0.0.1:8000/entries/${id}`);
   const entry = await response.json();
@@ -530,19 +491,43 @@ async function startEdit(id) {
 
   document.getElementById("entryModal").showModal();
 
-//   renderGenres(mediaTypeSelect.value);
-
-  //   const genreSelect = document.getElementById("genres");
-
-  //   Array.from(genreSelect.options).forEach((option) => {
-  //     option.selected = entry.genres.includes(option.value);
-  //   });
   selectedGenres = [...entry.genres];
 
   renderGenreSelector(entry.media_type);
 
-  //   mediaTypeSelect.addEventListener("change", () => {
-  //     renderScoreInputs(mediaTypeSelect.value, {});
-  //     renderGenres(mediaTypeSelect.value);
-  //   });
+}
+
+async function renderMediaDistributionChart() {
+  const response = await fetch("http://127.0.0.1:8000/stats/");
+  const stats = await response.json();
+
+  const ctx = document.getElementById("media-distribution-chart").getContext("2d");
+
+  const labels = Object.keys(stats.media_type_counts);
+  const data = Object.values(stats.media_type_counts);
+
+  new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          data: data,
+          backgroundColor: [
+            "#36A2EB",
+            "#FFCE56",
+            "#FF6384",
+            "#4BC0C0",
+          ],
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+      },
+    },
+  });
 }
