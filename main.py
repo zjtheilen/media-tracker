@@ -9,6 +9,7 @@ from contextlib import asynccontextmanager
 
 from models.media_item import MediaItem
 from models.scoring_profile import (
+    CATEGORY_WEIGHTS,
     SCORING_CATEGORIES,
     VALID_MEDIA_TYPES
 )
@@ -429,4 +430,11 @@ def get_stats():
         "average_score": average_score,
         "media_type_counts": media_type_counts,
         "genre_counts": genre_counts
+    }
+
+@app.get("/scoring-profile")
+def get_scoring_profile():
+    return {
+        "categories": SCORING_CATEGORIES,
+        "weights": CATEGORY_WEIGHTS
     }

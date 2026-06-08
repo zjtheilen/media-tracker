@@ -1,43 +1,46 @@
 const form = document.getElementById("entry-form");
 
-const scoringProfiles = {
-  video: [
-    "Emotional Impact",
-    "Depth",
-    "Craft",
-    "Engagement",
-    "Presentation",
-    "Originality",
-  ],
-
-  book: [
-    "Emotional Impact",
-    "Depth",
-    "Craft",
-    "Engagement",
-    "Presentation",
-    "Originality",
-  ],
-
-  game: [
-    "Emotional Impact",
-    "Depth",
-    "Craft",
-    "Engagement",
-    "Presentation",
-    "Originality",
-  ],
+const MEDIA_TYPE_COLORS = {
+  video: {
+    border: "rgba(255, 99, 132, 1)",
+    background: "rgba(255, 99, 132, 0.2)",
+  },
+  book: {
+    border: "rgba(54, 162, 235, 1)",
+    background: "rgba(54, 162, 235, 0.2)",
+  },
+  game: {
+    border: "rgba(255, 206, 86, 1)",
+    background: "rgba(255, 206, 86, 0.2)",
+  },
 };
+
+let scoringProfiles = {};
 
 let genreRegistry = {};
 
 let editingEntryId = null;
 let selectedGenres = [];
 
+let activeGenreFilter = null;
+
+let activeSort = "date_desc";
+
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
 
 const submitBtn = document.getElementById("submitBtn");
+
+async function loadScoringProfiles() {
+  const response = await fetch("http://127.0.0.1:8000/scoring-profile");
+  const data = await response.json();
+
+  scoringProfiles = {
+    video: data.categories,
+    book: data.categories,
+    game: data.categories,
+  };
+}
 
 function updateSubmitButton() {
   submitBtn.textContent = editingEntryId ? "Save Changes" : "Add Entry";
@@ -84,6 +87,11 @@ function renderScoreInputs(mediaType, existingScores = {}) {
 
   const categories = scoringProfiles[mediaType];
 
+  if (!categories) {
+    console.error("Missing scoring categories for:", mediaType);
+    return;
+  }
+
   categories.forEach((category) => {
     const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
 
@@ -120,7 +128,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
   });
 }
 
-renderScoreInputs(mediaTypeSelect.value);
+// renderScoreInputs(mediaTypeSelect.value);
 
 function renderScoreBars(scores) {
   return Object.entries(scores)
@@ -149,19 +157,46 @@ function renderGenreChips(genres) {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 
+      const isActive = activeGenreFilter === genre;
+
       return `
-        <span class="genre-chip">
+        <span 
+          class="genre-chip ${isActive ? "active-filter" : ""}"
+          onclick="toggleGenreFilter('${genre}')"
+          style="cursor: pointer;"
+        >
           ${formatted}
         </span>
       `;
     })
     .join("");
 }
+
+function toggleGenreFilter(genre) {
+  if (activeGenreFilter === genre) {
+    activeGenreFilter = null;
+  } else {
+    activeGenreFilter = genre;
+  }
+
+  loadEntries();
+}
+
+function clearGenreFilter() {
+  activeGenreFilter = null;
+  loadEntries();
+}
+
 mediaTypeSelect.addEventListener("change", () => {
   selectedGenres = [];
 
   renderScoreInputs(mediaTypeSelect.value, {});
   renderGenreSelector(mediaTypeSelect.value);
+});
+
+document.getElementById("sort-select").addEventListener("change", (event) => {
+  activeSort = event.target.value;
+  loadEntries();
 });
 
 form.addEventListener("submit", async (event) => {
@@ -280,12 +315,13 @@ let pendingDeleteId = null;
 
 async function initializeApp() {
   await loadGenres();
+  await loadScoringProfiles();
 
   renderGenreSelector(mediaTypeSelect.value);
   renderScoreInputs(mediaTypeSelect.value);
 
   await loadEntries();
-  //   await loadMediaDistributionChart();
+
   await renderMediaDistributionChart();
   await renderAverageScoreByMediaTypeChart();
 }
@@ -293,102 +329,128 @@ async function initializeApp() {
 initializeApp();
 
 async function loadEntries() {
-  const response = await fetch("http://127.0.0.1:8000/entries/");
+  console.log("ACTIVE SORT =", activeSort);
+  let url = "http://127.0.0.1:8000/entries/";
+
+  if (activeGenreFilter) {
+    url += `?genre=${encodeURIComponent(activeGenreFilter)}`;
+  }
+
+  const response = await fetch(url);
+
   const entries = await response.json();
+
+  console.log(
+    "BEFORE SORT",
+    entries.map((e) => ({
+      title: e.title,
+      score: e.total_score,
+    })),
+  );
+
+  entries.sort((a, b) => {
+    switch (activeSort) {
+      case "date_desc":
+        return new Date(b.date_consumed || 0) - new Date(a.date_consumed || 0);
+
+      case "date_asc":
+        return new Date(a.date_consumed || 0) - new Date(b.date_consumed || 0);
+
+      case "score_desc":
+        return b.total_score - a.total_score;
+
+      case "score_asc":
+        return a.total_score - b.total_score;
+
+      case "title_asc":
+        return a.title.localeCompare(b.title);
+
+      case "title_desc":
+        return b.title.localeCompare(a.title);
+
+      default:
+        return 0;
+    }
+  });
+
+  console.log(
+    "AFTER SORT",
+    entries.map((e) => ({
+      title: e.title,
+      score: e.total_score,
+    })),
+  );
 
   const container = document.getElementById("entries-container");
   container.innerHTML = "";
 
   entries.forEach((entry) => {
+    const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
+      border: "rgba(150, 150, 150, 1)",
+      background: "rgba(150, 150, 150, 0.2)",
+    };
+
     const div = document.createElement("div");
 
-    const percentScore = (entry.total_score).toFixed(0);
+    const percentScore = Number(entry.total_score).toFixed(1);
 
     div.innerHTML = `
-            <div id="entries-head" class="row" style="display: flex;">
-                <div id="head-top-row-left" style="width: 50%; ">
-                    <div id="entry-details">
-                        <h3>${entry.title}</h3>
+      <div class="row" style="display: flex;">
+        <div style="width: 50%;">
+          <h3>${entry.title}</h3>
 
-                        <p><strong>Date:</strong></br> ${entry.date_consumed || "N/A"}</p>
-                        <p><strong>Type:</strong></br> ${entry.media_type}</p>
-                        <div class="genre-chip-container">
-                            ${renderGenreChips(entry.genres)}
-                        </div>
+          <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
+          <p><strong>Type:</strong><br>${entry.media_type}</p>
 
-                        <p><strong>Total Score:</strong></br> ${percentScore}%</p>
+          <div class="genre-chip-container">
+            ${renderGenreChips(entry.genres)}
+          </div>
 
-                    </div>
-                </div>
-                <div id="head-top-row-right" style="width: 50%">
-                    <div id="radar-container" style="width: 100%; margin: auto;">
-                        <canvas id="chart-${entry.id}"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div id="scores-and-notes" class="row">
-                <div class="scores-block">
-                    ${renderScoreBars(entry.scores || {})}
-                </div>
+          <p><strong>Total Score:</strong><br>${percentScore}%</p>
+        </div>
 
-                <p><strong>Notes:</strong> ${entry.notes}</p>
-                <button onclick="startEdit('${entry.id}')">Edit</button>
-                <button class="delete-btn" onclick="openDeleteModal('${entry.id}')">Delete</button>
-            </div>
-            <hr>
+        <div style="width: 50%;">
+          <canvas id="chart-${entry.id}"></canvas>
+        </div>
+      </div>
+
+      <div>
+        ${renderScoreBars(entry.scores || {})}
+        <p><strong>Notes:</strong> ${entry.notes}</p>
+
+        <button onclick="startEdit('${entry.id}')">Edit</button>
+        <button onclick="openDeleteModal('${entry.id}')">Delete</button>
+      </div>
+
+      <hr>
     `;
 
     container.appendChild(div);
 
     const ctx = document.getElementById(`chart-${entry.id}`).getContext("2d");
 
-    radarDotColor = "";
-    radarBorderColor = "";
-    radarBackgroundColor = "";
-
-    if (entry.media_type === "video") {
-      radarDotColor = "rgba(255, 99, 132, 1)";
-      radarBorderColor = "rgba(255, 99, 132, 1)";
-      radarBackgroundColor = "rgba(255, 99, 132, 0.2)";
-    } else if (entry.media_type === "book") {
-      radarDotColor = "rgba(54, 162, 235, 1)";
-      radarBorderColor = "rgba(54, 162, 235, 1)";
-      radarBackgroundColor = "rgba(54, 162, 235, 0.2)";
-    } else if (entry.media_type === "game") {
-      radarDotColor = "rgba(255, 206, 86, 1)";
-      radarBorderColor = "rgba(255, 206, 86, 1)";
-      radarBackgroundColor = "rgba(255, 206, 86, 0.2)";
-    }
-
     new Chart(ctx, {
       type: "radar",
       data: {
         labels: Object.keys(entry.scores || {}),
-        data: Object.values(entry.scores || {}),
         datasets: [
           {
             label: entry.title,
-            data: Object.values(entry.scores),
+            data: Object.values(entry.scores || {}),
             fill: true,
-            backgroundColor: radarBackgroundColor,
-            borderColor: radarBorderColor,
-            pointBackgroundColor: radarDotColor,
+            backgroundColor: colors.background,
+            borderColor: colors.border,
+            pointBackgroundColor: colors.border,
           },
         ],
       },
       options: {
-        plugins: {
-          legend: {
-            display: false,
-          },
-        },
+        plugins: { legend: { display: false } },
         scales: {
           r: {
-            ticks: {
-              display: false,
-            },
             min: 1,
             max: 10,
+            ticks: { display: false },
           },
         },
       },
@@ -508,6 +570,10 @@ async function renderMediaDistributionChart() {
   const labels = Object.keys(stats.media_type_counts);
   const data = Object.values(stats.media_type_counts);
 
+  const MEDIA_COLORS_ARRAY = Object.keys(MEDIA_TYPE_COLORS).map(
+    (key) => MEDIA_TYPE_COLORS[key].border,
+  );
+
   new Chart(ctx, {
     type: "doughnut",
     data: {
@@ -515,7 +581,7 @@ async function renderMediaDistributionChart() {
       datasets: [
         {
           data: data,
-          backgroundColor: ["#36A2EB", "#FFCE56", "#FF6384", "#4BC0C0"],
+          backgroundColor: MEDIA_COLORS_ARRAY,
         },
       ],
     },
@@ -561,16 +627,12 @@ async function renderAverageScoreByMediaTypeChart() {
         {
           label: "Average Score",
           data: averages,
-          backgroundColor: [
-            "rgba(54, 162, 235, 0.6)",
-            "rgba(255, 206, 86, 0.6)",
-            "rgba(255, 99, 132, 0.6)",
-          ],
-          borderColor: [
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(255, 99, 132, 1)",
-          ],
+          backgroundColor: labels.map(
+            (t) => MEDIA_TYPE_COLORS[t]?.background || "gray",
+          ),
+          borderColor: labels.map(
+            (t) => MEDIA_TYPE_COLORS[t]?.border || "gray",
+          ),
           borderWidth: 1,
         },
       ],

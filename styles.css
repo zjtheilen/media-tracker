@@ -45,9 +45,9 @@ button:hover {
   background: #555;
 }
 
-#openBtn {
+/* #openBtn {
   position: absolute;
-}
+} */
 
 .delete-btn:hover,
 #confirmDeleteBtn:hover,
@@ -92,7 +92,7 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 8px 0'
+    margin: 8px 0
 }
 
 .genre-chip {
@@ -173,4 +173,10 @@ button:hover {
     max-width: 400px;
     margin: 20px auto;
     display: block;
+}
+
+.genre-chip.active-filter {
+  background-color: #333;
+  color: white;
+  border: 2px solid #000;
 }
