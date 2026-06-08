@@ -12,7 +12,7 @@ from models.scoring_profile import (
     SCORING_CATEGORIES,
     VALID_MEDIA_TYPES
 )
-# from models.genre_registry import get_allowed_genres
+
 from models.score import Score
 from models.entry import Entry
 from db import init_db, get_connection
@@ -23,7 +23,7 @@ from models.responses import (
     StatsResponse,
     row_to_entry_response
 )
-# from data.genres import CORE_GENRES, GAME_ONLY_GENRES, VIDEO_ONLY_GENRES, BOOK_ONLY_GENRES
+
 from models.genre_registry import (
     CORE_GENRES,
     GAME_GENRES,
@@ -116,7 +116,6 @@ def validate_entry(entry_data: EntryCreate):
         entry_data.media_type,
         entry_data.genres
     )
-    # validate_genres(entry_data.media_type, entry_data.genres)
 
     validate_scores(entry_data.scores)
     validate_completion_status(entry_data.completion_status)
@@ -162,14 +161,6 @@ def validate_scores(scores: Dict[str, int]):
                 detail=f"Score for {name} must be between 1 and 10"
             )
 
-# def get_allowed_genres(media_type: str) -> set[str]:
-#     allowed = set(PRIMARY_GENRES)
-
-#     if media_type == "game":
-#         allowed |= GAME_GENRES
-    
-#     return allowed
-
 def normalize_genre(genre: str) -> str:
     return genre.strip().lower()
 
@@ -188,26 +179,10 @@ def validate_genres(media_type: str, genres: list[str]):
     
     allowed = get_allowed_genres(media_type)
 
-    # normalized_genres = list(dict.fromkeys(
-    #     g.strip().lower() for g in genres
-    # ))
-    # normalized_genres = list(dict.fromkeys(
-    #     normalize_genre(g)
-    #     for g in genres
-    # ))
-
-    # normalized_genres = [normalize_genre(g) for g in genres]
-
     normalized_genres = list(dict.fromkeys(
         normalize_genre(g)
         for g in genres
     ))
-
-    # if len(set(normalized_genres)) != len(normalized_genres):
-    #     raise HTTPException(
-    #         status_code=400,
-    #         detail="Duplicate genres are not allowed"
-    #     )
     
     normalized_genres = list(dict.fromkeys(normalized_genres))
 
@@ -230,7 +205,6 @@ def validate_media_type(media_type: str):
 @app.post("/entries/")
 def create_entry(entry_data: EntryCreate):
 
-    # title = validate_entry(entry_data)
     title, genres = validate_entry(entry_data)
 
     media_item = MediaItem(title, entry_data.media_type)
@@ -277,16 +251,32 @@ def create_entry(entry_data: EntryCreate):
 
     return row_to_entry_response(row)
 
+def normalize_genre_query(genre: str) -> str:
+    return genre.strip().lower().lstrip("/")
+
 
 @app.get("/entries/", response_model=list[EntryResponse])
-def get_entries():
+def get_entries(genre: str | None = None):
+
     with get_connection() as conn:
         cursor = conn.cursor()
-
         cursor.execute("SELECT * FROM entries")
         rows = cursor.fetchall()
 
-    return [row_to_entry_response(row) for row in rows]
+    # build entries FIRST
+    entries = [row_to_entry_response(row) for row in rows]
+
+    # apply filter AFTER construction
+    if genre:
+        normalized = normalize_genre_query(genre)
+
+        entries = [
+            entry
+            for entry in entries
+            if normalized in entry.genres
+        ]
+
+    return entries
 
 
 @app.get("/entries/{entry_id}", response_model=EntryResponse)
@@ -305,7 +295,7 @@ def get_entry(entry_id: str):
     return row_to_entry_response(row)
 
 
-@app.get("/genres")
+@app.get("/genres/")
 def get_genres():
     return {
         "core": list(CORE_GENRES),

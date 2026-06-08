@@ -15,18 +15,7 @@ CORE_GENRES = [
     "experimental",
 ]
 
-# TODO work genre modifiers into genre tagging system
-# GENRE_MODIFIERS = [
-#     "dark",
-#     "lighthearted",
-#     "gritty",
-#     "slow-burn",
-#     "fast-paced",
-#     "atmospheric",
-#     "character-driven",
-#     "plot-driven",
-#     "worldbuilding-heavy",
-# ]
+
 
 GAME_GENRES = [
     "rpg",
