@@ -485,31 +485,31 @@ function toggleGenre(genre) {
   renderGenreSelector(mediaTypeSelect.value);
 }
 
-const genreSelect = document.getElementById("genres");
+// const genreSelect = document.getElementById("genres");
 
-function renderGenres(mediaType) {
-  genreSelect.innerHTML = "";
+// function renderGenres(mediaType) {
+//   genreSelect.innerHTML = "";
 
-  const coreGenres = genreRegistry.core || [];
-  const mediaGenres = genreRegistry[mediaType] || [];
+//   const coreGenres = genreRegistry.core || [];
+//   const mediaGenres = genreRegistry[mediaType] || [];
 
-  const allGenres = [...new Set([...coreGenres, ...mediaGenres])];
+//   const allGenres = [...new Set([...coreGenres, ...mediaGenres])];
 
-  allGenres.forEach((g) => {
-    const option = document.createElement("option");
+//   allGenres.forEach((g) => {
+//     const option = document.createElement("option");
 
-    option.value = g;
+//     option.value = g;
 
-    option.textContent = g
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
+//     option.textContent = g
+//       .split(" ")
+//       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+//       .join(" ");
 
-    genreSelect.appendChild(option);
-  });
-}
+//     genreSelect.appendChild(option);
+//   });
+// }
 
-renderGenres(mediaTypeSelect.value);
+// renderGenres(mediaTypeSelect.value);
 
 async function startEdit(id) {
   const response = await fetch(`http://127.0.0.1:8000/entries/${id}`);
@@ -530,7 +530,7 @@ async function startEdit(id) {
 
   document.getElementById("entryModal").showModal();
 
-  renderGenres(mediaTypeSelect.value);
+//   renderGenres(mediaTypeSelect.value);
 
   //   const genreSelect = document.getElementById("genres");
 

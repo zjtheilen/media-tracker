@@ -109,12 +109,19 @@ def validate_completion_status(status: str):
 
 def validate_entry(entry_data: EntryCreate):
     validate_media_type(entry_data.media_type)
+
     title = validate_title(entry_data.title)
-    validate_genres(entry_data.media_type, entry_data.genres)
+
+    genres = validate_genres(
+        entry_data.media_type,
+        entry_data.genres
+    )
+    # validate_genres(entry_data.media_type, entry_data.genres)
+
     validate_scores(entry_data.scores)
     validate_completion_status(entry_data.completion_status)
 
-    return title
+    return title, genres
 
 def validate_title(title: str):
     title = title.strip()
@@ -163,6 +170,9 @@ def validate_scores(scores: Dict[str, int]):
     
 #     return allowed
 
+def normalize_genre(genre: str) -> str:
+    return genre.strip().lower()
+
 def validate_genres(media_type: str, genres: list[str]):
     if not genres:
         raise HTTPException(
@@ -178,9 +188,28 @@ def validate_genres(media_type: str, genres: list[str]):
     
     allowed = get_allowed_genres(media_type)
 
+    # normalized_genres = list(dict.fromkeys(
+    #     g.strip().lower() for g in genres
+    # ))
+    # normalized_genres = list(dict.fromkeys(
+    #     normalize_genre(g)
+    #     for g in genres
+    # ))
+
+    # normalized_genres = [normalize_genre(g) for g in genres]
+
     normalized_genres = list(dict.fromkeys(
-        g.strip().lower() for g in genres
+        normalize_genre(g)
+        for g in genres
     ))
+
+    # if len(set(normalized_genres)) != len(normalized_genres):
+    #     raise HTTPException(
+    #         status_code=400,
+    #         detail="Duplicate genres are not allowed"
+    #     )
+    
+    normalized_genres = list(dict.fromkeys(normalized_genres))
 
     for g in normalized_genres:
         if g not in allowed:
@@ -188,6 +217,8 @@ def validate_genres(media_type: str, genres: list[str]):
                 status_code=400,
                 detail=f"Invalid genre for {media_type}: {g}"
             )
+    
+    return normalized_genres
 
 def validate_media_type(media_type: str):
     if media_type not in VALID_MEDIA_TYPES:
@@ -199,7 +230,8 @@ def validate_media_type(media_type: str):
 @app.post("/entries/")
 def create_entry(entry_data: EntryCreate):
 
-    title = validate_entry(entry_data)
+    # title = validate_entry(entry_data)
+    title, genres = validate_entry(entry_data)
 
     media_item = MediaItem(title, entry_data.media_type)
 
@@ -207,7 +239,7 @@ def create_entry(entry_data: EntryCreate):
     
     entry = Entry(
         media_item=media_item, 
-        genres=entry_data.genres,
+        genres=genres,
         scores=scores, 
         notes=entry_data.notes, 
         date_consumed=entry_data.date_consumed, 
@@ -227,7 +259,7 @@ def create_entry(entry_data: EntryCreate):
                 entry.id,
                 entry.media_item.title,
                 entry.media_item.media_type,
-                json.dumps(entry_data.genres),
+                json.dumps(genres),
                 entry.notes,
                 entry.date_consumed.isoformat() if entry.date_consumed else None,
                 entry.completion_status,
@@ -317,7 +349,7 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
         if not existing:
             
             raise HTTPException(status_code=404, detail="Entry not found")
-        title = validate_entry(entry_data)
+        title, genres = validate_entry(entry_data)
         
         media_item = MediaItem(title, entry_data.media_type)
 
@@ -325,7 +357,7 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
         
         updated_entry = Entry(
             media_item=media_item,
-            genres=entry_data.genres,
+            genres=genres,
             scores=scores,
             notes=entry_data.notes,
             date_consumed=entry_data.date_consumed,
@@ -346,7 +378,7 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
         """, (
             updated_entry.media_item.title,
             updated_entry.media_item.media_type,
-            json.dumps(entry_data.genres),
+            json.dumps(genres),
             updated_entry.notes,
             updated_entry.date_consumed.isoformat() if updated_entry.date_consumed else None,
             updated_entry.completion_status,

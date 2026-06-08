@@ -67,3 +67,22 @@ def valid_game_payload():
         "notes": "Peak psychological horror",
         "completion_status": "completed",
     }
+
+
+@pytest.fixture
+def valid_book_payload():
+    return {
+        "title": "Dune",
+        "media_type": "book",
+        "genres": ["horror"],
+        "scores": {
+            "emotional_impact": 10,
+            "depth": 1,
+            "craft": 5,
+            "engagement": 8,
+            "presentation": 4,
+            "originality": 9,
+        },
+        "notes": "Long ass book",
+        "completion_status": "completed"
+    }
