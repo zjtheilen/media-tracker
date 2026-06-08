@@ -1,77 +1,75 @@
 <! DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Media Tracker</title>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <h1>Media Tracker</h1>
     <p>Welcome to the Media Tracker!</p>
 
     <button id="openBtn">Add an Entry</button>
     <dialog id="entryModal">
+      <form id="entry-form">
+        <input type="text" id="title" placeholder="Title" required />
 
-        <form id="entry-form">
-            <input type="text" id="title" placeholder="Title" required>
+        <select id="media-type">
+          <option value="video">video</option>
+          <option value="game">game</option>
+          <option value="book">book</option>
+        </select>
 
-            <select id="media-type">
-                <option value="video">video</option>
-                <option value="game">game</option>
-                <option value="book">book</option>
-            </select>
+        <div id="genre-selector"></div>
 
-            <!-- <select id="genres" multiple></select> -->
-             <div id="genre-selector"></div>
+        <textarea id="notes" placeholder="Notes"></textarea>
 
-            <textarea id="notes" placeholder="Notes"></textarea>
+        <label for="date-consumed">Date Consumed</label>
+        <input type="date" id="date-consumed" />
 
-            <label for="date-consumed">Date Consumed</label>
-            <input type="date" id="date-consumed">
+        <label for="completion-status">Completion Status</label>
+        <select id="completion-status">
+          <option value="completed">Completed</option>
+          <option value="in-progress">In Progress</option>
+          <option value="dropped">Dropped</option>
+          <option value="planned">Planned</option>
+        </select>
 
-            <label for="completion-status">Completion Status</label>
-            <select id="completion-status">
-                <option value="completed">Completed</option>
-                <option value="in-progress">In Progress</option>
-                <option value="dropped">Dropped</option>
-                <option value="planned">Planned</option>
-            </select>
+        <div id="score-container"></div>
 
-            <div id="score-container"></div>
-
-            <div id="form-message"></div>
-
-            <div class="row">
-                <button type="submit" id="submitBtn">Add Entry</button>
-                <button id="closeBtn">Cancel</button>
-            </div>
-            
-        </form>
-    </dialog>
-    <dialog id="deleteModal">
-        <p>
-            Are you sure you want to delete this entry?
-            This cannot be undone.
-        </p>
+        <div id="form-message"></div>
 
         <div class="row">
-            <button type="button" id="confirmDeleteBtn">Confirm Delete</button>
-            <button type="button" id="cancelDeleteBtn">Cancel</button>
+          <button type="submit" id="submitBtn">Add Entry</button>
+          <button id="closeBtn">Cancel</button>
         </div>
+      </form>
+    </dialog>
+    <dialog id="deleteModal">
+      <p>Are you sure you want to delete this entry? This cannot be undone.</p>
+
+      <div class="row">
+        <button type="button" id="confirmDeleteBtn">Confirm Delete</button>
+        <button type="button" id="cancelDeleteBtn">Cancel</button>
+      </div>
     </dialog>
 
     <h2>Entries</h2>
-
     <div id="entries-container"></div>
 
-    <h2>Media Distribution</h2>
-    <canvas id="media-distribution-chart"></canvas>
-
-</body>
-
+    <div class="row" style="display: flex">
+        <span style="width: 50%; display: block;">
+            <h2>Media Distribution</h2>
+            <canvas id="media-distribution-chart"></canvas>
+        </span>
+        <span style="width: 50%; display: block;">
+            <h2>Average Score by Media Type</h2>
+            <canvas id="avg-score-chart"></canvas>
+        </span>
+    </div>
+  </body>
 </html>

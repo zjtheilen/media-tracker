@@ -285,8 +285,9 @@ async function initializeApp() {
   renderScoreInputs(mediaTypeSelect.value);
 
   await loadEntries();
-//   await loadMediaDistributionChart();
+  //   await loadMediaDistributionChart();
   await renderMediaDistributionChart();
+  await renderAverageScoreByMediaTypeChart();
 }
 
 initializeApp();
@@ -301,7 +302,7 @@ async function loadEntries() {
   entries.forEach((entry) => {
     const div = document.createElement("div");
 
-    const percentScore = ((entry.total_score / 10) * 100).toFixed(0);
+    const percentScore = (entry.total_score).toFixed(0);
 
     div.innerHTML = `
             <div id="entries-head" class="row" style="display: flex;">
@@ -494,14 +495,15 @@ async function startEdit(id) {
   selectedGenres = [...entry.genres];
 
   renderGenreSelector(entry.media_type);
-
 }
 
 async function renderMediaDistributionChart() {
   const response = await fetch("http://127.0.0.1:8000/stats/");
   const stats = await response.json();
 
-  const ctx = document.getElementById("media-distribution-chart").getContext("2d");
+  const ctx = document
+    .getElementById("media-distribution-chart")
+    .getContext("2d");
 
   const labels = Object.keys(stats.media_type_counts);
   const data = Object.values(stats.media_type_counts);
@@ -513,12 +515,7 @@ async function renderMediaDistributionChart() {
       datasets: [
         {
           data: data,
-          backgroundColor: [
-            "#36A2EB",
-            "#FFCE56",
-            "#FF6384",
-            "#4BC0C0",
-          ],
+          backgroundColor: ["#36A2EB", "#FFCE56", "#FF6384", "#4BC0C0"],
         },
       ],
     },
@@ -526,6 +523,68 @@ async function renderMediaDistributionChart() {
       plugins: {
         legend: {
           position: "bottom",
+        },
+      },
+    },
+  });
+}
+
+async function renderAverageScoreByMediaTypeChart() {
+  const response = await fetch("http://127.0.0.1:8000/entries/");
+  const entries = await response.json();
+
+  const grouped = {};
+
+  // Group scores by media type
+  entries.forEach((entry) => {
+    if (!grouped[entry.media_type]) {
+      grouped[entry.media_type] = [];
+    }
+
+    grouped[entry.media_type].push(entry.total_score);
+  });
+
+  const labels = Object.keys(grouped);
+  const averages = labels.map((type) => {
+    const scores = grouped[type];
+    const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+    return Number(avg.toFixed(2));
+  });
+
+  const ctx = document.getElementById("avg-score-chart").getContext("2d");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Average Score",
+          data: averages,
+          backgroundColor: [
+            "rgba(54, 162, 235, 0.6)",
+            "rgba(255, 206, 86, 0.6)",
+            "rgba(255, 99, 132, 0.6)",
+          ],
+          borderColor: [
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(255, 99, 132, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
         },
       },
     },
