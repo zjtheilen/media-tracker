@@ -399,6 +399,16 @@ async function loadEntries() {
   const container = document.getElementById("entries-container");
   container.innerHTML = "";
 
+  if (filteredEntries.length === 0) {
+    container.innerHTML = `
+    <div class="empty-state">
+      <h3>No results found</h3>
+      <p>Try adjusting your search or filters.</p>
+    </div>
+  `;
+    return;
+  }
+
   filteredEntries.forEach((entry) => {
     const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
       border: "rgba(150, 150, 150, 1)",
