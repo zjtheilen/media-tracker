@@ -404,6 +404,12 @@ async function loadEntries() {
         </div>
     `;
 
+    div.style.cursor = "pointer";
+
+    div.addEventListener("click", () => {
+        startEdit(entry.id);
+    })
+
     // div.innerHTML = `
     //   <div class="row" style="display: flex;">
     //     <div style="width: 50%;">
