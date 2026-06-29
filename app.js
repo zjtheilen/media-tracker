@@ -347,7 +347,7 @@ async function loadEntries() {
 
   const entries = await response.json();
 
-  let filteredEntries = entries;
+  //   let filteredEntries = entries;
 
   console.log(
     "BEFORE SORT",
@@ -357,7 +357,9 @@ async function loadEntries() {
     })),
   );
 
-  entries.sort((a, b) => {
+  let workingEntries = [...entries];
+
+  workingEntries.sort((a, b) => {
     switch (activeSort) {
       case "date_desc":
         return new Date(b.date_consumed || 0) - new Date(a.date_consumed || 0);
@@ -382,16 +384,8 @@ async function loadEntries() {
     }
   });
 
-  console.log(
-    "AFTER SORT",
-    entries.map((e) => ({
-      title: e.title,
-      score: e.total_score,
-    })),
-  );
-
   if (searchQuery.trim() !== "") {
-    filteredEntries = filteredEntries.filter((entry) =>
+    workingEntries = workingEntries.filter((entry) =>
       entry.title.toLowerCase().includes(searchQuery),
     );
   }
@@ -399,7 +393,7 @@ async function loadEntries() {
   const container = document.getElementById("entries-container");
   container.innerHTML = "";
 
-  if (filteredEntries.length === 0) {
+  if (workingEntries.length === 0) {
     container.innerHTML = `
     <div class="empty-state">
       <h3>No results found</h3>
@@ -409,7 +403,7 @@ async function loadEntries() {
     return;
   }
 
-  filteredEntries.forEach((entry) => {
+  workingEntries.forEach((entry) => {
     const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
       border: "rgba(150, 150, 150, 1)",
       background: "rgba(150, 150, 150, 0.2)",
