@@ -394,67 +394,77 @@ async function loadEntries() {
 
     const percentScore = Number(entry.total_score).toFixed(1);
 
+    div.className = "library-item";
+
     div.innerHTML = `
-      <div class="row" style="display: flex;">
-        <div style="width: 50%;">
-          <h3>${entry.title}</h3>
-
-          <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
-          <p><strong>Type:</strong><br>${entry.media_type}</p>
-
-          <div class="genre-chip-container">
-            ${renderGenreChips(entry.genres)}
-          </div>
-
-          <p><strong>Total Score:</strong><br>${percentScore}%</p>
+        <h3>${entry.title}</h3>
+        <div class="library-meta">
+            <span>${entry.media_type}</span>
+            <span>${percentScore}</span>
         </div>
-
-        <div style="width: 50%;">
-          <canvas id="chart-${entry.id}"></canvas>
-        </div>
-      </div>
-
-      <div>
-        ${renderScoreBars(entry.scores || {})}
-        <p><strong>Notes:</strong> ${entry.notes}</p>
-
-        <button onclick="startEdit('${entry.id}')">Edit</button>
-        <button onclick="openDeleteModal('${entry.id}')">Delete</button>
-      </div>
-
-      <hr>
     `;
+
+    // div.innerHTML = `
+    //   <div class="row" style="display: flex;">
+    //     <div style="width: 50%;">
+    //       <h3>${entry.title}</h3>
+
+    //       <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
+    //       <p><strong>Type:</strong><br>${entry.media_type}</p>
+
+    //       <div class="genre-chip-container">
+    //         ${renderGenreChips(entry.genres)}
+    //       </div>
+
+    //       <p><strong>Total Score:</strong><br>${percentScore}%</p>
+    //     </div>
+
+    //     <div style="width: 50%;">
+    //       <canvas id="chart-${entry.id}"></canvas>
+    //     </div>
+    //   </div>
+
+    //   <div>
+    //     ${renderScoreBars(entry.scores || {})}
+    //     <p><strong>Notes:</strong> ${entry.notes}</p>
+
+    //     <button onclick="startEdit('${entry.id}')">Edit</button>
+    //     <button onclick="openDeleteModal('${entry.id}')">Delete</button>
+    //   </div>
+
+    //   <hr>
+    // `;
 
     container.appendChild(div);
 
-    const ctx = document.getElementById(`chart-${entry.id}`).getContext("2d");
+    // const ctx = document.getElementById(`chart-${entry.id}`).getContext("2d");
 
-    new Chart(ctx, {
-      type: "radar",
-      data: {
-        labels: Object.keys(entry.scores || {}),
-        datasets: [
-          {
-            label: entry.title,
-            data: Object.values(entry.scores || {}),
-            fill: true,
-            backgroundColor: colors.background,
-            borderColor: colors.border,
-            pointBackgroundColor: colors.border,
-          },
-        ],
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: {
-          r: {
-            min: 1,
-            max: 10,
-            ticks: { display: false },
-          },
-        },
-      },
-    });
+    // new Chart(ctx, {
+    //   type: "radar",
+    //   data: {
+    //     labels: Object.keys(entry.scores || {}),
+    //     datasets: [
+    //       {
+    //         label: entry.title,
+    //         data: Object.values(entry.scores || {}),
+    //         fill: true,
+    //         backgroundColor: colors.background,
+    //         borderColor: colors.border,
+    //         pointBackgroundColor: colors.border,
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     plugins: { legend: { display: false } },
+    //     scales: {
+    //       r: {
+    //         min: 1,
+    //         max: 10,
+    //         ticks: { display: false },
+    //       },
+    //     },
+    //   },
+    // });
   });
 }
 

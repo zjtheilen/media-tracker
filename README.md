@@ -17,6 +17,12 @@ Built with:
 
 ---
 
+# To run
+
+`uvicorn main:app --reload`
+start server from IDE
+connect to `127.0.0.1:5000`
+
 # Current Features
 
 ## Entry Management
