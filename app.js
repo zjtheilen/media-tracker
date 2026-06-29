@@ -406,10 +406,10 @@ async function loadEntries() {
 
     div.style.cursor = "pointer";
 
-    div.addEventListener("click", () => {
-        if (e.target.tagName == "BUTTON" || e.target.closest("button")) return;
-        startEdit(entry.id);
-    })
+    div.addEventListener("click", (e) => {
+      if (e.target.closest("button")) return;
+      startEdit(entry.id);
+    });
 
     // div.innerHTML = `
     //   <div class="row" style="display: flex;">
