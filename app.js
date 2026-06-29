@@ -407,6 +407,7 @@ async function loadEntries() {
     div.style.cursor = "pointer";
 
     div.addEventListener("click", () => {
+        if (e.target.tagName == "BUTTON" || e.target.closest("button")) return;
         startEdit(entry.id);
     })
 
