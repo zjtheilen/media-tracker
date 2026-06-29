@@ -26,6 +26,8 @@ let activeGenreFilter = null;
 
 let activeSort = "date_desc";
 
+let searchQuery = "";
+
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
 
@@ -199,6 +201,11 @@ document.getElementById("sort-select").addEventListener("change", (event) => {
   loadEntries();
 });
 
+document.getElementById("search-input").addEventListener("input", (e) => {
+  searchQuery = e.target.value.toLowerCase();
+  loadEntries();
+});
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -340,6 +347,8 @@ async function loadEntries() {
 
   const entries = await response.json();
 
+  let filteredEntries = entries;
+
   console.log(
     "BEFORE SORT",
     entries.map((e) => ({
@@ -381,10 +390,16 @@ async function loadEntries() {
     })),
   );
 
+  if (searchQuery.trim() !== "") {
+    filteredEntries = filteredEntries.filter((entry) =>
+      entry.title.toLowerCase().includes(searchQuery),
+    );
+  }
+
   const container = document.getElementById("entries-container");
   container.innerHTML = "";
 
-  entries.forEach((entry) => {
+  filteredEntries.forEach((entry) => {
     const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
       border: "rgba(150, 150, 150, 1)",
       background: "rgba(150, 150, 150, 0.2)",

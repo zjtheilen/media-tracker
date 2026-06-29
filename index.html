@@ -13,6 +13,8 @@
     <h1>Media Tracker</h1>
     <p>Welcome to the Media Tracker!</p>
 
+    <!-- <input type="text" id="search-input"> -->
+
     <button id="openBtn">Add an Entry</button>
     <button onclick="clearGenreFilter()">Clear Filter</button>
     <dialog id="entryModal">
@@ -72,6 +74,11 @@
             <option value="title_asc">Title (A-Z)</option>
             <option value="title_desc">Title (Z-A)</option>
         </select>
+    </div>
+
+    <div style="margin-bottom: 15px">
+        <label for="search-input">Search Entries:</label>
+        <input type="text" id="search-input">
     </div>
 
     <h2>Entries</h2>
