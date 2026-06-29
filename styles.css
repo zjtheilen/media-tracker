@@ -152,6 +152,13 @@ button:hover {
   color: black;
 }
 
+.filter-tag {
+  background: #eee;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
 #head-top-row-right {
   width: 50%;
   margin-top: -1vh;

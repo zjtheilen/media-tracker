@@ -455,7 +455,11 @@ async function loadEntries() {
 
     container.appendChild(div);
   });
+
+  renderActiveFilters();
 }
+
+renderActiveFilters();
 
 async function deleteEntry(id) {
   await fetch(`http://127.0.0.1:8000/entries/${id}`, {
@@ -650,4 +654,51 @@ async function renderAverageScoreByMediaTypeChart() {
       },
     },
   });
+}
+
+function renderActiveFilters() {
+  const container = document.getElementById("active-filters");
+  container.innerHTML = "";
+
+  const hasSearch = searchQuery.trim() !== "";
+  const hasGenre = activeGenreFilter !== null;
+
+  if (!hasSearch && !hasGenre) return;
+
+  const wrapper = document.createElement("div");
+
+  wrapper.style.display = "flex";
+  wrapper.style.gap = "10px";
+  wrapper.style.alignItems = "center";
+
+  if (hasSearch) {
+    const searchTag = document.createElement("span");
+    searchTag.textContent = `Search: "${searchQuery}"`;
+    searchTag.className = "filter-tag";
+    wrapper.appendChild(searchTag);
+  }
+
+  if (hasGenre) {
+    const genreTag = document.createElement("span");
+    genreTag.textContent = `Genre: ${activeGenreFilter}`;
+    genreTag.className = "filter-tag";
+    wrapper.appendChild(genreTag);
+  }
+
+  const clearBtn = document.createElement("button");
+  clearBtn.textContent = "Clear Filters";
+
+  clearBtn.addEventListener("click", () => {
+    searchQuery = "";
+    activeGenreFilter = null;
+
+    document.getElementById("search-input").value = "";
+
+    loadEntries();
+    renderGenreFilters();
+  });
+
+  wrapper.appendChild(clearBtn);
+
+  container.appendChild(wrapper);
 }
