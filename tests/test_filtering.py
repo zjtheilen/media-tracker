@@ -19,8 +19,6 @@ def test_filter_excludes_non_matching_genre(client, valid_game_payload):
     assert response.status_code == 200
 
     data = response.json()
-
-    # assert all("sci-fi" in entry["genres"] for entry in data) is False
     assert len(data) == 0
 
 def test_filter_returns_only_matching_entries(client, valid_game_payload):

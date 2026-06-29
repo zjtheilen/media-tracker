@@ -130,8 +130,6 @@ function renderScoreInputs(mediaType, existingScores = {}) {
   });
 }
 
-// renderScoreInputs(mediaTypeSelect.value);
-
 function renderScoreBars(scores) {
   return Object.entries(scores)
     .map(([category, value]) => {
@@ -159,12 +157,12 @@ function renderGenreChips(genres) {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 
-      const isActive = activeGenreFilter === genre;
+      const isActive = activeGenreFilter === genre.toLowerCase();
 
       return `
         <span 
           class="genre-chip ${isActive ? "active-filter" : ""}"
-          onclick="toggleGenreFilter('${genre}')"
+          onclick="toggleGenreFilter('${genre.toLowerCase()}')"
           style="cursor: pointer;"
         >
           ${formatted}
@@ -174,11 +172,43 @@ function renderGenreChips(genres) {
     .join("");
 }
 
+function renderGenreFilters() {
+  const container = document.getElementById("genre-filters");
+  container.innerHTML = "";
+
+  const core = genreRegistry.core || [];
+  const media = Object.values(genreRegistry).flat();
+
+  const allGenres = [...new Set([...core, ...media])];
+
+  allGenres.forEach((genre) => {
+    const normalized = genre.toLowerCase();
+
+    const btn = document.createElement("button");
+    btn.textContent = genre;
+    btn.className = "genre-btn";
+
+    if (activeGenreFilter === normalized) {
+      btn.classList.add("active");
+    }
+
+    btn.addEventListener("click", () => {
+      toggleGenreFilter(normalized);
+      renderGenreFilters(); // refresh UI state
+    });
+
+    container.appendChild(btn);
+  });
+}
+
 function toggleGenreFilter(genre) {
-  if (activeGenreFilter === genre) {
+
+  const normalized = genre.toLowerCase();
+
+  if (activeGenreFilter === genre.toLowerCase()) {
     activeGenreFilter = null;
   } else {
-    activeGenreFilter = genre;
+    activeGenreFilter = genre.toLowerCase();
   }
 
   loadEntries();
@@ -202,7 +232,7 @@ document.getElementById("sort-select").addEventListener("change", (event) => {
 });
 
 document.getElementById("search-input").addEventListener("input", (e) => {
-  searchQuery = e.target.value.toLowerCase();
+  searchQuery = e.target.value.toLowerCase().trim();
   loadEntries();
 });
 
@@ -293,8 +323,6 @@ form.addEventListener("submit", async (event) => {
       return;
     }
 
-    console.log(result);
-
     resetFormState();
 
     await loadEntries();
@@ -326,6 +354,8 @@ async function initializeApp() {
 
   renderGenreSelector(mediaTypeSelect.value);
   renderScoreInputs(mediaTypeSelect.value);
+  
+  renderGenreFilters();
 
   await loadEntries();
 
@@ -336,26 +366,11 @@ async function initializeApp() {
 initializeApp();
 
 async function loadEntries() {
-  console.log("ACTIVE SORT =", activeSort);
   let url = "http://127.0.0.1:8000/entries/";
-
-  if (activeGenreFilter) {
-    url += `?genre=${encodeURIComponent(activeGenreFilter)}`;
-  }
 
   const response = await fetch(url);
 
   const entries = await response.json();
-
-  //   let filteredEntries = entries;
-
-  console.log(
-    "BEFORE SORT",
-    entries.map((e) => ({
-      title: e.title,
-      score: e.total_score,
-    })),
-  );
 
   let workingEntries = [...entries];
 
@@ -383,6 +398,14 @@ async function loadEntries() {
         return 0;
     }
   });
+
+  if (activeGenreFilter) {
+    workingEntries = workingEntries.filter((entry) => {
+      if (!Array.isArray(entry.genres)) return false;
+
+      return entry.genres.some((g) => g === activeGenreFilter);
+    });
+  }
 
   if (searchQuery.trim() !== "") {
     workingEntries = workingEntries.filter((entry) =>
@@ -430,67 +453,7 @@ async function loadEntries() {
       startEdit(entry.id);
     });
 
-    // div.innerHTML = `
-    //   <div class="row" style="display: flex;">
-    //     <div style="width: 50%;">
-    //       <h3>${entry.title}</h3>
-
-    //       <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
-    //       <p><strong>Type:</strong><br>${entry.media_type}</p>
-
-    //       <div class="genre-chip-container">
-    //         ${renderGenreChips(entry.genres)}
-    //       </div>
-
-    //       <p><strong>Total Score:</strong><br>${percentScore}%</p>
-    //     </div>
-
-    //     <div style="width: 50%;">
-    //       <canvas id="chart-${entry.id}"></canvas>
-    //     </div>
-    //   </div>
-
-    //   <div>
-    //     ${renderScoreBars(entry.scores || {})}
-    //     <p><strong>Notes:</strong> ${entry.notes}</p>
-
-    //     <button onclick="startEdit('${entry.id}')">Edit</button>
-    //     <button onclick="openDeleteModal('${entry.id}')">Delete</button>
-    //   </div>
-
-    //   <hr>
-    // `;
-
     container.appendChild(div);
-
-    // const ctx = document.getElementById(`chart-${entry.id}`).getContext("2d");
-
-    // new Chart(ctx, {
-    //   type: "radar",
-    //   data: {
-    //     labels: Object.keys(entry.scores || {}),
-    //     datasets: [
-    //       {
-    //         label: entry.title,
-    //         data: Object.values(entry.scores || {}),
-    //         fill: true,
-    //         backgroundColor: colors.background,
-    //         borderColor: colors.border,
-    //         pointBackgroundColor: colors.border,
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     plugins: { legend: { display: false } },
-    //     scales: {
-    //       r: {
-    //         min: 1,
-    //         max: 10,
-    //         ticks: { display: false },
-    //       },
-    //     },
-    //   },
-    // });
   });
 }
 
@@ -522,6 +485,7 @@ cancelDeleteBtn.onclick = () => {
 async function loadGenres() {
   const response = await fetch("http://127.0.0.1:8000/genres");
   genreRegistry = await response.json();
+  renderGenreFilters();
 }
 
 function renderGenreSelector(mediaType) {
@@ -637,7 +601,6 @@ async function renderAverageScoreByMediaTypeChart() {
 
   const grouped = {};
 
-  // Group scores by media type
   entries.forEach((entry) => {
     if (!grouped[entry.media_type]) {
       grouped[entry.media_type] = [];

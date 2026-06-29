@@ -264,10 +264,8 @@ def get_entries(genre: str | None = None):
         cursor.execute("SELECT * FROM entries")
         rows = cursor.fetchall()
 
-    # build entries FIRST
     entries = [row_to_entry_response(row) for row in rows]
 
-    # apply filter AFTER construction
     if genre:
         normalized = normalize_genre_query(genre)
 

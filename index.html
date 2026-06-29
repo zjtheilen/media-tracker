@@ -64,35 +64,40 @@
     <!-- <button onclick="clearGenreFilter()">Clear Filter</button> -->
 
     <div style="margin-bottom: 15px">
-        <label for="sort-select">Sort By:</label>
+      <label for="sort-select">Sort By:</label>
 
-        <select id="sort-select">
-            <option value="date_desc">Date Consumed (Newest)</option>
-            <option value="date_asc">Date Consumed (Oldest)</option>
-            <option value="score_desc">Score (Highest)</option>
-            <option value="score_asc">Score (Lowest)</option>
-            <option value="title_asc">Title (A-Z)</option>
-            <option value="title_desc">Title (Z-A)</option>
-        </select>
+      <select id="sort-select">
+        <option value="date_desc">Date Consumed (Newest)</option>
+        <option value="date_asc">Date Consumed (Oldest)</option>
+        <option value="score_desc">Score (Highest)</option>
+        <option value="score_asc">Score (Lowest)</option>
+        <option value="title_asc">Title (A-Z)</option>
+        <option value="title_desc">Title (Z-A)</option>
+      </select>
+    </div>
+
+    <div id="genre-filter-bar" style="margin-bottom: 10px">
+      <strong>Genres:</strong>
+      <div id="genre-filters"></div>
     </div>
 
     <div style="margin-bottom: 15px">
-        <label for="search-input">Search Entries:</label>
-        <input type="text" id="search-input">
+      <label for="search-input">Search Entries:</label>
+      <input type="text" id="search-input" />
     </div>
 
     <h2>Entries</h2>
     <div id="entries-container"></div>
 
     <div class="row" style="display: flex">
-        <span style="width: 50%; display: block;">
-            <h2>Media Distribution</h2>
-            <canvas id="media-distribution-chart"></canvas>
-        </span>
-        <span style="width: 50%; display: block;">
-            <h2>Average Score by Media Type</h2>
-            <canvas id="avg-score-chart"></canvas>
-        </span>
+      <span style="width: 50%; display: block">
+        <h2>Media Distribution</h2>
+        <canvas id="media-distribution-chart"></canvas>
+      </span>
+      <span style="width: 50%; display: block">
+        <h2>Average Score by Media Type</h2>
+        <canvas id="avg-score-chart"></canvas>
+      </span>
     </div>
   </body>
 </html>
