@@ -20,6 +20,7 @@ let scoringProfiles = {};
 let genreRegistry = {};
 
 let editingEntryId = null;
+let expandedEntryId = null;
 let selectedGenres = [];
 
 let activeGenreFilter = null;
@@ -497,21 +498,28 @@ function createLibraryItem(entry) {
   div.className = "library-item";
 
   div.innerHTML = `
-        <h3>${entry.title}</h3>
-        <div class="library-meta">
-            <span>${entry.media_type}</span>
-            <span>${percentScore}</span>
-        </div>
-    `;
+    <h3>${entry.title}</h3>
+    <div class="library-meta">
+        <span>${entry.media_type}</span>
+        <span>${percentScore}</span>
+    </div>
+  `;
 
   div.style.cursor = "pointer";
 
   div.addEventListener("click", (e) => {
-    if (e.target.closest("button")) return;
-    startEdit(entry.id);
+    // if (e.target.closest("button")) return;
+    // startEdit(entry.id);
+    if (expandedEntryId === entry.id) {
+        expandedEntryId = null;
+    } else {
+        expandedEntryId = entry.id;
+    }
+
+    loadEntries();
   });
 
-  return div
+  return div;
 }
 
 renderActiveFilters();
