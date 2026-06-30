@@ -384,7 +384,7 @@ async function loadEntries() {
 
   if (searchQuery.trim() !== "") {
     workingEntries = workingEntries.filter((entry) =>
-      entry.title.toLowerCase().includes(searchQuery),
+      entry.title.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }
 
@@ -451,7 +451,13 @@ async function loadEntries() {
   }
 
   workingEntries.forEach((entry) => {
-    div = createLibraryItem(entry);
+    const row = createLibraryItem(entry);
+    container.appendChild(row);
+
+    if (expandedEntryId === entry.id) {
+        // const detailCard = createDetailCard(entry);
+        container.appendChild(createDetailCard(entry));
+    }
 
     // const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
     //   border: "rgba(150, 150, 150, 1)",
@@ -479,7 +485,7 @@ async function loadEntries() {
     //   startEdit(entry.id);
     // });
 
-    container.appendChild(div);
+    container.appendChild(row);
   });
 
   renderActiveFilters();
@@ -511,12 +517,88 @@ function createLibraryItem(entry) {
     // if (e.target.closest("button")) return;
     // startEdit(entry.id);
     if (expandedEntryId === entry.id) {
-        expandedEntryId = null;
+      expandedEntryId = null;
     } else {
-        expandedEntryId = entry.id;
+      expandedEntryId = entry.id;
     }
 
     loadEntries();
+  });
+
+  return div;
+}
+
+function createDetailCard(entry) {
+  const percentScore = Number(entry.total_score).toFixed(1);
+  const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
+    border: "rgba(150, 150, 150, 1)",
+    background: "rgba(150, 150, 150, 0.2)",
+  };
+  const div = document.createElement("div");
+
+  div.className = "detail-card";
+  div.innerHTML = `
+    <div class="row" style="display: flex;">
+      <div style="width: 50%;">
+        <h3>${entry.title}</h3>
+
+        <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
+        <p><strong>Type:</strong><br>${entry.media_type}</p>
+
+        <div class="genre-chip-container">
+          ${renderGenreChips(entry.genres)}
+        </div>
+
+        <p><strong>Total Score:</strong><br>${percentScore}%</p>
+      </div>
+
+      <div style="width: 50%;">
+        <canvas id="chart-${entry.id}"></canvas>
+      </div>
+    </div>
+
+    <div>
+      ${renderScoreBars(entry.scores || {})}
+      <p><strong>Notes:</strong> ${entry.notes}</p>
+
+      <button onclick="startEdit('${entry.id}')">Edit</button>
+      <button onclick="openDeleteModal('${entry.id}')">Delete</button>
+    </div>
+
+    <hr>
+  `;
+
+  //   container.appendChild(div);
+
+  //   const ctx = document.getElementById(`chart-${entry.id}`).getContext("2d");
+  const canvas = div.querySelector("canvas");
+  const ctx = canvas.getContext("2d");
+
+  new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels: Object.keys(entry.scores || {}),
+      datasets: [
+        {
+          label: entry.title,
+          data: Object.values(entry.scores || {}),
+          fill: true,
+          backgroundColor: colors.background,
+          borderColor: colors.border,
+          pointBackgroundColor: colors.border,
+        },
+      ],
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          min: 1,
+          max: 10,
+          ticks: { display: false },
+        },
+      },
+    },
   });
 
   return div;
