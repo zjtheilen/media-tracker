@@ -202,7 +202,6 @@ function renderGenreFilters() {
 }
 
 function toggleGenreFilter(genre) {
-
   const normalized = genre.toLowerCase();
 
   if (activeGenreFilter === genre.toLowerCase()) {
@@ -354,7 +353,7 @@ async function initializeApp() {
 
   renderGenreSelector(mediaTypeSelect.value);
   renderScoreInputs(mediaTypeSelect.value);
-  
+
   renderGenreFilters();
 
   await loadEntries();
@@ -373,6 +372,27 @@ async function loadEntries() {
   const entries = await response.json();
 
   let workingEntries = [...entries];
+
+  if (activeGenreFilter) {
+    workingEntries = workingEntries.filter((entry) => {
+      if (!Array.isArray(entry.genres)) return false;
+
+      return entry.genres.some((g) => g === activeGenreFilter);
+    });
+  }
+
+  if (searchQuery.trim() !== "") {
+    workingEntries = workingEntries.filter((entry) =>
+      entry.title.toLowerCase().includes(searchQuery),
+    );
+  }
+
+  console.log(
+    workingEntries.map((e) => ({
+      title: e.title,
+      type: e.media_type,
+    })),
+  );
 
   workingEntries.sort((a, b) => {
     switch (activeSort) {
@@ -394,24 +414,27 @@ async function loadEntries() {
       case "title_desc":
         return b.title.localeCompare(a.title);
 
+      case "media_type_asc":
+        return a.media_type.localeCompare(b.media_type);
+
+      case "media_type_desc":
+        return b.media_type.localeCompare(a.media_type);
+
       default:
         return 0;
     }
   });
 
-  if (activeGenreFilter) {
-    workingEntries = workingEntries.filter((entry) => {
-      if (!Array.isArray(entry.genres)) return false;
+  console.log(
+    "AFTER",
+    workingEntries.map((e) => ({
+      title: e.title,
+      type: e.media_type,
+    })),
+  );
 
-      return entry.genres.some((g) => g === activeGenreFilter);
-    });
-  }
-
-  if (searchQuery.trim() !== "") {
-    workingEntries = workingEntries.filter((entry) =>
-      entry.title.toLowerCase().includes(searchQuery),
-    );
-  }
+//   console.log("!!!!!!!!!!!!!!!!!!!!!!!");
+//   console.log(workingEntries.map((e) => e.media_type));
 
   const container = document.getElementById("entries-container");
   container.innerHTML = "";
