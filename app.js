@@ -433,8 +433,8 @@ async function loadEntries() {
     })),
   );
 
-//   console.log("!!!!!!!!!!!!!!!!!!!!!!!");
-//   console.log(workingEntries.map((e) => e.media_type));
+  //   console.log("!!!!!!!!!!!!!!!!!!!!!!!");
+  //   console.log(workingEntries.map((e) => e.media_type));
 
   const container = document.getElementById("entries-container");
   container.innerHTML = "";
@@ -450,18 +450,53 @@ async function loadEntries() {
   }
 
   workingEntries.forEach((entry) => {
-    const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
-      border: "rgba(150, 150, 150, 1)",
-      background: "rgba(150, 150, 150, 0.2)",
-    };
+    div = createLibraryItem(entry);
 
-    const div = document.createElement("div");
+    // const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
+    //   border: "rgba(150, 150, 150, 1)",
+    //   background: "rgba(150, 150, 150, 0.2)",
+    // };
 
-    const percentScore = Number(entry.total_score).toFixed(1);
+    // const div = document.createElement("div");
 
-    div.className = "library-item";
+    // const percentScore = Number(entry.total_score).toFixed(1);
 
-    div.innerHTML = `
+    // div.className = "library-item";
+
+    // div.innerHTML = `
+    //     <h3>${entry.title}</h3>
+    //     <div class="library-meta">
+    //         <span>${entry.media_type}</span>
+    //         <span>${percentScore}</span>
+    //     </div>
+    // `;
+
+    // div.style.cursor = "pointer";
+
+    // div.addEventListener("click", (e) => {
+    //   if (e.target.closest("button")) return;
+    //   startEdit(entry.id);
+    // });
+
+    container.appendChild(div);
+  });
+
+  renderActiveFilters();
+}
+
+function createLibraryItem(entry) {
+  const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
+    border: "rgba(150, 150, 150, 1)",
+    background: "rgba(150, 150, 150, 0.2)",
+  };
+
+  const div = document.createElement("div");
+
+  const percentScore = Number(entry.total_score).toFixed(1);
+
+  div.className = "library-item";
+
+  div.innerHTML = `
         <h3>${entry.title}</h3>
         <div class="library-meta">
             <span>${entry.media_type}</span>
@@ -469,17 +504,14 @@ async function loadEntries() {
         </div>
     `;
 
-    div.style.cursor = "pointer";
+  div.style.cursor = "pointer";
 
-    div.addEventListener("click", (e) => {
-      if (e.target.closest("button")) return;
-      startEdit(entry.id);
-    });
-
-    container.appendChild(div);
+  div.addEventListener("click", (e) => {
+    if (e.target.closest("button")) return;
+    startEdit(entry.id);
   });
 
-  renderActiveFilters();
+  return div
 }
 
 renderActiveFilters();
