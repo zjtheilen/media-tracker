@@ -451,44 +451,66 @@ async function loadEntries() {
   }
 
   workingEntries.forEach((entry) => {
-    const row = createLibraryItem(entry);
-    container.appendChild(row);
+    let el;
 
     if (expandedEntryId === entry.id) {
-        // const detailCard = createDetailCard(entry);
-        container.appendChild(createDetailCard(entry));
+        el = createDetailCard(entry);
+    } else {
+        el = createLibraryItem(entry);
     }
 
-    // const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
-    //   border: "rgba(150, 150, 150, 1)",
-    //   background: "rgba(150, 150, 150, 0.2)",
-    // };
+    container.appendChild(el);
+  })
+  
+  //   workingEntries.forEach((entry) => {
+  //     const row = createLibraryItem(entry);
+  //     container.appendChild(row);
 
-    // const div = document.createElement("div");
+  //     if (expandedEntryId === entry.id) {
+  //         // const detailCard = createDetailCard(entry);
+  //         container.appendChild(createDetailCard(entry));
+  //     }
 
-    // const percentScore = Number(entry.total_score).toFixed(1);
+  //     // const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
+  //     //   border: "rgba(150, 150, 150, 1)",
+  //     //   background: "rgba(150, 150, 150, 0.2)",
+  //     // };
 
-    // div.className = "library-item";
+  //     // const div = document.createElement("div");
 
-    // div.innerHTML = `
-    //     <h3>${entry.title}</h3>
-    //     <div class="library-meta">
-    //         <span>${entry.media_type}</span>
-    //         <span>${percentScore}</span>
-    //     </div>
-    // `;
+  //     // const percentScore = Number(entry.total_score).toFixed(1);
 
-    // div.style.cursor = "pointer";
+  //     // div.className = "library-item";
 
-    // div.addEventListener("click", (e) => {
-    //   if (e.target.closest("button")) return;
-    //   startEdit(entry.id);
-    // });
+  //     // div.innerHTML = `
+  //     //     <h3>${entry.title}</h3>
+  //     //     <div class="library-meta">
+  //     //         <span>${entry.media_type}</span>
+  //     //         <span>${percentScore}</span>
+  //     //     </div>
+  //     // `;
 
-    container.appendChild(row);
-  });
+  //     // div.style.cursor = "pointer";
+
+  //     // div.addEventListener("click", (e) => {
+  //     //   if (e.target.closest("button")) return;
+  //     //   startEdit(entry.id);
+  //     // });
+
+  //     container.appendChild(row);
+  //   });
 
   renderActiveFilters();
+}
+
+function toggleExpanded(id) {
+    if (expandedEntryId === id) {
+        expandedEntryId = null;
+    } else {
+        expandedEntryId = id;
+    }
+
+    loadEntries();
 }
 
 function createLibraryItem(entry) {
@@ -513,16 +535,17 @@ function createLibraryItem(entry) {
 
   div.style.cursor = "pointer";
 
-  div.addEventListener("click", (e) => {
+  div.addEventListener("click", () => {
+    toggleExpanded(entry.id);
     // if (e.target.closest("button")) return;
     // startEdit(entry.id);
-    if (expandedEntryId === entry.id) {
-      expandedEntryId = null;
-    } else {
-      expandedEntryId = entry.id;
-    }
+    // if (expandedEntryId === entry.id) {
+    //   expandedEntryId = null;
+    // } else {
+    //   expandedEntryId = entry.id;
+    // }
 
-    loadEntries();
+    // loadEntries();
   });
 
   return div;
