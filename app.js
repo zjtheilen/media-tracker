@@ -197,7 +197,7 @@ function renderGenreFilters() {
 
     btn.addEventListener("click", () => {
       toggleGenreFilter(normalized);
-      renderGenreFilters(); // refresh UI state
+      renderGenreFilters();
     });
 
     container.appendChild(btn);
@@ -435,17 +435,6 @@ async function loadEntries() {
     }
   });
 
-  //   console.log(
-  //     "AFTER",
-  //     workingEntries.map((e) => ({
-  //       title: e.title,
-  //       type: e.media_type,
-  //     })),
-  //   );
-
-  //   console.log("!!!!!!!!!!!!!!!!!!!!!!!");
-  //   console.log(workingEntries.map((e) => e.media_type));
-
   const container = document.getElementById("entries-container");
   container.innerHTML = "";
 
@@ -461,67 +450,15 @@ async function loadEntries() {
 
   workingEntries.forEach((entry) => {
     container.appendChild(renderEntry(entry));
-    // let el;
-
-    // if (expandedEntryId === entry.id) {
-    //   el = createDetailCard(entry);
-    // } else {
-    //   el = createLibraryItem(entry);
-    // }
-
-    // container.appendChild(el);
   });
-
-  //   workingEntries.forEach((entry) => {
-  //     const row = createLibraryItem(entry);
-  //     container.appendChild(row);
-
-  //     if (expandedEntryId === entry.id) {
-  //         // const detailCard = createDetailCard(entry);
-  //         container.appendChild(createDetailCard(entry));
-  //     }
-
-  //     // const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
-  //     //   border: "rgba(150, 150, 150, 1)",
-  //     //   background: "rgba(150, 150, 150, 0.2)",
-  //     // };
-
-  //     // const div = document.createElement("div");
-
-  //     // const percentScore = Number(entry.total_score).toFixed(1);
-
-  //     // div.className = "library-item";
-
-  //     // div.innerHTML = `
-  //     //     <h3>${entry.title}</h3>
-  //     //     <div class="library-meta">
-  //     //         <span>${entry.media_type}</span>
-  //     //         <span>${percentScore}</span>
-  //     //     </div>
-  //     // `;
-
-  //     // div.style.cursor = "pointer";
-
-  //     // div.addEventListener("click", (e) => {
-  //     //   if (e.target.closest("button")) return;
-  //     //   startEdit(entry.id);
-  //     // });
-
-  //     container.appendChild(row);
-  //   });
 
   renderActiveFilters();
 }
 
 function toggleExpanded(id) {
   console.log("BEFORE:", expandedEntryId);
-  expandedEntryId = (expandedEntryId === id) ? null : id;
+  expandedEntryId = expandedEntryId === id ? null : id;
   console.log("AFTER:", expandedEntryId);
-  // if (expandedEntryId === id) {
-  //     expandedEntryId = null;
-  // } else {
-  //     expandedEntryId = id;
-  // }
 
   loadEntries();
 }
@@ -532,7 +469,6 @@ function createLibraryItem(entry) {
     background: "rgba(150, 150, 150, 0.2)",
   };
 
-  //   const div = document.createElement("div");
   const div = createBaseEntry();
 
   const percentScore = Number(entry.total_score).toFixed(1);
@@ -540,10 +476,15 @@ function createLibraryItem(entry) {
   div.className = "library-item";
 
   div.innerHTML = `
-    <h3>${entry.title}</h3>
+    <div class="entry-header">
+        <span class="chevron ${expandedEntryId === entry.id ? "expanded" : ""}">▼</span>    
+        <h3>${entry.title}</h3>
+        
+    </div>
+
     <div class="library-meta">
         <span>${entry.media_type}</span>
-        <span>${percentScore}</span>
+        <span>${percentScore}%</span>
     </div>
   `;
 
@@ -552,16 +493,6 @@ function createLibraryItem(entry) {
   div.addEventListener("click", (e) => {
     if (e.target.closest("button")) return;
     toggleExpanded(entry.id);
-    // if (e.target.closest("button")) return;
-    // startEdit(entry.id);
-    // if (expandedEntryId === entry.id) {
-    //   expandedEntryId = null;
-    // } else {
-    //   expandedEntryId = entry.id;
-    // }
-
-    // loadEntries();
-    // renderEntry(entry);
   });
 
   return div;
@@ -584,7 +515,7 @@ function createDetailCard(entry) {
     border: "rgba(150, 150, 150, 1)",
     background: "rgba(150, 150, 150, 0.2)",
   };
-  //   const div = document.createElement("div");
+
   const div = createBaseEntry();
 
   div.style.cursor = "pointer";
@@ -592,11 +523,12 @@ function createDetailCard(entry) {
   div.addEventListener("click", (e) => {
     if (e.target.closest("button")) return;
     toggleExpanded(entry.id);
-  })
+  });
 
   div.classList.add("detail-card");
   div.innerHTML = `
     <div class="row" style="display: flex;">
+      <span class="chevron expanded">▼</span>
       <div style="width: 50%;">
         <h3>${entry.title}</h3>
 
@@ -626,9 +558,6 @@ function createDetailCard(entry) {
     <hr>
   `;
 
-  //   container.appendChild(div);
-
-  //   const ctx = document.getElementById(`chart-${entry.id}`).getContext("2d");
   const canvas = div.querySelector("canvas");
   const ctx = canvas.getContext("2d");
 

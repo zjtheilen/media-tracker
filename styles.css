@@ -84,9 +84,41 @@ button:hover {
   font-size: 13px;
 }
 
+.entry-header {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+}
+
+.chevron {
+    font-size: 1.1rem;
+    transition: transform .25s ease;
+    display: inline-block;
+}
+
+.chevron.expanded {
+    transform: rotate(180deg);
+    align-self: start;
+    margin-top: 18px;
+}
+
 .library-item,
 .detail-card {
     cursor: pointer;
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        background-color .15s ease;
+    background: white;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 12px;
+}
+
+.library-item:hover,
+.detail-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
 .genre-chip-container {
