@@ -31,8 +31,6 @@ let activeSort = "date_desc";
 
 let searchQuery = "";
 
-let cachedEntries = [];
-
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
 
@@ -377,20 +375,21 @@ function createBaseEntry() {
 }
 
 function getEntryFromCache(id) {
-  return cachedEntries.find(e => e.id === id);
+  return cachedEntries.find((e) => e.id === id);
 }
 
 async function loadEntries() {
   const response = await fetch("http://127.0.0.1:8000/entries/");
-  cachedEntries = await response.json();
+  const entries = await response.json();
 
-  let workingEntries = [...cachedEntries];
+  let workingEntries = [...entries];
 
   if (activeGenreFilter) {
-    workingEntries = workingEntries.filter((entry) => {
-      if (!Array.isArray(entry.genres)) return false;
-      return entry.genres.some((g) => g === activeGenreFilter);
-    });
+    workingEntries = workingEntries.filter(
+      (entry) =>
+        Array.isArray(entry.genres) &&
+        entry.genres.some((g) => g === activeGenreFilter),
+    );
   }
 
   if (searchQuery.trim() !== "") {
@@ -436,37 +435,15 @@ async function loadEntries() {
   }
 
   workingEntries.forEach((entry) => {
-    const el = renderEntry(entry);
-    el.dataset.id = entry.id;
-    container.appendChild(el);
+    container.appendChild(renderEntry(entry));
   });
 
   renderActiveFilters();
 }
 
-function updateEntryView(id) {
-  const container = document.getElementById("entries-container");
-
-  const oldEl = container.querySelector(`[data-id="${id}"]`);
-  if (!oldEl) return;
-
-  const entry = getEntryFromCache(id);
-  if (!entry) return;
-
-  const newEl = renderEntry(entry);
-  newEl.dataset.id = id;
-
-  container.replaceChild(newEl, oldEl);
-}
-
 function toggleExpanded(id) {
-  console.log("BEFORE:", expandedEntryId);
   expandedEntryId = expandedEntryId === id ? null : id;
-  console.log("AFTER:", expandedEntryId);
-
-  updateEntryView(id);
-
-  //   loadEntries();
+  loadEntries();
 }
 
 function createLibraryItem(entry) {
@@ -483,9 +460,10 @@ function createLibraryItem(entry) {
 
   div.innerHTML = `
     <div class="entry-header">
-        <span class="chevron ${expandedEntryId === entry.id ? "expanded" : ""}">▼</span>    
         <h3>${entry.title}</h3>
-        
+        <span class="chevron ${expandedEntryId === entry.id ? "expanded" : ""}">
+            ▼
+        </span>
     </div>
 
     <div class="library-meta">
@@ -525,6 +503,7 @@ function createDetailCard(entry) {
   const div = createBaseEntry();
 
   div.style.cursor = "pointer";
+  div.dataset.id = entry.id;
 
   div.addEventListener("click", (e) => {
     if (e.target.closest("button")) return;
@@ -534,9 +513,12 @@ function createDetailCard(entry) {
   div.classList.add("detail-card");
   div.innerHTML = `
     <div class="row" style="display: flex;">
-      <span class="chevron expanded">▼</span>
+      
       <div style="width: 50%;">
-        <h3>${entry.title}</h3>
+        <span>
+            <h3 style="display: inline">${entry.title}</h3>
+            <span class="chevron expanded">▼</span>
+        </span>
 
         <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
         <p><strong>Type:</strong><br>${entry.media_type}</p>
