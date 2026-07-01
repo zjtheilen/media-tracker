@@ -12,7 +12,8 @@ CORE_GENRES = [
     "psychological",
     "surreal",
     "documentary",
-    "experimental"
+    "experimental",
+    "whimsicle"
 ]
 
 GENRE_MODIFIERS = [
@@ -38,7 +39,8 @@ GAME_ONLY_GENRES = [
     "platformer",
     "simulation",
     "sandbox",
-    "roguelike"
+    "roguelike",
+    "racing"
 ]
 
 BOOK_ONLY_GENRES = [

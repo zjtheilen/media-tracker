@@ -13,6 +13,7 @@ CORE_GENRES = [
     "surreal",
     "documentary",
     "experimental",
+    "whimsicle"
 ]
 
 
@@ -25,6 +26,7 @@ GAME_GENRES = [
     "simulation",
     "sandbox",
     "roguelike",
+    "racing"
 ]
 
 BOOK_GENRES = [

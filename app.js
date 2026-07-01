@@ -447,23 +447,18 @@ function toggleExpanded(id) {
 }
 
 function createLibraryItem(entry) {
-  const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
-    border: "rgba(150, 150, 150, 1)",
-    background: "rgba(150, 150, 150, 0.2)",
-  };
+  const percentScore = Number(entry.total_score).toFixed(1);
+
+  const isExpanded = expandedEntryId === entry.id;
 
   const div = createBaseEntry();
-
-  const percentScore = Number(entry.total_score).toFixed(1);
 
   div.className = "library-item";
 
   div.innerHTML = `
     <div class="entry-header">
         <h3>${entry.title}</h3>
-        <span class="chevron ${expandedEntryId === entry.id ? "expanded" : ""}">
-            ▼
-        </span>
+        <span class="chevron ${isExpanded ? "expanded" : ""}">▼</span>
     </div>
 
     <div class="library-meta">
@@ -471,8 +466,6 @@ function createLibraryItem(entry) {
         <span>${percentScore}%</span>
     </div>
   `;
-
-  div.style.cursor = "pointer";
 
   div.addEventListener("click", (e) => {
     if (e.target.closest("button")) return;

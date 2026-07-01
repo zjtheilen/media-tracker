@@ -88,6 +88,7 @@ button:hover {
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
+    cursor: pointer;
 }
 
 .chevron {
@@ -100,6 +101,21 @@ button:hover {
     transform: rotate(180deg);
     align-self: start;
     margin-top: 18px;
+}
+
+.detail-card {
+    animation: expandIn 0.18s ease-out;
+}
+
+@keyframes expandIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .library-item,
