@@ -31,6 +31,8 @@ let activeSort = "date_desc";
 
 let searchQuery = "";
 
+let cachedEntries = [];
+
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
 
@@ -374,19 +376,19 @@ function createBaseEntry() {
   return div;
 }
 
+function getEntryFromCache(id) {
+  return cachedEntries.find(e => e.id === id);
+}
+
 async function loadEntries() {
-  let url = "http://127.0.0.1:8000/entries/";
+  const response = await fetch("http://127.0.0.1:8000/entries/");
+  cachedEntries = await response.json();
 
-  const response = await fetch(url);
-
-  const entries = await response.json();
-
-  let workingEntries = [...entries];
+  let workingEntries = [...cachedEntries];
 
   if (activeGenreFilter) {
     workingEntries = workingEntries.filter((entry) => {
       if (!Array.isArray(entry.genres)) return false;
-
       return entry.genres.some((g) => g === activeGenreFilter);
     });
   }
@@ -397,39 +399,24 @@ async function loadEntries() {
     );
   }
 
-  console.log(
-    workingEntries.map((e) => ({
-      title: e.title,
-      type: e.media_type,
-    })),
-  );
-
   workingEntries.sort((a, b) => {
     switch (activeSort) {
       case "date_desc":
         return new Date(b.date_consumed || 0) - new Date(a.date_consumed || 0);
-
       case "date_asc":
         return new Date(a.date_consumed || 0) - new Date(b.date_consumed || 0);
-
       case "score_desc":
         return b.total_score - a.total_score;
-
       case "score_asc":
         return a.total_score - b.total_score;
-
       case "title_asc":
         return a.title.localeCompare(b.title);
-
       case "title_desc":
         return b.title.localeCompare(a.title);
-
       case "media_type_asc":
         return a.media_type.localeCompare(b.media_type);
-
       case "media_type_desc":
         return b.media_type.localeCompare(a.media_type);
-
       default:
         return 0;
     }
@@ -440,19 +427,36 @@ async function loadEntries() {
 
   if (workingEntries.length === 0) {
     container.innerHTML = `
-    <div class="empty-state">
-      <h3>No results found</h3>
-      <p>Try adjusting your search or filters.</p>
-    </div>
-  `;
+      <div class="empty-state">
+        <h3>No results found</h3>
+        <p>Try adjusting your search or filters.</p>
+      </div>
+    `;
     return;
   }
 
   workingEntries.forEach((entry) => {
-    container.appendChild(renderEntry(entry));
+    const el = renderEntry(entry);
+    el.dataset.id = entry.id;
+    container.appendChild(el);
   });
 
   renderActiveFilters();
+}
+
+function updateEntryView(id) {
+  const container = document.getElementById("entries-container");
+
+  const oldEl = container.querySelector(`[data-id="${id}"]`);
+  if (!oldEl) return;
+
+  const entry = getEntryFromCache(id);
+  if (!entry) return;
+
+  const newEl = renderEntry(entry);
+  newEl.dataset.id = id;
+
+  container.replaceChild(newEl, oldEl);
 }
 
 function toggleExpanded(id) {
@@ -460,7 +464,9 @@ function toggleExpanded(id) {
   expandedEntryId = expandedEntryId === id ? null : id;
   console.log("AFTER:", expandedEntryId);
 
-  loadEntries();
+  updateEntryView(id);
+
+  //   loadEntries();
 }
 
 function createLibraryItem(entry) {
