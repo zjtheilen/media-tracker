@@ -1,5 +1,7 @@
 const form = document.getElementById("entry-form");
 
+const chartInstances = [];
+
 const MEDIA_TYPE_COLORS = {
   video: {
     border: "rgba(255, 99, 132, 1)",
@@ -365,6 +367,13 @@ async function initializeApp() {
 
 initializeApp();
 
+function createBaseEntry() {
+  const div = document.createElement("div");
+  div.className = "library-item";
+  div.style.cursor = "pointer";
+  return div;
+}
+
 async function loadEntries() {
   let url = "http://127.0.0.1:8000/entries/";
 
@@ -426,13 +435,13 @@ async function loadEntries() {
     }
   });
 
-  console.log(
-    "AFTER",
-    workingEntries.map((e) => ({
-      title: e.title,
-      type: e.media_type,
-    })),
-  );
+  //   console.log(
+  //     "AFTER",
+  //     workingEntries.map((e) => ({
+  //       title: e.title,
+  //       type: e.media_type,
+  //     })),
+  //   );
 
   //   console.log("!!!!!!!!!!!!!!!!!!!!!!!");
   //   console.log(workingEntries.map((e) => e.media_type));
@@ -451,17 +460,18 @@ async function loadEntries() {
   }
 
   workingEntries.forEach((entry) => {
-    let el;
+    container.appendChild(renderEntry(entry));
+    // let el;
 
-    if (expandedEntryId === entry.id) {
-        el = createDetailCard(entry);
-    } else {
-        el = createLibraryItem(entry);
-    }
+    // if (expandedEntryId === entry.id) {
+    //   el = createDetailCard(entry);
+    // } else {
+    //   el = createLibraryItem(entry);
+    // }
 
-    container.appendChild(el);
-  })
-  
+    // container.appendChild(el);
+  });
+
   //   workingEntries.forEach((entry) => {
   //     const row = createLibraryItem(entry);
   //     container.appendChild(row);
@@ -504,13 +514,16 @@ async function loadEntries() {
 }
 
 function toggleExpanded(id) {
-    if (expandedEntryId === id) {
-        expandedEntryId = null;
-    } else {
-        expandedEntryId = id;
-    }
+  console.log("BEFORE:", expandedEntryId);
+  expandedEntryId = (expandedEntryId === id) ? null : id;
+  console.log("AFTER:", expandedEntryId);
+  // if (expandedEntryId === id) {
+  //     expandedEntryId = null;
+  // } else {
+  //     expandedEntryId = id;
+  // }
 
-    loadEntries();
+  loadEntries();
 }
 
 function createLibraryItem(entry) {
@@ -519,7 +532,8 @@ function createLibraryItem(entry) {
     background: "rgba(150, 150, 150, 0.2)",
   };
 
-  const div = document.createElement("div");
+  //   const div = document.createElement("div");
+  const div = createBaseEntry();
 
   const percentScore = Number(entry.total_score).toFixed(1);
 
@@ -535,7 +549,8 @@ function createLibraryItem(entry) {
 
   div.style.cursor = "pointer";
 
-  div.addEventListener("click", () => {
+  div.addEventListener("click", (e) => {
+    if (e.target.closest("button")) return;
     toggleExpanded(entry.id);
     // if (e.target.closest("button")) return;
     // startEdit(entry.id);
@@ -546,9 +561,21 @@ function createLibraryItem(entry) {
     // }
 
     // loadEntries();
+    // renderEntry(entry);
   });
 
   return div;
+}
+
+function renderEntry(entry) {
+  console.log("rendering:", entry.id, "expanded:", expandedEntryId);
+
+  if (expandedEntryId === entry.id) {
+    console.log("DETAIL");
+    return createDetailCard(entry);
+  }
+  console.log("LIBRARY");
+  return createLibraryItem(entry);
 }
 
 function createDetailCard(entry) {
@@ -557,9 +584,17 @@ function createDetailCard(entry) {
     border: "rgba(150, 150, 150, 1)",
     background: "rgba(150, 150, 150, 0.2)",
   };
-  const div = document.createElement("div");
+  //   const div = document.createElement("div");
+  const div = createBaseEntry();
 
-  div.className = "detail-card";
+  div.style.cursor = "pointer";
+
+  div.addEventListener("click", (e) => {
+    if (e.target.closest("button")) return;
+    toggleExpanded(entry.id);
+  })
+
+  div.classList.add("detail-card");
   div.innerHTML = `
     <div class="row" style="display: flex;">
       <div style="width: 50%;">
@@ -597,7 +632,11 @@ function createDetailCard(entry) {
   const canvas = div.querySelector("canvas");
   const ctx = canvas.getContext("2d");
 
-  new Chart(ctx, {
+  if (chartInstances[entry.id]) {
+    chartInstances[entry.id].destroy();
+  }
+
+  chartInstances[entry.id] = new Chart(ctx, {
     type: "radar",
     data: {
       labels: Object.keys(entry.scores || {}),

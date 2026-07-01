@@ -84,6 +84,11 @@ button:hover {
   font-size: 13px;
 }
 
+.library-item,
+.detail-card {
+    cursor: pointer;
+}
+
 .genre-chip-container {
   display: flex;
   flex-wrap: wrap;
