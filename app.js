@@ -216,11 +216,6 @@ function toggleGenreFilter(genre) {
   loadEntries();
 }
 
-function clearGenreFilter() {
-  activeGenreFilter = null;
-  loadEntries();
-}
-
 mediaTypeSelect.addEventListener("change", () => {
   selectedGenres = [];
 
@@ -363,6 +358,7 @@ async function initializeApp() {
 
   await renderMediaDistributionChart();
   await renderAverageScoreByMediaTypeChart();
+  await renderMonthlyCompletionChart();
 }
 
 initializeApp();
@@ -424,6 +420,11 @@ async function loadEntries() {
   const container = document.getElementById("entries-container");
   container.innerHTML = "";
 
+//   const test = document.createElement("div");
+//   test.textContent = "TEST ENTRY WORKS";
+//   test.style.background = "yellow";
+//   container.appendChild(test);
+
   if (workingEntries.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
@@ -435,7 +436,10 @@ async function loadEntries() {
   }
 
   workingEntries.forEach((entry) => {
-    container.appendChild(renderEntry(entry));
+    const el = renderEntry(entry);
+
+    el.dataset.id = entry.id;
+    container.appendChild(el);
   });
 
   renderActiveFilters();
@@ -476,13 +480,10 @@ function createLibraryItem(entry) {
 }
 
 function renderEntry(entry) {
-  console.log("rendering:", entry.id, "expanded:", expandedEntryId);
-
   if (expandedEntryId === entry.id) {
-    console.log("DETAIL");
     return createDetailCard(entry);
   }
-  console.log("LIBRARY");
+
   return createLibraryItem(entry);
 }
 
@@ -771,6 +772,28 @@ async function renderAverageScoreByMediaTypeChart() {
       },
     },
   });
+}
+
+async function renderMonthlyCompletionChart() {
+  const response = await fetch("http://127.0.0.1:8000/entries");
+  const entries = await response.json();
+
+  const monthlyCounts = {};
+
+  entries.forEach((entry) => {
+    if (!entry.date_consumed) return;
+
+    const month = entry.date_consumed.slice(0, 7);
+
+    if (!monthlyCounts[month]) {
+      monthlyCounts[month] = 0;
+    }
+
+    monthlyCounts[month]++;
+  });
+
+  const labels = Object.keys(monthlyCounts).sort();
+  const data = labels.map((month) => monthlyCounts[month]);
 }
 
 function renderActiveFilters() {
