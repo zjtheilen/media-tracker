@@ -13,7 +13,7 @@ h2 {
 
 #entries-container {
   background: white;
-  padding: 20px;
+  padding: 18px;
   border-radius: 10px;
   box-shadow: 0 20px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
@@ -127,7 +127,7 @@ button:hover {
         background-color .15s ease;
     background: white;
     border-radius: 10px;
-    padding: 18px;
+    padding: 0 18px 10px 18px;
     margin-bottom: 12px;
 }
 

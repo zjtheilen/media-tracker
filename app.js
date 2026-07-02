@@ -457,8 +457,8 @@ function createLibraryItem(entry) {
 
   div.innerHTML = `
     <div class="entry-header">
-        <h3>${entry.title}</h3>
         <span class="chevron ${isExpanded ? "expanded" : ""}">▼</span>
+        <h3>${entry.title}</h3>
     </div>
 
     <div class="library-meta">
@@ -509,8 +509,8 @@ function createDetailCard(entry) {
       
       <div style="width: 50%;">
         <span>
-            <h3 style="display: inline">${entry.title}</h3>
             <span class="chevron expanded">▼</span>
+            <h3 style="display: inline">${entry.title}</h3>
         </span>
 
         <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
