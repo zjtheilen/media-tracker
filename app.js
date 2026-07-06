@@ -827,6 +827,27 @@ async function renderMonthlyCompletionChart() {
 
     const labels = Object.keys(monthlyCounts).sort();
     const data = labels.map((month) => monthlyCounts[month]);
+
+    const ctx = document.getElementById("monthly-completion-chart").getContext("2d");
+    
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels,
+            datasets: [{
+                label: "Entries Completed",
+                data,
+            }],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    precision: 0,
+                },
+            },
+        },
+    });
 }
 
 function renderActiveFilters() {
