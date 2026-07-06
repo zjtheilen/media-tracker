@@ -381,16 +381,15 @@ async function loadEntries() {
   let workingEntries = [...entries];
 
   if (activeGenreFilter) {
-    workingEntries = workingEntries.filter(
-      (entry) =>
-        Array.isArray(entry.genres) &&
-        entry.genres.some((g) => g === activeGenreFilter),
+    workingEntries = workingEntries.filter((entry) =>
+      Array.isArray(entry.genres) &&
+      entry.genres.some((g) => g === activeGenreFilter)
     );
   }
 
   if (searchQuery.trim() !== "") {
     workingEntries = workingEntries.filter((entry) =>
-      entry.title.toLowerCase().includes(searchQuery.toLowerCase()),
+      entry.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
 
@@ -418,12 +417,8 @@ async function loadEntries() {
   });
 
   const container = document.getElementById("entries-container");
-  container.innerHTML = "";
 
-//   const test = document.createElement("div");
-//   test.textContent = "TEST ENTRY WORKS";
-//   test.style.background = "yellow";
-//   container.appendChild(test);
+  container.innerHTML = "";
 
   if (workingEntries.length === 0) {
     container.innerHTML = `
@@ -435,12 +430,17 @@ async function loadEntries() {
     return;
   }
 
+  const fragment = document.createDocumentFragment();
+
   workingEntries.forEach((entry) => {
     const el = renderEntry(entry);
 
     el.dataset.id = entry.id;
-    container.appendChild(el);
+
+    fragment.appendChild(el);
   });
+
+  container.appendChild(fragment);
 
   renderActiveFilters();
 }
@@ -467,7 +467,7 @@ function createLibraryItem(entry) {
 
     <div class="library-meta">
         <span>${entry.media_type}</span>
-        <span>${percentScore}%</span>
+        <span>${percentScore}%</span>updateEntryView
     </div>
   `;
 
@@ -477,6 +477,21 @@ function createLibraryItem(entry) {
   });
 
   return div;
+}
+
+function updateEntryView(id) {
+  const container = document.getElementById("entries-container");
+
+  const oldEl = container.querySelector(`[data-id="${id}"]`);
+  if (!oldEl) return;
+
+  const entry = cachedEntries.find(e => e.id === id);
+  if (!entry) return;
+
+  const newEl = renderEntry(entry);
+  newEl.dataset.id = id;
+
+  container.replaceChild(newEl, oldEl);
 }
 
 function renderEntry(entry) {
