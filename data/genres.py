@@ -13,7 +13,7 @@ CORE_GENRES = [
     "surreal",
     "documentary",
     "experimental",
-    "whimsicle",
+    "whimsical",
 ]
 
 GENRE_MODIFIERS = [

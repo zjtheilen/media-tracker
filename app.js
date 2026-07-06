@@ -360,6 +360,7 @@ async function initializeApp() {
     await renderAverageScoreByMediaTypeChart();
     await renderMonthlyCompletionChart();
     await renderRatingDistributionChart();
+    await renderGenreAverageRatingsChart();
 }
 
 initializeApp();
@@ -911,6 +912,91 @@ async function renderRatingDistributionChart() {
             },
         },
     });
+
+    // console.log(entries[0])
+}
+
+async function renderGenreAverageRatingsChart() {
+    const response = await fetch("http://127.0.0.1:8000/entries");
+    const entries = await response.json();
+
+    const genreScores = {};
+
+    entries.forEach((entry) => {
+        if (!Array.isArray(entry.genres)) return;
+
+        entry.genres.forEach((genre) => {
+            if (!genreScores[genre]) {
+                genreScores[genre] = [];
+            }
+
+            genreScores[genre].push(entry.total_score);
+        });
+    });
+
+    // console.log(genreScores);
+
+    const genreAverages = {};
+
+    Object.keys(genreScores).forEach((genre) => {
+        const scores = genreScores[genre];
+
+        const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+
+        genreAverages[genre] = Number(average.toFixed(2));
+    });
+
+    console.log(genreAverages);
+
+    const sortedGenres = Object.keys(genreAverages).sort(
+        (a, b) => genreAverages[b] - genreAverages[a]
+    );
+
+    console.log(sortedGenres);
+
+    const labels = sortedGenres;
+    const data = sortedGenres.map((genre) => genreAverages[genre]);
+
+    // const genreCounts = {};
+
+    // Object.keys(genreScores).forEach((genre) => {
+    //     genreCounts[genre] = genreScores[genre].length;
+    // });
+
+    // console.log(genreCounts)
+
+    const ctx = document.getElementById("genre-average-ratings-chart").getContext("2d");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Average Rating",
+                    data,
+                    backgroundColor: "rgba(54,162,235,0.5)",
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                },
+            },
+        }, 
+    });
+
 }
 
 function renderActiveFilters() {
