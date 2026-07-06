@@ -13,7 +13,7 @@ CORE_GENRES = [
     "surreal",
     "documentary",
     "experimental",
-    "whimsicle"
+    "whimsicle",
 ]
 
 GENRE_MODIFIERS = [
@@ -25,12 +25,10 @@ GENRE_MODIFIERS = [
     "atmospheric",
     "character-driven",
     "plot-driven",
-    "worldbuilding-heavy"
+    "worldbuilding-heavy",
 ]
 
-VIDEO_ONLY_GENRES = [
-    "biopic"
-]
+VIDEO_ONLY_GENRES = ["biopic"]
 
 GAME_ONLY_GENRES = [
     "rpg",
@@ -40,7 +38,7 @@ GAME_ONLY_GENRES = [
     "simulation",
     "sandbox",
     "roguelike",
-    "racing"
+    "racing",
 ]
 
 BOOK_ONLY_GENRES = [
@@ -56,5 +54,5 @@ GENRE_REGISTRY = {
     "modifier": GENRE_MODIFIERS,
     "video": CORE_GENRES + VIDEO_ONLY_GENRES,
     "game": CORE_GENRES + GAME_ONLY_GENRES,
-    "book": CORE_GENRES + BOOK_ONLY_GENRES
+    "book": CORE_GENRES + BOOK_ONLY_GENRES,
 }

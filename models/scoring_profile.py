@@ -4,7 +4,7 @@ SCORING_CATEGORIES = [
     "craft",
     "engagement",
     "presentation",
-    "originality"
+    "originality",
 ]
 
 CATEGORY_WEIGHTS = {
@@ -13,11 +13,7 @@ CATEGORY_WEIGHTS = {
     "craft": 0.18,
     "engagement": 0.12,
     "presentation": 0.10,
-    "originality": 0.10
+    "originality": 0.10,
 }
 
-VALID_MEDIA_TYPES = [
-    "book",
-    "video",
-    "game"
-]
+VALID_MEDIA_TYPES = ["book", "video", "game"]

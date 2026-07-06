@@ -11,6 +11,7 @@ def test_filter_entries_by_genre(client, valid_game_payload):
     assert data[0]["title"] == "Silent Hill 2"
     assert "horror" in data[0]["genres"]
 
+
 def test_filter_excludes_non_matching_genre(client, valid_game_payload):
     client.post("/entries/", json=valid_game_payload)
 
@@ -20,6 +21,7 @@ def test_filter_excludes_non_matching_genre(client, valid_game_payload):
 
     data = response.json()
     assert len(data) == 0
+
 
 def test_filter_returns_only_matching_entries(client, valid_game_payload):
     client.post("/entries/", json=valid_game_payload)
@@ -36,6 +38,7 @@ def test_filter_returns_only_matching_entries(client, valid_game_payload):
     assert len(data) == 1
     assert data[0]["title"] == "Silent Hill 2"
 
+
 def test_filter_is_case_insensitive(client, valid_game_payload):
     client.post("/entries/", json=valid_game_payload)
 
@@ -47,6 +50,7 @@ def test_filter_is_case_insensitive(client, valid_game_payload):
 
     assert len(data) == 1
     assert data[0]["genres"][0] == "horror"
+
 
 def test_filter_handles_normalized_query(client, valid_game_payload):
     client.post("/entries", json=valid_game_payload)

@@ -1,105 +1,110 @@
 <! DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Media Tracker</title>
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <script src="app.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <title>Media Tracker</title>
+    </head>
 
-  <body>
-    <h1>Media Tracker</h1>
-    <p>Welcome to the Media Tracker!</p>
+    <body>
+        <h1>Media Tracker</h1>
+        <p>Welcome to the Media Tracker!</p>
 
-    <button id="openBtn">Add an Entry</button>
+        <button id="openBtn">Add an Entry</button>
 
-    <dialog id="entryModal">
-      <form id="entry-form">
-        <input type="text" id="title" placeholder="Title" required />
+        <dialog id="entryModal">
+            <form id="entry-form">
+                <input type="text" id="title" placeholder="Title" required />
 
-        <select id="media-type">
-          <option value="video">video</option>
-          <option value="game">game</option>
-          <option value="book">book</option>
-        </select>
+                <select id="media-type">
+                    <option value="video">video</option>
+                    <option value="game">game</option>
+                    <option value="book">book</option>
+                </select>
 
-        <div id="genre-selector"></div>
+                <div id="genre-selector"></div>
 
-        <textarea id="notes" placeholder="Notes"></textarea>
+                <textarea id="notes" placeholder="Notes"></textarea>
 
-        <label for="date-consumed">Date Consumed</label>
-        <input type="date" id="date-consumed" />
+                <label for="date-consumed">Date Consumed</label>
+                <input type="date" id="date-consumed" />
 
-        <label for="completion-status">Completion Status</label>
-        <select id="completion-status">
-          <option value="completed">Completed</option>
-          <option value="in-progress">In Progress</option>
-          <option value="dropped">Dropped</option>
-          <option value="planned">Planned</option>
-        </select>
+                <label for="completion-status">Completion Status</label>
+                <select id="completion-status">
+                    <option value="completed">Completed</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="dropped">Dropped</option>
+                    <option value="planned">Planned</option>
+                </select>
 
-        <div id="score-container"></div>
+                <div id="score-container"></div>
 
-        <div id="form-message"></div>
+                <div id="form-message"></div>
 
-        <div class="row">
-          <button type="submit" id="submitBtn">Add Entry</button>
-          <button id="closeBtn">Cancel</button>
+                <div class="row">
+                    <button type="submit" id="submitBtn">Add Entry</button>
+                    <button id="closeBtn">Cancel</button>
+                </div>
+            </form>
+        </dialog>
+        <dialog id="deleteModal">
+            <p>
+                Are you sure you want to delete this entry? This cannot be
+                undone.
+            </p>
+
+            <div class="row">
+                <button type="button" id="confirmDeleteBtn">
+                    Confirm Delete
+                </button>
+                <button type="button" id="cancelDeleteBtn">Cancel</button>
+            </div>
+        </dialog>
+
+        <!-- <button onclick="clearGenreFilter()">Clear Filter</button> -->
+
+        <div style="margin: 15px 0">
+            <label for="sort-select">Sort By:</label>
+
+            <select id="sort-select">
+                <option value="date_desc">Date Consumed (Newest)</option>
+                <option value="date_asc">Date Consumed (Oldest)</option>
+                <option value="score_desc">Score (Highest)</option>
+                <option value="score_asc">Score (Lowest)</option>
+                <option value="title_asc">Title (A-Z)</option>
+                <option value="title_desc">Title (Z-A)</option>
+                <option value="media_type_asc">Media Type Ascending</option>
+                <option value="media_type_desc">Media Type Descending</option>
+            </select>
         </div>
-      </form>
-    </dialog>
-    <dialog id="deleteModal">
-      <p>Are you sure you want to delete this entry? This cannot be undone.</p>
 
-      <div class="row">
-        <button type="button" id="confirmDeleteBtn">Confirm Delete</button>
-        <button type="button" id="cancelDeleteBtn">Cancel</button>
-      </div>
-    </dialog>
+        <div id="genre-filter-bar" style="margin-bottom: 10px">
+            <strong>Genres:</strong>
+            <div id="genre-filters"></div>
+        </div>
 
-    <!-- <button onclick="clearGenreFilter()">Clear Filter</button> -->
+        <div style="margin: 15px 0">
+            <label for="search-input">Search Entries:</label>
+            <input type="text" id="search-input" />
+        </div>
 
-    <div style="margin: 15px 0">
-      <label for="sort-select">Sort By:</label>
+        <div id="active-filters" style="margin-bottom: 10px"></div>
 
-      <select id="sort-select">
-        <option value="date_desc">Date Consumed (Newest)</option>
-        <option value="date_asc">Date Consumed (Oldest)</option>
-        <option value="score_desc">Score (Highest)</option>
-        <option value="score_asc">Score (Lowest)</option>
-        <option value="title_asc">Title (A-Z)</option>
-        <option value="title_desc">Title (Z-A)</option>
-        <option value="media_type_asc">Media Type Ascending</option>
-        <option value="media_type_desc">Media Type Descending</option>
-      </select>
-    </div>
+        <h2>Entries</h2>
+        <div id="entries-container"></div>
 
-    <div id="genre-filter-bar" style="margin-bottom: 10px">
-      <strong>Genres:</strong>
-      <div id="genre-filters"></div>
-    </div>
-
-    <div style="margin: 15px 0">
-      <label for="search-input">Search Entries:</label>
-      <input type="text" id="search-input" />
-    </div>
-
-    <div id="active-filters" style="margin-bottom: 10px;"></div>
-
-    <h2>Entries</h2>
-    <div id="entries-container"></div>
-
-    <div class="row" style="display: flex">
-      <span style="width: 50%; display: block">
-        <h2>Media Distribution</h2>
-        <canvas id="media-distribution-chart"></canvas>
-      </span>
-      <span style="width: 50%; display: block">
-        <h2>Average Score by Media Type</h2>
-        <canvas id="avg-score-chart"></canvas>
-      </span>
-    </div>
-  </body>
+        <div class="row" style="display: flex">
+            <span style="width: 50%; display: block">
+                <h2>Media Distribution</h2>
+                <canvas id="media-distribution-chart"></canvas>
+            </span>
+            <span style="width: 50%; display: block">
+                <h2>Average Score by Media Type</h2>
+                <canvas id="avg-score-chart"></canvas>
+            </span>
+        </div>
+    </body>
 </html>

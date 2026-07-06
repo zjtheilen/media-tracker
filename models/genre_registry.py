@@ -13,9 +13,8 @@ CORE_GENRES = [
     "surreal",
     "documentary",
     "experimental",
-    "whimsicle"
+    "whimsicle",
 ]
-
 
 
 GAME_GENRES = [
@@ -26,7 +25,7 @@ GAME_GENRES = [
     "simulation",
     "sandbox",
     "roguelike",
-    "racing"
+    "racing",
 ]
 
 BOOK_GENRES = [
@@ -44,8 +43,9 @@ VIDEO_GENRES = [
 GENRE_REGISTRY = {
     "game": set(CORE_GENRES + GAME_GENRES),
     "video": set(CORE_GENRES + VIDEO_GENRES),
-    "book": set(CORE_GENRES + BOOK_GENRES)
+    "book": set(CORE_GENRES + BOOK_GENRES),
 }
+
 
 def get_allowed_genres(media_type: str) -> set[str]:
     return GENRE_REGISTRY.get(media_type, set(CORE_GENRES))

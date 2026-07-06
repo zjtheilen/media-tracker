@@ -1,7 +1,8 @@
 from models.scoring_profile import VALID_MEDIA_TYPES
 
+
 class MediaItem:
-    def __init__ (self, title, media_type):
+    def __init__(self, title, media_type):
         if media_type not in VALID_MEDIA_TYPES:
             raise ValueError(f"Invalid media type: {media_type}")
         self.title = title

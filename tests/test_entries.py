@@ -1,7 +1,9 @@
 import copy
 
+
 def valid_completion_statuses():
     return ["completed", "in_progress", "dropped", "planned"]
+
 
 def test_create_entry_success(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
@@ -15,6 +17,7 @@ def test_create_entry_success(client, valid_game_payload):
     assert data["title"] == "Silent Hill 2"
     assert data["media_type"] == "game"
 
+
 def test_get_entry_not_found(client, valid_game_payload):
     response = client.get("/entries/-1")
 
@@ -22,6 +25,7 @@ def test_get_entry_not_found(client, valid_game_payload):
 
     data = response.json()
     assert "Entry not found" in data["detail"]
+
 
 def test_get_entry(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
@@ -40,6 +44,7 @@ def test_get_entry(client, valid_game_payload):
     assert data["id"] == entry_id
     assert data["title"] == "Silent Hill 2"
 
+
 def test_update_entry(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
 
@@ -54,10 +59,7 @@ def test_update_entry(client, valid_game_payload):
     updated_payload["title"] = "Silent Hill 2 Remake"
     updated_payload["notes"] = "Still peak psychological horror"
 
-    response = client.put(
-        f"/entries/{entry_id}",
-        json=updated_payload
-    )
+    response = client.put(f"/entries/{entry_id}", json=updated_payload)
 
     assert response.status_code == 200
 
@@ -72,6 +74,7 @@ def test_update_entry(client, valid_game_payload):
 
     assert updated_entry["title"] == "Silent Hill 2 Remake"
     assert updated_entry["notes"] == "Still peak psychological horror"
+
 
 def test_delete_entry(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)

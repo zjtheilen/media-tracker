@@ -69,5 +69,5 @@ def valid_book_payload():
             "originality": 9,
         },
         "notes": "Long ass book",
-        "completion_status": "completed"
+        "completion_status": "completed",
     }
