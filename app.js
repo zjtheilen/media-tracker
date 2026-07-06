@@ -568,7 +568,7 @@ function createDetailCard(entry) {
 }
 
 function renderRadarChart(entry, canvas) {
-    const colors = MEDIA_TYPE_COLORS[entry.mediaType] || {
+    const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
         border: "rgba(150,150,150,1)",
         background: "rgba(150,150,150,0.2)"
     };
