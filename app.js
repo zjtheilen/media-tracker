@@ -497,7 +497,12 @@ function updateEntryView(id) {
 
 function renderEntry(entry) {
     if (expandedEntryId === entry.id) {
-        return createDetailCard(entry);
+        const card = createDetailCard(entry);
+
+        const canvas = card.querySelector("canvas");
+        renderRadarChart(entry, canvas);
+
+        return card;
     }
 
     return createLibraryItem(entry);
@@ -556,7 +561,15 @@ function createDetailCard(entry) {
     <hr>
   `;
 
-    const canvas = div.querySelector("canvas");
+    return div;
+}
+
+function renderRadarChart(entry, canvas) {
+    const colors = MEDIA_TYPE_COLORS[entry.mediaType] || {
+        border: "rgba(150,150,150,1)",
+        background: "rgba(150,150,150,0.2)"
+    };
+
     const ctx = canvas.getContext("2d");
 
     if (chartInstances[entry.id]) {
@@ -579,18 +592,22 @@ function createDetailCard(entry) {
             ],
         },
         options: {
-            plugins: { legend: { display: false } },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+            },
             scales: {
                 r: {
                     min: 1,
                     max: 10,
-                    ticks: { display: false },
+                    ticks: {
+                        display: false,
+                    },
                 },
             },
         },
     });
-
-    return div;
 }
 
 renderActiveFilters();
