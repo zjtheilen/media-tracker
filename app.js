@@ -361,6 +361,7 @@ async function initializeApp() {
     await renderMonthlyCompletionChart();
     await renderRatingDistributionChart();
     await renderGenreAverageRatingsChart();
+    await renderFavoriteMediaType();
 }
 
 initializeApp();
@@ -831,7 +832,7 @@ async function renderMonthlyCompletionChart() {
     const data = labels.map((month) => monthlyCounts[month]);
 
     const ctx = document.getElementById("monthly-completion-chart").getContext("2d");
-    
+
     new Chart(ctx, {
         type: "bar",
         data: {
@@ -946,13 +947,13 @@ async function renderGenreAverageRatingsChart() {
         genreAverages[genre] = Number(average.toFixed(2));
     });
 
-    console.log(genreAverages);
+    // console.log(genreAverages);
 
     const sortedGenres = Object.keys(genreAverages).sort(
         (a, b) => genreAverages[b] - genreAverages[a]
     );
 
-    console.log(sortedGenres);
+    // console.log(sortedGenres);
 
     const labels = sortedGenres;
     const data = sortedGenres.map((genre) => genreAverages[genre]);
@@ -994,9 +995,62 @@ async function renderGenreAverageRatingsChart() {
                     max: 100,
                 },
             },
-        }, 
+        },
     });
 
+}
+
+async function renderFavoriteMediaType() {
+    const response = await fetch("http://127.0.0.1:8000/entries");
+    const entries = await response.json();
+
+    const grouped = {};
+
+    entries.forEach((entry) => {
+        if (!grouped[entry.media_type]) {
+            grouped[entry.media_type] = [];
+        }
+
+        grouped[entry.media_type].push(entry.total_score);
+    });
+
+    const averages = {}
+
+    Object.keys(grouped).forEach((type) => {
+        const scores = grouped[type];
+
+        averages[type] = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+    });
+
+    // console.log(averages);
+
+    const favorite = Object.entries(averages).reduce((best, current) => {
+        return current[1] > best[1] ? current : best;
+    });
+
+    // console.log(favorite);
+
+    const favoriteType = favorite[0];
+    const favoriteAverage = favorite[1].toFixed(1);
+    const favoriteCount = grouped[favoriteType].length;
+
+    // console.log(favoriteType);
+    // console.log(favoriteAverage);
+    // console.log(favoriteCount);
+
+    const card = document.getElementById("favorite-media-type-card");
+
+    card.innerHTML = `
+        <div class="favorite-media-card">
+            <h3>${favoriteType.charAt(0).toUpperCase() + favoriteType.slice(1)}</h3>
+
+            <p><strong>Average Rating</strong></p>
+            <p>${favoriteAverage}%</p>
+
+            <p><strong>Entries</strong></p>
+            <p>${favoriteCount}</p>
+        </div>
+    `;
 }
 
 function renderActiveFilters() {
