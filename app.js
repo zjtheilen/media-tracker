@@ -359,6 +359,7 @@ async function initializeApp() {
     await renderMediaDistributionChart();
     await renderAverageScoreByMediaTypeChart();
     await renderMonthlyCompletionChart();
+    await renderRatingDistributionChart();
 }
 
 initializeApp();
@@ -838,6 +839,68 @@ async function renderMonthlyCompletionChart() {
                 label: "Entries Completed",
                 data,
             }],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    precision: 0,
+                },
+            },
+        },
+    });
+}
+
+async function renderRatingDistributionChart() {
+    const response = await fetch("http://127.0.0.1:8000/entries");
+    const entries = await response.json();
+
+    // console.log(entries);
+
+    const buckets = {
+        "90-100": 0,
+        "80-89": 0,
+        "70-79": 0,
+        "60-69": 0,
+        "Below 60": 0,
+    };
+
+    entries.forEach((entry) => {
+        const score = entry.total_score;
+
+        if (score >= 90) {
+            buckets["90-100"]++;
+        } else if (score >= 80) {
+            buckets["80-89"]++;
+        } else if (score >= 70) {
+            buckets["70-79"]++;
+        } else if (score >= 60) {
+            buckets["60-69"]++;
+        } else {
+            buckets["90-100"]++;
+        }
+    });
+
+    // console.log(buckets);
+
+    const labels = Object.keys(buckets);
+    const data = Object.values(buckets);
+
+    // console.log(labels);
+    // console.log(data);
+
+    const ctx = document.getElementById("rating-distribution-chart").getContext("2d");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Number of Entries",
+                    data,
+                },
+            ],
         },
         options: {
             scales: {
