@@ -11,8 +11,7 @@ async function renderTopRatedOverall() {
 }
 
 async function renderTopBooks() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const topBooks = entries.filter(entry => entry.media_type === "book").sort((a, b) => b.total_score - a.total_score).slice(0, 5);
 
@@ -20,8 +19,7 @@ async function renderTopBooks() {
 }
 
 async function renderTopMovies() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const topMovies = entries.filter(entry => entry.media_type === "video").sort((a, b) => b.total_score - a.total_score).slice(0, 5);
     
@@ -29,8 +27,7 @@ async function renderTopMovies() {
 }
 
 async function renderTopGames() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const topGames = entries.filter(entry => entry.media_type === "game").sort((a, b) => b.total_score - a.total_score).slice(0, 5);
     
@@ -38,8 +35,7 @@ async function renderTopGames() {
 }
 
 async function renderMostThoughtProvoking() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const topThoughts = entries.filter(entry => entry.media_type === "video").sort((a, b) => b.total_score - a.total_score).slice(0, 5);
     
@@ -47,8 +43,7 @@ async function renderMostThoughtProvoking() {
 }
 
 async function renderHighestWritingScore() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const topWriting = entries.filter(entry => entry.media_type === "game").sort((a, b) => b.total_score - a.total_score).slice(0, 5);
     

@@ -35,8 +35,7 @@ async function renderMediaDistributionChart() {
 }
 
 async function renderAverageScoreByMediaTypeChart() {
-    const response = await fetch("http://127.0.0.1:8000/entries/");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const grouped = {};
 
@@ -92,8 +91,7 @@ async function renderAverageScoreByMediaTypeChart() {
 }
 
 async function renderMonthlyCompletionChart() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const monthlyCounts = {};
 
@@ -135,8 +133,7 @@ async function renderMonthlyCompletionChart() {
 }
 
 async function renderRatingDistributionChart() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const buckets = {
         "90-100": 0,
@@ -190,8 +187,7 @@ async function renderRatingDistributionChart() {
 }
 
 async function renderGenreAverageRatingsChart() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const genreScores = {};
 
@@ -259,8 +255,7 @@ async function renderGenreAverageRatingsChart() {
 }
 
 async function renderFavoriteMediaType() {
-    const response = await fetch("http://127.0.0.1:8000/entries");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const grouped = {};
 
