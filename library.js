@@ -169,12 +169,12 @@ function createDetailCard(entry) {
 
     div.classList.add("detail-card");
     div.innerHTML = `
-    <div class="row" style="display: flex;">
+    <div class="row">
       
-      <div style="width: 50%;">
+    <div style="width: 50%;">
         <span>
             <span class="chevron expanded">▼</span>
-            <h3 style="display: inline">${entry.title}</h3>
+            <h3 class="inline-title">${entry.title}</h3>
         </span>
 
         <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>

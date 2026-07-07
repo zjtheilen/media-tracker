@@ -23,7 +23,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
 
         wrapper.innerHTML = `
       <div class="score-row">
-        <label style="width: 33%" for="${category}">
+        <label class="score-input-label" for="${category}">
           ${category}:
           <span id="11${category}-value">${scoreValue}</span>
         </label>
@@ -34,7 +34,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
           max="10"
           value="${scoreValue}"
           id="${category}"
-          style="width: 67%"
+          class="score-input-slider"
         >
       </div>
     `;

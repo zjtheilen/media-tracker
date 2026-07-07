@@ -51,13 +51,6 @@ h2 {
     padding: 20px;
 }
 
-#chart-container {
-    width: 50% !important;
-    /* display: block !important; */
-    /* margin: 20px !important;
-    padding: 20px !important; */
-}
-
 #entries-container {
     background: white;
     padding: 18px;
@@ -96,6 +89,35 @@ button:hover {
 #confirmDeleteBtn:hover,
 #closeBtn:hover {
     background: #e74c3c;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.column-half {
+    width: 50%;
+    flex:1;
+}
+
+.inline-title {
+    display: inline;
+}
+
+.score-input-label {
+    width: 33%;
+}
+
+.score-input-slider {
+    width: 67%;
+}
+
+.flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
 }
 
 .score-row {
