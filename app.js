@@ -24,6 +24,7 @@ let genreRegistry = {};
 let editingEntryId = null;
 let expandedEntryId = null;
 let selectedGenres = [];
+let cachedEntries = []
 
 let activeGenreFilter = null;
 
@@ -362,6 +363,8 @@ async function initializeApp() {
     await renderRatingDistributionChart();
     await renderGenreAverageRatingsChart();
     await renderFavoriteMediaType();
+
+    await renderTopRatedOverall();
 }
 
 initializeApp();
@@ -379,9 +382,9 @@ function getEntryFromCache(id) {
 
 async function loadEntries() {
     const response = await fetch("http://127.0.0.1:8000/entries/");
-    const entries = await response.json();
+    cachedEntries = await response.json();
 
-    let workingEntries = [...entries];
+    let workingEntries = [...cachedEntries];
 
     if (activeGenreFilter) {
         workingEntries = workingEntries.filter(
@@ -450,8 +453,15 @@ async function loadEntries() {
 }
 
 function toggleExpanded(id) {
+    const previousExpanded = expandedEntryId;
+
     expandedEntryId = expandedEntryId === id ? null : id;
-    loadEntries();
+
+    if (previousExpanded !== null && previousExpanded !== id) {
+        updateEntryView(previousExpanded)
+    }
+
+    updateEntryView(id);
 }
 
 function createLibraryItem(entry) {
@@ -471,7 +481,7 @@ function createLibraryItem(entry) {
 
     <div class="library-meta">
         <span>${entry.media_type}</span>
-        <span>${percentScore}%</span>updateEntryView
+        <span>${percentScore}%</span>
     </div>
   `;
 
@@ -484,6 +494,7 @@ function createLibraryItem(entry) {
 }
 
 function updateEntryView(id) {
+
     const container = document.getElementById("entries-container");
 
     const oldEl = container.querySelector(`[data-id="${id}"]`);
@@ -857,8 +868,6 @@ async function renderRatingDistributionChart() {
     const response = await fetch("http://127.0.0.1:8000/entries");
     const entries = await response.json();
 
-    // console.log(entries);
-
     const buckets = {
         "90-100": 0,
         "80-89": 0,
@@ -883,13 +892,8 @@ async function renderRatingDistributionChart() {
         }
     });
 
-    // console.log(buckets);
-
     const labels = Object.keys(buckets);
     const data = Object.values(buckets);
-
-    // console.log(labels);
-    // console.log(data);
 
     const ctx = document.getElementById("rating-distribution-chart").getContext("2d");
 
@@ -913,8 +917,6 @@ async function renderRatingDistributionChart() {
             },
         },
     });
-
-    // console.log(entries[0])
 }
 
 async function renderGenreAverageRatingsChart() {
@@ -935,8 +937,6 @@ async function renderGenreAverageRatingsChart() {
         });
     });
 
-    // console.log(genreScores);
-
     const genreAverages = {};
 
     Object.keys(genreScores).forEach((genre) => {
@@ -947,24 +947,12 @@ async function renderGenreAverageRatingsChart() {
         genreAverages[genre] = Number(average.toFixed(2));
     });
 
-    // console.log(genreAverages);
-
     const sortedGenres = Object.keys(genreAverages).sort(
         (a, b) => genreAverages[b] - genreAverages[a]
     );
 
-    // console.log(sortedGenres);
-
     const labels = sortedGenres;
     const data = sortedGenres.map((genre) => genreAverages[genre]);
-
-    // const genreCounts = {};
-
-    // Object.keys(genreScores).forEach((genre) => {
-    //     genreCounts[genre] = genreScores[genre].length;
-    // });
-
-    // console.log(genreCounts)
 
     const ctx = document.getElementById("genre-average-ratings-chart").getContext("2d");
 
@@ -1022,21 +1010,13 @@ async function renderFavoriteMediaType() {
         averages[type] = scores.reduce((sum, score) => sum + score, 0) / scores.length;
     });
 
-    // console.log(averages);
-
     const favorite = Object.entries(averages).reduce((best, current) => {
         return current[1] > best[1] ? current : best;
     });
 
-    // console.log(favorite);
-
     const favoriteType = favorite[0];
     const favoriteAverage = favorite[1].toFixed(1);
     const favoriteCount = grouped[favoriteType].length;
-
-    // console.log(favoriteType);
-    // console.log(favoriteAverage);
-    // console.log(favoriteCount);
 
     const card = document.getElementById("favorite-media-type-card");
 
@@ -1051,6 +1031,41 @@ async function renderFavoriteMediaType() {
             <p>${favoriteCount}</p>
         </div>
     `;
+}
+
+async function renderTopRatedOverall() {
+    const response = await fetch("http://127.0.0.1:8000/entries");
+    const entries = await response.json();
+
+    const sorted = [...entries].sort(
+        (a, b) => b.total_score - a.total_score
+    );
+
+    const topFive = sorted.slice(0, 5);
+
+    const container = document.getElementById("top-rated-overall-list");
+    container.innerHTML = "";
+
+    topFive.forEach((entry, index) => {
+        const card = document.createElement("div");
+
+        card.className = "top-list-card";
+
+        card.innerHTML = `
+            <div class="top-list-rank">#${index + 1}</div>
+
+            <div class="top-list-info">
+                <h3>${entry.title}</h3>
+                <p>${entry.media_type}</p>
+            </div>
+
+            <div class="top-list-score">
+                ${entry.total_score.toFixed(1)}%
+            </div>
+        `;
+
+        container.appendChild(card);
+    });
 }
 
 function renderActiveFilters() {

@@ -161,6 +161,44 @@ button:hover {
     margin: 8px 0;
 }
 
+.top-list-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px;
+    margin-bottom: 10px;
+
+    background: white;
+    border-radius: 10px;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+.top-list-rank {
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 60px;
+}
+
+.top-list-info {
+    flex: 1;
+}
+
+.top-list-info h3 {
+    margin: 0;
+}
+
+.top-list-info p {
+    margin: 4px 0 0;
+    opacity: .7;
+}
+
+.top-list-score {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
 .genre-chip-container {
     display: flex;
     flex-wrap: wrap;
