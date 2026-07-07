@@ -16,91 +16,91 @@ async function loadScoringProfiles() {
     };
 }
 
-function updateSubmitButton() {
-    submitBtn.textContent = editingEntryId ? "Save Changes" : "Add Entry";
-}
+// function updateSubmitButton() {
+//     submitBtn.textContent = editingEntryId ? "Save Changes" : "Add Entry";
+// }
 
-function resetFormState() {
-    editingEntryId = null;
+// function resetFormState() {
+//     editingEntryId = null;
 
-    form.reset();
+//     form.reset();
 
-    document.getElementById("completion-status").value = "completed";
+//     document.getElementById("completion-status").value = "completed";
 
-    selectedGenres = [];
-    renderGenreSelector(mediaTypeSelect.value);
-    renderScoreInputs(mediaTypeSelect.value, {});
+//     selectedGenres = [];
+//     renderGenreSelector(mediaTypeSelect.value);
+//     renderScoreInputs(mediaTypeSelect.value, {});
 
-    clearMessage();
+//     clearMessage();
 
-    updateSubmitButton();
-    submitBtn.disabled = false;
+//     updateSubmitButton();
+//     submitBtn.disabled = false;
 
-    modal.close();
-}
+//     modal.close();
+// }
 
 const formMessage = document.getElementById("form-message");
 
-function showError(message) {
-    formMessage.textContent = message;
-    formMessage.className = "error";
-}
+// function showError(message) {
+//     formMessage.textContent = message;
+//     formMessage.className = "error";
+// }
 
-function showSuccess(message) {
-    formMessage.textContent = message;
-    formMessage.className = "success";
-}
+// function showSuccess(message) {
+//     formMessage.textContent = message;
+//     formMessage.className = "success";
+// }
 
-function clearMessage() {
-    formMessage.textContent = "";
-    formMessage.className = "";
-}
+// function clearMessage() {
+//     formMessage.textContent = "";
+//     formMessage.className = "";
+// }
 
-function renderScoreInputs(mediaType, existingScores = {}) {
-    scoreContainer.innerHTML = "";
+// function renderScoreInputs(mediaType, existingScores = {}) {
+//     scoreContainer.innerHTML = "";
 
-    const categories = scoringProfiles[mediaType];
+//     const categories = scoringProfiles[mediaType];
 
-    if (!categories) {
-        console.error("Missing scoring categories for:", mediaType);
-        return;
-    }
+//     if (!categories) {
+//         console.error("Missing scoring categories for:", mediaType);
+//         return;
+//     }
 
-    categories.forEach((category) => {
-        const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
+//     categories.forEach((category) => {
+//         const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
 
-        const scoreValue = existingScores[normalizedKey] || 5;
+//         const scoreValue = existingScores[normalizedKey] || 5;
 
-        const wrapper = document.createElement("div");
+//         const wrapper = document.createElement("div");
 
-        wrapper.innerHTML = `
-      <div class="score-row">
-        <label style="width: 33%" for="${category}">
-          ${category}:
-          <span id="11${category}-value">${scoreValue}</span>
-        </label>
+//         wrapper.innerHTML = `
+//       <div class="score-row">
+//         <label style="width: 33%" for="${category}">
+//           ${category}:
+//           <span id="11${category}-value">${scoreValue}</span>
+//         </label>
 
-        <input 
-          type="range"
-          min="1"
-          max="10"
-          value="${scoreValue}"
-          id="${category}"
-          style="width: 67%"
-        >
-      </div>
-    `;
+//         <input 
+//           type="range"
+//           min="1"
+//           max="10"
+//           value="${scoreValue}"
+//           id="${category}"
+//           style="width: 67%"
+//         >
+//       </div>
+//     `;
 
-        scoreContainer.appendChild(wrapper);
+//         scoreContainer.appendChild(wrapper);
 
-        const slider = document.getElementById(category);
-        const valueDisplay = document.getElementById(`11${category}-value`);
+//         const slider = document.getElementById(category);
+//         const valueDisplay = document.getElementById(`11${category}-value`);
 
-        slider.addEventListener("input", () => {
-            valueDisplay.textContent = slider.value;
-        });
-    });
-}
+//         slider.addEventListener("input", () => {
+//             valueDisplay.textContent = slider.value;
+//         });
+//     });
+// }
 
 function renderScoreBars(scores) {
     return Object.entries(scores)
@@ -202,104 +202,104 @@ document.getElementById("search-input").addEventListener("input", (e) => {
     loadEntries();
 });
 
-form.addEventListener("submit", async (event) => {
-    event.preventDefault();
+// form.addEventListener("submit", async (event) => {
+//     event.preventDefault();
 
-    if (submitBtn.disabled) return;
+//     if (submitBtn.disabled) return;
 
-    clearMessage();
+//     clearMessage();
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Saving...";
+//     submitBtn.disabled = true;
+//     submitBtn.textContent = "Saving...";
 
-    const data = {
-        title: document.getElementById("title").value.trim(),
-        media_type: document.getElementById("media-type").value,
-        genres: selectedGenres,
-        notes: document.getElementById("notes").value,
-        date_consumed: document.getElementById("date-consumed").value || null,
-        completion_status: document.getElementById("completion-status").value,
-    };
+//     const data = {
+//         title: document.getElementById("title").value.trim(),
+//         media_type: document.getElementById("media-type").value,
+//         genres: selectedGenres,
+//         notes: document.getElementById("notes").value,
+//         date_consumed: document.getElementById("date-consumed").value || null,
+//         completion_status: document.getElementById("completion-status").value,
+//     };
 
-    if (!data.title) {
-        showError("Title is required.");
+//     if (!data.title) {
+//         showError("Title is required.");
 
-        submitBtn.disabled = false;
-        updateSubmitButton();
-        return;
-    }
+//         submitBtn.disabled = false;
+//         updateSubmitButton();
+//         return;
+//     }
 
-    if (selectedGenres.length === 0) {
-        showError("Select at least 1 genre.");
+//     if (selectedGenres.length === 0) {
+//         showError("Select at least 1 genre.");
 
-        submitBtn.disabled = false;
-        updateSubmitButton();
-        return;
-    }
+//         submitBtn.disabled = false;
+//         updateSubmitButton();
+//         return;
+//     }
 
-    if (selectedGenres.length > 3) {
-        showError("Select up to 3 genres only.");
+//     if (selectedGenres.length > 3) {
+//         showError("Select up to 3 genres only.");
 
-        submitBtn.disabled = false;
-        updateSubmitButton();
-        return;
-    }
+//         submitBtn.disabled = false;
+//         updateSubmitButton();
+//         return;
+//     }
 
-    const scores = {};
-    const categories = scoringProfiles[data.media_type];
+//     const scores = {};
+//     const categories = scoringProfiles[data.media_type];
 
-    categories.forEach((category) => {
-        const slider = document.getElementById(category);
+//     categories.forEach((category) => {
+//         const slider = document.getElementById(category);
 
-        const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
+//         const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
 
-        scores[normalizedKey] = Number(slider.value);
-    });
+//         scores[normalizedKey] = Number(slider.value);
+//     });
 
-    data.scores = scores;
+//     data.scores = scores;
 
-    try {
-        let response;
+//     try {
+//         let response;
 
-        if (editingEntryId) {
-            response = await fetch(
-                `http://127.0.0.1:8000/entries/${editingEntryId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                },
-            );
-        } else {
-            response = await fetch("http://127.0.0.1:8000/entries/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-        }
+//         if (editingEntryId) {
+//             response = await fetch(
+//                 `http://127.0.0.1:8000/entries/${editingEntryId}`,
+//                 {
+//                     method: "PUT",
+//                     headers: {
+//                         "Content-Type": "application/json",
+//                     },
+//                     body: JSON.stringify(data),
+//                 },
+//             );
+//         } else {
+//             response = await fetch("http://127.0.0.1:8000/entries/", {
+//                 method: "POST",
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                 },
+//                 body: JSON.stringify(data),
+//             });
+//         }
 
-        const result = await response.json();
+//         const result = await response.json();
 
-        if (!response.ok) {
-            showError(result.detail || "Something went wrong.");
-            return;
-        }
+//         if (!response.ok) {
+//             showError(result.detail || "Something went wrong.");
+//             return;
+//         }
 
-        resetFormState();
+//         resetFormState();
 
-        await loadEntries();
-    } catch (error) {
-        console.error(error);
-        showError("Unable to save entry.");
-    } finally {
-        submitBtn.disabled = false;
-        updateSubmitButton();
-    }
-});
+//         await loadEntries();
+//     } catch (error) {
+//         console.error(error);
+//         showError("Unable to save entry.");
+//     } finally {
+//         submitBtn.disabled = false;
+//         updateSubmitButton();
+//     }
+// });
 
 const modal = document.getElementById("entryModal");
 const openBtn = document.getElementById("openBtn");
@@ -342,260 +342,260 @@ async function initializeApp() {
 
 initializeApp();
 
-function createBaseEntry() {
-    const div = document.createElement("div");
-    div.className = "library-item";
-    div.style.cursor = "pointer";
-    return div;
-}
+// function createBaseEntry() {
+//     const div = document.createElement("div");
+//     div.className = "library-item";
+//     div.style.cursor = "pointer";
+//     return div;
+// }
 
-function getEntryFromCache(id) {
-    return cachedEntries.find((e) => e.id === id);
-}
+// function getEntryFromCache(id) {
+//     return cachedEntries.find((e) => e.id === id);
+// }
 
-async function loadEntries() {
-    const response = await fetch("http://127.0.0.1:8000/entries/");
-    cachedEntries = await response.json();
+// async function loadEntries() {
+//     const response = await fetch("http://127.0.0.1:8000/entries/");
+//     cachedEntries = await response.json();
 
-    let workingEntries = [...cachedEntries];
+//     let workingEntries = [...cachedEntries];
 
-    if (activeGenreFilter) {
-        workingEntries = workingEntries.filter(
-            (entry) =>
-                Array.isArray(entry.genres) &&
-                entry.genres.some((g) => g === activeGenreFilter),
-        );
-    }
+//     if (activeGenreFilter) {
+//         workingEntries = workingEntries.filter(
+//             (entry) =>
+//                 Array.isArray(entry.genres) &&
+//                 entry.genres.some((g) => g === activeGenreFilter),
+//         );
+//     }
 
-    if (searchQuery.trim() !== "") {
-        workingEntries = workingEntries.filter((entry) =>
-            entry.title.toLowerCase().includes(searchQuery.toLowerCase()),
-        );
-    }
+//     if (searchQuery.trim() !== "") {
+//         workingEntries = workingEntries.filter((entry) =>
+//             entry.title.toLowerCase().includes(searchQuery.toLowerCase()),
+//         );
+//     }
 
-    workingEntries.sort((a, b) => {
-        switch (activeSort) {
-            case "date_desc":
-                return new Date(b.date_consumed || 0) - new Date(a.date_consumed || 0);
-            case "date_asc":
-                return new Date(a.date_consumed || 0) - new Date(b.date_consumed || 0);
-            case "score_desc":
-                return b.total_score - a.total_score;
-            case "score_asc":
-                return a.total_score - b.total_score;
-            case "title_asc":
-                return a.title.localeCompare(b.title);
-            case "title_desc":
-                return b.title.localeCompare(a.title);
-            case "media_type_asc":
-                return a.media_type.localeCompare(b.media_type);
-            case "media_type_desc":
-                return b.media_type.localeCompare(a.media_type);
-            default:
-                return 0;
-        }
-    });
+//     workingEntries.sort((a, b) => {
+//         switch (activeSort) {
+//             case "date_desc":
+//                 return new Date(b.date_consumed || 0) - new Date(a.date_consumed || 0);
+//             case "date_asc":
+//                 return new Date(a.date_consumed || 0) - new Date(b.date_consumed || 0);
+//             case "score_desc":
+//                 return b.total_score - a.total_score;
+//             case "score_asc":
+//                 return a.total_score - b.total_score;
+//             case "title_asc":
+//                 return a.title.localeCompare(b.title);
+//             case "title_desc":
+//                 return b.title.localeCompare(a.title);
+//             case "media_type_asc":
+//                 return a.media_type.localeCompare(b.media_type);
+//             case "media_type_desc":
+//                 return b.media_type.localeCompare(a.media_type);
+//             default:
+//                 return 0;
+//         }
+//     });
 
-    const container = document.getElementById("entries-container");
+//     const container = document.getElementById("entries-container");
 
-    container.innerHTML = "";
+//     container.innerHTML = "";
 
-    if (workingEntries.length === 0) {
-        container.innerHTML = `
-      <div class="empty-state">
-        <h3>No results found</h3>
-        <p>Try adjusting your search or filters.</p>
-      </div>
-    `;
-        return;
-    }
+//     if (workingEntries.length === 0) {
+//         container.innerHTML = `
+//       <div class="empty-state">
+//         <h3>No results found</h3>
+//         <p>Try adjusting your search or filters.</p>
+//       </div>
+//     `;
+//         return;
+//     }
 
-    const fragment = document.createDocumentFragment();
+//     const fragment = document.createDocumentFragment();
 
-    workingEntries.forEach((entry) => {
-        const el = renderEntry(entry);
+//     workingEntries.forEach((entry) => {
+//         const el = renderEntry(entry);
 
-        el.dataset.id = entry.id;
+//         el.dataset.id = entry.id;
 
-        fragment.appendChild(el);
-    });
+//         fragment.appendChild(el);
+//     });
 
-    container.appendChild(fragment);
+//     container.appendChild(fragment);
 
-    renderActiveFilters();
-}
+//     renderActiveFilters();
+// }
 
-function toggleExpanded(id) {
-    const previousExpanded = expandedEntryId;
+// function toggleExpanded(id) {
+//     const previousExpanded = expandedEntryId;
 
-    expandedEntryId = expandedEntryId === id ? null : id;
+//     expandedEntryId = expandedEntryId === id ? null : id;
 
-    if (previousExpanded !== null && previousExpanded !== id) {
-        updateEntryView(previousExpanded)
-    }
+//     if (previousExpanded !== null && previousExpanded !== id) {
+//         updateEntryView(previousExpanded)
+//     }
 
-    updateEntryView(id);
-}
+//     updateEntryView(id);
+// }
 
-function createLibraryItem(entry) {
-    const percentScore = Number(entry.total_score).toFixed(1);
+// function createLibraryItem(entry) {
+//     const percentScore = Number(entry.total_score).toFixed(1);
 
-    const isExpanded = expandedEntryId === entry.id;
+//     const isExpanded = expandedEntryId === entry.id;
 
-    const div = createBaseEntry();
+//     const div = createBaseEntry();
 
-    div.className = "library-item";
+//     div.className = "library-item";
 
-    div.innerHTML = `
-    <div class="entry-header">
-        <span class="chevron ${isExpanded ? "expanded" : ""}">▼</span>
-        <h3>${entry.title}</h3>
-    </div>
+//     div.innerHTML = `
+//     <div class="entry-header">
+//         <span class="chevron ${isExpanded ? "expanded" : ""}">▼</span>
+//         <h3>${entry.title}</h3>
+//     </div>
 
-    <div class="library-meta">
-        <span>${entry.media_type}</span>
-        <span>${percentScore}%</span>
-    </div>
-  `;
+//     <div class="library-meta">
+//         <span>${entry.media_type}</span>
+//         <span>${percentScore}%</span>
+//     </div>
+//   `;
 
-    div.addEventListener("click", (e) => {
-        if (e.target.closest("button")) return;
-        toggleExpanded(entry.id);
-    });
+//     div.addEventListener("click", (e) => {
+//         if (e.target.closest("button")) return;
+//         toggleExpanded(entry.id);
+//     });
 
-    return div;
-}
+//     return div;
+// }
 
-function updateEntryView(id) {
+// function updateEntryView(id) {
 
-    const container = document.getElementById("entries-container");
+//     const container = document.getElementById("entries-container");
 
-    const oldEl = container.querySelector(`[data-id="${id}"]`);
-    if (!oldEl) return;
+//     const oldEl = container.querySelector(`[data-id="${id}"]`);
+//     if (!oldEl) return;
 
-    const entry = cachedEntries.find((e) => e.id === id);
-    if (!entry) return;
+//     const entry = cachedEntries.find((e) => e.id === id);
+//     if (!entry) return;
 
-    const newEl = renderEntry(entry);
-    newEl.dataset.id = id;
+//     const newEl = renderEntry(entry);
+//     newEl.dataset.id = id;
 
-    container.replaceChild(newEl, oldEl);
-}
+//     container.replaceChild(newEl, oldEl);
+// }
 
-function renderEntry(entry) {
-    if (expandedEntryId === entry.id) {
-        const card = createDetailCard(entry);
+// function renderEntry(entry) {
+//     if (expandedEntryId === entry.id) {
+//         const card = createDetailCard(entry);
 
-        const canvas = card.querySelector("canvas");
-        renderRadarChart(entry, canvas);
+//         const canvas = card.querySelector("canvas");
+//         renderRadarChart(entry, canvas);
 
-        return card;
-    }
+//         return card;
+//     }
 
-    return createLibraryItem(entry);
-}
+//     return createLibraryItem(entry);
+// }
 
-function createDetailCard(entry) {
-    const percentScore = Number(entry.total_score).toFixed(1);
-    const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
-        border: "rgba(150, 150, 150, 1)",
-        background: "rgba(150, 150, 150, 0.2)",
-    };
+// function createDetailCard(entry) {
+//     const percentScore = Number(entry.total_score).toFixed(1);
+//     const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
+//         border: "rgba(150, 150, 150, 1)",
+//         background: "rgba(150, 150, 150, 0.2)",
+//     };
 
-    const div = createBaseEntry();
+//     const div = createBaseEntry();
 
-    div.style.cursor = "pointer";
-    div.dataset.id = entry.id;
+//     div.style.cursor = "pointer";
+//     div.dataset.id = entry.id;
 
-    div.addEventListener("click", (e) => {
-        if (e.target.closest("button")) return;
-        toggleExpanded(entry.id);
-    });
+//     div.addEventListener("click", (e) => {
+//         if (e.target.closest("button")) return;
+//         toggleExpanded(entry.id);
+//     });
 
-    div.classList.add("detail-card");
-    div.innerHTML = `
-    <div class="row" style="display: flex;">
+//     div.classList.add("detail-card");
+//     div.innerHTML = `
+//     <div class="row" style="display: flex;">
       
-      <div style="width: 50%;">
-        <span>
-            <span class="chevron expanded">▼</span>
-            <h3 style="display: inline">${entry.title}</h3>
-        </span>
+//       <div style="width: 50%;">
+//         <span>
+//             <span class="chevron expanded">▼</span>
+//             <h3 style="display: inline">${entry.title}</h3>
+//         </span>
 
-        <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
-        <p><strong>Type:</strong><br>${entry.media_type}</p>
+//         <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
+//         <p><strong>Type:</strong><br>${entry.media_type}</p>
 
-        <div class="genre-chip-container">
-          ${renderGenreChips(entry.genres)}
-        </div>
+//         <div class="genre-chip-container">
+//           ${renderGenreChips(entry.genres)}
+//         </div>
 
-        <p><strong>Total Score:</strong><br>${percentScore}%</p>
-      </div>
+//         <p><strong>Total Score:</strong><br>${percentScore}%</p>
+//       </div>
 
-      <div style="width: 50%;">
-        <canvas id="chart-${entry.id}"></canvas>
-      </div>
-    </div>
+//       <div style="width: 50%;">
+//         <canvas id="chart-${entry.id}"></canvas>
+//       </div>
+//     </div>
 
-    <div>
-      ${renderScoreBars(entry.scores || {})}
-      <p><strong>Notes:</strong> ${entry.notes}</p>
+//     <div>
+//       ${renderScoreBars(entry.scores || {})}
+//       <p><strong>Notes:</strong> ${entry.notes}</p>
 
-      <button onclick="startEdit('${entry.id}')">Edit</button>
-      <button onclick="openDeleteModal('${entry.id}')">Delete</button>
-    </div>
+//       <button onclick="startEdit('${entry.id}')">Edit</button>
+//       <button onclick="openDeleteModal('${entry.id}')">Delete</button>
+//     </div>
 
-    <hr>
-  `;
+//     <hr>
+//   `;
 
-    return div;
-}
+//     return div;
+// }
 
-function renderRadarChart(entry, canvas) {
-    const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
-        border: "rgba(150,150,150,1)",
-        background: "rgba(150,150,150,0.2)"
-    };
+// function renderRadarChart(entry, canvas) {
+//     const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
+//         border: "rgba(150,150,150,1)",
+//         background: "rgba(150,150,150,0.2)"
+//     };
 
-    const ctx = canvas.getContext("2d");
+//     const ctx = canvas.getContext("2d");
 
-    if (chartInstances[entry.id]) {
-        chartInstances[entry.id].destroy();
-    }
+//     if (chartInstances[entry.id]) {
+//         chartInstances[entry.id].destroy();
+//     }
 
-    chartInstances[entry.id] = new Chart(ctx, {
-        type: "radar",
-        data: {
-            labels: Object.keys(entry.scores || {}),
-            datasets: [
-                {
-                    label: entry.title,
-                    data: Object.values(entry.scores || {}),
-                    fill: true,
-                    backgroundColor: colors.background,
-                    borderColor: colors.border,
-                    pointBackgroundColor: colors.border,
-                },
-            ],
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-            scales: {
-                r: {
-                    min: 1,
-                    max: 10,
-                    ticks: {
-                        display: false,
-                    },
-                },
-            },
-        },
-    });
-}
+//     chartInstances[entry.id] = new Chart(ctx, {
+//         type: "radar",
+//         data: {
+//             labels: Object.keys(entry.scores || {}),
+//             datasets: [
+//                 {
+//                     label: entry.title,
+//                     data: Object.values(entry.scores || {}),
+//                     fill: true,
+//                     backgroundColor: colors.background,
+//                     borderColor: colors.border,
+//                     pointBackgroundColor: colors.border,
+//                 },
+//             ],
+//         },
+//         options: {
+//             plugins: {
+//                 legend: {
+//                     display: false,
+//                 },
+//             },
+//             scales: {
+//                 r: {
+//                     min: 1,
+//                     max: 10,
+//                     ticks: {
+//                         display: false,
+//                     },
+//                 },
+//             },
+//         },
+//     });
+// }
 
 renderActiveFilters();
 
@@ -630,76 +630,76 @@ async function loadGenres() {
     renderGenreFilters();
 }
 
-function renderGenreSelector(mediaType) {
-    const container = document.getElementById("genre-selector");
+// function renderGenreSelector(mediaType) {
+//     const container = document.getElementById("genre-selector");
 
-    container.innerHTML = "";
+//     container.innerHTML = "";
 
-    const coreGenres = genreRegistry.core || [];
-    const mediaGenres = genreRegistry[mediaType] || [];
+//     const coreGenres = genreRegistry.core || [];
+//     const mediaGenres = genreRegistry[mediaType] || [];
 
-    const allGenres = [...new Set([...coreGenres, ...mediaGenres])];
+//     const allGenres = [...new Set([...coreGenres, ...mediaGenres])];
 
-    allGenres.forEach((genre) => {
-        const chip = document.createElement("button");
+//     allGenres.forEach((genre) => {
+//         const chip = document.createElement("button");
 
-        chip.type = "button";
+//         chip.type = "button";
 
-        chip.className = "genre-select-chip";
+//         chip.className = "genre-select-chip";
 
-        if (selectedGenres.includes(genre)) {
-            chip.classList.add("selected");
-        }
+//         if (selectedGenres.includes(genre)) {
+//             chip.classList.add("selected");
+//         }
 
-        chip.textContent = genre;
+//         chip.textContent = genre;
 
-        chip.addEventListener("click", () => {
-            toggleGenre(genre);
-        });
+//         chip.addEventListener("click", () => {
+//             toggleGenre(genre);
+//         });
 
-        container.appendChild(chip);
-    });
-}
+//         container.appendChild(chip);
+//     });
+// }
 
-function toggleGenre(genre) {
-    if (selectedGenres.includes(genre)) {
-        selectedGenres = selectedGenres.filter((g) => g !== genre);
-    } else {
-        if (selectedGenres.length >= 3) {
-            showError("Maximum 3 genres allowed");
-            return;
-        }
+// function toggleGenre(genre) {
+//     if (selectedGenres.includes(genre)) {
+//         selectedGenres = selectedGenres.filter((g) => g !== genre);
+//     } else {
+//         if (selectedGenres.length >= 3) {
+//             showError("Maximum 3 genres allowed");
+//             return;
+//         }
 
-        selectedGenres.push(genre);
-    }
-    clearMessage();
+//         selectedGenres.push(genre);
+//     }
+//     clearMessage();
 
-    renderGenreSelector(mediaTypeSelect.value);
-}
+//     renderGenreSelector(mediaTypeSelect.value);
+// }
 
-async function startEdit(id) {
-    const response = await fetch(`http://127.0.0.1:8000/entries/${id}`);
-    const entry = await response.json();
+// async function startEdit(id) {
+//     const response = await fetch(`http://127.0.0.1:8000/entries/${id}`);
+//     const entry = await response.json();
 
-    editingEntryId = id;
+//     editingEntryId = id;
 
-    document.getElementById("title").value = entry.title;
-    document.getElementById("media-type").value = entry.media_type;
-    document.getElementById("notes").value = entry.notes || "";
-    document.getElementById("date-consumed").value = entry.date_consumed || "";
-    document.getElementById("completion-status").value =
-        entry.completion_status || "completed";
+//     document.getElementById("title").value = entry.title;
+//     document.getElementById("media-type").value = entry.media_type;
+//     document.getElementById("notes").value = entry.notes || "";
+//     document.getElementById("date-consumed").value = entry.date_consumed || "";
+//     document.getElementById("completion-status").value =
+//         entry.completion_status || "completed";
 
-    submitBtn.textContent = "Save Changes";
+//     submitBtn.textContent = "Save Changes";
 
-    renderScoreInputs(entry.media_type, entry.scores);
+//     renderScoreInputs(entry.media_type, entry.scores);
 
-    document.getElementById("entryModal").showModal();
+//     document.getElementById("entryModal").showModal();
 
-    selectedGenres = [...entry.genres];
+//     selectedGenres = [...entry.genres];
 
-    renderGenreSelector(entry.media_type);
-}
+//     renderGenreSelector(entry.media_type);
+// }
 
 // async function renderTopRatedOverall() {
 //     const response = await fetch("http://127.0.0.1:8000/entries/");
@@ -758,52 +758,52 @@ async function startEdit(id) {
 //     renderTopList("highest-writing-list", topWriting);
 // }
 
-function renderActiveFilters() {
-    const container = document.getElementById("active-filters");
-    container.innerHTML = "";
+// function renderActiveFilters() {
+//     const container = document.getElementById("active-filters");
+//     container.innerHTML = "";
 
-    const hasSearch = searchQuery.trim() !== "";
-    const hasGenre = activeGenreFilter !== null;
+//     const hasSearch = searchQuery.trim() !== "";
+//     const hasGenre = activeGenreFilter !== null;
 
-    if (!hasSearch && !hasGenre) return;
+//     if (!hasSearch && !hasGenre) return;
 
-    const wrapper = document.createElement("div");
+//     const wrapper = document.createElement("div");
 
-    wrapper.style.display = "flex";
-    wrapper.style.gap = "10px";
-    wrapper.style.alignItems = "center";
+//     wrapper.style.display = "flex";
+//     wrapper.style.gap = "10px";
+//     wrapper.style.alignItems = "center";
 
-    if (hasSearch) {
-        const searchTag = document.createElement("span");
-        searchTag.textContent = `Search: "${searchQuery}"`;
-        searchTag.className = "filter-tag";
-        wrapper.appendChild(searchTag);
-    }
+//     if (hasSearch) {
+//         const searchTag = document.createElement("span");
+//         searchTag.textContent = `Search: "${searchQuery}"`;
+//         searchTag.className = "filter-tag";
+//         wrapper.appendChild(searchTag);
+//     }
 
-    if (hasGenre) {
-        const genreTag = document.createElement("span");
-        genreTag.textContent = `Genre: ${activeGenreFilter}`;
-        genreTag.className = "filter-tag";
-        wrapper.appendChild(genreTag);
-    }
+//     if (hasGenre) {
+//         const genreTag = document.createElement("span");
+//         genreTag.textContent = `Genre: ${activeGenreFilter}`;
+//         genreTag.className = "filter-tag";
+//         wrapper.appendChild(genreTag);
+//     }
 
-    const clearBtn = document.createElement("button");
-    clearBtn.textContent = "Clear Filters";
+//     const clearBtn = document.createElement("button");
+//     clearBtn.textContent = "Clear Filters";
 
-    clearBtn.addEventListener("click", () => {
-        searchQuery = "";
-        activeGenreFilter = null;
+//     clearBtn.addEventListener("click", () => {
+//         searchQuery = "";
+//         activeGenreFilter = null;
 
-        document.getElementById("search-input").value = "";
+//         document.getElementById("search-input").value = "";
 
-        loadEntries();
-        renderGenreFilters();
-    });
+//         loadEntries();
+//         renderGenreFilters();
+//     });
 
-    wrapper.appendChild(clearBtn);
+//     wrapper.appendChild(clearBtn);
 
-    container.appendChild(wrapper);
-}
+//     container.appendChild(wrapper);
+// }
 
 // function renderTopList(containerId, entries) {
 //     const container = document.getElementById(containerId);
