@@ -1,10 +1,3 @@
-const form = document.getElementById("entry-form");
-
-const mediaTypeSelect = document.getElementById("media-type");
-const scoreContainer = document.getElementById("score-container");
-
-const submitBtn = document.getElementById("submitBtn");
-
 async function loadScoringProfiles() {
     const response = await fetch("http://127.0.0.1:8000/scoring-profile");
     const data = await response.json();
@@ -15,8 +8,6 @@ async function loadScoringProfiles() {
         game: data.categories,
     };
 }
-
-const formMessage = document.getElementById("form-message");
 
 function renderScoreBars(scores) {
     return Object.entries(scores)

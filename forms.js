@@ -1,3 +1,9 @@
+const form = document.getElementById("entry-form");
+const mediaTypeSelect = document.getElementById("media-type");
+const scoreContainer = document.getElementById("score-container");
+const submitBtn = document.getElementById("submitBtn");
+const formMessage = document.getElementById("form-message");
+
 function renderScoreInputs(mediaType, existingScores = {}) {
     scoreContainer.innerHTML = "";
 
