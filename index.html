@@ -14,8 +14,10 @@
         <script src="lists.js" defer></script>
         <script src="library.js" defer></script>
         <script src="forms.js" defer></script>
+        <script src="navigation.js"></script>
+
         <script src="app.js" defer></script>
-        
+
         <title>Media Tracker</title>
     </head>
 
@@ -23,149 +25,168 @@
         <h1>Media Tracker</h1>
         <p>Welcome to the Media Tracker!</p>
 
-        <button id="openBtn">Add an Entry</button>
+        <nav id="main-nav">
+            <button id="library-tab">Library</button>
+            <button id="analytics-tab">Analytics</button>
+            <button id="lists-tab">Lists</button>
+        </nav>
 
-        <dialog id="entryModal">
-            <form id="entry-form">
-                <input type="text" id="title" placeholder="Title" required />
+        <div id="library-page">
+            <button id="openBtn">Add an Entry</button>
 
-                <select id="media-type">
-                    <option value="video">video</option>
-                    <option value="game">game</option>
-                    <option value="book">book</option>
-                </select>
+            <dialog id="entryModal">
+                <form id="entry-form">
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Title"
+                        required
+                    />
 
-                <div id="genre-selector"></div>
+                    <select id="media-type">
+                        <option value="video">video</option>
+                        <option value="game">game</option>
+                        <option value="book">book</option>
+                    </select>
 
-                <textarea id="notes" placeholder="Notes"></textarea>
+                    <div id="genre-selector"></div>
 
-                <label for="date-consumed">Date Consumed</label>
-                <input type="date" id="date-consumed" />
+                    <textarea id="notes" placeholder="Notes"></textarea>
 
-                <label for="completion-status">Completion Status</label>
-                <select id="completion-status">
-                    <option value="completed">Completed</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="dropped">Dropped</option>
-                    <option value="planned">Planned</option>
-                </select>
+                    <label for="date-consumed">Date Consumed</label>
+                    <input type="date" id="date-consumed" />
 
-                <div id="score-container"></div>
+                    <label for="completion-status">Completion Status</label>
+                    <select id="completion-status">
+                        <option value="completed">Completed</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="dropped">Dropped</option>
+                        <option value="planned">Planned</option>
+                    </select>
 
-                <div id="form-message"></div>
+                    <div id="score-container"></div>
+
+                    <div id="form-message"></div>
+
+                    <div class="row">
+                        <button type="submit" id="submitBtn">Add Entry</button>
+                        <button id="closeBtn">Cancel</button>
+                    </div>
+                </form>
+            </dialog>
+            <dialog id="deleteModal">
+                <p>
+                    Are you sure you want to delete this entry? This cannot be
+                    undone.
+                </p>
 
                 <div class="row">
-                    <button type="submit" id="submitBtn">Add Entry</button>
-                    <button id="closeBtn">Cancel</button>
+                    <button type="button" id="confirmDeleteBtn">
+                        Confirm Delete
+                    </button>
+                    <button type="button" id="cancelDeleteBtn">Cancel</button>
                 </div>
-            </form>
-        </dialog>
-        <dialog id="deleteModal">
-            <p>
-                Are you sure you want to delete this entry? This cannot be
-                undone.
-            </p>
+            </dialog>
 
-            <div class="row">
-                <button type="button" id="confirmDeleteBtn">
-                    Confirm Delete
-                </button>
-                <button type="button" id="cancelDeleteBtn">Cancel</button>
+            <!-- <button onclick="clearGenreFilter()">Clear Filter</button> -->
+
+            <div style="margin: 15px 0">
+                <label for="sort-select">Sort By:</label>
+
+                <select id="sort-select">
+                    <option value="date_desc">Date Consumed (Newest)</option>
+                    <option value="date_asc">Date Consumed (Oldest)</option>
+                    <option value="score_desc">Score (Highest)</option>
+                    <option value="score_asc">Score (Lowest)</option>
+                    <option value="title_asc">Title (A-Z)</option>
+                    <option value="title_desc">Title (Z-A)</option>
+                    <option value="media_type_asc">Media Type Ascending</option>
+                    <option value="media_type_desc">
+                        Media Type Descending
+                    </option>
+                </select>
             </div>
-        </dialog>
 
-        <!-- <button onclick="clearGenreFilter()">Clear Filter</button> -->
+            <div id="genre-filter-bar" style="margin-bottom: 10px">
+                <strong>Genres:</strong>
+                <div id="genre-filters"></div>
+            </div>
 
-        <div style="margin: 15px 0">
-            <label for="sort-select">Sort By:</label>
+            <div style="margin: 15px 0">
+                <label for="search-input">Search Entries:</label>
+                <input type="text" id="search-input" />
+            </div>
 
-            <select id="sort-select">
-                <option value="date_desc">Date Consumed (Newest)</option>
-                <option value="date_asc">Date Consumed (Oldest)</option>
-                <option value="score_desc">Score (Highest)</option>
-                <option value="score_asc">Score (Lowest)</option>
-                <option value="title_asc">Title (A-Z)</option>
-                <option value="title_desc">Title (Z-A)</option>
-                <option value="media_type_asc">Media Type Ascending</option>
-                <option value="media_type_desc">Media Type Descending</option>
-            </select>
+            <div id="active-filters" style="margin-bottom: 10px"></div>
+
+            <h2>Entries</h2>
+            <div id="entries-container"></div>
         </div>
 
-        <div id="genre-filter-bar" style="margin-bottom: 10px">
-            <strong>Genres:</strong>
-            <div id="genre-filters"></div>
+        <div id="analytics-page" hidden>
+            <div class="row" style="display: flex; padding-bottom: 2rem">
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Favorite Media Type</h2>
+                    <div id="favorite-media-type-card"></div>
+                </span>
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Media Distribution</h2>
+                    <canvas id="media-distribution-chart"></canvas>
+                </span>
+            </div>
+            <div class="row" style="display: flex; padding-bottom: 2rem">
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Average Score by Media Type</h2>
+                    <canvas id="avg-score-chart"></canvas>
+                </span>
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Average Ratings by Genre</h2>
+                    <canvas id="genre-average-ratings-chart"></canvas>
+                </span>
+            </div>
+            <div class="row" style="display: flex; padding-bottom: 2rem">
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Finished Media by Month</h2>
+                    <canvas id="monthly-completion-chart"></canvas>
+                </span>
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Rating Distribution</h2>
+                    <canvas id="rating-distribution-chart"></canvas>
+                </span>
+            </div>
         </div>
 
-        <div style="margin: 15px 0">
-            <label for="search-input">Search Entries:</label>
-            <input type="text" id="search-input" />
+        <div id="lists-page" hidden>
+            <div class="row" style="display: flex; padding-bottom: 2rem">
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Top Rated Overall</h2>
+                    <div id="top-rated-overall-list"></div>
+                </span>
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Top Books</h2>
+                    <div id="top-books-list"></div>
+                </span>
+            </div>
+            <div class="row" style="display: flex; padding-bottom: 2rem">
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Top Movies</h2>
+                    <div id="top-movies-list"></div>
+                </span>
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Top Games</h2>
+                    <div id="top-games-list"></div>
+                </span>
+            </div>
+            <div class="row" style="display: flex; padding-bottom: 2rem">
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Most Thought Provoking</h2>
+                    <div id="thought-provoking-list"></div>
+                </span>
+                <span style="width: 50%; display: block; padding: 0 20px">
+                    <h2>Highest Writing Score</h2>
+                    <div id="highest-writing-list"></div>
+                </span>
+            </div>
         </div>
-
-        <div id="active-filters" style="margin-bottom: 10px"></div>
-
-        <h2>Entries</h2>
-        <div id="entries-container"></div>
-
-        <div class="row" style="display: flex; padding-bottom: 2rem;">
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Favorite Media Type</h2>
-                <div id="favorite-media-type-card"></div>
-            </span>
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Media Distribution</h2>
-                <canvas id="media-distribution-chart"></canvas>
-            </span>
-        </div>
-        <div class="row" style="display: flex; padding-bottom: 2rem;">
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Average Score by Media Type</h2>
-                <canvas id="avg-score-chart"></canvas>
-            </span>
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Average Ratings by Genre</h2>
-                <canvas id="genre-average-ratings-chart"></canvas>
-            </span>
-        </div>
-        <div class="row" style="display: flex; padding-bottom: 2rem;">
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Finished Media by Month</h2>
-                <canvas id="monthly-completion-chart"></canvas>
-            </span>
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Rating Distribution</h2>
-                <canvas id="rating-distribution-chart"></canvas>
-            </span>
-        </div>
-        <div class="row" style="display: flex; padding-bottom: 2rem;">
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Top Rated Overall</h2>
-                <div id="top-rated-overall-list"></div>
-            </span>
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Top Books</h2>
-                <div id="top-books-list"></div>
-            </span>
-        </div>
-        <div class="row" style="display: flex; padding-bottom: 2rem;">
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Top Movies</h2>
-                <div id="top-movies-list"></div>
-            </span>
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Top Games</h2>
-                <div id="top-games-list"></div>
-            </span>
-        </div>
-        <div class="row" style="display: flex; padding-bottom: 2rem;">
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Most Thought Provoking</h2>
-                <div id="thought-provoking-list"></div>
-            </span>
-            <span style="width: 50%; display: block; padding: 0 20px;">
-                <h2>Highest Writing Score</h2>
-                <div id="highest-writing-list"></div>
-            </span>
-        </div>
-
     </body>
 </html>
