@@ -285,7 +285,7 @@ async function renderFavoriteMediaType() {
     const card = document.getElementById("favorite-media-type-card");
 
     card.innerHTML = `
-        <div class="favorite-media-card">
+        <div>
             <h3>${favoriteType.charAt(0).toUpperCase() + favoriteType.slice(1)}</h3>
 
             <p><strong>Average Rating</strong></p>

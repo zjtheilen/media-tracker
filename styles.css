@@ -124,14 +124,6 @@ button.danger:hover {
 
 /* Library */
 
-#entries-container {
-    padding: 18px;
-
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
 .library-item,
 .detail-card {
     cursor: pointer;
@@ -420,8 +412,6 @@ canvas {
 /* Lists */
 
 .top-list-card {
-    display: flex;
-
     justify-content: space-between;
     align-items: center;
 
@@ -462,6 +452,22 @@ canvas {
     font-size: 1.2rem;
 
     font-weight: bold;
+}
+
+.dashboard-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    height: auto;
+}
+
+.dashboard-card h2 {
+    margin-top: 0;
+}
+
+.dashboard-card canvas {
+    max-height: 350px;
 }
 
 /* Responsive */
