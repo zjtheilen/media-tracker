@@ -1,6 +1,5 @@
 async function renderMediaDistributionChart() {
-    const response = await fetch("http://127.0.0.1:8000/stats/");
-    const stats = await response.json();
+    const stats = await getStats();
 
     const ctx = document
         .getElementById("media-distribution-chart")

@@ -1,6 +1,5 @@
 async function renderTopRatedOverall() {
-    const response = await fetch("http://127.0.0.1:8000/entries/");
-    const entries = await response.json();
+    const entries = await getEntries();
 
     const topFive = [...entries].sort((a, b) => b.total_score - a.total_score).slice(0, 5);
 

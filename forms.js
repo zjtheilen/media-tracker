@@ -98,8 +98,7 @@ function toggleGenre(genre) {
 }
 
 async function startEdit(id) {
-    const response = await fetch(`http://127.0.0.1:8000/entries/${id}`);
-    const entry = await response.json();
+    const entry = await getEntry(id);
 
     editingEntryId = id;
 

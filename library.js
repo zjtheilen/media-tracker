@@ -10,8 +10,7 @@ function getEntryFromCache(id) {
 }
 
 async function loadEntries() {
-    const response = await fetch("http://127.0.0.1:8000/entries/");
-    cachedEntries = await response.json();
+    cachedEntries = await getEntries();
 
     let workingEntries = [...cachedEntries];
 
