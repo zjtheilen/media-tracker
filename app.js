@@ -146,6 +146,8 @@ async function initializeApp() {
     await renderTopGames();
     await renderMostThoughtProvoking();
     await renderHighestWritingScore();
+
+    showPage("library");
 }
 
 initializeApp();

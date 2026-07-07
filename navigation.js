@@ -19,4 +19,20 @@ function showPage(page) {
             lists.hidden = false;
             break;
     }
+
+    const libraryTab = document.getElementById("library-tab");
+    const analyticsTab = document.getElementById("analytics-tab");
+    const listsTab = document.getElementById("lists-tab");
+
+    libraryTab.addEventListener("click", () => {
+        showPage("library");
+    });
+
+    analyticsTab.addEventListener("click", () => {
+        showPage("analytics");
+    });
+
+    listsTab.addEventListener("click", () => {
+        showPage("lists");
+    })
 }
