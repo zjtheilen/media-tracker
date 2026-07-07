@@ -123,6 +123,8 @@ const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
 let pendingDeleteId = null;
 
 async function initializeApp() {
+    initializeNavigation();
+
     await loadGenres();
     await loadScoringProfiles();
 

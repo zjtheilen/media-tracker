@@ -1,28 +1,11 @@
-function showPage(page) {
-    const library = document.getElementById("library-page");
-    const analytics = document.getElementById("analytics-page");
-    const lists = document.getElementById("lists-page");
+let libraryTab;
+let analyticsTab;
+let listsTab;
 
-    library.hidden = true;
-    analytics.hidden = true;
-    lists.hidden = true;
-
-    switch (page) {
-        case "library":
-            library.hidden = false;
-            break;
-
-        case "analytics":
-            analytics.hidden = false;
-            break;
-        case "lists":
-            lists.hidden = false;
-            break;
-    }
-
-    const libraryTab = document.getElementById("library-tab");
-    const analyticsTab = document.getElementById("analytics-tab");
-    const listsTab = document.getElementById("lists-tab");
+function initializeNavigation() {
+    libraryTab = document.getElementById("library-tab");
+    analyticsTab = document.getElementById("analytics-tab");
+    listsTab = document.getElementById("lists-tab");
 
     libraryTab.addEventListener("click", () => {
         showPage("library");
@@ -34,5 +17,36 @@ function showPage(page) {
 
     listsTab.addEventListener("click", () => {
         showPage("lists");
-    })
+    });
+}
+
+function showPage(page) {
+    const libraryPage = document.getElementById("library-page");
+    const analyticsPage = document.getElementById("analytics-page");
+    const listsPage = document.getElementById("lists-page");
+
+    libraryPage.hidden = true;
+    analyticsPage.hidden = true;
+    listsPage.hidden = true;
+
+    libraryTab?.classList.remove("active");
+    analyticsTab?.classList.remove("active");
+    listsTab?.classList.remove("active");
+
+    switch (page) {
+        case "library":
+            libraryPage.hidden = false;
+            libraryTab.classList.add("active");
+            break;
+
+        case "analytics":
+            analyticsPage.hidden = false;
+            analyticsTab.classList.add("active");
+            break;
+
+        case "lists":
+            listsPage.hidden = false;
+            listsTab.classList.add("active");
+            break;
+    }
 }

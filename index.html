@@ -9,12 +9,13 @@
 
         <script src="state.js" defer></script>
         <script src="constants.js" defer></script>
-        <script src="api.js"></script>
+        <script src="api.js" defer></script>
+
         <script src="charts.js" defer></script>
         <script src="lists.js" defer></script>
         <script src="library.js" defer></script>
         <script src="forms.js" defer></script>
-        <script src="navigation.js"></script>
+        <script src="navigation.js" defer></script>
 
         <script src="app.js" defer></script>
 
@@ -31,7 +32,7 @@
             <button id="lists-tab">Lists</button>
         </nav>
 
-        <div id="library-page">
+        <section id="library-page">
             <button id="openBtn">Add an Entry</button>
 
             <dialog id="entryModal">
@@ -121,9 +122,9 @@
 
             <h2>Entries</h2>
             <div id="entries-container"></div>
-        </div>
+        </section>
 
-        <div id="analytics-page" hidden>
+        <section id="analytics-page" hidden>
             <div class="row" style="display: flex; padding-bottom: 2rem">
                 <span style="width: 50%; display: block; padding: 0 20px">
                     <h2>Favorite Media Type</h2>
@@ -154,9 +155,9 @@
                     <canvas id="rating-distribution-chart"></canvas>
                 </span>
             </div>
-        </div>
+        </section>
 
-        <div id="lists-page" hidden>
+        <section id="lists-page" hidden>
             <div class="row" style="display: flex; padding-bottom: 2rem">
                 <span style="width: 50%; display: block; padding: 0 20px">
                     <h2>Top Rated Overall</h2>
@@ -187,6 +188,6 @@
                     <div id="highest-writing-list"></div>
                 </span>
             </div>
-        </div>
+        </section>
     </body>
 </html>
