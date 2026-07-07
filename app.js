@@ -1,37 +1,5 @@
 const form = document.getElementById("entry-form");
 
-const chartInstances = [];
-
-const MEDIA_TYPE_COLORS = {
-    video: {
-        border: "rgba(255, 99, 132, 1)",
-        background: "rgba(255, 99, 132, 0.2)",
-    },
-    book: {
-        border: "rgba(54, 162, 235, 1)",
-        background: "rgba(54, 162, 235, 0.2)",
-    },
-    game: {
-        border: "rgba(255, 206, 86, 1)",
-        background: "rgba(255, 206, 86, 0.2)",
-    },
-};
-
-let scoringProfiles = {};
-
-let genreRegistry = {};
-
-let editingEntryId = null;
-let expandedEntryId = null;
-let selectedGenres = [];
-let cachedEntries = []
-
-let activeGenreFilter = null;
-
-let activeSort = "date_desc";
-
-let searchQuery = "";
-
 const mediaTypeSelect = document.getElementById("media-type");
 const scoreContainer = document.getElementById("score-container");
 
