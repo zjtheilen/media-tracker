@@ -65,7 +65,7 @@ function renderGenreFilters() {
 
         const btn = document.createElement("button");
         btn.textContent = genre;
-        btn.className = "genre-btn";
+        btn.className = "genre-filter-chip";
 
         if (activeGenreFilter === normalized) {
             btn.classList.add("active");

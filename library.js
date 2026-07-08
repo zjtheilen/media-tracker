@@ -92,14 +92,50 @@ function toggleExpanded(id) {
     updateEntryView(id);
 }
 
+function updateEntryView(id) {
+
+    const container = document.getElementById("entries-container");
+
+    const oldEl = container.querySelector(`[data-id="${id}"]`);
+    if (!oldEl) return;
+
+    const entry = cachedEntries.find((e) => e.id === id);
+    if (!entry) return;
+
+    const newEl = renderEntry(entry);
+    newEl.dataset.id = id;
+
+    container.replaceChild(newEl, oldEl);
+}
+
+function renderEntry(entry) {
+    console.log("renderEntry:", entry.title, expandedEntryId);
+
+    if (expandedEntryId === entry.id) {
+        console.log("Expanded entry detected");
+
+        const card = createDetailCard(entry);
+
+        const canvas = card.querySelector("canvas");
+
+        console.log("Canvas found:", canvas);
+
+        if (canvas) {
+            renderRadarChart(entry, canvas);
+        }
+
+        return card;
+    }
+
+    return createLibraryItem(entry);
+}
+
 function createLibraryItem(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
 
     const isExpanded = expandedEntryId === entry.id;
 
     const div = createBaseEntry();
-
-    div.className = "library-item";
 
     div.innerHTML = `
     <div class="entry-header">
@@ -121,45 +157,11 @@ function createLibraryItem(entry) {
     return div;
 }
 
-function updateEntryView(id) {
-
-    const container = document.getElementById("entries-container");
-
-    const oldEl = container.querySelector(`[data-id="${id}"]`);
-    if (!oldEl) return;
-
-    const entry = cachedEntries.find((e) => e.id === id);
-    if (!entry) return;
-
-    const newEl = renderEntry(entry);
-    newEl.dataset.id = id;
-
-    container.replaceChild(newEl, oldEl);
-}
-
-function renderEntry(entry) {
-    if (expandedEntryId === entry.id) {
-        const card = createDetailCard(entry);
-
-        const canvas = card.querySelector("canvas");
-        renderRadarChart(entry, canvas);
-
-        return card;
-    }
-
-    return createLibraryItem(entry);
-}
-
 function createDetailCard(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
-    const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
-        border: "rgba(150, 150, 150, 1)",
-        background: "rgba(150, 150, 150, 0.2)",
-    };
 
     const div = createBaseEntry();
 
-    div.style.cursor = "pointer";
     div.dataset.id = entry.id;
 
     div.addEventListener("click", (e) => {
@@ -169,42 +171,37 @@ function createDetailCard(entry) {
 
     div.classList.add("detail-card");
     div.innerHTML = `
-    <div class="row">
-      
-    <div style="width: 50%;">
-        <span>
-            <span class="chevron expanded">▼</span>
-            <h3 class="inline-title">${entry.title}</h3>
-        </span>
+        <div class="row">
 
-        <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
-        <p><strong>Type:</strong><br>${entry.media_type}</p>
+            <div class="column-half">
+                <span>
+                    <span class="chevron expanded">▼</span>
+                    <h3 class="inline-title">${entry.title}</h3>
+                </span>
 
-        <div class="genre-chip-container">
-          ${renderGenreChips(entry.genres)}
+                <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
+                <p><strong>Type:</strong><br>${entry.media_type}</p>
+
+                <div class="genre-chip-container">
+                    ${renderGenreChips(entry.genres)}
+                </div>
+
+                <p><strong>Total Score:</strong><br>${percentScore}%</p>
+            </div>
+
+            <div class="column-half">
+                <canvas id="chart-${entry.id}"></canvas>
+            </div>
+
         </div>
-
-        <p><strong>Total Score:</strong><br>${percentScore}%</p>
-      </div>
-
-      <div style="width: 50%;">
-        <canvas id="chart-${entry.id}"></canvas>
-      </div>
-    </div>
-
-    <div>
-      ${renderScoreBars(entry.scores || {})}
-      <p><strong>Notes:</strong> ${entry.notes}</p>
-
-      <button onclick="startEdit('${entry.id}')">Edit</button>
-      <button onclick="openDeleteModal('${entry.id}')">Delete</button>
-    </div>
-  `;
+    `;
 
     return div;
 }
 
 function renderRadarChart(entry, canvas) {
+    console.log("Radar rendering:", entry.title, canvas);
+
     const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
         border: "rgba(150,150,150,1)",
         background: "rgba(150,150,150,0.2)"
@@ -261,9 +258,10 @@ function renderActiveFilters() {
 
     const wrapper = document.createElement("div");
 
-    wrapper.style.display = "flex";
-    wrapper.style.gap = "10px";
-    wrapper.style.alignItems = "center";
+    // wrapper.style.display = "flex";
+    // wrapper.style.gap = "10px";
+    // wrapper.style.alignItems = "center";
+    wrapper.className = "flex-row";
 
     if (hasSearch) {
         const searchTag = document.createElement("span");

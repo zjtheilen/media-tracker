@@ -1,3 +1,58 @@
+// function groupEntries(entries, keySelector) {
+//     const groups = {};
+
+//     entries.forEach((entry) => {
+//         const key = keySelector(entry);
+
+//         if (key == null) {
+//             return;
+//         }
+
+//         if (!groups[key]) {
+//             groups[key] = [];
+//         }
+
+//         groups[key].push(entry);
+//     });
+
+//     return groups;
+// }
+
+function destroyChart(id) {
+    if (chartInstances[id]) {
+        chartInstances[id].destroy();
+    }
+}
+
+function calculateAverage(entries) {
+    return (
+        entries.reduce(
+            (sum, entry) => sum + entry.total_score,
+            0
+        ) / entries.length
+    );
+}
+
+function groupEntries(entries, keySelector) {
+    return entries.reduce((groups, entry) => {
+        const keys = keySelector(entry);
+
+        const normalizedKeys = Array.isArray(keys)
+            ? keys
+            : [keys];
+
+        normalizedKeys.forEach((key) => {
+            if (!groups[key]) {
+                groups[key] = [];
+            }
+
+            groups[key].push(entry);
+        });
+
+        return groups;
+    }, {});
+}
+
 async function renderMediaDistributionChart() {
     const stats = await getStats();
 
@@ -11,6 +66,8 @@ async function renderMediaDistributionChart() {
     const MEDIA_COLORS_ARRAY = Object.keys(MEDIA_TYPE_COLORS).map(
         (key) => MEDIA_TYPE_COLORS[key].border,
     );
+
+    destroyChart("media-distribution");
 
     new Chart(ctx, {
         type: "doughnut",
@@ -36,24 +93,47 @@ async function renderMediaDistributionChart() {
 async function renderAverageScoreByMediaTypeChart() {
     const entries = await getEntries();
 
-    const grouped = {};
-
-    entries.forEach((entry) => {
-        if (!grouped[entry.media_type]) {
-            grouped[entry.media_type] = [];
-        }
-
-        grouped[entry.media_type].push(entry.total_score);
-    });
+    const grouped = groupEntries(
+        entries,
+        entry => entry.media_type
+    );
 
     const labels = Object.keys(grouped);
-    const averages = labels.map((type) => {
-        const scores = grouped[type];
-        const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
-        return Number(avg.toFixed(2));
-    });
+
+    const averages = labels.map((type) =>
+        Number(calculateAverage(grouped[type]).toFixed(2))
+    );
+
+    // const grouped = {};
+
+    // entries.forEach((entry) => {
+    //     if (!grouped[entry.media_type]) {
+    //         grouped[entry.media_type] = [];
+    //     }
+
+    //     grouped[entry.media_type].push(entry.total_score);
+    // });
+    // const grouped = groupEntries(entries, (entry) => entry.media_type);
+
+    // const labels = Object.keys(grouped);
+    // // const averages = labels.map((type) => {
+    // //     const scores = grouped[type];
+    // //     const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+    // //     return Number(avg.toFixed(2));
+    // // });
+    // const averages = labels.map((type) => {
+    //     const mediaEntries = grouped[type];
+
+    //     const avg =
+    //         mediaEntries.reduce((sum, entry) => sum + entry.total_score, 0) /
+    //         mediaEntries.length;
+
+    //     return Number(avg.toFixed(2));
+    // });
 
     const ctx = document.getElementById("avg-score-chart").getContext("2d");
+
+    destroyChart("media-distribution");
 
     new Chart(ctx, {
         type: "bar",
@@ -111,6 +191,8 @@ async function renderMonthlyCompletionChart() {
 
     const ctx = document.getElementById("monthly-completion-chart").getContext("2d");
 
+    destroyChart("media-distribution");
+
     new Chart(ctx, {
         type: "bar",
         data: {
@@ -154,7 +236,7 @@ async function renderRatingDistributionChart() {
         } else if (score >= 60) {
             buckets["60-69"]++;
         } else {
-            buckets["90-100"]++;
+            buckets["Below 60"]++;
         }
     });
 
@@ -162,6 +244,8 @@ async function renderRatingDistributionChart() {
     const data = Object.values(buckets);
 
     const ctx = document.getElementById("rating-distribution-chart").getContext("2d");
+
+    destroyChart("media-distribution");
 
     new Chart(ctx, {
         type: "bar",
@@ -188,26 +272,44 @@ async function renderRatingDistributionChart() {
 async function renderGenreAverageRatingsChart() {
     const entries = await getEntries();
 
-    const genreScores = {};
+    const genreGroups = groupEntries(
+        entries.filter(entry => Array.isArray(entry.genres)),
+        entry => entry.genres
+    );
 
-    entries.forEach((entry) => {
-        if (!Array.isArray(entry.genres)) return;
+    // const genreScores = {};
 
-        entry.genres.forEach((genre) => {
-            if (!genreScores[genre]) {
-                genreScores[genre] = [];
-            }
+    // entries.forEach((entry) => {
+    //     if (!Array.isArray(entry.genres)) return;
 
-            genreScores[genre].push(entry.total_score);
-        });
-    });
+    //     entry.genres.forEach((genre) => {
+    //         if (!genreScores[genre]) {
+    //             genreScores[genre] = [];
+    //         }
 
+    //         genreScores[genre].push(entry.total_score);
+    //     });
+    // });
+
+    // const genreAverages = {};
+
+    // Object.keys(genreScores).forEach((genre) => {
+    //     const scores = genreScores[genre];
+
+    //     const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+
+    //     genreAverages[genre] = Number(average.toFixed(2));
+    // });
     const genreAverages = {};
 
-    Object.keys(genreScores).forEach((genre) => {
-        const scores = genreScores[genre];
+    Object.keys(genreGroups).forEach((genre) => {
+        const genreEntries = genreGroups[genre];
 
-        const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+        const average =
+            genreEntries.reduce(
+                (sum, entry) => sum + entry.total_score,
+                0
+            ) / genreEntries.length;
 
         genreAverages[genre] = Number(average.toFixed(2));
     });
@@ -221,6 +323,8 @@ async function renderGenreAverageRatingsChart() {
 
     const ctx = document.getElementById("genre-average-ratings-chart").getContext("2d");
 
+    destroyChart("media-distribution");
+    
     new Chart(ctx, {
         type: "bar",
         data: {
@@ -256,22 +360,40 @@ async function renderGenreAverageRatingsChart() {
 async function renderFavoriteMediaType() {
     const entries = await getEntries();
 
-    const grouped = {};
+    const grouped = groupEntries(
+        entries,
+        entry => entry.media_type
+    );
 
-    entries.forEach((entry) => {
-        if (!grouped[entry.media_type]) {
-            grouped[entry.media_type] = [];
-        }
+    // const grouped = groupEntries(entries, (entry) => entry.media_type);
 
-        grouped[entry.media_type].push(entry.total_score);
-    });
+    // const grouped = {};
 
-    const averages = {}
+    // entries.forEach((entry) => {
+    //     if (!grouped[entry.media_type]) {
+    //         grouped[entry.media_type] = [];
+    //     }
+
+    //     grouped[entry.media_type].push(entry.total_score);
+    // });
+
+    // const averages = {}
+
+    // Object.keys(grouped).forEach((type) => {
+    //     const mediaEntries = grouped[type];
+
+    //     averages[type] =
+    //         mediaEntries.reduce((sum, entry) => sum + entry.total_score, 0) /
+    //         mediaEntries.length;
+    //     // const scores = grouped[type];
+
+    //     // averages[type] = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+    // });
+
+    const averages = {};
 
     Object.keys(grouped).forEach((type) => {
-        const scores = grouped[type];
-
-        averages[type] = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+        averages[type] = calculateAverage(grouped[type]);
     });
 
     const favorite = Object.entries(averages).reduce((best, current) => {

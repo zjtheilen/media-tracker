@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -23,8 +23,10 @@
     </head>
 
     <body>
-        <h1>Media Tracker</h1>
-        <p>Welcome to the Media Tracker!</p>
+        <header class="page-header">
+            <h1>Media Tracker</h1>
+            <p>Welcome to the Media Tracker!</p>
+        </header>
 
         <nav id="main-nav">
             <button id="library-tab">Library</button>
@@ -32,7 +34,7 @@
             <button id="lists-tab">Lists</button>
         </nav>
 
-        <section id="library-page">
+        <section id="library-page" class="page-selection">
             <button id="openBtn">Add an Entry</button>
 
             <dialog id="entryModal">
@@ -71,7 +73,9 @@
 
                     <div class="row">
                         <button type="submit" id="submitBtn">Add Entry</button>
-                        <button class="secondary" id="closeBtn">Cancel</button>
+                        <button type="button" class="secondary" id="closeBtn">
+                            Cancel
+                        </button>
                     </div>
                 </form>
             </dialog>
@@ -85,13 +89,19 @@
                     <button class="danger" type="button" id="confirmDeleteBtn">
                         Confirm Delete
                     </button>
-                    <button class="secondary" type="button" id="cancelDeleteBtn">Cancel</button>
+                    <button
+                        class="secondary"
+                        type="button"
+                        id="cancelDeleteBtn"
+                    >
+                        Cancel
+                    </button>
                 </div>
             </dialog>
 
             <!-- <button onclick="clearGenreFilter()">Clear Filter</button> -->
 
-            <div style="margin: 15px 0">
+            <div class="control-group">
                 <label for="sort-select">Sort By:</label>
 
                 <select id="sort-select">
@@ -108,23 +118,23 @@
                 </select>
             </div>
 
-            <div id="genre-filter-bar" style="margin-bottom: 10px">
+            <div id="genre-filter-bar">
                 <strong>Genres:</strong>
                 <div id="genre-filters"></div>
             </div>
 
-            <div style="margin: 15px 0">
+            <div class="control-group">
                 <label for="search-input">Search Entries:</label>
                 <input type="text" id="search-input" />
             </div>
 
-            <div id="active-filters" style="margin-bottom: 10px"></div>
+            <div id="active-filters" class="active-filters"></div>
 
             <h2>Entries</h2>
             <div id="entries-container"></div>
         </section>
 
-        <section id="analytics-page" hidden>
+        <section id="analytics-page" class="page-selection" hidden>
             <div class="row section">
                 <div class="column-half dashboard-card">
                     <h2>Favorite Media Type</h2>
@@ -157,33 +167,33 @@
             </div>
         </section>
 
-        <section id="lists-page" hidden>
+        <section id="lists-page" class="page-selection" hidden>
             <div class="row section">
-                <div class="column-half">
+                <div class="column-half card">
                     <h2>Top Rated Overall</h2>
                     <div id="top-rated-overall-list"></div>
                 </div>
-                <div class="column-half">
+                <div class="column-half card">
                     <h2>Top Books</h2>
                     <div id="top-books-list"></div>
                 </div>
             </div>
             <div class="row section">
-                <div class="column-half">
+                <div class="column-half card">
                     <h2>Top Movies</h2>
                     <div id="top-movies-list"></div>
                 </div>
-                <div class="column-half">
+                <div class="column-half card">
                     <h2>Top Games</h2>
                     <div id="top-games-list"></div>
                 </div>
             </div>
             <div class="row section">
-                <div class="column-half">
+                <div class="column-half card">
                     <h2>Most Thought Provoking</h2>
                     <div id="thought-provoking-list"></div>
                 </div>
-                <div class="column-half">
+                <div class="column-half card">
                     <h2>Highest Writing Score</h2>
                     <div id="highest-writing-list"></div>
                 </div>
