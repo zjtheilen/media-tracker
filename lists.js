@@ -57,7 +57,7 @@ function renderTopList(containerId, entries) {
     entries.forEach((entry, index) => {
         const card = document.createElement("div");
 
-        // card.className = "top-list-card";
+        card.className = "top-list-card";
 
         card.innerHTML = `
             <div class="top-list-rank">
