@@ -199,8 +199,6 @@ function createDetailCard(entry) {
       <button onclick="startEdit('${entry.id}')">Edit</button>
       <button onclick="openDeleteModal('${entry.id}')">Delete</button>
     </div>
-
-    <hr>
   `;
 
     return div;
