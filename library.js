@@ -130,6 +130,27 @@ function renderEntry(entry) {
     return createLibraryItem(entry);
 }
 
+function renderEntryHeader(entry, isExpanded) {
+    return `
+        <div class="entry-header">
+            <svg class="chevron ${isExpanded ? "expanded" : ""}"
+                 viewBox="0 0 24 24"
+                 aria-hidden="true">
+                <path
+                    d="M6 9l6 6 6-6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+
+            <h3 class="inline-title">${entry.title}</h3>
+        </div>
+    `;
+}
+
 function createLibraryItem(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
 
@@ -138,10 +159,7 @@ function createLibraryItem(entry) {
     const div = createBaseEntry();
 
     div.innerHTML = `
-    <div class="entry-header">
-        <span class="chevron ${isExpanded ? "expanded" : ""}">▼</span>
-        <h3>${entry.title}</h3>
-    </div>
+    ${renderEntryHeader(entry, isExpanded)}
 
     <div class="library-meta">
         <span>${entry.media_type}</span>
@@ -174,10 +192,7 @@ function createDetailCard(entry) {
         <div class="row">
 
             <div class="column-half">
-                <span>
-                    <span class="chevron expanded">▼</span>
-                    <h3 class="inline-title">${entry.title}</h3>
-                </span>
+                ${renderEntryHeader(entry, true)}
 
                 <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
                 <p><strong>Type:</strong><br>${entry.media_type}</p>

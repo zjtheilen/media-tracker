@@ -195,17 +195,16 @@ button.danger:hover {
 }
 
 .chevron {
-    display: inline-block;
+    width: 20px;
+    height: 20px;
 
-    font-size: 1.1rem;
+    flex-shrink: 0;
 
     transition: transform 0.25s ease;
 }
 
 .chevron.expanded {
     transform: rotate(180deg);
-    align-self: start;
-    margin-top: var(--spacing-md);
 }
 
 /* Scores */
