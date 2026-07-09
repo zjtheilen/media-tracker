@@ -1,11 +1,5 @@
 function createBaseEntry() {
-    const div = document.createElement("div");
-    div.className = "library-item";
-    return div;
-}
-
-function getEntryFromCache(id) {
-    return cachedEntries.find((e) => e.id === id);
+    return document.createElement("div");
 }
 
 async function loadEntries() {
@@ -197,6 +191,8 @@ function createLibraryItem(entry) {
 
     const div = createBaseEntry();
 
+    div.className = "library-item"
+
     div.innerHTML = `
     ${renderEntryHeader(entry, isExpanded)}
 
@@ -217,6 +213,8 @@ function createLibraryItem(entry) {
 function createDetailCard(entry) {
 
     const div = createBaseEntry();
+
+    div.className = "detail-card";
 
     div.dataset.id = entry.id;
 

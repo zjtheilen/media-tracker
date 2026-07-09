@@ -1,6 +1,7 @@
 function destroyChart(id) {
     if (chartInstances[id]) {
         chartInstances[id].destroy();
+        delete chartInstances[id];
     }
 }
 
@@ -198,9 +199,9 @@ async function renderRatingDistributionChart() {
 
     const ctx = document.getElementById("rating-distribution-chart").getContext("2d");
 
-    destroyChart("media-distribution");
+    destroyChart("rating-distribution");
 
-    chartInstances["media-distribution"] = new Chart(ctx, {
+    chartInstances["rating-distribution"] = new Chart(ctx, {
         type: "bar",
         data: {
             labels,

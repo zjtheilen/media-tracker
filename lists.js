@@ -10,6 +10,38 @@ function calculateThoughtProvokingScore(entry) {
     const factors = [
         scores.depth,
         scores.originality,
+        scores.emotional_impact,
+    ].filter((score) => score !== undefined);
+
+    if (factors.length === 0) {
+        return 0;
+    }
+
+    return factors.reduce((sum, score) => sum + score, 0) / factors.length;
+}
+
+
+function calculateWritingScore(entry) {
+    const scores = entry.scores || {};
+
+    const factors = [
+        scores.craft,
+        scores.originality,
+    ].filter((score) => score !== undefined);
+
+    if (factors.length === 0) {
+        return 0;
+    }
+
+    return factors.reduce((sum, score) => sum + score, 0) / factors.length;
+}
+
+function calculateThoughtProvokingScore(entry) {
+    const scores = entry.scores || {};
+
+    const factors = [
+        scores.depth,
+        scores.originality,
         scores.emotional_impact
     ].filter(score => score !== undefined);
 
@@ -49,7 +81,7 @@ async function renderTopByFilter(
         scoreFn
     );
 
-    renderTopList(containerId, topEntries);
+    renderTopList(containerId, topEntries, scoreFn);
 }
 
 async function renderTopRatedOverall() {
@@ -96,7 +128,11 @@ async function renderBestWritingScore() {
     );
 }
 
-function renderTopList(containerId, entries) {
+function renderTopList(
+    containerId,
+    entries,
+    scoreFn = entry => entry.total_score
+) {
     const container = document.getElementById(containerId);
 
     container.innerHTML = "";
@@ -116,7 +152,7 @@ function renderTopList(containerId, entries) {
             </div>
 
             <div class="top-list-score">
-                ${entry.total_score.toFixed(1)}%
+                ${scoreFn(entry).toFixed(1)}
             </div>
         `;
 
