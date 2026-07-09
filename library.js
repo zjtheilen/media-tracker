@@ -258,9 +258,6 @@ function renderActiveFilters() {
 
     const wrapper = document.createElement("div");
 
-    // wrapper.style.display = "flex";
-    // wrapper.style.gap = "10px";
-    // wrapper.style.alignItems = "center";
     wrapper.className = "flex-row";
 
     if (hasSearch) {

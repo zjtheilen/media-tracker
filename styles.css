@@ -451,19 +451,16 @@ canvas {
 
 /* Lists */
 
-.top-list-card {
+.top-list-item {
+    display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: var(--spacing-md);
+    padding: 12px 0;
+}
 
-    margin-bottom: var(--spacing-sm);
-
-    background: var(--surface);
-
-    border-radius: var(--radius);
-
-    box-shadow: var(--shadow);
+.top-list-item:not(:last-child) {
+    border-bottom: 1px solid var(--border);
 }
 
 .top-list-rank {
@@ -533,7 +530,7 @@ canvas {
         width: 100%;
     }
 
-    .top-list-card {
+    .top-list-item {
         flex-direction: column;
 
         align-items: flex-start;
