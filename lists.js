@@ -1,3 +1,9 @@
+function getTopEntries(entries, scoreFn, limit = 5) {
+    return [...entries]
+        .sort((a, b) => scoreFn(b) - scoreFn(a))
+        .slice(0, limit);
+}
+
 async function renderTopByFilter(
     containerId,
     filterFn,
@@ -5,11 +11,13 @@ async function renderTopByFilter(
 ) {
     const entries = await getEntries();
 
-    const topEntries = entries
-        .filter(filterFn)
-        .sort((a, b) => scoreFn(b) - scoreFn(a))
-        .slice(0, 5);
-    
+    const filteredEntries = entries.filter(filterFn);
+
+    const topEntries = getTopEntries(
+        filteredEntries,
+        scoreFn
+    );
+
     renderTopList(containerId, topEntries);
 }
 
@@ -63,10 +71,10 @@ function renderTopList(containerId, entries) {
     container.innerHTML = "";
 
     entries.forEach((entry, index) => {
-        const card = document.createElement("div");
-        card.className = "top-list-item"
+        const item = document.createElement("div");
+        item.className = "top-list-item"
 
-        card.innerHTML = `
+        item.innerHTML = `
             <div class="top-list-rank">
                 #${index + 1}
             </div>
@@ -81,6 +89,6 @@ function renderTopList(containerId, entries) {
             </div>
         `;
 
-        container.appendChild(card);
-    })
+        container.appendChild(item);
+    });
 }

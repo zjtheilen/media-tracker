@@ -1,7 +1,6 @@
 function createBaseEntry() {
     const div = document.createElement("div");
     div.className = "library-item";
-    div.style.cursor = "pointer";
     return div;
 }
 
@@ -167,6 +166,33 @@ function renderEntryMetadata(entry) {
     `;
 }
 
+function renderEntryScores(entry) {
+    return `
+        <div class="entry-scores">
+            ${renderScoreBars(entry.scores || {})}
+
+            <p>
+                <strong>Notes:</strong>
+                ${entry.notes || "No notes"}
+            </p>
+        </div>
+    `;
+}
+
+function renderEntryActions(entry) {
+    return `
+        <div class="entry-actions">
+            <button onclick="startEdit('${entry.id}')">
+                Edit
+            </button>
+
+            <button onclick="openDeleteModal('${entry.id}')">
+                Delete
+            </button>
+        </div>
+    `;
+}
+
 function createLibraryItem(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
 
@@ -216,6 +242,9 @@ function createDetailCard(entry) {
             </div>
 
         </div>
+
+        ${renderEntryScores(entry)}
+        ${renderEntryActions(entry)}
     `;
 
     return div;
