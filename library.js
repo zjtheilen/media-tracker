@@ -151,6 +151,22 @@ function renderEntryHeader(entry, isExpanded) {
     `;
 }
 
+function renderEntryMetadata(entry) {
+    const percentScore = Number(entry.total_score).toFixed(1);
+
+    return `
+        <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
+
+        <p><strong>Type:</strong><br>${entry.media_type}</p>
+
+        <div class="genre-chip-container">
+            ${renderGenreChips(entry.genres)}
+        </div>
+
+        <p><strong>Total Score:</strong><br>${percentScore}%</p>
+    `;
+}
+
 function createLibraryItem(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
 
@@ -176,7 +192,6 @@ function createLibraryItem(entry) {
 }
 
 function createDetailCard(entry) {
-    const percentScore = Number(entry.total_score).toFixed(1);
 
     const div = createBaseEntry();
 
@@ -193,15 +208,7 @@ function createDetailCard(entry) {
 
             <div class="column-half">
                 ${renderEntryHeader(entry, true)}
-
-                <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
-                <p><strong>Type:</strong><br>${entry.media_type}</p>
-
-                <div class="genre-chip-container">
-                    ${renderGenreChips(entry.genres)}
-                </div>
-
-                <p><strong>Total Score:</strong><br>${percentScore}%</p>
+                ${renderEntryMetadata(entry)}
             </div>
 
             <div class="column-half">
