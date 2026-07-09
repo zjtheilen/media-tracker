@@ -108,16 +108,13 @@ function updateEntryView(id) {
 }
 
 function renderEntry(entry) {
-    console.log("renderEntry:", entry.title, expandedEntryId);
 
     if (expandedEntryId === entry.id) {
-        console.log("Expanded entry detected");
 
         const card = createDetailCard(entry);
 
         const canvas = card.querySelector("canvas");
 
-        console.log("Canvas found:", canvas);
 
         if (canvas) {
             renderRadarChart(entry, canvas);
@@ -251,7 +248,6 @@ function createDetailCard(entry) {
 }
 
 function renderRadarChart(entry, canvas) {
-    console.log("Radar rendering:", entry.title, canvas);
 
     const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
         border: "rgba(150,150,150,1)",

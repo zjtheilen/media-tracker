@@ -49,7 +49,7 @@ async function renderMediaDistributionChart() {
 
     destroyChart("media-distribution");
 
-    new Chart(ctx, {
+    chartInstances["media-distribution"] = new Chart(ctx, {
         type: "doughnut",
         data: {
             labels: labels,
@@ -86,9 +86,9 @@ async function renderAverageScoreByMediaTypeChart() {
 
     const ctx = document.getElementById("avg-score-chart").getContext("2d");
 
-    destroyChart("media-distribution");
+    destroyChart("avg-score");
 
-    new Chart(ctx, {
+    chartInstances["avg-score"] = new Chart(ctx, {
         type: "bar",
         data: {
             labels: labels,
@@ -144,9 +144,9 @@ async function renderMonthlyCompletionChart() {
 
     const ctx = document.getElementById("monthly-completion-chart").getContext("2d");
 
-    destroyChart("media-distribution");
+    destroyChart("monthly-completion");
 
-    new Chart(ctx, {
+    chartInstances["monthly-completion"] = new Chart(ctx, {
         type: "bar",
         data: {
             labels,
@@ -200,7 +200,7 @@ async function renderRatingDistributionChart() {
 
     destroyChart("media-distribution");
 
-    new Chart(ctx, {
+    chartInstances["media-distribution"] = new Chart(ctx, {
         type: "bar",
         data: {
             labels,
@@ -253,9 +253,9 @@ async function renderGenreAverageRatingsChart() {
 
     const ctx = document.getElementById("genre-average-ratings-chart").getContext("2d");
 
-    destroyChart("media-distribution");
+    destroyChart("genre-average-ratings");
 
-    new Chart(ctx, {
+    chartInstances["genre-average-ratings"] = new Chart(ctx, {
         type: "bar",
         data: {
             labels,

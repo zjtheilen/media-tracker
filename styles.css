@@ -5,6 +5,10 @@
     --muted: #777;
     --border: #ccc;
 
+    --secondary: #ddd;
+    --secondary-hover: #ccc;
+    --tag-bg: #eee;
+
     --accent: #333;
     --accent-hover: #555;
     --danger: #e74c3c;
@@ -71,12 +75,12 @@ button:hover {
 }
 
 button.secondary {
-    background: #ddd;
+    background: var(--secondary);
     color: var(--text);
 }
 
 button.secondary:hover {
-    background: #ccc;
+    background: var(--secondary-hover);
 }
 
 button.danger {
@@ -209,10 +213,6 @@ button.danger:hover {
 
 /* Scores */
 
-.score-bar-bg {
-    background: var(--track);
-}
-
 .score-row {
     display: flex;
     align-items: center;
@@ -228,13 +228,9 @@ button.danger:hover {
 
 .score-bar-bg {
     flex: 1;
-
     height: 10px;
-
-    background: #e0e0e0;
-
+    background: var(--track);
     border-radius: 5px;
-
     overflow: hidden;
 }
 
@@ -310,7 +306,7 @@ button.danger:hover {
 }
 
 .filter-tag {
-    background: #eee;
+    background: var(--tag-bg);
 
     padding: 3px var(--spacing-sm);
 

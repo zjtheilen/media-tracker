@@ -25,7 +25,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
       <div class="score-row">
         <label class="score-input-label" for="${category}">
           ${category}:
-          <span id="11${category}-value">${scoreValue}</span>
+          <span id="${category}-value">${scoreValue}</span>
         </label>
 
         <input 
@@ -42,7 +42,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
         scoreContainer.appendChild(wrapper);
 
         const slider = document.getElementById(category);
-        const valueDisplay = document.getElementById(`11${category}-value`);
+        const valueDisplay = document.getElementById(`${category}-value`);
 
         slider.addEventListener("input", () => {
             valueDisplay.textContent = slider.value;

@@ -4,6 +4,37 @@ function getTopEntries(entries, scoreFn, limit = 5) {
         .slice(0, limit);
 }
 
+function calculateThoughtProvokingScore(entry) {
+    const scores = entry.scores || {};
+
+    const factors = [
+        scores.depth,
+        scores.originality,
+        scores.emotional_impact
+    ].filter(score => score !== undefined);
+
+    if (factors.length === 0) {
+        return 0;
+    }
+
+    return factors.reduce((sum, score) => sum + score, 0) / factors.length;
+}
+
+function calculateWritingScore(entry) {
+    const scores = entry.scores || {};
+
+    const factors = [
+        scores.craft,
+        scores.originality
+    ].filter(score => score !== undefined);
+
+    if (factors.length === 0) {
+        return 0;
+    }
+
+    return factors.reduce((sum, score) => sum + score, 0) / factors.length;
+}
+
 async function renderTopByFilter(
     containerId,
     filterFn,
@@ -53,15 +84,15 @@ async function renderMostThoughtProvoking() {
     renderTopByFilter(
         "thought-provoking-list",
         () => true,
-        entry => entry.scores?.thought_provoking ?? 0
+        calculateThoughtProvokingScore
     );
 }
 
-async function renderHighestWritingScore() {
+async function renderBestWritingScore() {
     renderTopByFilter(
         "highest-writing-list",
         () => true,
-        entry => entry.scores?.writing ?? 0
+        calculateWritingScore
     );
 }
 
