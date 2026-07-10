@@ -41,7 +41,7 @@ body {
 }
 
 h2 {
-    text-align:center;
+    text-align: center;
 }
 
 input,
@@ -119,11 +119,9 @@ button.danger:hover {
     align-items: center;
 }
 
-
 .entry-details {
     flex: 1;
 }
-
 
 .entry-chart {
     flex: 1;
@@ -132,7 +130,6 @@ button.danger:hover {
 
     justify-content: center;
 }
-
 
 .entry-chart canvas {
     max-height: 300px;
@@ -151,8 +148,8 @@ button.danger:hover {
 }
 
 .page-header {
-    text-align:center;
-    margin-bottom:var(--spacing-lg);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
 }
 
 .card {
@@ -167,9 +164,9 @@ button.danger:hover {
 }
 
 .flex-row {
-    display:flex;
-    align-items:center;
-    gap:10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* Navigation */
@@ -209,13 +206,75 @@ button.danger:hover {
         box-shadow 0.15s ease;
 }
 
-.library-item:hover,
-.detail-card:hover {
+.library-item:hover {
     transform: translateY(-2px);
+}
+
+.detail-card:hover {
+    transform: none;
 }
 
 .detail-card {
     animation: expandIn 0.18s ease-out;
+}
+
+.entry-meta-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: var(--spacing-md);
+
+    margin: var(--spacing-md) 0;
+}
+
+.meta-item {
+    background: var(--background);
+
+    border-radius: var(--radius);
+
+    padding: var(--spacing-sm);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.meta-item strong {
+    font-size: 0.85rem;
+
+    color: var(--muted);
+}
+
+.meta-item span {
+    font-size: 1rem;
+}
+
+.entry-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: var(--spacing-sm);
+
+    margin-top: var(--spacing-md);
+}
+
+.entry-score-panel {
+    background: var(--background);
+
+    border-radius: var(--radius);
+
+    padding: var(--spacing-md);
+}
+
+.library-item:focus-visible,
+.detail-card:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 @keyframes expandIn {
@@ -568,5 +627,9 @@ canvas {
 
     .entry-overview {
         flex-direction: column;
+    }
+
+    .entry-meta-grid {
+        grid-template-columns: 1fr;
     }
 }

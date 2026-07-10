@@ -145,21 +145,34 @@ function renderEntryMetadata(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
 
     return `
-        <p><strong>Date:</strong><br>${entry.date_consumed || "N/A"}</p>
+        <div class="entry-meta-grid">
 
-        <p><strong>Type:</strong><br>${entry.media_type}</p>
+            <div class="meta-item">
+                <strong>Date</strong>
+                <span>${entry.date_consumed || "N/A"}</span>
+            </div>
+
+            <div class="meta-item">
+                <strong>Type</strong>
+                <span>${entry.media_type}</span>
+            </div>
+
+            <div class="meta-item">
+                <strong>Score</strong>
+                <span>${percentScore}%</span>
+            </div>
+
+        </div>
 
         <div class="genre-chip-container">
             ${renderGenreChips(entry.genres)}
         </div>
-
-        <p><strong>Total Score:</strong><br>${percentScore}%</p>
     `;
 }
 
 function renderEntryScores(entry) {
     return `
-        <div class="entry-scores">
+        <div class="entry-score-panel">
             ${renderScoreBars(entry.scores || {})}
         </div>
     `;
@@ -180,7 +193,7 @@ function renderEntryActions(entry) {
                 Edit
             </button>
 
-            <button onclick="openDeleteModal('${entry.id}')">
+            <button class="danger" onclick="openDeleteModal('${entry.id}')">
                 Delete
             </button>
         </div>
