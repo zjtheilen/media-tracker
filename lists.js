@@ -36,37 +36,6 @@ function calculateWritingScore(entry) {
     return factors.reduce((sum, score) => sum + score, 0) / factors.length;
 }
 
-function calculateThoughtProvokingScore(entry) {
-    const scores = entry.scores || {};
-
-    const factors = [
-        scores.depth,
-        scores.originality,
-        scores.emotional_impact
-    ].filter(score => score !== undefined);
-
-    if (factors.length === 0) {
-        return 0;
-    }
-
-    return factors.reduce((sum, score) => sum + score, 0) / factors.length;
-}
-
-function calculateWritingScore(entry) {
-    const scores = entry.scores || {};
-
-    const factors = [
-        scores.craft,
-        scores.originality
-    ].filter(score => score !== undefined);
-
-    if (factors.length === 0) {
-        return 0;
-    }
-
-    return factors.reduce((sum, score) => sum + score, 0) / factors.length;
-}
-
 async function renderTopByFilter(
     containerId,
     filterFn,
