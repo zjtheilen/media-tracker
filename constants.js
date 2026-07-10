@@ -1,3 +1,5 @@
+const API_BASE_URL = "http://127.0.0.1:8000";
+
 const MEDIA_TYPE_COLORS = {
     video: {
         border: "rgba(255, 99, 132, 1)",

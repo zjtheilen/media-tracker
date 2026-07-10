@@ -217,7 +217,7 @@ form.addEventListener("submit", async (event) => {
 
         if (editingEntryId) {
             response = await fetch(
-                `http://127.0.0.1:8000/entries/${editingEntryId}`,
+                `${API_BASE_URL}/entries/${editingEntryId}`,
                 {
                     method: "PUT",
                     headers: {
@@ -227,7 +227,7 @@ form.addEventListener("submit", async (event) => {
                 },
             );
         } else {
-            response = await fetch("http://127.0.0.1:8000/entries/", {
+            response = await fetch(`${API_BASE_URL}/entries/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

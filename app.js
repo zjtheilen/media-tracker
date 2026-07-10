@@ -1,5 +1,5 @@
 async function loadScoringProfiles() {
-    const response = await fetch("http://127.0.0.1:8000/scoring-profile");
+    const response = await fetch(`${API_BASE_URL}/scoring-profile`);
     const data = await response.json();
 
     scoringProfiles = {
@@ -180,7 +180,7 @@ initializeApp();
 renderActiveFilters();
 
 async function deleteEntry(id) {
-    await fetch(`http://127.0.0.1:8000/entries/${id}`, {
+    await fetch(`${API_BASE_URL}/entries/${id}`, {
         method: "DELETE",
     });
 
@@ -205,7 +205,7 @@ cancelDeleteBtn.onclick = () => {
 };
 
 async function loadGenres() {
-    const response = await fetch("http://127.0.0.1:8000/genres");
+    const response = await fetch(`${API_BASE_URL}/genres`);
     genreRegistry = await response.json();
     renderGenreFilters();
 }
