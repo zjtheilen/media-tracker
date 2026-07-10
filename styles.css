@@ -210,6 +210,11 @@ button.danger:hover {
     transform: translateY(-2px);
 }
 
+.library-item:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
 .detail-card:hover {
     transform: none;
 }

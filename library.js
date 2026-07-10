@@ -207,7 +207,16 @@ function createLibraryItem(entry) {
 
     const div = createBaseEntry();
 
-    div.className = "library-item"
+    div.className = "library-item";
+
+    div.tabIndex = 0;
+
+    div.setAttribute("role", "button");
+
+    div.setAttribute(
+        "aria-expanded",
+        expandedEntryId === entry.id
+    );
 
     div.innerHTML = `
     ${renderEntryHeader(entry, isExpanded)}
@@ -221,6 +230,14 @@ function createLibraryItem(entry) {
     div.addEventListener("click", (e) => {
         if (e.target.closest("button")) return;
         toggleExpanded(entry.id);
+    });
+
+    div.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+    
+            toggleExpanded(entry.id);
+        }
     });
 
     return div;
