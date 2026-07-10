@@ -1,3 +1,21 @@
+async function refreshApp() {
+    await loadEntries();
+
+    await renderMediaDistributionChart();
+    await renderAverageScoreByMediaTypeChart();
+    await renderMonthlyCompletionChart();
+    await renderRatingDistributionChart();
+    await renderGenreAverageRatingsChart();
+    await renderFavoriteMediaType();
+
+    await renderTopRatedOverall();
+    await renderTopBooks();
+    await renderTopMovies();
+    await renderTopGames();
+    await renderMostThoughtProvoking();
+    await renderBestWritingScore();
+}
+
 async function loadScoringProfiles() {
     const data = await getScoringProfiles();
 
@@ -145,31 +163,7 @@ const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
 let pendingDeleteId = null;
 
 async function initializeApp() {
-    initializeNavigation();
-
-    await loadGenres();
-    await loadScoringProfiles();
-
-    renderGenreSelector(mediaTypeSelect.value);
-    renderScoreInputs(mediaTypeSelect.value);
-
-    renderGenreFilters();
-
-    await loadEntries();
-
-    await renderMediaDistributionChart();
-    await renderAverageScoreByMediaTypeChart();
-    await renderMonthlyCompletionChart();
-    await renderRatingDistributionChart();
-    await renderGenreAverageRatingsChart();
-    await renderFavoriteMediaType();
-
-    await renderTopRatedOverall();
-    await renderTopBooks();
-    await renderTopMovies();
-    await renderTopGames();
-    await renderMostThoughtProvoking();
-    await renderBestWritingScore();
+    await refreshApp();
 
     showPage("library");
 }
@@ -181,7 +175,7 @@ renderActiveFilters();
 async function deleteEntry(id) {
     await removeEntry(id);
 
-    await loadEntries();
+    await refreshApp();
 }
 
 function openDeleteModal(id) {

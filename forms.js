@@ -221,7 +221,7 @@ form.addEventListener("submit", async (event) => {
 
         resetFormState();
 
-        await loadEntries();
+        await refreshApp();
 
     } catch (error) {
         console.error(error);
