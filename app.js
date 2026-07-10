@@ -90,7 +90,6 @@ function renderGenreFilters() {
 
         btn.addEventListener("click", () => {
             toggleGenreFilter(normalized);
-            renderGenreFilters();
         });
 
         container.appendChild(btn);
@@ -100,10 +99,10 @@ function renderGenreFilters() {
 function toggleGenreFilter(genre) {
     const normalized = genre.toLowerCase();
 
-    if (activeGenreFilter === genre.toLowerCase()) {
+    if (activeGenreFilter === normalized) {
         activeGenreFilter = null;
     } else {
-        activeGenreFilter = genre.toLowerCase();
+        activeGenreFilter = normalized;
     }
 
     loadEntries();
@@ -143,6 +142,8 @@ openBtn.addEventListener("click", () => {
 closeBtn.addEventListener("click", () => {
     resetFormState();
 
+    modal.close();
+
     if (lastFocusedElement) {
         lastFocusedElement.focus();
     }
@@ -163,6 +164,12 @@ const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
 let pendingDeleteId = null;
 
 async function initializeApp() {
+    await loadGenres();
+    await loadScoringProfiles();
+
+    renderGenreSelector(mediaTypeSelect.value);
+    renderScoreInputs(mediaTypeSelect.value);
+
     await refreshApp();
 
     showPage("library");
