@@ -63,6 +63,10 @@ async function renderMediaDistributionChart() {
         },
         options: {
             plugins: {
+                title: {
+                    display: true,
+                    text: "Media Distribution",
+                },
                 legend: {
                     position: "bottom",
                 },
@@ -118,6 +122,10 @@ async function renderAverageScoreByMediaTypeChart() {
                 legend: {
                     display: false,
                 },
+                title: {
+                    display: true,
+                    text: "Average Score by Media Type",
+                }
             },
         },
     });
@@ -163,6 +171,10 @@ async function renderMonthlyCompletionChart() {
                     precision: 0,
                 },
             },
+            title: {
+                display: true,
+                text: "Completed Media by Month",
+            }
         },
     });
 }
@@ -219,6 +231,10 @@ async function renderRatingDistributionChart() {
                     precision: 0,
                 },
             },
+            title: {
+                display: true,
+                text: "Rating Distribution",
+            }
         },
     });
 }
@@ -283,6 +299,10 @@ async function renderGenreAverageRatingsChart() {
                     max: 100,
                 },
             },
+            title: {
+                display: true,
+                text: "Average Rating",
+            }
         },
     });
 
