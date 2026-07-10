@@ -1,24 +1,28 @@
 async function apiRequest(endpoint, options = {}) {
-    const response = await fetch(
-        `${API_BASE_URL}${endpoint}`,
-        options
-    );
+    let response;
 
-    if (response.status === 204) {
-        return null;
+    try {
+        response = await fetch(
+            `${API_BASE_URL}${endpoint}`,
+            options
+        );
+    } catch {
+        throw new Error("Unable to connect to the server.");
     }
 
-    let data = {};
+    let data = null;
 
     try {
         data = await response.json();
     } catch {
-        // Response wasn't JSON.
+        data = null;
     }
 
     if (!response.ok) {
         throw new Error(
-            data.detail || "API request failed"
+            data?.detail ||
+            data?.message ||
+            "API request failed."
         );
     }
 
