@@ -115,21 +115,21 @@ const closeBtn = document.getElementById("closeBtn");
 
 let lastFocusedElement = null;
 
-openBtn.onclick = () => {
+openBtn.addEventListener("click", () => {
     lastFocusedElement = document.activeElement;
 
     modal.showModal();
 
     document.getElementById("title").focus();
-};
+});
 
-closeBtn.onclick = () => {
+closeBtn.addEventListener("click", () => {
     resetFormState();
 
     if (lastFocusedElement) {
         lastFocusedElement.focus();
     }
-};
+});
 
 modal.addEventListener("close", () => {
     resetFormState();
