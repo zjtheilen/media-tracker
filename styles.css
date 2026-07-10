@@ -111,6 +111,33 @@ button.danger:hover {
     margin-top: var(--spacing-lg);
 }
 
+.entry-overview {
+    display: flex;
+
+    gap: var(--spacing-lg);
+
+    align-items: center;
+}
+
+
+.entry-details {
+    flex: 1;
+}
+
+
+.entry-chart {
+    flex: 1;
+
+    display: flex;
+
+    justify-content: center;
+}
+
+
+.entry-chart canvas {
+    max-height: 300px;
+}
+
 .detail-section {
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-md);
@@ -537,5 +564,9 @@ canvas {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+    }
+
+    .entry-overview {
+        flex-direction: column;
     }
 }

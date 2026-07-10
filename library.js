@@ -228,14 +228,14 @@ function createDetailCard(entry) {
 
     div.classList.add("detail-card");
     div.innerHTML = `
-        <div class="row">
+        <div class="entry-overview">
 
-            <div class="column-half">
+            <div class="entry-details">
                 ${renderEntryHeader(entry, true)}
                 ${renderEntryMetadata(entry)}
             </div>
 
-            <div class="column-half">
+            <div class="entry-chart">
                 <canvas id="chart-${entry.id}"></canvas>
             </div>
 
