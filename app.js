@@ -190,8 +190,7 @@ confirmDeleteBtn.onclick = async () => {
         deleteModal.close();
         pendingDeleteId = null;
     } catch (error) {
-        console.error(error);
-        alert("Unable to delete entry.");
+        alert(error.message);
     }
 };
 

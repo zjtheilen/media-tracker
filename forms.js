@@ -224,7 +224,6 @@ form.addEventListener("submit", async (event) => {
         await refreshApp();
 
     } catch (error) {
-        console.error(error);
         showError(error.message || "Something went wrong.");
     } finally {
         submitBtn.disabled = false;
