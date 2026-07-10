@@ -113,8 +113,31 @@ const modal = document.getElementById("entryModal");
 const openBtn = document.getElementById("openBtn");
 const closeBtn = document.getElementById("closeBtn");
 
-openBtn.onclick = () => modal.showModal();
-closeBtn.onclick = () => resetFormState();
+let lastFocusedElement = null;
+
+openBtn.onclick = () => {
+    lastFocusedElement = document.activeElement;
+
+    modal.showModal();
+
+    document.getElementById("title").focus();
+};
+
+closeBtn.onclick = () => {
+    resetFormState();
+
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+    }
+};
+
+modal.addEventListener("close", () => {
+    resetFormState();
+
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+    }
+});
 
 const deleteModal = document.getElementById("deleteModal");
 const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");

@@ -135,8 +135,6 @@ function resetFormState() {
 
     updateSubmitButton();
     submitBtn.disabled = false;
-
-    modal.close();
 }
 
 function updateSubmitButton() {
