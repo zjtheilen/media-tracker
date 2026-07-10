@@ -1,4 +1,4 @@
-const chartInstances = [];
+const chartInstances = {};
 
 let scoringProfiles = {};
 

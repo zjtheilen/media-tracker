@@ -33,7 +33,7 @@ from models.genre_registry import (
     get_allowed_genres,
 )
 
-VALID_COMPLETION_STATUSES = {"completed", "in_progress", "dropped", "planned"}
+VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
 
 
 @asynccontextmanager
@@ -166,8 +166,6 @@ def validate_genres(media_type: str, genres: list[str]):
     allowed = get_allowed_genres(media_type)
 
     normalized_genres = list(dict.fromkeys(normalize_genre(g) for g in genres))
-
-    normalized_genres = list(dict.fromkeys(normalized_genres))
 
     for g in normalized_genres:
         if g not in allowed:

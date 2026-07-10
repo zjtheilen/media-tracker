@@ -2,7 +2,7 @@ import copy
 
 
 def valid_completion_statuses():
-    return ["completed", "in_progress", "dropped", "planned"]
+    return ["completed", "in-progress", "dropped", "planned"]
 
 
 def test_create_entry_success(client, valid_game_payload):
