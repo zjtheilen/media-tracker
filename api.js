@@ -4,7 +4,17 @@ async function apiRequest(endpoint, options = {}) {
         options
     );
 
-    const data = await response.json();
+    if (response.status === 204) {
+        return null;
+    }
+
+    let data = {};
+
+    try {
+        data = await response.json();
+    } catch {
+        // Response wasn't JSON.
+    }
 
     if (!response.ok) {
         throw new Error(
