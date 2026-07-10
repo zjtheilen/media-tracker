@@ -1,6 +1,5 @@
 async function loadScoringProfiles() {
-    const response = await fetch(`${API_BASE_URL}/scoring-profile`);
-    const data = await response.json();
+    const data = await getScoringProfiles();
 
     scoringProfiles = {
         video: data.categories,
@@ -180,9 +179,7 @@ initializeApp();
 renderActiveFilters();
 
 async function deleteEntry(id) {
-    await fetch(`${API_BASE_URL}/entries/${id}`, {
-        method: "DELETE",
-    });
+    await removeEntry(id);
 
     await loadEntries();
 }
@@ -193,10 +190,15 @@ function openDeleteModal(id) {
 }
 
 confirmDeleteBtn.onclick = async () => {
-    await deleteEntry(pendingDeleteId);
+    try {
+        await deleteEntry(pendingDeleteId);
 
-    deleteModal.close();
-    pendingDeleteId = null;
+        deleteModal.close();
+        pendingDeleteId = null;
+    } catch (error) {
+        console.error(error);
+        alert("Unable to delete entry.");
+    }
 };
 
 cancelDeleteBtn.onclick = () => {
@@ -205,7 +207,6 @@ cancelDeleteBtn.onclick = () => {
 };
 
 async function loadGenres() {
-    const response = await fetch(`${API_BASE_URL}/genres`);
-    genreRegistry = await response.json();
+    genreRegistry = await getGenres();
     renderGenreFilters();
 }

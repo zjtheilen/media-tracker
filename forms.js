@@ -213,42 +213,19 @@ form.addEventListener("submit", async (event) => {
     data.scores = scores;
 
     try {
-        let response;
-
         if (editingEntryId) {
-            response = await fetch(
-                `${API_BASE_URL}/entries/${editingEntryId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                },
-            );
+            await updateEntry(editingEntryId, data);
         } else {
-            response = await fetch(`${API_BASE_URL}/entries/`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-        }
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            showError(result.detail || "Something went wrong.");
-            return;
+            await createEntry(data);
         }
 
         resetFormState();
 
         await loadEntries();
+
     } catch (error) {
         console.error(error);
-        showError("Unable to save entry.");
+        showError(error.message || "Something went wrong.");
     } finally {
         submitBtn.disabled = false;
         updateSubmitButton();

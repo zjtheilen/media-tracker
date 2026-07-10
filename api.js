@@ -35,3 +35,31 @@ async function getScoringProfiles() {
 async function getStats() {
     return await apiRequest("/stats");
 }
+
+async function createEntry(data) {
+    return await apiRequest("/entries/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+}
+
+
+async function updateEntry(id, data) {
+    return await apiRequest(`/entries/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+}
+
+
+async function removeEntry(id) {
+    return await apiRequest(`/entries/${id}`, {
+        method: "DELETE",
+    });
+}
