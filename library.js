@@ -161,11 +161,14 @@ function renderEntryScores(entry) {
     return `
         <div class="entry-scores">
             ${renderScoreBars(entry.scores || {})}
+        </div>
+    `;
+}
 
-            <p>
-                <strong>Notes:</strong>
-                ${entry.notes || "No notes"}
-            </p>
+function renderEntryNotes(entry) {
+    return `
+        <div class="entry-notes">
+            ${entry.notes || "<em>No notes.</em>"}
         </div>
     `;
 }
@@ -238,8 +241,15 @@ function createDetailCard(entry) {
 
         </div>
 
-        ${renderEntryScores(entry)}
-        ${renderEntryActions(entry)}
+        <div class="detail-section">
+            <h4>Scores</h4>
+            ${renderEntryScores(entry)}
+        </div>
+
+        <div class="detail-section">
+            <h4>Actions</h4>
+            ${renderEntryActions(entry)}
+        </div>
     `;
 
     return div;
