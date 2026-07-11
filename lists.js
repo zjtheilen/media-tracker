@@ -151,17 +151,20 @@ function renderTopList(
 
                 <div class="report-details">
 
-                    <div class="archive-label">
-                        ${entry.media_type.toUpperCase()} RECORD
-                    </div>
-
-                    <h3>${entry.title}</h3>
+                <div class="archive-label">
+                ARCHIVE RECORD
+            </div>
+            
+            <div class="record-id">
+                ${generateRecordId(entry)}
+            </div>
+            
+            <h3>${entry.title}</h3>
 
                 </div>
 
                 <div class="report-value">
-                    ${
-                    containerId === "recent-archive-list"
+                    ${containerId === "recent-archive-list"
                         ? entry.date_consumed
                         : `${scoreFn(entry).toFixed(1)}%`
                     }
@@ -172,4 +175,22 @@ function renderTopList(
 
         container.appendChild(item);
     });
+}
+
+function generateRecordId(entry) {
+    const prefixMap = {
+        book: "BOOK",
+        video: "VID",
+        game: "GAME"
+    };
+
+    const prefix =
+        prefixMap[entry.media_type] || "REC";
+
+    const date =
+        entry.date_consumed
+            ? entry.date_consumed.replaceAll("-", "")
+            : "UNKNOWN";
+
+    return `${prefix}-${date}`;
 }
