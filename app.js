@@ -12,8 +12,11 @@ async function refreshApp() {
     await renderTopBooks();
     await renderTopMovies();
     await renderTopGames();
-    await renderMostThoughtProvoking();
-    await renderBestWritingScore();
+    await renderRecentArchiveAdditions();
+    await renderArchiveHallOfFame();
+
+    // await renderMostThoughtProvoking();
+    // await renderBestWritingScore();
 }
 
 async function loadScoringProfiles() {

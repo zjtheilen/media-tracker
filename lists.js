@@ -4,36 +4,68 @@ function getTopEntries(entries, scoreFn, limit = 5) {
         .slice(0, limit);
 }
 
-function calculateThoughtProvokingScore(entry) {
-    const scores = entry.scores || {};
+// function calculateThoughtProvokingScore(entry) {
+//     const scores = entry.scores || {};
 
-    const factors = [
-        scores.depth,
-        scores.originality,
-        scores.emotional_impact,
-    ].filter((score) => score !== undefined);
+//     const factors = [
+//         scores.depth,
+//         scores.originality,
+//         scores.emotional_impact,
+//     ].filter((score) => score !== undefined);
 
-    if (factors.length === 0) {
-        return 0;
-    }
+//     if (factors.length === 0) {
+//         return 0;
+//     }
 
-    return factors.reduce((sum, score) => sum + score, 0) / factors.length;
+//     return factors.reduce((sum, score) => sum + score, 0) / factors.length;
+// }
+
+
+// function calculateWritingScore(entry) {
+//     const scores = entry.scores || {};
+
+//     const factors = [
+//         scores.craft,
+//         scores.originality,
+//     ].filter((score) => score !== undefined);
+
+//     if (factors.length === 0) {
+//         return 0;
+//     }
+
+//     return factors.reduce((sum, score) => sum + score, 0) / factors.length;
+// }
+
+async function renderRecentArchiveAdditions() {
+    const entries = await getEntries();
+
+    const recent = [...entries]
+        .filter(entry => entry.date_consumed)
+        .sort(
+            (a, b) =>
+                new Date(b.date_consumed) -
+                new Date(a.date_consumed)
+        )
+        .slice(0, 5);
+
+    renderTopList(
+        "recent-archive-list",
+        recent,
+        () => 0
+    );
 }
 
+async function renderArchiveHallOfFame() {
+    const entries = await getEntries();
 
-function calculateWritingScore(entry) {
-    const scores = entry.scores || {};
+    const hall = entries
+        .filter(entry => entry.total_score >= 95)
+        .sort((a, b) => b.total_score - a.total_score);
 
-    const factors = [
-        scores.craft,
-        scores.originality,
-    ].filter((score) => score !== undefined);
-
-    if (factors.length === 0) {
-        return 0;
-    }
-
-    return factors.reduce((sum, score) => sum + score, 0) / factors.length;
+    renderTopList(
+        "hall-of-fame-list",
+        hall
+    );
 }
 
 async function renderTopByFilter(
@@ -81,21 +113,21 @@ async function renderTopGames() {
     );
 }
 
-async function renderMostThoughtProvoking() {
-    renderTopByFilter(
-        "thought-provoking-list",
-        () => true,
-        calculateThoughtProvokingScore
-    );
-}
+// async function renderMostThoughtProvoking() {
+//     renderTopByFilter(
+//         "thought-provoking-list",
+//         () => true,
+//         calculateThoughtProvokingScore
+//     );
+// }
 
-async function renderBestWritingScore() {
-    renderTopByFilter(
-        "highest-writing-list",
-        () => true,
-        calculateWritingScore
-    );
-}
+// async function renderBestWritingScore() {
+//     renderTopByFilter(
+//         "highest-writing-list",
+//         () => true,
+//         calculateWritingScore
+//     );
+// }
 
 function renderTopList(
     containerId,
@@ -111,17 +143,30 @@ function renderTopList(
         item.className = "top-list-item"
 
         item.innerHTML = `
-            <div class="top-list-rank">
-                #${index + 1}
-            </div>
+            <div class="report-record">
 
-            <div class="top-list-info">
-                <h3>${entry.title}</h3>
-                <p>${entry.media_type}</p>
-            </div>
+                <div class="report-rank">
+                    ${String(index + 1).padStart(2, "0")}
+                </div>
 
-            <div class="top-list-score">
-                ${scoreFn(entry).toFixed(1)}
+                <div class="report-details">
+
+                    <div class="archive-label">
+                        ${entry.media_type.toUpperCase()} RECORD
+                    </div>
+
+                    <h3>${entry.title}</h3>
+
+                </div>
+
+                <div class="report-value">
+                    ${
+                    containerId === "recent-archive-list"
+                        ? entry.date_consumed
+                        : `${scoreFn(entry).toFixed(1)}%`
+                    }
+                </div>
+
             </div>
         `;
 

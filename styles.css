@@ -755,6 +755,40 @@ dialog::backdrop {
     color: var(--highlight);
 }
 
+.report-record {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 14px 0;
+}
+
+.report-record:not(:last-child) {
+    border-bottom: 1px solid var(--border);
+}
+
+.report-rank {
+    width: 42px;
+
+    font-family: monospace;
+    font-size: 1.2rem;
+
+    color: var(--muted);
+}
+
+.report-details {
+    flex: 1;
+}
+
+.report-details h3 {
+    margin: 2px 0 0;
+}
+
+.report-value {
+    font-family: monospace;
+    color: var(--accent);
+}
+
 /* Responsive */
 
 @media (max-width: 700px) {
