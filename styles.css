@@ -23,6 +23,10 @@
     --success-bg: #102417;
     --error-bg: #281313;
 
+    --archive-label: #7f9587;
+    --archive-divider: #26332e;
+    --record-hover: #151d1b;
+
     --radius: 8px;
 
     --shadow: 0 0 18px rgba(127, 174, 135, 0.12);
@@ -198,6 +202,8 @@ label {
 
 .inline-title {
     margin: 0;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
 }
 
 .flex-row {
@@ -233,14 +239,12 @@ label {
 
     border-radius: var(--radius);
 
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
 
-    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
 
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
+    box-shadow: var(--shadow);
 }
 
 .library-item {
@@ -248,7 +252,11 @@ label {
 }
 
 .library-item:hover {
+    background: var(--record-hover);
+
     border-left-color: var(--highlight);
+
+    transform: translateX(3px);
 }
 
 .library-item:focus-visible {
@@ -301,6 +309,21 @@ label {
     font-size: 1rem;
 }
 
+.library-meta {
+    font-family: var(--font-mono);
+
+    color: var(--muted);
+
+    display: flex;
+    justify-content: space-between;
+
+    text-transform: uppercase;
+
+    font-size: 0.8rem;
+
+    letter-spacing: 0.08em;
+}
+
 .entry-meta-grid,
 .meta-item,
 .library-meta,
@@ -349,8 +372,11 @@ button:focus-visible {
 .entry-header {
     display: flex;
     align-items: center;
+    gap: var(--spacing-sm);
 
     cursor: pointer;
+
+    margin-bottom: var(--spacing-sm);
 }
 
 .chevron {
