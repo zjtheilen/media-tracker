@@ -24,9 +24,10 @@ function renderRadarChart(entry, canvas) {
                     label: entry.title,
                     data: Object.values(entry.scores || {}),
                     fill: true,
-                    backgroundColor: colors.background,
-                    borderColor: colors.border,
-                    pointBackgroundColor: colors.border,
+                    backgroundColor: "rgba(127,174,135,0.15)",
+                    borderColor: ARCHIVE_COLORS.green,
+                    borderWidth: 2,
+                    pointBackgroundColor: ARCHIVE_COLORS.amber,
                 },
             ],
         },
@@ -40,8 +41,25 @@ function renderRadarChart(entry, canvas) {
                 r: {
                     min: 1,
                     max: 10,
+            
                     ticks: {
                         display: false,
+                    },
+            
+                    grid: {
+                        color: ARCHIVE_COLORS.grid,
+                    },
+            
+                    angleLines: {
+                        color: ARCHIVE_COLORS.grid,
+                    },
+            
+                    pointLabels: {
+                        color: ARCHIVE_COLORS.text,
+                        font: {
+                            family: "monospace",
+                            size: 12,
+                        },
                     },
                 },
             },

@@ -159,6 +159,7 @@ function createDetailCard(entry) {
     div.dataset.id = entry.id;
 
     div.addEventListener("click", (e) => {
+        console.log("clicked entry:", entry.id);
         if (e.target.closest("button")) return;
         toggleExpanded(entry.id);
     });

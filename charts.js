@@ -1,3 +1,8 @@
+Chart.defaults.color = ARCHIVE_COLORS.text;
+Chart.defaults.borderColor = ARCHIVE_COLORS.grid;
+Chart.defaults.font.family = "monospace";
+Chart.defaults.animation.duration = 500;
+
 function destroyChart(id) {
     if (chartInstances[id]) {
         chartInstances[id].destroy();
@@ -44,10 +49,6 @@ async function renderMediaDistributionChart() {
     const labels = Object.keys(stats.media_type_counts);
     const data = Object.values(stats.media_type_counts);
 
-    const MEDIA_COLORS_ARRAY = Object.keys(MEDIA_TYPE_COLORS).map(
-        (key) => MEDIA_TYPE_COLORS[key].border,
-    );
-
     destroyChart("media-distribution");
 
     chartInstances["media-distribution"] = new Chart(ctx, {
@@ -57,7 +58,9 @@ async function renderMediaDistributionChart() {
             datasets: [
                 {
                     data: data,
-                    backgroundColor: MEDIA_COLORS_ARRAY,
+                    backgroundColor: ARCHIVE_COLORS.palette,
+                    borderColor: "#0b0f0e",
+                    borderWidth: 2,
                 },
             ],
         },
@@ -70,6 +73,25 @@ async function renderMediaDistributionChart() {
                 legend: {
                     position: "bottom",
                 },
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                },
+
+                y: {
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                }
             },
         },
     });
@@ -101,22 +123,33 @@ async function renderAverageScoreByMediaTypeChart() {
                 {
                     label: "Average Score",
                     data: averages,
-                    backgroundColor: labels.map(
-                        (t) => MEDIA_TYPE_COLORS[t]?.background || "gray",
-                    ),
-                    borderColor: labels.map(
-                        (t) => MEDIA_TYPE_COLORS[t]?.border || "gray",
-                    ),
-                    borderWidth: 1,
+                    backgroundColor: "rgba(127,174,135,0.9)",
+                    borderColor: "#0b0f0e",
+                    borderWidth: 2,
                 },
             ],
         },
         options: {
             scales: {
+                x: {
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                },
+
                 y: {
                     beginAtZero: true,
                     max: 100,
-                },
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                }
             },
             plugins: {
                 legend: {
@@ -162,19 +195,36 @@ async function renderMonthlyCompletionChart() {
             datasets: [{
                 label: "Entries Completed",
                 data,
+                backgroundColor: "rgba(197,155,74,0.9)"
             }],
         },
         options: {
             scales: {
+                x: {
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                },
+
                 y: {
                     beginAtZero: true,
-                    precision: 0,
-                },
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                }
             },
-            title: {
-                display: true,
-                text: "Completed Media by Month",
-            }
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Completed Media by Month",
+                }
+            },
         },
     });
 }
@@ -221,20 +271,37 @@ async function renderRatingDistributionChart() {
                 {
                     label: "Number of Entries",
                     data,
+                    backgroundColor: "rgba(127,174,135,0.9)",
                 },
             ],
         },
         options: {
             scales: {
+                x: {
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                },
+
                 y: {
                     beginAtZero: true,
-                    precision: 0,
-                },
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                }
             },
-            title: {
-                display: true,
-                text: "Rating Distribution",
-            }
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Rating Distribution",
+                }
+            },
         },
     });
 }
@@ -280,28 +347,41 @@ async function renderGenreAverageRatingsChart() {
                 {
                     label: "Average Rating",
                     data,
-                    backgroundColor: "rgba(54,162,235,0.5)",
-                    borderColor: "rgba(54, 162, 235, 1)",
-                    borderWidth: 1,
+                    backgroundColor: "rgba(197,155,74,0.9)",
+                    borderColor: "#0b0f0e",
+                    borderWidth: 2,
                 },
             ],
         },
         options: {
             responsive: true,
+            scales: {
+                x: {
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                },
+
+                y: {
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted
+                    },
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    }
+                }
+            },
             plugins: {
                 legend: {
-                    display: false,
+                    display:false
                 },
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                },
-            },
-            title: {
-                display: true,
-                text: "Average Rating",
+                title:{
+                    display:true,
+                    text:"Average Rating"
+                }
             }
         },
     });
