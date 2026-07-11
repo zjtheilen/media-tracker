@@ -722,10 +722,14 @@ dialog::backdrop {
 
 .dashboard-card {
     background: var(--surface);
+
     border-radius: var(--radius);
+
+    border: 1px solid var(--border);
+
     box-shadow: var(--shadow);
+
     padding: var(--spacing-lg);
-    height: auto;
 }
 
 .dashboard-card h2 {
@@ -734,6 +738,21 @@ dialog::backdrop {
 
 .dashboard-card canvas {
     max-height: 350px;
+    margin-top: var(--spacing-md);
+}
+
+.panel-header {
+    margin-bottom: var(--spacing-md);
+}
+
+.panel-header .archive-label {
+    font-family: monospace;
+
+    letter-spacing: 2px;
+
+    font-size: 0.85rem;
+
+    color: var(--highlight);
 }
 
 /* Responsive */
