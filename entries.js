@@ -33,7 +33,17 @@ function renderEntryHeader(entry, isExpanded) {
                 />
             </svg>
 
-            <h3 class="inline-title">${entry.title}</h3>
+            <div class="title-block">
+
+                <div class="archive-label">
+                    ARCHIVE RECORD
+                </div>
+
+                <h3 class="inline-title">
+                    ${entry.title}
+                </h3>
+
+            </div>
         </div>
     `;
 }
@@ -132,7 +142,7 @@ function createLibraryItem(entry) {
     div.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-    
+
             toggleExpanded(entry.id);
         }
     });

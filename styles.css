@@ -266,10 +266,21 @@ label {
 
 .archive-label {
     font-family: var(--font-mono);
+
+    color: var(--muted);
+
     font-size: .75rem;
-    letter-spacing: .12em;
-    color: var(--archive-label);
+
+    letter-spacing: .15em;
+
     text-transform: uppercase;
+
+    margin-bottom: 4px;
+}
+
+.title-block {
+    display: flex;
+    flex-direction: column;
 }
 
 .detail-card:hover {
@@ -278,6 +289,9 @@ label {
 
 .detail-card {
     animation: expandIn 0.18s ease-out;
+    .detail-card {
+        border-left: 3px solid var(--highlight);
+    }
 }
 
 .entry-meta-grid {
