@@ -33,9 +33,9 @@
         </header>
 
         <nav id="main-nav">
-            <button id="library-tab">Library</button>
-            <button id="analytics-tab">Analytics</button>
-            <button id="lists-tab">Lists</button>
+            <button id="library-tab">Archive</button>
+            <button id="analytics-tab">Analysis</button>
+            <button id="lists-tab">Reports</button>
         </nav>
 
         <section id="library-page" class="page-section">
@@ -76,7 +76,9 @@
                     <div id="form-message"></div>
 
                     <div class="row">
-                        <button type="submit" id="submitBtn">Add Entry</button>
+                        <button type="submit" id="submitBtn">
+                            Create Record
+                        </button>
                         <button type="button" class="secondary" id="closeBtn">
                             Cancel
                         </button>
@@ -91,7 +93,7 @@
 
                 <div class="row">
                     <button class="danger" type="button" id="confirmDeleteBtn">
-                        Confirm Delete
+                        Purge Record
                     </button>
                     <button
                         class="secondary"
@@ -111,8 +113,10 @@
                 <select id="sort-select">
                     <option value="date_desc">Date Consumed (Newest)</option>
                     <option value="date_asc">Date Consumed (Oldest)</option>
-                    <option value="score_desc">Score (Highest)</option>
-                    <option value="score_asc">Score (Lowest)</option>
+                    <option value="score_desc">
+                        Evaluation Index (Highest)
+                    </option>
+                    <option value="score_asc">Evaluation Index (Lowest)</option>
                     <option value="title_asc">Title (A-Z)</option>
                     <option value="title_desc">Title (Z-A)</option>
                     <option value="media_type_asc">Media Type Ascending</option>
@@ -128,8 +132,12 @@
             </div>
 
             <div class="control-group">
-                <label for="search-input">Search Entries:</label>
-                <input type="text" id="search-input" />
+                <!-- <label for="search-input">Search Entries:</label> -->
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Search Archive..."
+                />
             </div>
 
             <div id="active-filters" class="active-filters"></div>
@@ -157,7 +165,7 @@
                     <canvas
                         id="media-distribution-chart"
                         role="img"
-                        aria-label="Distribution of media types in the library"
+                        aria-label="Distribution of media types in the arhchive"
                     >
                         Your browser does not support the chart visualization.
                     </canvas>
@@ -165,11 +173,13 @@
             </div>
             <div class="row section">
                 <div class="column-half dashboard-card">
-                    <div class="archive-label">EVALUATION BY CLASSIFICATION</div>
+                    <div class="archive-label">
+                        EVALUATION BY CLASSIFICATION
+                    </div>
                     <canvas
                         id="avg-score-chart"
                         role="img"
-                        aria-label="Average score comparison between media types"
+                        aria-label="Average evaluation index comparison between media types"
                     >
                         Your browser does not support the chart visualization.
                     </canvas>

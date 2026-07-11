@@ -56,7 +56,7 @@ function renderActiveFilters() {
 
     if (hasSearch) {
         const searchTag = document.createElement("span");
-        searchTag.textContent = `Search: "${searchQuery}"`;
+        searchTag.textContent = `Search Archive: "${searchQuery}"`;searchTag.textContent = `Search: "${searchQuery}"`;
         searchTag.className = "filter-tag";
         wrapper.appendChild(searchTag);
     }

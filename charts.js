@@ -157,7 +157,7 @@ async function renderAverageScoreByMediaTypeChart() {
                 },
                 title: {
                     display: true,
-                    text: "Average Score by Media Type",
+                    text: "Average Evaluation Index by Classification",
                 }
             },
         },
@@ -222,7 +222,7 @@ async function renderMonthlyCompletionChart() {
             plugins: {
                 title: {
                     display: true,
-                    text: "Completed Media by Month",
+                    text: "Archive Activity by Month",
                 }
             },
         },
@@ -299,7 +299,7 @@ async function renderRatingDistributionChart() {
             plugins: {
                 title: {
                     display: true,
-                    text: "Rating Distribution",
+                    text: "Evaluation Index Distribution",
                 }
             },
         },

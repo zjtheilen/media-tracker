@@ -41,19 +41,19 @@ function renderRadarChart(entry, canvas) {
                 r: {
                     min: 1,
                     max: 10,
-            
+
                     ticks: {
                         display: false,
                     },
-            
+
                     grid: {
                         color: ARCHIVE_COLORS.grid,
                     },
-            
+
                     angleLines: {
                         color: ARCHIVE_COLORS.grid,
                     },
-            
+
                     pointLabels: {
                         color: ARCHIVE_COLORS.text,
                         font: {
@@ -115,11 +115,11 @@ async function loadEntries() {
 
     if (workingEntries.length === 0) {
         container.innerHTML = `
-      <div class="empty-state">
-        <h3>No results found</h3>
-        <p>Try adjusting your search or filters.</p>
-      </div>
-    `;
+            <div class="empty-state">
+                <h3>No matching records found</h3>
+                <p>Adjust archive search parameters or filters.</p>
+            </div>
+        `;
     } else {
         const fragment = document.createDocumentFragment();
 

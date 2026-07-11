@@ -55,7 +55,7 @@ function renderEntryMetadata(entry) {
         <div class="entry-meta-grid">
 
             <div class="meta-item">
-                <strong>CONSUMED</strong>
+                <strong>ARCHIVED DATE</strong>
                 <span>${entry.date_consumed || "N/A"}</span>
             </div>
 
@@ -97,11 +97,11 @@ function renderEntryActions(entry) {
     return `
         <div class="entry-actions">
             <button onclick="startEdit('${entry.id}')">
-                Edit
+                Amend Record
             </button>
 
             <button class="danger" onclick="openDeleteModal('${entry.id}')">
-                Delete
+                Purge Record
             </button>
         </div>
     `;
