@@ -1,41 +1,49 @@
 :root {
-    --background: #f7f7f7;
-    --surface: #ffffff;
-    --text: #222;
-    --muted: #777;
-    --border: #ccc;
+    /* Archive Terminal Palette */
 
-    --secondary: #ddd;
-    --secondary-hover: #ccc;
-    --tag-bg: #eee;
+    --background: #0b0f0e;
+    --surface: #111716;
+    --surface-raised: #151d1b;
 
-    --accent: #4a5568;
-    --accent-hover: #2d3748;
+    --text: #d6e2d8;
+    --muted: #7f9587;
+    --border: #26332e;
 
-    --highlight: #667eea;
-    --highlight-soft: #edf2ff;
+    --accent: #7fae87;
+    --accent-hover: #9bc9a2;
 
-    --danger: #e74c3c;
+    --highlight: #c59b4a;
+    --highlight-soft: #2a2417;
 
-    --track: #e0e0e0;
-    --success-bg: #e6ffed;
-    --error-bg: #ffe6e6;
+    --danger: #b84c4c;
 
-    --radius: 10px;
+    --track: #202825;
+    --tag-bg: #18211e;
 
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --success-bg: #102417;
+    --error-bg: #281313;
+
+    --radius: 8px;
+
+    --shadow: 0 0 18px rgba(127, 174, 135, 0.12);
 
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
     --spacing-xx: 40px;
+
+    /* Archive Terminal Palette */
+
+    --font-title: Georgia, "Times New Roman", serif;
+    --font-mono: "Courier New", monospace;
+    --font-body: Arial, sans-serif;
 }
 
 /* Base */
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--font-body);
     max-width: 1200px;
     margin: var(--spacing-xx) auto;
     padding: 0 var(--spacing-lg);
@@ -46,6 +54,14 @@ body {
 
 h2 {
     text-align: center;
+}
+
+h1,
+h2,
+h3,
+.inline-title {
+    font-family: var(--font-title);
+    font-weight: 600;
 }
 
 input,
@@ -93,6 +109,14 @@ button.danger {
 
 button.danger:hover {
     filter: brightness(0.9);
+}
+
+button,
+select,
+input,
+textarea,
+label {
+    font-family: var(--font-mono);
 }
 
 /* Layout Utilities */
@@ -268,10 +292,21 @@ button.danger:hover {
     font-size: 0.85rem;
 
     color: var(--muted);
+
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .meta-item span {
     font-size: 1rem;
+}
+
+.entry-meta-grid,
+.meta-item,
+.library-meta,
+.filter-tag {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
 }
 
 .entry-actions {
@@ -425,8 +460,8 @@ button:focus-visible {
     padding: 6px 12px;
 
     transition:
-        background .15s ease,
-        transform .15s ease;
+        background 0.15s ease,
+        transform 0.15s ease;
 }
 
 .genre-filter-chip:hover {
@@ -464,7 +499,7 @@ button:focus-visible {
 
     border-radius: var(--radius);
 
-    box-shadow: 0 20px 40px rgba(0,0,0,.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 #form-message {
@@ -579,7 +614,7 @@ canvas {
 }
 
 dialog::backdrop {
-    background: rgba(0,0,0,.35);
+    background: rgba(0, 0, 0, 0.35);
 }
 
 /* Lists */
