@@ -35,17 +35,17 @@ function renderEntryHeader(entry, isExpanded) {
 
             <div class="title-block">
 
-            <div class="archive-label">
-            ARCHIVE RECORD
-        </div>
-        
-        <div class="record-id">
-            ${generateRecordId(entry)}
-        </div>
-        
-        <h3 class="inline-title">
-            ${entry.title}
-        </h3>
+                <div class="archive-label">
+                    ARCHIVE RECORD
+                </div>
+            
+                <div class="record-id">
+                    ${generateRecordId(entry)}
+                </div>
+            
+                <h3 class="inline-title">
+                    ${entry.title}
+                </h3>
 
             </div>
         </div>
