@@ -278,6 +278,23 @@ label {
     margin-bottom: 4px;
 }
 
+.archive-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.archive-label {
+    font-family: monospace;
+    letter-spacing: 2px;
+    color: var(--highlight);
+    font-size: .85rem;
+}
+
+.archive-header p {
+    color: var(--muted);
+    font-family: monospace;
+}
+
 .title-block {
     display: flex;
     flex-direction: column;
