@@ -264,6 +264,14 @@ label {
     outline-offset: 3px;
 }
 
+.archive-label {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    letter-spacing: .12em;
+    color: var(--archive-label);
+    text-transform: uppercase;
+}
+
 .detail-card:hover {
     transform: none;
 }

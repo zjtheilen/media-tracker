@@ -28,8 +28,8 @@
 
     <body>
         <header class="page-header">
-            <h1>Media Tracker</h1>
-            <p>Welcome to the Media Tracker!</p>
+            <h1>Media Archive</h1>
+            <p>Catalog interface initialized.</p>
         </header>
 
         <nav id="main-nav">
@@ -39,7 +39,7 @@
         </nav>
 
         <section id="library-page" class="page-section">
-            <button id="openBtn">Add an Entry</button>
+            <button id="openBtn">Create Archive Record</button>
 
             <dialog id="entryModal">
                 <form id="entry-form">
@@ -134,14 +134,14 @@
 
             <div id="active-filters" class="active-filters"></div>
 
-            <h2>Entries</h2>
+            <h2>Archive Records</h2>
             <div id="entries-container"></div>
         </section>
 
         <section id="analytics-page" class="page-section" hidden>
             <div class="row section">
                 <div class="column-half dashboard-card">
-                    <h2>Favorite Media Type</h2>
+                    <h2>Primary Classification</h2>
                     <div id="favorite-media-type-card"></div>
                 </div>
                 <div class="column-half dashboard-card">
@@ -204,7 +204,7 @@
         <section id="lists-page" class="page-section" hidden>
             <div class="row section">
                 <div class="column-half card">
-                    <h2>Top Rated Overall</h2>
+                    <h2>Highest Evaluated Records</h2>
                     <div id="top-rated-overall-list"></div>
                 </div>
                 <div class="column-half card">

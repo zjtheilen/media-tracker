@@ -45,17 +45,17 @@ function renderEntryMetadata(entry) {
         <div class="entry-meta-grid">
 
             <div class="meta-item">
-                <strong>Date</strong>
+                <strong>COMPLETED</strong>
                 <span>${entry.date_consumed || "N/A"}</span>
             </div>
 
             <div class="meta-item">
-                <strong>Type</strong>
+                <strong>CLASSIFICATION</strong>
                 <span>${entry.media_type}</span>
             </div>
 
             <div class="meta-item">
-                <strong>Score</strong>
+                <strong>EVALUATION INDEX</strong>
                 <span>${percentScore}%</span>
             </div>
 
@@ -174,7 +174,7 @@ function createDetailCard(entry) {
         </div>
 
         <div class="detail-section">
-            <h4>Actions</h4>
+            <h4>Observations</h4>
             ${renderEntryActions(entry)}
         </div>
     `;
