@@ -136,7 +136,10 @@ function renderTopList(
 ) {
     const container = document.getElementById(containerId);
 
-    container.innerHTML = "";
+    container.innerHTML = renderReportHeader(
+        getReportTitle(containerId),
+        getReportQuery(containerId)
+    );
 
     entries.forEach((entry, index) => {
         const item = document.createElement("div");
@@ -177,6 +180,48 @@ function renderTopList(
     });
 }
 
+function getReportTitle(containerId) {
+
+    const titles = {
+        "top-rated-overall-list":
+            "Highest Evaluated Records",
+
+        "top-books-list":
+            "Highest Rated Books",
+
+        "top-games-list":
+            "Highest Rated Games",
+
+        "top-movies-list":
+            "Highest Rated Videos",
+
+        "recent-archive-list":
+            "Recent Archive Additions",
+
+        "hall-of-fame-list":
+            "Archive Hall of Fame"
+    };
+
+    return titles[containerId] || "Archive Report";
+}
+
+
+function getReportQuery(containerId) {
+
+    const queries = {
+        "top-rated-overall-list":
+            "ORDER BY EVALUATION INDEX DESC",
+
+        "recent-archive-list":
+            "SORT BY ARCHIVE DATE DESC",
+
+        "hall-of-fame-list":
+            "FILTER: EVALUATION INDEX >= 95%"
+    };
+
+    return queries[containerId] || "GENERATED REPORT";
+}
+
 function generateRecordId(entry) {
     const prefixMap = {
         book: "BOOK",
@@ -193,4 +238,32 @@ function generateRecordId(entry) {
             : "UNKNOWN";
 
     return `${prefix}-${date}`;
+}
+
+function renderReportHeader(title, queryText) {
+    return `
+        <div class="report-header">
+
+            <div class="archive-label">
+                ARCHIVE REPORT
+            </div>
+
+            <h2>${title}</h2>
+
+            <div class="report-metadata">
+
+                <div>
+                    <strong>QUERY</strong>
+                    <span>${queryText}</span>
+                </div>
+
+                <div>
+                    <strong>STATUS</strong>
+                    <span>COMPLETE</span>
+                </div>
+
+            </div>
+
+        </div>
+    `;
 }

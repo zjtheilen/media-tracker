@@ -797,6 +797,34 @@ dialog::backdrop {
     margin-bottom: 8px;
 }
 
+.report-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border);
+}
+
+.report-header h2 {
+    text-align: left;
+    margin: 8px 0 16px;
+}
+
+.report-metadata {
+    display: flex;
+    gap: var(--spacing-lg);
+
+    font-family: monospace;
+    font-size: 0.85rem;
+}
+
+.report-metadata div {
+    display: flex;
+    flex-direction: column;
+}
+
+.report-metadata strong {
+    color: var(--muted);
+}
+
 /* Responsive */
 
 @media (max-width: 700px) {
