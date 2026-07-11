@@ -9,8 +9,12 @@
     --secondary-hover: #ccc;
     --tag-bg: #eee;
 
-    --accent: #333;
-    --accent-hover: #555;
+    --accent: #4a5568;
+    --accent-hover: #2d3748;
+
+    --highlight: #667eea;
+    --highlight-soft: #edf2ff;
+
     --danger: #e74c3c;
 
     --track: #e0e0e0;
@@ -152,6 +156,15 @@ button.danger:hover {
     margin-bottom: var(--spacing-lg);
 }
 
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: var(--muted);
+}
+
 .card {
     background: var(--surface);
     border-radius: var(--radius);
@@ -160,7 +173,7 @@ button.danger:hover {
 }
 
 .inline-title {
-    display: inline;
+    margin: 0;
 }
 
 .flex-row {
@@ -206,8 +219,12 @@ button.danger:hover {
         box-shadow 0.15s ease;
 }
 
+.library-item {
+    border-left: 4px solid transparent;
+}
+
 .library-item:hover {
-    transform: translateY(-2px);
+    border-left-color: var(--highlight);
 }
 
 .library-item:focus-visible {
@@ -314,6 +331,12 @@ button:focus-visible {
     transform: rotate(180deg);
 }
 
+#openBtn {
+    width: 100%;
+    margin-bottom: var(--spacing-lg);
+    font-size: 18px;
+}
+
 /* Scores */
 
 .score-row {
@@ -385,27 +408,34 @@ button:focus-visible {
 }
 
 .genre-chip.active-filter {
-    background: #333;
+    background: var(--highlight);
     color: white;
 
     border: 2px solid #000;
 }
 
 .genre-filter-chip {
-    margin: 3px;
-    padding: 5px var(--spacing-sm);
+    background: var(--tag-bg);
+    color: var(--text);
 
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid var(--border);
 
-    cursor: pointer;
+    border-radius: 999px;
 
-    background: var(--accent);
+    padding: 6px 12px;
+
+    transition:
+        background .15s ease,
+        transform .15s ease;
+}
+
+.genre-filter-chip:hover {
+    transform: translateY(-1px);
 }
 
 .genre-filter-chip.active {
-    background: white;
-    color: black;
+    background: var(--highlight);
+    color: white;
 }
 
 .filter-tag {
@@ -434,7 +464,7 @@ button:focus-visible {
 
     border-radius: var(--radius);
 
-    box-shadow: 0 20px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
 
 #form-message {
@@ -546,6 +576,10 @@ button:focus-visible {
 canvas {
     max-width: 100%;
     height: auto;
+}
+
+dialog::backdrop {
+    background: rgba(0,0,0,.35);
 }
 
 /* Lists */
