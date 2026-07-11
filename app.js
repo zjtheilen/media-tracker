@@ -26,103 +26,11 @@ async function loadScoringProfiles() {
     };
 }
 
-function renderScoreBars(scores) {
-    return Object.entries(scores)
-        .map(([category, value]) => {
-            const max = 10;
-            const percent = (value / max) * 100;
-
-            return `
-            <div class="score-row">
-                <span class="score-label">${category}</span>
-                <div class="score-bar-bg">
-                    <div class="score-bar-fill" style="width: ${percent}%"></div>
-                </div>
-                <span class="score-value">${value}</span>
-            </div>
-        `;
-        })
-        .join("");
-}
-
-function renderGenreChips(genres) {
-    return genres
-        .map((genre) => {
-            const formatted = genre
-                .split(" ")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ");
-
-            const isActive = activeGenreFilter === genre.toLowerCase();
-
-            return `
-        <span 
-          class="genre-chip ${isActive ? "active-filter" : ""}"
-          onclick="toggleGenreFilter('${genre.toLowerCase()}')"
-          style="cursor: pointer;"
-        >
-          ${formatted}
-        </span>
-      `;
-        })
-        .join("");
-}
-
-function renderGenreFilters() {
-    const container = document.getElementById("genre-filters");
-    container.innerHTML = "";
-
-    const core = genreRegistry.core || [];
-    const media = Object.values(genreRegistry).flat();
-
-    const allGenres = [...new Set([...core, ...media])];
-
-    allGenres.forEach((genre) => {
-        const normalized = genre.toLowerCase();
-
-        const btn = document.createElement("button");
-        btn.textContent = genre;
-        btn.className = "genre-filter-chip";
-
-        if (activeGenreFilter === normalized) {
-            btn.classList.add("active");
-        }
-
-        btn.addEventListener("click", () => {
-            toggleGenreFilter(normalized);
-        });
-
-        container.appendChild(btn);
-    });
-}
-
-function toggleGenreFilter(genre) {
-    const normalized = genre.toLowerCase();
-
-    if (activeGenreFilter === normalized) {
-        activeGenreFilter = null;
-    } else {
-        activeGenreFilter = normalized;
-    }
-
-    loadEntries();
-}
-
 mediaTypeSelect.addEventListener("change", () => {
     selectedGenres = [];
 
     renderScoreInputs(mediaTypeSelect.value, {});
     renderGenreSelector(mediaTypeSelect.value);
-});
-
-document.getElementById("sort-select").addEventListener("change", (event) => {
-    activeSort = event.target.value;
-    loadEntries();
-});
-
-document.getElementById("search-input").addEventListener("input", (e) => {
-    searchQuery = e.target.value.toLowerCase().trim();
-    loadEntries();
 });
 
 const modal = document.getElementById("entryModal");
@@ -163,7 +71,15 @@ const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
 
 let pendingDeleteId = null;
 
+async function loadGenres() {
+    genreRegistry = await getGenres();
+    renderGenreFilters();
+    console.log("genres loaded", genreRegistry)
+}
+
 async function initializeApp() {
+    initializeNavigation();
+
     await loadGenres();
     await loadScoringProfiles();
 
@@ -176,8 +92,6 @@ async function initializeApp() {
 }
 
 initializeApp();
-
-renderActiveFilters();
 
 async function deleteEntry(id) {
     await removeEntry(id);
@@ -205,8 +119,3 @@ cancelDeleteBtn.onclick = () => {
     deleteModal.close();
     pendingDeleteId = null;
 };
-
-async function loadGenres() {
-    genreRegistry = await getGenres();
-    renderGenreFilters();
-}
