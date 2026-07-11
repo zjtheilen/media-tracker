@@ -96,6 +96,11 @@ button {
 
 button:hover {
     background: var(--accent-hover);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 0 12px rgba(127,174,135,0.18);
 }
 
 button.secondary {
@@ -226,7 +231,11 @@ label {
 
 #main-nav button.active {
     font-weight: bold;
+
     outline: 2px solid var(--accent);
+
+    box-shadow:
+        0 0 12px rgba(127,174,135,0.2);
 }
 
 /* Library */
@@ -249,14 +258,20 @@ label {
 
 .library-item {
     border-left: 4px solid transparent;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .library-item:hover {
-    background: var(--record-hover);
+    transform: translateY(-2px);
 
-    border-left-color: var(--highlight);
+    border-left-color: var(--accent);
 
-    transform: translateX(3px);
+    box-shadow:
+        0 0 18px rgba(127,174,135,0.15);
 }
 
 .library-item:focus-visible {
@@ -306,9 +321,9 @@ label {
 
 .detail-card {
     animation: expandIn 0.18s ease-out;
-    .detail-card {
-        border-left: 3px solid var(--highlight);
-    }
+    border-left: 3px solid var(--highlight);
+    box-shadow:
+        0 0 25px rgba(127,174,135,0.12);
 }
 
 .entry-meta-grid {
@@ -500,10 +515,18 @@ button:focus-visible {
     font-size: 0.85rem;
 
     border: 1px solid #444;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 .genre-chip:hover {
-    border-color: #777;
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 0 10px rgba(127,174,135,0.2);
+
     cursor: pointer;
 }
 
@@ -536,6 +559,11 @@ button:focus-visible {
 .genre-filter-chip.active {
     background: var(--highlight);
     color: white;
+
+    border-color: var(--highlight);
+
+    box-shadow:
+        0 0 12px rgba(197,155,74,0.25);
 }
 
 .filter-tag {
