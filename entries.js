@@ -55,13 +55,13 @@ function renderEntryMetadata(entry) {
         <div class="entry-meta-grid">
 
             <div class="meta-item">
-                <strong>COMPLETED</strong>
+                <strong>CONSUMED</strong>
                 <span>${entry.date_consumed || "N/A"}</span>
             </div>
 
             <div class="meta-item">
                 <strong>CLASSIFICATION</strong>
-                <span>${entry.media_type}</span>
+                <span>${entry.media_type.toUpperCase()}</span>
             </div>
 
             <div class="meta-item">
@@ -129,7 +129,7 @@ function createLibraryItem(entry) {
     ${renderEntryHeader(entry, isExpanded)}
 
     <div class="library-meta">
-        <span>${entry.media_type}</span>
+        <span>${entry.media_type.toUpperCase()}</span>
         <span>${percentScore}%</span>
     </div>
   `;
@@ -179,12 +179,12 @@ function createDetailCard(entry) {
         </div>
 
         <div class="detail-section">
-            <h4>Scores</h4>
-            ${renderEntryScores(entry)}
+            <h4>Observations</h4>
+            ${renderEntryNotes(entry)}
         </div>
 
         <div class="detail-section">
-            <h4>Observations</h4>
+            <h4>Actions</h4>
             ${renderEntryActions(entry)}
         </div>
     `;
