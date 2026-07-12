@@ -8,7 +8,6 @@ function renderGenreFilters() {
     const allGenres = [...new Set([...core, ...media])];
 
     allGenres.forEach((genre) => {
-        console.log("creating genre button:", genre);
         const normalized = genre.toLowerCase();
 
         const btn = document.createElement("button");
@@ -25,7 +24,6 @@ function renderGenreFilters() {
 
         container.appendChild(btn);
     });
-    console.log("rendering genre filters")
     
 }
 
@@ -88,10 +86,14 @@ function renderActiveFilters() {
 
 function initializeFilters() {
 
+    console.log("initializeFilters()");
+
     document
         .getElementById("sort-select")
         .addEventListener("change", (event) => {
             activeSort = event.target.value;
+            console.log("!!!!!!!!!!!!!!!!!!");
+            console.log(activeSort);
             loadEntries();
         });
 

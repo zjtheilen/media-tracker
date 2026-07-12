@@ -4,38 +4,6 @@ function getTopEntries(entries, scoreFn, limit = 5) {
         .slice(0, limit);
 }
 
-// function calculateThoughtProvokingScore(entry) {
-//     const scores = entry.scores || {};
-
-//     const factors = [
-//         scores.depth,
-//         scores.originality,
-//         scores.emotional_impact,
-//     ].filter((score) => score !== undefined);
-
-//     if (factors.length === 0) {
-//         return 0;
-//     }
-
-//     return factors.reduce((sum, score) => sum + score, 0) / factors.length;
-// }
-
-
-// function calculateWritingScore(entry) {
-//     const scores = entry.scores || {};
-
-//     const factors = [
-//         scores.craft,
-//         scores.originality,
-//     ].filter((score) => score !== undefined);
-
-//     if (factors.length === 0) {
-//         return 0;
-//     }
-
-//     return factors.reduce((sum, score) => sum + score, 0) / factors.length;
-// }
-
 async function renderRecentArchiveAdditions() {
     const entries = await getEntries();
 
@@ -112,22 +80,6 @@ async function renderTopGames() {
         entry => entry.media_type === "game"
     );
 }
-
-// async function renderMostThoughtProvoking() {
-//     renderTopByFilter(
-//         "thought-provoking-list",
-//         () => true,
-//         calculateThoughtProvokingScore
-//     );
-// }
-
-// async function renderBestWritingScore() {
-//     renderTopByFilter(
-//         "highest-writing-list",
-//         () => true,
-//         calculateWritingScore
-//     );
-// }
 
 function renderTopList(
     containerId,

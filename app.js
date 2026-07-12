@@ -14,9 +14,6 @@ async function refreshApp() {
     await renderTopGames();
     await renderRecentArchiveAdditions();
     await renderArchiveHallOfFame();
-
-    // await renderMostThoughtProvoking();
-    // await renderBestWritingScore();
 }
 
 async function loadScoringProfiles() {
@@ -76,12 +73,11 @@ let pendingDeleteId = null;
 
 async function loadGenres() {
     genreRegistry = await getGenres();
-    renderGenreFilters();
-    console.log("genres loaded", genreRegistry)
 }
 
 async function initializeApp() {
     initializeNavigation();
+    initializeFilters();
 
     await loadGenres();
     await loadScoringProfiles();
