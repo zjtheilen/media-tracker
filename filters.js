@@ -86,14 +86,10 @@ function renderActiveFilters() {
 
 function initializeFilters() {
 
-    console.log("initializeFilters()");
-
     document
         .getElementById("sort-select")
         .addEventListener("change", (event) => {
             activeSort = event.target.value;
-            console.log("!!!!!!!!!!!!!!!!!!");
-            console.log(activeSort);
             loadEntries();
         });
 
