@@ -2,6 +2,12 @@ function createBaseEntry() {
     return document.createElement("div");
 }
 
+function refreshIcons() {
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+}
+
 function renderRadarChart(entry, canvas) {
 
     const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
@@ -116,6 +122,7 @@ async function loadEntries() {
     if (workingEntries.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
+                <i class="media-icon" data-lucide="folder-search"></i>
                 <h3>No matching records found</h3>
                 <p>Adjust archive search parameters or filters.</p>
             </div>
@@ -132,6 +139,8 @@ async function loadEntries() {
         });
 
         container.appendChild(fragment);
+
+        refreshIcons();
     }
 
     renderActiveFilters();

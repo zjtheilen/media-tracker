@@ -54,22 +54,50 @@ function renderEntryHeader(entry, isExpanded) {
 
 function renderEntryMetadata(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
+    let icon
+    switch (entry.media_type)  {
+        case "video":
+            icon = "film"
+            break;
+        case "game":
+            icon = "gamepad-2"
+            break;
+        case "book":
+            icon = "book"
+            break;
+    }
 
     return `
         <div class="entry-meta-grid">
 
             <div class="meta-item">
-                <strong>ARCHIVED DATE</strong>
+
+                <div class="meta-label">
+                    <i data-lucide="calendar"></i>
+                    <strong>ARCHIVED DATE</strong>
+                </div>
+            
                 <span>${entry.date_consumed || "N/A"}</span>
+            
             </div>
 
             <div class="meta-item">
-                <strong>CLASSIFICATION</strong>
+
+                <div class="meta-label">
+                    <i class="media-icon" data-lucide="${icon}"></i>
+                    <strong>CLASSIFICATION</strong>
+                </div>
+            
                 <span>${entry.media_type.toUpperCase()}</span>
+            
             </div>
 
             <div class="meta-item">
-                <strong>EVALUATION INDEX</strong>
+                <div class="meta-label">
+                    <i class="media-icon" data-lucide="badge-percent"></i>
+                    <strong>EVALUATION INDEX</strong>
+                </div>
+                
                 <span>${percentScore}%</span>
             </div>
 
@@ -99,15 +127,15 @@ function renderEntryNotes(entry) {
 
 function renderEntryActions(entry) {
     return `
-        <div class="entry-actions">
-            <button onclick="startEdit('${entry.id}')">
-                Amend Record
-            </button>
+        <button onclick="startEdit('${entry.id}')">
+            <i class="media-icon" data-lucide="square-pen"></i>
+            Amend Record
+        </button>
 
-            <button class="danger" onclick="openDeleteModal('${entry.id}')">
-                Purge Record
-            </button>
-        </div>
+        <button class="danger" onclick="openDeleteModal('${entry.id}')">
+            <i class="media-icon" data-lucide="trash-2"></i>
+            Purge Record
+        </button>
     `;
 }
 
@@ -193,6 +221,8 @@ function createDetailCard(entry) {
         </div>
     `;
 
+    refreshIcons();
+
     return div;
 }
 
@@ -222,6 +252,8 @@ function updateEntryView(id) {
     newEl.dataset.id = id;
 
     container.replaceChild(newEl, oldEl);
+
+    refreshIcons();
 }
 
 function renderScoreBars(scores) {

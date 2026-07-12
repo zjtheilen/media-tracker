@@ -136,7 +136,7 @@ function getReportTitle(containerId) {
 
     const titles = {
         "top-rated-overall-list":
-            "Highest Evaluated Records",
+            "<i class='media-icon' data-lucide='file-text'></i>Highest Evaluated Records",
 
         "top-books-list":
             "Highest Rated Books",

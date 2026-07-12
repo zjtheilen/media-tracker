@@ -88,6 +88,7 @@ async function initializeApp() {
     await refreshApp();
 
     showPage("library");
+    refreshIcons();
 }
 
 initializeApp();
@@ -101,6 +102,7 @@ async function deleteEntry(id) {
 function openDeleteModal(id) {
     pendingDeleteId = id;
     deleteModal.showModal();
+    refreshIcons();
 }
 
 confirmDeleteBtn.onclick = async () => {

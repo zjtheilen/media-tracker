@@ -118,6 +118,8 @@ async function startEdit(id) {
     selectedGenres = [...entry.genres];
 
     renderGenreSelector(entry.media_type);
+
+    refreshIcons();
 }
 
 function resetFormState() {
