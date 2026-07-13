@@ -114,6 +114,7 @@ button {
 
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
 }
 
@@ -713,6 +714,9 @@ button:focus-visible {
 
 .control-group {
     margin: var(--spacing-md) 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .active-filters {
@@ -831,6 +835,21 @@ dialog::backdrop {
     font-size: 0.85rem;
 
     color: var(--highlight);
+}
+
+.dashboard-card h2,
+.report-header h2,
+.panel-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dashboard-card h2 svg,
+.report-header h2 svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.75;
 }
 
 .report-record {
