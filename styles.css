@@ -490,7 +490,7 @@ button:focus-visible {
 }
 
 #openBtn {
-    width: 100%;
+    width: auto;
     margin-bottom: var(--spacing-lg);
     font-size: 18px;
 }
@@ -713,10 +713,13 @@ button:focus-visible {
 }
 
 .genre-select-chip.selected {
-    background: white;
-    color: #111;
+    background: var(--highlight);
+    color: white;
 
-    border-color: white;
+    border-color: var(--highlight);
+
+    box-shadow:
+        0 0 12px rgba(197,155,74,0.25);
 }
 
 .control-group {

@@ -36,6 +36,7 @@ function toggleGenreFilter(genre) {
         activeGenreFilter = normalized;
     }
 
+    renderGenreFilters();
     loadEntries();
 }
 
