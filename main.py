@@ -11,7 +11,6 @@ from models.media_item import MediaItem
 from models.scoring_profile import (
     VALID_MEDIA_TYPES,
     UNIVERSAL_SCORING_PROFILE,
-    MEDIA_SCORING_PROFILES,
     get_universal_categories,
     get_all_categories,
 )
