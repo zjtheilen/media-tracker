@@ -4,16 +4,19 @@ const scoreContainer = document.getElementById("score-container");
 const submitBtn = document.getElementById("submitBtn");
 const formMessage = document.getElementById("form-message");
 
-function renderScoreInputs(mediaType, existingScores = {}) {
-    scoreContainer.innerHTML = "";
+function createScoreSection(title) {
+    const section = document.createElement("div");
 
-    const categories = scoringProfiles[mediaType];
+    section.innerHTML = `
+        <h3 class="score-section-title">
+            ${title}
+        </h3>
+    `;
 
-    if (!categories) {
-        console.error("Missing scoring categories for:", mediaType);
-        return;
-    }
+    scoreContainer.appendChild(section);
+}
 
+function renderScoreCategoryList(categories, existingScores) {
     categories.forEach((category) => {
         const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
 
@@ -22,22 +25,22 @@ function renderScoreInputs(mediaType, existingScores = {}) {
         const wrapper = document.createElement("div");
 
         wrapper.innerHTML = `
-      <div class="score-row">
-        <label class="score-input-label" for="${category}">
-          ${category}:
-          <span id="${category}-value">${scoreValue}</span>
-        </label>
+            <div class="score-row">
+                <label class="score-input-label" for="${category}">
+                    ${formatScoreCategory(category)}:
+                    <span id="${category}-value">${scoreValue}</span>
+                </label>
 
-        <input 
-          type="range"
-          min="1"
-          max="10"
-          value="${scoreValue}"
-          id="${category}"
-          class="score-input-slider"
-        >
-      </div>
-    `;
+                <input 
+                    type="range"
+                    min="1"
+                    max="10"
+                    value="${scoreValue}"
+                    id="${category}"
+                    class="score-input-slider"
+                >
+            </div>
+        `;
 
         scoreContainer.appendChild(wrapper);
 
@@ -48,6 +51,35 @@ function renderScoreInputs(mediaType, existingScores = {}) {
             valueDisplay.textContent = slider.value;
         });
     });
+}
+
+function renderScoreInputs(mediaType, existingScores = {}) {
+
+    scoreContainer.innerHTML = "";
+
+    const universalCategories =
+        scoringProfiles.universal.categories;
+
+    const mediaCategories =
+        Object.keys(scoringProfiles.media[mediaType]);
+
+
+    createScoreSection("Universal Evaluation");
+
+    renderScoreCategoryList(
+        universalCategories,
+        existingScores
+    );
+
+
+    createScoreSection(
+        `${mediaType.charAt(0).toUpperCase() + mediaType.slice(1)} Evaluation`
+    );
+
+    renderScoreCategoryList(
+        mediaCategories,
+        existingScores
+    );
 }
 
 function renderGenreSelector(mediaType) {
@@ -95,6 +127,15 @@ function toggleGenre(genre) {
     clearMessage();
 
     renderGenreSelector(mediaTypeSelect.value);
+}
+
+function formatScoreCategory(category) {
+    return category
+        .split("_")
+        .map(word =>
+            word.charAt(0).toUpperCase() + word.slice(1)
+        )
+        .join(" ");
 }
 
 async function startEdit(id) {
