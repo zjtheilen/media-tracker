@@ -243,22 +243,33 @@ form.addEventListener("submit", async (event) => {
     }
 
     const scores = {};
-    const categories = scoringProfiles[data.media_type];
 
-    categories.forEach((category) => {
+    const universalCategories =
+        scoringProfiles.universal.categories;
+
+    const mediaCategories =
+        Object.keys(scoringProfiles.media[data.media_type]);
+
+
+    [
+        ...universalCategories,
+        ...mediaCategories
+    ].forEach((category) => {
+
         const slider = document.getElementById(category);
 
-        const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
+        scores[category] = Number(slider.value);
 
-        scores[normalizedKey] = Number(slider.value);
     });
 
     data.scores = scores;
 
     try {
         if (editingEntryId) {
+            console.log("SUBMIT PAYLOAD", data);
             await updateEntry(editingEntryId, data);
         } else {
+            console.log("SUBMIT PAYLOAD", data);
             await createEntry(data);
         }
 
