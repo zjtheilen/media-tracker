@@ -75,12 +75,24 @@ h3,
 input,
 select,
 textarea {
+    background: var(--background);
+    color: var(--text);
+
     width: 100%;
     margin: var(--spacing-sm) 0;
     padding: var(--spacing-sm);
 
     border-radius: 6px;
     border: 1px solid var(--border);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+
+    box-shadow: 0 0 0 2px rgba(127, 174, 135, 0.2);
 }
 
 button {
@@ -618,11 +630,15 @@ button:focus-visible {
 
 #entryModal,
 #deleteModal {
-    border: none;
+    background: var(--surface);
+    color: var(--text);
 
+    border: none;
     border-radius: var(--radius);
 
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+    padding: var(--spacing-xl);
 }
 
 #form-message {
@@ -737,7 +753,8 @@ canvas {
 }
 
 dialog::backdrop {
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
 }
 
 /* Lists */
