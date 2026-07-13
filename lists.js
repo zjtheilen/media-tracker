@@ -187,9 +187,9 @@ function getReportQuery(containerId) {
 
 function generateRecordId(entry) {
     const prefixMap = {
-        book: "BOOK",
-        video: "VID",
-        game: "GAME"
+        book: "BK",
+        video: "VD",
+        game: "GM"
     };
 
     const prefix =
