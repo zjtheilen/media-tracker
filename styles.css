@@ -370,8 +370,8 @@ label {
     letter-spacing: 0.08em;
 }
 
-.meta-item span {
-    font-size: 1rem;
+.meta-item > span {
+    padding-left: 23px;
 }
 
 .meta-item svg {
@@ -617,6 +617,13 @@ button:focus-visible {
     border-radius: 5px;
 
     font-size: 12px;
+}
+
+#genre-filters {
+    display:flex;
+    flex-wrap:wrap;
+    gap:var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
 }
 
 .empty-state {
@@ -927,6 +934,18 @@ dialog::backdrop {
 
 .report-metadata strong {
     color: var(--muted);
+}
+
+.record-type-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.record-type-label svg {
+    width: 14px;
+    height: 14px;
+    color: var(--highlight);
 }
 
 /* Icons */

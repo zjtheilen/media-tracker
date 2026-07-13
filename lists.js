@@ -106,15 +106,16 @@ function renderTopList(
 
                 <div class="report-details">
 
-                <div class="archive-label">
-                ARCHIVE RECORD
-            </div>
-            
-            <div class="record-id">
-                ${generateRecordId(entry)}
-            </div>
-            
-            <h3>${entry.title}</h3>
+                <div class="archive-label record-type-label">
+                    <i data-lucide="${getMediaIcon(entry.media_type)}"></i>
+                    ${entry.media_type.toUpperCase()} RECORD
+                </div>
+                
+                <div class="record-id">
+                    ${generateRecordId(entry)}
+                </div>
+                
+                <h3>${entry.title}</h3>
 
                 </div>
 
@@ -130,6 +131,16 @@ function renderTopList(
 
         container.appendChild(item);
     });
+}
+
+function getMediaIcon(mediaType) {
+    const icons = {
+        book: "book-open",
+        video: "film",
+        game: "gamepad-2"
+    };
+
+    return icons[mediaType] || "archive";
 }
 
 function getReportTitle(containerId) {

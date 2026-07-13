@@ -100,8 +100,7 @@ function initializeFilters() {
             searchQuery = event.target.value.toLowerCase().trim();
             loadEntries();
         });
-    
-    renderGenreFilters();
+
     renderActiveFilters();
 
 }

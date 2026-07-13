@@ -73,14 +73,16 @@ let pendingDeleteId = null;
 
 async function loadGenres() {
     genreRegistry = await getGenres();
+    renderGenreFilters();
 }
 
 async function initializeApp() {
     initializeNavigation();
-    initializeFilters();
 
     await loadGenres();
     await loadScoringProfiles();
+
+    initializeFilters();
 
     renderGenreSelector(mediaTypeSelect.value);
     renderScoreInputs(mediaTypeSelect.value);
@@ -88,7 +90,7 @@ async function initializeApp() {
     await refreshApp();
 
     showPage("library");
-    refreshIcons();
+    lucide.createIcons();
 }
 
 initializeApp();

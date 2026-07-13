@@ -67,6 +67,8 @@ function renderEntryMetadata(entry) {
             break;
     }
 
+    console.log(entry.title, entry.genres);
+
     return `
         <div class="entry-meta-grid">
 
@@ -104,6 +106,7 @@ function renderEntryMetadata(entry) {
         </div>
 
         <div class="genre-chip-container">
+        TEST
             ${renderGenreChips(entry.genres)}
         </div>
     `;
@@ -276,6 +279,7 @@ function renderScoreBars(scores) {
 }
 
 function renderGenreChips(genres) {
+    console.log("renderGenreChips called:", genres);
     return genres
         .map((genre) => {
             const formatted = genre
