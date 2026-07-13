@@ -4,8 +4,7 @@ import uuid
 
 from models.media_item import MediaItem
 from models.score import Score
-from models.scoring_profile import CATEGORY_WEIGHTS
-
+from models.scoring_profile import get_universal_weight, get_media_weight
 
 class Entry:
     def __init__(
@@ -26,13 +25,42 @@ class Entry:
         self.genres = genres
 
     def total_score(self) -> float:
-        weighted_total = 0
+        universal_total = 0
+        media_total = 0
+
+        universal_weight_found = False
+        media_weight_found = False
 
         for score in self.scores:
-            weight = CATEGORY_WEIGHTS[score.category]
-            weighted_total += score.value * weight
+            universal_weight = get_universal_weight(score.category)
 
-        return round(weighted_total * 10, 2)
+            if universal_weight is not None:
+                universal_total += score.value * universal_weight
+                universal_weight_found = True
+                continue
+
+            media_weight = get_media_weight(
+                self.media_item.media_type,
+                score.category
+            )
+
+            if media_weight is not None:
+                media_total += score.value * media_weight
+                media_weight_found = True
+
+        if not universal_weight_found:
+            return 0
+
+        if not media_weight_found:
+            return round(universal_total * 10, 2)
+
+        final_score = (
+            (universal_total * 0.70)
+            +
+            (media_total * 0.30)
+        )
+
+        return round(final_score * 10, 2)
 
     def to_dict(self):
         return {

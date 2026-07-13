@@ -9,9 +9,11 @@ from contextlib import asynccontextmanager
 
 from models.media_item import MediaItem
 from models.scoring_profile import (
-    CATEGORY_WEIGHTS,
-    SCORING_CATEGORIES,
     VALID_MEDIA_TYPES,
+    UNIVERSAL_SCORING_PROFILE,
+    MEDIA_SCORING_PROFILES,
+    get_universal_categories,
+    get_all_categories,
 )
 
 from models.score import Score
@@ -110,7 +112,7 @@ def validate_entry(entry_data: EntryCreate):
 
     genres = validate_genres(entry_data.media_type, entry_data.genres)
 
-    validate_scores(entry_data.scores)
+    validate_scores(entry_data.media_type, entry_data.scores)
     validate_completion_status(entry_data.completion_status)
 
     return title, genres
@@ -123,8 +125,8 @@ def validate_title(title: str):
     return title
 
 
-def validate_scores(scores: Dict[str, int]):
-    valid_categories = set(SCORING_CATEGORIES)
+def validate_scores(media_type: str, scores: Dict[str, int]):
+    valid_categories = set(get_all_categories(media_type))
     submitted_categories = set(scores.keys())
 
     missing = valid_categories - submitted_categories
@@ -393,4 +395,7 @@ def get_stats():
 
 @app.get("/scoring-profile")
 def get_scoring_profile():
-    return {"categories": SCORING_CATEGORIES, "weights": CATEGORY_WEIGHTS}
+    return {
+        "categories": get_universal_categories(),
+        "weights": UNIVERSAL_SCORING_PROFILE,
+    }
