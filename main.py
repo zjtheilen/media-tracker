@@ -11,6 +11,7 @@ from models.media_item import MediaItem
 from models.scoring_profile import (
     VALID_MEDIA_TYPES,
     UNIVERSAL_SCORING_PROFILE,
+    MEDIA_SCORING_PROFILES,
     get_universal_categories,
     get_all_categories,
 )
@@ -395,6 +396,9 @@ def get_stats():
 @app.get("/scoring-profile")
 def get_scoring_profile():
     return {
-        "categories": get_universal_categories(),
-        "weights": UNIVERSAL_SCORING_PROFILE,
+        "universal": {
+            "categories": get_universal_categories(),
+            "weights": UNIVERSAL_SCORING_PROFILE,
+        },
+        "media": MEDIA_SCORING_PROFILES,
     }

@@ -17,13 +17,7 @@ async function refreshApp() {
 }
 
 async function loadScoringProfiles() {
-    const data = await getScoringProfiles();
-
-    scoringProfiles = {
-        video: data.categories,
-        book: data.categories,
-        game: data.categories,
-    };
+    scoringProfiles = await getScoringProfiles();
 }
 
 mediaTypeSelect.addEventListener("change", () => {

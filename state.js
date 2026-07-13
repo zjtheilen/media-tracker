@@ -1,6 +1,12 @@
 const chartInstances = {};
 
-let scoringProfiles = {};
+let scoringProfiles = {
+    universal: {
+        categories: [],
+        weights: {}
+    },
+    media: {}
+};
 
 let genreRegistry = {};
 
