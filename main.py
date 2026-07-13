@@ -8,8 +8,12 @@ import json
 from contextlib import asynccontextmanager
 
 from models.media_item import MediaItem
-from models.scoring_profile import SCORING_PROFILES 
-from data.genres import PRIMARY_GENRES, GAME_GENRES
+from models.scoring_profile import (
+    CATEGORY_WEIGHTS,
+    SCORING_CATEGORIES,
+    VALID_MEDIA_TYPES,
+)
+
 from models.score import Score
 from models.entry import Entry
 from db import init_db, get_connection
@@ -18,15 +22,19 @@ from models.responses import (
     UpdateEntryResponse,
     DeleteEntryResponse,
     StatsResponse,
-    row_to_entry_response
+    row_to_entry_response,
 )
 
-VALID_COMPLETION_STATUSES = {
-    "completed",
-    "in_progress",
-    "dropped",
-    "planned"
-}
+from models.genre_registry import (
+    CORE_GENRES,
+    GAME_GENRES,
+    BOOK_GENRES,
+    VIDEO_GENRES,
+    get_allowed_genres,
+)
+
+VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -35,6 +43,7 @@ async def lifespan(app: FastAPI):
     yield
     print("Shutting down...")
 
+
 app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
@@ -42,30 +51,29 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
+
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     print(exc)
     return JSONResponse(
         status_code=exc.status_code,
-        content = {
-            "error": "http_error",
-            "detail": exc.detail
-        }
+        content={"error": "http_error", "detail": exc.detail},
     )
+
 
 @app.exception_handler(Exception)
 async def generic_exception_handler(request: Request, exc: Exception):
     print(exc)
-    
+
     return JSONResponse(
         status_code=500,
         content={
             "error": "internal_service_error",
-            "detail": "An unexpected error occured"
-        }
+            "detail": "An unexpected error occured",
+        },
     )
 
 
@@ -79,33 +87,34 @@ class EntryCreate(BaseModel):
     completion_status: Optional[str] = "completed"
 
 
-def build_scores(media_type: str, scores_data: Dict[str, int]) -> list[Score]:
-    category_lookup = get_category_lookup(media_type)
+def build_scores(scores_dict):
+    built_scores = []
 
-    scores = []
+    for category_name, value in scores_dict.items():
+        built_scores.append(Score(category=category_name, value=value))
 
-    for name, value in scores_data.items():
-        category_object = category_lookup[name.lower()]
-        scores.append(Score(category_object, value))
-    
-    return scores
+    return built_scores
+
 
 def validate_completion_status(status: str):
     if status not in VALID_COMPLETION_STATUSES:
         raise HTTPException(
-            status_code=400,
-            detail=f"Invalid completion status: {status}"
+            status_code=400, detail=f"Invalid completion status: {status}"
         )
+
 
 def validate_entry(entry_data: EntryCreate):
     validate_media_type(entry_data.media_type)
+
     title = validate_title(entry_data.title)
-    validate_genres(entry_data.media_type, entry_data.genres)
+
+    genres = validate_genres(entry_data.media_type, entry_data.genres)
+
     validate_scores(entry_data.scores)
-    validate_score_categories(entry_data.media_type, entry_data.scores)
     validate_completion_status(entry_data.completion_status)
 
-    return title
+    return title, genres
+
 
 def validate_title(title: str):
     title = title.strip()
@@ -113,290 +122,275 @@ def validate_title(title: str):
         raise HTTPException(status_code=400, detail="Title cannot be empty")
     return title
 
+
 def validate_scores(scores: Dict[str, int]):
-    for name, value in scores.items():
-
-        if not isinstance(value, int):
-            raise HTTPException(
-                status_code=400,
-                detail=f"Score for {name} must be an integer"
-            )
-
-        if value < 1 or value > 5:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Score for {name} must be between 1 and 5"
-            )
-
-def get_allowed_genres(media_type: str) -> set[str]:
-    allowed = set(PRIMARY_GENRES)
-
-    if media_type == "game":
-        allowed |= GAME_GENRES
-    
-    return allowed
-
-def validate_genres(media_type: str, genres: list[str]):
-    if not genres:
-        raise HTTPException(
-            status_code=400,
-            detail="At least one genre is required"
-        )
-
-    if len(genres) > 3:
-        raise HTTPException(
-            status_code=400,
-            detail="Maximum 3 genres allowed"
-        )
-    
-    allowed = get_allowed_genres(media_type)
-
-    normalized_genres = list(dict.fromkeys(
-        g.strip().lower() for g in genres
-    ))
-
-    for g in normalized_genres:
-        if g not in allowed:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Invalid genre for {media_type}: {g}"
-            )
-
-def validate_media_type(media_type: str):
-    if media_type not in SCORING_PROFILES:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid media type: {media_type}"
-        )
-
-def get_category_lookup(media_type: str):
-    return {
-        cat.name.lower(): cat for cat in SCORING_PROFILES[media_type]
-    }
-
-def validate_score_categories(media_type: str, scores: Dict[str, int]):
-    valid_categories = {
-        cat.name.lower() for cat in SCORING_PROFILES[media_type]
-    }
-
-    submitted_categories = {
-        name.lower() for name in scores.keys()
-    }
+    valid_categories = set(SCORING_CATEGORIES)
+    submitted_categories = set(scores.keys())
 
     missing = valid_categories - submitted_categories
     extra = submitted_categories - valid_categories
 
     if missing:
         raise HTTPException(
-            status_code=400,
-            detail=f"Missing scoring categories for {media_type}: {', '.join(missing)}"
+            status_code=400, detail=f"Missing scoring categories: {sorted(missing)}"
         )
-    
+
     if extra:
         raise HTTPException(
-            status_code=400,
-            detail=f"Invalid scoring categories for {media_type}: {', '.join(extra)}"
+            status_code=400, detail=f"Invalid scoring categories: {sorted(extra)}"
         )
+
+    for name, value in scores.items():
+        if not isinstance(value, int):
+            raise HTTPException(
+                status_code=400, detail=f"Score for {name} must be an integer"
+            )
+
+        if value < 1 or value > 10:
+            raise HTTPException(
+                status_code=400, detail=f"Score for {name} must be between 1 and 10"
+            )
+
+
+def normalize_genre(genre: str) -> str:
+    return genre.strip().lower()
+
+
+def validate_genres(media_type: str, genres: list[str]):
+    if not genres:
+        raise HTTPException(status_code=400, detail="At least one genre is required")
+
+    if len(genres) > 3:
+        raise HTTPException(status_code=400, detail="Maximum 3 genres allowed")
+
+    allowed = get_allowed_genres(media_type)
+
+    normalized_genres = list(dict.fromkeys(normalize_genre(g) for g in genres))
+
+    for g in normalized_genres:
+        if g not in allowed:
+            raise HTTPException(
+                status_code=400, detail=f"Invalid genre for {media_type}: {g}"
+            )
+
+    return normalized_genres
+
+
+def validate_media_type(media_type: str):
+    if media_type not in VALID_MEDIA_TYPES:
+        raise HTTPException(status_code=400, detail=f"Invalid media type: {media_type}")
 
 
 @app.post("/entries/")
 def create_entry(entry_data: EntryCreate):
 
-    title = validate_entry(entry_data)
+    title, genres = validate_entry(entry_data)
 
     media_item = MediaItem(title, entry_data.media_type)
 
-    scores = build_scores(entry_data.media_type, entry_data.scores)
-    
+    scores = build_scores(entry_data.scores)
+
     entry = Entry(
-        media_item=media_item, 
-        genres=entry_data.genres,
-        scores=scores, 
-        notes=entry_data.notes, 
-        date_consumed=entry_data.date_consumed, 
-        completion_status=entry_data.completion_status
+        media_item=media_item,
+        genres=genres,
+        scores=scores,
+        notes=entry_data.notes,
+        date_consumed=entry_data.date_consumed,
+        completion_status=entry_data.completion_status,
     )
 
-    conn = get_connection()
-    cursor = conn.cursor()
+    with get_connection() as conn:
+        cursor = conn.cursor()
 
-
-
-    cursor.execute("""
-        INSERT INTO entries (
-            id, title, media_type, genres, notes, date_consumed, completion_status, total_score, scores
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            entry.id,
-            entry.media_item.title,
-            entry.media_item.media_type,
-            json.dumps(entry_data.genres),
-            entry.notes,
-            entry.date_consumed.isoformat() if entry.date_consumed else None,
-            entry.completion_status,
-            entry.total_score(),
-            json.dumps(entry_data.scores),
+        cursor.execute(
+            """
+            INSERT INTO entries (
+                id, title, media_type, genres, notes, date_consumed, completion_status, total_score, scores
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                entry.id,
+                entry.media_item.title,
+                entry.media_item.media_type,
+                json.dumps(genres),
+                entry.notes,
+                entry.date_consumed.isoformat() if entry.date_consumed else None,
+                entry.completion_status,
+                entry.total_score(),
+                json.dumps(entry_data.scores),
+            ),
         )
-    )
 
-    conn.commit()
+        cursor.execute("SELECT * FROM entries WHERE id = ?", (entry.id,))
+        row = cursor.fetchone()
 
-    cursor.execute("SELECT * FROM entries WHERE id = ?", (entry.id,))
-    row = cursor.fetchone()
-    
-    conn.close()
+        conn.commit()
 
     return row_to_entry_response(row)
 
 
+def normalize_genre_query(genre: str) -> str:
+    return genre.strip().lower().lstrip("/")
+
+
 @app.get("/entries/", response_model=list[EntryResponse])
-def get_entries():
-    conn = get_connection()
-    cursor = conn.cursor()
+def get_entries(genre: str | None = None):
 
-    cursor.execute("SELECT * FROM entries")
-    rows = cursor.fetchall()
-    conn.close()
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM entries")
+        rows = cursor.fetchall()
 
-    return [row_to_entry_response(row) for row in rows]
+    entries = [row_to_entry_response(row) for row in rows]
+
+    if genre:
+        normalized = normalize_genre_query(genre)
+
+        entries = [entry for entry in entries if normalized in entry.genres]
+
+    return entries
 
 
 @app.get("/entries/{entry_id}", response_model=EntryResponse)
 def get_entry(entry_id: str):
-    conn = get_connection()
-    cursor = conn.cursor()
+    with get_connection() as conn:
+        cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM entries WHERE id = ?", (entry_id,))
-    row = cursor.fetchone()
-    conn.close()
+        cursor.execute("SELECT * FROM entries WHERE id = ?", (entry_id,))
+        row = cursor.fetchone()
 
-    if not row:
-        raise HTTPException(status_code=404, detail="Entry not found")
+        if not row:
+            raise HTTPException(status_code=404, detail="Entry not found")
 
     return row_to_entry_response(row)
 
 
-@app.delete(
-    "/entries/{entry_id}",
-    response_model=DeleteEntryResponse
-)
-def delete_entry(entry_id: str):
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("DELETE FROM entries WHERE id = ?", (entry_id,))
-    conn.commit()
-
-    conn.close()
-
+@app.get("/genres/")
+def get_genres():
     return {
-        "message": "Entry deleted",
-        "entry_id": entry_id
+        "core": list(CORE_GENRES),
+        "game": list(GAME_GENRES),
+        "book": list(BOOK_GENRES),
+        "video": list(VIDEO_GENRES),
     }
 
 
-@app.put(
-    "/entries/{entry_id}",
-    response_model=UpdateEntryResponse
-)
+@app.delete("/entries/{entry_id}", response_model=DeleteEntryResponse)
+def delete_entry(entry_id: str):
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM entries WHERE id = ?", (entry_id,))
+        conn.commit()
+
+    return {"message": "Entry deleted", "entry_id": entry_id}
+
+
+@app.put("/entries/{entry_id}", response_model=UpdateEntryResponse)
 def update_entry(entry_id: str, entry_data: EntryCreate):
-    conn = get_connection()
-    cursor = conn.cursor()
+    with get_connection() as conn:
+        cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM entries WHERE id = ?", (entry_id,))
-    existing = cursor.fetchone()
+        cursor.execute("SELECT * FROM entries WHERE id = ?", (entry_id,))
+        existing = cursor.fetchone()
 
-    if not existing:
-        conn.close()
-        raise HTTPException(status_code=404, detail="Entry not found")
-    title = validate_entry(entry_data)
-    
-    media_item = MediaItem(title, entry_data.media_type)
+        if not existing:
+            raise HTTPException(status_code=404, detail="Entry not found")
+        title, genres = validate_entry(entry_data)
 
-    scores = build_scores(entry_data.media_type, entry_data.scores)
-    
-    updated_entry = Entry(
-        media_item=media_item,
-        genres=entry_data.genres,
-        scores=scores,
-        notes=entry_data.notes,
-        date_consumed=entry_data.date_consumed,
-        completion_status=entry_data.completion_status
-    )
+        media_item = MediaItem(title, entry_data.media_type)
 
-    cursor.execute("""
-        UPDATE entries SET 
-            title = ?, 
-            media_type = ?, 
-            genres = ?, 
-            notes = ?, 
-            date_consumed = ?, 
-            completion_status = ?, 
-            total_score = ?, 
-            scores = ?
-        WHERE id = ?
-    """, (
-        updated_entry.media_item.title,
-        updated_entry.media_item.media_type,
-        json.dumps(entry_data.genres),
-        updated_entry.notes,
-        updated_entry.date_consumed.isoformat() if updated_entry.date_consumed else None,
-        updated_entry.completion_status,
-        updated_entry.total_score(),
-        json.dumps(entry_data.scores),
-        entry_id
-    ))
+        scores = build_scores(entry_data.scores)
 
-    print(cursor.rowcount)
+        updated_entry = Entry(
+            media_item=media_item,
+            genres=genres,
+            scores=scores,
+            notes=entry_data.notes,
+            date_consumed=entry_data.date_consumed,
+            completion_status=entry_data.completion_status,
+        )
 
-    conn.commit()
-    conn.close()
+        cursor.execute(
+            """
+            UPDATE entries SET 
+                title = ?, 
+                media_type = ?, 
+                genres = ?, 
+                notes = ?, 
+                date_consumed = ?, 
+                completion_status = ?, 
+                total_score = ?, 
+                scores = ?
+            WHERE id = ?
+        """,
+            (
+                updated_entry.media_item.title,
+                updated_entry.media_item.media_type,
+                json.dumps(genres),
+                updated_entry.notes,
+                updated_entry.date_consumed.isoformat()
+                if updated_entry.date_consumed
+                else None,
+                updated_entry.completion_status,
+                updated_entry.total_score(),
+                json.dumps(entry_data.scores),
+                entry_id,
+            ),
+        )
+
+        print(cursor.rowcount)
+
+        conn.commit()
 
     return {
         "message": "Entry updated",
         "entry_id": entry_id,
-        "total_score": updated_entry.total_score()}
+        "total_score": updated_entry.total_score(),
+    }
 
 
-@app.get(
-    "/stats/",
-    response_model=StatsResponse
-)
+@app.get("/stats/", response_model=StatsResponse)
 def get_stats():
-    conn = get_connection()
-    cursor = conn.cursor()
+    with get_connection() as conn:
+        cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM entries")
-    rows = cursor.fetchall()
-    conn.close()
+        cursor.execute("SELECT * FROM entries")
+        rows = cursor.fetchall()
 
-    total_entries = len(rows)
+        total_entries = len(rows)
 
-    completed_entries = sum(
-        1 for r in rows if r["completion_status"] == "completed"
-    )
+        completed_entries = sum(
+            1 for r in rows if r["completion_status"] == "completed"
+        )
 
-    total_score = sum(r["total_score"] for r in rows)
-    average_score = total_score / total_entries if total_entries else 0
+        total_score = sum(r["total_score"] for r in rows)
+        average_score = total_score / total_entries if total_entries else 0
 
-    media_type_counts = {}
+        media_type_counts = {}
 
-    for r in rows:
-        mt = r["media_type"]
-        media_type_counts[mt] = media_type_counts.get(mt, 0) + 1
+        for r in rows:
+            mt = r["media_type"]
+            media_type_counts[mt] = media_type_counts.get(mt, 0) + 1
 
-    genre_counts = {}
+        genre_counts = {}
 
-    for r in rows:
-        genres = json.loads(r["genres"])
+        for r in rows:
+            genres = json.loads(r["genres"])
 
-        for genre in genres:
-            genre_counts[genre] = genre_counts.get(genre, 0) + 1
+            for genre in genres:
+                genre_counts[genre] = genre_counts.get(genre, 0) + 1
 
     return {
         "total_entries": total_entries,
         "completed_entries": completed_entries,
         "average_score": average_score,
         "media_type_counts": media_type_counts,
-        "genre_counts": genre_counts
+        "genre_counts": genre_counts,
     }
+
+
+@app.get("/scoring-profile")
+def get_scoring_profile():
+    return {"categories": SCORING_CATEGORIES, "weights": CATEGORY_WEIGHTS}

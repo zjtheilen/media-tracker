@@ -16,21 +16,8 @@ CORE_GENRES = [
     "whimsical",
 ]
 
-GENRE_MODIFIERS = [
-    "dark",
-    "lighthearted",
-    "gritty",
-    "slow-burn",
-    "fast-paced",
-    "atmospheric",
-    "character-driven",
-    "plot-driven",
-    "worldbuilding-heavy",
-]
 
-VIDEO_ONLY_GENRES = ["biopic"]
-
-GAME_ONLY_GENRES = [
+GAME_GENRES = [
     "rpg",
     "strategy",
     "puzzle",
@@ -41,7 +28,7 @@ GAME_ONLY_GENRES = [
     "racing",
 ]
 
-BOOK_ONLY_GENRES = [
+BOOK_GENRES = [
     "literary fiction",
     "memoir",
     "biography",
@@ -49,10 +36,16 @@ BOOK_ONLY_GENRES = [
     "non-fiction",
 ]
 
+VIDEO_GENRES = [
+    "biopic",
+]
+
 GENRE_REGISTRY = {
-    "core": CORE_GENRES,
-    "modifier": GENRE_MODIFIERS,
-    "video": CORE_GENRES + VIDEO_ONLY_GENRES,
-    "game": CORE_GENRES + GAME_ONLY_GENRES,
-    "book": CORE_GENRES + BOOK_ONLY_GENRES,
+    "game": set(CORE_GENRES + GAME_GENRES),
+    "video": set(CORE_GENRES + VIDEO_GENRES),
+    "book": set(CORE_GENRES + BOOK_GENRES),
 }
+
+
+def get_allowed_genres(media_type: str) -> set[str]:
+    return GENRE_REGISTRY.get(media_type, set(CORE_GENRES))

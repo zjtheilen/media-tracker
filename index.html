@@ -1,72 +1,291 @@
-<! DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Media Tracker</title>
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-<body>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://unpkg.com/lucide@latest"></script>
 
-    <h1>Media Tracker</h1>
-    <p>Welcome to the Media Tracker!</p>
+        <script src="state.js" defer></script>
+        <script src="constants.js" defer></script>
+        <script src="api.js" defer></script>
 
-    <button id="openBtn">Add an Entry</button>
-    <dialog id="entryModal">
+        <script src="charts.js" defer></script>
+        <script src="lists.js" defer></script>
 
-        <form id="entry-form">
-            <input type="text" id="title" placeholder="Title" required>
+        <script src="filters.js" defer></script>
+        <script src="entries.js" defer></script>
+        <script src="library.js" defer></script>
+        <script src="forms.js" defer></script>
+        <script src="navigation.js" defer></script>
 
-            <select id="media-type">
-                <option value="video">video</option>
-                <option value="game">game</option>
-                <option value="book">book</option>
-            </select>
+        <script src="app.js" defer></script>
 
-            <select id="genres" multiple></select>
+        <title>Media Tracker</title>
+    </head>
 
-            <textarea id="notes" placeholder="Notes"></textarea>
+    <body>
+        <header class="page-header">
+            <h1>Media Archive</h1>
+            <p>Catalog interface initialized.</p>
+        </header>
 
-            <label for="date-consumed">Date Consumed</label>
-            <input type="date" id="date-consumed">
+        <nav id="main-nav">
+            <button id="library-tab">
+                <i class="media-icon" data-lucide="package"></i>
+                Archive
+            </button>
+            <button id="analytics-tab">
+                <i class="media-icon" data-lucide="chart-column"></i>
+                Analysis
+            </button>
+            <button id="lists-tab">
+                <i class="media-icon" data-lucide="file-stack"></i>
+                Reports
+            </button>
+        </nav>
 
-            <label for="completion-status">Completion Status</label>
-            <select id="completion-status">
-                <option value="completed">Completed</option>
-                <option value="in-progress">In Progress</option>
-                <option value="dropped">Dropped</option>
-            </select>
+        <section id="library-page" class="page-section">
+            <button id="openBtn">
+                <i class="media-icon" data-lucide="plus"></i>
+                Create Archive Record
+            </button>
 
-            <div id="score-container"></div>
+            <dialog id="entryModal">
+                <form id="entry-form">
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Title"
+                        required
+                    />
 
-            <div id="form-message"></div>
+                    <select id="media-type">
+                        <option value="video">video</option>
+                        <option value="game">game</option>
+                        <option value="book">book</option>
+                    </select>
 
-            <div class="row">
-                <button type="submit" id="submitBtn">Add Entry</button>
-                <button id="closeBtn">Cancel</button>
+                    <div id="genre-selector"></div>
+
+                    <textarea id="notes" placeholder="Notes"></textarea>
+
+                    <label for="date-consumed">Date Consumed</label>
+                    <input type="date" id="date-consumed" />
+
+                    <label for="completion-status">Completion Status</label>
+                    <select id="completion-status">
+                        <option value="completed">Completed</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="dropped">Dropped</option>
+                        <option value="planned">Planned</option>
+                    </select>
+
+                    <div id="score-container"></div>
+
+                    <div id="form-message"></div>
+
+                    <div class="row">
+                        <button type="submit" id="submitBtn">
+                            <i class="media-icon" data-lucide="plus"></i>
+                            Create Record
+                        </button>
+                        <button type="button" class="button-neutral" id="closeBtn">
+                            <i class="media-icon" data-lucide="x"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </dialog>
+            <dialog id="deleteModal">
+                <p>
+                    Are you sure you want to delete this entry? This cannot be
+                    undone.
+                </p>
+
+                <div class="row">
+                    <button class="danger" type="button" id="confirmDeleteBtn">
+                        <i class="media-icon" data-lucide="trash-2"></i>
+                        Purge Record
+                    </button>
+                    <button
+                        class="button-neutral"
+                        type="button"
+                        id="cancelDeleteBtn"
+                    >
+                    <i class="media-icon" data-lucide="x"></i>
+                    Cancel
+                    </button>
+                </div>
+            </dialog>
+
+            <!-- <button onclick="clearGenreFilter()">Clear Filter</button> -->
+
+            <div class="control-group">
+                <i class="media-icon" data-lucide="arrow-up-down"></i>
+                <label for="sort-select">Sort By:</label>
+
+                <select id="sort-select">
+                    <option value="date_desc">Date Consumed (Newest)</option>
+                    <option value="date_asc">Date Consumed (Oldest)</option>
+                    <option value="score_desc">
+                        Evaluation Index (Highest)
+                    </option>
+                    <option value="score_asc">Evaluation Index (Lowest)</option>
+                    <option value="title_asc">Title (A-Z)</option>
+                    <option value="title_desc">Title (Z-A)</option>
+                    <option value="media_type_asc">Media Type Ascending</option>
+                    <option value="media_type_desc">
+                        Media Type Descending
+                    </option>
+                </select>
             </div>
-            
-        </form>
-    </dialog>
-    <dialog id="deleteModal">
-        <p>
-            Are you sure you want to delete this entry?
-            This cannot be undone.
-        </p>
 
-        <div class="row">
-            <button type="button" id="confirmDeleteBtn">Confirm Delete</button>
-            <button type="button" id="cancelDeleteBtn">Cancel</button>
-        </div>
-    </dialog>
+            <div id="genre-filter-bar">
+                <i class="media-icon" data-lucide="tags"></i>
+                <strong>Genres:</strong>
+                <div id="genre-filters"></div>
+            </div>
 
-    <h2>Entries</h2>
+            <div class="control-group">
+                <!-- <label for="search-input">Search Entries:</label> -->
+                <i class="media-icon" data-lucide="search"></i>
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Search Archive..."
+                />
+            </div>
 
-    <div id="entries-container"></div>
+            <div id="active-filters" class="active-filters"></div>
 
-</body>
+            <h2>Archive Records</h2>
+            <div id="entries-container"></div>
+        </section>
 
+        <section id="analytics-page" class="page-section" hidden>
+            <div class="archive-header">
+                <div class="archive-label">ARCHIVE ANALYSIS</div>
+
+                <p>Statistical review of recorded media artifacts.</p>
+            </div>
+            <div class="row section">
+                <div class="column-half dashboard-card">
+                    <div class="panel-header">
+                        <div class="archive-label">
+                            <i class="media-icon" data-lucide="podium"></i>
+                            PRIMARY CLASSIFICATION
+                        </div>
+                    </div>
+
+                    <div id="favorite-media-type-card"></div>
+                </div>
+                <div class="column-half dashboard-card">
+                    <div class="archive-label">
+                        <i class="media-icon" data-lucide="boxes"></i>
+                        COLLECTION DISTRIBUTION
+                    </div>
+                    <canvas
+                        id="media-distribution-chart"
+                        role="img"
+                        aria-label="Distribution of media types in the arhchive"
+                    >
+                        Your browser does not support the chart visualization.
+                    </canvas>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="column-half dashboard-card">
+                    <div class="archive-label">
+                        <i class="media-icon" data-lucide="bar-chart-3"></i>
+                        EVALUATION BY CLASSIFICATION
+                    </div>
+                    <canvas
+                        id="avg-score-chart"
+                        role="img"
+                        aria-label="Average evaluation index comparison between media types"
+                    >
+                        Your browser does not support the chart visualization.
+                    </canvas>
+                </div>
+                <div class="column-half dashboard-card">
+                    <div class="archive-label">
+                        <i class="media-icon" data-lucide="tags"></i>
+                        GENRE ANALYSIS
+                    </div>
+                    <canvas
+                        id="genre-average-ratings-chart"
+                        role="img"
+                        aria-label="Average ratings by genre"
+                    >
+                        Your browser does not support the chart visualization.
+                    </canvas>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="column-half dashboard-card">
+                    <div class="archive-label">
+                        <i class="media-icon" data-lucide="history"></i>
+                        ARCHIVE ACTIVITY
+                    </div>
+                    <canvas
+                        id="monthly-completion-chart"
+                        role="img"
+                        aria-label="Number of completed entries by month"
+                    >
+                        Your browser does not support the chart visualization.
+                    </canvas>
+                </div>
+                <div class="column-half dashboard-card">
+                    <div class="archive-label">
+                        <i class="media-icon" data-lucide="chart-column"></i>
+                        EVALUATION DISTRIBUTION
+                    </div>
+                    <canvas
+                        id="rating-distribution-chart"
+                        role="img"
+                        aria-label="Distribution of ratings across entries"
+                    >
+                        Your browser does not support the chart visualization.
+                    </canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="lists-page" class="page-section" hidden>
+            <div class="row section">
+                <div class="column-half card">
+                    <h2>Highest Rated Records</h2>
+                    <div id="top-rated-overall-list"></div>
+                </div>
+                <div class="column-half card">
+                    <h2>Highest Rated Books</h2>
+                    <div id="top-books-list"></div>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="column-half card">
+                    <h2>Highest Rated Videos</h2>
+                    <div id="top-movies-list"></div>
+                </div>
+                <div class="column-half card">
+                    <h2>Highest Rated Games</h2>
+                    <div id="top-games-list"></div>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="column-half card">
+                    <h2>Recent Archive Additions</h2>
+                    <div id="recent-archive-list"></div>
+                </div>
+                <div class="column-half card">
+                    <h2>Archive Hall of Fame</h2>
+                    <div id="hall-of-fame-list"></div>
+                </div>
+            </div>
+        </section>
+    </body>
 </html>

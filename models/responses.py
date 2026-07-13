@@ -3,6 +3,7 @@ from typing import Dict, List, Optional
 from datetime import date
 import json
 
+
 class EntryResponse(BaseModel):
     id: str
     title: str
@@ -32,6 +33,7 @@ class StatsResponse(BaseModel):
     average_score: float
     media_type_counts: Dict[str, int]
     genre_counts: Dict[str, int]
+
 
 def row_to_entry_response(row) -> EntryResponse:
     scores_raw = row["scores"]

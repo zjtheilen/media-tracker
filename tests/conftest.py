@@ -1,47 +1,33 @@
-import pytest
-from fastapi.testclient import TestClient
 import os
+import pytest
 import sqlite3
-
+from fastapi.testclient import TestClient
+import db
 from main import app
 
-DB_PATH = "database.db"
+TEST_DB = "test_database.db"
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_db():
+
+    os.environ["DB_PATH"] = TEST_DB
+
+    db.init_db()
+
+    yield
 
 
 @pytest.fixture(autouse=True)
-def reset_db():
-    # ensure clean file
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
+def clean_entries():
 
-    # recreate schema fresh
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(TEST_DB)
     cursor = conn.cursor()
 
-    cursor.execute("""CREATE TABLE entries (
-        id TEXT PRIMARY KEY,
-        media_type TEXT,
-        title TEXT,
-        genres TEXT,
-        completion_status TEXT,
-        total_score REAL,
-        notes TEXT,
-        date_consumed TEXT,
-        scores TEXT
-    )""")
-
-    cursor.execute("""
-        CREATE TABLE schema_version (
-            version INTEGER NOT NULL
-        )
-    """)
-
-    cursor.execute("INSERT INTO schema_version (version) VALUES (1)")
+    cursor.execute("DELETE FROM entries")
 
     conn.commit()
     conn.close()
-
-    yield
 
 
 @pytest.fixture
@@ -56,16 +42,32 @@ def valid_game_payload():
         "media_type": "game",
         "genres": ["horror"],
         "scores": {
-            "writing": 5,
-            "pacing": 4,
-            "originality": 5,
-            "engagement": 5,
-            "thought provoking": 5,
-            "emotional impact": 5,
-            "sound": 5,
-            "gameplay": 4,
-            "art": 5,
+            "emotional_impact": 10,
+            "depth": 1,
+            "craft": 5,
+            "engagement": 8,
+            "presentation": 4,
+            "originality": 9,
         },
         "notes": "Peak psychological horror",
+        "completion_status": "completed",
+    }
+
+
+@pytest.fixture
+def valid_book_payload():
+    return {
+        "title": "Dune",
+        "media_type": "book",
+        "genres": ["horror"],
+        "scores": {
+            "emotional_impact": 10,
+            "depth": 1,
+            "craft": 5,
+            "engagement": 8,
+            "presentation": 4,
+            "originality": 9,
+        },
+        "notes": "Long ass book",
         "completion_status": "completed",
     }
