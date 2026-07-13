@@ -6,6 +6,7 @@ from models.media_item import MediaItem
 from models.score import Score
 from models.scoring_profile import get_universal_weight, get_media_weight
 
+
 class Entry:
     def __init__(
         self,
@@ -39,10 +40,7 @@ class Entry:
                 universal_weight_found = True
                 continue
 
-            media_weight = get_media_weight(
-                self.media_item.media_type,
-                score.category
-            )
+            media_weight = get_media_weight(self.media_item.media_type, score.category)
 
             if media_weight is not None:
                 media_total += score.value * media_weight
@@ -54,18 +52,17 @@ class Entry:
         if not media_weight_found:
             return round(universal_total * 10, 2)
 
-        final_score = (
-            (universal_total * 0.70)
-            +
-            (media_total * 0.30)
-        )
+        final_score = (universal_total * 0.70) + (media_total * 0.30)
 
         return round(final_score * 10, 2)
 
     def to_dict(self):
         return {
+            "title": self.media_item.title,
+            "media_type": self.media_item.media_type,
             "media_item": self.media_item.to_dict(),
             "scores": [score.to_dict() for score in self.scores],
+            "genres": self.genres,
             "notes": self.notes,
             "date_consumed": self.date_consumed.isoformat()
             if self.date_consumed
