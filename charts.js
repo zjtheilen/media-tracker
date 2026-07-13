@@ -444,3 +444,154 @@ async function renderFavoriteMediaType() {
         </div>
     `;
 }
+
+function formatChartLabel(category) {
+    return category
+        .split("_")
+        .map(word =>
+            word.charAt(0).toUpperCase() + word.slice(1)
+        )
+        .join(" ");
+}
+
+
+function renderUniversalScoreChart(entry, canvas) {
+
+    if (!canvas) return;
+
+    destroyChart(`universal-${entry.id}`);
+
+    const labels = Object.keys(entry.universal_scores)
+        .map(formatChartLabel);
+
+    const data = Object.values(entry.universal_scores);
+
+
+    chartInstances[`universal-${entry.id}`] =
+        new Chart(canvas, {
+
+            type: "radar",
+
+            data: {
+                labels,
+
+                datasets: [{
+                    label: "Universal Evaluation",
+                    data,
+
+                    backgroundColor:
+                        "rgba(127,174,135,0.25)",
+
+                    borderColor:
+                        "rgba(127,174,135,1)",
+
+                    borderWidth: 2,
+                }]
+            },
+
+            options: {
+                animation: {
+                    duration: 800,
+                    easing: "easeOutQuart"
+                },
+
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 10,
+                        ticks: {
+                            color: ARCHIVE_COLORS.muted
+                        },
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                responsive: true,
+                maintainAspectRation: false,
+            }
+        });
+}
+
+function renderMediaScoreChart(entry, canvas) {
+
+    if (!canvas) return;
+
+
+    destroyChart(`media-${entry.id}`);
+
+
+    const labels = Object.keys(entry.media_scores)
+        .map(formatChartLabel);
+
+    const data = Object.values(entry.media_scores);
+
+
+    chartInstances[`media-${entry.id}`] =
+        new Chart(canvas, {
+
+            type: "bar",
+
+            data: {
+                labels,
+
+                datasets: [{
+                    label: "Media Evaluation",
+                    data,
+
+                    backgroundColor:
+                        "rgba(197,155,74,0.9)",
+
+                    borderColor:
+                        "#0b0f0e",
+
+                    borderWidth: 2
+                }]
+            },
+
+            options: {
+                animation: {
+                    duration: 800,
+                    easing: "easeOutQuart"
+                },
+
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 10,
+                        ticks: {
+                            color: ARCHIVE_COLORS.muted
+                        },
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        }
+                    },
+
+                    x: {
+                        ticks: {
+                            color: ARCHIVE_COLORS.muted
+                        },
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        display:false
+                    }
+                },
+
+                responsive: true,
+                maintainAspectRation: false,
+            }
+        });
+}

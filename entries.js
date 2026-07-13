@@ -4,11 +4,34 @@ function renderEntry(entry) {
 
         const card = createDetailCard(entry);
 
-        const canvas = card.querySelector("canvas");
+        const universalCanvas = card.querySelector(
+            `#universal-chart-${entry.id}`
+        );
+
+        const mediaCanvas = card.querySelector(
+            `#media-chart-${entry.id}`
+        );
+
+        if (universalCanvas) {
+            console.log("Rendering universal chart", entry);
+            renderUniversalScoreChart(entry, universalCanvas);
+        }
+
+        if (mediaCanvas) {
+            console.log("Rendering media chart", entry);
+            renderMediaScoreChart(entry, mediaCanvas);
+        }
+
+        console.log("Universal scores:", entry.universal_scores);
+        console.log("Media scores:", entry.media_scores);
 
 
-        if (canvas) {
-            renderRadarChart(entry, canvas);
+        if (universalCanvas) {
+            renderUniversalScoreChart(entry);
+        }
+
+        if (mediaCanvas) {
+            renderMediaScoreChart(entry);
         }
 
         return card;
@@ -55,7 +78,7 @@ function renderEntryHeader(entry, isExpanded) {
 function renderEntryMetadata(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
     let icon
-    switch (entry.media_type)  {
+    switch (entry.media_type) {
         case "video":
             icon = "film"
             break;
@@ -201,25 +224,43 @@ function createDetailCard(entry) {
         <div class="entry-overview">
 
             <div class="entry-details">
+
                 ${renderEntryHeader(entry, true)}
                 ${renderEntryMetadata(entry)}
+
+                <div class="detail-section">
+                    <h4>Observations</h4>
+                    ${renderEntryNotes(entry)}
+                </div>
+
+                <div class="detail-section">
+                    <h4>Actions</h4>
+                    ${renderEntryActions(entry)}
+                </div>
+
             </div>
 
-            <div class="entry-chart">
-                <canvas id="chart-${entry.id}"></canvas>
+
+            <div class="entry-charts">
+
+                <div class="chart-panel radar-panel">
+                    <h4>Universal Evaluation</h4>
+                    <canvas id="universal-chart-${entry.id}"></canvas>
+                </div>
+
+                <div class="chart-panel">
+                    <h4>
+                        ${entry.media_type.charAt(0).toUpperCase() + entry.media_type.slice(1)}
+                        Evaluation
+                    </h4>
+                    <canvas id="media-chart-${entry.id}"></canvas>
+                </div>
+
             </div>
 
         </div>
 
-        <div class="detail-section">
-            <h4>Observations</h4>
-            ${renderEntryNotes(entry)}
-        </div>
 
-        <div class="detail-section">
-            <h4>Actions</h4>
-            ${renderEntryActions(entry)}
-        </div>
     `;
 
     refreshIcons();
