@@ -1,7 +1,7 @@
 Chart.defaults.color = ARCHIVE_COLORS.text;
 Chart.defaults.borderColor = ARCHIVE_COLORS.grid;
 Chart.defaults.font.family = "monospace";
-Chart.defaults.animation.duration = 500;
+Chart.defaults.animation.duration = 800;
 
 function destroyChart(id) {
     if (chartInstances[id]) {
@@ -65,6 +65,10 @@ async function renderMediaDistributionChart() {
             ],
         },
         options: {
+            animation: {
+                duration: 800,
+                easing: "easeOutQuart"
+            },
             plugins: {
                 title: {
                     display: true,
@@ -130,6 +134,10 @@ async function renderAverageScoreByMediaTypeChart() {
             ],
         },
         options: {
+            animation: {
+                duration: 800,
+                easing: "easeOutQuart"
+            },
             scales: {
                 x: {
                     ticks: {
@@ -199,6 +207,10 @@ async function renderMonthlyCompletionChart() {
             }],
         },
         options: {
+            animation: {
+                duration: 800,
+                easing: "easeOutQuart"
+            },
             scales: {
                 x: {
                     ticks: {
@@ -276,6 +288,10 @@ async function renderRatingDistributionChart() {
             ],
         },
         options: {
+            animation: {
+                duration: 800,
+                easing: "easeOutQuart"
+            },
             scales: {
                 x: {
                     ticks: {
@@ -354,6 +370,10 @@ async function renderGenreAverageRatingsChart() {
             ],
         },
         options: {
+            animation: {
+                duration: 800,
+                easing: "easeOutQuart"
+            },
             responsive: true,
             scales: {
                 x: {

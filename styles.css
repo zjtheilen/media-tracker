@@ -830,6 +830,39 @@ dialog::backdrop {
     margin-top: var(--spacing-md);
 }
 
+.dashboard-card,
+.card {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.dashboard-card:hover,
+.card:hover {
+    transform: translateY(-2px);
+
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 22px rgba(127,174,135,0.18);
+}
+
+.dashboard-card canvas,
+.entry-chart canvas {
+    border-radius: var(--radius);
+
+    background:
+        rgba(11,15,14,0.35);
+
+    padding: 8px;
+}
+
+.dashboard-card:hover canvas {
+    filter:
+        drop-shadow(0 0 8px rgba(127,174,135,0.25));
+}
+
 .panel-header {
     margin-bottom: var(--spacing-md);
 }
@@ -863,20 +896,27 @@ dialog::backdrop {
     display: flex;
     align-items: center;
     gap: 18px;
-    padding: 14px 0;
+    padding: 14px 12px;
+    border-radius: var(--radius);
 
     transition:
-        background .15s ease;
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .report-record:not(:last-child) {
     border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
 }
 
-.report-record:hover{
-    background:rgba(255,255,255,.07);
-    box-shadow: inset 100px 0px 100px -50px var(--surface),
-                inset -100px 0px 100px -50px var(--surface);
+.report-record:hover {
+    background: rgba(127,174,135,0.08);
+
+    transform: translateX(2px);
+
+    box-shadow:
+        0 0 12px rgba(127,174,135,0.12);
 }
 
 .report-rank {
