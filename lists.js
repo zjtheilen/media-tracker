@@ -139,19 +139,19 @@ function getReportTitle(containerId) {
             "<i class='media-icon' data-lucide='file-text'></i>Highest Evaluated Records",
 
         "top-books-list":
-            "Highest Rated Books",
+            "<i class='media-icon' data-lucide='book'></i>Highest Rated Books",
 
         "top-games-list":
-            "Highest Rated Games",
+            "<i class='media-icon' data-lucide='gamepad-2'></i>Highest Rated Games",
 
         "top-movies-list":
-            "Highest Rated Videos",
+            "<i class='media-icon' data-lucide='film'></i>Highest Rated Videos",
 
         "recent-archive-list":
-            "Recent Archive Additions",
+            "<i class='media-icon' data-lucide='clock-3'></i>Recent Archive Additions",
 
         "hall-of-fame-list":
-            "Archive Hall of Fame"
+            "<i class='media-icon' data-lucide='award'></i>Archive Hall of Fame"
     };
 
     return titles[containerId] || "Archive Report";

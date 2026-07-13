@@ -9,6 +9,10 @@
     --muted: #7f9587;
     --border: #26332e;
 
+    --button-neutral: var(--surface-raised);
+    --button-neutral-hover: #1c2623;
+    --tag-bg: #eee;
+
     --accent: #7fae87;
     --accent-hover: #9bc9a2;
 
@@ -91,7 +95,10 @@ button {
     font-size: 16px;
     cursor: pointer;
 
-    transition: background 0.15s ease;
+    transition: 
+        background 0.15s ease,
+        transform .15s ease,
+        box-shadow .15s ease;
 
     display: flex;
     align-items: center;
@@ -107,13 +114,15 @@ button:hover {
         0 0 12px rgba(127,174,135,0.18);
 }
 
-button.secondary {
-    background: var(--secondary);
+button.button-neutral {
+    background: var(--button-neutral);
     color: var(--text);
+    border: 1px solid var(--border);
 }
 
-button.secondary:hover {
-    background: var(--secondary-hover);
+button.button-neutral:hover {
+    background: var(--button-neutral-hover);
+    border-color: var(--accent);
 }
 
 button.danger {
@@ -302,13 +311,6 @@ label {
     margin-bottom: var(--spacing-xl);
 }
 
-.archive-label {
-    font-family: monospace;
-    letter-spacing: 2px;
-    color: var(--highlight);
-    font-size: .85rem;
-}
-
 .archive-header p {
     color: var(--muted);
     font-family: monospace;
@@ -365,16 +367,8 @@ label {
     color: var(--muted);
 }
 
-.meta-item svg + strong {
-    margin-left: 6px;
-}
-
 .meta-item .media-icon {
     color: var(--highlight);
-}
-
-.meta-item span {
-    padding-left: 23px;
 }
 
 .meta-label {
@@ -390,7 +384,7 @@ label {
 .meta-label svg {
     width: 15px;
     height: 15px;
-    color: var(--highlight);
+    color: var(--muted);
     stroke-width: 1.8;
 }
 
@@ -798,6 +792,9 @@ dialog::backdrop {
 
 .dashboard-card h2 {
     margin-top: 0;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .dashboard-card canvas {
@@ -823,12 +820,18 @@ dialog::backdrop {
     display: flex;
     align-items: center;
     gap: 18px;
-
     padding: 14px 0;
+
+    transition:
+        background .15s ease;
 }
 
 .report-record:not(:last-child) {
     border-bottom: 1px solid var(--border);
+}
+
+.report-record:hover{
+    background:rgba(255,255,255,.015);
 }
 
 .report-rank {
@@ -865,6 +868,7 @@ dialog::backdrop {
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
     border-bottom: 1px solid var(--border);
+    color: var(--accent);
 }
 
 .report-header h2 {
@@ -887,6 +891,25 @@ dialog::backdrop {
 
 .report-metadata strong {
     color: var(--muted);
+}
+
+/* Icons */
+
+.lucide {
+    width: 16px;
+    height: 16px;
+
+    stroke-width: 1.75;
+
+    color: currentColor;
+
+    flex-shrink: 0;
+}
+
+.meta-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 /* Responsive */
