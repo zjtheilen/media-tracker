@@ -25,6 +25,20 @@ class Entry:
         self.completion_status = completion_status
         self.genres = genres
 
+    def get_universal_scores(self):
+        return {
+            score.category: score.value
+            for score in self.scores
+            if get_universal_weight(score.category) is not None
+        }
+
+    def get_media_scores(self):
+        return {
+            score.category: score.value
+            for score in self.scores
+            if get_media_weight(self.media_item.media_type, score.category) is not None
+        }
+
     def total_score(self) -> float:
         universal_total = 0
         media_total = 0
@@ -69,4 +83,6 @@ class Entry:
             else None,
             "completion_status": self.completion_status,
             "total_score": self.total_score(),
+            "universal_scores": self.get_universal_scores(),
+            "media_scores": self.get_media_scores(),
         }

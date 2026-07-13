@@ -3,6 +3,10 @@ from typing import Dict, List, Optional
 from datetime import date
 import json
 
+from models.media_item import MediaItem
+from models.entry import Entry
+from models.score import Score
+
 
 class EntryResponse(BaseModel):
     id: str
@@ -14,6 +18,8 @@ class EntryResponse(BaseModel):
     date_consumed: Optional[date] = None
     completion_status: str
     total_score: float
+    universal_scores: dict[str, int]
+    media_scores: dict[str, int]
 
 
 class UpdateEntryResponse(BaseModel):
@@ -53,6 +59,25 @@ def row_to_entry_response(row) -> EntryResponse:
         genres = json.loads(genres_raw)
     else:
         genres = list(genres_raw)
+    
+    media_item = MediaItem(
+        row["title"],
+        row["media_type"]
+    )
+
+    score_objects = [
+        Score(category, value)
+        for category, value in scores.items()
+    ]
+
+    entry = Entry(
+        media_item=media_item,
+        genres=genres,
+        scores=score_objects,
+        notes=row["notes"],
+        date_consumed=row["date_consumed"],
+        completion_status=row["completion_status"]
+    )
 
     return EntryResponse(
         id=row["id"],
@@ -63,5 +88,7 @@ def row_to_entry_response(row) -> EntryResponse:
         notes=row["notes"],
         date_consumed=row["date_consumed"],
         completion_status=row["completion_status"],
-        total_score=row["total_score"],
+        total_score=entry.total_score(),
+        universal_scores=entry.get_universal_scores(),
+        media_scores=entry.get_media_scores(),
     )
