@@ -19,6 +19,36 @@ function calculateAverage(entries) {
     );
 }
 
+function calculateAverageScores(entries, scoreType) {
+    const totals = {};
+    const counts = {};
+
+    entries.forEach((entry) => {
+        const scores = entry[scoreType] || {};
+
+        Object.entries(scores).forEach(([category, value]) => {
+            totals[category] = (totals[category] || 0) + value;
+            counts[category] = (counts[category] || 0) + 1;
+        });
+    });
+
+    const averages = {};
+
+    Object.keys(totals).forEach((category) => {
+        averages[category] = Number(
+            (totals[category] / counts[category]).toFixed(2)
+        );
+    });
+
+    return averages;
+}
+
+function getTopCategories(averages, count = 2) {
+    return Object.entries(averages)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, count);
+}
+
 function groupEntries(entries, keySelector) {
     return entries.reduce((groups, entry) => {
         const keys = keySelector(entry);
@@ -396,11 +426,11 @@ async function renderGenreAverageRatingsChart() {
             },
             plugins: {
                 legend: {
-                    display:false
+                    display: false
                 },
-                title:{
-                    display:true,
-                    text:"Average Rating"
+                title: {
+                    display: true,
+                    text: "Average Rating"
                 }
             }
         },
@@ -408,39 +438,80 @@ async function renderGenreAverageRatingsChart() {
 
 }
 
-async function renderFavoriteMediaType() {
+async function renderArchiveProfileCard() {
+
     const entries = await getEntries();
 
-    const grouped = groupEntries(
-        entries,
-        entry => entry.media_type
-    );
+    const universalAverages =
+        calculateAverageScores(
+            entries,
+            "universal_scores"
+        );
 
-    const averages = {};
+    const mediaAverages =
+        calculateAverageScores(
+            entries,
+            "media_scores"
+        );
 
-    Object.keys(grouped).forEach((type) => {
-        averages[type] = calculateAverage(grouped[type]);
-    });
+    console.log(universalAverages);
+    console.log(mediaAverages);
 
-    const favorite = Object.entries(averages).reduce((best, current) => {
-        return current[1] > best[1] ? current : best;
-    });
+    const topUniversal = getTopCategories(universalAverages);
+    const topMedia = getTopCategories(mediaAverages);
 
-    const favoriteType = favorite[0];
-    const favoriteAverage = favorite[1].toFixed(1);
-    const favoriteCount = grouped[favoriteType].length;
+    console.log(topUniversal);
+    console.log(topMedia);
 
     const card = document.getElementById("favorite-media-type-card");
 
     card.innerHTML = `
-        <div>
-            <h3>${favoriteType.charAt(0).toUpperCase() + favoriteType.slice(1)}</h3>
+        <div class="archive-profile-card">
 
-            <p><strong>Average Rating</strong></p>
-            <p>${favoriteAverage}%</p>
+            <h3>Archive Profile</h3>
 
-            <p><strong>Entries</strong></p>
-            <p>${favoriteCount}</p>
+            <p>
+                <strong>Primary Trait</strong><br>
+                ${formatScoreCategory(topUniversal[0][0])}
+            </p>
+
+            <p>
+                ${topUniversal[0][1].toFixed(2)} / 10
+            </p>
+
+
+            <p>
+                <strong>Secondary Trait</strong><br>
+                ${formatScoreCategory(topUniversal[1][0])}
+            </p>
+
+            <p>
+                ${topUniversal[1][1].toFixed(2)} / 10
+            </p>
+
+
+            <hr>
+
+
+            <p>
+                <strong>Media Signature</strong><br>
+                ${formatScoreCategory(topMedia[0][0])}
+            </p>
+
+            <p>
+                ${topMedia[0][1].toFixed(2)} / 10
+            </p>
+
+
+            <p>
+                <strong>Secondary Media Trait</strong><br>
+                ${formatScoreCategory(topMedia[1][0])}
+            </p>
+
+            <p>
+                ${topMedia[1][1].toFixed(2)} / 10
+            </p>
+
         </div>
     `;
 }
@@ -586,7 +657,7 @@ function renderMediaScoreChart(entry, canvas) {
 
                 plugins: {
                     legend: {
-                        display:false
+                        display: false
                     }
                 },
 

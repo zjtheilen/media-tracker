@@ -246,15 +246,15 @@ def get_entries(genre: str | None = None):
     entries = [row_to_entry_response(row) for row in rows]
 
     # TEMP DEBUG
-    for entry in entries:
-        print("1", type(entry))
-        print("2", entry)
+    # for entry in entries:
+    #     print("1", type(entry))
+    #     print("2", entry)
 
-    for entry in entries:
-        print("TITLE:", entry.title)
-        print("UNIVERSAL:", entry.universal_scores)
-        print("MEDIA:", entry.media_scores)
-        print("TOTAL:", entry.total_score)
+    # for entry in entries:
+    #     print("TITLE:", entry.title)
+    #     print("UNIVERSAL:", entry.universal_scores)
+    #     print("MEDIA:", entry.media_scores)
+    #     print("TOTAL:", entry.total_score)
 
     if genre:
         normalized = normalize_genre_query(genre)
