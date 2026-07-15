@@ -49,6 +49,87 @@ function getTopCategories(averages, count = 2) {
         .slice(0, count);
 }
 
+function formatTraitScore(score) {
+    return `${score.toFixed(1)} / 10`;
+}
+
+function getTraitStrength(score) {
+
+    if (score >= 9.5) return "Exceptional";
+
+    if (score >= 8.5) return "Very Strong";
+
+    if (score >= 7.5) return "Strong";
+
+    if (score >= 6.5) return "Moderate";
+
+    return "Developing";
+}
+
+function getTraitDescription(category) {
+
+    const descriptions = {
+
+        // Universal
+        emotional_impact: "emotionally resonant experiences",
+        depth: "complex and thought-provoking works",
+        craft: "highly polished execution",
+        engagement: "consistently engaging experiences",
+        presentation: "strong presentation and aesthetics",
+        originality: "original and inventive ideas",
+
+        // Book
+        prose_writing: "strong prose and writing style",
+        character_development: "deep character development",
+        world_building: "rich world building",
+        narrative_pacing: "well-balanced narrative pacing",
+
+        // Video
+        cinematography_visuals: "strong visual presentation",
+        acting_performances: "compelling performances",
+        directing_editing: "effective direction and editing",
+        sound_music: "immersive sound and music",
+
+        // Game
+        gameplay_mechanics: "engaging gameplay systems",
+        level_design_progression: "strong progression and level design",
+        replayability_systems: "replayable and systemic experiences",
+        art_atmosphere: "strong artistic atmosphere"
+    };
+
+    return descriptions[category] || category;
+}
+
+function generatePrimaryTraitSentence(category, score) {
+
+    return `Your archive strongly favors ${getTraitDescription(category)} (${formatTraitScore(score)}).`;
+
+}
+
+function generateSecondaryTraitSentence(category, score) {
+
+    return `It also demonstrates a strong preference for ${getTraitDescription(category)} (${formatTraitScore(score)}).`;
+
+}
+
+function generateMediaSignatureSentence(category, score) {
+
+    return `Your media preferences strongly align with ${getTraitDescription(category)} (${formatTraitScore(score)}).`;
+
+}
+
+function generateArchiveSummary(
+    primaryTrait,
+    secondaryTrait,
+    mediaTrait
+) {
+
+    return `
+        Your archive strongly favors ${getTraitDescription(primaryTrait[0])} (${formatTraitScore(primaryTrait[1])}), while also placing significant value on ${getTraitDescription(secondaryTrait[0])} (${formatTraitScore(secondaryTrait[1])}). Across all recorded media, your strongest preference is for ${getTraitDescription(mediaTrait[0])} (${formatTraitScore(mediaTrait[1])}).
+    `.trim();
+
+}
+
 function groupEntries(entries, keySelector) {
     return entries.reduce((groups, entry) => {
         const keys = keySelector(entry);
@@ -578,7 +659,7 @@ async function renderArchiveProfileCard() {
             entries,
             "universal_scores"
         );
-    
+
     console.log(
         prepareRadarData(universalAverages)
     );
@@ -589,16 +670,37 @@ async function renderArchiveProfileCard() {
             "media_scores"
         );
 
-    // console.log(universalAverages);
-    // console.log(mediaAverages);
-
     const topUniversal = getTopCategories(universalAverages);
     const topMedia = getTopCategories(mediaAverages);
 
-    // console.log(topUniversal);
-    // console.log(topMedia);
+    const primaryTraitSentence =
+        generatePrimaryTraitSentence(
+            topUniversal[0][0],
+            topUniversal[0][1]
+        );
+
+    const secondaryTraitSentence =
+        generateSecondaryTraitSentence(
+            topUniversal[1][0],
+            topUniversal[1][1]
+        );
+
+    const mediaSignatureSentence =
+        generateMediaSignatureSentence(
+            topMedia[0][0],
+            topMedia[0][1]
+        );
+
+    const archiveSummary =
+        generateArchiveSummary(
+            topUniversal[0],
+            topUniversal[1],
+            topMedia[0]
+        );
 
     const card = document.getElementById("favorite-media-type-card");
+
+    console.log(archiveSummary);
 
     card.innerHTML = `
         <div class="archive-profile-card">
@@ -609,36 +711,8 @@ async function renderArchiveProfileCard() {
 
                     <h3>Archive Profile</h3>
 
-                    <p>
-                        <strong>Primary Trait</strong><br>
-                        ${formatScoreCategory(topUniversal[0][0])}
-                    </p>
-
-                    <p>
-                        ${topUniversal[0][1].toFixed(2)} / 10
-                    </p>
-
-
-                    <p>
-                        <strong>Secondary Trait</strong><br>
-                        ${formatScoreCategory(topUniversal[1][0])}
-                    </p>
-
-                    <p>
-                        ${topUniversal[1][1].toFixed(2)} / 10
-                    </p>
-
-
-                    <hr>
-
-
-                    <p>
-                        <strong>Media Signature</strong><br>
-                        ${formatScoreCategory(topMedia[0][0])}
-                    </p>
-
-                    <p>
-                        ${topMedia[0][1].toFixed(2)} / 10
+                    <p class="archive-summary">
+                        ${archiveSummary}
                     </p>
 
 
@@ -648,7 +722,7 @@ async function renderArchiveProfileCard() {
                     </p>
 
                     <p>
-                        ${topMedia[1][1].toFixed(2)} / 10
+                        ${formatTraitScore(topMedia[1][1])}
                     </p>
 
                 </div>
