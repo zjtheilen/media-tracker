@@ -66,6 +66,136 @@ function getTraitStrength(score) {
     return "Developing";
 }
 
+function getTraitIntensity(score) {
+
+    if (score >= 9.5) return "overwhelmingly";
+
+    if (score >= 9.0) return "strongly";
+
+    if (score >= 8.0) return "consistently";
+
+    if (score >= 7.0) return "frequently";
+
+    return "occasionally";
+
+}
+
+const archiveDesignations = [
+    {
+        primary: "engagement",
+        secondary: null,
+        media: "gameplay_mechanics",
+        title: "The Systems Thinker"
+    },
+    {
+        primary: "depth",
+        secondary: null,
+        media: "world_building",
+        title: "The Explorer"
+    },
+    {
+        primary: "emotional_impact",
+        secondary: "character_development",
+        media: "narrative_pacing",
+        title: "The Story Seeker"
+    },
+    {
+        primary: "craft",
+        secondary: "presentation",
+        media: "cinematography_visuals",
+        title: "The Curator"
+    }
+];
+
+function generateArchiveTitle(
+    primaryTrait,
+    secondaryTrait,
+    mediaTrait
+) {
+
+    const match = archiveDesignations.find((designation) => {
+
+        if (designation.primary !== primaryTrait[0]) return false;
+
+        if (
+            designation.secondary &&
+            designation.secondary !== secondaryTrait[0]
+        ) {
+            return false;
+        }
+
+        if (designation.media !== mediaTrait[0]) return false;
+
+        return true;
+
+    });
+
+    return match
+        ? match.title
+        : "The Archivist";
+
+}
+
+function calculateDesignationConfidence(
+    primaryTrait,
+    secondaryTrait,
+    mediaTrait
+) {
+
+    const primaryScore = primaryTrait[1];
+    const secondaryScore = secondaryTrait[1];
+    const mediaScore = mediaTrait[1];
+
+    const confidence =
+        (
+            primaryScore +
+            secondaryScore +
+            mediaScore
+        ) / 3;
+
+    return Number(confidence.toFixed(1));
+
+}
+
+function getDesignationConfidenceLabel(score) {
+
+    if (score >= 9.0) {
+        return "High";
+    }
+
+    if (score >= 8.0) {
+        return "Moderate";
+    }
+
+    return "Low";
+
+}
+
+function generateClassificationBasis(
+    primaryTrait,
+    secondaryTrait,
+    mediaTrait
+) {
+
+    return {
+        primary: {
+            name: formatScoreCategory(primaryTrait[0]),
+            score: primaryTrait[1]
+        },
+
+        secondary: {
+            name: formatScoreCategory(secondaryTrait[0]),
+            score: secondaryTrait[1]
+        },
+
+        media: {
+            name: formatScoreCategory(mediaTrait[0]),
+            score: mediaTrait[1]
+        }
+    };
+
+}
+
 function getTraitDescription(category) {
 
     const descriptions = {
@@ -125,7 +255,7 @@ function generateArchiveSummary(
 ) {
 
     return `
-        Your archive strongly favors ${getTraitDescription(primaryTrait[0])} (${formatTraitScore(primaryTrait[1])}), while also placing significant value on ${getTraitDescription(secondaryTrait[0])} (${formatTraitScore(secondaryTrait[1])}). Across all recorded media, your strongest preference is for ${getTraitDescription(mediaTrait[0])} (${formatTraitScore(mediaTrait[1])}).
+        Your archive ${getTraitIntensity(primaryTrait[1])} favors ${getTraitDescription(primaryTrait[0])} (${formatTraitScore(primaryTrait[1])}), while also placing significant value on ${getTraitDescription(secondaryTrait[0])} (${formatTraitScore(secondaryTrait[1])}). Across all recorded media, your strongest preference is for ${getTraitDescription(mediaTrait[0])} (${formatTraitScore(mediaTrait[1])}).
     `.trim();
 
 }
@@ -698,6 +828,40 @@ async function renderArchiveProfileCard() {
             topMedia[0]
         );
 
+    const archiveTitle =
+        generateArchiveTitle(
+            topUniversal[0],
+            topUniversal[1],
+            topMedia[0]
+        );
+
+    const designationConfidence =
+        calculateDesignationConfidence(
+            topUniversal[0],
+            topUniversal[1],
+            topMedia[0]
+        );
+
+    const confidenceLabel =
+        getDesignationConfidenceLabel(
+            designationConfidence
+        );
+
+    const classificationBasis =
+        generateClassificationBasis(
+            topUniversal[0],
+            topUniversal[1],
+            topMedia[0]
+        );
+
+    console.log(classificationBasis);
+
+    console.log(designationConfidence);
+
+    console.log(
+        getDesignationConfidenceLabel(designationConfidence)
+    );
+
     const card = document.getElementById("favorite-media-type-card");
 
     console.log(archiveSummary);
@@ -709,29 +873,96 @@ async function renderArchiveProfileCard() {
 
                 <div class="archive-profile-info">
 
-                    <h3>Archive Profile</h3>
+                    <div class="designation-block">
 
-                    <p class="archive-summary">
-                        ${archiveSummary}
-                    </p>
+                        <h3>Designation</h3>
+                    
+                        <h2>
+                            ${archiveTitle.toUpperCase()}
+                        </h2>
+                    
+                    </div>
 
+                    <div class="confidence-block">
 
-                    <p>
-                        <strong>Secondary Media Trait</strong><br>
-                        ${formatScoreCategory(topMedia[1][0])}
-                    </p>
+                        <h3>Classification Confidence</h3>
+                    
+                        <p>
+                            ${confidenceLabel}
+                            (${designationConfidence.toFixed(1)} / 10)
+                        </p>
+                    
+                    </div>
 
-                    <p>
-                        ${formatTraitScore(topMedia[1][1])}
-                    </p>
+                    <div class="classification-basis-block">
+
+                        <h3>Classification Basis</h3>
+
+                        <p class="basis-item">
+                            <span class="basis-label">
+                                Primary Indicator
+                            </span>
+                        
+                            <br>
+                        
+                            ${classificationBasis.primary.name}
+                            (${classificationBasis.primary.score.toFixed(1)} / 10)
+                        </p>
+
+                        <p class="basis-item">
+                            <span class="basis-label">
+                                Secondary Indicator
+                            </span>
+                        
+                            <br>
+                        
+                            ${classificationBasis.secondary.name}
+                            (${classificationBasis.secondary.score.toFixed(1)} / 10)
+                        </p>
+
+                        <p class="basis-item media-signature">
+
+                            <span class="basis-label">
+                                Media Signature
+                            </span>
+
+                            <br>
+
+                            ${classificationBasis.media.name}
+                            (${classificationBasis.media.score.toFixed(1)} / 10)
+
+                        </p>
+                    
+                    </div>
 
                 </div>
 
 
-                <div class="archive-profile-chart">
+                <div class="archive-profile-summary">
 
+                    <div class="archive-summary-block">
+
+                        <h3>Archive Interpretation</h3>
+
+                        <p class="archive-summary">
+                            ${archiveSummary}
+                        </p>
+                    
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="archive-profile-charts">
+
+                <div class="chart-panel">
                     <canvas id="universal-profile-radar"></canvas>
+                </div>
 
+                <div class="chart-panel">
+                    <canvas id="media-profile-radar"></canvas>
                 </div>
 
             </div>
