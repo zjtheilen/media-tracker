@@ -673,7 +673,7 @@ async function renderUniversalRadarChart() {
 
             datasets: [
                 {
-                    label: "Universal Evaluation Profile",
+                    label: "Core Evaluation Matrix",
                     data: radarData.values,
 
                     backgroundColor: "rgba(127,174,135,0.25)",
@@ -730,11 +730,6 @@ async function renderUniversalRadarChart() {
 
                 legend: {
                     display: false
-                },
-
-                title: {
-                    display: true,
-                    text: "Universal Evaluation Profile"
                 }
             }
         }
@@ -800,6 +795,10 @@ async function renderArchiveProfileCard() {
             "media_scores"
         );
 
+    console.log(
+        prepareRadarData(mediaAverages)
+    );
+
     const topUniversal = getTopCategories(universalAverages);
     const topMedia = getTopCategories(mediaAverages);
 
@@ -854,17 +853,17 @@ async function renderArchiveProfileCard() {
             topMedia[0]
         );
 
-    console.log(classificationBasis);
+    // console.log(classificationBasis);
 
-    console.log(designationConfidence);
+    // console.log(designationConfidence);
 
-    console.log(
-        getDesignationConfidenceLabel(designationConfidence)
-    );
+    // console.log(
+    //     getDesignationConfidenceLabel(designationConfidence)
+    // );
 
     const card = document.getElementById("favorite-media-type-card");
 
-    console.log(archiveSummary);
+    // console.log(archiveSummary);
 
     card.innerHTML = `
         <div class="archive-profile-card">
@@ -935,37 +934,41 @@ async function renderArchiveProfileCard() {
                     
                     </div>
 
-                </div>
+                    <div class="archive-profile-summary">
 
+                        <div class="archive-summary-block">
 
-                <div class="archive-profile-summary">
+                            <h3>Archive Interpretation</h3>
 
-                    <div class="archive-summary-block">
+                            <p class="archive-summary">
+                                ${archiveSummary}
+                            </p>
+                        
+                        </div>
 
-                        <h3>Archive Interpretation</h3>
-
-                        <p class="archive-summary">
-                            ${archiveSummary}
-                        </p>
-                    
                     </div>
 
                 </div>
 
+                <div class="archive-profile-charts">
+
+                    <div class="chart-panel">
+                        <h3>Core Evaluation Matrix</h3>
+                        <canvas id="universal-profile-radar"></canvas>
+                    </div>
+
+                    <div class="chart-panel">
+                        <h3>Media Preference Matrix</h3>
+                        <canvas id="media-profile-radar"></canvas>
+                    </div>
+
+                </div>
+                
+
             </div>
 
 
-            <div class="archive-profile-charts">
-
-                <div class="chart-panel">
-                    <canvas id="universal-profile-radar"></canvas>
-                </div>
-
-                <div class="chart-panel">
-                    <canvas id="media-profile-radar"></canvas>
-                </div>
-
-            </div>
+            
 
         </div>
     `;
@@ -1120,4 +1123,88 @@ function renderMediaScoreChart(entry, canvas) {
                 maintainAspectRation: false,
             }
         });
+}
+
+async function renderMediaPreferenceMatrix() {
+
+    const entries = await getEntries();
+
+    const averages =
+        calculateAverageScores(
+            entries,
+            "media_scores"
+        );
+
+    const radarData = prepareRadarData(averages);
+
+    const ctx = document
+        .getElementById("media-profile-radar")
+        .getContext("2d");
+
+    destroyChart("media-profile-radar");
+
+
+    chartInstances["media-profile-radar"] = new Chart(ctx, {
+
+        type: "radar",
+
+        data: {
+            labels: radarData.labels,
+
+            datasets: [
+                {
+                    label: "Media Preference Matrix",
+                    data: radarData.values,
+
+                    backgroundColor: "rgba(127,174,135,0.25)",
+                    borderColor: "rgba(127,174,135,1)",
+                    borderWidth: 2,
+
+                    pointBackgroundColor:
+                        "rgba(127,174,135,1)",
+                },
+            ],
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+                r: {
+                    min: 0,
+                    max: 10,
+
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted,
+                        backdropColor: "transparent"
+                    },
+
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    },
+
+                    angleLines: {
+                        color: ARCHIVE_COLORS.grid
+                    },
+
+                    pointLabels: {
+                        color: ARCHIVE_COLORS.text,
+                        font: {
+                            family: "monospace"
+                        }
+                    }
+                }
+            },
+
+            plugins: {
+
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
 }

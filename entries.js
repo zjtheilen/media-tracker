@@ -13,17 +13,17 @@ function renderEntry(entry) {
         );
 
         if (universalCanvas) {
-            console.log("Rendering universal chart", entry);
+            // console.log("Rendering universal chart", entry);
             renderUniversalScoreChart(entry, universalCanvas);
         }
 
         if (mediaCanvas) {
-            console.log("Rendering media chart", entry);
+            // console.log("Rendering media chart", entry);
             renderMediaScoreChart(entry, mediaCanvas);
         }
 
-        console.log("Universal scores:", entry.universal_scores);
-        console.log("Media scores:", entry.media_scores);
+        // console.log("Universal scores:", entry.universal_scores);
+        // console.log("Media scores:", entry.media_scores);
 
 
         if (universalCanvas) {

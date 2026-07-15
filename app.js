@@ -8,6 +8,7 @@ async function refreshApp() {
     await renderGenreAverageRatingsChart();
     await renderArchiveProfileCard();
     await renderUniversalRadarChart();
+    await renderMediaPreferenceMatrix();
 
     await renderTopRatedOverall();
     await renderTopBooks();
