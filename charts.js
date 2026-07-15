@@ -438,6 +438,137 @@ async function renderGenreAverageRatingsChart() {
 
 }
 
+async function renderUniversalRadarChart() {
+
+    const entries = await getEntries();
+
+    const averages = calculateUniversalAverages(entries);
+
+    const radarData = prepareRadarData(averages);
+
+    const ctx = document
+        .getElementById("universal-profile-radar")
+        .getContext("2d");
+
+    destroyChart("universal-profile-radar");
+
+
+    chartInstances["universal-profile-radar"] = new Chart(ctx, {
+
+        type: "radar",
+
+        data: {
+            labels: radarData.labels,
+
+            datasets: [
+                {
+                    label: "Universal Evaluation Profile",
+                    data: radarData.values,
+
+                    backgroundColor: "rgba(127,174,135,0.25)",
+                    borderColor: "rgba(127,174,135,1)",
+                    borderWidth: 2,
+
+                    pointBackgroundColor:
+                        "rgba(127,174,135,1)",
+                },
+            ],
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            layout: {
+                padding: {
+                    top: 0,
+                    bottom: 0
+                }
+            },
+
+            scales: {
+                r: {
+                    min: 0,
+                    max: 10,
+
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted,
+                        backdropColor: "transparent"
+                    },
+
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    },
+
+                    angleLines: {
+                        color: ARCHIVE_COLORS.grid
+                    },
+
+                    pointLabels: {
+                        color: ARCHIVE_COLORS.text,
+                        font: {
+                            family: "monospace"
+                        }
+                    }
+                }
+            },
+
+            plugins: {
+
+                legend: {
+                    display: false
+                },
+
+                title: {
+                    display: true,
+                    text: "Universal Evaluation Profile"
+                }
+            }
+        }
+    });
+}
+
+function calculateUniversalAverages(entries) {
+    const totals = {};
+    const counts = {};
+
+    entries.forEach(entry => {
+        Object.entries(entry.universal_scores || {})
+            .forEach(([category, value]) => {
+
+                if (!totals[category]) {
+                    totals[category] = 0;
+                    counts[category] = 0;
+                }
+
+                totals[category] += value;
+                counts[category]++;
+            });
+    });
+
+    return Object.keys(totals).reduce((result, category) => {
+        result[category] =
+            Number((totals[category] / counts[category]).toFixed(2));
+
+        return result;
+    }, {});
+}
+
+function prepareRadarData(averages) {
+    const labels = Object.keys(averages).map(category =>
+        formatScoreCategory(category)
+    );
+
+    const values = Object.values(averages);
+
+    return {
+        labels,
+        values
+    };
+}
+
 async function renderArchiveProfileCard() {
 
     const entries = await getEntries();
@@ -447,6 +578,10 @@ async function renderArchiveProfileCard() {
             entries,
             "universal_scores"
         );
+    
+    console.log(
+        prepareRadarData(universalAverages)
+    );
 
     const mediaAverages =
         calculateAverageScores(
@@ -454,63 +589,78 @@ async function renderArchiveProfileCard() {
             "media_scores"
         );
 
-    console.log(universalAverages);
-    console.log(mediaAverages);
+    // console.log(universalAverages);
+    // console.log(mediaAverages);
 
     const topUniversal = getTopCategories(universalAverages);
     const topMedia = getTopCategories(mediaAverages);
 
-    console.log(topUniversal);
-    console.log(topMedia);
+    // console.log(topUniversal);
+    // console.log(topMedia);
 
     const card = document.getElementById("favorite-media-type-card");
 
     card.innerHTML = `
         <div class="archive-profile-card">
 
-            <h3>Archive Profile</h3>
+            <div class="archive-profile-layout">
 
-            <p>
-                <strong>Primary Trait</strong><br>
-                ${formatScoreCategory(topUniversal[0][0])}
-            </p>
+                <div class="archive-profile-info">
 
-            <p>
-                ${topUniversal[0][1].toFixed(2)} / 10
-            </p>
+                    <h3>Archive Profile</h3>
 
+                    <p>
+                        <strong>Primary Trait</strong><br>
+                        ${formatScoreCategory(topUniversal[0][0])}
+                    </p>
 
-            <p>
-                <strong>Secondary Trait</strong><br>
-                ${formatScoreCategory(topUniversal[1][0])}
-            </p>
-
-            <p>
-                ${topUniversal[1][1].toFixed(2)} / 10
-            </p>
+                    <p>
+                        ${topUniversal[0][1].toFixed(2)} / 10
+                    </p>
 
 
-            <hr>
+                    <p>
+                        <strong>Secondary Trait</strong><br>
+                        ${formatScoreCategory(topUniversal[1][0])}
+                    </p>
+
+                    <p>
+                        ${topUniversal[1][1].toFixed(2)} / 10
+                    </p>
 
 
-            <p>
-                <strong>Media Signature</strong><br>
-                ${formatScoreCategory(topMedia[0][0])}
-            </p>
-
-            <p>
-                ${topMedia[0][1].toFixed(2)} / 10
-            </p>
+                    <hr>
 
 
-            <p>
-                <strong>Secondary Media Trait</strong><br>
-                ${formatScoreCategory(topMedia[1][0])}
-            </p>
+                    <p>
+                        <strong>Media Signature</strong><br>
+                        ${formatScoreCategory(topMedia[0][0])}
+                    </p>
 
-            <p>
-                ${topMedia[1][1].toFixed(2)} / 10
-            </p>
+                    <p>
+                        ${topMedia[0][1].toFixed(2)} / 10
+                    </p>
+
+
+                    <p>
+                        <strong>Secondary Media Trait</strong><br>
+                        ${formatScoreCategory(topMedia[1][0])}
+                    </p>
+
+                    <p>
+                        ${topMedia[1][1].toFixed(2)} / 10
+                    </p>
+
+                </div>
+
+
+                <div class="archive-profile-chart">
+
+                    <canvas id="universal-profile-radar"></canvas>
+
+                </div>
+
+            </div>
 
         </div>
     `;

@@ -266,10 +266,8 @@ form.addEventListener("submit", async (event) => {
 
     try {
         if (editingEntryId) {
-            console.log("SUBMIT PAYLOAD", data);
             await updateEntry(editingEntryId, data);
         } else {
-            console.log("SUBMIT PAYLOAD", data);
             await createEntry(data);
         }
 
