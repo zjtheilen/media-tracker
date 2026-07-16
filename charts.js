@@ -853,17 +853,7 @@ async function renderArchiveProfileCard() {
             topMedia[0]
         );
 
-    // console.log(classificationBasis);
-
-    // console.log(designationConfidence);
-
-    // console.log(
-    //     getDesignationConfidenceLabel(designationConfidence)
-    // );
-
     const card = document.getElementById("favorite-media-type-card");
-
-    // console.log(archiveSummary);
 
     card.innerHTML = `
         <div class="archive-profile-card">

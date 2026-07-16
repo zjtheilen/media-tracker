@@ -892,7 +892,6 @@ button:focus-visible {
 }
 
 .archive-profile-chart {
-    /* height: 300px; */
     width: 100%;
     position: relative;
     display: flex;
@@ -981,12 +980,6 @@ button:focus-visible {
     font-size: 1.05rem;
 }
 
-/* .chart-section-title {
-    text-align: center;
-    width: 100%;
-    margin-bottom: 0.5rem;
-} */
-
 canvas {
     max-width: 100%;
     height: auto;
@@ -1003,8 +996,6 @@ dialog::backdrop {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    /* padding: 12px 0; */
 }
 
 .top-list-item:not(:last-child) {
@@ -1079,8 +1070,6 @@ dialog::backdrop {
 .dashboard-card canvas,
 .entry-chart canvas {
     border-radius: var(--radius);
-
-    /* background: rgba(11, 15, 14, 0.35); */
 
     padding: 8px;
 }
