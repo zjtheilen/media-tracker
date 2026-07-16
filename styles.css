@@ -775,6 +775,15 @@ button:focus-visible {
     border: 1px solid #a5d6a7;
 }
 
+.form-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-section + .form-section {
+    border-top: 1px solid var(--border);
+    padding-top: var(--spacing-lg);
+}
+
 .score-input-label {
     width: 33%;
 }
@@ -795,16 +804,23 @@ button:focus-visible {
 .genre-select-chip {
     border: 1px solid #555;
 
-    background: var(--accent);
+    background: var(--tag-bg);
     color: white;
 
     padding: var(--spacing-sm) var(--spacing-md);
 
-    border-radius: 999px;
+    border-radius: 4px;
 
     cursor: pointer;
 
     transition: 0.15s ease;
+    font-family: var(--font-mono);
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+    font-size: 0.75rem
 }
 
 .genre-select-chip:hover {

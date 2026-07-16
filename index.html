@@ -56,37 +56,35 @@
 
             <dialog id="entryModal">
                 <form id="entry-form">
-                    <input
+
+                    <div class="form-section">
+                        <div class="archive-label">
+                            RECORD IDENTITY
+                        </div>
+                        <input
                         type="text"
                         id="title"
                         placeholder="Title"
                         required
                     />
 
-                    <select id="media-type">
-                        <option value="video">video</option>
-                        <option value="game">game</option>
-                        <option value="book">book</option>
-                    </select>
+                        <select id="media-type">
+                            <option value="video">video</option>
+                            <option value="game">game</option>
+                            <option value="book">book</option>
+                        </select>
 
-                    <div id="genre-selector"></div>
+                        <div id="genre-selector"></div>
 
-                    <textarea id="notes" placeholder="Notes"></textarea>
+                        <textarea id="notes" placeholder="Notes"></textarea>
 
-                    <label for="date-consumed">Date Consumed</label>
-                    <input type="date" id="date-consumed" />
+                        <label for="date-consumed">Date Consumed</label>
+                        <input type="date" id="date-consumed" />
 
-                    <label for="completion-status">Completion Status</label>
-                    <select id="completion-status">
-                        <option value="completed">Completed</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="dropped">Dropped</option>
-                        <option value="planned">Planned</option>
-                    </select>
+                        <div id="score-container"></div>
 
-                    <div id="score-container"></div>
-
-                    <div id="form-message"></div>
+                        <div id="form-message"></div>
+                    </div>
 
                     <div class="row">
                         <button type="submit" id="submitBtn">
@@ -224,20 +222,21 @@
             
             </div>
             <div class="row section">
-                
                 <div class="column-half dashboard-card">
                     <div class="archive-label">
-                        <i class="media-icon" data-lucide="tags"></i>
-                        GENRE ANALYSIS
+                        <i class="media-icon" data-lucide="chart-column"></i>
+                        EVALUATION DISTRIBUTION
                     </div>
                     <canvas
-                        id="genre-average-ratings-chart"
+                        id="rating-distribution-chart"
                         role="img"
-                        aria-label="Average ratings by genre"
+                        aria-label="Distribution of ratings across entries"
                     >
                         Your browser does not support the chart visualization.
                     </canvas>
                 </div>
+                
+                
                 <div class="column-half dashboard-card">
                     <div class="archive-label">
                         <i class="media-icon" data-lucide="history"></i>
@@ -256,17 +255,21 @@
                 
                 <div class="column-half dashboard-card">
                     <div class="archive-label">
-                        <i class="media-icon" data-lucide="chart-column"></i>
-                        EVALUATION DISTRIBUTION
+                        <i class="media-icon" data-lucide="tags"></i>
+                        GENRE ANALYSIS
                     </div>
                     <canvas
-                        id="rating-distribution-chart"
+                        id="genre-average-ratings-chart"
                         role="img"
-                        aria-label="Distribution of ratings across entries"
+                        aria-label="Average ratings by genre"
                     >
                         Your browser does not support the chart visualization.
                     </canvas>
                 </div>
+
+
+
+
                 <div class="column-half dashboard-card">
 
                     <div class="archive-label">
