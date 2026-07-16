@@ -710,12 +710,42 @@ button:focus-visible {
     background: var(--surface);
     color: var(--text);
 
-    border: none;
+    border: 1px solid var(--border);
+
     border-radius: var(--radius);
 
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 
     padding: var(--spacing-xl);
+
+    width: min(90vw, 650px);
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+}
+
+#entryModal::-webkit-scrollbar,
+#deleteModal::-webkit-scrollbar {
+    width: 8px;
+}
+
+#entryModal::-webkit-scrollbar-track,
+#deleteModal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#entryModal::-webkit-scrollbar-thumb,
+#deleteModal::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+#entryModal::-webkit-scrollbar-thumb:hover,
+#deleteModal::-webkit-scrollbar-thumb:hover {
+    background: var(--highlight);
 }
 
 #form-message {

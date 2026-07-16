@@ -43,6 +43,14 @@ openBtn.addEventListener("click", () => {
     document.getElementById("title").focus();
 });
 
+entryModal.addEventListener("click", (event) => {
+
+    if (event.target === entryModal) {
+        entryModal.close();
+    }
+
+});
+
 closeBtn.addEventListener("click", () => {
     resetFormState();
 
@@ -64,6 +72,14 @@ modal.addEventListener("close", () => {
 const deleteModal = document.getElementById("deleteModal");
 const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+
+deleteModal.addEventListener("click", (event) => {
+
+    if (event.target === deleteModal) {
+        deleteModal.close();
+    }
+
+});
 
 let pendingDeleteId = null;
 
