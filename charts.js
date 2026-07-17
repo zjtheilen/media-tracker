@@ -348,8 +348,6 @@ async function renderAverageScoreByMediaTypeChart() {
     const archiveProfile =
         buildArchiveProfile(entries);
 
-    console.log(archiveProfile);
-
     const grouped = groupEntries(
         entries,
         entry => entry.media_type
@@ -787,6 +785,31 @@ async function renderArchiveProfileCard() {
     const archiveProfile =
         buildArchiveProfile(entries);
 
+    const archiveFindings = 
+        generateArchiveFindings(archiveProfile);
+
+    const findingsHtml = archiveFindings
+        .map(
+            finding => `
+                <div class="archive-finding">
+
+                    <div class="category-label">
+                        ${finding.category}
+                    </div>
+
+                    <h5>${finding.title}</h5>
+
+                    <p>${finding.description}</p>
+
+                    <div class="finding-confidence">
+                        Confidence:
+                        ${finding.confidence} / 10
+                    </div>
+
+                </div>
+            `
+        )
+        .join("");
 
     const primaryTraitSentence =
         generatePrimaryTraitSentence(
@@ -794,20 +817,17 @@ async function renderArchiveProfileCard() {
             archiveProfile.topUniversal[0][1]
         );
 
-
     const secondaryTraitSentence =
         generateSecondaryTraitSentence(
             archiveProfile.topUniversal[1][0],
             archiveProfile.topUniversal[1][1]
         );
 
-
     const mediaSignatureSentence =
         generateMediaSignatureSentence(
             archiveProfile.topMedia[0][0],
             archiveProfile.topMedia[0][1]
         );
-
 
     const archiveSummary =
         generateArchiveSummary(
@@ -816,17 +836,14 @@ async function renderArchiveProfileCard() {
             archiveProfile.topMedia[0]
         );
 
-
     const confidenceLabel =
         getDesignationConfidenceLabel(
             archiveProfile.designationConfidence
         );
 
-
     const card = document.getElementById(
         "favorite-media-type-card"
     );
-
 
     card.innerHTML = `
         <div class="archive-profile-card">
@@ -835,7 +852,7 @@ async function renderArchiveProfileCard() {
 
                 <div class="archive-profile-info">
 
-                    <div class="designation-block">
+                    <div class="profile-section">
 
                         <h3>Designation</h3>
 
@@ -843,10 +860,7 @@ async function renderArchiveProfileCard() {
                             ${archiveProfile.archiveTitle.toUpperCase()}
                         </h2>
 
-                    </div>
 
-
-                    <div class="confidence-block">
 
                         <h3>Classification Confidence</h3>
 
@@ -855,76 +869,83 @@ async function renderArchiveProfileCard() {
                             (${archiveProfile.designationConfidence.toFixed(1)} / 10)
                         </p>
 
-                    </div>
-
-
-                    <div class="classification-basis-block">
+   
 
                         <h3>Classification Basis</h3>
 
 
-                        <p class="basis-item">
+                        <div class="basis-item">
 
-                            <span class="basis-label">
+                            <span class="category-label">
                                 Primary Indicator
                             </span>
+                            <div>
+                                ${archiveProfile.classificationBasis.primary.name}
+                                (${archiveProfile.classificationBasis.primary.score.toFixed(1)} / 10)
+                            </div>
+                            
 
-                            <br>
-
-                            ${archiveProfile.classificationBasis.primary.name}
-                            (${archiveProfile.classificationBasis.primary.score.toFixed(1)} / 10)
-
-                        </p>
+                        </div>
 
 
-                        <p class="basis-item">
+                        <div class="basis-item">
 
-                            <span class="basis-label">
+                            <span class="category-label">
                                 Secondary Indicator
                             </span>
+                            <div>
+                                ${archiveProfile.classificationBasis.secondary.name}
+                                (${archiveProfile.classificationBasis.secondary.score.toFixed(1)} / 10)
+                            </div>
+                            
 
-                            <br>
-
-                            ${archiveProfile.classificationBasis.secondary.name}
-                            (${archiveProfile.classificationBasis.secondary.score.toFixed(1)} / 10)
-
-                        </p>
+                        </div>
 
 
-                        <p class="basis-item media-signature">
+                        <div class="basis-item media-signature">
 
-                            <span class="basis-label">
+                            <span class="category-label">
                                 Media Signature
                             </span>
+                            <div>
+                                ${archiveProfile.classificationBasis.media.name}
+                                (${archiveProfile.classificationBasis.media.score.toFixed(1)} / 10)
+                            </div>
+                            
 
-                            <br>
-
-                            ${archiveProfile.classificationBasis.media.name}
-                            (${archiveProfile.classificationBasis.media.score.toFixed(1)} / 10)
-
-                        </p>
+                        </div>
 
 
                     </div>
 
 
-                    <div class="archive-profile-summary">
+                    
 
-                        <div class="archive-summary-block">
+                    <div class="profile-section">
 
-                            <h3>Archive Interpretation</h3>
+                        <h3>Archive Interpretation</h3>
 
-                            <p class="archive-summary">
-                                ${archiveSummary}
-                            </p>
+                        <p class="archive-summary">
+                            ${archiveSummary}
+                        </p>
 
+                    </div>
+
+                    <div class="profile-section">
+
+                        <h3>Archive Findings</h3>
+
+                        <div class="archive-findings">
+                            ${findingsHtml}
                         </div>
 
                     </div>
 
 
-                </div>
+                    
 
+
+                </div>
 
                 <div class="archive-profile-charts">
 
@@ -944,10 +965,7 @@ async function renderArchiveProfileCard() {
                         <canvas id="media-profile-radar"></canvas>
 
                     </div>
-
-
                 </div>
-
 
             </div>
 

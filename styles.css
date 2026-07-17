@@ -906,36 +906,9 @@ button:focus-visible {
     gap: 1.5rem;
 }
 
-.archive-summary-block {
-    padding: 1rem 0;
-}
-
 .archive-profile-chart canvas {
     flex: 1;
     max-width: 100%;
-}
-
-.designation-block h3 {
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.15em;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    opacity: 0.7;
-}
-
-.designation-block h2 {
-    margin-top: 0;
-    font-size: 1.8rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.confidence-block h3 {
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.15em;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    opacity: 0.7;
 }
 
 .confidence-rating {
@@ -944,35 +917,8 @@ button:focus-visible {
     margin: 0;
 }
 
-.classification-basis-block h3 {
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.15em;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    opacity: 0.7;
-}
-
 .basis-item {
     margin: 0.75rem 0;
-}
-
-.basis-label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    opacity: 0.65;
-    letter-spacing: 0.1em;
-}
-
-.media-signature {
-    margin-top: 1.25rem;
-}
-
-.archive-summary-block h3 {
-    margin-bottom: 0.75rem;
-    letter-spacing: 0.15em;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    opacity: 0.7;
 }
 
 .archive-summary {
@@ -1082,15 +1028,57 @@ dialog::backdrop {
     margin-bottom: var(--spacing-md);
 }
 
-.panel-header .archive-label {
-    font-family: monospace;
+.profile-section {
 
-    letter-spacing: 2px;
-
-    font-size: 0.85rem;
-
-    color: var(--highlight);
+    border-bottom: 1px solid var(--border);
 }
+
+.profile-section:first-child {
+    padding-top: 0;
+}
+
+.profile-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.profile-section h3 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.profile-section h3:not(:first-child) {
+    margin-top: var(--spacing-lg);
+}
+
+.archive-findings {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-md);
+}
+
+.archive-finding h5 {
+    margin: 0 0 0.35rem;
+}
+
+.archive-finding p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.finding-confidence {
+    margin: var(--spacing-sm) 0;
+}
+
+.category-label {
+    margin-bottom: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
 
 .dashboard-card h2,
 .report-header h2,
