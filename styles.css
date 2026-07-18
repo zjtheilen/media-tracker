@@ -1057,8 +1057,13 @@ dialog::backdrop {
     margin-top: var(--spacing-md);
 }
 
+.archive-finding {
+    padding: var(--spacing-md) 0;
+}
+
 .archive-finding h5 {
     margin: 0 0 0.35rem;
+    font-size: 1rem;
 }
 
 .archive-finding p {
@@ -1066,17 +1071,27 @@ dialog::backdrop {
     line-height: 1.6;
 }
 
-.finding-confidence {
-    margin: var(--spacing-sm) 0;
-}
-
 .category-label {
     margin-bottom: 0.35rem;
+
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
+
     color: var(--muted);
+
     text-transform: uppercase;
     letter-spacing: 0.12em;
+}
+
+.finding-evidence {
+    margin-top: 0.75rem;
+
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+
+    color: var(--muted);
+
+    opacity: 0.8;
 }
 
 

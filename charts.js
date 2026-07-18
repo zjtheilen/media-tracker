@@ -801,9 +801,8 @@ async function renderArchiveProfileCard() {
 
                     <p>${finding.description}</p>
 
-                    <div class="finding-confidence">
-                        Confidence:
-                        ${finding.confidence} / 10
+                    <div class="finding-evidence">
+                        ${finding.evidence}
                     </div>
 
                 </div>
@@ -861,7 +860,6 @@ async function renderArchiveProfileCard() {
                         </h2>
 
 
-
                         <h3>Classification Confidence</h3>
 
                         <p>
@@ -869,7 +867,6 @@ async function renderArchiveProfileCard() {
                             (${archiveProfile.designationConfidence.toFixed(1)} / 10)
                         </p>
 
-   
 
                         <h3>Classification Basis</h3>
 
@@ -879,11 +876,11 @@ async function renderArchiveProfileCard() {
                             <span class="category-label">
                                 Primary Indicator
                             </span>
+
                             <div>
                                 ${archiveProfile.classificationBasis.primary.name}
                                 (${archiveProfile.classificationBasis.primary.score.toFixed(1)} / 10)
                             </div>
-                            
 
                         </div>
 
@@ -893,11 +890,11 @@ async function renderArchiveProfileCard() {
                             <span class="category-label">
                                 Secondary Indicator
                             </span>
+
                             <div>
                                 ${archiveProfile.classificationBasis.secondary.name}
                                 (${archiveProfile.classificationBasis.secondary.score.toFixed(1)} / 10)
                             </div>
-                            
 
                         </div>
 
@@ -907,19 +904,17 @@ async function renderArchiveProfileCard() {
                             <span class="category-label">
                                 Media Signature
                             </span>
+
                             <div>
                                 ${archiveProfile.classificationBasis.media.name}
                                 (${archiveProfile.classificationBasis.media.score.toFixed(1)} / 10)
                             </div>
-                            
 
                         </div>
 
 
                     </div>
 
-
-                    
 
                     <div class="profile-section">
 
@@ -930,6 +925,7 @@ async function renderArchiveProfileCard() {
                         </p>
 
                     </div>
+
 
                     <div class="profile-section">
 
@@ -942,10 +938,8 @@ async function renderArchiveProfileCard() {
                     </div>
 
 
-                    
-
-
                 </div>
+
 
                 <div class="archive-profile-charts">
 
@@ -965,7 +959,9 @@ async function renderArchiveProfileCard() {
                         <canvas id="media-profile-radar"></canvas>
 
                     </div>
+
                 </div>
+
 
             </div>
 
