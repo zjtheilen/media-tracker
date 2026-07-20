@@ -53,19 +53,6 @@ function formatTraitScore(score) {
     return `${score.toFixed(1)} / 10`;
 }
 
-function getTraitStrength(score) {
-
-    if (score >= 9.5) return "Exceptional";
-
-    if (score >= 8.5) return "Very Strong";
-
-    if (score >= 7.5) return "Strong";
-
-    if (score >= 6.5) return "Moderate";
-
-    return "Developing";
-}
-
 function getTraitIntensity(score) {
 
     if (score >= 9.5) return "overwhelmingly";
@@ -785,7 +772,18 @@ async function renderArchiveProfileCard() {
     const archiveProfile =
         buildArchiveProfile(entries);
 
-    const archiveFindings = 
+    const designationScores =
+        evaluateDesignations(archiveProfile);
+
+    console.table(designationScores);
+
+
+    const selected =
+        selectArchiveDesignations(designationScores);
+
+    // console.log(selected);
+
+    const archiveFindings =
         generateArchiveFindings(archiveProfile);
 
     const findingsHtml = archiveFindings
@@ -856,7 +854,7 @@ async function renderArchiveProfileCard() {
                         <h3>Designation</h3>
 
                         <h2>
-                            ${archiveProfile.archiveTitle.toUpperCase()}
+                            ${archiveProfile.primaryDesignation.title.toUpperCase()}
                         </h2>
 
 

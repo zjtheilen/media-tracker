@@ -98,7 +98,7 @@ function calculateGenreDistribution(entries) {
 
             percentage:
                 ((count / entries.length) * 100)
-                .toFixed(1)
+                    .toFixed(1)
 
         };
 
@@ -110,6 +110,9 @@ function calculateGenreDistribution(entries) {
 }
 
 function buildArchiveProfile(entries) {
+
+    console.log("entries passed into buildArchiveProfile")
+    console.log(entries)
 
     const universalAverages =
         calculateAverageScores(
@@ -153,12 +156,17 @@ function buildArchiveProfile(entries) {
         );
 
 
-    const archiveTitle =
-        generateArchiveTitle(
-            topUniversal[0],
-            topUniversal[1],
-            topMedia[0]
-        );
+    // const archiveTitle =
+    //     generateArchiveTitle(
+    //         topUniversal[0],
+    //         topUniversal[1],
+    //         topMedia[0]
+    //     );
+
+
+
+
+
 
     const averageScore =
         calculateArchiveAverageScore(entries);
@@ -175,8 +183,31 @@ function buildArchiveProfile(entries) {
     const genreDistribution =
         calculateGenreDistribution(entries);
 
+    // const designations =
+    //     evaluateDesignations({
+    //         entryCount: entries.length,
 
-    return {
+    //         universalAverages,
+
+    //         mediaAverages,
+
+    //         mediaDistribution,
+
+    //         genreDistribution,
+
+    //         averageScore,
+
+    //         highestRatedEntry,
+
+    //         lowestRatedEntry
+    //     });
+
+    // const primaryDesignation =
+    //     designations[0];
+
+    const archiveProfile = {
+
+        entries,
 
         entryCount: entries.length,
 
@@ -186,15 +217,7 @@ function buildArchiveProfile(entries) {
 
         mediaDistribution,
 
-        topUniversal,
-
-        topMedia,
-
-        archiveTitle,
-
-        designationConfidence,
-
-        classificationBasis,
+        genreDistribution,
 
         averageScore,
 
@@ -202,9 +225,23 @@ function buildArchiveProfile(entries) {
 
         lowestRatedEntry,
 
-        genreDistribution
+        topUniversal,
+
+        topMedia,
+
+        designationConfidence,
+
+        classificationBasis
 
     };
+
+    archiveProfile.designations =
+        evaluateDesignations(archiveProfile);
+
+    archiveProfile.primaryDesignation =
+        archiveProfile.designations[0];
+
+    return archiveProfile;
 
 }
 
