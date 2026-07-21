@@ -1,4 +1,4 @@
-from models.services.designation_utils import evaluate_designations
+from models.services.designation_engine import evaluate_designations
 
 
 def test_empty_designation_engine():
