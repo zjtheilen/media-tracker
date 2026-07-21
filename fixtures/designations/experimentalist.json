@@ -1,0 +1,45 @@
+{
+    "entries": [],
+
+    "entryCount": 45,
+
+    "averageScore": 85,
+
+    "universalAverages": {
+        "depth": 8.5,
+        "originality": 9.2,
+        "craft": 8,
+        "emotional_impact": 7.5,
+        "engagement": 7.5
+    },
+
+    "mediaAverages": {
+        "world_building": 7,
+        "art_atmosphere": 8.5,
+        "narrative_pacing": 7,
+        "character_development": 7,
+        "gameplay_mechanics": 0
+    },
+
+    "mediaDistribution": {
+        "movies": {
+            "count": 25
+        }
+    },
+
+    "genreDistribution": {
+        "experimental": {
+            "count": 20
+        },
+        "surreal": {
+            "count": 15
+        },
+        "psychological": {
+            "count": 10
+        }
+    },
+
+    "highestRatedEntry": null,
+
+    "lowestRatedEntry": null
+}

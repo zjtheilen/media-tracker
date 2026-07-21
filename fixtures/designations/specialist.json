@@ -1,0 +1,40 @@
+{
+    "entries": [],
+
+    "entryCount": 40,
+
+    "averageScore": 82,
+
+    "universalAverages": {
+        "depth": 8,
+        "originality": 8,
+        "craft": 8
+    },
+
+    "mediaAverages": {
+        "world_building": 8,
+        "art_atmosphere": 8
+    },
+
+    "mediaDistribution": {
+        "movies": {
+            "count": 40
+        }
+    },
+
+    "genreDistribution": {
+        "psychological_horror": {
+            "count": 30
+        },
+        "surreal": {
+            "count": 5
+        },
+        "sciFi": {
+            "count": 5
+        }
+    },
+
+    "highestRatedEntry": null,
+
+    "lowestRatedEntry": null
+}
