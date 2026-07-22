@@ -9,7 +9,6 @@ def generate_archive_summary(
     designation,
     primary_trait,
     secondary_trait,
-    media_trait,
     genre_signature,
 ):
 
@@ -19,9 +18,7 @@ def generate_archive_summary(
         f"Your collection is most strongly defined by "
         f"{get_trait_description(primary_trait[0])}. "
         f"It also consistently values "
-        f"{get_trait_description(secondary_trait[0])}, "
-        f"while your media preferences show a particular affinity for "
-        f"{get_trait_description(media_trait[0])}. "
+        f"{get_trait_description(secondary_trait[0])}."
         f"{genre_signature}"
     )
 
@@ -75,4 +72,4 @@ def generate_genre_signature_sentence(genre_distribution):
     else:
         genres = ", ".join(meaningful_genres[:-1]) + f", and {meaningful_genres[-1]}"
 
-    return f"Your archive shows a recurring attraction to {genres} concepts."
+    return f"Your archive demonstrates recurring interest in {genres} experiences."

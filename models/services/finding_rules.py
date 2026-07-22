@@ -37,7 +37,7 @@ FINDING_RULES = [
     },
     {
         "id": "systems-preference",
-        "category": "Media Signature",
+        "category": "Media Signal",
         "evaluate": lambda profile: (
             profile.get("mediaAverages", {}).get("gameplay_mechanics", 0) >= 9
         ),

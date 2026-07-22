@@ -756,8 +756,8 @@ async function renderArchiveProfileCard() {
     const secondaryTraitSentence =
         archiveProfile.secondaryTrait;
 
-    const mediumSignatureSentence =
-        archiveProfile.mediumSignature;
+    // const mediumSignatureSentence =
+    //     archiveProfile.mediumSignature;
 
     const genreSignatureSentence =
         archiveProfile.genreSignature;
@@ -824,7 +824,7 @@ async function renderArchiveProfileCard() {
                         <div class="basis-item media-signature">
 
                             <span class="category-label">
-                                Media Signature
+                                Media Signal
                             </span>
 
                             <div>
@@ -852,10 +852,6 @@ async function renderArchiveProfileCard() {
 
                         <p class="archive-summary">
                             ${secondaryTraitSentence}
-                        </p>
-
-                        <p class="archive-summary">
-                            ${mediumSignatureSentence}
                         </p>
 
                         <p class="archive-summary">

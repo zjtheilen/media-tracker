@@ -16,9 +16,9 @@ def load_fixture(name):
 @pytest.mark.parametrize(
     "fixture,expected",
     [
-        ("experimentalist.json", "experimentalist"),
-        ("entertainer.json", "entertainer"),
-        ("specialist.json", "specialist"),
+        ("boundary_explorer.json", "boundary_explorer"),
+        ("engagement_architect.json", "engagement_architect"),
+        ("deep_diver.json", "deep_diver"),
     ],
 )
 def test_designation_profiles(fixture, expected):

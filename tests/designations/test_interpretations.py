@@ -1,5 +1,7 @@
 from models.services.interpretation_engine import evaluate_interpretations
 from models.services.archive_engine import generate_archive_summary
+from models.services.archive_interpretation import generate_genre_signature_sentence
+
 
 def test_high_engagement_interpretation():
 
@@ -30,3 +32,18 @@ def test_archive_summary_contains_genre_signature():
 
     assert "The Entertainer" in summary
     assert "speculative worlds" in summary
+
+
+def test_generate_genre_signature_filters_weak_genres():
+
+    distribution = {
+        "sci-fi": {"percentage": 55.6},
+        "psychological": {"percentage": 38.9},
+        "racing": {"percentage": 5.6},
+    }
+
+    result = generate_genre_signature_sentence(distribution)
+
+    assert "sci-fi" in result
+    assert "psychological" in result
+    assert "racing" not in result
