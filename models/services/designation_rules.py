@@ -56,17 +56,20 @@ DESIGNATION_RULES = [
         "title": "The Experimentalist",
         "description": "A seeker of unusual formats, unconventional ideas, and creative risks.",
         "evaluate": evaluate_experimentalist,
+        "icon": "◈",
     },
     {
         "id": "entertainer",
         "title": "The Entertainer",
         "description": "A collector who prioritizes enjoyment, momentum, and fun.",
         "evaluate": evaluate_entertainer,
+        "icon": "◈",
     },
     {
         "id": "specialist",
         "title": "The Specialist",
         "description": "A focused collector with strong preferences in specific areas.",
         "evaluate": evaluate_specialist,
+        "icon": "◈",
     },
 ]

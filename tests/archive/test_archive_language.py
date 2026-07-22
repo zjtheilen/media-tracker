@@ -1,9 +1,16 @@
-from models.services.archive_language import (
+from models.services.archive_narrative import (
     format_trait_score,
     get_trait_description,
     get_trait_intensity,
     get_designation_confidence_label,
 )
+
+GENRE_DESCRIPTIONS = {
+    "sci-fi": "speculative worlds and unfamiliar possibilities",
+    "psychological": "psychological exploration and shifting perspectives",
+    "horror": "horror-driven tension and unsettling ideas",
+    "surreal": "surreal and reality-bending experiences",
+}
 
 
 def test_format_trait_score():

@@ -19,10 +19,13 @@ from .archive_interpretation import (
     generate_primary_trait_sentence,
     generate_secondary_trait_sentence,
     generate_media_signature_sentence,
-    generate_archive_summary
+    generate_archive_summary,
+    generate_genre_signature_sentence,
 )
 
-from .archive_language import get_designation_confidence_label
+from .archive_narrative import (
+    get_designation_confidence_label,
+)
 
 
 def build_archive_profile(entries):
@@ -31,7 +34,6 @@ def build_archive_profile(entries):
         return {
             "entries": [],
             "entryCount": 0,
-
             "universalAverages": {},
             "mediaAverages": {},
             "mediaDistribution": {
@@ -40,29 +42,22 @@ def build_archive_profile(entries):
                 "book": 0,
             },
             "genreDistribution": {},
-
             "averageScore": 0,
-
             "highestRatedEntry": None,
             "lowestRatedEntry": None,
-
             "topUniversal": [],
             "topMedia": [],
-
             "designationConfidence": 0,
             "designationConfidenceLabel": "Tentative",
-
             "classificationBasis": None,
-
             "designations": [],
             "primaryDesignation": None,
-
             "findings": [],
-
             "archiveSummary": "The archive does not contain enough data for interpretation.",
             "primaryTrait": None,
             "secondaryTrait": None,
             "mediaSignature": None,
+            "genreSignature": None,
         }
 
     universal_averages = calculate_average_scores(entries, "universal_scores")
@@ -122,25 +117,35 @@ def build_archive_profile(entries):
 
     archive_profile["findings"] = evaluate_findings(archive_profile)
 
+    primary_trait, primary_score = archive_profile["topUniversal"][0]
+    secondary_trait, secondary_score = archive_profile["topUniversal"][1]
+    media_trait, media_score = archive_profile["topMedia"][0]
+
     archive_profile["primaryTrait"] = generate_primary_trait_sentence(
-        top_universal[0][0],
-        top_universal[0][1],
+        primary_trait,
+        primary_score,
     )
 
     archive_profile["secondaryTrait"] = generate_secondary_trait_sentence(
-        top_universal[1][0],
-        top_universal[1][1],
+        secondary_trait,
+        secondary_score,
     )
 
     archive_profile["mediaSignature"] = generate_media_signature_sentence(
-        top_media[0][0],
-        top_media[0][1],
+        media_trait,
+        media_score,
     )
 
+    genre_signature = generate_genre_signature_sentence(genre_distribution)
+
+    archive_profile["genreSignature"] = genre_signature
+
     archive_profile["archiveSummary"] = generate_archive_summary(
+        archive_profile["primaryDesignation"],
         top_universal[0],
         top_universal[1],
         top_media[0],
+        archive_profile["genreSignature"],
     )
 
     return archive_profile

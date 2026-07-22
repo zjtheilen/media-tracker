@@ -195,17 +195,17 @@ function getTraitDescription(category) {
 }
 
 
-function generateArchiveSummary(
-    primaryTrait,
-    secondaryTrait,
-    mediaTrait
-) {
+// function generateArchiveSummary(
+//     primaryTrait,
+//     secondaryTrait,
+//     mediaTrait
+// ) {
 
-    return `
-        Your archive ${getTraitIntensity(primaryTrait[1])} favors ${getTraitDescription(primaryTrait[0])} (${formatTraitScore(primaryTrait[1])}), while also placing significant value on ${getTraitDescription(secondaryTrait[0])} (${formatTraitScore(secondaryTrait[1])}). Across all recorded media, your strongest preference is for ${getTraitDescription(mediaTrait[0])} (${formatTraitScore(mediaTrait[1])}).
-    `.trim();
+//     return `
+//         Your archive ${getTraitIntensity(primaryTrait[1])} favors ${getTraitDescription(primaryTrait[0])} (${formatTraitScore(primaryTrait[1])}), while also placing significant value on ${getTraitDescription(secondaryTrait[0])} (${formatTraitScore(secondaryTrait[1])}). Across all recorded media, your strongest preference is for ${getTraitDescription(mediaTrait[0])} (${formatTraitScore(mediaTrait[1])}).
+//     `.trim();
 
-}
+// }
 
 function groupEntries(entries, keySelector) {
     return entries.reduce((groups, entry) => {
@@ -771,6 +771,9 @@ async function renderArchiveProfileCard() {
 
     const mediaSignatureSentence =
         archiveProfile.mediaSignature;
+    
+    const genreSignatureSentence =
+        archiveProfile.genreSignature;
 
     const card = document.getElementById(
         "favorite-media-type-card"
@@ -866,6 +869,10 @@ async function renderArchiveProfileCard() {
 
                         <p class="archive-summary">
                             ${mediaSignatureSentence}
+                        </p>
+
+                        <p class="archive-summary">
+                            ${genreSignatureSentence}
                         </p>
 
                         
