@@ -35,6 +35,9 @@ from models.genre_registry import (
     get_allowed_genres,
 )
 
+from models.services.archive_mapper import entry_to_archive_format
+from models.services.archive_engine import build_archive_profile
+
 VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
 
 
@@ -342,8 +345,6 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
             ),
         )
 
-        print(cursor.rowcount)
-
         conn.commit()
 
     return {
@@ -402,3 +403,17 @@ def get_scoring_profile():
         },
         "media": MEDIA_SCORING_PROFILES,
     }
+
+
+@app.get("/archive-profile")
+def get_archive_profile():
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM entries")
+        rows = cursor.fetchall()
+
+    entries = [entry_to_archive_format(row_to_entry_response(row)) for row in rows]
+
+    return build_archive_profile(entries)

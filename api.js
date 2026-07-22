@@ -35,7 +35,7 @@ async function apiRequest(endpoint, options = {}) {
 
 
 async function getEntries() {
-    return await apiRequest("/entries");
+    return await apiRequest("/entries/");
 }
 
 async function getEntry(id) {
@@ -43,7 +43,7 @@ async function getEntry(id) {
 }
 
 async function getGenres() {
-    return await apiRequest("/genres");
+    return await apiRequest("/genres/");
 }
 
 async function getScoringProfiles() {
@@ -51,7 +51,11 @@ async function getScoringProfiles() {
 }
 
 async function getStats() {
-    return await apiRequest("/stats");
+    return await apiRequest("/stats/");
+}
+
+async function getArchiveProfile() {
+    return await apiRequest("/archive-profile");
 }
 
 async function createEntry(data) {

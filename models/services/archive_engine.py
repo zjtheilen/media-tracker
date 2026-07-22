@@ -15,9 +15,55 @@ from .archive_profile import (
 
 from .designation_engine import evaluate_designations
 from .finding_engine import evaluate_findings
+from .archive_interpretation import (
+    generate_primary_trait_sentence,
+    generate_secondary_trait_sentence,
+    generate_media_signature_sentence,
+    generate_archive_summary
+)
+
+from .archive_language import get_designation_confidence_label
 
 
 def build_archive_profile(entries):
+
+    if not entries:
+        return {
+            "entries": [],
+            "entryCount": 0,
+
+            "universalAverages": {},
+            "mediaAverages": {},
+            "mediaDistribution": {
+                "video": 0,
+                "game": 0,
+                "book": 0,
+            },
+            "genreDistribution": {},
+
+            "averageScore": 0,
+
+            "highestRatedEntry": None,
+            "lowestRatedEntry": None,
+
+            "topUniversal": [],
+            "topMedia": [],
+
+            "designationConfidence": 0,
+            "designationConfidenceLabel": "Tentative",
+
+            "classificationBasis": None,
+
+            "designations": [],
+            "primaryDesignation": None,
+
+            "findings": [],
+
+            "archiveSummary": "The archive does not contain enough data for interpretation.",
+            "primaryTrait": None,
+            "secondaryTrait": None,
+            "mediaSignature": None,
+        }
 
     universal_averages = calculate_average_scores(entries, "universal_scores")
 
@@ -49,6 +95,10 @@ def build_archive_profile(entries):
         top_media[0],
     )
 
+    designation_confidence_label = get_designation_confidence_label(
+        designation_confidence
+    )
+
     archive_profile = {
         "entries": entries,
         "entryCount": len(entries),
@@ -62,6 +112,7 @@ def build_archive_profile(entries):
         "topUniversal": top_universal,
         "topMedia": top_media,
         "designationConfidence": designation_confidence,
+        "designationConfidenceLabel": designation_confidence_label,
         "classificationBasis": classification_basis,
     }
 
@@ -70,5 +121,26 @@ def build_archive_profile(entries):
     archive_profile["primaryDesignation"] = archive_profile["designations"][0]
 
     archive_profile["findings"] = evaluate_findings(archive_profile)
+
+    archive_profile["primaryTrait"] = generate_primary_trait_sentence(
+        top_universal[0][0],
+        top_universal[0][1],
+    )
+
+    archive_profile["secondaryTrait"] = generate_secondary_trait_sentence(
+        top_universal[1][0],
+        top_universal[1][1],
+    )
+
+    archive_profile["mediaSignature"] = generate_media_signature_sentence(
+        top_media[0][0],
+        top_media[0][1],
+    )
+
+    archive_profile["archiveSummary"] = generate_archive_summary(
+        top_universal[0],
+        top_universal[1],
+        top_media[0],
+    )
 
     return archive_profile
