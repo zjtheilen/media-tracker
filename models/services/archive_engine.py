@@ -56,7 +56,7 @@ def build_archive_profile(entries):
             "archiveSummary": "The archive does not contain enough data for interpretation.",
             "primaryTrait": None,
             "secondaryTrait": None,
-            "mediaSignature": None,
+            "mediumSignature": None,
             "genreSignature": None,
         }
 
@@ -131,7 +131,7 @@ def build_archive_profile(entries):
         secondary_score,
     )
 
-    archive_profile["mediaSignature"] = generate_media_signature_sentence(
+    archive_profile["mediumSignature"] = generate_media_signature_sentence(
         media_trait,
         media_score,
     )

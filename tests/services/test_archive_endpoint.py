@@ -48,5 +48,5 @@ def test_archive_profile_contains_interpretation(client):
     assert "archiveSummary" in data
     assert "primaryTrait" in data
     assert "secondaryTrait" in data
-    assert "mediaSignature" in data
+    assert "mediumSignature" in data
     assert "designationConfidenceLabel" in data
