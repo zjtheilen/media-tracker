@@ -194,19 +194,6 @@ function getTraitDescription(category) {
     return descriptions[category] || category;
 }
 
-
-// function generateArchiveSummary(
-//     primaryTrait,
-//     secondaryTrait,
-//     mediaTrait
-// ) {
-
-//     return `
-//         Your archive ${getTraitIntensity(primaryTrait[1])} favors ${getTraitDescription(primaryTrait[0])} (${formatTraitScore(primaryTrait[1])}), while also placing significant value on ${getTraitDescription(secondaryTrait[0])} (${formatTraitScore(secondaryTrait[1])}). Across all recorded media, your strongest preference is for ${getTraitDescription(mediaTrait[0])} (${formatTraitScore(mediaTrait[1])}).
-//     `.trim();
-
-// }
-
 function groupEntries(entries, keySelector) {
     return entries.reduce((groups, entry) => {
         const keys = keySelector(entry);
@@ -599,7 +586,7 @@ async function renderGenreAverageRatingsChart() {
 
 }
 
-async function renderUniversalRadarChart() {
+async function renderCoreEvaluationRadar() {
 
     const entries = await getEntries();
 
@@ -771,7 +758,7 @@ async function renderArchiveProfileCard() {
 
     const mediumSignatureSentence =
         archiveProfile.mediumSignature;
-    
+
     const genreSignatureSentence =
         archiveProfile.genreSignature;
 
@@ -897,22 +884,40 @@ async function renderArchiveProfileCard() {
                 <div class="archive-profile-charts">
 
                     <div class="chart-panel">
-
+                
                         <h3>Core Evaluation Matrix</h3>
-
+                
                         <canvas id="universal-profile-radar"></canvas>
-
+                
                     </div>
-
-
+                
+                
                     <div class="chart-panel">
-
-                        <h3>Media Preference Matrix</h3>
-
-                        <canvas id="media-profile-radar"></canvas>
-
+                
+                        <h3>Book Profile</h3>
+                
+                        <canvas id="book-profile-chart"></canvas>
+                
                     </div>
-
+                
+                
+                    <div class="chart-panel">
+                
+                        <h3>Video Profile</h3>
+                
+                        <canvas id="video-profile-chart"></canvas>
+                
+                    </div>
+                
+                
+                    <div class="chart-panel">
+                
+                        <h3>Game Profile</h3>
+                
+                        <canvas id="game-profile-chart"></canvas>
+                
+                    </div>
+                
                 </div>
 
 
@@ -947,8 +952,6 @@ function renderUniversalScoreChart(entry, canvas) {
     chartInstances[`universal-${entry.id}`] =
         new Chart(canvas, {
 
-            type: "radar",
-
             data: {
                 labels,
 
@@ -970,19 +973,6 @@ function renderUniversalScoreChart(entry, canvas) {
                 animation: {
                     duration: 800,
                     easing: "easeOutQuart"
-                },
-
-                scales: {
-                    r: {
-                        min: 0,
-                        max: 10,
-                        ticks: {
-                            color: ARCHIVE_COLORS.muted
-                        },
-                        grid: {
-                            color: ARCHIVE_COLORS.grid
-                        }
-                    }
                 },
 
                 plugins: {
@@ -1041,7 +1031,7 @@ function renderMediaScoreChart(entry, canvas) {
 
                 scales: {
                     y: {
-                        min: 0,
+                        min: 5,
                         max: 10,
                         ticks: {
                             color: ARCHIVE_COLORS.muted
@@ -1073,84 +1063,145 @@ function renderMediaScoreChart(entry, canvas) {
         });
 }
 
-async function renderMediaPreferenceMatrix() {
 
-    const archiveProfile =
-        await getArchiveProfile();
+async function renderMediaBarCharts() {
 
-    const radarData =
-        prepareRadarData(
-            archiveProfile.mediaAverages
-        );
+    const archiveProfile = await getArchiveProfile();
 
-    const ctx = document
-        .getElementById("media-profile-radar")
-        .getContext("2d");
+    renderMediaBarChart(
+        "book-profile-chart",
+        "Book Profile",
+        {
+            prose_writing: archiveProfile.mediaAverages.prose_writing,
+            character_development: archiveProfile.mediaAverages.character_development,
+            world_building: archiveProfile.mediaAverages.world_building,
+            narrative_pacing: archiveProfile.mediaAverages.narrative_pacing,
+        }
+    );
 
-    destroyChart("media-profile-radar");
+
+    renderMediaBarChart(
+        "video-profile-chart",
+        "Video Profile",
+        {
+            cinematography_visuals: archiveProfile.mediaAverages.cinematography_visuals,
+            acting_performances: archiveProfile.mediaAverages.acting_performances,
+            directing_editing: archiveProfile.mediaAverages.directing_editing,
+            sound_music: archiveProfile.mediaAverages.sound_music,
+        }
+    );
 
 
-    chartInstances["media-profile-radar"] = new Chart(ctx, {
+    renderMediaBarChart(
+        "game-profile-chart",
+        "Game Profile",
+        {
+            gameplay_mechanics: archiveProfile.mediaAverages.gameplay_mechanics,
+            level_design_progression: archiveProfile.mediaAverages.level_design_progression,
+            replayability_systems: archiveProfile.mediaAverages.replayability_systems,
+            art_atmosphere: archiveProfile.mediaAverages.art_atmosphere,
+        }
+    );
+}
 
-        type: "radar",
 
-        data: {
-            labels: radarData.labels,
+function renderMediaBarChart(
+    canvasId,
+    label,
+    scores
+) {
 
-            datasets: [
-                {
-                    label: "Media Preference Matrix",
-                    data: radarData.values,
+    const canvas = document.getElementById(canvasId);
 
-                    backgroundColor: "rgba(127,174,135,0.25)",
-                    borderColor: "rgba(127,174,135,1)",
-                    borderWidth: 2,
+    if (!canvas) return;
 
-                    pointBackgroundColor:
-                        "rgba(127,174,135,1)",
-                },
-            ],
-        },
 
-        options: {
+    const labels = Object.keys(scores)
+        .map(formatScoreCategory);
 
-            responsive: true,
+    const values = Object.values(scores);
 
-            maintainAspectRatio: false,
 
-            scales: {
-                r: {
-                    min: 0,
-                    max: 10,
+    destroyChart(canvasId);
 
-                    ticks: {
-                        color: ARCHIVE_COLORS.muted,
-                        backdropColor: "transparent"
-                    },
 
-                    grid: {
-                        color: ARCHIVE_COLORS.grid
-                    },
+    chartInstances[canvasId] = new Chart(
+        canvas.getContext("2d"),
+        {
 
-                    angleLines: {
-                        color: ARCHIVE_COLORS.grid
-                    },
+            type: "bar",
 
-                    pointLabels: {
-                        color: ARCHIVE_COLORS.text,
-                        font: {
-                            family: "monospace"
-                        }
+            data: {
+
+                labels,
+
+                datasets: [
+                    {
+                        label,
+
+                        data: values,
+
+                        backgroundColor:
+                            "rgba(127,174,135,0.35)",
+
+                        borderColor:
+                            "rgba(127,174,135,1)",
+
+                        borderWidth: 1,
                     }
-                }
+                ]
             },
 
-            plugins: {
 
-                legend: {
-                    display: false
+            options: {
+
+                indexAxis: "y",
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                scales: {
+
+                    x: {
+                        min: 0,
+                        max: 10,
+
+                        ticks: {
+                            color: ARCHIVE_COLORS.muted
+                        },
+
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        }
+                    },
+
+
+                    y: {
+
+                        ticks: {
+                            color: ARCHIVE_COLORS.text,
+
+                            font: {
+                                family: "monospace"
+                            }
+                        },
+
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
                 }
             }
         }
-    });
+    );
 }
