@@ -19,29 +19,6 @@ function calculateAverage(entries) {
     );
 }
 
-// function calculateAverageScores(entries, scoreType) {
-//     const totals = {};
-//     const counts = {};
-
-//     entries.forEach((entry) => {
-//         const scores = entry[scoreType] || {};
-
-//         Object.entries(scores).forEach(([category, value]) => {
-//             totals[category] = (totals[category] || 0) + value;
-//             counts[category] = (counts[category] || 0) + 1;
-//         });
-//     });
-
-//     const averages = {};
-
-//     Object.keys(totals).forEach((category) => {
-//         averages[category] = Number(
-//             (totals[category] / counts[category]).toFixed(2)
-//         );
-//     });
-
-//     return averages;
-// }
 
 function getTopCategories(averages, count = 2) {
     return Object.entries(averages)
@@ -217,23 +194,6 @@ function getTraitDescription(category) {
     return descriptions[category] || category;
 }
 
-// function generatePrimaryTraitSentence(category, score) {
-
-//     return `Your archive strongly favors ${getTraitDescription(category)} (${formatTraitScore(score)}).`;
-
-// }
-
-// function generateSecondaryTraitSentence(category, score) {
-
-//     return `It also demonstrates a strong preference for ${getTraitDescription(category)} (${formatTraitScore(score)}).`;
-
-// }
-
-// function generateMediaSignatureSentence(category, score) {
-
-//     return `Your media preferences strongly align with ${getTraitDescription(category)} (${formatTraitScore(score)}).`;
-
-// }
 
 function generateArchiveSummary(
     primaryTrait,
@@ -812,20 +772,6 @@ async function renderArchiveProfileCard() {
     const mediaSignatureSentence =
         archiveProfile.mediaSignature;
 
-    // const mediaSignatureSentence =
-    //     generateMediaSignatureSentence(
-    //         archiveProfile.topMedia[0][0],
-    //         archiveProfile.topMedia[0][1]
-    //     );
-
-    // const archiveSummary =
-    //     archiveProfile.archiveSummary;
-
-    // const confidenceLabel =
-    //     getDesignationConfidenceLabel(
-    //         archiveProfile.designationConfidence
-    //     );
-
     const card = document.getElementById(
         "favorite-media-type-card"
     );
@@ -1201,18 +1147,3 @@ async function renderMediaPreferenceMatrix() {
         }
     });
 }
-
-
-// async function getArchiveProfile() {
-
-//     const response =
-//         await fetch("http://127.0.0.1:8000/archive-profile");
-
-//     if (!response.ok) {
-//         throw new Error(
-//             "Failed to load archive profile"
-//         );
-//     }
-
-//     return await response.json();
-// }
