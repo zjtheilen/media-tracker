@@ -1,4 +1,5 @@
 from models.services.observation_engine import evaluate_observations
+from tests.designations.test_designations import load_fixture
 
 
 def test_boundary_observation():
@@ -40,3 +41,13 @@ def test_observation_contains_metadata():
     assert "traits" in observation
     assert "genres" in observation
     assert "relatedDesignations" in observation
+
+
+def test_observation_contains_confidence():
+
+    profile = load_fixture("boundary_explorer.json")
+
+    observations = evaluate_observations(profile)
+
+    assert "confidence" in observations[0]
+    assert 0 <= observations[0]["confidence"] <= 1
