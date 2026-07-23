@@ -116,3 +116,10 @@ def test_archive_profile_contains_observation_summary():
     result = build_archive_profile(entries)
 
     assert result["observationSummary"] is not None
+    assert "observations" in result
+    assert len(result["observations"]) > 0
+
+    assert "traits" in result["observations"][0]
+    assert "genres" in result["observations"][0]
+    assert "relatedDesignations" in result["observations"][0]
+    assert "confidence" in result["observations"][0]
