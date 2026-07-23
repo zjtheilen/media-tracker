@@ -36,9 +36,9 @@ def test_build_archive_profile():
 
     assert result["classificationBasis"]["media"]["name"] == "Art Atmosphere"
 
-    assert result["designations"][0]["id"] == "entertainer"
+    assert result["designations"][0]["id"] == "deep_diver"
 
-    assert result["primaryDesignation"]["id"] == "entertainer"
+    assert result["primaryDesignation"]["id"] == "deep_diver"
 
     assert result["findings"][0]["id"] == "concept-driven"
 

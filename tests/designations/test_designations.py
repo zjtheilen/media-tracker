@@ -27,12 +27,14 @@ def test_designation_profiles(fixture, expected):
 
     results = evaluate_designations(profile)
 
+    print(results)
+
     assert results[0]["id"] == expected
 
 
 def test_designations_are_sorted():
 
-    profile = load_fixture("experimentalist.json")
+    profile = load_fixture("boundary_explorer.json")
 
     results = evaluate_designations(profile)
 

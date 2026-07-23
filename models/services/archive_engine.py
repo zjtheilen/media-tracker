@@ -56,7 +56,7 @@ def build_archive_profile(entries):
             "archiveSummary": "The archive does not contain enough data for interpretation.",
             "primaryTrait": None,
             "secondaryTrait": None,
-            "mediumSignature": None,
+            "mediaSignature": None,
             "genreSignature": None,
         }
 

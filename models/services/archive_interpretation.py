@@ -18,7 +18,7 @@ def generate_archive_summary(
         f"Your collection is most strongly defined by "
         f"{get_trait_description(primary_trait[0])}. "
         f"It also consistently values "
-        f"{get_trait_description(secondary_trait[0])}."
+        f"{get_trait_description(secondary_trait[0])}. "
         f"{genre_signature}"
     )
 

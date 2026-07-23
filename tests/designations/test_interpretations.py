@@ -23,15 +23,14 @@ def test_no_interpretation_when_threshold_not_met():
 
 def test_archive_summary_contains_genre_signature():
     summary = generate_archive_summary(
-        {"title": "The Entertainer"},
+        {"title": "The Engagement Architect"},
         ("engagement", 9.2),
         ("craft", 8.9),
-        ("gameplay_mechanics", 9.4),
-        "speculative worlds",
+        "Your archive demonstrates recurring interest in speculative worlds.",
     )
 
-    assert "The Entertainer" in summary
-    assert "speculative worlds" in summary
+    assert "The Engagement Architect" in summary
+    assert "Your archive demonstrates recurring interest in speculative worlds." in summary
 
 
 def test_generate_genre_signature_filters_weak_genres():
