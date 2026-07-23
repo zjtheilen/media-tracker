@@ -756,9 +756,6 @@ async function renderArchiveProfileCard() {
     const secondaryTraitSentence =
         archiveProfile.secondaryTrait;
 
-    // const mediumSignatureSentence =
-    //     archiveProfile.mediumSignature;
-
     const genreSignatureSentence =
         archiveProfile.genreSignature;
 

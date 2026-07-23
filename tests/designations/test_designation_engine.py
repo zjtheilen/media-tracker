@@ -26,4 +26,7 @@ def test_designation_contains_metadata():
 
     assert "traits" in designation
     assert "genres" in designation
-    assert "recommendationBias" in designation
+    assert "recommendation_bias" in designation
+
+    assert len(designation["traits"]) > 0
+    assert len(designation["recommendation_bias"]) > 0

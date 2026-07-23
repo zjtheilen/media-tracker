@@ -44,12 +44,6 @@ def evaluate_deep_diver(profile):
 
     score += genre_weight("psychological", profile) * 15
 
-    print("DEEP SIGNALS")
-    print("depth", profile["universalAverages"].get("depth"))
-    print("emotional", profile["universalAverages"].get("emotional_impact"))
-    print("average", profile["averageScore"])
-    print("psych", genre_weight("psychological", profile))
-
     return min(score, 100)
 
 

@@ -27,8 +27,6 @@ def test_designation_profiles(fixture, expected):
 
     results = evaluate_designations(profile)
 
-    print(results)
-
     assert results[0]["id"] == expected
 
 

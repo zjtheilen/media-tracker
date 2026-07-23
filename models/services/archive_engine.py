@@ -119,7 +119,6 @@ def build_archive_profile(entries):
 
     primary_trait, primary_score = archive_profile["topUniversal"][0]
     secondary_trait, secondary_score = archive_profile["topUniversal"][1]
-    # media_trait, media_score = archive_profile["topMedia"][0]
 
     archive_profile["primaryTrait"] = generate_primary_trait_sentence(
         primary_trait,
@@ -130,11 +129,6 @@ def build_archive_profile(entries):
         secondary_trait,
         secondary_score,
     )
-
-    # archive_profile["mediumSignature"] = generate_media_signature_sentence(
-    #     media_trait,
-    #     media_score,
-    # )
 
     genre_signature = generate_genre_signature_sentence(genre_distribution)
 
