@@ -1,11 +1,12 @@
 from models.services.observation_utils import score_confidence
 
+
 OBSERVATION_RULES = [
     {
         "id": "boundary-preference",
         "confidence": lambda profile: score_confidence(
-            profile.get("universalAverages", {}).get("depth", 0),
-            8
+            profile.get("universalAverages", {}).get("originality", 0),
+            8,
         ),
         "category": "Archive Observation",
         "traits": [
@@ -49,8 +50,8 @@ OBSERVATION_RULES = [
     {
         "id": "systems-affinity",
         "confidence": lambda profile: score_confidence(
-            profile.get("universalAverages", {}).get("depth", 0),
-            8
+            profile.get("mediaAverages", {}).get("gameplay_mechanics", 0),
+            9,
         ),
         "category": "Archive Observation",
         "traits": [
@@ -83,7 +84,7 @@ OBSERVATION_RULES = [
         "id": "interpretive-depth",
         "confidence": lambda profile: score_confidence(
             profile.get("universalAverages", {}).get("depth", 0),
-            8
+            8,
         ),
         "category": "Archive Observation",
         "traits": [

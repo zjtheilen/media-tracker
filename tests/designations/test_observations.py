@@ -8,17 +8,25 @@ def test_boundary_observation():
         "universalAverages": {
             "originality": 9,
         },
-        "genreDistribution": {"experimental": {"percentage": 30}},
+        "genreDistribution": {
+            "experimental": {
+                "percentage": 30,
+            }
+        },
     }
 
     results = evaluate_observations(profile)
 
-    assert results[0]["id"] == "boundary-preference"
+    assert any(observation["id"] == "boundary-preference" for observation in results)
 
 
 def test_depth_observation():
 
-    profile = {"universalAverages": {"depth": 9}}
+    profile = {
+        "universalAverages": {
+            "depth": 9,
+        }
+    }
 
     results = evaluate_observations(profile)
 
@@ -32,11 +40,15 @@ def test_no_observations():
 
 def test_observation_contains_metadata():
 
-    profile = {"universalAverages": {"depth": 9}}
+    profile = {
+        "universalAverages": {
+            "depth": 9,
+        }
+    }
 
     results = evaluate_observations(profile)
 
-    observation = results[0]
+    observation = next(item for item in results if item["id"] == "interpretive-depth")
 
     assert "traits" in observation
     assert "genres" in observation
@@ -51,3 +63,25 @@ def test_observation_contains_confidence():
 
     assert "confidence" in observations[0]
     assert 0 <= observations[0]["confidence"] <= 1
+
+
+def test_observations_sorted_by_confidence():
+
+    profile = {
+        "universalAverages": {
+            "originality": 10,
+            "depth": 10,
+        },
+        "mediaAverages": {
+            "gameplay_mechanics": 10,
+        },
+        "genreDistribution": {
+            "experimental": {
+                "percentage": 40,
+            }
+        },
+    }
+
+    results = evaluate_observations(profile)
+
+    assert results[0]["confidence"] >= results[-1]["confidence"]

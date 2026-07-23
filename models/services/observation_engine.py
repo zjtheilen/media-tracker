@@ -17,9 +17,16 @@ def evaluate_observations(profile):
                     "traits": rule.get("traits", []),
                     "genres": rule.get("genres", []),
                     "confidence": rule["confidence"](profile),
-                    "relatedDesignations": rule.get("related_designations", []),
+                    "relatedDesignations": rule.get(
+                        "related_designations",
+                        [],
+                    ),
                     **rule["generate"](profile),
                 }
             )
 
-    return observations
+    return sorted(
+        observations,
+        key=lambda x: x["confidence"],
+        reverse=True,
+    )
