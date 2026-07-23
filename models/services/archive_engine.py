@@ -54,6 +54,7 @@ def build_archive_profile(entries):
             "classificationBasis": None,
             "designations": [],
             "primaryDesignation": None,
+            "observations": [],
             "findings": [],
             "archiveSummary": "The archive does not contain enough data for interpretation.",
             "primaryTrait": None,
@@ -117,8 +118,8 @@ def build_archive_profile(entries):
 
     archive_profile["primaryDesignation"] = archive_profile["designations"][0]
 
-    archive_profile["findings"] = evaluate_findings(archive_profile)
     archive_profile["observations"] = evaluate_observations(archive_profile)
+    archive_profile["findings"] = evaluate_findings(archive_profile)
 
     primary_trait, primary_score = archive_profile["topUniversal"][0]
     secondary_trait, secondary_score = archive_profile["topUniversal"][1]
