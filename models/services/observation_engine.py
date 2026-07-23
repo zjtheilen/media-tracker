@@ -14,6 +14,9 @@ def evaluate_observations(profile):
                 {
                     "id": rule["id"],
                     "category": rule["category"],
+                    "traits": rule.get("traits", []),
+                    "genres": rule.get("genres", []),
+                    "relatedDesignations": rule.get("related_designations", []),
                     **rule["generate"](profile),
                 }
             )

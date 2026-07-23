@@ -2,6 +2,18 @@ OBSERVATION_RULES = [
     {
         "id": "boundary-preference",
         "category": "Archive Observation",
+        "traits": [
+            "originality",
+            "depth",
+        ],
+        "genres": [
+            "experimental",
+            "surreal",
+            "sci-fi",
+        ],
+        "related_designations": [
+            "boundary_explorer",
+        ],
         "evaluate": lambda profile: (
             profile.get("universalAverages", {}).get("originality", 0) >= 8
             and (
@@ -31,10 +43,19 @@ OBSERVATION_RULES = [
     {
         "id": "systems-affinity",
         "category": "Archive Observation",
+        "traits": [
+            "gameplay_mechanics",
+        ],
+        "genres": [
+            "strategy",
+            "simulation",
+            "game",
+        ],
+        "related_designations": [
+            "engagement_architect",
+        ],
         "evaluate": lambda profile: (
-            profile.get("mediaAverages", {})
-            .get("gameplay_mechanics", 0)
-            >= 9
+            profile.get("mediaAverages", {}).get("gameplay_mechanics", 0) >= 9
         ),
         "generate": lambda profile: {
             "title": "Systems Affinity",
@@ -51,6 +72,19 @@ OBSERVATION_RULES = [
     {
         "id": "interpretive-depth",
         "category": "Archive Observation",
+        "traits": [
+            "depth",
+            "emotional_impact",
+        ],
+        "genres": [
+            "psychological",
+            "mystery",
+            "drama",
+            "horror",
+        ],
+        "related_designations": [
+            "deep_diver",
+        ],
         "evaluate": lambda profile: (
             profile.get("universalAverages", {}).get("depth", 0) >= 8
         ),
@@ -61,8 +95,7 @@ OBSERVATION_RULES = [
                 "analysis, reflection, and layered interpretation."
             ),
             "evidence": (
-                f"Depth "
-                f"{profile.get('universalAverages', {}).get('depth', 0):.1f} / 10"
+                f"Depth {profile.get('universalAverages', {}).get('depth', 0):.1f} / 10"
             ),
         },
     },
