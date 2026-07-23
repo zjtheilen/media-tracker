@@ -1,3 +1,5 @@
+from .designation_engine import evaluate_designations
+
 FINDING_RULES = [
     {
         "id": "concept-driven",
@@ -92,3 +94,24 @@ FINDING_RULES = [
         },
     },
 ]
+
+
+def generate_designation_finding(profile):
+
+    designation = profile.get("primaryDesignation")
+
+    if not designation:
+        return None
+
+    return {
+        "id": "archive-designation",
+        "category": "Archive Identity",
+        "title": "Archive Designation",
+        "description": (
+            f"Your archive most closely aligns with "
+            f"{designation['title']}. "
+            f"This reflects preferences for "
+            f"{', '.join(designation.get('recommendationBias', []))}."
+        ),
+        "evidence": (f"Designation score {designation.get('score', 0):.1f} / 100"),
+    }

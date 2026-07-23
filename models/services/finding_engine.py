@@ -1,4 +1,4 @@
-from .finding_rules import FINDING_RULES
+from .finding_rules import FINDING_RULES, generate_designation_finding
 
 
 def evaluate_findings(profile):
@@ -7,6 +7,11 @@ def evaluate_findings(profile):
         return []
 
     findings = []
+
+    designation = generate_designation_finding(profile)
+
+    if designation:
+        findings.append(designation)
 
     for rule in FINDING_RULES:
         if rule["evaluate"](profile):

@@ -1,4 +1,6 @@
 from models.services.finding_engine import evaluate_findings
+from models.services.archive_engine import build_archive_profile
+from tests.designations.test_designations import load_fixture
 
 
 def test_concept_driven_finding():
@@ -24,3 +26,32 @@ def test_empty_findings():
     results = evaluate_findings({})
 
     assert results == []
+
+
+def test_designation_finding_exists():
+
+    entries = [
+        {
+            "title": "Coherence",
+            "media_type": "video",
+            "genres": ["sci-fi", "surreal"],
+            "total_score": 95,
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+    ]
+
+    profile = build_archive_profile(entries)
+
+    findings = evaluate_findings(profile)
+
+    designation = next(
+        finding for finding in findings if finding["id"] == "archive-designation"
+    )
+
+    assert designation["category"] == "Archive Identity"

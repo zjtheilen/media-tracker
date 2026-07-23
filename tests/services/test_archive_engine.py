@@ -40,7 +40,7 @@ def test_build_archive_profile():
 
     assert result["primaryDesignation"]["id"] == "deep_diver"
 
-    assert result["findings"][0]["id"] == "concept-driven"
+    assert any(finding["id"] == "concept-driven" for finding in result["findings"])
 
 
 def test_archive_profile_shape():
