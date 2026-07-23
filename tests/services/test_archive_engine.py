@@ -92,3 +92,27 @@ def test_archive_profile_shape():
     }
 
     assert required_keys.issubset(result.keys())
+
+
+def test_archive_profile_contains_observation_summary():
+
+    entries = [
+        {
+            "title": "Silent Hill 2",
+            "media_type": "game",
+            "genres": ["horror"],
+            "total_score": 92,
+            "universal_scores": {
+                "depth": 10,
+                "originality": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+                "gameplay_mechanics": 9,
+            },
+        }
+    ]
+
+    result = build_archive_profile(entries)
+
+    assert result["observationSummary"] is not None
