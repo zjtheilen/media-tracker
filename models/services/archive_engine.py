@@ -15,6 +15,8 @@ from .archive_profile import (
 
 from .designation_engine import evaluate_designations
 from .finding_engine import evaluate_findings
+from .observation_engine import evaluate_observations
+
 from .archive_interpretation import (
     generate_primary_trait_sentence,
     generate_secondary_trait_sentence,
@@ -116,6 +118,7 @@ def build_archive_profile(entries):
     archive_profile["primaryDesignation"] = archive_profile["designations"][0]
 
     archive_profile["findings"] = evaluate_findings(archive_profile)
+    archive_profile["observations"] = evaluate_observations(archive_profile)
 
     primary_trait, primary_score = archive_profile["topUniversal"][0]
     secondary_trait, secondary_score = archive_profile["topUniversal"][1]

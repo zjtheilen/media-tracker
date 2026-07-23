@@ -42,6 +42,11 @@ def test_build_archive_profile():
 
     assert any(finding["id"] == "concept-driven" for finding in result["findings"])
 
+    assert any(
+        observation["id"] == "interpretive-depth"
+        for observation in result["observations"]
+    )
+
 
 def test_archive_profile_shape():
 
