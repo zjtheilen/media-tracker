@@ -108,10 +108,14 @@ def generate_designation_finding(profile):
         "category": "Archive Identity",
         "title": "Archive Designation",
         "description": (
-            f"Your archive most closely aligns with "
-            f"{designation['title']}. "
-            f"This reflects preferences for "
-            f"{', '.join(designation.get('recommendationBias', []))}."
+            f"Your archive most closely aligns with {designation['title']}."
         ),
-        "evidence": (f"Designation score {designation.get('score', 0):.1f} / 100"),
+        "evidence": {
+            "traits": designation.get("traits", []),
+            "genres": designation.get("genres", []),
+            "recommendation_bias": designation.get(
+                "recommendation_bias",
+                [],
+            ),
+        },
     }

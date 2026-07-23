@@ -55,3 +55,7 @@ def test_designation_finding_exists():
     )
 
     assert designation["category"] == "Archive Identity"
+    assert "evidence" in designation
+    assert "traits" in designation["evidence"]
+    assert "genres" in designation["evidence"]
+    assert "recommendation_bias" in designation["evidence"]
