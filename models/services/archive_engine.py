@@ -20,9 +20,9 @@ from .observation_engine import evaluate_observations
 from .archive_interpretation import (
     generate_primary_trait_sentence,
     generate_secondary_trait_sentence,
-    generate_media_signature_sentence,
     generate_archive_summary,
     generate_genre_signature_sentence,
+    generate_observation_summary
 )
 
 from .archive_narrative import (
@@ -55,6 +55,7 @@ def build_archive_profile(entries):
             "designations": [],
             "primaryDesignation": None,
             "observations": [],
+            "observationSummary": None,
             "findings": [],
             "archiveSummary": "The archive does not contain enough data for interpretation.",
             "primaryTrait": None,
@@ -119,6 +120,10 @@ def build_archive_profile(entries):
     archive_profile["primaryDesignation"] = archive_profile["designations"][0]
 
     archive_profile["observations"] = evaluate_observations(archive_profile)
+    archive_profile["observationSummary"] = generate_observation_summary(
+        archive_profile["observations"]
+    )
+
     archive_profile["findings"] = evaluate_findings(archive_profile)
 
     primary_trait, primary_score = archive_profile["topUniversal"][0]

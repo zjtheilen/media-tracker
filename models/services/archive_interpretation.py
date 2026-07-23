@@ -73,3 +73,20 @@ def generate_genre_signature_sentence(genre_distribution):
         genres = ", ".join(meaningful_genres[:-1]) + f", and {meaningful_genres[-1]}"
 
     return f"Your archive demonstrates recurring interest in {genres} experiences."
+
+
+def generate_observation_summary(observations):
+
+    if not observations:
+        return None
+
+    titles = [observation["title"] for observation in observations[:3]]
+
+    if len(titles) == 1:
+        return f"Observed archive patterns include {titles[0]}."
+
+    return (
+        "Observed archive patterns include "
+        + ", ".join(titles[:-1])
+        + f", and {titles[-1]}."
+    )
