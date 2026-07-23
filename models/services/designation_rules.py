@@ -77,22 +77,76 @@ DESIGNATION_RULES = [
     {
         "id": "boundary_explorer",
         "title": "The Boundary Explorer",
-        "description": "Drawn toward unfamiliar ideas, altered realities, speculative systems, and experiences that push against conventional boundaries.",
+        "description": (
+            "Drawn toward unfamiliar ideas, altered realities, "
+            "speculative systems, and experiences that push against "
+            "conventional boundaries."
+        ),
         "evaluate": evaluate_boundary_explorer,
         "icon": "◈",
+        "traits": [
+            "originality",
+            "depth",
+        ],
+        "genres": [
+            "experimental",
+            "surreal",
+            "sci-fi",
+            "horror",
+        ],
+        "recommendation_bias": [
+            "unusual concepts",
+            "genre hybrids",
+            "experimental storytelling",
+        ],
     },
     {
         "id": "engagement_architect",
         "title": "The Engagement Architect",
-        "description": "Consistently values works that maintain momentum through strong execution, pacing, and carefully designed systems.",
+        "description": (
+            "Consistently values works that maintain momentum "
+            "through strong execution, pacing, and carefully designed systems."
+        ),
         "evaluate": evaluate_engagement_architect,
         "icon": "◈",
+        "traits": [
+            "engagement",
+            "craft",
+        ],
+        "genres": [
+            "action",
+            "adventure",
+            "thriller",
+        ],
+        "recommendation_bias": [
+            "strong pacing",
+            "polished execution",
+            "mechanically satisfying experiences",
+        ],
     },
     {
         "id": "deep_diver",
         "title": "The Deep Diver",
-        "description": "Prefers experiences that reward sustained attention, layered interpretation, and repeated exploration.",
+        "description": (
+            "Prefers experiences that reward sustained attention, "
+            "layered interpretation, and repeated exploration."
+        ),
         "evaluate": evaluate_deep_diver,
         "icon": "◈",
+        "traits": [
+            "depth",
+            "emotional_impact",
+        ],
+        "genres": [
+            "psychological",
+            "mystery",
+            "drama",
+            "horror",
+        ],
+        "recommendation_bias": [
+            "layered narratives",
+            "ambiguous endings",
+            "re-watchable experiences",
+        ],
     },
 ]
