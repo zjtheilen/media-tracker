@@ -85,3 +85,20 @@ def test_observations_sorted_by_confidence():
     results = evaluate_observations(profile)
 
     assert results[0]["confidence"] >= results[-1]["confidence"]
+
+
+def test_observation_contains_generated_content():
+
+    profile = {
+        "universalAverages": {
+            "depth": 9,
+        }
+    }
+
+    results = evaluate_observations(profile)
+
+    observation = results[0]
+
+    assert "title" in observation
+    assert "description" in observation
+    assert "evidence" in observation
