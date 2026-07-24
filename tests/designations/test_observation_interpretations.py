@@ -1,15 +1,12 @@
 from models.services.archive_interpretation import (
     generate_observation_summary,
 )
+from tests.designations.test_designations import load_fixture
 
 
 def test_observation_summary_single():
 
-    observations = [
-        {
-            "title": "Boundary Preference"
-        }
-    ]
+    observations = [{"title": "Boundary Preference"}]
 
     result = generate_observation_summary(observations)
 
@@ -19,12 +16,8 @@ def test_observation_summary_single():
 def test_observation_summary_multiple():
 
     observations = [
-        {
-            "title": "Boundary Preference"
-        },
-        {
-            "title": "Interpretive Depth"
-        },
+        {"title": "Boundary Preference"},
+        {"title": "Interpretive Depth"},
     ]
 
     result = generate_observation_summary(observations)

@@ -102,3 +102,61 @@ def test_observation_contains_generated_content():
     assert "title" in observation
     assert "description" in observation
     assert "evidence" in observation
+
+
+def test_atmospheric_focus_observation():
+
+    profile = {
+        "mediaAverages": {
+            "art_atmosphere": 9,
+        },
+        "genreDistribution": {},
+    }
+
+    results = evaluate_observations(profile)
+
+    assert any(observation["id"] == "atmospheric-focus" for observation in results)
+
+
+def test_emotional_resonance_observation():
+
+    profile = {
+        "universalAverages": {
+            "emotional_impact": 9,
+        },
+    }
+
+    results = evaluate_observations(profile)
+
+    assert any(observation["id"] == "emotional-resonance" for observation in results)
+
+
+def test_craft_appreciation_observation():
+
+    profile = {
+        "universalAverages": {
+            "craft": 9,
+        },
+    }
+
+    results = evaluate_observations(profile)
+
+    assert any(observation["id"] == "craft-appreciation" for observation in results)
+
+
+def test_atmospheric_focus_contains_metadata():
+
+    profile = {
+        "mediaAverages": {
+            "art_atmosphere": 9,
+        },
+        "genreDistribution": {},
+    }
+
+    results = evaluate_observations(profile)
+
+    observation = next(o for o in results if o["id"] == "atmospheric-focus")
+
+    assert observation["traits"] == ["art_atmosphere"]
+    assert "surreal" in observation["genres"]
+    assert "boundary_explorer" in observation["relatedDesignations"]

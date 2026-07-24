@@ -1,4 +1,5 @@
 from models.services.archive_engine import build_archive_profile
+from tests.designations.test_designations import load_fixture
 
 
 def test_build_archive_profile():
@@ -123,3 +124,29 @@ def test_archive_profile_contains_observation_summary():
     assert "genres" in result["observations"][0]
     assert "relatedDesignations" in result["observations"][0]
     assert "confidence" in result["observations"][0]
+
+
+def test_observation_summary_exists():
+
+    entries = [
+        {
+            "title": "Test Archive Entry",
+            "media_type": "movie",
+            "genres": [
+                "experimental",
+                "surreal",
+            ],
+            "total_score": 95,
+            "universal_scores": {
+                "originality": 10,
+                "depth": 10,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+    ]
+
+    result = build_archive_profile(entries)
+
+    assert result["observations"]

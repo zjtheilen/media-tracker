@@ -114,4 +114,100 @@ OBSERVATION_RULES = [
             ),
         },
     },
+    {
+        "id": "atmospheric-focus",
+        "confidence": lambda profile: score_confidence(
+            profile.get("mediaAverages", {}).get("art_atmosphere", 0),
+            8.5,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "art_atmosphere",
+        ],
+        "genres": [
+            "surreal",
+            "horror",
+        ],
+        "related_designations": [
+            "boundary_explorer",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("mediaAverages", {}).get("art_atmosphere", 0) >= 8.5
+            or profile.get("genreDistribution", {})
+            .get("surreal", {})
+            .get("percentage", 0)
+            >= 20
+        ),
+        "generate": lambda profile: {
+            "title": "Atmospheric Focus",
+            "description": (
+                "Your archive consistently rewards atmosphere, visual identity, "
+                "and immersive mood alongside traditional storytelling."
+            ),
+            "evidence": (
+                f"Art & Atmosphere "
+                f"{profile.get('mediaAverages', {}).get('art_atmosphere', 0):.1f} / 10"
+            ),
+        },
+    },
+    {
+        "id": "emotional-resonance",
+        "confidence": lambda profile: score_confidence(
+            profile.get("universalAverages", {}).get("emotional_impact", 0),
+            8.5,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "emotional_impact",
+        ],
+        "genres": [
+            "drama",
+            "psychological",
+        ],
+        "related_designations": [
+            "deep_diver",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("universalAverages", {}).get("emotional_impact", 0) >= 8.5
+        ),
+        "generate": lambda profile: {
+            "title": "Emotional Resonance",
+            "description": (
+                "Your archive consistently favors experiences that leave a lasting "
+                "emotional impression."
+            ),
+            "evidence": (
+                f"Emotional Impact "
+                f"{profile.get('universalAverages', {}).get('emotional_impact', 0):.1f} / 10"
+            ),
+        },
+    },
+    {
+        "id": "craft-appreciation",
+        "confidence": lambda profile: score_confidence(
+            profile.get("universalAverages", {}).get("craft", 0),
+            8.5,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "craft",
+        ],
+        "genres": [],
+        "related_designations": [
+            "engagement_architect",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("universalAverages", {}).get("craft", 0) >= 8.5
+        ),
+        "generate": lambda profile: {
+            "title": "Craft Appreciation",
+            "description": (
+                "Your archive consistently rewards works that demonstrate strong "
+                "execution and technical craftsmanship."
+            ),
+            "evidence": (
+                f"Craft {profile.get('universalAverages', {}).get('craft', 0):.1f} / 10"
+            ),
+        },
+    },
 ]

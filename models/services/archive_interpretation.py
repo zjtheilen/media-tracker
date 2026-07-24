@@ -80,13 +80,9 @@ def generate_observation_summary(observations):
     if not observations:
         return None
 
-    titles = [observation["title"] for observation in observations[:3]]
+    titles = [observation["title"] for observation in observations]
 
     if len(titles) == 1:
-        return f"Observed archive patterns include {titles[0]}."
+        return f"Your archive shows a recurring pattern of {titles[0]}."
 
-    return (
-        "Observed archive patterns include "
-        + ", ".join(titles[:-1])
-        + f", and {titles[-1]}."
-    )
+    return "Your archive shows several recurring patterns: " + ", ".join(titles) + "."
