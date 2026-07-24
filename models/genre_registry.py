@@ -14,8 +14,15 @@ CORE_GENRES = [
     "documentary",
     "experimental",
     "whimsical",
+    "historical",
+    "crime",
+    "satire",
+    "political",
+    "philosophical",
+    "coming-of-age",
+    "family",
+    "supernatural",
 ]
-
 
 GAME_GENRES = [
     "rpg",
@@ -25,19 +32,53 @@ GAME_GENRES = [
     "simulation",
     "sandbox",
     "roguelike",
+    "roguelite",
     "racing",
+    "block-breaker",
+    "fighting",
+    "shooter",
+    "tactics",
+    "rts",
+    "visual-novel",
+    "dating-sim",
+    "rhythm",
+    "metroidvania",
+    "survival-horror",
+    "stealth",
+    "card-game",
+    "board-game",
+    "microgame",
 ]
 
 BOOK_GENRES = [
-    "literary fiction",
+    "literary-fiction",
     "memoir",
     "biography",
     "litrpg",
     "non-fiction",
+    "comic",
+    "graphic-novel",
+    "manga",
+    "young-adult",
+    "novella",
+    "classic",
+    "poetry",
 ]
 
 VIDEO_GENRES = [
     "biopic",
+    "mockumentary",
+    "parody",
+    "b-movie",
+    "found-footage",
+    "anthology",
+    "short-film",
+    "animation",
+    "anime",
+    "stop-motion",
+    "musical",
+    "live-action",
+    "documentary",
 ]
 
 GENRE_REGISTRY = {

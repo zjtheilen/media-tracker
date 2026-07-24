@@ -8,6 +8,10 @@ async function refreshApp() {
     await renderGenreAverageRatingsChart();
     await renderArchiveProfileCard();
 
+    await new Promise(resolve =>
+        requestAnimationFrame(resolve)
+    );
+
     await renderCoreEvaluationRadar();
     await renderMediaBarCharts();
 

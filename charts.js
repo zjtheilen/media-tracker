@@ -586,17 +586,34 @@ async function renderGenreAverageRatingsChart() {
 
 }
 
-async function renderCoreEvaluationRadar() {
+async function renderCoreEvaluationRadar(archiveProfile) {
+
+    console.log("Rendering radar...");
+
+    const canvas = document.getElementById(
+        "universal-profile-radar"
+    );
+
+    console.log("Radar canvas:", canvas);
+
+    if (!canvas) {
+        console.error("Radar canvas not found");
+        return;
+    }
 
     const entries = await getEntries();
 
+    console.log("Entries:", entries);
+
     const averages = calculateUniversalAverages(entries);
+
+    console.log("Universal averages:", averages);
 
     const radarData = prepareRadarData(averages);
 
-    const ctx = document
-        .getElementById("universal-profile-radar")
-        .getContext("2d");
+    console.log("Radar data:", radarData);
+
+    const ctx = canvas.getContext("2d");
 
     destroyChart("universal-profile-radar");
 
@@ -700,15 +717,22 @@ function calculateUniversalAverages(entries) {
 }
 
 function prepareRadarData(averages) {
-    const labels = Object.keys(averages).map(category =>
-        formatScoreCategory(category)
-    );
 
-    const values = Object.values(averages);
+    const categories = [
+        "emotional_impact",
+        "depth",
+        "craft",
+        "engagement",
+        "presentation",
+        "originality",
+    ];
 
     return {
-        labels,
-        values
+        labels: categories.map(formatScoreCategory),
+
+        values: categories.map(
+            category => averages[category] ?? 0
+        ),
     };
 }
 
@@ -719,6 +743,9 @@ async function renderArchiveProfileCard() {
 
     const archiveFindings =
         archiveProfile.findings || [];
+
+    const archiveObservations =
+        archiveProfile.observations || [];
 
     const archiveSummary =
         archiveProfile.archiveSummary || "";
@@ -765,6 +792,28 @@ async function renderArchiveProfileCard() {
     const card = document.getElementById(
         "favorite-media-type-card"
     );
+
+    const observationsHtml = archiveObservations
+        .map(
+            observation => `
+            <div class="archive-observation">
+
+                <div class="category-label">
+                    ${observation.category}
+                </div>
+
+                <h5>${observation.title}</h5>
+
+                <p>${observation.description}</p>
+
+                <div class="finding-evidence">
+                    ${observation.evidence}
+                </div>
+
+            </div>
+        `
+        )
+        .join("");
 
     card.innerHTML = `
         <div class="archive-profile-card">
@@ -866,6 +915,16 @@ async function renderArchiveProfileCard() {
 
                     </div>
 
+                    <div class="profile-section">
+
+                        <h3>Archive Observations</h3>
+
+                        <div class="archive-observations">
+                            ${observationsHtml}
+                        </div>
+
+                    </div>
+
 
                     <div class="profile-section">
 
@@ -925,6 +984,8 @@ async function renderArchiveProfileCard() {
 
         </div>
     `;
+
+    return archiveProfile;
 }
 
 function formatChartLabel(category) {
@@ -951,6 +1012,8 @@ function renderUniversalScoreChart(entry, canvas) {
 
     chartInstances[`universal-${entry.id}`] =
         new Chart(canvas, {
+
+            type: "radar",
 
             data: {
                 labels,
@@ -982,7 +1045,34 @@ function renderUniversalScoreChart(entry, canvas) {
                 },
 
                 responsive: true,
-                maintainAspectRation: false,
+
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 10,
+
+                        ticks: {
+                            stepSize: 2,
+                            color: ARCHIVE_COLORS.muted,
+                            backdropColor: "transparent"
+                        },
+
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        },
+
+                        angleLines: {
+                            color: ARCHIVE_COLORS.grid
+                        },
+
+                        pointLabels: {
+                            color: ARCHIVE_COLORS.text,
+                            font: {
+                                family: "monospace"
+                            }
+                        }
+                    }
+                }
             }
         });
 }
@@ -1120,6 +1210,9 @@ function renderMediaBarChart(
         .map(formatScoreCategory);
 
     const values = Object.values(scores);
+
+    console.log(labels);
+    console.log(values);
 
 
     destroyChart(canvasId);
