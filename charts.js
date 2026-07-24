@@ -723,6 +723,9 @@ async function renderArchiveProfileCard() {
     const archiveSummary =
         archiveProfile.archiveSummary || "";
 
+    const observationSummary =
+        archiveProfile.observationSummary || "";
+
     const confidenceLabel =
         getDesignationConfidenceLabel(
             archiveProfile.designationConfidence
@@ -849,6 +852,10 @@ async function renderArchiveProfileCard() {
 
                         <p class="archive-summary">
                             ${secondaryTraitSentence}
+                        </p>
+
+                        <p class="archive-summary">
+                            ${observationSummary}
                         </p>
 
                         <p class="archive-summary">
