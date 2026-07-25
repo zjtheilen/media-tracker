@@ -82,7 +82,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
     );
 }
 
-function renderGenreSelector(mediaType) {
+function renderEntryGenreSelector(mediaType) {
     const container = document.getElementById("genre-selector");
 
     container.innerHTML = "";
@@ -126,7 +126,7 @@ function toggleGenre(genre) {
     }
     clearMessage();
 
-    renderGenreSelector(mediaTypeSelect.value);
+    renderGenreFormSelector(mediaTypeSelect.value);
 }
 
 function formatScoreCategory(category) {
@@ -156,7 +156,7 @@ async function startEdit(id) {
 
     selectedGenres = [...entry.genres];
 
-    renderGenreSelector(entry.media_type);
+    renderGenreFormSelector(entry.media_type);
 
     refreshIcons();
 }
@@ -167,13 +167,54 @@ function resetFormState() {
     form.reset();
 
     selectedGenres = [];
-    renderGenreSelector(mediaTypeSelect.value);
+    renderGenreFormSelector(mediaTypeSelect.value);
     renderScoreInputs(mediaTypeSelect.value, {});
 
     clearMessage();
 
     updateSubmitButton();
     submitBtn.disabled = false;
+}
+
+function renderGenreFormSelector(mediaType) {
+
+    const container =
+        document.getElementById("genre-selector");
+
+    container.innerHTML = "";
+
+    const coreGenres =
+        genreRegistry.core || [];
+
+    const mediaGenres =
+        genreRegistry[mediaType] || [];
+
+    const allGenres =
+        [...new Set([...coreGenres, ...mediaGenres])];
+
+    allGenres.forEach((genre) => {
+
+        const chip =
+            document.createElement("button");
+
+        chip.type = "button";
+
+        chip.className =
+            "genre-select-chip";
+
+        chip.textContent = genre;
+
+        if (selectedGenres.includes(genre)) {
+            chip.classList.add("selected");
+        }
+
+        chip.addEventListener("click", () => {
+            toggleGenre(genre);
+        });
+
+        container.appendChild(chip);
+
+    });
 }
 
 function updateSubmitButton() {

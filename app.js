@@ -31,7 +31,7 @@ mediaTypeSelect.addEventListener("change", () => {
     selectedGenres = [];
 
     renderScoreInputs(mediaTypeSelect.value, {});
-    renderGenreSelector(mediaTypeSelect.value);
+    renderGenreFormSelector(mediaTypeSelect.value);
 });
 
 const modal = document.getElementById("entryModal");
@@ -101,7 +101,7 @@ async function initializeApp() {
 
     initializeFilters();
 
-    renderGenreSelector(mediaTypeSelect.value);
+    renderGenreFormSelector(mediaTypeSelect.value);
     renderScoreInputs(mediaTypeSelect.value);
 
     await refreshApp();

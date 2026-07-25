@@ -1,33 +1,99 @@
 function renderGenreFilters() {
-    const container = document.getElementById("genre-filters");
+    const container =
+        document.getElementById("genre-filters");
+
+    renderGenreFilterSelector({
+        container,
+        genreRegistry,
+        selectedGenre:
+            activeGenreFilter,
+
+        onSelect:
+            (genre) => {
+                toggleGenreFilter(genre);
+            }
+
+    });
+
+}
+
+function renderGenreFilterSelector({
+    container,
+    genreRegistry,
+    selectedGenre = null,
+    onSelect,
+}) {
     container.innerHTML = "";
 
-    const core = genreRegistry.core || [];
-    const media = Object.values(genreRegistry).flat();
 
-    const allGenres = [...new Set([...core, ...media])];
+    const genreGroups = {
+        Core: genreRegistry.core || [],
+        Games: genreRegistry.games || [],
+        Books: genreRegistry.books || [],
+        Video: genreRegistry.video || [],
+    };
 
-    allGenres.forEach((genre) => {
-        const normalized = genre.toLowerCase();
+    Object.entries(genreGroups)
+        .forEach(([name, genres]) => {
 
-        const btn = document.createElement("button");
-        btn.textContent = genre;
-        btn.className = "genre-filter-chip";
+            const section =
+                document.createElement("div");
 
-        if (activeGenreFilter === normalized) {
-            btn.classList.add("active");
-        }
+            section.className =
+                "genre-filter-section";
 
-        btn.addEventListener("click", () => {
-            toggleGenreFilter(normalized);
+
+            section.innerHTML = `
+                <h4>${name}</h4>
+
+                <div class="genre-filter-group"></div>
+            `;
+
+
+            const chipContainer =
+                section.querySelector(
+                    ".genre-filter-group"
+                );
+
+
+            genres.forEach((genre) => {
+
+                const normalized =
+                    genre.toLowerCase();
+
+
+                const btn =
+                    document.createElement("button");
+
+                btn.textContent =
+                    genre;
+
+                btn.className =
+                    "genre-filter-chip";
+
+                if (
+                    selectedGenre === normalized
+                ) {
+                    btn.classList.add("active");
+                }
+
+                btn.addEventListener(
+                    "click",
+                    () => {
+                        onSelect(normalized);
+                    }
+                );
+
+
+                chipContainer.appendChild(btn);
+            });
+
+            container.appendChild(section);
         });
-
-        container.appendChild(btn);
-    });
-    
 }
 
 function toggleGenreFilter(genre) {
+
     const normalized = genre.toLowerCase();
 
     if (activeGenreFilter === normalized) {
@@ -35,8 +101,21 @@ function toggleGenreFilter(genre) {
     } else {
         activeGenreFilter = normalized;
     }
+    Object.entries(genreRegistry)
+        .forEach(([group, genres]) => {
+
+            if (
+                genres.includes(normalized)
+            ) {
+                expandedGenreGroups[
+                    group.charAt(0).toUpperCase() + group.slice(1)
+                ] = true;
+            }
+
+        });
 
     renderGenreFilters();
+    renderActiveFilters();
     loadEntries();
 }
 
@@ -55,7 +134,7 @@ function renderActiveFilters() {
 
     if (hasSearch) {
         const searchTag = document.createElement("span");
-        searchTag.textContent = `Search Archive: "${searchQuery}"`;searchTag.textContent = `Search: "${searchQuery}"`;
+        searchTag.textContent = `Search Archive: "${searchQuery}"`; searchTag.textContent = `Search: "${searchQuery}"`;
         searchTag.className = "filter-tag";
         wrapper.appendChild(searchTag);
     }

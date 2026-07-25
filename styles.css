@@ -605,6 +605,50 @@ button:focus-visible {
 
 /* Genres & Filters */
 
+.genre-filter-section {
+    margin-bottom: 12px;
+}
+
+
+.genre-filter-header {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: transparent;
+    border: none;
+
+    color: var(--archive-text);
+
+    font-family: monospace;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    padding: 8px 0;
+}
+
+
+.genre-filter-header:hover {
+    opacity: .8;
+}
+
+
+.genre-filter-toggle {
+    font-size: 0.8rem;
+}
+
+
+.genre-filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    padding-top: 6px;
+}
+
 .genre-chip-container {
     display: flex;
     flex-wrap: wrap;

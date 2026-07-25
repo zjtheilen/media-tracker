@@ -8,6 +8,13 @@ let scoringProfiles = {
     media: {}
 };
 
+let expandedGenreGroups = {
+    Core: true,
+    Games: false,
+    Books: false,
+    Video: false,
+};
+
 let genreRegistry = {};
 
 let editingEntryId = null;
