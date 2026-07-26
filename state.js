@@ -9,7 +9,7 @@ let scoringProfiles = {
 };
 
 let expandedGenreGroups = {
-    Core: true,
+    Core: false,
     Games: false,
     Books: false,
     Video: false,

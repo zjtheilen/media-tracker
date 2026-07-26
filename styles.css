@@ -606,47 +606,57 @@ button:focus-visible {
 /* Genres & Filters */
 
 .genre-filter-section {
-    margin-bottom: 12px;
+    width: 100%;
 }
 
-
-.genre-filter-header {
-    width: 100%;
-
+.genre-group-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 
-    background: transparent;
-    border: none;
+    cursor: pointer;
+    user-select: none;
+
+    padding: 8px 12px;
+
+    background: var(--tag-bg);
+
+    border: 1px solid var(--border);
+    border-radius: 4px;
 
     color: var(--archive-text);
 
-    font-family: monospace;
+    font-family: var(--font-mono);
     text-transform: uppercase;
 
-    cursor: pointer;
+    letter-spacing: 0.08em;
 
-    padding: 8px 0;
+    font-size: 0.8rem;
+
+    transition: all 0.15s ease;
 }
 
-
-.genre-filter-header:hover {
-    opacity: .8;
+.genre-group-header:hover {
+    border-color: var(--accent);
 }
-
 
 .genre-filter-toggle {
     font-size: 0.8rem;
 }
 
-
 .genre-filter-group {
+    display: none;
+}
+
+.genre-filter-group.expanded {
     display: flex;
     flex-wrap: wrap;
+
     gap: 6px;
 
-    padding-top: 6px;
+    padding: 10px 12px 6px 24px;
+
+    border-left: 1px solid var(--border);
 }
 
 .genre-chip-container {
@@ -693,22 +703,26 @@ button:focus-visible {
 }
 
 .genre-filter-chip {
-    background: var(--tag-bg);
-    color: var(--text);
+
+    background: transparent;
+
+    color: var(--accent);
 
     border: 1px solid var(--border);
 
-    border-radius: 4px;
+    border-radius: 3px;
 
-    padding: 6px 12px;
+    padding: 5px 10px;
 
     font-family: var(--font-mono);
 
     text-transform: uppercase;
 
-    letter-spacing: 0.05em;
+    letter-spacing: .06em;
 
-    font-size: 0.75rem;
+    font-size: .7rem;
+
+    cursor: pointer;
 }
 
 .genre-filter-chip:hover {
@@ -716,7 +730,9 @@ button:focus-visible {
 }
 
 .genre-filter-chip.active {
+
     background: var(--highlight);
+
     color: white;
 
     border-color: var(--highlight);
@@ -734,7 +750,8 @@ button:focus-visible {
 
 #genre-filters {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
     gap: var(--spacing-sm);
     margin: var(--spacing-sm) 0;
 }
@@ -864,7 +881,7 @@ button:focus-visible {
 
     letter-spacing: 0.08em;
 
-    font-size: 0.75rem
+    font-size: 0.75rem;
 }
 
 .genre-select-chip:hover {
@@ -1054,7 +1071,7 @@ dialog::backdrop {
 
     border-color: var(--accent);
 
-    box-shadow: 0 0 22px rgba(127,174,135,0.18);
+    box-shadow: 0 0 22px rgba(127, 174, 135, 0.18);
 }
 
 .dashboard-card canvas,
@@ -1073,7 +1090,6 @@ dialog::backdrop {
 }
 
 .profile-section {
-
     border-bottom: 1px solid var(--border);
 }
 
@@ -1137,7 +1153,6 @@ dialog::backdrop {
 
     opacity: 0.8;
 }
-
 
 .dashboard-card h2,
 .report-header h2,

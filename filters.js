@@ -25,13 +25,13 @@ function renderGenreFilterSelector({
 }) {
     container.innerHTML = "";
 
-
     const genreGroups = {
         Core: genreRegistry.core || [],
-        Games: genreRegistry.games || [],
-        Books: genreRegistry.books || [],
+        Games: genreRegistry.game || [],
+        Books: genreRegistry.book || [],
         Video: genreRegistry.video || [],
     };
+
 
     Object.entries(genreGroups)
         .forEach(([name, genres]) => {
@@ -43,9 +43,15 @@ function renderGenreFilterSelector({
                 "genre-filter-section";
 
 
-            section.innerHTML = `
-                <h4>${name}</h4>
+            const isExpanded =
+                expandedGenreGroups[name];
 
+
+            section.innerHTML = `
+                <div class="genre-group-header">
+                    ${isExpanded ? "▼" : "▶"} ${name} (${genres.length})
+                </div>
+            
                 <div class="genre-filter-group"></div>
             `;
 
@@ -56,39 +62,73 @@ function renderGenreFilterSelector({
                 );
 
 
-            genres.forEach((genre) => {
+            if (isExpanded) {
 
-                const normalized =
-                    genre.toLowerCase();
+                chipContainer.classList.add("expanded");
+
+                genres.forEach((genre) => {
+
+                    const normalized =
+                        genre.toLowerCase();
 
 
-                const btn =
-                    document.createElement("button");
+                    const btn =
+                        document.createElement("button");
 
-                btn.textContent =
-                    genre;
 
-                btn.className =
-                    "genre-filter-chip";
+                    btn.textContent =
+                        genre;
 
-                if (
-                    selectedGenre === normalized
-                ) {
-                    btn.classList.add("active");
-                }
 
-                btn.addEventListener(
-                    "click",
-                    () => {
-                        onSelect(normalized);
+                    btn.className =
+                        "genre-filter-chip";
+
+
+                    if (
+                        selectedGenre === normalized
+                    ) {
+                        btn.classList.add("active");
                     }
+
+
+                    btn.addEventListener(
+                        "click",
+                        () => {
+                            onSelect(normalized);
+                        }
+                    );
+
+
+                    chipContainer.appendChild(btn);
+
+                });
+
+            } else {
+                chipContainer.classList.remove("expanded");
+            }
+
+
+            const header =
+                section.querySelector(
+                    ".genre-group-header"
                 );
 
 
-                chipContainer.appendChild(btn);
-            });
+            header.addEventListener(
+                "click",
+                () => {
+
+                    expandedGenreGroups[name] =
+                        !expandedGenreGroups[name];
+
+                    renderGenreFilters();
+
+                }
+            );
+
 
             container.appendChild(section);
+
         });
 }
 
@@ -182,5 +222,14 @@ function initializeFilters() {
         });
 
     renderActiveFilters();
+
+}
+
+function toggleGenreGroup(group) {
+
+    expandedGenreGroups[group] =
+        !expandedGenreGroups[group];
+
+    renderGenreFilters();
 
 }
