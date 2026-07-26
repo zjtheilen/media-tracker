@@ -25,3 +25,4 @@ let cachedEntries = []
 let activeGenreFilter = null;
 let activeSort = "date_desc";
 let searchQuery = "";
+let genreSearchQuery = "";

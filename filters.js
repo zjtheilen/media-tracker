@@ -1,20 +1,67 @@
 function renderGenreFilters() {
+
     const container =
         document.getElementById("genre-filters");
+
+    container.innerHTML = `
+
+        <input
+            id="genre-search-input"
+            class="genre-search-input"
+            placeholder="Search genres..."
+        >
+
+        <div id="genre-filter-results"></div>
+
+    `;
+
+
+    const search =
+        document.getElementById(
+            "genre-search-input"
+        );
+
+
+    search.addEventListener(
+        "input",
+        (event) => {
+
+            genreSearchQuery =
+                event.target.value
+                    .toLowerCase()
+                    .trim();
+
+            renderGenreFilterResults();
+
+        }
+    );
+
+
+    renderGenreFilterResults();
+
+}
+
+function renderGenreFilterResults() {
+
+    const container =
+        document.getElementById(
+            "genre-filter-results"
+        );
+
+    container.innerHTML = "";
 
     renderGenreFilterSelector({
         container,
         genreRegistry,
         selectedGenre:
             activeGenreFilter,
-
+        searchQuery:
+            genreSearchQuery,
         onSelect:
             (genre) => {
                 toggleGenreFilter(genre);
             }
-
     });
-
 }
 
 function renderGenreFilterSelector({
@@ -22,8 +69,8 @@ function renderGenreFilterSelector({
     genreRegistry,
     selectedGenre = null,
     onSelect,
+    searchQuery = "",
 }) {
-    container.innerHTML = "";
 
     const genreGroups = {
         Core: genreRegistry.core || [],
@@ -36,6 +83,21 @@ function renderGenreFilterSelector({
     Object.entries(genreGroups)
         .forEach(([name, genres]) => {
 
+            const filteredGenres =
+                genres.filter((genre) =>
+                    genre
+                        .toLowerCase()
+                        .includes(searchQuery)
+                );
+
+
+            if (
+                searchQuery &&
+                filteredGenres.length === 0
+            ) {
+                return;
+            }
+
             const section =
                 document.createElement("div");
 
@@ -43,13 +105,19 @@ function renderGenreFilterSelector({
                 "genre-filter-section";
 
 
+            const isSearching =
+                searchQuery.length > 0;
+
+
             const isExpanded =
-                expandedGenreGroups[name];
+                isSearching
+                    ? filteredGenres.length > 0
+                    : expandedGenreGroups[name];
 
 
             section.innerHTML = `
                 <div class="genre-group-header">
-                    ${isExpanded ? "▼" : "▶"} ${name} (${genres.length})
+                    ${isExpanded ? "▼" : "▶"} ${name} (${searchQuery ? filteredGenres.length : genres.length})
                 </div>
             
                 <div class="genre-filter-group"></div>
@@ -66,7 +134,7 @@ function renderGenreFilterSelector({
 
                 chipContainer.classList.add("expanded");
 
-                genres.forEach((genre) => {
+                filteredGenres.forEach((genre) => {
 
                     const normalized =
                         genre.toLowerCase();
