@@ -13,12 +13,25 @@ async function loadEntries() {
 
     let workingEntries = [...cachedEntries];
 
-    if (activeGenreFilter) {
-        workingEntries = workingEntries.filter(
-            (entry) =>
-                Array.isArray(entry.genres) &&
-                entry.genres.some((g) => g === activeGenreFilter),
-        );
+    if (activeGenreFilters.length > 0) {
+
+        workingEntries =
+            workingEntries.filter(
+                (entry) => {
+
+                    if (!Array.isArray(entry.genres)) {
+                        return false;
+                    }
+
+
+                    return activeGenreFilters.every(
+                        (selectedGenre) =>
+                            entry.genres.includes(selectedGenre)
+                    );
+
+                }
+            );
+
     }
 
     if (searchQuery.trim() !== "") {

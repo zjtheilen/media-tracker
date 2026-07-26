@@ -703,7 +703,6 @@ button:focus-visible {
 }
 
 .genre-filter-chip {
-
     background: transparent;
 
     color: var(--accent);
@@ -718,9 +717,9 @@ button:focus-visible {
 
     text-transform: uppercase;
 
-    letter-spacing: .06em;
+    letter-spacing: 0.06em;
 
-    font-size: .7rem;
+    font-size: 0.7rem;
 
     cursor: pointer;
 }
@@ -730,7 +729,6 @@ button:focus-visible {
 }
 
 .genre-filter-chip.active {
-
     background: var(--highlight);
 
     color: white;
@@ -754,6 +752,68 @@ button:focus-visible {
     flex-direction: column;
     gap: var(--spacing-sm);
     margin: var(--spacing-sm) 0;
+}
+
+.genre-search-input {
+    width: 100%;
+    box-sizing: border-box;
+
+    background: var(--tag-bg);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 4px;
+
+    padding: 8px 12px;
+
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.genre-search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 8px rgba(127, 174, 135, 0.2);
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+.search-input-wrapper input {
+    width: 100%;
+    padding-right: 32px;
+}
+
+
+.search-clear-btn {
+    position: absolute;
+
+    right: 8px;
+
+    background: transparent;
+    border: none;
+
+    color: var(--archive-text);
+
+    font-family: var(--font-mono);
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    opacity: .6;
+}
+
+
+.search-clear-btn:hover {
+    opacity: 1;
 }
 
 .empty-state {

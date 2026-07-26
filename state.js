@@ -22,7 +22,7 @@ let expandedEntryId = null;
 let selectedGenres = [];
 let cachedEntries = []
 
-let activeGenreFilter = null;
+let activeGenreFilters = [];
 let activeSort = "date_desc";
 let searchQuery = "";
 let genreSearchQuery = "";

@@ -5,14 +5,27 @@ function renderGenreFilters() {
 
     container.innerHTML = `
 
-        <input
-            id="genre-search-input"
-            class="genre-search-input"
-            placeholder="Search genres..."
-        >
-
+        <div class="search-input-wrapper">
+    
+            <input
+                id="genre-search-input"
+                class="genre-search-input"
+                placeholder="Search genres..."
+                value="${genreSearchQuery}"
+            >
+    
+            <button
+                id="genre-search-clear"
+                class="search-clear-btn"
+                type="button"
+            >
+                ×
+            </button>
+    
+        </div>
+    
         <div id="genre-filter-results"></div>
-
+    
     `;
 
 
@@ -20,6 +33,48 @@ function renderGenreFilters() {
         document.getElementById(
             "genre-search-input"
         );
+
+    const clear =
+        document.getElementById(
+            "genre-search-clear"
+        );
+
+
+    clear.style.display =
+        genreSearchQuery
+            ? "block"
+            : "none";
+
+
+    search.addEventListener(
+        "input",
+        () => {
+
+            clear.style.display =
+                search.value
+                    ? "block"
+                    : "none";
+
+        }
+    );
+
+
+    clear.addEventListener(
+        "click",
+        () => {
+
+            genreSearchQuery = "";
+
+            search.value = "";
+
+            clear.style.display = "none";
+
+            renderGenreFilterResults();
+
+            search.focus();
+
+        }
+    );
 
 
     search.addEventListener(
@@ -53,8 +108,8 @@ function renderGenreFilterResults() {
     renderGenreFilterSelector({
         container,
         genreRegistry,
-        selectedGenre:
-            activeGenreFilter,
+        selectedGenres:
+            activeGenreFilters,
         searchQuery:
             genreSearchQuery,
         onSelect:
@@ -67,7 +122,7 @@ function renderGenreFilterResults() {
 function renderGenreFilterSelector({
     container,
     genreRegistry,
-    selectedGenre = null,
+    selectedGenres = [],
     onSelect,
     searchQuery = "",
 }) {
@@ -153,7 +208,7 @@ function renderGenreFilterSelector({
 
 
                     if (
-                        selectedGenre === normalized
+                        selectedGenres.includes(normalized)
                     ) {
                         btn.classList.add("active");
                     }
@@ -162,7 +217,11 @@ function renderGenreFilterSelector({
                     btn.addEventListener(
                         "click",
                         () => {
+
                             onSelect(normalized);
+
+                            renderGenreFilterResults();
+
                         }
                     );
 
@@ -202,27 +261,22 @@ function renderGenreFilterSelector({
 
 function toggleGenreFilter(genre) {
 
-    const normalized = genre.toLowerCase();
+    if (
+        activeGenreFilters.includes(genre)
+    ) {
 
-    if (activeGenreFilter === normalized) {
-        activeGenreFilter = null;
+        activeGenreFilters =
+            activeGenreFilters.filter(
+                (g) => g !== genre
+            );
+
     } else {
-        activeGenreFilter = normalized;
+
+        activeGenreFilters.push(genre);
+
     }
-    Object.entries(genreRegistry)
-        .forEach(([group, genres]) => {
 
-            if (
-                genres.includes(normalized)
-            ) {
-                expandedGenreGroups[
-                    group.charAt(0).toUpperCase() + group.slice(1)
-                ] = true;
-            }
-
-        });
-
-    renderGenreFilters();
+    renderGenreFilterResults();
     renderActiveFilters();
     loadEntries();
 }
@@ -232,7 +286,7 @@ function renderActiveFilters() {
     container.innerHTML = "";
 
     const hasSearch = searchQuery.trim() !== "";
-    const hasGenre = activeGenreFilter !== null;
+    const hasGenre = activeGenreFilters.length > 0;
 
     if (!hasSearch && !hasGenre) return;
 
@@ -242,16 +296,22 @@ function renderActiveFilters() {
 
     if (hasSearch) {
         const searchTag = document.createElement("span");
-        searchTag.textContent = `Search Archive: "${searchQuery}"`; searchTag.textContent = `Search: "${searchQuery}"`;
+        searchTag.textContent = `Search: "${searchQuery}"`;
         searchTag.className = "filter-tag";
         wrapper.appendChild(searchTag);
     }
 
     if (hasGenre) {
-        const genreTag = document.createElement("span");
-        genreTag.textContent = `Genre: ${activeGenreFilter}`;
-        genreTag.className = "filter-tag";
-        wrapper.appendChild(genreTag);
+        activeGenreFilters.forEach((genre) => {
+            const genreTag =
+                document.createElement("span");
+            genreTag.textContent =
+                `Genre: ${genre}`;
+            genreTag.className =
+                "filter-tag";
+            wrapper.appendChild(genreTag);
+        });
+
     }
 
     const clearBtn = document.createElement("button");
@@ -259,7 +319,7 @@ function renderActiveFilters() {
 
     clearBtn.addEventListener("click", () => {
         searchQuery = "";
-        activeGenreFilter = null;
+        activeGenreFilters = [];
 
         document.getElementById("search-input").value = "";
 
@@ -282,12 +342,56 @@ function initializeFilters() {
         });
 
 
-    document
-        .getElementById("search-input")
-        .addEventListener("input", (event) => {
-            searchQuery = event.target.value.toLowerCase().trim();
+    const searchInput =
+        document.getElementById("search-input");
+
+
+    searchInput.addEventListener(
+        "input",
+        (event) => {
+
+            searchQuery =
+                event.target.value
+                    .toLowerCase()
+                    .trim();
+
+            updateClearButton(
+                "search-input",
+                "search-clear"
+            );
+
             loadEntries();
-        });
+        }
+    );
+
+
+    document
+        .getElementById("search-clear")
+        .addEventListener(
+            "click",
+            () => {
+
+                searchQuery = "";
+
+                searchInput.value = "";
+
+                updateClearButton(
+                    "search-input",
+                    "search-clear"
+                );
+
+                loadEntries();
+
+                searchInput.focus();
+
+            }
+        );
+
+
+    updateClearButton(
+        "search-input",
+        "search-clear"
+    );
 
     renderActiveFilters();
 
@@ -300,4 +404,20 @@ function toggleGenreGroup(group) {
 
     renderGenreFilters();
 
+}
+
+function updateClearButton(inputId, buttonId) {
+
+    const input =
+        document.getElementById(inputId);
+
+    const button =
+        document.getElementById(buttonId);
+
+    if (!input || !button) return;
+
+    button.style.display =
+        input.value
+            ? "block"
+            : "none";
 }

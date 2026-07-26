@@ -320,7 +320,10 @@ function renderGenreChips(genres) {
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(" ");
 
-            const isActive = activeGenreFilter === genre.toLowerCase();
+            const isActive =
+                activeGenreFilters.includes(
+                    genre.toLowerCase()
+                );
 
             return `
         <span 

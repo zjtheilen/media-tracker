@@ -15,7 +15,7 @@
 
         <!-- <script src="archive-analysis.js" defer></script> -->
         <!-- <script src="archive-findings.js"></script> -->
-         <!-- <script src="/archive-engine/designation-engine.js"></script>
+        <!-- <script src="/archive-engine/designation-engine.js"></script>
          <script src="/archive-engine/designation-rules.js"></script>
          <script src="/archive-engine/signal-weights.js"></script> -->
 
@@ -62,17 +62,14 @@
 
             <dialog id="entryModal">
                 <form id="entry-form">
-
                     <div class="form-section">
-                        <div class="archive-label">
-                            RECORD IDENTITY
-                        </div>
+                        <div class="archive-label">RECORD IDENTITY</div>
                         <input
-                        type="text"
-                        id="title"
-                        placeholder="Title"
-                        required
-                    />
+                            type="text"
+                            id="title"
+                            placeholder="Title"
+                            required
+                        />
 
                         <select id="media-type">
                             <option value="video">video</option>
@@ -97,7 +94,11 @@
                             <i class="media-icon" data-lucide="plus"></i>
                             Create Record
                         </button>
-                        <button type="button" class="button-neutral" id="closeBtn">
+                        <button
+                            type="button"
+                            class="button-neutral"
+                            id="closeBtn"
+                        >
                             <i class="media-icon" data-lucide="x"></i>
                             Cancel
                         </button>
@@ -120,8 +121,8 @@
                         type="button"
                         id="cancelDeleteBtn"
                     >
-                    <i class="media-icon" data-lucide="x"></i>
-                    Cancel
+                        <i class="media-icon" data-lucide="x"></i>
+                        Cancel
                     </button>
                 </div>
             </dialog>
@@ -154,14 +155,22 @@
                 <div id="genre-filters"></div>
             </div>
 
-            <div class="control-group">
-                <!-- <label for="search-input">Search Entries:</label> -->
+            <div class="control-group search-input-wrapper">
                 <i class="media-icon" data-lucide="search"></i>
+
                 <input
                     type="text"
                     id="search-input"
                     placeholder="Search Archive..."
                 />
+
+                <button
+                    id="search-clear"
+                    class="search-clear-btn"
+                    type="button"
+                >
+                    ×
+                </button>
             </div>
 
             <div id="active-filters" class="active-filters"></div>
@@ -177,32 +186,25 @@
                 <p>Statistical review of recorded media artifacts.</p>
             </div>
             <div class="row section">
-
                 <div class="column-full dashboard-card">
-            
                     <div class="panel-header">
                         <div class="archive-label">
                             <i class="media-icon" data-lucide="podium"></i>
                             ARCHIVE PROFILE
                         </div>
                     </div>
-            
+
                     <div id="favorite-media-type-card"></div>
-            
                 </div>
-            
             </div>
-            
-            
+
             <div class="row section">
-            
                 <div class="column-half dashboard-card">
-            
                     <div class="archive-label">
                         <i class="media-icon" data-lucide="boxes"></i>
                         COLLECTION DISTRIBUTION
                     </div>
-            
+
                     <canvas
                         id="media-distribution-chart"
                         role="img"
@@ -210,7 +212,6 @@
                     >
                         Your browser does not support the chart visualization.
                     </canvas>
-            
                 </div>
                 <div class="column-half dashboard-card">
                     <div class="archive-label">
@@ -225,7 +226,6 @@
                         Your browser does not support the chart visualization.
                     </canvas>
                 </div>
-            
             </div>
             <div class="row section">
                 <div class="column-half dashboard-card">
@@ -241,8 +241,7 @@
                         Your browser does not support the chart visualization.
                     </canvas>
                 </div>
-                
-                
+
                 <div class="column-half dashboard-card">
                     <div class="archive-label">
                         <i class="media-icon" data-lucide="history"></i>
@@ -258,7 +257,6 @@
                 </div>
             </div>
             <div class="row section">
-                
                 <div class="column-half dashboard-card">
                     <div class="archive-label">
                         <i class="media-icon" data-lucide="tags"></i>
@@ -273,28 +271,21 @@
                     </canvas>
                 </div>
 
-
-
-
                 <div class="column-half dashboard-card">
-
                     <div class="archive-label">
                         <i class="media-icon" data-lucide="brain-circuit"></i>
                         RECOMMENDATION ENGINE
                     </div>
-                
+
                     <div class="recommendation-placeholder">
-                
                         <p class="archive-status-title">
                             Archive recommendations unavailable.
                         </p>
-                
+
                         <p class="archive-status-body">
                             Prediction model awaiting calibration.
                         </p>
-                
                     </div>
-                
                 </div>
             </div>
         </section>
