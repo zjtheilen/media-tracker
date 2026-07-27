@@ -38,6 +38,13 @@ from models.genre_registry import (
 from models.services.archive_mapper import entry_to_archive_format
 from models.services.archive_engine import build_archive_profile
 
+from models.analytics.genre_statistics import (
+    get_genre_statistics,
+    get_favorite_genre_combinations,
+    get_media_genre_affinity,
+    get_top_genres_by_score
+)
+
 VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
 
 
@@ -252,7 +259,7 @@ def get_entries(genre: str | None = None):
         normalized = normalize_genre_query(genre)
 
         entries = [entry for entry in entries if normalized in entry.genres]
-
+    
     return entries
 
 
@@ -417,3 +424,17 @@ def get_archive_profile():
     entries = [entry_to_archive_format(row_to_entry_response(row)) for row in rows]
 
     return build_archive_profile(entries)
+
+
+@app.get("/genre-stats")
+def get_genre_stats():
+    entries = get_entries()
+    
+    stats = get_genre_statistics(entries)
+
+    return {
+        "summary": stats["summary"],
+        "top_genres": get_top_genres_by_score(stats),
+        "genre_combinations": get_favorite_genre_combinations(entries),
+        "media_affinity": get_media_genre_affinity(entries)
+    }
