@@ -588,30 +588,15 @@ async function renderGenreAverageRatingsChart() {
 
 async function renderCoreEvaluationRadar(archiveProfile) {
 
-    console.log("Rendering radar...");
-
     const canvas = document.getElementById(
         "universal-profile-radar"
     );
 
-    console.log("Radar canvas:", canvas);
-
-    if (!canvas) {
-        console.error("Radar canvas not found");
-        return;
-    }
-
     const entries = await getEntries();
-
-    console.log("Entries:", entries);
 
     const averages = calculateUniversalAverages(entries);
 
-    console.log("Universal averages:", averages);
-
     const radarData = prepareRadarData(averages);
-
-    console.log("Radar data:", radarData);
 
     const ctx = canvas.getContext("2d");
 
@@ -1210,9 +1195,6 @@ function renderMediaBarChart(
         .map(formatScoreCategory);
 
     const values = Object.values(scores);
-
-    console.log(labels);
-    console.log(values);
 
 
     destroyChart(canvasId);
