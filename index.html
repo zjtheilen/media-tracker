@@ -129,48 +129,70 @@
 
             <!-- <button onclick="clearGenreFilter()">Clear Filter</button> -->
 
-            <div class="control-group">
-                <i class="media-icon" data-lucide="arrow-up-down"></i>
-                <label for="sort-select">Sort By:</label>
+            <div class="archive-control-section">
+                <div class="archive-control-header">
+                    <i class="media-icon" data-lucide="arrow-up-down"></i>
+                    <span>SORT</span>
+                </div>
 
-                <select id="sort-select">
-                    <option value="date_desc">Date Consumed (Newest)</option>
-                    <option value="date_asc">Date Consumed (Oldest)</option>
-                    <option value="score_desc">
-                        Evaluation Index (Highest)
-                    </option>
-                    <option value="score_asc">Evaluation Index (Lowest)</option>
-                    <option value="title_asc">Title (A-Z)</option>
-                    <option value="title_desc">Title (Z-A)</option>
-                    <option value="media_type_asc">Media Type Ascending</option>
-                    <option value="media_type_desc">
-                        Media Type Descending
-                    </option>
-                </select>
+                <div class="archive-control-body">
+                    <select id="sort-select">
+                        <option value="date_desc">
+                            Date Consumed (Newest)
+                        </option>
+                        <option value="date_asc">Date Consumed (Oldest)</option>
+                        <option value="score_desc">
+                            Evaluation Index (Highest)
+                        </option>
+                        <option value="score_asc">
+                            Evaluation Index (Lowest)
+                        </option>
+                        <option value="title_asc">Title (A–Z)</option>
+                        <option value="title_desc">Title (Z–A)</option>
+                        <option value="media_type_asc">
+                            Media Type Ascending
+                        </option>
+                        <option value="media_type_desc">
+                            Media Type Descending
+                        </option>
+                    </select>
+                </div>
             </div>
 
-            <div id="genre-filter-bar">
-                <i class="media-icon" data-lucide="tags"></i>
-                <strong>Genres:</strong>
-                <div id="genre-filters"></div>
+            <div class="archive-control-section">
+                <div class="archive-control-header">
+                    <i class="media-icon" data-lucide="tags"></i>
+                    <span>GENRE INDEX</span>
+                </div>
+
+                <div class="archive-control-body">
+                    <div id="genre-filters"></div>
+                </div>
             </div>
 
-            <div class="control-group search-input-wrapper">
-                <i class="media-icon" data-lucide="search"></i>
+            <div class="archive-control-section">
+                <div class="archive-control-header">
+                    <i class="media-icon" data-lucide="search"></i>
+                    <span>ARCHIVE QUERY</span>
+                </div>
 
-                <input
-                    type="text"
-                    id="search-input"
-                    placeholder="Search Archive..."
-                />
+                <div class="archive-control-body">
+                    <div class="search-input-wrapper">
+                        <input
+                            type="text"
+                            id="search-input"
+                            placeholder="Search Archive..."
+                        />
 
-                <button
-                    id="search-clear"
-                    class="search-clear-btn"
-                    type="button"
-                >
-                    ×
-                </button>
+                        <button
+                            id="search-clear"
+                            class="search-clear-btn"
+                            type="button"
+                        >
+                            ×
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div id="active-filters" class="active-filters"></div>
