@@ -1,40 +1,30 @@
 {
-    "entries": [],
-
-    "entryCount": 40,
-
-    "averageScore": 82,
-
-    "universalAverages": {
-        "depth": 8,
-        "originality": 8,
-        "craft": 8
+    "id": "deep_diver",
+    "name": "Deep Diver",
+    "category": "interpretive",
+    "icon": "diver",
+    "description": "Pursues experiences that reward careful attention, emotional investment, and repeated interpretation.",
+    "identity": [
+        "depth",
+        "emotional_impact",
+        "reflection",
+        "ambiguity",
+        "analysis"
+    ],
+    "recommendation_bias": [
+        "psychological fiction",
+        "layered narratives",
+        "ambiguous endings",
+        "slow-burn storytelling"
+    ],
+    "requirements": {
+        "minimum_entries": 20
     },
-
-    "mediaAverages": {
-        "world_building": 8,
-        "art_atmosphere": 8
-    },
-
-    "mediaDistribution": {
-        "movies": {
-            "count": 40
-        }
-    },
-
-    "genreDistribution": {
-        "psychological_horror": {
-            "count": 30
-        },
-        "surreal": {
-            "count": 5
-        },
-        "sciFi": {
-            "count": 5
-        }
-    },
-
-    "highestRatedEntry": null,
-
-    "lowestRatedEntry": null
+    "identity_weights": {
+        "depth": 0.35,
+        "emotional_impact": 0.25,
+        "reflection": 0.20,
+        "ambiguity": 0.10,
+        "analysis": 0.10
+    }
 }

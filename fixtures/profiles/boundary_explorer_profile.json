@@ -1,0 +1,39 @@
+{
+    "entryCount": 40,
+    "averageScore": 88,
+    "universalAverages": {
+        "originality": 9.4,
+        "depth": 8.8,
+        "craft": 8.1,
+        "engagement": 8.2,
+        "presentation": 7.9,
+        "emotional_impact": 7.8
+    },
+    "mediaAverages": {
+        "art_atmosphere": 8.8,
+        "world_building": 8.5,
+        "gameplay_mechanics": 7.4
+    },
+    "genreDistribution": {
+        "experimental": {
+            "count": 12,
+            "percentage": 30
+        },
+        "surreal": {
+            "count": 10,
+            "percentage": 25
+        },
+        "sci-fi": {
+            "count": 8,
+            "percentage": 20
+        },
+        "horror": {
+            "count": 10,
+            "percentage": 25
+        },
+        "psychological": {
+            "count": 10,
+            "percentage": 25
+        }
+    }
+}

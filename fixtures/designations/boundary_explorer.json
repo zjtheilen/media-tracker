@@ -1,45 +1,30 @@
 {
-    "entries": [],
-    "entryCount": 45,
-    "averageScore": 85,
-    "universalAverages": {
-        "depth": 8.5,
-        "originality": 9.5,
-        "craft": 8,
-        "emotional_impact": 7.5,
-        "engagement": 7.5
+    "id": "boundary_explorer",
+    "name": "Boundary Explorer",
+    "category": "cognitive",
+    "icon": "compass",
+    "description": "Seeks experiences that challenge conventional creative boundaries.",
+    "identity": [
+        "originality",
+        "experimental_affinity",
+        "depth",
+        "genre_diversity",
+        "novelty"
+    ],
+    "recommendation_bias": [
+        "experimental fiction",
+        "surreal cinema",
+        "high concept science fiction",
+        "genre hybrids"
+    ],
+    "requirements": {
+        "minimum_entries": 15
     },
-    "mediaAverages": {
-        "world_building": 7,
-        "art_atmosphere": 8.5,
-        "narrative_pacing": 7,
-        "character_development": 7,
-        "gameplay_mechanics": 0
-    },
-    "mediaDistribution": {
-        "movies": {
-            "count": 25
-        }
-    },
-    "genreDistribution": {
-        "experimental": {
-            "count": 8,
-            "percentage": 40
-        },
-        "surreal": {
-            "count": 7,
-            "percentage": 35
-        },
-        "sci-fi": {
-            "count": 6,
-            "percentage": 30
-        },
-        "horror": {
-            "count": 5,
-            "percentage": 25
-        }
-    },
-
-    "highestRatedEntry": null,
-    "lowestRatedEntry": null
+    "identity_weights": {
+        "originality": 0.35,
+        "experimental_affinity": 0.25,
+        "depth": 0.20,
+        "genre_diversity": 0.10,
+        "novelty": 0.10
+    }
 }

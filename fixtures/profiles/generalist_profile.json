@@ -1,0 +1,59 @@
+{
+    "entryCount": 50,
+    "averageScore": 79,
+    "universalAverages": {
+        "originality": 7.2,
+        "depth": 7.0,
+        "craft": 7.4,
+        "engagement": 7.3,
+        "presentation": 7.1,
+        "emotional_impact": 7.0
+    },
+    "mediaAverages": {
+        "art_atmosphere": 7.2,
+        "world_building": 7.1,
+        "gameplay_mechanics": 7.3
+    },
+    "genreDistribution": {
+        "action": {
+            "count": 6,
+            "percentage": 12
+        },
+        "adventure": {
+            "count": 6,
+            "percentage": 12
+        },
+        "drama": {
+            "count": 6,
+            "percentage": 12
+        },
+        "horror": {
+            "count": 6,
+            "percentage": 12
+        },
+        "mystery": {
+            "count": 5,
+            "percentage": 10
+        },
+        "psychological": {
+            "count": 5,
+            "percentage": 10
+        },
+        "sci-fi": {
+            "count": 5,
+            "percentage": 10
+        },
+        "surreal": {
+            "count": 4,
+            "percentage": 8
+        },
+        "experimental": {
+            "count": 3,
+            "percentage": 6
+        },
+        "rpg": {
+            "count": 4,
+            "percentage": 8
+        }
+    }
+}

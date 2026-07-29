@@ -1,5 +1,5 @@
 from models.services.observation_engine import evaluate_observations
-from tests.designations.test_designations import load_fixture
+from tests.helpers.fixture_loader import load_profile_fixture
 
 
 def test_boundary_observation():
@@ -57,7 +57,7 @@ def test_observation_contains_metadata():
 
 def test_observation_contains_confidence():
 
-    profile = load_fixture("boundary_explorer.json")
+    profile = load_profile_fixture("boundary_explorer_profile.json")
 
     observations = evaluate_observations(profile)
 

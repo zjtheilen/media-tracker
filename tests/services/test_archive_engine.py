@@ -1,5 +1,4 @@
 from models.services.archive_engine import build_archive_profile
-from tests.designations.test_designations import load_fixture
 
 
 def test_build_archive_profile():

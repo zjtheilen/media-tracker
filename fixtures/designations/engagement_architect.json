@@ -1,49 +1,30 @@
 {
-    "entries": [],
-
-    "entryCount": 50,
-
-    "averageScore": 90,
-
-    "universalAverages": {
-        "depth": 6.5,
-        "originality": 6,
-        "craft": 8,
-        "emotional_impact": 8,
-        "engagement": 9.5,
-        "presentation": 8.5
+    "id": "engagement_architect",
+    "name": "Engagement Architect",
+    "category": "mechanical",
+    "icon": "gear",
+    "description": "Values experiences that maintain momentum through strong execution, pacing, and carefully designed systems.",
+    "identity": [
+        "engagement",
+        "craft",
+        "gameplay_mechanics",
+        "pacing",
+        "system_design"
+    ],
+    "recommendation_bias": [
+        "highly polished experiences",
+        "strong pacing",
+        "excellent gameplay systems",
+        "technical craftsmanship"
+    ],
+    "requirements": {
+        "minimum_entries": 20
     },
-
-    "mediaAverages": {
-        "world_building": 8,
-        "art_atmosphere": 7,
-        "narrative_pacing": 9,
-        "character_development": 8,
-        "gameplay_mechanics": 9.5
-    },
-
-    "mediaDistribution": {
-        "games": {
-            "count": 30
-        },
-        "movies": {
-            "count": 20
-        }
-    },
-
-    "genreDistribution": {
-        "action": {
-            "count": 15
-        },
-        "adventure": {
-            "count": 15
-        },
-        "rpg": {
-            "count": 20
-        }
-    },
-
-    "highestRatedEntry": null,
-
-    "lowestRatedEntry": null
+    "identity_weights": {
+        "engagement": 0.40,
+        "craft": 0.25,
+        "gameplay_mechanics": 0.20,
+        "pacing": 0.10,
+        "system_design": 0.05
+    }
 }

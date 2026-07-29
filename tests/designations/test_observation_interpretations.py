@@ -1,7 +1,6 @@
 from models.services.archive_interpretation import (
     generate_observation_summary,
 )
-from tests.designations.test_designations import load_fixture
 
 
 def test_observation_summary_single():

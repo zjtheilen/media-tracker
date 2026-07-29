@@ -1,6 +1,5 @@
-from models.services.finding_engine import evaluate_findings
 from models.services.archive_engine import build_archive_profile
-from tests.designations.test_designations import load_fixture
+from models.services.finding_engine import evaluate_findings
 
 
 def test_concept_driven_finding():
