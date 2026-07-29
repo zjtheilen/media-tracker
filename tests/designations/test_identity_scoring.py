@@ -1,0 +1,61 @@
+from models.services.identity_scorer import evaluate_identity_scores
+from tests.helpers.fixture_loader import load_profile_fixture
+
+
+def test_boundary_explorer_profile_scores_boundary_explorer_highest():
+
+    profile = load_profile_fixture("boundary_explorer_profile.json")
+
+    results = evaluate_identity_scores(profile)
+
+    assert results[0]["id"] == "boundary_explorer"
+
+
+def test_boundary_explorer_scores_higher_than_other_identities():
+
+    profile = load_profile_fixture("boundary_explorer_profile.json")
+
+    results = evaluate_identity_scores(profile)
+
+    scores = {result["id"]: result["score"] for result in results}
+
+    assert scores["boundary_explorer"] > scores["deep_diver"]
+    assert scores["boundary_explorer"] > scores["engagement_architect"]
+
+
+def test_deep_diver_profile_scores_deep_diver_highest():
+    pass
+
+
+def test_engagement_architect_profile_scores_engagement_architect_highest():
+    pass
+
+
+def test_generalist_profile_does_not_strongly_match_any_identity():
+    pass
+
+
+def test_empty_profile_returns_zero_scores():
+    pass
+
+
+def test_identity_below_minimum_entries_scores_zero():
+
+    profile = {"entryCount": 5, "universalAverages": {"originality": 10, "depth": 10}}
+
+    results = evaluate_identity_scores(profile)
+
+    scores = {result["id"]: result["score"] for result in results}
+
+    assert scores["boundary_explorer"] == 0
+
+
+def test_identity_scoring_uses_media_averages():
+
+    profile = {"entryCount": 30, "mediaAverages": {"gameplay_mechanics": 10}}
+
+    results = evaluate_identity_scores(profile)
+
+    scores = {result["id"]: result["score"] for result in results}
+
+    assert scores["engagement_architect"] > 0
