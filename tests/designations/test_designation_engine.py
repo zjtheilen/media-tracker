@@ -1,6 +1,5 @@
 from models.services.designation_engine import evaluate_designations
 from tests.helpers.fixture_loader import (
-    load_designation_fixture,
     load_profile_fixture,
 )
 

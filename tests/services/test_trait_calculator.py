@@ -1,20 +1,8 @@
-import json
-from pathlib import Path
-
-import pytest
-
 from models.services.trait_calculator import (
     calculate_archive_traits,
     normalize_trait,
 )
 from tests.helpers.fixture_loader import load_profile_fixture
-
-# def load_fixture(name):
-
-#     path = Path(__file__).parents[2] / "fixtures" / "profiles" / name
-
-#     with open(path) as f:
-#         return json.load(f)
 
 
 def test_empty_profile_returns_zeros():
@@ -56,9 +44,7 @@ def test_genre_percentage_calculation():
 
 def test_full_boundary_explorer_fixture_produces_expected_signals():
 
-    profile = load_profile_fixture(
-        "boundary_explorer_profile.json"
-    )
+    profile = load_profile_fixture("boundary_explorer_profile.json")
 
     traits = calculate_archive_traits(profile)
 

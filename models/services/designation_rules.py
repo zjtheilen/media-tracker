@@ -1,4 +1,4 @@
-from .designation_utils import trait_strength, genre_weight
+from .designation_utils import genre_weight, trait_strength
 
 
 def evaluate_boundary_explorer(profile):

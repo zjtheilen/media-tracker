@@ -1,17 +1,7 @@
-# import json
-# from pathlib import Path
-
 import pytest
 
 from models.services.designation_engine import evaluate_designations
 from tests.helpers.fixture_loader import load_profile_fixture
-
-# def load_fixture(name):
-
-#     path = Path(__file__).parents[2] / "fixtures" / "designations" / name
-
-#     with open(path) as f:
-#         return json.load(f)
 
 
 @pytest.mark.parametrize(
