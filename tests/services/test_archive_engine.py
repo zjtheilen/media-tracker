@@ -149,3 +149,88 @@ def test_observation_summary_exists():
     result = build_archive_profile(entries)
 
     assert result["observations"]
+
+
+def test_archive_profile_includes_identities():
+
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+                "novelty": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(20)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert "identities" in profile
+    assert len(profile["identities"]) > 0
+
+
+def test_archive_profile_identities_are_sorted():
+
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 10,
+                "novelty": 10,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(30)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    identities = profile["identities"]
+
+    scores = [
+        identity["score"]
+        for identity in identities
+    ]
+
+    assert scores == sorted(scores, reverse=True)
+
+
+def test_archive_profile_keeps_designations_and_identities_separate():
+
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 10,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(30)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert "designations" in profile
+    assert "identities" in profile
+
+    assert profile["designations"] != profile["identities"]

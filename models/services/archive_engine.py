@@ -1,3 +1,5 @@
+from models.services.identity_scorer import evaluate_identity_scores
+
 from .archive_utils import (
     calculate_average_scores,
     get_top_categories,
@@ -54,6 +56,7 @@ def build_archive_profile(entries):
             "classificationBasis": None,
             "designations": [],
             "primaryDesignation": None,
+            "identities": [],
             "observations": [],
             "observationSummary": None,
             "findings": [],
@@ -118,6 +121,7 @@ def build_archive_profile(entries):
     archive_profile["designations"] = evaluate_designations(archive_profile)
 
     archive_profile["primaryDesignation"] = archive_profile["designations"][0]
+    archive_profile["identities"] = evaluate_identity_scores(archive_profile)
 
     archive_profile["observations"] = evaluate_observations(archive_profile)
     archive_profile["observationSummary"] = generate_observation_summary(
