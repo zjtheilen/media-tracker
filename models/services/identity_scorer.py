@@ -48,15 +48,18 @@ def score_identity(identity, profile):
 
     weights = identity["identity_weights"]
 
-    averages = {}
-
-    averages.update(profile.get("universalAverages", {}))
-    averages.update(profile.get("mediaAverages", {}))
+    universal = profile.get("universalAverages", {})
+    media = profile.get("mediaAverages", {})
 
     for trait, weight in weights.items():
-        value = averages.get(trait)
 
-        if value is None:
+        if trait in universal:
+            value = universal[trait]
+
+        elif trait in media:
+            value = media[trait]
+
+        else:
             value = calculate_derived_trait(trait, profile)
 
         score += normalize(value) * weight
@@ -69,7 +72,8 @@ def calculate_derived_trait(trait, profile):
     genres = profile.get("genreDistribution", {})
 
     if trait == "experimental_affinity":
-        return genres.get("experimental", {}).get("percentage", 0) / 10
+        percentage = genres.get("experimental", {}).get("percentage", 0)
+        return min(10, percentage / 10)
 
     if trait == "genre_diversity":
         return len(genres) * 2
