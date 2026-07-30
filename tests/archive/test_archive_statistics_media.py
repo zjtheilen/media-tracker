@@ -1,8 +1,8 @@
-from models.services.archive_profile import (
-    calculate_media_distribution,
+from models.services.archive_classification import (
     generate_classification_basis,
 )
 from models.services.archive_utils import calculate_designation_confidence
+from models.services.archive_statistics import calculate_media_distribution
 
 
 def test_media_distribution():

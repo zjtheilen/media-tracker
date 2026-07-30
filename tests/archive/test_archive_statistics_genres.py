@@ -1,4 +1,4 @@
-from models.services.archive_profile import calculate_genre_distribution
+from models.services.archive_statistics import calculate_genre_distribution
 
 
 def test_genre_distribution():

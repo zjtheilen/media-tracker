@@ -1,8 +1,11 @@
-from models.services.archive_profile import (
+from models.services.archive_classification import (
+    generate_classification_basis,
+)
+
+from models.services.archive_statistics import (
     calculate_archive_average_score,
     get_highest_rated_entry,
     get_lowest_rated_entry,
-    generate_classification_basis,
 )
 
 

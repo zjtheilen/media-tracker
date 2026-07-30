@@ -6,13 +6,16 @@ from .archive_utils import (
     calculate_designation_confidence,
 )
 
-from .archive_profile import (
+from .archive_classification import (
+    generate_classification_basis,
+)
+
+from models.services.archive_statistics import (
     calculate_archive_average_score,
     get_highest_rated_entry,
     get_lowest_rated_entry,
     calculate_genre_distribution,
     calculate_media_distribution,
-    generate_classification_basis,
 )
 
 from .designation_engine import evaluate_designations
