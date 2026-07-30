@@ -32,53 +32,55 @@ from .archive_narrative import (
 )
 
 
+empty_profile = {
+    "entries": [],
+    "entryCount": 0,
+    "universalAverages": {},
+    "mediaAverages": {},
+    "mediaDistribution": {
+        "video": 0,
+        "game": 0,
+        "book": 0,
+    },
+    "genreDistribution": {},
+    "averageScore": 0,
+    "highestRatedEntry": None,
+    "lowestRatedEntry": None,
+    "topUniversal": [],
+    "topMedia": [],
+    "designationConfidence": 0,
+    "designationConfidenceLabel": "Tentative",
+    "classificationBasis": None,
+    "designations": [],
+    "primaryDesignation": None,
+    "identities": [],
+    "observations": [],
+    "observationSummary": None,
+    "findings": [],
+    "archiveSummary": "The archive does not contain enough data for interpretation.",
+    "primaryTrait": None,
+    "secondaryTrait": None,
+    "mediaSignature": None,
+    "genreSignature": None,
+}
+
+
 def build_archive_profile(entries):
 
     if not entries:
-        return {
-            "entries": [],
-            "entryCount": 0,
-            "universalAverages": {},
-            "mediaAverages": {},
-            "mediaDistribution": {
-                "video": 0,
-                "game": 0,
-                "book": 0,
-            },
-            "genreDistribution": {},
-            "averageScore": 0,
-            "highestRatedEntry": None,
-            "lowestRatedEntry": None,
-            "topUniversal": [],
-            "topMedia": [],
-            "designationConfidence": 0,
-            "designationConfidenceLabel": "Tentative",
-            "classificationBasis": None,
-            "designations": [],
-            "primaryDesignation": None,
-            "identities": [],
-            "observations": [],
-            "observationSummary": None,
-            "findings": [],
-            "archiveSummary": "The archive does not contain enough data for interpretation.",
-            "primaryTrait": None,
-            "secondaryTrait": None,
-            "mediaSignature": None,
-            "genreSignature": None,
-        }
+        return empty_profile
 
     archive_profile = _build_statistics(entries)
 
-    archive_profile["designations"] = evaluate_designations(archive_profile)
+    _build_designations(archive_profile)
 
-    archive_profile["primaryDesignation"] = archive_profile["designations"][0]
     archive_profile["identities"] = evaluate_identity_scores(archive_profile)
 
-    archive_profile["observations"] = evaluate_observations(archive_profile)
-
+    _build_observations(archive_profile)
+    
+    _build_findings(archive_profile)
+    
     _build_narrative(archive_profile)
-
-    archive_profile["findings"] = evaluate_findings(archive_profile)
 
     return archive_profile
 
@@ -167,3 +169,16 @@ def _build_narrative(archive_profile):
         archive_profile["topUniversal"][1],
         archive_profile["genreSignature"],
     )
+    
+
+def _build_designations(archive_profile):
+    archive_profile["designations"] = evaluate_designations(archive_profile)
+    archive_profile["primaryDesignation"] = archive_profile["designations"][0]
+
+
+def _build_observations(archive_profile):
+    archive_profile["observations"] = evaluate_observations(archive_profile)
+    
+
+def _build_findings(archive_profile):
+    archive_profile["findings"] = evaluate_findings(archive_profile)
