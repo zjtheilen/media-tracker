@@ -76,6 +76,8 @@ def build_archive_profile(entries):
     top_universal = get_top_categories(universal_averages)
 
     top_media = get_top_categories(media_averages)
+    if not top_media:
+        top_media = [("none", 0)]
 
     average_score = calculate_archive_average_score(entries)
 

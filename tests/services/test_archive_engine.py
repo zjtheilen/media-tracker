@@ -234,3 +234,24 @@ def test_archive_profile_keeps_designations_and_identities_separate():
     assert "identities" in profile
 
     assert profile["designations"] != profile["identities"]
+
+
+def test_archive_profile_handles_missing_media_scores():
+    
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 10,
+            },
+        }
+        for _ in range(30)
+    ]
+    
+    profile = build_archive_profile(entries)
+    
+    assert profile["topMedia"] == [("none", 0)]
