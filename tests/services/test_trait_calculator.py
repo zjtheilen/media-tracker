@@ -1,3 +1,4 @@
+from models.services.archive_engine import build_archive_profile
 from models.services.trait_calculator import (
     calculate_archive_traits,
     normalize_trait,
@@ -70,3 +71,46 @@ def test_low_scores_do_not_create_strength():
     assert traits["originality_strength"] == 0
     assert traits["depth_strength"] == 0
     assert traits["craft_strength"] == 0
+
+
+def test_archive_traits_include_genre_signals():
+
+    profile = {
+        "entryCount": 10,
+        "genreDistribution": {
+            "horror": {
+                "count": 5,
+                "percentage": 50
+            }
+        },
+        "universalAverages": {},
+        "mediaAverages": {},
+    }
+
+    result = calculate_archive_traits(profile)
+
+    assert result["horror_presence"] == 0.5
+
+
+def test_archive_profile_builds_traits():
+    entries = [
+        {
+            "title": "Test Horror",
+            "total_score": 90,
+            "media_type": "video",
+            "genres": ["horror"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert "traits" in profile
+    assert profile["traits"]["originality_strength"] == 1
+    assert profile["traits"]["horror_presence"] == 1

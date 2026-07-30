@@ -1,4 +1,5 @@
 from models.services.identity_scorer import evaluate_identity_scores
+from .trait_calculator import calculate_archive_traits
 
 from .archive_utils import (
     calculate_average_scores,
@@ -41,6 +42,8 @@ def build_archive_profile(entries):
         return _empty_profile()
 
     archive_profile = _build_statistics(entries)
+    
+    _build_traits(archive_profile)
 
     _build_designations(archive_profile)
 
@@ -156,6 +159,13 @@ def _build_findings(archive_profile):
 
 def _build_identities(profile):
     profile["identities"] = evaluate_identity_scores(profile)
+
+
+def _build_traits(archive_profile):
+
+    archive_profile["traits"] = calculate_archive_traits(
+        archive_profile
+    )
 
 
 def _empty_profile():
