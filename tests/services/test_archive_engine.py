@@ -255,3 +255,33 @@ def test_archive_profile_handles_missing_media_scores():
     profile = build_archive_profile(entries)
     
     assert profile["topMedia"] == [("none", 0)]
+
+
+def test_archive_profile_builds_all_profile_sections():
+
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 10,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(30)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert profile["designations"]
+    assert profile["identities"]
+    assert profile["observations"]
+    assert profile["findings"]
+
+    assert profile["primaryDesignation"] is not None
+    assert profile["archiveSummary"] is not None

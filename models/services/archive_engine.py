@@ -32,52 +32,19 @@ from .archive_narrative import (
 )
 
 
-empty_profile = {
-    "entries": [],
-    "entryCount": 0,
-    "universalAverages": {},
-    "mediaAverages": {},
-    "mediaDistribution": {
-        "video": 0,
-        "game": 0,
-        "book": 0,
-    },
-    "genreDistribution": {},
-    "averageScore": 0,
-    "highestRatedEntry": None,
-    "lowestRatedEntry": None,
-    "topUniversal": [],
-    "topMedia": [],
-    "designationConfidence": 0,
-    "designationConfidenceLabel": "Tentative",
-    "classificationBasis": None,
-    "designations": [],
-    "primaryDesignation": None,
-    "identities": [],
-    "observations": [],
-    "observationSummary": None,
-    "findings": [],
-    "archiveSummary": "The archive does not contain enough data for interpretation.",
-    "primaryTrait": None,
-    "secondaryTrait": None,
-    "mediaSignature": None,
-    "genreSignature": None,
-}
-
-
 def build_archive_profile(entries):
 
     if not entries:
-        return empty_profile
+        return _empty_profile()
 
     archive_profile = _build_statistics(entries)
 
     _build_designations(archive_profile)
 
-    archive_profile["identities"] = evaluate_identity_scores(archive_profile)
-
-    _build_observations(archive_profile)
+    _build_identities(archive_profile)
     
+    _build_observations(archive_profile)    
+
     _build_findings(archive_profile)
     
     _build_narrative(archive_profile)
@@ -105,22 +72,6 @@ def _build_statistics(entries):
     lowest_rated_entry = get_lowest_rated_entry(entries)
 
     genre_distribution = calculate_genre_distribution(entries)
-
-    classification_basis = generate_classification_basis(
-        top_universal[0],
-        top_universal[1],
-        top_media[0],
-    )
-
-    designation_confidence = calculate_designation_confidence(
-        top_universal[0],
-        top_universal[1],
-        top_media[0],
-    )
-
-    designation_confidence_label = get_designation_confidence_label(
-        designation_confidence
-    )
     
     return {
         "entries": entries,
@@ -134,16 +85,10 @@ def _build_statistics(entries):
         "lowestRatedEntry": lowest_rated_entry,
         "topUniversal": top_universal,
         "topMedia": top_media,
-        "designationConfidence": designation_confidence,
-        "designationConfidenceLabel": designation_confidence_label,
-        "classificationBasis": classification_basis,
     }
    
 
 def _build_narrative(archive_profile):
-    archive_profile["observationSummary"] = generate_observation_summary(
-        archive_profile["observations"]
-    )
     primary_trait, primary_score = archive_profile["topUniversal"][0]
     secondary_trait, secondary_score = archive_profile["topUniversal"][1]
 
@@ -172,13 +117,74 @@ def _build_narrative(archive_profile):
     
 
 def _build_designations(archive_profile):
+
+    archive_profile["classificationBasis"] = generate_classification_basis(
+        archive_profile["topUniversal"][0],
+        archive_profile["topUniversal"][1],
+        archive_profile["topMedia"][0],
+    )
+
+    archive_profile["designationConfidence"] = calculate_designation_confidence(
+        archive_profile["topUniversal"][0],
+        archive_profile["topUniversal"][1],
+        archive_profile["topMedia"][0],
+    )
+
+    archive_profile["designationConfidenceLabel"] = get_designation_confidence_label(
+        archive_profile["designationConfidence"]
+    )
+
     archive_profile["designations"] = evaluate_designations(archive_profile)
+
     archive_profile["primaryDesignation"] = archive_profile["designations"][0]
 
 
-def _build_observations(archive_profile):
+def _build_observations(archive_profile)    :
     archive_profile["observations"] = evaluate_observations(archive_profile)
-    
+
+    archive_profile["observationSummary"] = generate_observation_summary(
+        archive_profile["observations"]
+    )
+
 
 def _build_findings(archive_profile):
     archive_profile["findings"] = evaluate_findings(archive_profile)
+
+
+def _build_identities(profile):
+    profile["identities"] = evaluate_identity_scores(profile)
+
+
+def _empty_profile():
+
+    return {
+        "entries": [],
+        "entryCount": 0,
+        "universalAverages": {},
+        "mediaAverages": {},
+        "mediaDistribution": {
+            "video": 0,
+            "game": 0,
+            "book": 0,
+        },
+        "genreDistribution": {},
+        "averageScore": 0,
+        "highestRatedEntry": None,
+        "lowestRatedEntry": None,
+        "topUniversal": [],
+        "topMedia": [],
+        "designationConfidence": 0,
+        "designationConfidenceLabel": "Tentative",
+        "classificationBasis": None,
+        "designations": [],
+        "primaryDesignation": None,
+        "identities": [],
+        "observations": [],
+        "observationSummary": None,
+        "findings": [],
+        "archiveSummary": "The archive does not contain enough data for interpretation.",
+        "primaryTrait": None,
+        "secondaryTrait": None,
+        "mediaSignature": None,
+        "genreSignature": None,
+    }
