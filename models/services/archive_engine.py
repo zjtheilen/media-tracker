@@ -75,37 +75,10 @@ def build_archive_profile(entries):
     archive_profile["identities"] = evaluate_identity_scores(archive_profile)
 
     archive_profile["observations"] = evaluate_observations(archive_profile)
-    archive_profile["observationSummary"] = generate_observation_summary(
-        archive_profile["observations"]
-    )
+
+    _build_narrative(archive_profile)
 
     archive_profile["findings"] = evaluate_findings(archive_profile)
-
-    primary_trait, primary_score = archive_profile["topUniversal"][0]
-    secondary_trait, secondary_score = archive_profile["topUniversal"][1]
-
-    archive_profile["primaryTrait"] = generate_primary_trait_sentence(
-        primary_trait,
-        primary_score,
-    )
-
-    archive_profile["secondaryTrait"] = generate_secondary_trait_sentence(
-        secondary_trait,
-        secondary_score,
-    )
-
-    genre_signature = generate_genre_signature_sentence(
-        archive_profile["genreDistribution"]
-    )
-
-    archive_profile["genreSignature"] = genre_signature
-
-    archive_profile["archiveSummary"] = generate_archive_summary(
-        archive_profile["primaryDesignation"],
-        archive_profile["topUniversal"][0],
-        archive_profile["topUniversal"][1],
-        archive_profile["genreSignature"],
-    )
 
     return archive_profile
 
@@ -163,3 +136,34 @@ def _build_statistics(entries):
         "designationConfidenceLabel": designation_confidence_label,
         "classificationBasis": classification_basis,
     }
+   
+
+def _build_narrative(archive_profile):
+    archive_profile["observationSummary"] = generate_observation_summary(
+        archive_profile["observations"]
+    )
+    primary_trait, primary_score = archive_profile["topUniversal"][0]
+    secondary_trait, secondary_score = archive_profile["topUniversal"][1]
+
+    archive_profile["primaryTrait"] = generate_primary_trait_sentence(
+        primary_trait,
+        primary_score,
+    )
+
+    archive_profile["secondaryTrait"] = generate_secondary_trait_sentence(
+        secondary_trait,
+        secondary_score,
+    )
+
+    genre_signature = generate_genre_signature_sentence(
+        archive_profile["genreDistribution"]
+    )
+
+    archive_profile["genreSignature"] = genre_signature
+
+    archive_profile["archiveSummary"] = generate_archive_summary(
+        archive_profile["primaryDesignation"],
+        archive_profile["topUniversal"][0],
+        archive_profile["topUniversal"][1],
+        archive_profile["genreSignature"],
+    )
