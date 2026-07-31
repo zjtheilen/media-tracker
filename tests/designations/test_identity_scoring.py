@@ -59,3 +59,48 @@ def test_identity_scoring_uses_media_averages():
     scores = {result["id"]: result["score"] for result in results}
 
     assert scores["engagement_architect"] > 0
+
+
+def test_deep_diver_analysis_trait_can_contribute():
+
+    profile = {
+        "entryCount": 40,
+        "genreDistribution": {
+            "psychological": {
+                "percentage": 80
+            },
+            "mystery": {
+                "percentage": 20
+            }
+        }
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    scores = {result["id"]: result["score"] for result in results}
+
+    assert scores["deep_diver"] > 0
+
+
+def test_deep_diver_ambiguity_trait_can_contribute():
+
+    profile = {
+        "entryCount": 40,
+        "genreDistribution": {
+            "psychological": {
+                "percentage": 50
+            },
+            "mystery": {
+                "percentage": 30
+            },
+            "surreal": {
+                "percentage": 20
+            }
+        }
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    scores = {result["id"]: result["score"] for result in results}
+
+    assert scores["deep_diver"] > 0

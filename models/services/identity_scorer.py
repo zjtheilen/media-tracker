@@ -81,4 +81,17 @@ def calculate_derived_trait(trait, profile):
     if trait == "novelty":
         return genres.get("experimental", {}).get("percentage", 0) / 10
 
+    if trait == "analysis":
+        psychological = genres.get("psychological", {}).get("percentage", 0)
+        mystery = genres.get("mystery", {}).get("percentage", 0)
+
+        return min(10, (psychological + mystery) / 10)
+    
+    if trait == "ambiguity":
+        psychological = genres.get("psychological", {}).get("percentage", 0)
+        mystery = genres.get("mystery", {}).get("percentage", 0)
+        surreal = genres.get("surreal", {}).get("percentage", 0)
+
+        return min(10, (psychological + mystery + surreal) / 10)
+    
     return 0
