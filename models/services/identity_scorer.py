@@ -94,4 +94,11 @@ def calculate_derived_trait(trait, profile):
 
         return min(10, (psychological + mystery + surreal) / 10)
     
+    if trait == "reflection":
+        psychological = genres.get("psychological", {}).get("percentage", 0)
+        mystery = genres.get("mystery", {}).get("percentage", 0)
+        drama = genres.get("drama", {}).get("percentage", 0)
+
+        return min(10, (psychological + mystery + drama) / 10)
+    
     return 0

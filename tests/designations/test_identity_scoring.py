@@ -104,3 +104,21 @@ def test_deep_diver_ambiguity_trait_can_contribute():
     scores = {result["id"]: result["score"] for result in results}
 
     assert scores["deep_diver"] > 0
+
+
+def test_reflection_trait_can_contribute():
+
+    profile = {
+        "entryCount": 40,
+        "genreDistribution": {
+            "drama": {
+                "percentage": 100
+            }
+        }
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    scores = {result["id"]: result["score"] for result in results}
+
+    assert scores["deep_diver"] > 0
