@@ -1,17 +1,17 @@
-from .designation_utils import genre_weight, trait_strength
+from .designation_utils import genre_affinity, trait_strength
 
 
 def evaluate_boundary_explorer(profile):
 
     score = 0
 
-    score += genre_weight("experimental", profile) * 100
-    score += genre_weight("surreal", profile) * 75
-    score += genre_weight("sci-fi", profile) * 50
-    score += genre_weight("horror", profile) * 25
+    score += genre_affinity(profile, "experimental") * 100
+    score += genre_affinity(profile, "surreal") * 75
+    score += genre_affinity(profile, "sci-fi") * 50
+    score += genre_affinity(profile, "horror") * 25
 
     score += trait_strength(profile["universalAverages"].get("originality", 0)) * 25
-
+    
     return min(score, 100)
 
 
@@ -42,7 +42,7 @@ def evaluate_deep_diver(profile):
 
     score += trait_strength(profile["averageScore"] / 10) * 20
 
-    score += genre_weight("psychological", profile) * 15
+    score += genre_affinity(profile, "psychological") * 15
 
     return min(score, 100)
 
