@@ -47,7 +47,6 @@ def evaluate_deep_diver(profile):
     return min(score, 100)
 
 
-# TODO evaluate_curator
 def evaluate_curator(profile):
 
     score = 0
@@ -62,9 +61,9 @@ def evaluate_curator(profile):
 
     score += min(profile["entryCount"] / 50, 1) * 25
 
-    score += genre_diversity_score(profile) * 25
+    score += profile.get("genreDiversityScore", 0) * 25
 
-    return min(score,100)
+    return min(score, 100)
 
 
 DESIGNATION_RULES = [
@@ -92,6 +91,27 @@ DESIGNATION_RULES = [
             "unusual concepts",
             "genre hybrids",
             "experimental storytelling",
+        ],
+    },
+    {
+        "id": "curator",
+        "title": "The Curator",
+        "description": (
+            "Builds a broad and intentional archive, "
+            "balancing exploration, craftsmanship, and variety "
+            "across different forms of media."
+        ),
+        "evaluate": evaluate_curator,
+        "icon": "◈",
+        "traits": [
+            "craft",
+            "presentation",
+        ],
+        "genres": [],
+        "recommendation_bias": [
+            "hidden gems",
+            "underrepresented genres",
+            "cross-medium experiences",
         ],
     },
     {
