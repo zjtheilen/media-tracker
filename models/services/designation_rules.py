@@ -48,23 +48,23 @@ def evaluate_deep_diver(profile):
 
 
 # TODO evaluate_curator
-# def evaluate_curator(profile):
+def evaluate_curator(profile):
 
-#     score = 0
+    score = 0
 
-#     score += trait_strength(
-#         profile["universalAverages"].get("craft", 0)
-#     ) * 25
+    score += trait_strength(
+        profile["universalAverages"].get("craft", 0)
+    ) * 25
 
-#     score += trait_strength(
-#         profile["universalAverages"].get("presentation", 0)
-#     ) * 25
+    score += trait_strength(
+        profile["universalAverages"].get("presentation", 0)
+    ) * 25
 
-#     score += min(profile["entryCount"] / 50, 1) * 25
+    score += min(profile["entryCount"] / 50, 1) * 25
 
-#     score += genre_diversity_score(profile) * 25
+    score += genre_diversity_score(profile) * 25
 
-#     return min(score,100)
+    return min(score,100)
 
 
 DESIGNATION_RULES = [

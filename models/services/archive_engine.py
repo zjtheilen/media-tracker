@@ -1,5 +1,6 @@
 from models.services.identity_scorer import evaluate_identity_scores
 from .trait_calculator import calculate_archive_traits
+from .profile_metrics import calculate_profile_metrics
 
 from .archive_utils import (
     calculate_average_scores,
@@ -44,6 +45,8 @@ def build_archive_profile(entries):
     archive_profile = _build_statistics(entries)
     
     _build_traits(archive_profile)
+    
+    _build_metrics(archive_profile)
 
     _build_designations(archive_profile)
 
@@ -120,6 +123,11 @@ def _build_narrative(archive_profile):
         archive_profile["topUniversal"][1],
         archive_profile["genreSignature"],
     )
+    
+
+def _build_metrics(profile):
+
+    profile.update(calculate_profile_metrics(profile))
     
 
 def _build_designations(archive_profile):
