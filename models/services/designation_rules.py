@@ -97,9 +97,8 @@ DESIGNATION_RULES = [
         "id": "curator",
         "title": "The Curator",
         "description": (
-            "Builds a broad and intentional archive, "
-            "balancing exploration, craftsmanship, and variety "
-            "across different forms of media."
+            "Builds a deliberate archive across different experiences, "
+            "valuing craftsmanship, variety, and discovery."
         ),
         "evaluate": evaluate_curator,
         "icon": "◈",
@@ -110,8 +109,9 @@ DESIGNATION_RULES = [
         "genres": [],
         "recommendation_bias": [
             "hidden gems",
-            "underrepresented genres",
+            "underrepresented works",
             "cross-medium experiences",
+            "genre exploration",
         ],
     },
     {
