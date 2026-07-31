@@ -1,3 +1,4 @@
+from models.services.genre_intelligence import calculate_genre_affinity, calculate_genre_combinations
 from models.services.identity_scorer import evaluate_identity_scores
 from .trait_calculator import calculate_archive_traits
 from .profile_metrics import calculate_profile_metrics
@@ -69,6 +70,8 @@ def _build_statistics(entries):
     media_distribution = calculate_media_distribution(entries)
 
     top_universal = get_top_categories(universal_averages)
+    while len(top_universal) < 2:
+        top_universal.append(("none", 0))
 
     top_media = get_top_categories(media_averages)
     if not top_media:
@@ -125,9 +128,9 @@ def _build_narrative(archive_profile):
     )
     
 
-def _build_metrics(profile):
-
-    profile.update(calculate_profile_metrics(profile))
+def _build_metrics(archive_profile):
+    archive_profile["genreAffinity"] = calculate_genre_affinity(archive_profile)
+    archive_profile["genreCombinations"] = calculate_genre_combinations(archive_profile)
     
 
 def _build_designations(archive_profile):
