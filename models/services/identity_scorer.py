@@ -62,13 +62,17 @@ def score_identity(identity, profile):
         else:
             value = calculate_derived_trait(trait, profile)
 
-        score += normalize(value) * weight
+        contribution = normalize(value) * weight
 
+        score += contribution
+    
     return round(score, 3)
 
 
 def calculate_derived_trait(trait, profile):
-
+    
+    universal = profile.get("universalAverages", {})
+    media = profile.get("mediaAverages", {})
     genres = profile.get("genreDistribution", {})
 
     if trait == "experimental_affinity":
@@ -100,5 +104,11 @@ def calculate_derived_trait(trait, profile):
         drama = genres.get("drama", {}).get("percentage", 0)
 
         return min(10, (psychological + mystery + drama) / 10)
+    
+    if trait == "system_design":
+        gameplay = media.get("gameplay_mechanics", 0)
+        craft = universal.get("craft", 0)
+
+        return gameplay * 0.7 + craft * 0.3
     
     return 0

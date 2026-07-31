@@ -4,15 +4,15 @@
     "universalAverages": {
         "originality": 9.4,
         "depth": 8.8,
-        "craft": 8.1,
-        "engagement": 8.2,
+        "craft": 7.5,
+        "engagement": 7.2,
         "presentation": 7.9,
         "emotional_impact": 7.8
     },
     "mediaAverages": {
         "art_atmosphere": 8.8,
         "world_building": 8.5,
-        "gameplay_mechanics": 7.4
+        "gameplay_mechanics": 6.5
     },
     "genreDistribution": {
         "experimental": {

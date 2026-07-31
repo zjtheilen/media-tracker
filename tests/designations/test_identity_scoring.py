@@ -1,4 +1,4 @@
-from models.services.identity_scorer import evaluate_identity_scores
+from models.services.identity_scorer import calculate_derived_trait, evaluate_identity_scores
 from tests.helpers.fixture_loader import load_profile_fixture
 
 
@@ -122,3 +122,35 @@ def test_reflection_trait_can_contribute():
     scores = {result["id"]: result["score"] for result in results}
 
     assert scores["deep_diver"] > 0
+
+
+def test_engagement_architect_system_design_trait_can_contribute():
+
+    profile = {
+        "entryCount": 40,
+        "mediaAverages": {
+            "gameplay_mechanics": 10
+        },
+        "universalAverages": {
+            "craft": 10
+        }
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    scores = {result["id"]: result["score"] for result in results}
+
+    assert scores["engagement_architect"] > 0
+
+
+def test_calculate_derived_trait():
+    profile = {
+        "mediaAverages": {
+            "gameplay_mechanics": 10
+        },
+        "universalAverages": {
+            "craft": 10
+        }
+    }
+
+    assert calculate_derived_trait("system_design", profile) == 10
