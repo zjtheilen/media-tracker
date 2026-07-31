@@ -18,3 +18,15 @@ def get_genre_signal(profile, designation):
         score += count * weight
 
     return score
+
+
+def get_normalized_genre_signal(profile, designation):
+
+    raw_signal = get_genre_signal(profile, designation)
+
+    entry_count = profile.get("entryCount", 0)
+
+    if entry_count == 0:
+        return 0
+
+    return raw_signal / entry_count

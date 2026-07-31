@@ -66,3 +66,28 @@ def get_normalized_genre_signal(profile, designation):
         return 0
 
     return raw / entry_count
+
+
+from models.services.genre_signal_utils import (
+    get_genre_signal,
+    get_normalized_genre_signal,
+)
+
+
+def test_normalized_genre_signal_uses_archive_size():
+
+    profile = {
+        "entryCount": 100,
+        "genreDistribution": {
+            "surreal": {
+                "count": 25
+            }
+        }
+    }
+
+    result = get_normalized_genre_signal(
+        profile,
+        "experimentalist",
+    )
+
+    assert result == 0.25
