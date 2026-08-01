@@ -1,5 +1,7 @@
 import json
 from pathlib import Path
+from .identity_derived_traits import calculate_derived_trait
+
 
 IDENTITY_PATH = Path(__file__).parents[2] / "fixtures" / "designations"
 
@@ -67,48 +69,3 @@ def score_identity(identity, profile):
         score += contribution
     
     return round(score, 3)
-
-
-def calculate_derived_trait(trait, profile):
-    
-    universal = profile.get("universalAverages", {})
-    media = profile.get("mediaAverages", {})
-    genres = profile.get("genreDistribution", {})
-
-    if trait == "experimental_affinity":
-        percentage = genres.get("experimental", {}).get("percentage", 0)
-        return min(10, percentage / 10)
-
-    if trait == "genre_diversity":
-        return len(genres) * 2
-
-    if trait == "novelty":
-        return genres.get("experimental", {}).get("percentage", 0) / 10
-
-    if trait == "analysis":
-        psychological = genres.get("psychological", {}).get("percentage", 0)
-        mystery = genres.get("mystery", {}).get("percentage", 0)
-
-        return min(10, (psychological + mystery) / 10)
-    
-    if trait == "ambiguity":
-        psychological = genres.get("psychological", {}).get("percentage", 0)
-        mystery = genres.get("mystery", {}).get("percentage", 0)
-        surreal = genres.get("surreal", {}).get("percentage", 0)
-
-        return min(10, (psychological + mystery + surreal) / 10)
-    
-    if trait == "reflection":
-        psychological = genres.get("psychological", {}).get("percentage", 0)
-        mystery = genres.get("mystery", {}).get("percentage", 0)
-        drama = genres.get("drama", {}).get("percentage", 0)
-
-        return min(10, (psychological + mystery + drama) / 10)
-    
-    if trait == "system_design":
-        gameplay = media.get("gameplay_mechanics", 0)
-        craft = universal.get("craft", 0)
-
-        return gameplay * 0.7 + craft * 0.3
-    
-    return 0

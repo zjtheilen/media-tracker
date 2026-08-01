@@ -1,4 +1,5 @@
-from models.services.identity_scorer import calculate_derived_trait, evaluate_identity_scores
+from models.services.identity_derived_traits import calculate_derived_trait
+from models.services.identity_scorer import evaluate_identity_scores
 from tests.helpers.fixture_loader import load_profile_fixture
 
 
