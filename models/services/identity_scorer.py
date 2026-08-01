@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+
 from .identity_derived_traits import calculate_derived_trait
 
 
@@ -69,3 +70,32 @@ def score_identity(identity, profile):
         score += contribution
     
     return round(score, 3)
+
+
+def get_primary_identity(profile):
+
+    results = evaluate_identity_scores(profile)
+
+    if not results:
+        return None
+
+    identities = load_identities()
+
+    primary_id = results[0]["id"]
+
+    return next(
+        identity
+        for identity in identities
+        if identity["id"] == primary_id
+    )
+
+
+def test_get_primary_identity_returns_boundary_explorer():
+
+    profile = load_profile_fixture(
+        "boundary_explorer_profile.json"
+    )
+
+    identity = get_primary_identity(profile)
+
+    assert identity["id"] == "boundary_explorer"

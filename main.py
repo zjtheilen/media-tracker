@@ -44,6 +44,7 @@ from models.analytics.genre_statistics import (
     get_media_genre_affinity,
     get_top_genres_by_score
 )
+from models.services.identity_scorer import evaluate_identity_scores
 
 VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
 
@@ -426,6 +427,14 @@ def get_archive_profile():
     return build_archive_profile(entries)
 
 
+@app.get("/identities")
+def get_identities():
+
+    profile = get_archive_profile()
+
+    return evaluate_identity_scores(profile)
+
+
 @app.get("/genre-stats")
 def get_genre_stats():
     entries = get_entries()
@@ -438,3 +447,11 @@ def get_genre_stats():
         "genre_combinations": get_favorite_genre_combinations(entries),
         "media_affinity": get_media_genre_affinity(entries)
     }
+
+
+@app.get("/identity")
+def get_identity():
+
+    profile = get_archive_profile()
+
+    return generate_identity(profile)
