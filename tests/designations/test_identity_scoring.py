@@ -25,19 +25,37 @@ def test_boundary_explorer_scores_higher_than_other_identities():
 
 
 def test_deep_diver_profile_scores_deep_diver_highest():
-    pass
+    profile = load_profile_fixture("deep_diver_profile.json")
+    results = evaluate_identity_scores(profile)
+    scores = {result["id"]: result["score"] for result in results}
+    
+    assert results[0]["id"] == "deep_diver"
+    assert scores["deep_diver"] > scores["boundary_explorer"]
+    assert scores["deep_diver"] > scores["engagement_architect"]
 
 
 def test_engagement_architect_profile_scores_engagement_architect_highest():
-    pass
+    profile = load_profile_fixture("engagement_architect_profile.json")
+    results = evaluate_identity_scores(profile)
+    
+    assert results[0]["id"] == "engagement_architect"
 
 
 def test_generalist_profile_does_not_strongly_match_any_identity():
-    pass
+    profile = load_profile_fixture("generalist_profile.json")
+    results = evaluate_identity_scores(profile)
+    
+    assert results[0]["score"] < 0.7
 
 
 def test_empty_profile_returns_zero_scores():
-    pass
+    profile = {}
+
+    results = evaluate_identity_scores(profile)
+
+    scores = {result["id"]: result["score"] for result in results}
+
+    assert all(score == 0 for score in scores.values())
 
 
 def test_identity_below_minimum_entries_scores_zero():
