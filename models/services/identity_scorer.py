@@ -4,7 +4,7 @@ from pathlib import Path
 from .identity_derived_traits import calculate_derived_trait
 from .identity_utils import normalize
 
-IDENTITY_PATH = Path(__file__).parents[2] / "fixtures" / "designations"
+IDENTITY_PATH = Path(__file__).parents[2] / "fixtures" / "identities"
 
 
 def load_identities():

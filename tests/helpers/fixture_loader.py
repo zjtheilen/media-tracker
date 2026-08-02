@@ -18,9 +18,9 @@ def load_profile_fixture(name):
     return profile
 
 
-def load_designation_fixture(name):
+def load_identity_fixture(name):
 
-    path = ROOT / "fixtures" / "designations" / name
+    path = ROOT / "fixtures" / "identities" / name
 
     with open(path) as f:
         return json.load(f)

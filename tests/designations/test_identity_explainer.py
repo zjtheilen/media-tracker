@@ -1,7 +1,7 @@
 from models.services.identity_explainer import explain_identity_score
 from tests.helpers.fixture_loader import (
     load_profile_fixture,
-    load_designation_fixture,
+    load_identity_fixture,
 )
 
 
@@ -30,7 +30,7 @@ def test_boundary_explorer_explanation_uses_real_identity_fixture():
 
     profile = load_profile_fixture("boundary_explorer_profile.json")
 
-    identity = load_designation_fixture("boundary_explorer.json")
+    identity = load_identity_fixture("boundary_explorer.json")
 
     result = explain_identity_score(identity, profile)
 
