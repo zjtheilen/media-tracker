@@ -10,7 +10,7 @@ def test_identity_explanation_returns_trait_contributions():
     profile = load_profile_fixture("boundary_explorer_profile.json")
 
     identity = {
-        "identity_weights": {
+        "weights": {
             "originality": 0.35,
             "experimental_affinity": 0.25,
         }

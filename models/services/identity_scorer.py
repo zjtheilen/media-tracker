@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from .identity_derived_traits import calculate_derived_trait
+from .identity_scoring import calculate_identity_breakdown
 from .identity_utils import normalize
 
 IDENTITY_PATH = Path(__file__).parents[2] / "fixtures" / "identities"
@@ -43,29 +43,40 @@ def score_identity(identity, profile):
     if entry_count < minimum_entries:
         return 0
 
-    score = 0
+    breakdown = calculate_identity_breakdown(
+        identity,
+        profile,
+        normalize,
+    )
 
-    weights = identity["identity_weights"]
+    return round(
+        sum(item["contribution"] for item in breakdown),
+        3,
+    )
 
-    universal = profile.get("universalAverages", {})
-    media = profile.get("mediaAverages", {})
+    # score = 0
 
-    for trait, weight in weights.items():
+    # weights = identity["weights"]
 
-        if trait in universal:
-            value = universal[trait]
+    # universal = profile.get("universalAverages", {})
+    # media = profile.get("mediaAverages", {})
 
-        elif trait in media:
-            value = media[trait]
+    # for trait, weight in weights.items():
 
-        else:
-            value = calculate_derived_trait(trait, profile)
+    #     if trait in universal:
+    #         value = universal[trait]
 
-        contribution = normalize(value) * weight
+    #     elif trait in media:
+    #         value = media[trait]
 
-        score += contribution
+    #     else:
+    #         value = calculate_derived_trait(trait, profile)
 
-    return round(score, 3)
+    #     contribution = normalize(value) * weight
+
+    #     score += contribution
+
+    # return round(score, 3)
 
 
 def get_primary_identity(profile):

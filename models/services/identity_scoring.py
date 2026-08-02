@@ -19,7 +19,7 @@ def calculate_identity_breakdown(identity, profile, normalize):
 
     breakdown = []
 
-    weights = identity["identity_weights"]
+    weights = identity["weights"]
 
     for trait, weight in weights.items():
 

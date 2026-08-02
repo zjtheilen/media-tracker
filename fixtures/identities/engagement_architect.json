@@ -20,7 +20,7 @@
     "requirements": {
         "minimum_entries": 20
     },
-    "identity_weights": {
+    "weights": {
         "engagement": 0.40,
         "craft": 0.25,
         "gameplay_mechanics": 0.20,
