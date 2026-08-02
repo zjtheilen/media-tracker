@@ -1,34 +1,38 @@
 # media-tracker
 
-A personal media tracking and analytics application for logging, scoring, and deeply exploring consumed media across books, games, and video/film.
+Media Tracker is a personal media library and taste analysis platform built with FastAPI and modern JavaScript. Rather than simply storing ratings, it analyzes patterns across books, games, and films to build an evolving profile of the curator behind the collection.
 
-This tool is designed as a **personal taste analysis engine** — not just another review app. It helps you discover patterns in what emotionally resonates, which genres you love, and what specific qualities make something exceptional to *you*.
+Using a hybrid scoring system, genre intelligence, archive statistics, observations, and identity modeling, the application transforms personal ratings into explainable insights and recommendation-ready data.
 
 ---
 
 ## Features
 
-### Core Entry Management
-- Log **Books**, **Video/Film**, and **Games**
-- Rich metadata: Title, media type, genres (up to 3), notes, date consumed, completion status
-- Structured scoring with weighted categories
-- Full CRUD (Create, Read, Update, Delete)
-- Persistent SQLite storage
+### Library
+- CRUD
+- Filtering
+- Genre support
+- Completion tracking
 
-### Scoring System
-- Universal categories (for cross-media comparison and main radar chart)
-- Media-specific categories (tailored insights)
-- Automatic weighted total score calculation
-- Dynamic forms that adapt to media type
+### Analytics
+- Universal scoring
+- Media-specific scoring
+- Archive statistics
+- Genre affinity
+- Visual dashboards
 
-### Visualization & Analytics
-- Radar charts for universal scores per entry
-- Bar charts for media-specific breakdown
-- Dashboard with media distribution, average scores, genre analytics, top-rated lists, and monthly trends
+### Taste Intelligence
+- Archive traits
+- Observations
+- Archive findings
+- Curator identities
+- Explainable identity scoring
 
-### Genre System
-- Validated universal + media-specific genres
-- Genre filtering and search
+### Architecture
+- Fixture-driven identity system
+- Modular analytics pipeline
+- Explainable scoring
+- Recommendation-ready data model
 
 ---
 
@@ -100,10 +104,24 @@ Weighted scoring ensures categories you care about most have greater influence.
 ## Development Roadmap
 
 ### Current Status (develop-3)
-- Hybrid Universal + Media-Specific scoring system (in progress)
-- Dynamic forms with adaptive categories
-- Universal Radar Chart + Media-Specific Bar Chart
-- Enhanced validation and backwards compatibility
+✓ Hybrid scoring <br />
+✓ Archive profile generation <br />
+✓ Genre intelligence <br />
+✓ Identity scoring <br />
+✓ Observation engine <br />
+✓ Findings engine <br />
+
+In Progress
+- Identity endpoint
+- Profile endpoint
+- Explanation endpoint
+- Frontend archive profile
+
+Next
+- Recommendation engine
+- React frontend migration
+- Archive narrative system
+- Import / export
 
 ### Detailed Phase 6 — Enhanced Scoring System (develop-3)
 
@@ -144,6 +162,43 @@ Replace the current generic scoring model with a hybrid Universal + Media-Specif
 - Author / Director / Studio
 - Release Year, Cover Images, External IDs
 - Import / Export, Advanced Search, Custom Reports
+
+---
+
+## Testing
+
+The project includes a growing automated test suite covering:
+
+- Archive profile generation
+- Genre analytics
+- Identity scoring
+- Observation generation
+- API endpoints
+- Validation
+- Recommendation engine
+
+Current coverage:
+150+ automated tests
+
+---
+
+## Architecture
+
+Media Entries <br />
+      ↓ <br />
+Archive Statistics <br />
+      ↓ <br />
+Archive Traits <br />
+      ↓ <br />
+Genre Intelligence <br />
+      ↓ <br />
+Observations <br />
+      ↓ <br />
+Findings <br />
+      ↓ <br />
+Curator Identity <br />
+      ↓ <br />
+Recommendations (planned)
 
 ---
 
