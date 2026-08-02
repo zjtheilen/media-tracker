@@ -37,9 +37,7 @@ def test_generate_classification_basis():
 def test_calculate_designation_confidence():
 
     result = calculate_designation_confidence(
-        ("originality", 9.5),
-        ("depth", 9),
-        ("world_building", 8)
+        ("originality", 9.5), ("depth", 9), ("world_building", 8)
     )
 
     assert result == 8.8

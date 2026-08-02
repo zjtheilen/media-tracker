@@ -5,8 +5,9 @@ from .derived_traits import (
     calculate_analysis,
     calculate_ambiguity,
     calculate_reflection,
-    calculate_system_design
+    calculate_system_design,
 )
+
 
 def calculate_derived_trait(trait, profile):
 
@@ -20,17 +21,17 @@ def calculate_derived_trait(trait, profile):
 
     if trait == "novelty":
         return calculate_novelty(genres)
-        
+
     if trait == "analysis":
         return calculate_analysis(genres)
 
     if trait == "ambiguity":
         return calculate_ambiguity(genres)
-        
+
     if trait == "reflection":
         return calculate_reflection(genres)
-        
+
     if trait == "system_design":
         return calculate_system_design(profile)
-        
+
     return 0

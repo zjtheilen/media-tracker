@@ -1,7 +1,7 @@
 from models.services.archive_utils import (
     get_top_categories,
     calculate_designation_confidence,
-    calculate_average_scores
+    calculate_average_scores,
 )
 
 

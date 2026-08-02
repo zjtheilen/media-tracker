@@ -42,8 +42,9 @@ from models.analytics.genre_statistics import (
     get_genre_statistics,
     get_favorite_genre_combinations,
     get_media_genre_affinity,
-    get_top_genres_by_score
+    get_top_genres_by_score,
 )
+from models.services.identity_engine import generate_identity
 from models.services.identity_scorer import evaluate_identity_scores
 
 VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
@@ -260,7 +261,7 @@ def get_entries(genre: str | None = None):
         normalized = normalize_genre_query(genre)
 
         entries = [entry for entry in entries if normalized in entry.genres]
-    
+
     return entries
 
 
@@ -343,9 +344,11 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
                 updated_entry.media_item.media_type,
                 json.dumps(genres),
                 updated_entry.notes,
-                updated_entry.date_consumed.isoformat()
-                if updated_entry.date_consumed
-                else None,
+                (
+                    updated_entry.date_consumed.isoformat()
+                    if updated_entry.date_consumed
+                    else None
+                ),
                 updated_entry.completion_status,
                 updated_entry.total_score(),
                 json.dumps(entry_data.scores),
@@ -438,14 +441,14 @@ def get_identities():
 @app.get("/genre-stats")
 def get_genre_stats():
     entries = get_entries()
-    
+
     stats = get_genre_statistics(entries)
 
     return {
         "summary": stats["summary"],
         "top_genres": get_top_genres_by_score(stats),
         "genre_combinations": get_favorite_genre_combinations(entries),
-        "media_affinity": get_media_genre_affinity(entries)
+        "media_affinity": get_media_genre_affinity(entries),
     }
 
 

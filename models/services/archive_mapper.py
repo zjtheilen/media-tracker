@@ -10,15 +10,12 @@ def entry_to_archive_format(entry):
         MEDIA_SCORING_PROFILES,
     )
 
-    universal_categories = set(
-        UNIVERSAL_SCORING_PROFILE.keys()
-    )
+    universal_categories = set(UNIVERSAL_SCORING_PROFILE.keys())
 
     media_categories = set()
 
     for categories in MEDIA_SCORING_PROFILES.values():
         media_categories.update(categories.keys())
-
 
     for key, value in scores.items():
 
@@ -27,7 +24,6 @@ def entry_to_archive_format(entry):
 
         elif key in media_categories:
             media[key] = value
-
 
     return {
         "title": entry.title,

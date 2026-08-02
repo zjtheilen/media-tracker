@@ -78,9 +78,9 @@ class Entry:
             "scores": [score.to_dict() for score in self.scores],
             "genres": self.genres,
             "notes": self.notes,
-            "date_consumed": self.date_consumed.isoformat()
-            if self.date_consumed
-            else None,
+            "date_consumed": (
+                self.date_consumed.isoformat() if self.date_consumed else None
+            ),
             "completion_status": self.completion_status,
             "total_score": self.total_score(),
             "universal_scores": self.get_universal_scores(),

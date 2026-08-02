@@ -3,9 +3,7 @@ from models.services.profile_metrics import genre_diversity_score
 
 def test_genre_diversity_score_returns_zero_without_genres():
 
-    profile = {
-        "genreDistribution": {}
-    }
+    profile = {"genreDistribution": {}}
 
     result = genre_diversity_score(profile)
 

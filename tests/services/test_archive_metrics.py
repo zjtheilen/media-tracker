@@ -20,7 +20,7 @@ def test_archive_profile_contains_genre_affinity():
 
     assert "genreAffinity" in profile
     assert profile["genreAffinity"]["horror"] == 1.0
-    
+
 
 def test_archive_profile_handles_single_trait():
 

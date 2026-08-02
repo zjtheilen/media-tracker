@@ -12,11 +12,6 @@ def evaluate_interpretations(profile):
 
         if rule["evaluate"](profile):
 
-            results.append(
-                {
-                    "id": rule["id"],
-                    "text": rule["text"](profile)
-                }
-            )
+            results.append({"id": rule["id"], "text": rule["text"](profile)})
 
     return results

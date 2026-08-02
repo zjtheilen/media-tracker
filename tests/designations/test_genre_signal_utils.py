@@ -3,34 +3,16 @@ from models.services.genre_signal_utils import get_genre_signal
 
 def test_get_genre_signal():
 
-    profile = {
-        "genreDistribution": {
-            "surreal": {
-                "count": 5
-            },
-            "fantasy": {
-                "count": 2
-            }
-        }
-    }
+    profile = {"genreDistribution": {"surreal": {"count": 5}, "fantasy": {"count": 2}}}
 
-    result = get_genre_signal(
-        profile,
-        "experimentalist"
-    )
+    result = get_genre_signal(profile, "experimentalist")
 
     assert result == 5
-    
+
 
 def test_surreal_genre_supports_experimentalist():
 
-    profile = {
-        "genreDistribution": {
-            "surreal": {
-                "count": 10
-            }
-        }
-    }
+    profile = {"genreDistribution": {"surreal": {"count": 10}}}
 
     result = get_genre_signal(profile, "experimentalist")
 
@@ -39,19 +21,9 @@ def test_surreal_genre_supports_experimentalist():
 
 def test_normalized_genre_signal_uses_archive_size():
 
-    profile = {
-        "entryCount": 100,
-        "genreDistribution": {
-            "surreal": {
-                "count": 25
-            }
-        }
-    }
+    profile = {"entryCount": 100, "genreDistribution": {"surreal": {"count": 25}}}
 
-    result = get_normalized_genre_signal(
-        profile,
-        "experimentalist"
-    )
+    result = get_normalized_genre_signal(profile, "experimentalist")
 
     assert result == 0.25
 
@@ -76,14 +48,7 @@ from models.services.genre_signal_utils import (
 
 def test_normalized_genre_signal_uses_archive_size():
 
-    profile = {
-        "entryCount": 100,
-        "genreDistribution": {
-            "surreal": {
-                "count": 25
-            }
-        }
-    }
+    profile = {"entryCount": 100, "genreDistribution": {"surreal": {"count": 25}}}
 
     result = get_normalized_genre_signal(
         profile,

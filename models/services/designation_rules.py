@@ -11,7 +11,7 @@ def evaluate_boundary_explorer(profile):
     score += genre_affinity(profile, "horror") * 25
 
     score += trait_strength(profile["universalAverages"].get("originality", 0)) * 25
-    
+
     return min(score, 100)
 
 
@@ -51,13 +51,9 @@ def evaluate_curator(profile):
 
     score = 0
 
-    score += trait_strength(
-        profile["universalAverages"].get("craft", 0)
-    ) * 25
+    score += trait_strength(profile["universalAverages"].get("craft", 0)) * 25
 
-    score += trait_strength(
-        profile["universalAverages"].get("presentation", 0)
-    ) * 25
+    score += trait_strength(profile["universalAverages"].get("presentation", 0)) * 25
 
     score += min(profile["entryCount"] / 50, 1) * 25
 

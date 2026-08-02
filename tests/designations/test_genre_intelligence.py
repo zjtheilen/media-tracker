@@ -1,6 +1,6 @@
 from models.services.genre_intelligence import (
     calculate_genre_affinity,
-    calculate_genre_combinations
+    calculate_genre_combinations,
 )
 
 
@@ -8,14 +8,8 @@ def test_genre_affinity():
 
     profile = {
         "genreDistribution": {
-            "horror": {
-                "count": 5,
-                "percentage": 50
-            },
-            "sci-fi": {
-                "count": 2,
-                "percentage": 20
-            }
+            "horror": {"count": 5, "percentage": 50},
+            "sci-fi": {"count": 2, "percentage": 20},
         }
     }
 

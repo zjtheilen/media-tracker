@@ -30,7 +30,9 @@ def test_archive_summary_contains_genre_signature():
     )
 
     assert "The Engagement Architect" in summary
-    assert "Your archive demonstrates recurring interest in speculative worlds." in summary
+    assert (
+        "Your archive demonstrates recurring interest in speculative worlds." in summary
+    )
 
 
 def test_generate_genre_signature_filters_weak_genres():

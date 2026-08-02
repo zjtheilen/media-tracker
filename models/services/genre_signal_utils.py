@@ -9,11 +9,7 @@ def get_genre_signal(profile, designation):
 
         count = data.get("count", 0)
 
-        weight = (
-            GENRE_SIGNALS
-            .get(genre, {})
-            .get(designation, 0)
-        )
+        weight = GENRE_SIGNALS.get(genre, {}).get(designation, 0)
 
         score += count * weight
 

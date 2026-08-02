@@ -7,9 +7,7 @@ from tests.helpers.fixture_loader import (
 
 def test_identity_explanation_returns_trait_contributions():
 
-    profile = load_profile_fixture(
-        "boundary_explorer_profile.json"
-    )
+    profile = load_profile_fixture("boundary_explorer_profile.json")
 
     identity = {
         "identity_weights": {
@@ -18,10 +16,7 @@ def test_identity_explanation_returns_trait_contributions():
         }
     }
 
-    result = explain_identity_score(
-        identity,
-        profile
-    )
+    result = explain_identity_score(identity, profile)
 
     assert result[0]["trait"] == "originality"
     assert result[0]["contribution"] > 0
@@ -33,23 +28,13 @@ def test_identity_explanation_returns_trait_contributions():
 
 def test_boundary_explorer_explanation_uses_real_identity_fixture():
 
-    profile = load_profile_fixture(
-        "boundary_explorer_profile.json"
-    )
+    profile = load_profile_fixture("boundary_explorer_profile.json")
 
-    identity = load_designation_fixture(
-        "boundary_explorer.json"
-    )
+    identity = load_designation_fixture("boundary_explorer.json")
 
-    result = explain_identity_score(
-        identity,
-        profile
-    )
+    result = explain_identity_score(identity, profile)
 
     assert result[0]["trait"] == "originality"
     assert result[0]["contribution"] > 0
 
-    assert any(
-        item["trait"] == "experimental_affinity"
-        for item in result
-    )
+    assert any(item["trait"] == "experimental_affinity" for item in result)

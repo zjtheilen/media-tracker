@@ -77,12 +77,7 @@ def test_archive_traits_include_genre_signals():
 
     profile = {
         "entryCount": 10,
-        "genreDistribution": {
-            "horror": {
-                "count": 5,
-                "percentage": 50
-            }
-        },
+        "genreDistribution": {"horror": {"count": 5, "percentage": 50}},
         "universalAverages": {},
         "mediaAverages": {},
     }

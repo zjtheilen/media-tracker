@@ -201,10 +201,7 @@ def test_archive_profile_identities_are_sorted():
 
     identities = profile["identities"]
 
-    scores = [
-        identity["score"]
-        for identity in identities
-    ]
+    scores = [identity["score"] for identity in identities]
 
     assert scores == sorted(scores, reverse=True)
 
@@ -237,7 +234,7 @@ def test_archive_profile_keeps_designations_and_identities_separate():
 
 
 def test_archive_profile_handles_missing_media_scores():
-    
+
     entries = [
         {
             "title": "Experimental Film",
@@ -251,9 +248,9 @@ def test_archive_profile_handles_missing_media_scores():
         }
         for _ in range(30)
     ]
-    
+
     profile = build_archive_profile(entries)
-    
+
     assert profile["topMedia"] == [("none", 0)]
 
 

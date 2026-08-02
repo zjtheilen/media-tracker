@@ -3,7 +3,6 @@ from pathlib import Path
 
 from .identity_derived_traits import calculate_derived_trait
 
-
 IDENTITY_PATH = Path(__file__).parents[2] / "fixtures" / "designations"
 
 
@@ -68,7 +67,7 @@ def score_identity(identity, profile):
         contribution = normalize(value) * weight
 
         score += contribution
-    
+
     return round(score, 3)
 
 
@@ -83,18 +82,12 @@ def get_primary_identity(profile):
 
     primary_id = results[0]["id"]
 
-    return next(
-        identity
-        for identity in identities
-        if identity["id"] == primary_id
-    )
+    return next(identity for identity in identities if identity["id"] == primary_id)
 
 
 def test_get_primary_identity_returns_boundary_explorer():
 
-    profile = load_profile_fixture(
-        "boundary_explorer_profile.json"
-    )
+    profile = load_profile_fixture("boundary_explorer_profile.json")
 
     identity = get_primary_identity(profile)
 

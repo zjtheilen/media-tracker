@@ -28,7 +28,7 @@ def test_deep_diver_profile_scores_deep_diver_highest():
     profile = load_profile_fixture("deep_diver_profile.json")
     results = evaluate_identity_scores(profile)
     scores = {result["id"]: result["score"] for result in results}
-    
+
     assert results[0]["id"] == "deep_diver"
     assert scores["deep_diver"] > scores["boundary_explorer"]
     assert scores["deep_diver"] > scores["engagement_architect"]
@@ -37,14 +37,14 @@ def test_deep_diver_profile_scores_deep_diver_highest():
 def test_engagement_architect_profile_scores_engagement_architect_highest():
     profile = load_profile_fixture("engagement_architect_profile.json")
     results = evaluate_identity_scores(profile)
-    
+
     assert results[0]["id"] == "engagement_architect"
 
 
 def test_generalist_profile_does_not_strongly_match_any_identity():
     profile = load_profile_fixture("generalist_profile.json")
     results = evaluate_identity_scores(profile)
-    
+
     assert results[0]["score"] < 0.7
 
 
@@ -85,13 +85,9 @@ def test_deep_diver_analysis_trait_can_contribute():
     profile = {
         "entryCount": 40,
         "genreDistribution": {
-            "psychological": {
-                "percentage": 80
-            },
-            "mystery": {
-                "percentage": 20
-            }
-        }
+            "psychological": {"percentage": 80},
+            "mystery": {"percentage": 20},
+        },
     }
 
     results = evaluate_identity_scores(profile)
@@ -106,16 +102,10 @@ def test_deep_diver_ambiguity_trait_can_contribute():
     profile = {
         "entryCount": 40,
         "genreDistribution": {
-            "psychological": {
-                "percentage": 50
-            },
-            "mystery": {
-                "percentage": 30
-            },
-            "surreal": {
-                "percentage": 20
-            }
-        }
+            "psychological": {"percentage": 50},
+            "mystery": {"percentage": 30},
+            "surreal": {"percentage": 20},
+        },
     }
 
     results = evaluate_identity_scores(profile)
@@ -127,14 +117,7 @@ def test_deep_diver_ambiguity_trait_can_contribute():
 
 def test_reflection_trait_can_contribute():
 
-    profile = {
-        "entryCount": 40,
-        "genreDistribution": {
-            "drama": {
-                "percentage": 100
-            }
-        }
-    }
+    profile = {"entryCount": 40, "genreDistribution": {"drama": {"percentage": 100}}}
 
     results = evaluate_identity_scores(profile)
 
@@ -147,12 +130,8 @@ def test_engagement_architect_system_design_trait_can_contribute():
 
     profile = {
         "entryCount": 40,
-        "mediaAverages": {
-            "gameplay_mechanics": 10
-        },
-        "universalAverages": {
-            "craft": 10
-        }
+        "mediaAverages": {"gameplay_mechanics": 10},
+        "universalAverages": {"craft": 10},
     }
 
     results = evaluate_identity_scores(profile)
@@ -164,12 +143,8 @@ def test_engagement_architect_system_design_trait_can_contribute():
 
 def test_calculate_derived_trait():
     profile = {
-        "mediaAverages": {
-            "gameplay_mechanics": 10
-        },
-        "universalAverages": {
-            "craft": 10
-        }
+        "mediaAverages": {"gameplay_mechanics": 10},
+        "universalAverages": {"craft": 10},
     }
 
     assert calculate_derived_trait("system_design", profile) == 10

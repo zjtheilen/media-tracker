@@ -59,16 +59,10 @@ def row_to_entry_response(row) -> EntryResponse:
         genres = json.loads(genres_raw)
     else:
         genres = list(genres_raw)
-    
-    media_item = MediaItem(
-        row["title"],
-        row["media_type"]
-    )
 
-    score_objects = [
-        Score(category, value)
-        for category, value in scores.items()
-    ]
+    media_item = MediaItem(row["title"], row["media_type"])
+
+    score_objects = [Score(category, value) for category, value in scores.items()]
 
     entry = Entry(
         media_item=media_item,
@@ -76,7 +70,7 @@ def row_to_entry_response(row) -> EntryResponse:
         scores=score_objects,
         notes=row["notes"],
         date_consumed=row["date_consumed"],
-        completion_status=row["completion_status"]
+        completion_status=row["completion_status"],
     )
 
     return EntryResponse(

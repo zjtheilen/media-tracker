@@ -5,9 +5,7 @@ from tests.helpers.fixture_loader import load_profile_fixture
 
 def test_primary_identity_generates_finding():
 
-    profile = load_profile_fixture(
-        "boundary_explorer_profile.json"
-    )
+    profile = load_profile_fixture("boundary_explorer_profile.json")
 
     identity = get_primary_identity(profile)
 

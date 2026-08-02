@@ -30,15 +30,8 @@ def explain_identity_score(identity, profile):
                 "value": value,
                 "weight": weight,
                 "normalized": normalized,
-                "contribution": round(
-                    normalized * weight,
-                    3
-                )
+                "contribution": round(normalized * weight, 3),
             }
         )
 
-    return sorted(
-        breakdown,
-        key=lambda item: item["contribution"],
-        reverse=True
-    )
+    return sorted(breakdown, key=lambda item: item["contribution"], reverse=True)

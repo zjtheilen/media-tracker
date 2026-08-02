@@ -47,7 +47,7 @@ def test_curator_designation_scores_archive_breadth():
     result = evaluate_curator(profile)
 
     assert result == 100
-    
+
 
 def test_curator_designation_low_diversity_scores_lower():
 

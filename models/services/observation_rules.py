@@ -1,6 +1,5 @@
 from models.services.observation_utils import score_confidence
 
-
 OBSERVATION_RULES = [
     {
         "id": "boundary-preference",

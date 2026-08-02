@@ -1,4 +1,7 @@
-from models.services.genre_intelligence import calculate_genre_affinity, calculate_genre_combinations
+from models.services.genre_intelligence import (
+    calculate_genre_affinity,
+    calculate_genre_combinations,
+)
 from models.services.identity_scorer import evaluate_identity_scores
 from .trait_calculator import calculate_archive_traits
 from .profile_metrics import calculate_profile_metrics
@@ -30,7 +33,7 @@ from .archive_interpretation import (
     generate_secondary_trait_sentence,
     generate_archive_summary,
     generate_genre_signature_sentence,
-    generate_observation_summary
+    generate_observation_summary,
 )
 
 from .archive_narrative import (
@@ -44,19 +47,19 @@ def build_archive_profile(entries):
         return _empty_profile()
 
     archive_profile = _build_statistics(entries)
-    
+
     _build_traits(archive_profile)
-    
+
     _build_metrics(archive_profile)
 
     _build_designations(archive_profile)
 
     _build_identities(archive_profile)
-    
-    _build_observations(archive_profile)    
+
+    _build_observations(archive_profile)
 
     _build_findings(archive_profile)
-    
+
     _build_narrative(archive_profile)
 
     return archive_profile
@@ -64,7 +67,7 @@ def build_archive_profile(entries):
 
 def _build_statistics(entries):
     universal_averages = calculate_average_scores(entries, "universal_scores")
-    
+
     media_averages = calculate_average_scores(entries, "media_scores")
 
     media_distribution = calculate_media_distribution(entries)
@@ -84,7 +87,7 @@ def _build_statistics(entries):
     lowest_rated_entry = get_lowest_rated_entry(entries)
 
     genre_distribution = calculate_genre_distribution(entries)
-    
+
     return {
         "entries": entries,
         "entryCount": len(entries),
@@ -98,7 +101,7 @@ def _build_statistics(entries):
         "topUniversal": top_universal,
         "topMedia": top_media,
     }
-   
+
 
 def _build_narrative(archive_profile):
     primary_trait, primary_score = archive_profile["topUniversal"][0]
@@ -126,12 +129,12 @@ def _build_narrative(archive_profile):
         archive_profile["topUniversal"][1],
         archive_profile["genreSignature"],
     )
-    
+
 
 def _build_metrics(archive_profile):
     archive_profile["genreAffinity"] = calculate_genre_affinity(archive_profile)
     archive_profile["genreCombinations"] = calculate_genre_combinations(archive_profile)
-    
+
 
 def _build_designations(archive_profile):
 
@@ -156,7 +159,7 @@ def _build_designations(archive_profile):
     archive_profile["primaryDesignation"] = archive_profile["designations"][0]
 
 
-def _build_observations(archive_profile)    :
+def _build_observations(archive_profile):
     archive_profile["observations"] = evaluate_observations(archive_profile)
 
     archive_profile["observationSummary"] = generate_observation_summary(
@@ -174,9 +177,7 @@ def _build_identities(profile):
 
 def _build_traits(archive_profile):
 
-    archive_profile["traits"] = calculate_archive_traits(
-        archive_profile
-    )
+    archive_profile["traits"] = calculate_archive_traits(archive_profile)
 
 
 def _empty_profile():
