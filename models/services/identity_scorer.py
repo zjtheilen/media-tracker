@@ -25,11 +25,28 @@ def evaluate_identity_scores(profile):
     results = []
 
     for identity in identities:
+
+        score = score_identity(identity, profile)
+
         results.append(
-            {"id": identity["id"], "score": score_identity(identity, profile)}
+            {
+                "id": identity["id"],
+                "name": identity["name"],
+                "category": identity["category"],
+                "description": identity["description"],
+                "score": score,
+                "recommendation_bias": identity.get(
+                    "recommendation_bias",
+                    [],
+                ),
+            }
         )
 
-    return sorted(results, key=lambda item: item["score"], reverse=True)
+    return sorted(
+        results,
+        key=lambda item: item["score"],
+        reverse=True,
+    )
 
 
 def score_identity(identity, profile):
