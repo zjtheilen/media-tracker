@@ -53,7 +53,7 @@ def test_designation_finding_exists():
         finding for finding in findings if finding["id"] == "archive-designation"
     )
 
-    assert designation["category"] == "Archive Identity"
+    assert designation["category"] == "Archive Designation"
     assert "evidence" in designation
     assert "traits" in designation["evidence"]
     assert "genres" in designation["evidence"]

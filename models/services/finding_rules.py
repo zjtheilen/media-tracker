@@ -1,5 +1,3 @@
-from .designation_engine import evaluate_designations
-
 FINDING_RULES = [
     {
         "id": "concept-driven",
@@ -105,7 +103,7 @@ def generate_designation_finding(profile):
 
     return {
         "id": "archive-designation",
-        "category": "Archive Identity",
+        "category": "Archive Designation",
         "title": "Archive Designation",
         "description": (
             f"Your archive most closely aligns with {designation['title']}."
