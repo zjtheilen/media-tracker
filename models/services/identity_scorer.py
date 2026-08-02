@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from .identity_derived_traits import calculate_derived_trait
+from .identity_utils import normalize
 
 IDENTITY_PATH = Path(__file__).parents[2] / "fixtures" / "designations"
 
@@ -29,10 +30,6 @@ def evaluate_identity_scores(profile):
         )
 
     return sorted(results, key=lambda item: item["score"], reverse=True)
-
-
-def normalize(value):
-    return max(0, min(value / 10, 1))
 
 
 def score_identity(identity, profile):
