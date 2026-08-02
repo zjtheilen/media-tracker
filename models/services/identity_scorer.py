@@ -84,11 +84,3 @@ def get_primary_identity(profile):
 
     return next(identity for identity in identities if identity["id"] == primary_id)
 
-
-def test_get_primary_identity_returns_boundary_explorer():
-
-    profile = load_profile_fixture("boundary_explorer_profile.json")
-
-    identity = get_primary_identity(profile)
-
-    assert identity["id"] == "boundary_explorer"

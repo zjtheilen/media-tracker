@@ -1,6 +1,15 @@
 from models.services.identity_derived_traits import calculate_derived_trait
-from models.services.identity_scorer import evaluate_identity_scores
+from models.services.identity_scorer import evaluate_identity_scores, get_primary_identity
 from tests.helpers.fixture_loader import load_profile_fixture
+
+
+def test_get_primary_identity_returns_boundary_explorer():
+
+    profile = load_profile_fixture("boundary_explorer_profile.json")
+
+    identity = get_primary_identity(profile)
+
+    assert identity["id"] == "boundary_explorer"
 
 
 def test_boundary_explorer_profile_scores_boundary_explorer_highest():
