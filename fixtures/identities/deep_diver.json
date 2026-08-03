@@ -20,7 +20,7 @@
     "requirements": {
         "minimum_entries": 20
     },
-    "weights": {
+    "identity_weights": {
         "depth": 0.35,
         "emotional_impact": 0.25,
         "reflection": 0.20,

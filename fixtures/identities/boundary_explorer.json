@@ -20,7 +20,7 @@
     "requirements": {
         "minimum_entries": 15
     },
-    "weights": {
+    "identity_weights": {
         "originality": 0.35,
         "experimental_affinity": 0.25,
         "depth": 0.20,

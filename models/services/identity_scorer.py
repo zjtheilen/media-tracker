@@ -50,16 +50,9 @@ def evaluate_identity_scores(profile):
 
         results.append(
             {
-                "id": identity["id"],
-                "name": identity["name"],
-                "category": identity["category"],
-                "description": identity["description"],
+                **identity,
                 "score": score,
                 "breakdown": breakdown,
-                "recommendation_bias": identity.get(
-                    "recommendation_bias",
-                    [],
-                ),
             }
         )
 

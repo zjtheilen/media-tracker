@@ -1,3 +1,6 @@
+from models.services.identity_scorer import evaluate_identity_scores
+
+
 def test_identities_endpoint(client):
     response = client.get("/identities")
 
@@ -27,3 +30,15 @@ def test_identity_endpoint(client):
     assert "description" in data
     assert "evidence" in data
     assert "traits" in data["evidence"]
+
+
+def get_primary_identity(profile):
+
+    results = evaluate_identity_scores(profile)
+
+    if not results:
+        return None
+
+    print(results[0].keys())
+
+    return results[0]
