@@ -17,7 +17,14 @@ def test_concept_driven_not_triggered():
 
     results = evaluate_findings(profile)
 
-    assert results == []
+    assert not any(finding["id"] == "concept-driven" for finding in results)
+
+
+def test_findings_have_finding_ids():
+    profile = {"universalAverages": {"originality": 7, "depth": 9}}
+    findings = evaluate_findings(profile)
+
+    assert any(finding["id"] == "identity-profile" for finding in findings)
 
 
 def test_empty_findings():

@@ -1,5 +1,6 @@
 from .identity_scorer import get_primary_identity
-from .identity_finding import generate_identity_finding
+from .identity_explainer import explain_identity_score
+from .identity_confidence import calculate_identity_confidence
 
 
 def generate_identity(profile):
@@ -9,4 +10,18 @@ def generate_identity(profile):
     if not identity:
         return None
 
-    return generate_identity_finding(identity, profile)
+    explanation = explain_identity_score(
+        identity,
+        profile,
+    )
+
+    confidence = calculate_identity_confidence(
+        identity,
+        profile,
+    )
+
+    return {
+        **identity,
+        **explanation,
+        "confidence": confidence,
+    }

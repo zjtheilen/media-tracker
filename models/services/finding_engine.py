@@ -1,3 +1,6 @@
+from models.services.identity_engine import generate_identity
+from models.services.identity_finding import generate_identity_finding
+
 from .finding_rules import FINDING_RULES, generate_designation_finding
 
 
@@ -22,5 +25,15 @@ def evaluate_findings(profile):
                     **rule["generate"](profile),
                 }
             )
+
+    identity = generate_identity(profile)
+
+    if identity:
+        findings.append(
+            generate_identity_finding(
+                identity,
+                profile,
+            )
+        )
 
     return findings
