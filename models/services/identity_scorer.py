@@ -91,8 +91,10 @@ def get_primary_identity(profile):
     if not results:
         return None
 
-    identities = load_identities()
+    return results[0]
 
-    primary_id = results[0]["id"]
+    # identities = load_identities()
 
-    return next(identity for identity in identities if identity["id"] == primary_id)
+    # primary_id = results[0]["id"]
+
+    # return next(identity for identity in identities if identity["id"] == primary_id)
