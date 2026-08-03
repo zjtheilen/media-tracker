@@ -36,3 +36,16 @@ def test_boundary_explorer_explanation_uses_real_identity_fixture():
     result = explain_identity_score(identity, profile)
 
     assert result["top_traits"][0]["trait"] == "originality"
+
+
+def test_identity_explanation_contract():
+
+    profile = load_profile_fixture("boundary_explorer_profile.json")
+    
+    identity = load_identity_fixture("boundary_explorer.json")
+
+    result = explain_identity_score(identity, profile)
+
+    assert result["score"] > 0
+    assert len(result["top_traits"]) <= 3
+    assert result["top_traits"][0]["contribution"] >= result["top_traits"][1]["contribution"]

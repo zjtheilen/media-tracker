@@ -10,11 +10,15 @@ def explain_identity_score(identity, profile):
         normalize,
     )
 
+    score = round(
+        sum(item["contribution"] for item in breakdown),
+        3,
+    )
+
+    top_traits = breakdown[:3]
+
     return {
-        "score": round(
-            sum(item["contribution"] for item in breakdown),
-            3,
-        ),
+        "score": score,
         "breakdown": breakdown,
-        "top_traits": breakdown[:3],
+        "top_traits": top_traits,
     }
