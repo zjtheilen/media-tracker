@@ -26,7 +26,27 @@ def evaluate_identity_scores(profile):
 
     for identity in identities:
 
-        score = score_identity(identity, profile)
+        requirements = identity.get("requirements", {})
+
+        minimum_entries = requirements.get("minimum_entries", 0)
+
+        entry_count = profile.get("entryCount", 0)
+
+        if entry_count < minimum_entries:
+            score = 0
+            breakdown = []
+
+        else:
+            breakdown = calculate_identity_breakdown(
+                identity,
+                profile,
+                normalize,
+            )
+
+            score = round(
+                sum(item["contribution"] for item in breakdown),
+                3,
+            )
 
         results.append(
             {
@@ -35,6 +55,7 @@ def evaluate_identity_scores(profile):
                 "category": identity["category"],
                 "description": identity["description"],
                 "score": score,
+                "breakdown": breakdown,
                 "recommendation_bias": identity.get(
                     "recommendation_bias",
                     [],
@@ -51,15 +72,6 @@ def evaluate_identity_scores(profile):
 
 def score_identity(identity, profile):
 
-    requirements = identity.get("requirements", {})
-
-    minimum_entries = requirements.get("minimum_entries", 0)
-
-    entry_count = profile.get("entryCount", 0)
-
-    if entry_count < minimum_entries:
-        return 0
-
     breakdown = calculate_identity_breakdown(
         identity,
         profile,
@@ -70,30 +82,6 @@ def score_identity(identity, profile):
         sum(item["contribution"] for item in breakdown),
         3,
     )
-
-    # score = 0
-
-    # weights = identity["weights"]
-
-    # universal = profile.get("universalAverages", {})
-    # media = profile.get("mediaAverages", {})
-
-    # for trait, weight in weights.items():
-
-    #     if trait in universal:
-    #         value = universal[trait]
-
-    #     elif trait in media:
-    #         value = media[trait]
-
-    #     else:
-    #         value = calculate_derived_trait(trait, profile)
-
-    #     contribution = normalize(value) * weight
-
-    #     score += contribution
-
-    # return round(score, 3)
 
 
 def get_primary_identity(profile):
@@ -108,4 +96,3 @@ def get_primary_identity(profile):
     primary_id = results[0]["id"]
 
     return next(identity for identity in identities if identity["id"] == primary_id)
-
