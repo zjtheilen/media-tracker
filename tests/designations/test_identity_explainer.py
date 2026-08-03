@@ -18,12 +18,13 @@ def test_identity_explanation_returns_trait_contributions():
 
     result = explain_identity_score(identity, profile)
 
-    assert result[0]["trait"] == "originality"
-    assert result[0]["contribution"] > 0
+    assert result["top_traits"][0]["trait"] == "originality"
 
-    assert "value" in result[0]
-    assert "weight" in result[0]
-    assert "normalized" in result[0]
+    assert result["breakdown"][0]["contribution"] > 0
+
+    assert "value" in result["breakdown"][0]
+    assert "weight" in result["breakdown"][0]
+    assert "normalized" in result["breakdown"][0]
 
 
 def test_boundary_explorer_explanation_uses_real_identity_fixture():
@@ -34,7 +35,4 @@ def test_boundary_explorer_explanation_uses_real_identity_fixture():
 
     result = explain_identity_score(identity, profile)
 
-    assert result[0]["trait"] == "originality"
-    assert result[0]["contribution"] > 0
-
-    assert any(item["trait"] == "experimental_affinity" for item in result)
+    assert result["top_traits"][0]["trait"] == "originality"

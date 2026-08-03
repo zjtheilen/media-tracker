@@ -11,7 +11,7 @@ def generate_identity_finding(identity, profile):
         "title": identity["name"],
         "description": identity["description"],
         "evidence": {
-            "traits": explanation[:3],
+            "traits": explanation["top_traits"],
             "recommendation_bias": identity.get("recommendation_bias", []),
         },
     }

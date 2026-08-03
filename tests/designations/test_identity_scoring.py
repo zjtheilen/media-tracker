@@ -1,5 +1,8 @@
 from models.services.identity_derived_traits import calculate_derived_trait
-from models.services.identity_scorer import evaluate_identity_scores, get_primary_identity
+from models.services.identity_scorer import (
+    evaluate_identity_scores,
+    get_primary_identity,
+)
 from tests.helpers.fixture_loader import load_profile_fixture
 
 
@@ -157,3 +160,21 @@ def test_calculate_derived_trait():
     }
 
     assert calculate_derived_trait("system_design", profile) == 10
+
+
+def test_debug_identity_scores():
+    profile = load_profile_fixture("boundary_explorer_profile.json")
+
+    results = evaluate_identity_scores(profile)
+
+    for result in results:
+        print("\n", result["name"], result["score"])
+
+        for item in result["breakdown"]:
+            print(
+                " ",
+                item["trait"],
+                item["value"],
+                "=>",
+                item["contribution"],
+            )
