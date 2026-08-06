@@ -1,7 +1,6 @@
-from models.services.identity_engine import generate_identity
+# from models.services.identity_engine import generate_identity
 from models.services.identity_finding import generate_identity_finding
-
-from .finding_rules import FINDING_RULES, generate_designation_finding
+from .finding_rules import FINDING_RULES
 
 
 def evaluate_findings(profile):
@@ -10,11 +9,6 @@ def evaluate_findings(profile):
         return []
 
     findings = []
-
-    designation = generate_designation_finding(profile)
-
-    if designation:
-        findings.append(designation)
 
     for rule in FINDING_RULES:
         if rule["evaluate"](profile):
@@ -26,7 +20,7 @@ def evaluate_findings(profile):
                 }
             )
 
-    identity = generate_identity(profile)
+    identity = profile.get("primaryIdentity")
 
     if identity:
         findings.append(

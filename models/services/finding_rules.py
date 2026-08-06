@@ -92,28 +92,3 @@ FINDING_RULES = [
         },
     },
 ]
-
-
-def generate_designation_finding(profile):
-
-    designation = profile.get("primaryDesignation")
-
-    if not designation:
-        return None
-
-    return {
-        "id": "archive-designation",
-        "category": "Archive Designation",
-        "title": "Archive Designation",
-        "description": (
-            f"Your archive most closely aligns with {designation['title']}."
-        ),
-        "evidence": {
-            "traits": designation.get("traits", []),
-            "genres": designation.get("genres", []),
-            "recommendation_bias": designation.get(
-                "recommendation_bias",
-                [],
-            ),
-        },
-    }

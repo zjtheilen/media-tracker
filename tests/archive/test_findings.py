@@ -1,5 +1,6 @@
 from models.services.archive_engine import build_archive_profile
 from models.services.finding_engine import evaluate_findings
+from models.services.identity_engine import generate_identity
 
 
 def test_concept_driven_finding():
@@ -20,8 +21,18 @@ def test_concept_driven_not_triggered():
     assert not any(finding["id"] == "concept-driven" for finding in results)
 
 
-def test_findings_have_finding_ids():
-    profile = {"universalAverages": {"originality": 7, "depth": 9}}
+def test_identity_finding_exists():
+
+    profile = {
+        "universalAverages": {
+            "originality": 9,
+            "depth": 10,
+        },
+        "entryCount": 30,
+    }
+
+    profile["primaryIdentity"] = generate_identity(profile)
+
     findings = evaluate_findings(profile)
 
     assert any(finding["id"] == "identity-profile" for finding in findings)
@@ -34,7 +45,7 @@ def test_empty_findings():
     assert results == []
 
 
-def test_designation_finding_exists():
+def test_archive_designation_is_not_a_finding():
 
     entries = [
         {
@@ -56,12 +67,4 @@ def test_designation_finding_exists():
 
     findings = evaluate_findings(profile)
 
-    designation = next(
-        finding for finding in findings if finding["id"] == "archive-designation"
-    )
-
-    assert designation["category"] == "Archive Designation"
-    assert "evidence" in designation
-    assert "traits" in designation["evidence"]
-    assert "genres" in designation["evidence"]
-    assert "recommendation_bias" in designation["evidence"]
+    assert not any(finding["id"] == "archive-designation" for finding in findings)

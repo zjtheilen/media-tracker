@@ -14,7 +14,7 @@ def test_boundary_explorer_generates_identity_finding():
     result = generate_identity_finding(identity, profile)
 
     assert result["id"] == "identity-profile"
-    assert result["category"] == "Archive Identity"
+    assert result["category"] == "Identity Pattern"
     assert result["title"] == "Boundary Explorer"
 
     assert "evidence" in result

@@ -39,6 +39,6 @@ def get_primary_identity(profile):
     if not results:
         return None
 
-    print(results[0].keys())
+    # print(results[0].keys())
 
     return results[0]

@@ -7,7 +7,7 @@ def generate_identity_finding(identity, profile):
 
     return {
         "id": "identity-profile",
-        "category": "Archive Identity",
+        "category": "Identity Pattern",
         "title": identity["title"],
         "description": identity["description"],
         "evidence": {
