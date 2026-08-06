@@ -126,6 +126,7 @@ def _build_narrative(archive_profile):
 
     archive_profile["archiveSummary"] = generate_archive_summary(
         archive_profile["primaryDesignation"],
+        archive_profile["primaryIdentity"],
         archive_profile["topUniversal"][0],
         archive_profile["topUniversal"][1],
         archive_profile["genreSignature"],

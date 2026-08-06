@@ -24,6 +24,9 @@ def test_no_interpretation_when_threshold_not_met():
 def test_archive_summary_contains_genre_signature():
     summary = generate_archive_summary(
         {"title": "The Engagement Architect"},
+        {
+            "title": "Boundary Explorer",
+        },
         ("engagement", 9.2),
         ("craft", 8.9),
         "Your archive demonstrates recurring interest in speculative worlds.",

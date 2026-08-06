@@ -7,6 +7,7 @@ from .archive_narrative import (
 
 def generate_archive_summary(
     designation,
+    primary_identity,
     primary_trait,
     secondary_trait,
     genre_signature,
