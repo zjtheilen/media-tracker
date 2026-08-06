@@ -12,5 +12,5 @@ def test_primary_identity_generates_finding():
     result = generate_identity_finding(identity, profile)
 
     assert result["id"] == "identity-profile"
-    assert result["title"] == identity["name"]
+    assert result["title"] == identity["title"]
     assert "traits" in result["evidence"]

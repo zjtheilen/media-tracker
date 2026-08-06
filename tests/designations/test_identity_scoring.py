@@ -168,7 +168,7 @@ def test_debug_identity_scores():
     results = evaluate_identity_scores(profile)
 
     for result in results:
-        print("\n", result["name"], result["score"])
+        print(result["title"], result["score"])
 
         for item in result["breakdown"]:
             print(

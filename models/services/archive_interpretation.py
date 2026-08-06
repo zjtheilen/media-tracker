@@ -16,6 +16,8 @@ def generate_archive_summary(
     return (
         f"Overall, your archive most closely matches "
         f"{designation['title']}. "
+        f"Your curator identity most closely aligns with "
+        f"{primary_identity['title']}. "
         f"Your collection is most strongly defined by "
         f"{get_trait_description(primary_trait[0])}. "
         f"It also consistently values "
