@@ -2,6 +2,7 @@ from models.services.genre_intelligence import (
     calculate_genre_affinity,
     calculate_genre_combinations,
 )
+from models.services.identity_engine import generate_identity
 from models.services.identity_scorer import evaluate_identity_scores
 from .trait_calculator import calculate_archive_traits
 from .profile_metrics import calculate_profile_metrics
@@ -171,8 +172,9 @@ def _build_findings(archive_profile):
     archive_profile["findings"] = evaluate_findings(archive_profile)
 
 
-def _build_identities(profile):
-    profile["identities"] = evaluate_identity_scores(profile)
+def _build_identities(archive_profile):
+    archive_profile["identities"] = evaluate_identity_scores(archive_profile)
+    archive_profile["primaryIdentity"] = generate_identity(archive_profile)
 
 
 def _build_traits(archive_profile):
@@ -204,6 +206,7 @@ def _empty_profile():
         "designations": [],
         "primaryDesignation": None,
         "identities": [],
+        "primaryIdentity": None,
         "observations": [],
         "observationSummary": None,
         "findings": [],

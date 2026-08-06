@@ -282,3 +282,29 @@ def test_archive_profile_contains_all_sections():
     assert "observations" in profile
     assert "findings" in profile
     assert "archiveSummary" in profile
+
+
+def test_archive_profile_includes_primary_identity():
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+                "novelty": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(20)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert "primaryIdentity" in profile
+    assert profile["primaryIdentity"] is not None
+    assert profile["primaryIdentity"]["id"] == profile["identities"][0]["id"]
