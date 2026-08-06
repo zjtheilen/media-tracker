@@ -68,3 +68,30 @@ def test_archive_designation_is_not_a_finding():
     findings = evaluate_findings(profile)
 
     assert not any(finding["id"] == "archive-designation" for finding in findings)
+
+
+def test_findings_have_neutral_structure():
+    entries = [
+        {
+            "title": "Coherence",
+            "media_type": "video",
+            "genres": ["sci-fi", "surreal"],
+            "total_score": 95,
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+    ]
+
+    profile = build_archive_profile(entries)
+    finding = evaluate_findings(profile)[0]
+
+    assert "id" in finding
+    assert "category" in finding
+    assert "title" in finding
+    assert "description" in finding
+    assert "evidence" in finding
