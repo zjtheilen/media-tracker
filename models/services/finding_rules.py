@@ -12,9 +12,20 @@ FINDING_RULES = [
                 "Your highest rated works consistently favor unusual ideas "
                 "and conceptual depth."
             ),
-            "evidence": (
-                f"Originality {profile['universalAverages']['originality']:.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "originality",
+                    "label": "Originality",
+                    "value": profile["universalAverages"]["originality"],
+                    "unit": "score",
+                },
+                {
+                    "metric": "depth",
+                    "label": "Depth",
+                    "value": profile["universalAverages"]["depth"],
+                    "unit": "score",
+                },
+            ],
         },
     },
     {
@@ -29,10 +40,14 @@ FINDING_RULES = [
                 "Your archive strongly rewards experiences that maintain momentum "
                 "and consistently hold attention."
             ),
-            "evidence": (
-                f"Engagement "
-                f"{profile.get('universalAverages', {}).get('engagement', 0):.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "engagement",
+                    "label": "Engagement",
+                    "value": profile["universalAverages"]["engagement"],
+                    "unit": "score",
+                },
+            ],
         },
     },
     {
@@ -47,10 +62,14 @@ FINDING_RULES = [
                 "Your archive demonstrates appreciation for interactive systems, "
                 "mechanics, and designed experiences."
             ),
-            "evidence": (
-                f"Gameplay Mechanics "
-                f"{profile.get('mediaAverages', {}).get('gameplay_mechanics', 0):.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "gameplay_mechanics",
+                    "label": "Gameplay Mechanics",
+                    "value": profile["mediaAverages"]["gameplay_mechanics"],
+                    "unit": "score",
+                },
+            ],
         },
     },
     {
@@ -66,10 +85,14 @@ FINDING_RULES = [
                 "Your collection shows a strong attraction toward speculative "
                 "worlds, alternate realities, and unfamiliar possibilities."
             ),
-            "evidence": (
-                f"Sci-Fi Presence "
-                f"{profile['genreDistribution']['sci-fi']['percentage']:.1f}%"
-            ),
+            "evidence": [
+                {
+                    "metric": "sci-fi",
+                    "label": "Sci-Fi Presence",
+                    "value": profile["genreDistribution"]["sci-fi"]["percentage"],
+                    "unit": "percent",
+                },
+            ],
         },
     },
     {
@@ -88,7 +111,22 @@ FINDING_RULES = [
                 "Your archive values mood, atmosphere, and immersive identity "
                 "alongside traditional evaluation categories."
             ),
-            "evidence": (f"Atmospheric Signals detected across archive"),
+            "evidence": [
+                {
+                    "metric": "art_atmosphere",
+                    "label": "Art Atmosphere",
+                    "value": profile.get("mediaAverages", {}).get("art_atmosphere", 0),
+                    "unit": "score",
+                },
+                {
+                    "metric": "surreal",
+                    "label": "Surreal Presence",
+                    "value": profile.get("genreDistribution", {})
+                    .get("surreal", {})
+                    .get("percentage", 0),
+                    "unit": "percent",
+                },
+            ],
         },
     },
 ]
