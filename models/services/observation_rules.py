@@ -1,3 +1,4 @@
+from models.services.evidence_utils import genre_evidence, metric_evidence
 from models.services.observation_utils import score_confidence
 
 OBSERVATION_RULES = [
@@ -41,35 +42,25 @@ OBSERVATION_RULES = [
                 "conventional structures."
             ),
             "evidence": [
-                {
-                    "metric": "originality",
-                    "label": "Originality",
-                    "value": profile.get("universalAverages", {}).get("originality", 0),
-                    "unit": "score",
-                    "type": "metric",
-                },
-                {
-                    "metric": "experimental",
-                    "label": "Experimental Presence",
-                    "value": (
-                        profile.get("genreDistribution", {})
-                        .get("experimental", {})
-                        .get("percentage", 0)
-                    ),
-                    "unit": "percent",
-                    "type": "genre",
-                },
-                {
-                    "metric": "surreal",
-                    "label": "Surreal Presence",
-                    "value": (
-                        profile.get("genreDistribution", {})
-                        .get("surreal", {})
-                        .get("percentage", 0)
-                    ),
-                    "unit": "percent",
-                    "type": "genre",
-                },
+                metric_evidence(
+                    "originality",
+                    "Originality",
+                    profile.get("universalAverages", {}).get("originality", 0),
+                ),
+                genre_evidence(
+                    "experimental",
+                    "Experimental Presence",
+                    profile.get("genreDistribution", {})
+                    .get("experimental", {})
+                    .get("percentage", 0),
+                ),
+                genre_evidence(
+                    "surreal",
+                    "Surreal Presence",
+                    profile.get("genreDistribution", {})
+                    .get("surreal", {})
+                    .get("percentage", 0),
+                ),
             ],
         },
     },
@@ -101,16 +92,14 @@ OBSERVATION_RULES = [
                 "mechanics, interactions, and structured experiences."
             ),
             "evidence": [
-                {
-                    "metric": "gameplay_mechanics",
-                    "label": "Gameplay Mechanics",
-                    "value": profile.get("mediaAverages", {}).get(
+                metric_evidence(
+                    "gameplay_mechanics",
+                    "Gameplay Mechanics",
+                    profile.get("mediaAverages", {}).get(
                         "gameplay_mechanics",
                         0,
                     ),
-                    "unit": "score",
-                    "type": "metric",
-                },
+                ),
             ],
         },
     },
@@ -144,16 +133,14 @@ OBSERVATION_RULES = [
                 "analysis, reflection, and layered interpretation."
             ),
             "evidence": [
-                {
-                    "metric": "depth",
-                    "label": "Depth",
-                    "value": profile.get("universalAverages", {}).get(
+                metric_evidence(
+                    "depth",
+                    "Depth",
+                    profile.get("universalAverages", {}).get(
                         "depth",
                         0,
                     ),
-                    "unit": "score",
-                    "type": "metric",
-                },
+                ),
             ],
         },
     },
@@ -189,27 +176,21 @@ OBSERVATION_RULES = [
                 "traditional storytelling."
             ),
             "evidence": [
-                {
-                    "metric": "art_atmosphere",
-                    "label": "Art Atmosphere",
-                    "value": profile.get("mediaAverages", {}).get(
+                metric_evidence(
+                    "art_atmosphere",
+                    "Art Atmosphere",
+                    profile.get("mediaAverages", {}).get(
                         "art_atmosphere",
                         0,
                     ),
-                    "unit": "score",
-                    "type": "metric",
-                },
-                {
-                    "metric": "surreal",
-                    "label": "Surreal Presence",
-                    "value": (
-                        profile.get("genreDistribution", {})
-                        .get("surreal", {})
-                        .get("percentage", 0)
-                    ),
-                    "unit": "percent",
-                    "type": "genre",
-                },
+                ),
+                genre_evidence(
+                    "surreal",
+                    "Surreal Presence",
+                    profile.get("genreDistribution", {})
+                    .get("surreal", {})
+                    .get("percentage", 0),
+                ),
             ],
         },
     },
@@ -240,16 +221,14 @@ OBSERVATION_RULES = [
                 "a lasting emotional impression."
             ),
             "evidence": [
-                {
-                    "metric": "emotional_impact",
-                    "label": "Emotional Impact",
-                    "value": profile.get("universalAverages", {}).get(
+                metric_evidence(
+                    "emotional_impact",
+                    "Emotional Impact",
+                    profile.get("universalAverages", {}).get(
                         "emotional_impact",
                         0,
                     ),
-                    "unit": "score",
-                    "type": "metric",
-                },
+                ),
             ],
         },
     },
@@ -277,16 +256,14 @@ OBSERVATION_RULES = [
                 "and technical craftsmanship."
             ),
             "evidence": [
-                {
-                    "metric": "craft",
-                    "label": "Craft",
-                    "value": profile.get("universalAverages", {}).get(
+                metric_evidence(
+                    "craft",
+                    "Craft",
+                    profile.get("universalAverages", {}).get(
                         "craft",
                         0,
                     ),
-                    "unit": "score",
-                    "type": "metric",
-                },
+                ),
             ],
         },
     },
