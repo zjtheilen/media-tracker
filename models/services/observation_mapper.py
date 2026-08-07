@@ -1,5 +1,9 @@
 def map_observation(rule, profile):
+
+    observation = rule["generate"](profile)
+
     return {
+        **observation,
         "id": rule["id"],
         "category": rule["category"],
         "traits": rule.get("traits", []),
@@ -9,5 +13,4 @@ def map_observation(rule, profile):
             "related_designations",
             [],
         ),
-        **rule["generate"](profile),
     }
