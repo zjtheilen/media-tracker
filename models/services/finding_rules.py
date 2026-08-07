@@ -1,3 +1,5 @@
+from models.services.evidence_utils import genre_evidence, metric_evidence
+
 FINDING_RULES = [
     {
         "id": "concept-driven",
@@ -12,20 +14,16 @@ FINDING_RULES = [
                 "Highly rated entries consistently favor unusual ideas and conceptual depth."
             ),
             "evidence": [
-                {
-                    "metric": "originality",
-                    "label": "Originality",
-                    "value": profile["universalAverages"]["originality"],
-                    "unit": "score",
-                    "type": "metric",
-                },
-                {
-                    "metric": "depth",
-                    "label": "Depth",
-                    "value": profile["universalAverages"]["depth"],
-                    "unit": "score",
-                    "type": "metric",
-                },
+                metric_evidence(
+                    "originality",
+                    "Originality",
+                    profile["universalAverages"]["originality"],
+                ),
+                metric_evidence(
+                    "depth",
+                    "Depth",
+                    profile["universalAverages"]["depth"],
+                ),
             ],
         },
     },
@@ -41,13 +39,11 @@ FINDING_RULES = [
                 "The archive strongly rewards experiences that maintain momentum and consistently hold attention."
             ),
             "evidence": [
-                {
-                    "metric": "engagement",
-                    "label": "Engagement",
-                    "value": profile["universalAverages"]["engagement"],
-                    "unit": "score",
-                    "type": "metric",
-                },
+                metric_evidence(
+                    "engagement",
+                    "Engagement",
+                    profile["universalAverages"]["engagement"],
+                ),
             ],
         },
     },
@@ -63,13 +59,11 @@ FINDING_RULES = [
                 "The archive consistently rewards interactive systems, mechanics, and structured experiences."
             ),
             "evidence": [
-                {
-                    "metric": "gameplay_mechanics",
-                    "label": "Gameplay Mechanics",
-                    "value": profile["mediaAverages"]["gameplay_mechanics"],
-                    "unit": "score",
-                    "type": "metric",
-                },
+                metric_evidence(
+                    "gameplay_mechanics",
+                    "Gameplay Mechanics",
+                    profile["mediaAverages"]["gameplay_mechanics"],
+                ),
             ],
         },
     },
@@ -86,13 +80,11 @@ FINDING_RULES = [
                 "The archive consistently favors speculative worlds, alternate realities, and unfamiliar possibilities."
             ),
             "evidence": [
-                {
-                    "metric": "sci-fi",
-                    "label": "Sci-Fi Presence",
-                    "value": profile["genreDistribution"]["sci-fi"]["percentage"],
-                    "unit": "percent",
-                    "type": "genre",
-                },
+                genre_evidence(
+                    "sci-fi",
+                    "Sci-Fi Presence",
+                    profile["genreDistribution"]["sci-fi"]["percentage"],
+                ),
             ],
         },
     },
@@ -112,22 +104,18 @@ FINDING_RULES = [
                 "The archive consistently rewards atmosphere, visual identity, and immersive mood alongside traditional storytelling."
             ),
             "evidence": [
-                {
-                    "metric": "art_atmosphere",
-                    "label": "Art Atmosphere",
-                    "value": profile.get("mediaAverages", {}).get("art_atmosphere", 0),
-                    "unit": "score",
-                    "type": "metric",
-                },
-                {
-                    "metric": "surreal",
-                    "label": "Surreal Presence",
-                    "value": profile.get("genreDistribution", {})
+                metric_evidence(
+                    "art_atmosphere",
+                    "Art Atmosphere",
+                    profile.get("mediaAverages", {}).get("art_atmosphere", 0),
+                ),
+                genre_evidence(
+                    "surreal",
+                    "Surreal Presence",
+                    profile.get("genreDistribution", {})
                     .get("surreal", {})
                     .get("percentage", 0),
-                    "unit": "percent",
-                    "type": "genre",
-                },
+                ),
             ],
         },
     },

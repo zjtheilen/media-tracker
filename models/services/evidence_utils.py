@@ -1,9 +1,4 @@
-def metric_evidence(
-    metric,
-    label,
-    value,
-    unit="score",
-):
+def metric_evidence(metric, label, value, unit="score"):
     return {
         "metric": metric,
         "label": label,
@@ -13,15 +8,11 @@ def metric_evidence(
     }
 
 
-def genre_evidence(
-    genre,
-    label,
-    percentage,
-):
+def genre_evidence(genre, label, value, unit="percent"):
     return {
         "metric": genre,
         "label": label,
-        "value": percentage,
-        "unit": "percent",
+        "value": value,
+        "unit": unit,
         "type": "genre",
     }
