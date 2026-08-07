@@ -1,3 +1,4 @@
+from models.services.archive_engine import build_archive_profile
 from models.services.observation_engine import evaluate_observations
 from tests.helpers.fixture_loader import load_profile_fixture
 
@@ -160,3 +161,35 @@ def test_atmospheric_focus_contains_metadata():
     assert observation["traits"] == ["art_atmosphere"]
     assert "surreal" in observation["genres"]
     assert "boundary_explorer" in observation["relatedDesignations"]
+
+
+def test_observation_evidence_has_neutral_structure():
+    entries = [
+        {
+            "title": "Coherence",
+            "media_type": "video",
+            "genres": ["sci-fi", "surreal"],
+            "total_score": 95,
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+    ]
+
+    profile = build_archive_profile(entries)
+    observation = profile["observations"][0]
+
+    assert "evidence" in observation
+    assert isinstance(observation["evidence"], list)
+
+    evidence = observation["evidence"][0]
+
+    assert "metric" in evidence
+    assert "label" in evidence
+    assert "value" in evidence
+    assert "unit" in evidence
+    assert "type" in evidence

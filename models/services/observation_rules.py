@@ -40,10 +40,37 @@ OBSERVATION_RULES = [
                 "altered realities, and works that challenge "
                 "conventional structures."
             ),
-            "evidence": (
-                f"Originality "
-                f"{profile.get('universalAverages', {}).get('originality', 0):.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "originality",
+                    "label": "Originality",
+                    "value": profile.get("universalAverages", {}).get("originality", 0),
+                    "unit": "score",
+                    "type": "metric",
+                },
+                {
+                    "metric": "experimental",
+                    "label": "Experimental Presence",
+                    "value": (
+                        profile.get("genreDistribution", {})
+                        .get("experimental", {})
+                        .get("percentage", 0)
+                    ),
+                    "unit": "percent",
+                    "type": "genre",
+                },
+                {
+                    "metric": "surreal",
+                    "label": "Surreal Presence",
+                    "value": (
+                        profile.get("genreDistribution", {})
+                        .get("surreal", {})
+                        .get("percentage", 0)
+                    ),
+                    "unit": "percent",
+                    "type": "genre",
+                },
+            ],
         },
     },
     {
@@ -73,10 +100,18 @@ OBSERVATION_RULES = [
                 "The archive consistently rewards carefully designed "
                 "mechanics, interactions, and structured experiences."
             ),
-            "evidence": (
-                f"Gameplay Mechanics "
-                f"{profile.get('mediaAverages', {}).get('gameplay_mechanics', 0):.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "gameplay_mechanics",
+                    "label": "Gameplay Mechanics",
+                    "value": profile.get("mediaAverages", {}).get(
+                        "gameplay_mechanics",
+                        0,
+                    ),
+                    "unit": "score",
+                    "type": "metric",
+                },
+            ],
         },
     },
     {
@@ -108,9 +143,18 @@ OBSERVATION_RULES = [
                 "Highly rated entries consistently encourage "
                 "analysis, reflection, and layered interpretation."
             ),
-            "evidence": (
-                f"Depth {profile.get('universalAverages', {}).get('depth', 0):.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "depth",
+                    "label": "Depth",
+                    "value": profile.get("universalAverages", {}).get(
+                        "depth",
+                        0,
+                    ),
+                    "unit": "score",
+                    "type": "metric",
+                },
+            ],
         },
     },
     {
@@ -144,10 +188,29 @@ OBSERVATION_RULES = [
                 "visual identity, and immersive mood alongside "
                 "traditional storytelling."
             ),
-            "evidence": (
-                f"Art & Atmosphere "
-                f"{profile.get('mediaAverages', {}).get('art_atmosphere', 0):.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "art_atmosphere",
+                    "label": "Art Atmosphere",
+                    "value": profile.get("mediaAverages", {}).get(
+                        "art_atmosphere",
+                        0,
+                    ),
+                    "unit": "score",
+                    "type": "metric",
+                },
+                {
+                    "metric": "surreal",
+                    "label": "Surreal Presence",
+                    "value": (
+                        profile.get("genreDistribution", {})
+                        .get("surreal", {})
+                        .get("percentage", 0)
+                    ),
+                    "unit": "percent",
+                    "type": "genre",
+                },
+            ],
         },
     },
     {
@@ -176,10 +239,18 @@ OBSERVATION_RULES = [
                 "Highly rated entries consistently leave "
                 "a lasting emotional impression."
             ),
-            "evidence": (
-                f"Emotional Impact "
-                f"{profile.get('universalAverages', {}).get('emotional_impact', 0):.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "emotional_impact",
+                    "label": "Emotional Impact",
+                    "value": profile.get("universalAverages", {}).get(
+                        "emotional_impact",
+                        0,
+                    ),
+                    "unit": "score",
+                    "type": "metric",
+                },
+            ],
         },
     },
     {
@@ -205,9 +276,18 @@ OBSERVATION_RULES = [
                 "The archive consistently rewards strong execution "
                 "and technical craftsmanship."
             ),
-            "evidence": (
-                f"Craft {profile.get('universalAverages', {}).get('craft', 0):.1f} / 10"
-            ),
+            "evidence": [
+                {
+                    "metric": "craft",
+                    "label": "Craft",
+                    "value": profile.get("universalAverages", {}).get(
+                        "craft",
+                        0,
+                    ),
+                    "unit": "score",
+                    "type": "metric",
+                },
+            ],
         },
     },
 ]
