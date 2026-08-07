@@ -18,12 +18,14 @@ FINDING_RULES = [
                     "label": "Originality",
                     "value": profile["universalAverages"]["originality"],
                     "unit": "score",
+                    "type": "metric"
                 },
                 {
                     "metric": "depth",
                     "label": "Depth",
                     "value": profile["universalAverages"]["depth"],
                     "unit": "score",
+                    "type": "metric"
                 },
             ],
         },
@@ -46,6 +48,7 @@ FINDING_RULES = [
                     "label": "Engagement",
                     "value": profile["universalAverages"]["engagement"],
                     "unit": "score",
+                    "type": "metric"
                 },
             ],
         },
@@ -68,6 +71,7 @@ FINDING_RULES = [
                     "label": "Gameplay Mechanics",
                     "value": profile["mediaAverages"]["gameplay_mechanics"],
                     "unit": "score",
+                    "type": "metric"
                 },
             ],
         },
@@ -91,6 +95,7 @@ FINDING_RULES = [
                     "label": "Sci-Fi Presence",
                     "value": profile["genreDistribution"]["sci-fi"]["percentage"],
                     "unit": "percent",
+                    "type": "genre"
                 },
             ],
         },
@@ -117,6 +122,7 @@ FINDING_RULES = [
                     "label": "Art Atmosphere",
                     "value": profile.get("mediaAverages", {}).get("art_atmosphere", 0),
                     "unit": "score",
+                    "type": "metric"
                 },
                 {
                     "metric": "surreal",
@@ -125,6 +131,7 @@ FINDING_RULES = [
                     .get("surreal", {})
                     .get("percentage", 0),
                     "unit": "percent",
+                    "type": "genre"
                 },
             ],
         },
