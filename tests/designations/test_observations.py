@@ -193,3 +193,32 @@ def test_observation_evidence_has_neutral_structure():
     assert "value" in evidence
     assert "unit" in evidence
     assert "type" in evidence
+
+
+def test_observations_have_neutral_structure():
+
+    profile = {
+        "universalAverages": {
+            "originality": 9,
+            "depth": 9,
+        },
+        "genreDistribution": {
+            "surreal": {
+                "percentage": 30,
+            },
+            "experimental": {
+                "percentage": 30,
+            },
+        },
+    }
+
+    observations = evaluate_observations(profile)
+
+    observation = observations[0]
+
+    assert "id" in observation
+    assert "category" in observation
+    assert "title" in observation
+    assert "description" in observation
+    assert "evidence" in observation
+    assert "confidence" in observation
