@@ -9,8 +9,7 @@ FINDING_RULES = [
         "generate": lambda profile: {
             "title": "Concept-Driven Archive",
             "description": (
-                "Your highest rated works consistently favor unusual ideas "
-                "and conceptual depth."
+                "Highly rated entries consistently favor unusual ideas and conceptual depth."
             ),
             "evidence": [
                 {
@@ -18,14 +17,14 @@ FINDING_RULES = [
                     "label": "Originality",
                     "value": profile["universalAverages"]["originality"],
                     "unit": "score",
-                    "type": "metric"
+                    "type": "metric",
                 },
                 {
                     "metric": "depth",
                     "label": "Depth",
                     "value": profile["universalAverages"]["depth"],
                     "unit": "score",
-                    "type": "metric"
+                    "type": "metric",
                 },
             ],
         },
@@ -39,8 +38,7 @@ FINDING_RULES = [
         "generate": lambda profile: {
             "title": "Engagement Priority",
             "description": (
-                "Your archive strongly rewards experiences that maintain momentum "
-                "and consistently hold attention."
+                "The archive strongly rewards experiences that maintain momentum and consistently hold attention."
             ),
             "evidence": [
                 {
@@ -48,7 +46,7 @@ FINDING_RULES = [
                     "label": "Engagement",
                     "value": profile["universalAverages"]["engagement"],
                     "unit": "score",
-                    "type": "metric"
+                    "type": "metric",
                 },
             ],
         },
@@ -62,8 +60,7 @@ FINDING_RULES = [
         "generate": lambda profile: {
             "title": "Systems-Oriented Collector",
             "description": (
-                "Your archive demonstrates appreciation for interactive systems, "
-                "mechanics, and designed experiences."
+                "The archive consistently rewards interactive systems, mechanics, and structured experiences."
             ),
             "evidence": [
                 {
@@ -71,7 +68,7 @@ FINDING_RULES = [
                     "label": "Gameplay Mechanics",
                     "value": profile["mediaAverages"]["gameplay_mechanics"],
                     "unit": "score",
-                    "type": "metric"
+                    "type": "metric",
                 },
             ],
         },
@@ -86,8 +83,7 @@ FINDING_RULES = [
         "generate": lambda profile: {
             "title": "Speculative Archive",
             "description": (
-                "Your collection shows a strong attraction toward speculative "
-                "worlds, alternate realities, and unfamiliar possibilities."
+                "The archive consistently favors speculative worlds, alternate realities, and unfamiliar possibilities."
             ),
             "evidence": [
                 {
@@ -95,7 +91,7 @@ FINDING_RULES = [
                     "label": "Sci-Fi Presence",
                     "value": profile["genreDistribution"]["sci-fi"]["percentage"],
                     "unit": "percent",
-                    "type": "genre"
+                    "type": "genre",
                 },
             ],
         },
@@ -113,8 +109,7 @@ FINDING_RULES = [
         "generate": lambda profile: {
             "title": "Atmospheric Collector",
             "description": (
-                "Your archive values mood, atmosphere, and immersive identity "
-                "alongside traditional evaluation categories."
+                "The archive consistently rewards atmosphere, visual identity, and immersive mood alongside traditional storytelling."
             ),
             "evidence": [
                 {
@@ -122,7 +117,7 @@ FINDING_RULES = [
                     "label": "Art Atmosphere",
                     "value": profile.get("mediaAverages", {}).get("art_atmosphere", 0),
                     "unit": "score",
-                    "type": "metric"
+                    "type": "metric",
                 },
                 {
                     "metric": "surreal",
@@ -131,7 +126,7 @@ FINDING_RULES = [
                     .get("surreal", {})
                     .get("percentage", 0),
                     "unit": "percent",
-                    "type": "genre"
+                    "type": "genre",
                 },
             ],
         },

@@ -36,8 +36,8 @@ OBSERVATION_RULES = [
         "generate": lambda profile: {
             "title": "Boundary Preference",
             "description": (
-                "Your archive repeatedly favors unusual concepts, "
-                "altered realities, and experiences that challenge "
+                "The archive consistently favors unusual concepts, "
+                "altered realities, and works that challenge "
                 "conventional structures."
             ),
             "evidence": (
@@ -70,7 +70,7 @@ OBSERVATION_RULES = [
         "generate": lambda profile: {
             "title": "Systems Affinity",
             "description": (
-                "Your archive shows appreciation for carefully designed "
+                "The archive consistently rewards carefully designed "
                 "mechanics, interactions, and structured experiences."
             ),
             "evidence": (
@@ -105,7 +105,7 @@ OBSERVATION_RULES = [
         "generate": lambda profile: {
             "title": "Interpretive Depth",
             "description": (
-                "Your archive consistently rewards works that encourage "
+                "Highly rated entries consistently encourage "
                 "analysis, reflection, and layered interpretation."
             ),
             "evidence": (
@@ -140,8 +140,9 @@ OBSERVATION_RULES = [
         "generate": lambda profile: {
             "title": "Atmospheric Focus",
             "description": (
-                "Your archive consistently rewards atmosphere, visual identity, "
-                "and immersive mood alongside traditional storytelling."
+                "The archive consistently rewards atmosphere, "
+                "visual identity, and immersive mood alongside "
+                "traditional storytelling."
             ),
             "evidence": (
                 f"Art & Atmosphere "
@@ -172,8 +173,8 @@ OBSERVATION_RULES = [
         "generate": lambda profile: {
             "title": "Emotional Resonance",
             "description": (
-                "Your archive consistently favors experiences that leave a lasting "
-                "emotional impression."
+                "Highly rated entries consistently leave "
+                "a lasting emotional impression."
             ),
             "evidence": (
                 f"Emotional Impact "
@@ -201,8 +202,8 @@ OBSERVATION_RULES = [
         "generate": lambda profile: {
             "title": "Craft Appreciation",
             "description": (
-                "Your archive consistently rewards works that demonstrate strong "
-                "execution and technical craftsmanship."
+                "The archive consistently rewards strong execution "
+                "and technical craftsmanship."
             ),
             "evidence": (
                 f"Craft {profile.get('universalAverages', {}).get('craft', 0):.1f} / 10"
