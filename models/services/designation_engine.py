@@ -1,4 +1,5 @@
 from .designation_rules import DESIGNATION_RULES
+from .designation_mapper import map_designation
 
 
 def evaluate_designations(profile):
@@ -6,19 +7,15 @@ def evaluate_designations(profile):
     if not profile:
         return []
 
+    designations = []
+
+    for rule in DESIGNATION_RULES:
+        score = rule["evaluate"](profile)
+
+        designations.append(map_designation(rule, score))
+
     return sorted(
-        [
-            {
-                "id": rule["id"],
-                "title": rule["title"],
-                "description": rule["description"],
-                "score": rule["evaluate"](profile),
-                "traits": rule.get("traits", []),
-                "genres": rule.get("genres", []),
-                "recommendation_bias": rule.get("recommendation_bias", []),
-            }
-            for rule in DESIGNATION_RULES
-        ],
+        designations,
         key=lambda x: x["score"],
         reverse=True,
     )
