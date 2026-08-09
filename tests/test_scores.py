@@ -1,6 +1,7 @@
 from models.entry import Entry
 from models.media_item import MediaItem
 from models.score import Score
+from models.services.scoring_rubric import get_score_meaning
 
 
 def make_uniform_scores(value: int):
@@ -59,3 +60,12 @@ def test_weighting_behavior():
     )
 
     assert abs(entry.total_score() - 76.2) < 0.01
+
+
+def test_score_to_dict_contains_rubric_meaning():
+    score = Score("depth", 9)
+
+    result = score.to_dict()
+
+    assert result["value"] == 9
+    assert result["meaning"] == get_score_meaning(9)
