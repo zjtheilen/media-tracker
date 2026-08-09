@@ -69,3 +69,63 @@ def test_presentation_rubric_contains_all_scores():
 def test_originality_rubric_contains_all_scores():
     for score in range(1, 11):
         assert get_metric_meaning("originality", score)
+
+
+def test_prose_writing_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("prose_writing", score)
+
+
+def test_character_development_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("character_development", score)
+
+
+def test_world_building_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("world_building", score)
+
+
+def test_narrative_pacing_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("narrative_pacing", score)
+
+
+def test_cinematography_visuals_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("cinematography_visuals", score)
+
+
+def test_acting_performances_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("acting_performances", score)
+
+
+def test_directing_editing_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("directing_editing", score)
+
+
+def test_sound_music_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("sound_music", score)
+
+
+def test_gameplay_mechanics_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("gameplay_mechanics", score)
+
+
+def test_level_design_progression_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("level_design_progression", score)
+
+
+def test_replayability_systems_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("replayability_systems", score)
+
+
+def test_art_atmosphere_rubric_contains_all_scores():
+    for score in range(1, 11):
+        assert get_metric_meaning("art_atmosphere", score)
