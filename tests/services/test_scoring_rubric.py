@@ -1,7 +1,9 @@
+from models.scoring_profile import MEDIA_SCORING_PROFILES, UNIVERSAL_SCORING_PROFILE
 from models.services.scoring_rubric import (
     SCORING_RUBRIC,
     get_metric_meaning,
     get_score_meaning,
+    has_metric_rubric,
 )
 
 
@@ -129,3 +131,23 @@ def test_replayability_systems_rubric_contains_all_scores():
 def test_art_atmosphere_rubric_contains_all_scores():
     for score in range(1, 11):
         assert get_metric_meaning("art_atmosphere", score)
+
+
+def test_has_metric_rubric():
+    assert has_metric_rubric("depth")
+    assert has_metric_rubric("craft")
+    assert has_metric_rubric("gameplay_mechanics")
+    assert has_metric_rubric("prose_writing")
+    assert has_metric_rubric("cinematography_visuals")
+    assert not has_metric_rubric("bullshit_metric")
+
+
+def test_all_scoring_categories_have_metric_rubrics():
+    categories = set(UNIVERSAL_SCORING_PROFILE)
+
+    for profile in MEDIA_SCORING_PROFILES.values():
+        categories.update(profile)
+
+    missing = [category for category in categories if not has_metric_rubric(category)]
+
+    assert not missing, f"Missing metric rubrics: {missing}"

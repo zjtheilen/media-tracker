@@ -238,3 +238,7 @@ METRIC_RUBRICS = {
 
 def get_metric_meaning(metric, score):
     return METRIC_RUBRICS.get(metric, {}).get(score)
+
+
+def has_metric_rubric(metric):
+    return metric in METRIC_RUBRICS
