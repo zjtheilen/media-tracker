@@ -237,7 +237,10 @@ METRIC_RUBRICS = {
 
 
 def get_metric_meaning(metric, score):
-    return METRIC_RUBRICS.get(metric, {}).get(score)
+    if metric not in METRIC_RUBRICS:
+        raise ValueError(f"No rubric defined for metric: {metric}")
+
+    return METRIC_RUBRICS[metric].get(score)
 
 
 def has_metric_rubric(metric):

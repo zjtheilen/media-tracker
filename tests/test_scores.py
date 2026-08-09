@@ -69,11 +69,22 @@ def test_score_to_dict_contains_rubric_meaning():
     result = score.to_dict()
 
     assert result["value"] == 9
-    assert result["meaning"] == get_metric_meaning("depth", 9)
+    assert result["meaning"] == get_score_meaning(9)
+    assert result["metricMeaning"] == get_metric_meaning("depth", 9)
 
 
 def test_score_to_dict_uses_metric_specific_meaning():
     depth = Score("depth", 9).to_dict()
     craft = Score("craft", 9).to_dict()
 
-    assert depth["meaning"] != craft["meaning"]
+    assert depth["metricMeaning"] != craft["metricMeaning"]
+
+
+def test_score_to_dict_contains_metric_meaning():
+    score = Score("depth", 9)
+
+    result = score.to_dict()
+
+    assert result["category"] == "depth"
+    assert result["value"] == 9
+    assert result["metricMeaning"] == get_metric_meaning("depth", 9)

@@ -1,4 +1,4 @@
-from models.services.scoring_rubric import get_metric_meaning
+from models.services.scoring_rubric import get_metric_meaning, get_score_meaning
 
 
 class Score:
@@ -10,5 +10,9 @@ class Score:
         return {
             "category": self.category,
             "value": self.value,
-            "meaning": get_metric_meaning(self.category, self.value),
+            "meaning": get_score_meaning(self.value),
+            "metricMeaning": get_metric_meaning(
+                self.category,
+                self.value,
+            ),
         }

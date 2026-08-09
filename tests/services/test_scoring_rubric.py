@@ -1,6 +1,9 @@
+import pytest
+
 from models.scoring_profile import MEDIA_SCORING_PROFILES, UNIVERSAL_SCORING_PROFILE
 from models.services.scoring_rubric import (
     SCORING_RUBRIC,
+    METRIC_RUBRICS,
     get_metric_meaning,
     get_score_meaning,
     has_metric_rubric,
@@ -44,8 +47,12 @@ def test_depth_rubric_invalid_score_returns_none():
     assert get_metric_meaning("depth", 11) is None
 
 
-def test_unknown_metric_returns_none():
-    assert get_metric_meaning("not_a_real_metric", 8) is None
+def test_unknown_metric_raises_value_error():
+    with pytest.raises(
+        ValueError,
+        match="No rubric defined for metric: not_a_real_metric",
+    ):
+        get_metric_meaning("not_a_real_metric", 8)
 
 
 def test_craft_rubric_contains_all_scores():
@@ -151,3 +158,23 @@ def test_all_scoring_categories_have_metric_rubrics():
     missing = [category for category in categories if not has_metric_rubric(category)]
 
     assert not missing, f"Missing metric rubrics: {missing}"
+
+
+def test_get_metric_meaning_valid_metric_and_score():
+    result = get_metric_meaning("depth", 9)
+
+    assert result == METRIC_RUBRICS["depth"][9]
+
+
+def test_get_metric_meaning_valid_metric_invalid_score():
+    result = get_metric_meaning("depth", 11)
+
+    assert result is None
+
+
+def test_get_metric_meaning_invalid_metric():
+    with pytest.raises(
+        ValueError, match="No rubric defined for metric: bullshit_metric"
+    ):
+        get_metric_meaning("bullshit_metric", 9)
+
