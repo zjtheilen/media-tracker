@@ -93,11 +93,16 @@ async function loadGenres() {
     renderGenreFilters();
 }
 
+async function loadScoringRubric() {
+    scoringRubrics = await getScoringRubric();
+}
+
 async function initializeApp() {
     initializeNavigation();
 
     await loadGenres();
     await loadScoringProfiles();
+    await loadScoringRubric();
 
     initializeFilters();
 

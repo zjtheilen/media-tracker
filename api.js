@@ -50,6 +50,10 @@ async function getScoringProfiles() {
     return await apiRequest("/scoring-profile");
 }
 
+async function getScoringRubric() {
+    return await apiRequest("/scoring-rubric");
+}
+
 async function getStats() {
     return await apiRequest("/stats/");
 }

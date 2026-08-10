@@ -97,3 +97,20 @@ def test_get_entry_includes_score_rubric_meanings(client):
         "Excellent — exceptional quality with very little meaningful room for improvement."
     )
     assert depth_score["metricMeaning"] == get_metric_meaning("depth", 9)
+
+
+def test_scoring_rubric_endpoint(client):
+    response = client.get("/scoring-rubric")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert "depth" in data
+    assert "craft" in data
+    assert "originality" in data
+
+    assert data["depth"]["9"] == (
+        "Ask whether the work is exceptionally rich in ideas, themes, or layers, "
+        "repeatedly rewarding analysis and revealing meaningful depth with very few shortcomings."
+    )

@@ -8,6 +8,8 @@ let scoringProfiles = {
     media: {}
 };
 
+let scoringRubrics = {};
+
 let expandedGenreGroups = {
     Core: false,
     Games: false,

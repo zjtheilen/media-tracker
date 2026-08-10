@@ -21,6 +21,7 @@ function renderScoreCategoryList(categories, existingScores) {
         const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
 
         const scoreValue = existingScores[normalizedKey] || 5;
+        const metricRubric = scoringRubrics[category] || {};
 
         const wrapper = document.createElement("div");
 
@@ -39,6 +40,10 @@ function renderScoreCategoryList(categories, existingScores) {
                     id="${category}"
                     class="score-input-slider"
                 >
+
+                <div class="score-meaning" id="${category}-meaning">
+                    ${metricRubric[scoreValue] || ""}
+                </div>
             </div>
         `;
 
@@ -46,9 +51,13 @@ function renderScoreCategoryList(categories, existingScores) {
 
         const slider = document.getElementById(category);
         const valueDisplay = document.getElementById(`${category}-value`);
+        const meaningDisplay = document.getElementById(`${category}-meaning`);
 
         slider.addEventListener("input", () => {
             valueDisplay.textContent = slider.value;
+
+            meaningDisplay.textContent =
+                metricRubric[Number(slider.value)] || "";
         });
     });
 }

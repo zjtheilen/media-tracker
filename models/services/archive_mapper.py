@@ -17,13 +17,21 @@ def entry_to_archive_format(entry):
     for categories in MEDIA_SCORING_PROFILES.values():
         media_categories.update(categories.keys())
 
-    for key, value in scores.items():
+    if isinstance(scores, dict):
+        score_items = scores.items()
+    else:
+        score_items = (
+            (score.category, score.value)
+            for score in scores
+        )
 
-        if key in universal_categories:
-            universal[key] = value
+    for category, value in score_items:
 
-        elif key in media_categories:
-            media[key] = value
+        if category in universal_categories:
+            universal[category] = value
+
+        elif category in media_categories:
+            media[category] = value
 
     return {
         "title": entry.title,

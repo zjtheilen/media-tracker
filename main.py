@@ -37,6 +37,7 @@ from models.genre_registry import (
 
 from models.services.archive_mapper import entry_to_archive_format
 from models.services.archive_engine import build_archive_profile
+from models.services.scoring_rubric import METRIC_RUBRICS
 
 from models.analytics.genre_statistics import (
     get_genre_statistics,
@@ -414,6 +415,11 @@ def get_scoring_profile():
         },
         "media": MEDIA_SCORING_PROFILES,
     }
+
+
+@app.get("/scoring-rubric")
+def get_scoring_rubric():
+    return METRIC_RUBRICS
 
 
 @app.get("/archive-profile")
