@@ -27,6 +27,7 @@ function renderScoreCategoryList(categories, existingScores) {
 
         wrapper.innerHTML = `
             <div class="score-row">
+
                 <label class="score-input-label" for="${category}">
                     ${formatScoreCategory(category)}:
                     <span id="${category}-value">${scoreValue}</span>
@@ -44,14 +45,17 @@ function renderScoreCategoryList(categories, existingScores) {
                 <div class="score-meaning" id="${category}-meaning">
                     ${metricRubric[scoreValue] || ""}
                 </div>
+
             </div>
         `;
 
         scoreContainer.appendChild(wrapper);
 
         const slider = document.getElementById(category);
-        const valueDisplay = document.getElementById(`${category}-value`);
-        const meaningDisplay = document.getElementById(`${category}-meaning`);
+        const valueDisplay =
+            document.getElementById(`${category}-value`);
+        const meaningDisplay =
+            document.getElementById(`${category}-meaning`);
 
         slider.addEventListener("input", () => {
             valueDisplay.textContent = slider.value;

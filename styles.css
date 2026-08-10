@@ -440,7 +440,7 @@ label {
     letter-spacing: 0.08em;
 }
 
-.meta-item > span {
+.meta-item>span {
     padding-left: 23px;
 }
 
@@ -567,11 +567,46 @@ button:focus-visible {
 /* Scores */
 
 .score-row {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 5px;
+    margin: 14px 0;
+}
 
-    gap: 10px;
-    margin: 4px 0;
+.score-input-label {
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 500;
+    align-self: center;
+}
+
+.score-input-label span {
+    color: var(--highlight);
+    font-weight: 700;
+    margin-left: 3px;
+}
+
+.score-input-slider {
+    grid-column: 2;
+    grid-row: 1;
+
+    width: 100%;
+}
+
+.score-meaning {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--text-muted);
+
+    padding: 0 4px 4px;
+}
+
+.score-control {
+    min-width: 0;
 }
 
 .score-label {
@@ -603,6 +638,16 @@ button:focus-visible {
     text-align: right;
 
     font-size: 13px;
+}
+
+.score-meaning {
+    margin-top: 5px;
+    max-width: 700px;
+    padding-bottom: 4px;
+
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--text-muted);
 }
 
 /* Genres & Filters */
@@ -898,17 +943,13 @@ button:focus-visible {
     margin-bottom: var(--spacing-lg);
 }
 
-.form-section + .form-section {
+.form-section+.form-section {
     border-top: 1px solid var(--border);
     padding-top: var(--spacing-lg);
 }
 
 .score-input-label {
     width: 33%;
-}
-
-.score-input-slider {
-    width: 67%;
 }
 
 #genre-selector {
