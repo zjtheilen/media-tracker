@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from .identity_scoring import calculate_identity_breakdown
-from .identity_utils import normalize
+from .identity_utils import normalize_identity_score
 
 IDENTITY_PATH = Path(__file__).parents[2] / "fixtures" / "identities"
 
@@ -40,7 +40,7 @@ def evaluate_identity_scores(profile):
             breakdown = calculate_identity_breakdown(
                 identity,
                 profile,
-                normalize,
+                normalize_identity_score,
             )
 
             score = round(
@@ -68,7 +68,7 @@ def score_identity(identity, profile):
     breakdown = calculate_identity_breakdown(
         identity,
         profile,
-        normalize,
+        normalize_identity_score,
     )
 
     return round(

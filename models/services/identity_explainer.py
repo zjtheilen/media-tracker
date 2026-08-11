@@ -1,6 +1,6 @@
 from .identity_scoring import calculate_identity_breakdown
 from .identity_confidence import calculate_identity_confidence
-from .identity_utils import normalize
+from .identity_utils import normalize_identity_score
 
 
 def explain_identity_score(identity, profile):
@@ -8,7 +8,7 @@ def explain_identity_score(identity, profile):
     breakdown = calculate_identity_breakdown(
         identity,
         profile,
-        normalize,
+        normalize_identity_score,
     )
 
     score = round(

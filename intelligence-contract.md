@@ -1539,3 +1539,9 @@ Phase 1 identifies a direct conceptual conflict.
 - Identity confidence is calculated as entryCount/minimum_entries, capped at 1, and currently functions as a data-sufficiency measure rather than an eligibility filter.
 - Identity confidence is calculated both by the Identity explainer and Identity engine.
 - Identity recommendation_bias is exposed in Identity finding evidence.
+
+---
+
+# 35. More Recovered Behavioral Clarifications
+
+- The intelligence layer contains two distinct normalization semantics. Trait Signal Strength uses a 6/10 floor and reaches maximum strength at 10/10. Identity scoring currently uses proportional 0–10 normalization and does not apply the Signal Strength floor. These are separate semantic operations and must not be unified without an explicit contract decision.

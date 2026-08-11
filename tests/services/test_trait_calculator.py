@@ -1,7 +1,7 @@
 from models.services.archive_engine import build_archive_profile
 from models.services.trait_calculator import (
     calculate_archive_traits,
-    normalize_trait,
+    normalize_trait_signal,
 )
 from tests.helpers.fixture_loader import load_profile_fixture
 
@@ -22,14 +22,14 @@ def test_empty_profile_returns_zeros():
 
 def test_score_of_ten_produces_one_point_zero():
 
-    result = normalize_trait(10)
+    result = normalize_trait_signal(10)
 
     assert result == 1.0
 
 
 def test_score_of_six_produces_zero():
 
-    result = normalize_trait(6)
+    result = normalize_trait_signal(6)
 
     assert result == 0
 
