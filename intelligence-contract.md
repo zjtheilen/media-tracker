@@ -1492,3 +1492,50 @@ And the four key quantitative distinctions are:
 These distinctions form the conceptual foundation for future implementation.
 
 **The system should evolve from this contract. It should not be rewritten merely because implementation details change.**
+
+---
+
+# 33. Recovered Behavioral Contracts
+
+The existing test suite establishes several behaviors not fully
+specified by Intelligence Contract v1.
+
+Unless a direct conflict with the contract is identified, these
+behaviors are considered protected during Phase 1:
+
+- Trait normalization uses a floor at 6 and reaches maximum strength at 10.
+- Identity scoring uses fixture-defined weighted traits.
+- Identity scoring supports derived traits.
+- Identity minimum-entry requirements act as eligibility gates.
+- Empty profiles produce zero identity scores.
+- Primary Identity is the highest-ranked eligible identity.
+- Designations are ranked by score descending.
+- Designation metadata includes traits, genres, and recommendation bias.
+- Identity explanations expose contribution breakdowns and top traits.
+- Observation evidence uses structured metric/genre evidence.
+- Designations are not represented as Findings.
+- Generalist archives are expected not to strongly match an Identity.
+- Existing recommendation-bias metadata is preserved.
+- Empty intelligence collections return empty results where currently established.
+
+These behaviors may be clarified or deliberately changed only when
+Phase 1 identifies a direct conceptual conflict.
+
+---
+
+# 34. Additional Recovered Behavioral Clarifications
+
+- Trait-strength normalization and Identity-scoring normalization are currently separate mechanisms.
+- Trait-strength normalization uses a floor at 6: values <=6 produce 0 strength and 10 produces 1.0.
+- Identity scoring currently normalizes resolved trait values by value/10, clamped to [0,1], without the trait-strength floor.
+- Identity trait resolution prefers universalAverages, then mediaAverages, then derived-trait calculation.
+- Identity scores are weighted sums of normalized trait contributions.
+- Identity breakdowns are sorted by contribution descending and expose trait, value, weight, normalized value, and contribution.
+- Derived traits include experimental_affinity, genre_diversity, novelty, analysis, ambiguity, reflection, and system_design.
+- novelty and experimental_affinity currently use the same experimental-genre percentage calculation.
+- genre_diversity currently derives from genre count and may exceed 10 before Identity normalization clamps the resulting signal.
+- system_design currently derives directly from mediaAverages.gameplay_mechanics.
+- Identity minimum-entry requirements currently force score and breakdown to zero below the threshold; the supplied implementation does not separately filter those identities from primary ranking.
+- Identity confidence is calculated as entryCount/minimum_entries, capped at 1, and currently functions as a data-sufficiency measure rather than an eligibility filter.
+- Identity confidence is calculated both by the Identity explainer and Identity engine.
+- Identity recommendation_bias is exposed in Identity finding evidence.
