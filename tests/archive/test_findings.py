@@ -95,3 +95,72 @@ def test_findings_have_neutral_structure():
     assert "title" in finding
     assert "description" in finding
     assert "evidence" in finding
+
+
+def test_concept_driven_triggers_at_both_thresholds():
+
+    profile = {
+        "universalAverages": {
+            "originality": 8,
+            "depth": 8,
+        }
+    }
+
+    results = evaluate_findings(profile)
+
+    assert any(
+        finding["id"] == "concept-driven"
+        for finding in results
+    )
+
+
+def test_concept_driven_requires_both_thresholds():
+
+    profile = {
+        "universalAverages": {
+            "originality": 8,
+            "depth": 7.9,
+        }
+    }
+
+    results = evaluate_findings(profile)
+
+    assert not any(
+        finding["id"] == "concept-driven"
+        for finding in results
+    )
+
+
+def test_atmospheric_interest_triggers_from_art_atmosphere():
+
+    profile = {
+        "mediaAverages": {
+            "art_atmosphere": 8.5,
+        }
+    }
+
+    results = evaluate_findings(profile)
+
+    assert any(
+        finding["id"] == "atmospheric-interest"
+        for finding in results
+    )
+
+
+def test_atmospheric_interest_triggers_from_surreal_presence():
+
+    profile = {
+        "entryCount": 20,
+        "genreDistribution": {
+            "surreal": {
+                "percentage": 20,
+            }
+        }
+    }
+
+    results = evaluate_findings(profile)
+
+    assert any(
+        finding["id"] == "atmospheric-interest"
+        for finding in results
+    )
