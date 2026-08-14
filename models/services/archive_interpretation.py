@@ -1,7 +1,7 @@
 from .archive_narrative import (
-    get_trait_intensity,
-    get_trait_description,
     format_trait_score,
+    get_trait_description,
+    get_trait_intensity,
 )
 
 
@@ -13,16 +13,23 @@ def generate_archive_summary(
     genre_signature,
 ):
 
+    identity_sentence = (
+        f"Your curator identity most closely aligns with {primary_identity['title']}."
+        if primary_identity
+        else "Your curator identity is not yet established."
+    )
+
+    genre_sentence = f" {genre_signature}" if genre_signature else ""
+
     return (
         f"Overall, your archive most closely matches "
         f"{designation['title']}. "
-        f"Your curator identity most closely aligns with "
-        f"{primary_identity['title']}. "
+        f"{identity_sentence} "
         f"Your collection is most strongly defined by "
         f"{get_trait_description(primary_trait[0])}. "
         f"It also consistently values "
-        f"{get_trait_description(secondary_trait[0])}. "
-        f"{genre_signature}"
+        f"{get_trait_description(secondary_trait[0])}."
+        f"{genre_sentence}"
     )
 
 

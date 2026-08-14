@@ -25,7 +25,6 @@ def evaluate_identity_scores(profile):
     results = []
 
     for identity in identities:
-
         requirements = identity.get("requirements", {})
 
         minimum_entries = requirements.get("minimum_entries", 0)
@@ -33,20 +32,18 @@ def evaluate_identity_scores(profile):
         entry_count = profile.get("entryCount", 0)
 
         if entry_count < minimum_entries:
-            score = 0
-            breakdown = []
+            continue
 
-        else:
-            breakdown = calculate_identity_breakdown(
-                identity,
-                profile,
-                normalize_identity_score,
-            )
+        breakdown = calculate_identity_breakdown(
+            identity,
+            profile,
+            normalize_identity_score,
+        )
 
-            score = round(
-                sum(item["contribution"] for item in breakdown),
-                3,
-            )
+        score = round(
+            sum(item["contribution"] for item in breakdown),
+            3,
+        )
 
         results.append(
             {

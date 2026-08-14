@@ -70,15 +70,28 @@ def test_empty_profile_returns_zero_scores():
     assert all(score == 0 for score in scores.values())
 
 
-def test_identity_below_minimum_entries_scores_zero():
+def test_ineligible_identity_cannot_be_primary():
 
-    profile = {"entryCount": 5, "universalAverages": {"originality": 10, "depth": 10}}
+    profile = {
+        "entryCount": 5,
+        "universalAverages": {
+            "originality": 10,
+            "depth": 10,
+        },
+    }
+
+    identity = get_primary_identity(profile)
+
+    assert identity is None or identity["id"] != "boundary_explorer"
+
+
+def test_empty_profile_returns_no_eligible_identities():
+
+    profile = {}
 
     results = evaluate_identity_scores(profile)
 
-    scores = {result["id"]: result["score"] for result in results}
-
-    assert scores["boundary_explorer"] == 0
+    assert results == []
 
 
 def test_identity_scoring_uses_media_averages():
@@ -178,3 +191,43 @@ def test_debug_identity_scores():
     #             "=>",
     #             item["contribution"],
     #         )
+
+
+def test_identity_is_ineligible_below_minimum_entries():
+
+    profile = {
+        "entryCount": 19,
+        "universalAverages": {
+            "depth": 10,
+            "emotional_impact": 10,
+            "reflection": 10,
+            "ambiguity": 10,
+            "analysis": 10,
+        },
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    identity_ids = {result["id"] for result in results}
+
+    assert "deep_diver" not in identity_ids
+
+
+def test_identity_is_eligible_at_minimum_entries():
+
+    profile = {
+        "entryCount": 20,
+        "universalAverages": {
+            "depth": 10,
+            "emotional_impact": 10,
+            "reflection": 10,
+            "ambiguity": 10,
+            "analysis": 10,
+        },
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    identity_ids = {result["id"] for result in results}
+
+    assert "deep_diver" in identity_ids
