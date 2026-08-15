@@ -73,10 +73,10 @@ A subsystem may use shared underlying data without being formally dependent upon
 
 The system should distinguish between:
 
-* what the data directly demonstrates
-* what the data suggests
-* what classification the pattern resembles
-* what broader curator identity emerges
+- what the data directly demonstrates
+- what the data suggests
+- what classification the pattern resembles
+- what broader curator identity emerges
 
 These are different levels of interpretation.
 
@@ -155,13 +155,13 @@ Traits answer:
 
 Examples:
 
-* Originality
-* Depth
-* Engagement
-* Craft
-* Gameplay Mechanics
-* Thought Provocation
-* etc.
+- Originality
+- Depth
+- Engagement
+- Craft
+- Gameplay Mechanics
+- Thought Provocation
+- etc.
 
 The exact trait set may evolve.
 
@@ -171,10 +171,10 @@ The exact trait set may evolve.
 
 Traits are derived primarily from measurable archive data, including:
 
-* scoring results
-* universal metrics
-* media-specific metrics
-* other explicitly defined quantitative signals
+- scoring results
+- universal metrics
+- media-specific metrics
+- other explicitly defined quantitative signals
 
 Genre-related information may contribute to derived traits where appropriate.
 
@@ -214,11 +214,11 @@ Traits are foundational measurable signals.
 
 They may inform:
 
-* Observations
-* Findings
-* Designations
-* Identities
-* Recommendations
+- Observations
+- Findings
+- Designations
+- Identities
+- Recommendations
 
 ---
 
@@ -226,10 +226,10 @@ They may inform:
 
 A Trait should be:
 
-* measurable
-* interpretable
-* explainable
-* sufficiently stable to support downstream systems
+- measurable
+- interpretable
+- explainable
+- sufficiently stable to support downstream systems
 
 Traits should not become arbitrary prose labels.
 
@@ -247,12 +247,12 @@ Genre Signals answer:
 
 Examples:
 
-* Horror affinity
-* Sci-fi affinity
-* Experimental affinity
-* Surreal affinity
-* Genre combinations
-* Cross-media genre patterns
+- Horror affinity
+- Sci-fi affinity
+- Experimental affinity
+- Surreal affinity
+- Genre combinations
+- Cross-media genre patterns
 
 ---
 
@@ -260,11 +260,11 @@ Examples:
 
 Genre intelligence may include:
 
-* presence
-* affinity
-* frequency
-* combinations
-* cross-media relationships
+- presence
+- affinity
+- frequency
+- combinations
+- cross-media relationships
 
 The exact metric may differ by signal.
 
@@ -282,11 +282,11 @@ An archive may have numerous genre signals.
 
 Genre Signals may inform:
 
-* Observations
-* Findings
-* Designations
-* Identities
-* Recommendations
+- Observations
+- Findings
+- Designations
+- Identities
+- Recommendations
 
 ---
 
@@ -340,8 +340,8 @@ Observations should provide structured supporting evidence wherever practical.
 
 Existing evidence mechanisms such as:
 
-* metric evidence
-* genre evidence
+- metric evidence
+- genre evidence
 
 should be preserved.
 
@@ -361,10 +361,10 @@ It should not simply be a synonym for trait strength or entry count.
 
 An archive may contain:
 
-* zero observations
-* one observation
-* several observations
-* many observations
+- zero observations
+- one observation
+- several observations
+- many observations
 
 ---
 
@@ -426,10 +426,10 @@ The Finding interprets what that pattern means.
 
 A Finding should be capable of synthesizing:
 
-* multiple Observations
-* multiple Traits
-* Genre Signals
-* other explicitly defined evidence
+- multiple Observations
+- multiple Traits
+- Genre Signals
+- other explicitly defined evidence
 
 Example:
 
@@ -480,9 +480,9 @@ Finding confidence should reflect how strongly the available evidence supports t
 
 Where possible, it should distinguish:
 
-* evidence strength
-* data sufficiency
-* interpretive/classification confidence
+- evidence strength
+- data sufficiency
+- interpretive/classification confidence
 
 ---
 
@@ -547,14 +547,14 @@ Designations may remain fixture/rule driven for stability and explainability.
 
 A designation definition may include:
 
-* ID
-* title
-* description
-* icon
-* rule/evaluation logic
-* associated traits
-* associated genres
-* recommendation bias
+- ID
+- title
+- description
+- icon
+- rule/evaluation logic
+- associated traits
+- associated genres
+- recommendation bias
 
 ---
 
@@ -576,9 +576,9 @@ The Profile should present:
 
 Optional:
 
-* close competitors
-* ranked alternatives
-* scores
+- close competitors
+- ranked alternatives
+- scores
 
 may be displayed where useful.
 
@@ -610,9 +610,9 @@ That should not be called Classification Confidence.
 
 The system should eventually distinguish:
 
-* Signal Strength
-* Classification Confidence
-* Data Sufficiency
+- Signal Strength
+- Classification Confidence
+- Data Sufficiency
 
 ---
 
@@ -620,11 +620,11 @@ The system should eventually distinguish:
 
 A Designation should be:
 
-* recognizable
-* distinct from other designations
-* evidence-informed
-* useful for describing taste
-* useful as a recommendation bias
+- recognizable
+- distinct from other designations
+- evidence-informed
+- useful for describing taste
+- useful as a recommendation bias
 
 It should not exist merely to increase the number of badges.
 
@@ -646,12 +646,12 @@ Example:
 
 This may describe someone whose archive demonstrates a combination of:
 
-* systems appreciation
-* interpretive depth
-* originality
-* boundary exploration
-* strong engagement
-* etc.
+- systems appreciation
+- interpretive depth
+- originality
+- boundary exploration
+- strong engagement
+- etc.
 
 ---
 
@@ -701,11 +701,11 @@ Identity should describe **curatorial philosophy**, not merely taste categories.
 
 It may synthesize qualities such as:
 
-* what the curator seeks
-* what they value
-* how they engage with media
-* how they respond to systems, ideas, atmosphere, craft, novelty, etc.
-* how these tendencies interact
+- what the curator seeks
+- what they value
+- how they engage with media
+- how they respond to systems, ideas, atmosphere, craft, novelty, etc.
+- how these tendencies interact
 
 Identity names should therefore be allowed to diverge completely from Designation names.
 
@@ -740,8 +740,8 @@ Conceptually:
 
 Profile presentation:
 
-* one Primary Identity
-* zero or more meaningful Secondary Identities
+- one Primary Identity
+- zero or more meaningful Secondary Identities
 
 Not every low-ranking identity needs to be displayed.
 
@@ -761,23 +761,23 @@ Fixture-driven identities are acceptable and should be preserved.
 
 Identity fixtures may contain:
 
-* ID
-* title
-* category
-* icon
-* description
-* associated traits
-* recommendation bias/signals
-* minimum data requirements
-* scoring weights
+- ID
+- title
+- category
+- icon
+- description
+- associated traits
+- recommendation bias/signals
+- minimum data requirements
+- scoring weights
 
 The fixture system provides:
 
-* stability
-* explainability
-* deterministic behavior
-* easier testing
-* controlled vocabulary
+- stability
+- explainability
+- deterministic behavior
+- easier testing
+- controlled vocabulary
 
 ---
 
@@ -942,12 +942,12 @@ It answers:
 
 Narrative may synthesize:
 
-* traits
-* genre signals
-* observations
-* findings
-* designation
-* identity
+- traits
+- genre signals
+- observations
+- findings
+- designation
+- identity
 
 ---
 
@@ -977,13 +977,13 @@ They exist primarily to support the Recommendation Engine.
 
 They may include:
 
-* trait strengths
-* genre affinities
-* genre combinations
-* scoring preferences
-* designation recommendation bias
-* soft Observation signals
-* soft Finding signals
+- trait strengths
+- genre affinities
+- genre combinations
+- scoring preferences
+- designation recommendation bias
+- soft Observation signals
+- soft Finding signals
 
 ---
 
@@ -1026,13 +1026,13 @@ Analytics answers:
 
 It should contain things such as:
 
-* averages
-* distributions
-* score comparisons
-* trends
-* charts
-* genre statistics
-* quantitative comparisons
+- averages
+- distributions
+- score comparisons
+- trends
+- charts
+- genre statistics
+- quantitative comparisons
 
 ---
 
@@ -1150,10 +1150,10 @@ Craft                8.7
 
 Potential supporting observations/signals:
 
-* Boundary Preference
-* Experimental Genre Affinity
-* High Originality
-* Surreal/Horror cross-interest
+- Boundary Preference
+- Experimental Genre Affinity
+- High Originality
+- Surreal/Horror cross-interest
 
 ---
 
@@ -1216,14 +1216,14 @@ Affinities, combinations, presence, and other genre intelligence.
 
 ### Scoring
 
-* universal averages
-* media-specific averages
-* scoring preferences
+- universal averages
+- media-specific averages
+- scoring preferences
 
 ### Designations
 
-* designation scores
-* recommendation bias
+- designation scores
+- recommendation bias
 
 ### Observations
 
@@ -1302,11 +1302,11 @@ The intelligence layer must tolerate incomplete information where practical.
 
 Potential conditions:
 
-* missing scores
-* missing genres
-* incomplete media-specific metrics
-* limited genre coverage
-* partially populated archive
+- missing scores
+- missing genres
+- incomplete media-specific metrics
+- limited genre coverage
+- partially populated archive
 
 Systems should degrade gracefully rather than fabricate certainty.
 
@@ -1318,23 +1318,23 @@ When implementing changes based on this contract:
 
 ### Prefer
 
-* minimal changes
-* preservation of existing working behavior
-* incremental evolution
-* targeted rule refinement
-* improved terminology
-* additional evidence
-* additional tests
+- minimal changes
+- preservation of existing working behavior
+- incremental evolution
+- targeted rule refinement
+- improved terminology
+- additional evidence
+- additional tests
 
 ### Avoid
 
-* subsystem mergers
-* giant rewrites
-* replacing deterministic systems with opaque AI
-* redesigning working scoring infrastructure
-* making Identity a Designation clone
-* making Findings into renamed Observations
-* using labels as opaque recommendation scores
+- subsystem mergers
+- giant rewrites
+- replacing deterministic systems with opaque AI
+- redesigning working scoring infrastructure
+- making Identity a Designation clone
+- making Findings into renamed Observations
+- using labels as opaque recommendation scores
 
 ---
 
@@ -1350,44 +1350,44 @@ Changes should add or update tests for:
 
 ### Observations
 
-* rule behavior
-* evidence
-* confidence
-* multiple observations
+- rule behavior
+- evidence
+- confidence
+- multiple observations
 
 ### Findings
 
-* interpretive level
-* synthesis
-* evidence
-* confidence
-* multiple findings
+- interpretive level
+- synthesis
+- evidence
+- confidence
+- multiple findings
 
 ### Designations
 
-* rule behavior
-* ranking
-* primary selection
-* explanation/evidence
-* recommendation bias
+- rule behavior
+- ranking
+- primary selection
+- explanation/evidence
+- recommendation bias
 
 ### Identities
 
-* fixture loading
-* multiple identities
-* ranking
-* primary selection
-* secondary selection
-* contribution breakdown
-* data sufficiency
-* classification confidence
+- fixture loading
+- multiple identities
+- ranking
+- primary selection
+- secondary selection
+- contribution breakdown
+- data sufficiency
+- classification confidence
 
 ### Recommendations
 
-* signal weighting
-* ranking
-* explanations
-* edge cases
+- signal weighting
+- ranking
+- explanations
+- edge cases
 
 ---
 
@@ -1395,15 +1395,15 @@ Changes should add or update tests for:
 
 This contract does **not** currently attempt to define:
 
-* exact future UI styling
-* exact final designation vocabulary
-* exact final identity vocabulary
-* exact recommendation algorithm weights
-* every future trait
-* every future genre signal
-* external metadata integrations
-* machine-learning-based recommendations
-* React architecture
+- exact future UI styling
+- exact final designation vocabulary
+- exact final identity vocabulary
+- exact recommendation algorithm weights
+- every future trait
+- every future genre signal
+- external metadata integrations
+- machine-learning-based recommendations
+- React architecture
 
 Those can evolve after the conceptual boundaries are stable.
 
@@ -1413,27 +1413,27 @@ Those can evolve after the conceptual boundaries are stable.
 
 Phase 0 is complete when:
 
-* [ ] Trait has an unambiguous definition
-* [ ] Genre Signal has an unambiguous definition
-* [ ] Observation has an unambiguous definition
-* [ ] Finding has an unambiguous definition
-* [ ] Designation has an unambiguous definition
-* [ ] Identity has an unambiguous definition
-* [ ] Evidence has an unambiguous purpose
-* [ ] Signal Strength is distinguished from confidence
-* [ ] Data Sufficiency is defined
-* [ ] Classification Confidence is defined
-* [ ] Evidence Strength is defined
-* [ ] Narrative's role is defined
-* [ ] Recommendation Signals are defined
-* [ ] Analytics vs Archive Profile is defined
-* [ ] Cardinality is locked
-* [ ] Observation vs Finding is locked
-* [ ] Designation vs Identity is locked
-* [ ] Multiple identities are explicitly supported
-* [ ] Primary/secondary identity behavior is defined
-* [ ] Empty/sparse archive behavior is acknowledged
-* [ ] No major conceptual contradiction remains
+- [ ] Trait has an unambiguous definition
+- [ ] Genre Signal has an unambiguous definition
+- [ ] Observation has an unambiguous definition
+- [ ] Finding has an unambiguous definition
+- [ ] Designation has an unambiguous definition
+- [ ] Identity has an unambiguous definition
+- [ ] Evidence has an unambiguous purpose
+- [ ] Signal Strength is distinguished from confidence
+- [ ] Data Sufficiency is defined
+- [ ] Classification Confidence is defined
+- [ ] Evidence Strength is defined
+- [ ] Narrative's role is defined
+- [ ] Recommendation Signals are defined
+- [ ] Analytics vs Archive Profile is defined
+- [ ] Cardinality is locked
+- [ ] Observation vs Finding is locked
+- [ ] Designation vs Identity is locked
+- [ ] Multiple identities are explicitly supported
+- [ ] Primary/secondary identity behavior is defined
+- [ ] Empty/sparse archive behavior is acknowledged
+- [ ] No major conceptual contradiction remains
 
 Only then should Phase 1 implementation alignment begin.
 
@@ -1495,53 +1495,127 @@ These distinctions form the conceptual foundation for future implementation.
 
 ---
 
-# 33. Recovered Behavioral Contracts
+# 33. User-Provided Data as Intelligence Input
 
-The existing test suite establishes several behaviors not fully
-specified by Intelligence Contract v1.
+The intelligence layer should treat user-provided archive data as potential analytical input unless a future contract explicitly excludes a field.
 
-Unless a direct conflict with the contract is identified, these
-behaviors are considered protected during Phase 1:
+The fact that a field is initially collected for display, recordkeeping, or human use does not mean it must remain permanently inert.
 
-- Trait normalization uses a floor at 6 and reaches maximum strength at 10.
-- Identity scoring uses fixture-defined weighted traits.
-- Identity scoring supports derived traits.
-- Identity minimum-entry requirements act as eligibility gates.
-- Empty profiles produce zero identity scores.
-- Primary Identity is the highest-ranked eligible identity.
-- Designations are ranked by score descending.
-- Designation metadata includes traits, genres, and recommendation bias.
-- Identity explanations expose contribution breakdowns and top traits.
-- Observation evidence uses structured metric/genre evidence.
-- Designations are not represented as Findings.
-- Generalist archives are expected not to strongly match an Identity.
-- Existing recommendation-bias metadata is preserved.
-- Empty intelligence collections return empty results where currently established.
+Potential intelligence inputs include:
 
-These behaviors may be clarified or deliberately changed only when
-Phase 1 identifies a direct conceptual conflict.
+- scores
+- genres
+- media type
+- completion status
+- date consumed
+- review text
+- previously-consumed status
+- future intentionally collected archive metadata
 
----
+This does not mean every field must immediately affect scoring.
 
-# 34. Additional Recovered Behavioral Clarifications
+The principle is:
 
-- Trait-strength normalization and Identity-scoring normalization are currently separate mechanisms.
-- Trait-strength normalization uses a floor at 6: values <=6 produce 0 strength and 10 produces 1.0.
-- Identity scoring currently normalizes resolved trait values by value/10, clamped to [0,1], without the trait-strength floor.
-- Identity trait resolution prefers universalAverages, then mediaAverages, then derived-trait calculation.
-- Identity scores are weighted sums of normalized trait contributions.
-- Identity breakdowns are sorted by contribution descending and expose trait, value, weight, normalized value, and contribution.
-- Derived traits include experimental_affinity, genre_diversity, novelty, analysis, ambiguity, reflection, and system_design.
-- novelty and experimental_affinity currently use the same experimental-genre percentage calculation.
-- genre_diversity currently derives from genre count and may exceed 10 before Identity normalization clamps the resulting signal.
-- system_design currently derives directly from mediaAverages.gameplay_mechanics.
-- Identity minimum-entry requirements currently force score and breakdown to zero below the threshold; the supplied implementation does not separately filter those identities from primary ranking.
-- Identity confidence is calculated as entryCount/minimum_entries, capped at 1, and currently functions as a data-sufficiency measure rather than an eligibility filter.
-- Identity confidence is calculated both by the Identity explainer and Identity engine.
-- Identity recommendation_bias is exposed in Identity finding evidence.
+`If the user deliberately provides a signal, the intelligence architecture should preserve the possibility of eventually determining whether that signal is useful.`
 
----
+Any actual algorithmic use must remain explainable and explicitly defined.
 
-# 35. More Recovered Behavioral Clarifications
+# 34. Review
 
-- The intelligence layer contains two distinct normalization semantics. Trait Signal Strength uses a 6/10 floor and reaches maximum strength at 10/10. Identity scoring currently uses proportional 0–10 normalization and does not apply the Signal Strength floor. These are separate semantic operations and must not be unified without an explicit contract decision.
+The current user-authored notes field should eventually become:
+
+`Review`
+
+The field remains optional.
+
+A Review is distinct from structured scoring, but it is still part of the archive record and should eventually be available to intelligence and analytics systems.
+
+Potential future uses include:
+
+- recurring themes
+- qualitative reactions
+- interpretive patterns
+- evidence for Observations
+- evidence for Findings
+- recommendation signals
+- media-specific reaction analysis
+- narrative enrichment
+
+The contract does not currently define a review-analysis algorithm.
+
+Review analysis is therefore a future capability.
+
+# 35. Previously Consumed Media
+
+The archive should eventually allow the user to indicate whether the recorded media was previously consumed before this archive record, even if this is the first time the user is recording it in Media Tracker.
+
+The initial representation should preferably be binary:
+
+[start text]
+
+previously_consumed: true / false
+
+[end code]
+
+A full consumption count may be useful later, but it introduces additional maintenance burden.
+
+The binary signal is sufficient to establish the important distinction:
+
+`first recorded consumption vs. repeat consumption`
+
+Potential future intelligence uses include:
+
+- repeat-consumption behavior
+- familiarity effects
+- comfort-media patterns
+- recommendation weighting
+- archive interpretation
+- consumption analytics
+
+No specific scoring effect is currently defined.
+
+# 36. Intelligence Input Principle
+
+The intelligence layer should evolve toward a model in which:
+
+[start text]
+
+RAW USER DATA
+↓
+MEASURABLE SIGNALS
+↓
+INTELLIGENCE
+↓
+INTERPRETATION
+↓
+RECOMMENDATION SIGNALS
+
+[end code]
+
+The system should not assume that only numerical scores are legitimate intelligence inputs.
+
+At the same time, raw user input should not automatically become a score merely because it exists.
+
+The correct sequence is:
+
+    1. preserve the data
+    2. establish whether it contains a meaningful signal
+    3. define the signal's semantics
+    4. test the behavior
+    5. only then incorporate it into downstream intelligence
+
+# 37. Constitutional Extension
+
+The intelligence layer therefore follows an additional principle:
+
+`Collect broadly, interpret conservatively.`
+
+User-provided information should remain available for future analytical use, while actual algorithmic consumption must be:
+
+- purposeful
+- explainable
+- evidence-oriented
+- explicitly defined
+- regression-tested
+
+This principle applies to Reviews, previously-consumed status, and future user-provided metadata.
