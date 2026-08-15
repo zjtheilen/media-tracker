@@ -61,7 +61,7 @@ The intelligence systems are intentionally **parallel analytical perspectives** 
 
 They are not required to form a strict runtime pipeline.
 
-[start text]
+```text
                          RAW ARCHIVE
                               │
                     ┌─────────┴─────────┐
@@ -84,7 +84,7 @@ They are not required to form a strict runtime pipeline.
                          │
                          ↓
                 RECOMMENDATION ENGINE
-[end text]
+```
 
 This diagram represents conceptual relationships rather than a mandatory function-call hierarchy.
 
@@ -193,13 +193,13 @@ Identity is not a Designation with a different name.
 
 For example:
 
-[start text]
+```text
 Designation:
 The Boundary Explorer
 
 Identity:
 Systems-Seeking Interpretive Curator
-[end text]
+```
 
 The two concepts may overlap in their underlying signals, but they answer different questions.
 
@@ -241,7 +241,7 @@ An archive may contain multiple meaningful Identity candidates.
 
 Conceptually:
 
-[start text]
+```text
 Primary Identity
     Systems-Seeking Interpretive Curator
 
@@ -250,7 +250,7 @@ Secondary Identity
 
 Secondary Identity
     Deep Analytical Curator
-[end text]
+```
 
 Not every low-ranking Identity should be displayed.
 
@@ -308,9 +308,9 @@ How strongly a quality or signal is expressed.
 
 Example:
 
-[start text]
+```text
 Originality: 8.8
-[end text]
+```
 
 does not mean:
 
@@ -475,9 +475,9 @@ Identity should influence recommendations indirectly through the underlying meas
 
 Identity should not simply become:
 
-[start text]
+```text
 Identity score = recommendation score
-[end text]
+```
 
 The eventual Recommendation Engine should answer both:
 
@@ -620,7 +620,7 @@ React is an implementation evolution that should occur after the product archite
 
 # Project Structure
 
-[start text]
+```text
 media-tracker/
 ├── models/
 │   ├── entry.py
@@ -653,7 +653,7 @@ media-tracker/
 ├── index.html
 ├── styles.css
 └── *.js
-[end text]
+```
 
 ---
 

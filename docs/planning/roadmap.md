@@ -32,7 +32,7 @@ It should not be interpreted as a strict runtime pipeline.
 
 Conceptually:
 
-[start text]
+```text
 RAW ARCHIVE
 ↓
 TRAITS + GENRE SIGNALS
@@ -46,7 +46,7 @@ ARCHIVE PROFILE
 RECOMMENDATION SIGNALS
 ↓
 RECOMMENDATION ENGINE
-[end text]
+```
 
 Observations, Findings, Designations, and Identities remain analytically parallel perspectives over shared archive data.
 
@@ -135,13 +135,13 @@ Current behavior:
 
 Required behavior:
 
-[start text]
+```text
 entry_count < minimum_entries
 ↓
 INELIGIBLE
 ↓
 exclude from Identity ranking/presentation
-[end text]
+```
 
 Preserve:
 
@@ -365,13 +365,13 @@ Profile answers:
 
 The current Recommendation Engine is infrastructure/stub work.
 
-[start text]
+```text
 generate_recommendations(...)
 ↓
 collect signals
 ↓
 recommendations = []
-[end text]
+```
 
 The eventual engine should consume measurable archive signals including:
 
@@ -532,7 +532,7 @@ Do not make:
 
 # CARDINALITY RULES
 
-[start text]
+```text
 TRAITS
 MANY
 
@@ -553,7 +553,7 @@ IDENTITIES
 MANY internally
 ONE PRIMARY
 ZERO OR MORE meaningful SECONDARIES
-[end text]
+```
 
 ---
 

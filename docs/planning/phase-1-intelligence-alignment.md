@@ -61,7 +61,7 @@ The repository currently contains dedicated services for:
 
 The current service tree includes, among others:
 
-[start text]
+```text
 models/services/
 archive_classification.py
 archive_engine.py
@@ -100,16 +100,16 @@ profile_metrics.py
 scoring_rubric.py
 scoring_utils.py
 trait_calculator.py
-[end text]
+```
 
 The existing test suite contains dedicated intelligence-related test areas under:
 
-[start text]
+```text
 tests/services/
 tests/designations/
 tests/recommendations/
 tests/archive/
-[end text]
+```
 
 The previously established baseline was approximately:
 
@@ -190,13 +190,13 @@ If existing behavior is conceptually valid but mislabeled, correct the terminolo
 
 For example:
 
-[start text]
+```text
 Existing designation "confidence"
 ↓
 actually represents trait-derived signal strength
 ↓
 rename/reframe the concept
-[end text]
+```
 
 Do not invent a new classification-confidence algorithm merely because an existing property is called `confidence`.
 
@@ -251,12 +251,12 @@ Unless a direct conflict is identified, these behaviors are protected during Pha
 
 Current Trait normalization uses a floor at `6` and reaches maximum strength at `10`.
 
-[start text]
+```text
 value <= 6 → 0
 value = 10 → 1
 
 strength = min(max((value - 6) / 4, 0), 1)
-[end text]
+```
 
 This is a meaningful semantic distinction from Identity normalization.
 
@@ -268,10 +268,10 @@ This is a meaningful semantic distinction from Identity normalization.
 
 Identity scoring currently resolves trait values using proportional 0–10 normalization.
 
-[start text]
+```text
 normalized_value = clamp(value / 10, 0, 1)
 identity_contribution = normalized_value × fixture_weight
-[end text]
+```
 
 This does **not** apply the Trait Signal Strength floor.
 
@@ -287,13 +287,13 @@ These two normalization mechanisms have different semantics.
 
 Current Identity scoring resolves traits in this conceptual order:
 
-[start text]
+```text
 universalAverages
 ↓
 mediaAverages
 ↓
 derived-trait calculation
-[end text]
+```
 
 **Classification:** PRESERVE
 
@@ -350,9 +350,9 @@ The contract distinguishes:
 
 Current behavior is approximately:
 
-[start text]
+```text
 entryCount / minimum_entries
-[end text]
+```
 
 This represents **Data Sufficiency**, not Classification Confidence.
 
@@ -374,9 +374,9 @@ It therefore behaves more like **Signal Strength** than Classification Confidenc
 
 Current Observation confidence is threshold-relative support:
 
-[start text]
+```text
 observed_value / threshold
-[end text]
+```
 
 This is meaningful support-strength information, but it should not automatically be represented as generic Classification Confidence.
 
@@ -429,12 +429,12 @@ Preserve:
 
 Current designation IDs include:
 
-[start text]
+```text
 boundary_explorer
 curator
 engagement_architect
 deep_diver
-[end text]
+```
 
 The catalog itself should not be redesigned merely because Identity vocabulary is being repaired.
 
@@ -515,7 +515,7 @@ That creates a conceptual problem because an ineligible identity can still becom
 
 `minimum_entries` is an **eligibility gate**, not merely a score gate.
 
-[start text]
+```text
 entry_count < minimum_entries
 ↓
 INELIGIBLE
@@ -527,7 +527,7 @@ entry_count >= minimum_entries
 ELIGIBLE
 ↓
 score + rank + contribution breakdown
-[end text]
+```
 
 **Classification:** ALIGNMENT
 
@@ -539,13 +539,13 @@ This is one of the clearest direct implementation conflicts identified by the au
 
 Primary Identity remains:
 
-[start text]
+```text
 many eligible identities
 ↓
 deterministic ranking
 ↓
 one primary identity
-[end text]
+```
 
 Preserve the existing ranking machinery except for the eligibility correction.
 
@@ -1221,7 +1221,7 @@ It is to make the existing system **mean what the contract says it means without
 
 The correct sequence is:
 
-[start text]
+```text
 recover behavior
 ↓
 classify behavior
@@ -1233,6 +1233,6 @@ change only contradictions
 protect behavior with tests
 ↓
 defer everything else
-[end text]
+```
 
 > **Evolution, not rewrite.**
