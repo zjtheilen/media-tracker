@@ -1,230 +1,693 @@
-# media-tracker
+# Media Tracker
 
-Media Tracker is a personal media library and taste analysis platform built with FastAPI and modern JavaScript. Rather than simply storing ratings, it analyzes patterns across books, games, and films to build an evolving profile of the curator behind the collection.
+Media Tracker is a personal media library and taste-intelligence platform built with FastAPI, Python, JavaScript, and SQLite.
 
-Using a hybrid scoring system, genre intelligence, archive statistics, observations, and identity modeling, the application transforms personal ratings into explainable insights and recommendation-ready data.
+Rather than simply storing ratings, Media Tracker analyzes an archive of completed media experiences to build an increasingly useful description of the curator behind the collection.
+
+The project is intentionally built around:
+
+> **Explainable intelligence, evidence before interpretation, and evolution rather than rewrite.**
 
 ---
 
-## Features
+# What Media Tracker Is Trying to Answer
 
-### Library
-- CRUD
-- Filtering
-- Genre support
-- Completion tracking
+The application ultimately asks:
 
-### Analytics
-- Universal scoring
-- Media-specific scoring
-- Archive statistics
-- Genre affinity
-- Visual dashboards
+1. What qualities are strongly represented in my archive?
+2. What kinds of media do I repeatedly respond to?
+3. What recurring patterns can the archive directly demonstrate?
+4. What do those patterns suggest?
+5. What recognizable taste classifications fit the archive?
+6. What kind of curator does the archive describe?
+7. What evidence supports those conclusions?
+8. What should I experience next?
 
-### Taste Intelligence
-- Archive traits
+---
+
+# Current Status
+
+The `develop-3` branch contains a substantially developed intelligence layer.
+
+Implemented or substantially implemented areas include:
+
+- media archive / CRUD
+- universal scoring
+- media-specific scoring
+- scoring profiles and rubrics
+- genre intelligence
+- Traits
 - Observations
-- Archive findings
-- Curator identities
-- Explainable identity scoring
+- Findings
+- Designations
+- Identity scoring
+- identity-derived traits
+- identity contribution breakdowns
+- evidence infrastructure
+- Archive Profile backend infrastructure
+- narrative infrastructure
+- generated Reports / Lists
+- recommendation infrastructure
 
-### Architecture
-- Fixture-driven identity system
-- Modular analytics pipeline
-- Explainable scoring
-- Recommendation-ready data model
+The Recommendation Engine itself is still future work.
 
----
-
-## Tech Stack
-
-- Backend: FastAPI (Python)
-- Frontend: Vanilla HTML + CSS + JavaScript (modular)
-- Database: SQLite
-- Visualization: Chart.js
-- Validation: Pydantic
+The current implementation is undergoing **Phase 1 Intelligence Alignment** so that existing behavior matches the locked conceptual contract without unnecessary rewrites.
 
 ---
 
-## Quick Start
+# Intelligence Model
 
-```bash
-git clone https://github.com/zjtheilen/media-tracker.git
-cd media-tracker
-git checkout develop-3
-```
+The intelligence systems are intentionally **parallel analytical perspectives** over shared archive data.
 
-```bash
-pip install -r requirements.txt
-```
+They are not required to form a strict runtime pipeline.
 
-```bash
-uvicorn main:app --reload
-```
+[start text]
+                         RAW ARCHIVE
+                              │
+                    ┌─────────┴─────────┐
+                    ↓                   ↓
+                  TRAITS          GENRE SIGNALS
+                    │                   │
+                    └─────────┬─────────┘
+                              │
+          ┌──────────┬────────┼──────────┬──────────┐
+          ↓          ↓        ↓          ↓          ↓
+    OBSERVATIONS  FINDINGS  DESIGNATIONS IDENTITIES NARRATIVE
+          │          │        │          │
+          └──────────┴────────┴──────────┘
+                         │
+                         ↓
+                  ARCHIVE PROFILE
+                         │
+                         ↓
+              RECOMMENDATION SIGNALS
+                         │
+                         ↓
+                RECOMMENDATION ENGINE
+[end text]
 
-Open your browser at `http://127.0.0.1:8000`
+This diagram represents conceptual relationships rather than a mandatory function-call hierarchy.
 
 ---
 
-## Project Structure
+# Intelligence Layers
 
-```bash
+## Traits
+
+Traits are measurable qualities represented in the archive.
+
+Examples include:
+
+- Originality
+- Depth
+- Engagement
+- Craft
+- Gameplay Mechanics
+- Thought Provocation
+
+Traits answer:
+
+> **What qualities are strongly represented in the data?**
+
+Trait values represent **Signal Strength**, not confidence.
+
+---
+
+## Genre Signals
+
+Genre Signals describe recurring relationships between the archive and genres/types.
+
+They may include:
+
+- genre presence
+- genre affinity
+- genre combinations
+- cross-media relationships
+- other explicitly defined genre behavior
+
+Genre Signals answer:
+
+> **What kinds of media does the archive repeatedly respond to?**
+
+A genre appearing once is not automatically evidence of a meaningful preference.
+
+---
+
+## Observations
+
+An Observation is a recurring pattern that can be directly demonstrated from archive evidence.
+
+Observation answers:
+
+> **What recurring pattern can we directly demonstrate?**
+
+Observations remain relatively close to measurable evidence.
+
+The existing Observation evidence architecture is intentionally preserved.
+
+---
+
+## Findings
+
+A Finding is an interpretive conclusion suggested by available evidence.
+
+Finding answers:
+
+> **What does the available evidence suggest?**
+
+A Finding should provide additional meaning rather than simply restating an Observation.
+
+The distinction is:
+
+> **Observation:** What can we directly demonstrate?
+
+> **Finding:** What does the evidence suggest?
+
+---
+
+## Designations
+
+A Designation is a recognizable taste classification.
+
+Designation answers:
+
+> **What named taste classification fits this archive?**
+
+Designations may be fixture/rule-driven and may produce multiple internal candidates.
+
+The Profile presents one Primary Designation.
+
+Designations may also provide recommendation-oriented bias metadata.
+
+---
+
+## Identity
+
+Identity is a broader curator synthesis.
+
+Identity answers:
+
+> **What kind of curator does this archive describe?**
+
+Identity is not a Designation with a different name.
+
+For example:
+
+[start text]
+Designation:
+The Boundary Explorer
+
+Identity:
+Systems-Seeking Interpretive Curator
+[end text]
+
+The two concepts may overlap in their underlying signals, but they answer different questions.
+
+Identity names should be allowed to diverge from the Designation vocabulary.
+
+---
+
+# Identity Scoring
+
+The current Identity architecture is fixture-driven.
+
+Identity fixtures may define:
+
+- ID
+- title
+- category
+- icon
+- description
+- associated traits
+- recommendation signals
+- minimum data requirements
+- scoring weights
+
+The existing scoring machinery includes:
+
+- weighted trait scoring
+- derived traits
+- ranking
+- contribution breakdowns
+- explanation
+
+These systems are being preserved during Phase 1.
+
+---
+
+# Multiple Identities
+
+An archive may contain multiple meaningful Identity candidates.
+
+Conceptually:
+
+[start text]
+Primary Identity
+    Systems-Seeking Interpretive Curator
+
+Secondary Identity
+    Boundary-Driven Explorer
+
+Secondary Identity
+    Deep Analytical Curator
+[end text]
+
+Not every low-ranking Identity should be displayed.
+
+Secondary Identity selection is part of the Phase 1 alignment work.
+
+---
+
+# Evidence and Explainability
+
+The intelligence layer is designed around:
+
+> **Why does the system think this?**
+
+Different layers may use different evidence representations.
+
+Examples:
+
+### Traits
+
+Underlying scores and metrics.
+
+### Genre Signals
+
+Presence, affinity, combinations, and related calculations.
+
+### Observations
+
+Structured metric/genre evidence.
+
+### Findings
+
+Structured supporting evidence.
+
+### Designations
+
+Lightweight classification explanation.
+
+### Identity
+
+Contribution breakdowns and supporting traits/signals.
+
+The project does **not** require every subsystem to use the same evidence schema.
+
+Explainability is the requirement.
+
+---
+
+# Quantitative Vocabulary
+
+The project intentionally distinguishes several concepts that were previously represented using the generic word `confidence`.
+
+## Signal Strength
+
+How strongly a quality or signal is expressed.
+
+Example:
+
+[start text]
+Originality: 8.8
+[end text]
+
+does not mean:
+
+> 88% confidence that originality exists.
+
+---
+
+## Data Sufficiency
+
+Whether enough archive data exists to reasonably evaluate a conclusion.
+
+---
+
+## Classification Confidence
+
+How clearly one classification beats plausible alternatives.
+
+---
+
+## Evidence Strength
+
+How strongly the available evidence supports the conclusion.
+
+These concepts may correlate.
+
+They are not interchangeable.
+
+---
+
+# Archive States
+
+The intelligence layer recognizes three conceptual archive states:
+
+### Empty
+
+There is not enough data to produce meaningful intelligence.
+
+### Sparse
+
+Some intelligence may be available, but conclusions should communicate limited data sufficiency.
+
+### Established
+
+Enough archive data exists for meaningful interpretation.
+
+The system should prefer:
+
+> **Insufficient evidence**
+
+over:
+
+> **False certainty**
+
+when data is inadequate.
+
+Exact operational thresholds remain part of Phase 1 implementation decisions.
+
+---
+
+# Analytics vs Archive Profile
+
+Media Tracker intentionally separates these two surfaces.
+
+## Analytics
+
+Analytics answers:
+
+> **What do the numbers say?**
+
+It contains things such as:
+
+- averages
+- distributions
+- score comparisons
+- trends
+- charts
+- genre statistics
+- quantitative comparisons
+
+## Archive Profile
+
+Profile answers:
+
+> **What does the archive mean?**
+
+It is intended to contain:
+
+- Narrative
+- Primary Designation
+- Primary Identity
+- Secondary Identities
+- Traits
+- Genre Signals
+- Observations
+- Findings
+- Evidence / explanations
+
+The Profile should not simply become another Analytics dashboard.
+
+---
+
+# Scoring Philosophy
+
+Media Tracker uses a hybrid scoring system.
+
+Universal categories provide cross-media signals.
+
+Media-specific categories provide type-appropriate detail.
+
+Weighted scoring allows categories to reflect their relative importance.
+
+The scoring system measures the user's reactions to completed media experiences.
+
+The intelligence layer builds on those measurements rather than replacing them.
+
+---
+
+# Reports
+
+The Reports / Lists system provides generated archive views such as:
+
+- highest evaluated records
+- highest-rated books
+- highest-rated videos
+- highest-rated games
+- recent archive additions
+- Archive Hall of Fame
+
+These are separate from the interpretive Archive Profile.
+
+Reports answer practical questions about the archive.
+
+Profile answers what the archive means.
+
+---
+
+# Recommendation Engine
+
+The Recommendation Engine is planned but not yet a finished recommendation system.
+
+Current infrastructure includes:
+
+- recommendation models
+- signal collection
+- scoring infrastructure
+- engine entry point
+
+The current engine remains intentionally incomplete.
+
+Eventually recommendations should consume measurable signals such as:
+
+- Trait Strength
+- Genre Affinity
+- scoring preferences
+- universal scoring behavior
+- media-specific scoring behavior
+- Designation recommendation bias
+- soft Observation signals
+- soft Finding signals
+
+Identity should influence recommendations indirectly through the underlying measurable signals.
+
+Identity should not simply become:
+
+[start text]
+Identity score = recommendation score
+[end text]
+
+The eventual Recommendation Engine should answer both:
+
+> **What should I experience next?**
+
+and:
+
+> **Why was this recommended?**
+
+---
+
+# Current Development Phase
+
+## Phase 1 — Intelligence Alignment
+
+The immediate goal is to align existing intelligence behavior with the conceptual contract.
+
+Phase 1 focuses on:
+
+- confidence terminology
+- Designation semantics
+- Identity / Designation separation
+- Identity eligibility
+- primary Identity selection
+- secondary Identity policy
+- Findings vs Observations
+- Finding evidence
+- archive data sufficiency
+- ranking/tie behavior
+- regression protection
+
+The guiding principle is:
+
+> **Preserve compatible behavior. Change contradictions. Clarify ambiguity. Defer unrelated work.**
+
+---
+
+# Recovered Behavioral Contracts
+
+The repository already contains meaningful behavior that should not be accidentally lost.
+
+Examples include:
+
+- Trait Signal Strength normalization
+- separate Identity score normalization
+- Identity weighted scoring
+- Identity derived traits
+- Identity trait-resolution priority
+- Identity minimum-entry requirements
+- Designation ranking
+- Primary Designation selection
+- structured Observation evidence
+- Identity contribution breakdowns
+- recommendation-bias metadata
+- empty intelligence collections
+- deterministic ranking behavior
+
+These behaviors are treated as protected unless a direct contract conflict is established.
+
+---
+
+# Phase Roadmap
+
+## Phase 1 — Intelligence Alignment
+
+Current.
+
+Align the existing intelligence implementation with the conceptual contract.
+
+---
+
+## Phase 2 — Archive Profile UI
+
+Build the dedicated Profile experience.
+
+---
+
+## Phase 3 — Recommendation Engine
+
+Turn measurable archive intelligence into useful, explainable recommendations.
+
+---
+
+## Phase 4 — Library Scale
+
+Add pagination and large-archive support.
+
+---
+
+## Phase 5 — Import / Export
+
+Prioritize JSON backup and portability.
+
+---
+
+## Phase 6 — Metadata Expansion
+
+Add richer media metadata where it meaningfully improves the archive.
+
+---
+
+## Phase 7 — Polish / Accessibility / Stability
+
+Refine:
+
+- UX
+- accessibility
+- edge cases
+- documentation
+- Profile
+- Analytics
+- Reports
+- Library
+
+---
+
+## Phase 8 — Release
+
+Finalize:
+
+- testing
+- deployment
+- backup
+- documentation
+- migration strategy
+- versioning
+- changelog
+
+---
+
+## Phase 9 — React Migration
+
+Future.
+
+Do not migrate to React merely to avoid unfinished product work.
+
+React is an implementation evolution that should occur after the product architecture and behavior are stable.
+
+---
+
+# Project Structure
+
+[start text]
 media-tracker/
-├── data/                  # Genre definitions
-├── models/                # Core domain models
+├── models/
 │   ├── entry.py
 │   ├── media_item.py
 │   ├── score.py
 │   ├── scoring_profile.py
-│   └── responses.py
+│   ├── responses.py
+│   ├── services/
+│   │   ├── archive_engine.py
+│   │   ├── archive_mapper.py
+│   │   ├── archive_narrative.py
+│   │   ├── designation_engine.py
+│   │   ├── designation_rules.py
+│   │   ├── evidence_utils.py
+│   │   ├── finding_engine.py
+│   │   ├── finding_rules.py
+│   │   ├── genre_intelligence.py
+│   │   ├── identity_engine.py
+│   │   ├── identity_explainer.py
+│   │   ├── identity_scorer.py
+│   │   ├── identity_scoring.py
+│   │   ├── observation_engine.py
+│   │   ├── observation_rules.py
+│   │   └── trait_calculator.py
+│   └── recommendations/
+├── fixtures/
 ├── tests/
-├── .gitignore
-├── db.py                  # SQLite setup + migrations
-├── main.py                # FastAPI app
+├── main.py
+├── db.py
 ├── index.html
 ├── styles.css
-├── *.js                   # Modular frontend (app, forms, charts, etc.)
-├── requirements.txt
-└── database.db            # Auto-created
-```
+└── *.js
+[end text]
 
 ---
 
-## Scoring Philosophy
+# Tech Stack
 
-The system blends emotional resonance, intellectual depth, technical craft, originality, and engagement/flow.
+- Backend: FastAPI / Python
+- Frontend: Vanilla JavaScript
+- Database: SQLite
+- Validation: Pydantic
+- Visualization: Chart.js
+- Testing: pytest
 
-Universal categories enable broad taste profiling.  
-Media-specific categories provide granular, type-appropriate feedback.
-
-Weighted scoring ensures categories you care about most have greater influence.
-
----
-
-## Development Roadmap
-
-### Current Status (develop-3)
-✓ Hybrid scoring <br />
-✓ Archive profile generation <br />
-✓ Genre intelligence <br />
-✓ Identity scoring <br />
-✓ Observation engine <br />
-✓ Findings engine <br />
-
-In Progress
-- Identity endpoint
-- Profile endpoint
-- Explanation endpoint
-- Frontend archive profile
-
-Next
-- Recommendation engine
-- React frontend migration
-- Archive narrative system
-- Import / export
-
-### Detailed Phase 6 — Enhanced Scoring System (develop-3)
-
-**Goal**  
-Replace the current generic scoring model with a hybrid Universal + Media-Specific evaluation system while preserving cross-media comparisons.
-
-**Universal Categories (Primary Radar Chart)**
-- Emotional Impact (25%)
-- Depth / Themes (20%)
-- Originality (15%)
-- Craft / Execution (15%)
-- Engagement / Flow (15%)
-- Artistic Merit (10%)
-
-**Media-Specific Categories**
-- **Books**: Prose Writing (30%), Character Development (25%), World Building (25%), Narrative Pacing (20%)
-- **Video / Film**: Cinematography / Visuals (30%), Acting / Performances (25%), Directing / Editing (25%), Sound / Music (20%)
-- **Games**: Gameplay Mechanics (30%), Level Design / Progression (25%), Replayability / Systems (25%), Art / Atmosphere (20%)
-
-**Key Tasks**
-- Update `scoring_profile.py`
-- Dynamic category validation
-- Weighted total calculation across all scores
-- Normalize to 1–10 scale
-- Backwards compatibility + graceful fallbacks
-- Expand `/scoring-profile` endpoint
-- Redesign entry form with universal + conditional media-specific sections
-- Update entry detail view with Radar (universal) + Bar Chart (specific)
-- Expand analytics with per-category averages, top media-specific rankings, correlations, and taste profile summaries
-
-### Phase 7 — Archive Immersion (Lower priority)
-- Atmospheric startup/loading messages
-- Subtle archive notifications
-- Session statistics
-- Refined report generation flow
-
-### Future (Post v1.0) — Metadata & Polish
-- Author / Director / Studio
-- Release Year, Cover Images, External IDs
-- Import / Export, Advanced Search, Custom Reports
+React is intentionally deferred to a later phase.
 
 ---
 
-## Testing
+# Development Principle
 
-The project includes a growing automated test suite covering:
+Media Tracker should evolve rather than be rewritten.
 
-- Archive profile generation
-- Genre analytics
-- Identity scoring
-- Observation generation
-- API endpoints
-- Validation
-- Recommendation engine
+When changing the intelligence layer:
 
-Current coverage:
-150+ automated tests
+1. recover existing behavior
+2. compare it against the contract
+3. preserve compatible behavior
+4. classify contradictions
+5. change only what must change
+6. add regression tests
+7. defer unrelated improvements
 
----
-
-## Architecture
-
-Media Entries <br />
-      ↓ <br />
-Archive Statistics <br />
-      ↓ <br />
-Archive Traits <br />
-      ↓ <br />
-Genre Intelligence <br />
-      ↓ <br />
-Observations <br />
-      ↓ <br />
-Findings <br />
-      ↓ <br />
-Curator Identity <br />
-      ↓ <br />
-Recommendations (planned)
+The project should never discard useful behavioral memory merely because a newer conceptual model is being introduced.
 
 ---
 
-## API Overview
+# One-Sentence Description
 
-- POST /entries/ — Create new entry
-- GET /entries/ — List entries (with genre filter)
-- GET /entries/{id} — Get single entry
-- PUT /entries/{id} — Update entry
-- DELETE /entries/{id} — Delete entry
-- GET /stats/ — Aggregate statistics
-- GET /genres/ — Available genres
-- GET /scoring-profile — Category definitions & weights
-
----
-
-## Contributing
-
-Feel free to open issues or PRs! This is a personal passion project that benefits from thoughtful feedback on scoring, UX, or analytics.
-
----
-
-## License
-
-MIT
-
----
-
-**Made with curiosity and a love for great stories across all media.**
+> **Media Tracker turns raw media scores into measurable traits and genre signals, independently interprets those signals through observations, findings, designations, and curator identities, presents the resulting meaning through an Archive Profile, and eventually uses measurable signals to recommend what should come next.**
