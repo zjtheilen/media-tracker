@@ -1551,11 +1551,11 @@ The archive should eventually allow the user to indicate whether the recorded me
 
 The initial representation should preferably be binary:
 
-[start text]
+```text
 
 previously_consumed: true / false
 
-[end code]
+```
 
 A full consumption count may be useful later, but it introduces additional maintenance burden.
 
@@ -1578,7 +1578,7 @@ No specific scoring effect is currently defined.
 
 The intelligence layer should evolve toward a model in which:
 
-[start text]
+```text
 
 RAW USER DATA
 ↓
@@ -1590,7 +1590,7 @@ INTERPRETATION
 ↓
 RECOMMENDATION SIGNALS
 
-[end code]
+```
 
 The system should not assume that only numerical scores are legitimate intelligence inputs.
 

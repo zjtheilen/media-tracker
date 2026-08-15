@@ -32,7 +32,7 @@ It should **not** be interpreted as a strict runtime pipeline.
 
 Conceptually:
 
-[start text]
+```text
 RAW ARCHIVE
 ↓
 TRAITS + GENRE SIGNALS
@@ -46,7 +46,7 @@ ARCHIVE PROFILE
 RECOMMENDATION SIGNALS
 ↓
 RECOMMENDATION ENGINE
-[end code]
+```
 
 Observations, Findings, Designations, and Identities remain analytically parallel perspectives over shared archive data.
 
@@ -141,9 +141,9 @@ Media should eventually support a simple binary indicator allowing the user to i
 
 This may be represented as a field such as:
 
-[start text]
+```text
 previously_consumed
-[end code]
+```
 
 or an equivalent name.
 
@@ -173,13 +173,13 @@ The field should remain optional.
 
 The conceptual direction is:
 
-[start text]
+```text
 User Input
 ↓
 Review / Scores / Consumption Signals
 ↓
 Analytics + Intelligence
-[end code]
+```
 
 The review should eventually be available for algorithmic consumption.
 
@@ -332,13 +332,13 @@ This is a Phase 1 alignment issue.
 
 Required conceptual behavior:
 
-[start text]
+```text
 entry_count < minimum_entries
 ↓
 INELIGIBLE
 ↓
 exclude from Identity ranking/presentation
-[end code]
+```
 
 The weighted scoring machinery itself should remain.
 
@@ -435,13 +435,13 @@ Current behavior:
 
 Required behavior:
 
-[start text]
+```text
 entry_count < minimum_entries
 ↓
 INELIGIBLE
 ↓
 exclude from Identity ranking/presentation
-[end code]
+```
 
 Preserve:
 
@@ -631,9 +631,9 @@ Inspect all ranking operations.
 
 Particular attention should be paid to patterns equivalent to:
 
-[start python]
+```python
 sorted(items, key=lambda x: x["score"], reverse=True)
-[end code]
+```
 
 Such sorting may be deterministic under current input ordering but may leave tie behavior implicit.
 
@@ -832,13 +832,13 @@ The current Recommendation Engine is infrastructure/stub work.
 
 Current conceptual direction:
 
-[start text]
+```text
 generate_recommendations(...)
 ↓
 collect signals
 ↓
 recommendations = []
-[end code]
+```
 
 The eventual engine should consume measurable archive signals including:
 
@@ -1069,7 +1069,7 @@ Do not make:
 
 # CARDINALITY RULES
 
-[start text]
+```text
 TRAITS
 MANY
 
@@ -1090,7 +1090,7 @@ IDENTITIES
 MANY internally
 ONE PRIMARY
 ZERO OR MORE meaningful SECONDARIES
-[end code]
+```
 
 These cardinality rules describe the conceptual model, not necessarily a single runtime execution pipeline.
 

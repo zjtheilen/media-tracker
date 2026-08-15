@@ -191,23 +191,23 @@ Trait Signal Strength uses a floor at 6.
 
 Conceptually:
 
-[start text]
+```text
 
 Values <= 6 produce zero signal strength.
 
 Values at 10 produce maximum signal strength.
 
-[end code]
+```
 
 Identity scoring does not use that same floor.
 
 Identity scoring resolves a trait value and then normalizes it proportionally:
 
-[start python]
+```python
 
 normalized = clamp(value / 10, 0, 1)
 
-[end python]
+```
 
 These are different operations.
 
@@ -292,11 +292,11 @@ Identity confidence is separately calculated from entry count relative to the mi
 
 Conceptually:
 
-[start python]
+```python
 
 confidence = min(entry_count / minimum_entries, 1)
 
-[end python]
+```
 
 ### Classification
 
@@ -344,14 +344,14 @@ The primary identity is selected from the highest-ranked eligible candidate.
 
 This directly supports the conceptual contract:
 
-[start text]
+```text
 
 Identities:
 MANY internally
 ONE PRIMARY
 ZERO+ meaningful SECONDARIES
 
-[end code]
+```
 
 ### Important unresolved point
 
@@ -501,7 +501,7 @@ This is currently one of the strongest parts of the intelligence architecture.
 
 It already closely matches the conceptual contract:
 
-[start text]
+```text
 
 Pattern exists
 
@@ -510,7 +510,7 @@ Pattern exists
   ↓
   Observation
 
-[end code]
+```
 
 ---
 
@@ -688,13 +688,13 @@ Verify whether both paths are guaranteed to use the same semantics.
 
 Current intelligence-oriented endpoints include:
 
-[start text]
+```text
 
 GET /archive-profile
 GET /identities
 GET /identity
 
-[end code]
+```
 
 The three endpoints expose different views of Identity:
 
@@ -781,7 +781,7 @@ The API exposes both universal and media-specific score information.
 
 This produces an important upstream boundary:
 
-[start text]
+```text
 
 DATABASE
 ↓
@@ -791,7 +791,7 @@ archive mapping
 ↓
 INTELLIGENCE INPUT
 
-[end code]
+```
 
 ### Classification
 
@@ -833,14 +833,14 @@ Recommendation infrastructure exists but is currently a stub.
 
 Relevant components include:
 
-[start text]
+```text
 
 models/recommendations/engine.py
 models/recommendations/models.py
 models/recommendations/scoring.py
 models/recommendations/signals.py
 
-[end code]
+```
 
 The recommendation engine currently does not generate real recommendations.
 
@@ -879,12 +879,12 @@ This supports the conceptual requirement that recommendations eventually explain
 
 The intended recommendation is not merely:
 
-[start text]
+```text
 
 Movie X
 92%
 
-[end code]
+```
 
 It has a place for explaining why the match occurred.
 
@@ -967,11 +967,11 @@ The preferred initial representation is a simple binary field rather than a mand
 
 Example conceptual field:
 
-[start text]
+```text
 
 previously_consumed: true / false
 
-[end code]
+```
 
 A full watch/read/play count remains a possible future enhancement but would introduce additional user-maintenance burden.
 
@@ -1414,11 +1414,11 @@ Potential future uses should be investigated only after the conceptual intellige
 
 Potential future field:
 
-[start text]
+```text
 
 previously_consumed: boolean
 
-[end code]
+```
 
 Purpose:
 
@@ -1500,7 +1500,7 @@ Important behavioral claims in this document should be traceable to repository i
 
 Representative evidence locations include:
 
-[start text]
+```text
 
 models/services/archive_engine.py
 models/services/identity_engine.py
@@ -1516,7 +1516,7 @@ tests/identities/
 tests/observations/
 tests/findings/
 
-[end code]
+```
 
 Where the repository does not provide enough evidence:
 
