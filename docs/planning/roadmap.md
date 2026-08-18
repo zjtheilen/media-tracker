@@ -11,20 +11,20 @@ Media Tracker is a personal media archive and taste-intelligence application.
 
 The project currently has:
 
-- a functioning media archive
-- hybrid universal + media-specific scoring
-- genre intelligence
-- measurable traits
-- Observation infrastructure
-- Finding infrastructure
-- Designation infrastructure
-- Identity scoring infrastructure
-- identity-derived traits
-- identity contribution/explanation infrastructure
-- Archive Profile backend infrastructure
-- template-driven narrative infrastructure
-- recommendation infrastructure/stub
-- automated regression coverage
+* a functioning media archive
+* hybrid universal + media-specific scoring
+* genre intelligence
+* measurable traits
+* Observation infrastructure
+* Finding infrastructure
+* Designation infrastructure
+* Identity scoring infrastructure
+* identity-derived traits
+* identity contribution/explanation infrastructure
+* Archive Profile backend infrastructure
+* template-driven narrative infrastructure
+* recommendation infrastructure/stub
+* automated regression coverage
 
 The current intelligence architecture is intentionally modular.
 
@@ -33,6 +33,7 @@ It should **not** be interpreted as a strict runtime pipeline.
 Conceptually:
 
 ```text
+
 RAW ARCHIVE
 ↓
 TRAITS + GENRE SIGNALS
@@ -46,370 +47,137 @@ ARCHIVE PROFILE
 RECOMMENDATION SIGNALS
 ↓
 RECOMMENDATION ENGINE
+
 ```
 
 Observations, Findings, Designations, and Identities remain analytically parallel perspectives over shared archive data.
 
-They should not be treated as mandatory sequential transformations where one subsystem must consume the output of another.
-
 ---
 
-# PROJECT PRINCIPLES
+# CURRENT REGRESSION BASELINE
 
-## Evolution, Not Rewrite
+The current test suite has:
 
-The intelligence layer already contains meaningful infrastructure and behavioral contracts.
+> **210 passing tests, 0 failures**
 
-Future work should:
+This is the current regression baseline for Phase 1.
 
-- preserve working behavior unless there is a demonstrated reason to change it
-- distinguish conceptual misalignment from implementation failure
-- avoid replacing deterministic systems merely because a new conceptual model exists
-- avoid large refactors when a terminology or eligibility correction is sufficient
-- use existing tests as evidence of historical behavioral expectations
-- treat regressions as potentially lost product behavior, not merely broken tests
+Phase 1 changes should preserve these tests unless a behavior is **deliberately changed** as part of contract alignment.
 
-The question before changing existing behavior is:
+Any intentional test change should be accompanied by:
 
-> What information or behavior would be lost if this were removed?
+1. an explicit reason
+2. a corresponding contract/roadmap decision
+3. replacement regression coverage where appropriate
 
----
+The test count itself is not sacred.
 
-## Behavioral Memory
-
-The repository's existing code and tests constitute part of the application's behavioral memory.
-
-The roadmap therefore treats the forensic audit as an important project artifact.
-
-Existing behavior should be classified rather than blindly preserved or deleted.
-
-Possible classifications are:
-
-- **PRESERVE** — compatible with the conceptual contract
-- **ALIGN** — directly conflicts with the conceptual contract
-- **CLARIFY** — useful implicit behavior that should become explicit
-- **EVIDENCE** — useful explanation/evidence infrastructure
-- **TEST GAP** — meaningful behavior insufficiently protected
-- **DEFER** — legitimate issue belonging to a later phase
-- **POSSIBLE DEAD CODE** — behavior/test requiring investigation before preservation
-
----
-
-## User Input Is Intelligence Data
-
-Any information deliberately supplied by the user about a media item should be considered potential fodder for future algorithmic consumption.
-
-This includes, but is not limited to:
-
-- scores
-- ratings
-- genres selected or confirmed by the user
-- notes/reviews
-- previously-consumed status
-- future media metadata supplied by the user
-- other explicit preference signals
-
-This does **not** mean every field must immediately influence scoring or recommendations.
-
-It means the data model should avoid unnecessarily treating meaningful user input as disposable presentation-only text.
-
----
-
-# ARCHIVE DATA PRINCIPLES
-
-## Completed Media Is the Core Archive Unit
-
-The archive primarily represents media the user has actually consumed/completed.
-
-The intelligence layer operates over this archive.
-
-Future systems should distinguish between:
-
-- media records
-- consumption state
-- user evaluation
-- metadata
-- derived intelligence
-
----
-
-## Previously Consumed Status
-
-Media should eventually support a simple binary indicator allowing the user to indicate:
-
-> This is not the first time I have consumed this media.
-
-This may be represented as a field such as:
-
-```text
-previously_consumed
-```
-
-or an equivalent name.
-
-The purpose is to capture meaningful repeat-consumption behavior without requiring the user to maintain an exact watch/play/read count.
-
-A full `watch_count` / `consumption_count` system is **not currently required**.
-
-The binary signal is preferable initially because:
-
-- it is low-friction
-- it captures repeat-consumption behavior
-- it avoids making archive entry tedious
-- it can later become an intelligence signal
-- it can eventually inform recommendation and taste analysis
-
-This field should ultimately be considered available to intelligence systems alongside other user-provided inputs.
-
----
-
-## Review vs Notes
-
-The current entry form's `notes` field should eventually become:
-
-> **Review**
-
-The field should remain optional.
-
-The conceptual direction is:
-
-```text
-User Input
-↓
-Review / Scores / Consumption Signals
-↓
-Analytics + Intelligence
-```
-
-The review should eventually be available for algorithmic consumption.
-
-However, Phase 1 should **not** automatically introduce NLP, LLM analysis, sentiment analysis, or other review-processing algorithms merely because the field exists.
-
-The immediate goal is to preserve the data as meaningful user input.
+The **behavior protected by meaningful tests** is what matters.
 
 ---
 
 # PHASE 0 — CONCEPTUAL LOCK
 
-## Status: CONCEPTUALLY COMPLETE
+## Status: COMPLETE
 
 The Intelligence Contract v1 defines:
 
-- Trait
-- Genre Signal
-- Observation
-- Finding
-- Designation
-- Identity
-- Evidence
-- Signal Strength
-- Data Sufficiency
-- Classification Confidence
-- Evidence Strength
-- Narrative
-- Recommendation Signals
-- Recommendation Bias
-- Archive Profile
-- Analytics
+* Trait
+* Genre Signal
+* Observation
+* Finding
+* Designation
+* Identity
+* Evidence
+* Signal Strength
+* Data Sufficiency
+* Classification Confidence
+* Evidence Strength
+* Narrative
+* Recommendation Signals
+* Recommendation Bias
+* Archive Profile
+* Analytics
 
-The contract also establishes:
+The contract also locks:
 
-- Observation vs Finding distinction
-- Designation vs Identity distinction
-- multiple Observations
-- multiple Findings
-- multiple internal Designations
-- one Primary Designation on Profile
-- multiple Identities internally
-- one Primary Identity
-- zero or more meaningful Secondary Identities
-- Analytics vs Profile separation
-- empty/sparse/established archive states
-- explainability requirements
-- evolution rather than rewrite
+* Observation vs Finding distinction
+* Designation vs Identity distinction
+* multiple Observations
+* multiple Findings
+* multiple internal Designations
+* one Primary Designation on Profile
+* multiple Identities internally
+* one Primary Identity
+* zero or more meaningful Secondary Identities
+* Analytics vs Profile separation
+* empty/sparse/established archive states
+* explainability requirements
+* evolution rather than rewrite
 
-The conceptual audit has also recovered existing behavioral contracts that must be preserved unless they directly conflict with the contract.
+The conceptual audit recovered existing behavioral contracts that should be preserved unless they directly conflict with the contract.
 
 Recovered behavior includes:
 
-- Trait Signal Strength normalization
-- separate Identity normalization semantics
-- Identity weighted scoring
-- derived Identity traits
-- Identity minimum-entry behavior
-- Designation ranking
-- Designation primary selection
-- Observation evidence
-- Identity contribution breakdowns
-- recommendation-bias metadata
-- empty intelligence collections
-- deterministic ordering
-- fixture-driven intelligence definitions
+* Trait Signal Strength normalization
+* separate Identity normalization semantics
+* Identity weighted scoring
+* derived Identity traits
+* Identity minimum-entry eligibility
+* Designation ranking
+* primary selection
+* Observation evidence
+* Identity contribution breakdowns
+* recommendation-bias metadata
+* empty intelligence collections
+* deterministic/intended ranking behavior
+* API response structures relied upon by downstream consumers
 
-Phase 0 should no longer be treated as an open-ended conceptual-design phase.
+Phase 0 is no longer an open-ended conceptual-design phase.
+
+The forensic audit is complete.
+
+The project should now move from **behavioral recovery** into **implementation alignment**.
 
 ---
 
-# FORENSIC AUDIT — RECOVERED BEHAVIORAL CONTRACTS
+# FORENSIC AUDIT — COMPLETION STATUS
 
 ## Status: COMPLETE
 
-The repository audit recovered behavior encoded in the implementation and tests that is not always explicitly represented by the new conceptual contract.
-
-The audit's purpose was not to redesign the intelligence layer.
-
-Its purpose was to answer:
-
-> What did we already build, what did our tests implicitly promise, what conflicts with the new intelligence contract, and what would we accidentally lose if we changed things now?
-
-Important recovered behaviors include the following.
-
----
-
-## Trait Normalization
-
-Trait Signal Strength has existing normalization behavior.
-
-This should be preserved unless the Intelligence Contract explicitly contradicts it.
-
-**Classification:** PRESERVE
-
----
-
-## Identity Normalization
-
-Identity scoring has normalization semantics that are not necessarily identical to Trait normalization.
-
-Identity normalization should therefore not be casually replaced with Trait normalization.
-
-**Classification:** PRESERVE
-
----
-
-## Identity Weighted Scoring
-
-Identity scoring machinery already contains meaningful weighted scoring.
-
-The existence of overlap between Identity fixtures and Designations does not justify deleting the scoring system.
-
-**Classification:** PRESERVE
-
----
-
-## Derived Identity Traits
-
-Identities can contribute or derive traits.
-
-This is meaningful because it provides a connection between curator-level synthesis and measurable archive signals.
-
-This mechanism should not be removed merely because Identity semantics are being clarified.
-
-**Classification:** PRESERVE / EVIDENCE
-
----
-
-## Identity Contribution Breakdown
-
-Identity scoring includes contribution/explanation infrastructure.
-
-This should be preserved because it provides evidence for why an Identity received its score.
-
-**Classification:** EVIDENCE
-
----
-
-## Minimum-Entry Behavior
-
-Identity scoring already has minimum-entry behavior.
-
-The current implementation may zero the score when insufficient entries exist without necessarily removing the Identity from ranking.
-
-This creates a potentially misleading state where an ineligible Identity can still participate in primary selection.
-
-This is a Phase 1 alignment issue.
-
-**Classification:** ALIGN\*\*
-
-Required conceptual behavior:
-
-```text
-entry_count < minimum_entries
-↓
-INELIGIBLE
-↓
-exclude from Identity ranking/presentation
-```
-
-The weighted scoring machinery itself should remain.
-
----
-
-## Designation Ranking
-
-Designation ranking is existing meaningful behavior.
-
-The contract permits multiple internal Designations and a single Primary Designation on the Profile.
-
-Ranking and primary selection should therefore be preserved.
-
-**Classification:** PRESERVE
-
----
-
-## Recommendation Bias Metadata
-
-Designation and/or Identity infrastructure contains recommendation-bias metadata.
-
-This is useful because recommendations can eventually consume these signals without making Identity itself a direct recommendation score.
-
-**Classification:** EVIDENCE / PRESERVE
-
----
-
-## Empty Intelligence Collections
-
-The implementation permits empty intelligence collections.
-
-Empty intelligence should not automatically be interpreted as negative preference.
-
-An empty collection can mean:
-
-- insufficient evidence
-- no applicable classification
-- no observations currently detected
-- no findings currently supported
-
-The distinction between "nothing detected" and "negative preference" should remain explicit.
-
-**Classification:** PRESERVE / CLARIFY
-
----
-
-## Fixture-Driven Definitions
-
-Designations and Identities are substantially fixture/rule-driven.
-
-This is valuable because definitions remain inspectable and deterministic.
-
-The roadmap should not replace this with opaque AI-generated classifications.
-
-**Classification:** PRESERVE
-
----
-
-## Deterministic Ordering
-
-Ranking operations and presentation order are behaviorally significant.
-
-Any future change to ranking must explicitly consider:
-
-- ties
-- stable ordering
-- near-ties
-- primary selection
-- deterministic output
-
-**Classification:** CLARIFY / TEST GAP
+The repository was audited against:
+
+1. the Intelligence Contract
+2. the Phase 1 Alignment plan
+3. the current implementation
+4. the current test suite
+5. API response models and downstream consumers
+
+The audit specifically examined:
+
+* Observations
+* Findings
+* Designations
+* Identities
+* Traits
+* Genre intelligence
+* Evidence
+* Confidence/strength semantics
+* archive-state behavior
+* ranking and primary selection
+* API/downstream contracts
+* test coverage
+* hidden behavioral contracts
+* potentially lost behavior
+* debugging/dead-code candidates
+
+The purpose of the audit was to recover the project's **behavioral memory** before Phase 1 changes.
+
+The audit's conclusion is:
+
+> **The existing intelligence system contains meaningful behavior that must be evolved rather than replaced.**
+
+Phase 1 must therefore be conservative.
 
 ---
 
@@ -421,106 +189,224 @@ Any future change to ranking must explicitly consider:
 
 Bring the existing intelligence implementation into alignment with the locked conceptual model without rewriting working infrastructure.
 
-The primary objective is **semantic and behavioral alignment**, not algorithmic reinvention.
+The implementation should change only where:
+
+* existing behavior directly contradicts the contract
+* terminology creates meaningful semantic confusion
+* an important hidden contract needs to become explicit
+* deterministic behavior is currently under-specified
+* regression protection is missing
 
 ---
 
-# PRIORITY 1 — IDENTITY ELIGIBILITY
+# PHASE 1 — STEP 1
 
-Current behavior:
+# Remove Stale Roadmap Assumptions
 
-- `minimum_entries` zeros Identity scoring below the threshold
-- the Identity may nevertheless remain in ranking
-- a zero-scored Identity may therefore be selected as primary
+## Status: FIRST
 
-Required behavior:
+The roadmap previously described Identity minimum-entry eligibility as an outstanding implementation task.
 
-```text
-entry_count < minimum_entries
-↓
-INELIGIBLE
-↓
-exclude from Identity ranking/presentation
+That is no longer correct.
+
+The current implementation already excludes ineligible Identities:
+
+```python
+
+if entry_count < minimum_entries:
+continue
+
 ```
 
-Preserve:
+The current test suite explicitly protects this behavior.
 
-- weighted scoring
-- normalization
-- derived traits
-- contribution breakdown
-- fixture-driven architecture
+Examples:
 
-Do not redesign Identity scoring merely to fix eligibility.
+```text
 
-**Classification:** ALIGN
+test_identity_is_ineligible_below_minimum_entries
+test_identity_is_eligible_at_minimum_entries
+test_identity_below_minimum_is_excluded_and_at_minimum_is_eligible
+test_identity_below_minimum_entries_is_excluded
+test_ineligible_identity_cannot_be_primary
+
+```
+
+Therefore:
+
+### Classification
+
+**PRESERVE**
+
+### Decision
+
+Do not rewrite Identity eligibility.
+
+Do not create another eligibility layer.
+
+Do not modify the existing minimum-entry behavior unless another contract conflict is discovered.
+
+### Important recovered behavior
+
+Identity eligibility is currently treated as a **hard gate**:
+
+```text
+
+entry_count < minimum_entries
+↓
+Identity excluded
+↓
+Identity cannot rank
+↓
+Identity cannot become primary
+
+```
+
+This is now an established behavioral contract.
+
+Identity Eligibility — VERIFIED. Current implementation already excludes identities below their configured minimum_entries threshold before scoring/ranking. Existing regression tests protect below-threshold exclusion, exact-threshold eligibility, primary-identity exclusion, and empty-eligible behavior. No production change required. Preserve this behavior during subsequent Identity terminology/alignment work.
 
 ---
 
-# PRIORITY 2 — CONFIDENCE TERMINOLOGY
+# PHASE 1 — STEP 2
 
-Separate:
+# Confidence Terminology
 
-- Signal Strength
-- Data Sufficiency
-- Classification Confidence
-- Evidence Strength
+## Status: NEXT
 
-Correct terminology before inventing new algorithms.
+The current implementation uses `confidence` in several places where the underlying concept is not necessarily Classification Confidence.
 
-Known semantic mappings:
+The distinction established by the conceptual contract is:
 
-| Current Concept        | Actual Meaning                | Phase 1 Action       |
-| ---------------------- | ----------------------------- | -------------------- |
-| Identity `confidence`  | Data Sufficiency              | Rename/reframe       |
-| Designation confidence | Trait-derived signal strength | Rename/reframe       |
-| Observation confidence | Threshold-relative support    | Clarify/reframe      |
-| Finding confidence     | Not yet standardized          | Define before adding |
+| Concept                   | Meaning                                                |
+| ------------------------- | ------------------------------------------------------ |
+| Signal Strength           | How strongly a signal is expressed                     |
+| Data Sufficiency          | Whether enough data exists                             |
+| Classification Confidence | How clearly one candidate beats plausible alternatives |
+| Evidence Strength         | How strongly evidence supports a conclusion            |
 
-Do not create a generalized Classification Confidence algorithm merely to satisfy field naming.
+Current Identity behavior includes:
 
-If an existing calculation is valid but mislabeled, terminology correction should precede algorithmic change.
+```python
 
-**Classification:** ALIGN / CLARIFY
+def calculate_identity_confidence(identity, profile):
+
+```
+minimum_entries = identity.get("requirements", {}).get("minimum_entries", 0)
+
+entry_count = profile.get("entryCount", 0)
+
+if minimum_entries == 0:
+    return 1
+
+confidence = entry_count / minimum_entries
+
+return min(round(confidence, 3), 1)
+```
+
+```
+
+This calculation is fundamentally based on archive size relative to the Identity's minimum-entry requirement.
+
+Therefore its current semantic meaning is closer to:
+
+> **Data Sufficiency**
+
+than:
+
+> **Classification Confidence**
+
+Designation and Observation systems may use `confidence` differently.
+
+### Phase 1 rule
+
+Do not invent new confidence algorithms merely to make terminology appear consistent.
+
+First identify:
+
+* current meaning
+* consumers
+* API exposure
+* tests
+* narrative usage
+
+Then make the smallest terminology correction necessary.
+
+### Current semantic mapping
+
+| Current Field          | Current Meaning               | Contract Term                                        | Phase 1 Action          |
+| ---------------------- | ----------------------------- | ---------------------------------------------------- | ----------------------- |
+| Identity `confidence`  | Data sufficiency              | Data Sufficiency                                     | ALIGN terminology       |
+| Designation confidence | Trait-derived signal strength | Signal Strength                                      | ALIGN terminology       |
+| Observation confidence | Threshold-relative support    | Evidence/Signal Strength depending on implementation | CLARIFY                 |
+| Finding confidence     | Not standardized              | Classification/Evidence semantics unresolved         | CLARIFY before changing |
+
+### Important rule
+
+A valid calculation with an inaccurate name is **not automatically a bad algorithm**.
+
+Prefer:
+
+> terminology correction first
+
+over:
+
+> algorithm replacement
 
 ---
 
-# PRIORITY 3 — DESIGNATION ALIGNMENT
+# PHASE 1 — STEP 3
+
+# Designation Alignment
+
+## Status: AFTER CONFIDENCE SEMANTICS
+
+Designations currently represent recognizable taste classifications.
 
 Preserve:
 
-- fixture/rule-driven definitions
-- ranking
-- primary selection
-- traits
-- genres
-- recommendation bias
+* fixture/rule-driven definitions
+* ranking
+* primary selection
+* traits
+* genres
+* recommendation-bias metadata
 
-Align:
+Designation scoring should continue to be treated as classification signal rather than automatically being treated as curator identity.
 
-- terminology
-- score semantics
-- explanation/evidence where useful
+### Classification
 
-Do not expand Designations into curator Identity.
+**PRESERVE + ALIGN**
 
-Designation answers approximately:
+Preserve the existing machinery.
+
+Align terminology and explanation with the Intelligence Contract where necessary.
+
+Do not expand Designations into curator philosophy.
+
+---
+
+# PHASE 1 — STEP 4
+
+# Identity / Designation Separation
+
+## Status: AFTER DESIGNATION ALIGNMENT
+
+The audit found overlap between existing Identity fixtures and existing Designations.
+
+This overlap does **not** justify deleting the Identity system.
+
+The conceptual distinction remains:
+
+### Designation
 
 > What recognizable taste classification fits this archive?
 
-It should remain distinguishable from the broader curator synthesis represented by Identity.
+### Identity
 
-**Classification:** PRESERVE / ALIGN
+> What kind of curator does this archive describe?
 
----
-
-# PRIORITY 4 — IDENTITY / DESIGNATION SEPARATION
-
-Current Identity fixtures overlap with existing Designations.
-
-This is an implementation artifact, not sufficient evidence that the entire Identity subsystem is unnecessary.
-
-Identity should evolve toward:
+Identity should therefore evolve toward:
 
 > **curator philosophy / curator synthesis**
 
@@ -528,38 +414,167 @@ rather than:
 
 > **taste badge**
 
-Do not delete Identity scoring machinery.
-
 Do not make Identity another name for Designation.
 
-Do not assume every overlapping Identity should become a Designation.
+Do not delete:
 
-For every Identity, evaluate:
+* Identity scoring
+* Identity normalization
+* weighted Identity scoring
+* derived Identity traits
+* contribution breakdowns
+* Identity explanations
+* Identity fixtures
 
-| Field               | Required Audit Question                          |
-| ------------------- | ------------------------------------------------ |
-| Identity ID         | What is the existing identity?                   |
-| Conceptual purpose  | What does it attempt to describe?                |
-| Signals consumed    | What archive signals drive it?                   |
-| Scoring method      | How is it currently scored?                      |
-| Minimum data        | When is it meaningful?                           |
-| Evidence            | Why does the system believe it?                  |
-| Recommendation bias | Does it affect future recommendations?           |
-| Closest Designation | Which Designation overlaps?                      |
-| Overlap risk        | What information would be lost by deleting it?   |
-| Phase 1 treatment   | Preserve, align, clarify, defer, or investigate? |
-
-The central question is:
-
-> If this Identity were simply renamed as a Designation, what conceptual information would disappear?
-
-Do not delete useful Identity concepts merely because their names currently overlap with Designations.
-
-**Classification:** ALIGN / PRESERVE / CLARIFY
+These mechanisms represent existing behavioral infrastructure.
 
 ---
 
-# PRIORITY 5 — FINDINGS VS OBSERVATIONS
+# PHASE 1 — STEP 5
+
+# Investigate Ranking and Test Artifacts
+
+## Status: AFTER SEMANTIC ALIGNMENT
+
+The audit identified two areas that require investigation rather than automatic modification.
+
+### 1. Ranking / tie behavior
+
+Current Identity ranking uses:
+
+```python
+
+return sorted(
+results,
+key=lambda item: item["score"],
+reverse=True,
+)
+
+```
+
+The repository therefore explicitly sorts by score.
+
+What remains to be determined:
+
+* what happens when scores tie
+* whether stable ordering is intentionally relied upon
+* whether fixture/file ordering affects ties
+* whether primary selection remains deterministic
+* whether near-ties should be exposed as meaningful secondary candidates
+
+Do not invent arbitrary thresholds.
+
+### Classification
+
+**CLARIFY / TEST GAP**
+
+---
+
+### 2. Debug test
+
+The current test suite contains:
+
+```python
+
+def test_debug_identity_scores():
+profile = load_profile_fixture("boundary_explorer_profile.json")
+
+```
+results = evaluate_identity_scores(profile)
+
+# for result in results:
+#     print(result["title"], result["score"])
+
+#     for item in result["breakdown"]:
+#         print(
+#             " ",
+#             item["trait"],
+#             item["value"],
+#             "=>",
+#             item["contribution"],
+#         )
+```
+
+```
+
+This test currently has no assertions.
+
+It should not automatically be deleted without investigation, but it provides no meaningful regression protection in its current state.
+
+### Classification
+
+**POSSIBLE DEAD CODE**
+
+Investigate and either:
+
+* convert it into meaningful regression coverage
+* replace it with a more useful test
+* remove it if it has no remaining purpose
+
+---
+
+# PHASE 1 — IDENTITY BEHAVIOR TO PRESERVE
+
+The actual Identity implementation currently provides:
+
+### Weighted scoring
+
+Identity definitions contain weighted traits.
+
+### Identity normalization
+
+Identity trait values are normalized independently from ordinary Trait normalization.
+
+### Derived traits
+
+Identity scoring can consume derived signals including:
+
+* experimental affinity
+* genre diversity
+* novelty
+* analysis
+* ambiguity
+* reflection
+* system design
+
+### Media-specific signals
+
+Identity scoring can consume media-specific averages.
+
+### Contribution breakdown
+
+Identity scoring records:
+
+* trait
+* value
+* weight
+* normalized value
+* contribution
+
+### Explanation
+
+Identity explanations expose:
+
+* score
+* confidence/sufficiency signal
+* breakdown
+* top traits
+
+### Recommendation bias
+
+Identity fixtures may contain recommendation-bias metadata.
+
+### Minimum-entry eligibility
+
+Identity scoring excludes identities below their required minimum archive size.
+
+All of these are established behavior unless explicitly changed later.
+
+---
+
+# PHASE 1 — FINDINGS VS OBSERVATIONS
+
+## Status: ALIGNMENT REQUIRED
 
 Every Finding must provide meaningful additional interpretation.
 
@@ -571,220 +586,261 @@ Preserve useful existing Findings.
 
 Do not automatically delete overlapping Findings.
 
-For every Finding, document:
+Where practical, strengthen Finding evidence so the interpretive step is visible.
 
-| Field                | Question                              |
-| -------------------- | ------------------------------------- |
-| Finding ID           | What is the existing Finding?         |
-| Purpose              | What does it communicate?             |
-| Inputs               | What signals does it consume?         |
-| Rule/threshold       | What makes it appear?                 |
-| Closest Observation  | What lower-level signal resembles it? |
-| Interpretive step    | What does the Finding add?            |
-| Evidence             | Why is the conclusion supported?      |
-| Confidence semantics | What does confidence actually mean?   |
-| Tests                | What protects the behavior?           |
-| Recommendation       | Preserve, align, clarify, or defer?   |
+The goal is:
 
-Add structured evidence where practical.
+```text
 
-**Classification:** CLARIFY / EVIDENCE / TEST GAP
+RAW SIGNAL
+↓
+OBSERVATION
+↓
+INTERPRETATION
+↓
+FINDING
+
+```
+
+but this is a conceptual distinction, not a mandatory runtime pipeline.
 
 ---
 
-# PRIORITY 6 — SECONDARY IDENTITIES
+# PHASE 1 — SECONDARY IDENTITIES
+
+## Status: CLARIFY
 
 The contract permits:
 
-- one Primary Identity
-- zero or more meaningful Secondary Identities
+* one Primary Identity
+* zero or more meaningful Secondary Identities
 
 Do not surface every Identity with a nonzero score.
 
-Meaningfulness should consider:
+Meaningful secondary identities should eventually consider:
 
-- eligibility/data sufficiency
-- signal strength
-- relationship to primary
-- meaningful separation from the primary
-- whether the Identity contributes genuinely different information
+* eligibility/data sufficiency
+* signal strength
+* relationship to the primary
+* meaningful separation from competitors
 
-Numeric thresholds remain an implementation decision and must be based on actual score distributions.
+Numeric thresholds remain an implementation decision.
 
-Do not invent arbitrary thresholds during Phase 1.
-
-**Classification:** ALIGN / DEFER where threshold research is required
+Do not invent arbitrary thresholds before examining actual score distributions.
 
 ---
 
-# PRIORITY 7 — RANKING / TIE POLICY
+# PHASE 1 — ARCHIVE STATE BEHAVIOR
 
-Define:
+## Status: CLARIFY
 
-- exact tie behavior
-- stable ordering
-- meaningful near-ties
-- close-competitor presentation
-- primary selection behavior
+The intelligence layer must distinguish:
 
-Inspect all ranking operations.
+### EMPTY
 
-Particular attention should be paid to patterns equivalent to:
+No meaningful archive evidence exists.
 
-```python
-sorted(items, key=lambda x: x["score"], reverse=True)
-```
+### SPARSE
 
-Such sorting may be deterministic under current input ordering but may leave tie behavior implicit.
+Some evidence exists, but insufficient evidence exists for some intelligence systems.
 
-Do not invent a new tie-breaking rule without repository evidence or an explicit product decision.
+### ESTABLISHED
 
-**Classification:** CLARIFY / TEST GAP
+Enough evidence exists for the relevant intelligence systems to make their classifications.
 
----
-
-# PRIORITY 8 — ARCHIVE STATE BEHAVIOR
-
-Define operational behavior for:
-
-- **EMPTY**
-- **SPARSE**
-- **ESTABLISHED**
-
-The conceptual rule is:
+The critical conceptual rule is:
 
 > **Insufficient evidence must remain visibly different from a negative preference.**
 
 Subsystems may have different minimum-data requirements.
 
-Do not invent thresholds where none currently exist.
+Identity already demonstrates this principle through `minimum_entries`.
 
-If a threshold cannot be established from current implementation or tests, mark it:
+Do not force every intelligence subsystem to share one universal threshold.
+
+If a threshold cannot be established from current behavior or tests:
 
 > **UNRESOLVED — requires implementation decision.**
 
-Audit:
+---
 
-- minimum-entry gates
-- zero-score behavior
-- missing-data behavior
-- partial-data behavior
-- empty collections
-- whether any subsystem creates misleading certainty
+# PHASE 1 — RANKING / PRIMARY SELECTION
 
-**Classification:** ALIGN / CLARIFY / TEST GAP
+## Status: CLARIFY
+
+Document actual ranking behavior before changing it.
+
+For each ranking system determine:
+
+* sort key
+* precision
+* tie behavior
+* stable ordering
+* primary selection
+* close-competitor behavior
+
+Do not invent arbitrary tie-breaking rules merely for architectural neatness.
+
+The primary selection system should remain deterministic.
 
 ---
 
-# PRIORITY 9 — REGRESSION PROTECTION
+# PHASE 1 — REGRESSION PROTECTION
+
+## Status: ONGOING
+
+The current baseline is:
+
+> **210 passing tests, 0 failures**
 
 Protect recovered behavior including:
 
-- trait normalization
-- Identity normalization
-- derived traits
-- Identity minimum-entry behavior
-- Designation ranking
-- primary selection
-- Observation evidence
-- Identity contribution breakdown
-- recommendation bias
-- empty intelligence collections
-- deterministic ordering
-- sparse/partial archive behavior where already encoded
+* Trait normalization
+* Identity normalization
+* derived Identity traits
+* Identity minimum-entry eligibility
+* Identity primary selection
+* Designation ranking
+* Designation primary selection
+* Observation evidence
+* Identity contribution breakdown
+* recommendation-bias metadata
+* empty intelligence collections
+* API response shape
+* deterministic ordering where already established
 
-The previously established baseline was approximately:
+When Phase 1 intentionally changes behavior:
 
-> **199 passing tests**
-
-Phase 1 should preserve that baseline except for explicitly intentional changes and their associated new tests.
-
-The baseline itself should not become a fetish.
-
-If a test encodes behavior that is explicitly contradicted by the locked contract, it may need to change.
-
-But every such change should be intentional and documented.
-
-**Classification:** PRESERVE / TEST GAP
+1. update the conceptual/roadmap decision
+2. update the affected test
+3. add replacement regression coverage where appropriate
+4. run the full suite
+5. record the resulting test count
 
 ---
 
-# PRIORITY 10 — API / DOWNSTREAM CONTRACT ALIGNMENT
-
-Before renaming or changing intelligence fields, inspect every downstream consumer.
-
-Potentially important fields include:
-
-- `confidence`
-- `score`
-- `breakdown`
-- `top_traits`
-- `evidence`
-- `recommendation_bias`
-
-For each field determine:
-
-1. where it is produced
-2. where it is transformed
-3. where it is serialized
-4. which API response models expose it
-5. which frontend code consumes it
-6. which tests assert it
-7. whether its semantic meaning is stable
-
-Do not rename fields solely because their names are imperfect.
-
-First determine whether consumers depend on the current semantics.
-
-Terminology changes should be implemented as controlled alignment work rather than blind global replacement.
-
-**Classification:** ALIGN / TEST GAP
-
----
-
-# PRIORITY 11 — USER-PROVIDED INTELLIGENCE SIGNALS
-
-The archive data model should remain capable of preserving meaningful user-provided signals.
-
-Future intelligence may consume:
-
-- scores
-- genres
-- previously-consumed status
-- reviews
-- other explicit user-entered preference information
-
-Phase 1 should primarily ensure that these fields are represented correctly and are not accidentally discarded.
-
-Do not implement sophisticated analysis of reviews or repeat-consumption behavior merely because the roadmap recognizes their future value.
-
-**Classification:** PRESERVE / DEFER
-
----
-
-# PHASE 1 NON-GOALS
+# PHASE 1 — NON-GOALS
 
 Do not use Phase 1 to:
 
-- redo scoring
-- redo scoring rubrics
-- replace Observation architecture
-- replace fixture-driven Designations
-- replace fixture-driven Identity scoring
-- redesign Recommendations
-- build Profile UI
-- implement pagination
-- implement import/export
-- expand metadata
-- migrate to React
-- replace deterministic intelligence with opaque AI
-- create arbitrary new classifications
-- introduce review NLP
-- introduce exact watch/play/read counts
-- invent arbitrary intelligence thresholds
-- redesign the entire data model
+* redo scoring
+* redo scoring rubrics
+* replace Observation architecture
+* replace fixture-driven Designations
+* replace fixture-driven Identity scoring
+* redesign Recommendations
+* build Profile UI
+* implement pagination
+* implement import/export
+* expand metadata
+* migrate to React
+* replace deterministic intelligence with opaque AI
+* create arbitrary new classifications
+* build a universal evidence schema
+* invent arbitrary confidence thresholds
+* invent arbitrary secondary-Identity thresholds
 
-Phase 1 is an **alignment phase**.
+Phase 1 is an **alignment phase**, not a redesign phase.
+
+---
+
+# FUTURE USER-INPUT INTELLIGENCE
+
+## Status: FUTURE — PRESERVE AS PRODUCT DIRECTION
+
+A major product principle recovered during the audit is:
+
+> **Any information explicitly entered by the user should eventually be considered potential intelligence input.**
+
+This includes, but is not limited to:
+
+* scores
+* genres
+* media type
+* notes/reviews
+* previously-consumed status
+* future metadata fields
+* other explicitly user-entered signals
+
+The existence of a field does **not** mean it must immediately affect scoring.
+
+It means the architecture should avoid treating user-entered information as permanently irrelevant to intelligence.
+
+---
+
+# PREVIOUSLY-CONSUMED MEDIA
+
+## Status: FUTURE FEATURE
+
+Every media record should eventually have a simple binary indicator allowing the user to say:
+
+> **I have consumed this before.**
+
+This should be separate from whether the record is newly being added to the archive.
+
+The user may be recording an item for the first time even though it is not their first time consuming it.
+
+A future `watch_count` / `read_count` / `play_count` style system may be useful, but a mandatory count could create unnecessary bookkeeping.
+
+Therefore the preferred initial concept is:
+
+```text
+
+previously_consumed = true / false
+
+```
+
+with counts remaining a possible future enhancement.
+
+### Intelligence principle
+
+The previously-consumed signal should eventually be available as algorithmic input.
+
+Potential future uses include:
+
+* familiarity
+* novelty
+* rewatch/replay behavior
+* comfort-media behavior
+* recommendation interpretation
+* preference persistence
+* distinction between first-exposure reactions and established preferences
+
+Do not invent scoring behavior for it during Phase 1.
+
+---
+
+# REVIEWS / NOTES
+
+## Status: FUTURE FEATURE
+
+The current new-entry `notes` field should eventually become:
+
+> **Review**
+
+The Review remains optional.
+
+The intended evolution is:
+
+```text
+
+OPTIONAL USER REVIEW
+↓
+STORED WITH MEDIA RECORD
+↓
+FUTURE NLP / TEXTUAL SIGNAL EXTRACTION
+↓
+TRAITS / OBSERVATIONS / FINDINGS / RECOMMENDATION SIGNALS
+
+```
+
+The review should eventually become intelligence fodder alongside structured user-entered signals.
+
+However:
+
+> **Do not build opaque AI interpretation merely because the field exists.**
+
+First establish the data model and preserve the review as user-authored content.
 
 ---
 
@@ -796,19 +852,19 @@ Build the dedicated Profile experience.
 
 Profile should present:
 
-- Primary Designation
-- designation explanation
-- Primary Identity
-- meaningful Secondary Identities
-- Identity data sufficiency where appropriate
-- Identity contribution breakdown
-- Traits
-- Genre Signals
-- Observations
-- Observation evidence
-- Findings
-- Finding evidence
-- Narrative
+* Primary Designation
+* designation explanation
+* Primary Identity
+* meaningful Secondary Identities
+* Identity data sufficiency where appropriate
+* Identity contribution breakdown
+* Traits
+* Genre Signals
+* Observations
+* Observation evidence
+* Findings
+* Finding evidence
+* Narrative
 
 Analytics remains separate.
 
@@ -820,8 +876,6 @@ Profile answers:
 
 > **What does the archive mean?**
 
-The Profile should communicate uncertainty and data sufficiency rather than presenting weak signals as definitive conclusions.
-
 ---
 
 # PHASE 3 — REAL RECOMMENDATION ENGINE
@@ -830,40 +884,35 @@ The Profile should communicate uncertainty and data sufficiency rather than pres
 
 The current Recommendation Engine is infrastructure/stub work.
 
-Current conceptual direction:
+Conceptually:
 
 ```text
+
 generate_recommendations(...)
 ↓
 collect signals
 ↓
-recommendations = []
+recommendations = [...]
+
 ```
 
 The eventual engine should consume measurable archive signals including:
 
-- Trait Strength
-- Genre Affinity
-- scoring preferences
-- universal scoring
-- media-specific scoring
-- Designation recommendation bias
-- soft Observation signals
-- soft Finding signals
-- relevant user-provided consumption signals
-- previously-consumed status where useful
+* Trait Strength
+* Genre Affinity
+* scoring preferences
+* universal scoring
+* media-specific scoring
+* Designation recommendation bias
+* soft Observation signals
+* soft Finding signals
+* future user-input signals where meaningful
 
-Identity should influence recommendations **indirectly through underlying measurable signals**.
-
-Identity should not simply become:
-
-> "User has Identity X, therefore recommend X."
+Identity should influence recommendations primarily through underlying measurable signals rather than becoming a direct opaque recommendation score.
 
 The Recommendation Engine should eventually explain:
 
 > **Why was this recommended?**
-
-Recommendation explanations should be grounded in measurable or inspectable signals.
 
 ---
 
@@ -871,18 +920,9 @@ Recommendation explanations should be grounded in measurable or inspectable sign
 
 ## Status: FUTURE
 
-Once the Recommendation Engine is real and explainable, expose recommendations through the application.
+After the Recommendation Engine is functional, expose recommendations through a dedicated user-facing surface.
 
-The surface should communicate:
-
-- recommended media
-- relevant reasons
-- relevant genre/trait signals
-- confidence/sufficiency where appropriate
-- previously-consumed handling
-- enough explanation to distinguish intentional recommendation from arbitrary ranking
-
-The Recommendations surface should not become a second Profile.
+The surface should make recommendation reasoning inspectable rather than presenting recommendations as unexplained outputs.
 
 ---
 
@@ -892,13 +932,13 @@ The Recommendations surface should not become a second Profile.
 
 Implement:
 
-- pagination
-- stable ordering
-- server-side sorting
-- server-side filtering where useful
-- large-archive testing
+* pagination
+* stable ordering
+* server-side sorting
+* server-side filtering where useful
+* large-archive testing
 
-Scale work must preserve deterministic ordering and existing intelligence semantics.
+Scale improvements should preserve existing intelligence semantics.
 
 ---
 
@@ -908,28 +948,15 @@ Scale work must preserve deterministic ordering and existing intelligence semant
 
 Prioritize:
 
-- JSON export
-- JSON import
-- schema versioning
-- validation
-- duplicate handling
-- migration compatibility
-- backup/restore
+* JSON export
+* JSON import
+* schema versioning
+* validation
+* duplicate handling
+* migration compatibility
+* backup/restore
 
 CSV can remain later.
-
-Import/export must account for user-provided intelligence data, including fields that may become algorithmically meaningful.
-
-Potentially important fields include:
-
-- scores
-- genres
-- reviews
-- previously-consumed status
-- metadata
-- derived/archived intelligence where appropriate
-
-Do not silently discard meaningful user-entered information during import/export.
 
 ---
 
@@ -939,78 +966,65 @@ Do not silently discard meaningful user-entered information during import/export
 
 Potential metadata:
 
-- author
-- director
-- developer
-- publisher/studio
-- release year
-- runtime
-- platform
-- covers/posters
-- ISBN
-- external IDs
+* author
+* director
+* developer
+* publisher/studio
+* release year
+* runtime
+* platform
+* covers/posters
+* ISBN
+* external IDs
 
 Metadata should enrich intelligence rather than replace it.
 
-Metadata should remain conceptually distinguishable from user evaluation.
-
-For example:
-
-> "Released in 2018"
-
-is metadata.
-
-> "I gave it a 9 because..."
-
-is user-provided intelligence data.
+Metadata should not be treated as a substitute for the user's own reactions and preferences.
 
 ---
 
 # PHASE 8 — POLISH / ACCESSIBILITY / STABILITY
 
+## Status: FUTURE
+
 Includes:
 
-- Profile polish
-- Analytics polish
-- Library polish
-- Reports polish
-- Recommendations polish
-- navigation
-- forms
-- review field terminology
-- previously-consumed UX
-- keyboard navigation
-- semantic markup
-- labels
-- contrast
-- focus states
-- screen-reader testing
-- edge cases
-- empty archive
-- sparse archive
-- partial data
-- large archives
-- documentation
-
-The application should make uncertainty and incomplete data understandable rather than merely technically valid.
+* Profile polish
+* Analytics polish
+* Library polish
+* Reports polish
+* navigation
+* forms
+* keyboard navigation
+* semantic markup
+* labels
+* contrast
+* focus states
+* screen-reader testing
+* edge cases
+* sparse/partial data
+* large archives
+* documentation
 
 ---
 
 # PHASE 9 — RELEASE
 
+## Status: FUTURE
+
 Release requirements include:
 
-- stable test suite
-- no known critical bugs
-- migration strategy
-- backup strategy
-- import/export
-- documentation
-- accessibility review
-- deployment plan
-- release build
-- versioning
-- changelog
+* stable test suite
+* no known critical bugs
+* migration strategy
+* backup strategy
+* import/export
+* documentation
+* accessibility review
+* deployment plan
+* release build
+* versioning
+* changelog
 
 ---
 
@@ -1020,12 +1034,12 @@ Release requirements include:
 
 React migration should occur only after:
 
-- intelligence is stable
-- Profile is stable
-- recommendations work
-- library scale works
-- import/export works
-- the application is genuinely usable
+* intelligence is stable
+* Profile is stable
+* recommendations work
+* library scale works
+* import/export works
+* the application is genuinely usable
 
 React is an implementation evolution, not an escape from unfinished product work.
 
@@ -1035,41 +1049,39 @@ React is an implementation evolution, not an escape from unfinished product work
 
 Do not redo:
 
-- scoring
-- scoring rubrics
-- CRUD
-- generated Reports / Lists
-- Archive infrastructure
-- Observation evidence
-- Identity scoring machinery
-- Designation machinery
-- existing trait normalization
-- existing identity normalization
-- useful explanation infrastructure
+* scoring
+* scoring rubrics
+* CRUD
+* generated Reports / Lists
+* Archive infrastructure
+* Observation evidence
+* Identity scoring machinery
+* Designation machinery
+* existing derived-trait machinery
 
 Do not merge:
 
-- Findings with Observations
-- Designations with Identity
-- Analytics with Profile
-- Signal Strength with Data Sufficiency
-- Data Sufficiency with Classification Confidence
-- Evidence Strength with Signal Strength
+* Findings with Observations
+* Designations with Identity
+* Analytics with Profile
+* Signal Strength with Data Sufficiency
+* Data Sufficiency with Classification Confidence
+* Evidence Strength with Signal Strength
 
 Do not make:
 
-- Identity a Designation clone
-- Identity a direct recommendation score
-- narrative a new intelligence engine
-- review automatically become a scoring input without an explicit design decision
-- previously-consumed status an exact consumption count
-- every nonzero Identity a surfaced Secondary Identity
+* Identity a Designation clone
+* Identity a direct recommendation score
+* narrative a new intelligence engine
+* user reviews an automatic opaque AI authority
+* previously-consumed status a mandatory watch/read/play counter
 
 ---
 
 # CARDINALITY RULES
 
 ```text
+
 TRAITS
 MANY
 
@@ -1090,488 +1102,156 @@ IDENTITIES
 MANY internally
 ONE PRIMARY
 ZERO OR MORE meaningful SECONDARIES
+
 ```
 
-These cardinality rules describe the conceptual model, not necessarily a single runtime execution pipeline.
+---
+
+# INTELLIGENCE PRINCIPLES
+
+## 1. Evidence before interpretation
+
+Prefer measurable signals over unsupported conclusions.
+
+## 2. Insufficient evidence is not negative evidence
+
+A sparse archive should not accidentally produce confident negative classifications.
+
+## 3. Preserve behavioral memory
+
+Existing tests and implementations may encode meaningful domain rules even when the conceptual contract does not explicitly mention them.
+
+## 4. Evolution, not rewrite
+
+Working infrastructure should be aligned rather than replaced.
+
+## 5. Explainability matters
+
+Important intelligence outputs should be traceable to underlying signals.
+
+## 6. Parallel perspectives
+
+Observations, Findings, Designations, and Identities are different analytical perspectives over shared data.
+
+## 7. Identity is synthesis
+
+Identity should describe curator philosophy rather than merely repeat taste classifications.
+
+## 8. Recommendations consume signals
+
+Recommendations should use measurable signals rather than bypassing the intelligence layer.
+
+## 9. User input is potential intelligence
+
+Structured and unstructured information supplied by the user should remain available for future analytics and intelligence.
+
+## 10. Don't invent precision
+
+Thresholds, confidence values, tie rules, and classifications should be grounded in repository behavior and actual data distributions.
 
 ---
 
-# INTELLIGENCE SEMANTIC MODEL
+# CURRENT PHASE 1 WORK QUEUE
 
-## Trait
+The forensic audit is complete.
 
-A measurable property derived from the archive.
+The implementation queue is now:
 
-Traits should have explicit signal semantics.
+1. **Update stale roadmap assumptions**
 
----
+   * Identity minimum-entry eligibility is already implemented.
+   * Mark it PRESERVE rather than an outstanding implementation task.
 
-## Genre Signal
+2. **Resolve confidence terminology**
 
-A measurable affinity toward a genre or genre family.
+   * identify consumers
+   * distinguish Data Sufficiency from Signal Strength
+   * avoid unnecessary algorithm changes
 
-Genre signals should remain analytically useful independently of Designations and Identities.
+3. **Align Designation terminology/explanation**
 
----
+   * preserve scoring machinery
+   * preserve ranking and primary selection
 
-## Observation
+4. **Clarify Identity / Designation separation**
 
-A direct, measurable, or relatively low-level statement about the archive.
+   * preserve Identity machinery
+   * document Identity as curator synthesis
 
-An Observation should be closer to:
+5. **Clarify Findings vs Observations**
 
-> "The archive contains a strong concentration of X."
+   * preserve useful Findings
+   * identify genuine interpretive value
 
-than:
+6. **Clarify Secondary Identity presentation**
 
-> "This person is fundamentally a curator of X."
+   * preserve internal multiple-Identity scoring
+   * define meaningfulness before exposing secondaries
 
-Observations should retain useful evidence.
+7. **Clarify ranking/tie behavior**
 
----
+   * document actual behavior
+   * add deterministic regression protection where needed
 
-## Finding
+8. **Review suspicious/debug tests**
 
-An interpretive conclusion that adds meaningful information beyond the underlying Observation or raw signal.
+   * investigate `test_debug_identity_scores`
+   * investigate any tests whose assertions conflict with current eligibility semantics
 
-A Finding should answer:
+9. **Run the complete regression suite**
 
-> What does this combination of observations imply?
+   * preserve the 210-green baseline except for intentional changes
 
-If no meaningful interpretation is added, the item may actually be an Observation.
-
----
-
-## Designation
-
-A recognizable classification of taste.
-
-Designation answers:
-
-> What recognizable taste classification fits?
-
-Designations should remain deterministic, inspectable, and fixture/rule-driven.
+10. **Only then move to Archive Profile UI**
 
 ---
 
-## Identity
-
-A broader curator-level synthesis.
-
-Identity answers:
-
-> What kind of curator does this archive describe?
-
-Identity should capture relationships among signals rather than simply duplicate a taste badge.
-
----
-
-## Evidence
-
-Evidence explains why an Observation, Finding, Designation, or Identity exists.
-
-Evidence does not need to use one universal schema.
-
-Different intelligence layers may legitimately use different evidence structures when the evidence itself has different semantics.
-
-Do not unify evidence structures merely for architectural neatness.
-
----
-
-# EVIDENCE ARCHITECTURE
-
-Existing evidence mechanisms include or may include:
-
-- metric evidence
-- genre evidence
-- Observation evidence
-- Finding evidence
-- Designation explanation
-- Identity contribution breakdown
-- narrative explanation
-
-The audit conclusion is:
-
-> Preserve evidence mechanisms that explain meaningful domain behavior. Do not force every subsystem into a single universal evidence object unless there is an actual product or technical requirement for doing so.
-
-Evidence should make intelligence inspectable.
-
----
-
-# CONFIDENCE / STRENGTH SEMANTICS
-
-The intelligence layer must distinguish four concepts.
-
-| Concept                   | Meaning                                                     |
-| ------------------------- | ----------------------------------------------------------- |
-| Signal Strength           | How strongly a signal is expressed                          |
-| Data Sufficiency          | Whether enough data exists to make the subsystem meaningful |
-| Classification Confidence | How clearly one candidate beats plausible alternatives      |
-| Evidence Strength         | How strongly the available evidence supports a conclusion   |
-
-A field named `confidence` is not automatically Classification Confidence.
-
-Existing fields must be interpreted according to actual implementation semantics.
-
----
-
-# OBSERVATION / FINDING RULE
-
-The key conceptual test is:
-
-> If the Finding were removed and replaced by the underlying Observation, would meaningful information be lost?
-
-If **no**, the Finding may be duplicative.
-
-If **yes**, the Finding is likely providing meaningful interpretation.
-
-This should be evaluated individually.
-
-Do not collapse the two systems merely because some current Findings overlap with Observations.
-
----
-
-# ARCHIVE STATE MODEL
-
-The intelligence layer should distinguish:
-
-## EMPTY
-
-No meaningful archive evidence exists.
-
-Expected characteristics:
-
-- little or no intelligence
-- no misleading negative preferences
-- empty collections where appropriate
-- no unjustified classifications
-
----
-
-## SPARSE
-
-Some data exists, but not enough for every subsystem.
-
-Expected characteristics:
-
-- subsystem-specific eligibility
-- partial intelligence
-- visible uncertainty
-- no false certainty
-- no assumption that missing signals represent negative preferences
-
----
-
-## ESTABLISHED
-
-Enough archive data exists for the relevant subsystem to operate normally.
-
-Expected characteristics:
-
-- normal ranking
-- meaningful classifications
-- useful evidence
-- profile synthesis
-- recommendation signals
-
-Subsystems may establish their own minimum-data requirements.
-
----
-
-# RANKING / TIE RULES
-
-Every ranking system should eventually make its behavior explicit.
-
-Document:
-
-- primary sort key
-- score precision
-- tie behavior
-- stable ordering
-- near-tie behavior
-- primary selection
-- presentation of close competitors
-
-Do not invent arbitrary thresholds merely to make the system appear more sophisticated.
-
-Where behavior is not currently established:
-
-> **UNRESOLVED — requires implementation decision.**
-
----
-
-# TEST FORENSICS PRINCIPLES
-
-For every intelligence-related test, determine:
-
-1. What behavior is it actually protecting?
-2. Is that behavior part of the conceptual contract?
-3. Is it an implementation detail or meaningful domain rule?
-4. Is the test still relevant?
-5. Is the behavior duplicated elsewhere?
-6. Is there a missing test around the same concept?
-7. Does the test encode a hidden assumption that Phase 1 should preserve or revise?
-
-Pay particular attention to tests asserting:
-
-- exact Identity IDs
-- exact Designation IDs
-- ranking order
-- score thresholds
-- minimum-entry behavior
-- empty-archive behavior
-- derived trait behavior
-- evidence structures
-- confidence values
-- recommendation bias
-- primary selection
-- contribution breakdowns
-- top traits
-- genre affinity
-- genre diversity
-- multiple candidates
-- deterministic ordering
-
-A test should not be considered disposable merely because the contract does not currently mention the behavior.
-
-First determine what behavioral promise the test represents.
-
----
-
-# TEST QUALITY CATEGORIES
-
-Tests should be classified as:
-
-## Strong
-
-Protect meaningful domain behavior.
-
-## Weak
-
-Primarily verify implementation details.
-
-## Redundant
-
-Duplicate another test without adding meaningful protection.
-
-## Debugging Artifact
-
-Examples include tests whose meaningful assertions are commented out or tests clearly created only during investigation.
-
-## Missing
-
-Meaningful production behavior exists without adequate regression protection.
-
-## Contradictory
-
-Tests encode behavior that directly conflicts with the current conceptual contract.
-
-Contradictory tests should be changed deliberately, not silently deleted.
-
----
-
-# CURRENT TEST BASELINE
-
-The previously established baseline was approximately:
-
-> **199 passing tests**
-
-This is a historical behavioral baseline.
-
-It should be used to detect unintended regression.
-
-The goal is not necessarily to preserve exactly 199 tests forever.
-
-The goal is to preserve the behavior those tests meaningfully protect.
-
----
-
-# PHASE 1 TEST GAPS
-
-The following behaviors should receive explicit regression protection where not already covered:
-
-- Identity eligibility excludes insufficient-data Identities from ranking
-- Identity weighted scoring remains intact
-- Identity normalization remains distinct from Trait normalization
-- derived Identity traits remain intact
-- Identity contribution breakdown remains intact
-- Designation ranking remains intact
-- Designation primary selection remains deterministic
-- Observation evidence remains intact
-- recommendation-bias metadata remains intact
-- empty intelligence collections remain valid
-- empty archive does not imply negative preference
-- sparse archive does not create unjustified certainty
-- deterministic ordering is preserved
-- tie behavior is explicitly tested once policy is decided
-- user-provided previously-consumed state survives persistence
-- user-provided review survives persistence once the field is renamed
-- API consumers continue receiving required intelligence fields during terminology changes
-
----
-
-# FORENSIC AUDIT ARTIFACT
-
-The full forensic audit should exist as a separate repository document.
-
-Recommended filename:
-
-`intelligence-forensic-audit.md`
-
-Its purpose is to preserve the evidence and reasoning behind Phase 1.
-
-The roadmap should remain concise enough to function as the project's source of truth.
-
-The forensic audit should contain the detailed:
-
-- Identity audit
-- Designation audit
-- Observation audit
-- Finding audit
-- Evidence audit
-- confidence/strength audit
-- archive-state audit
-- ranking/tie audit
-- API/downstream-consumer audit
-- test inventory
-- test-quality classification
-- lost-behavior analysis
-- Phase 1 recommendations
-- deferred items
-
-The audit should not be allowed to disappear into conversation history.
+# EXPLICITLY DEFERRED
+
+The following should remain outside Phase 1 unless a concrete dependency forces them earlier:
+
+* Review/NLP intelligence
+* previously-consumed intelligence
+* watch/read/play counts
+* recommendation-engine implementation
+* recommendation UI
+* Archive Profile UI
+* pagination
+* import/export
+* metadata expansion
+* large-archive optimization
+* React migration
+* advanced classification algorithms
+* automated semantic interpretation of reviews
+* broad AI-based recommendation systems
+
+These are product directions, not Phase 1 alignment requirements.
 
 ---
 
 # CURRENT PRIORITY ORDER
 
-1. **Complete Phase 1 Intelligence Alignment**
-2. **Build dedicated Archive Profile UI**
-3. **Build Recommendation Engine**
-4. **Add Recommendations surface**
-5. **Library pagination / scale**
-6. **Import / Export**
-7. **Metadata expansion**
-8. **Polish / accessibility / stability / documentation**
-9. **Release**
-10. **React migration**
-
----
-
-# PHASE 1 ORDER OF OPERATIONS
-
-Before changing implementation:
-
-1. Read the Intelligence Contract.
-2. Read the Phase 1 Alignment plan.
-3. Read the forensic audit.
-4. Establish the current test baseline.
-5. Map the affected implementation files.
-6. Map affected API response models.
-7. Map downstream consumers.
-8. Identify tests protecting the affected behavior.
-9. Make the smallest semantic change necessary.
-10. Run the relevant tests.
-11. Run the broader intelligence test suite.
-12. Run the full regression suite.
-13. Update documentation only after behavior is verified.
-14. Record intentional behavior changes in the audit/roadmap where appropriate.
-
-Do not make multiple conceptual changes simultaneously when doing so would make behavioral regressions difficult to attribute.
-
----
-
-# EXPLICITLY DEFERRED ITEMS
-
-The following should not be pulled into Phase 1 merely because the audit discovered them:
-
-- Recommendation Engine redesign
-- sophisticated recommendation ranking
-- review NLP
-- LLM-based review interpretation
-- exact consumption counts
-- advanced repeat-consumption modeling
-- new metadata sources
-- external metadata APIs
-- large-scale library optimization
-- import/export implementation
-- Profile UI redesign
-- React migration
-- arbitrary new Identity taxonomy
-- arbitrary new Designation taxonomy
-- new scoring algorithms
-- generalized Classification Confidence algorithms
-- universal evidence schema
-- universal threshold system
-
-Discovery does not automatically imply implementation.
-
----
-
-# THINGS TO TREAT AS UNRESOLVED UNTIL EVIDENCE EXISTS
-
-Do not invent repository behavior or product policy for:
-
-- exact minimum-entry thresholds where not already encoded
-- exact Secondary Identity thresholds
-- exact near-tie thresholds
-- exact Classification Confidence formulas
-- exact Finding confidence semantics
-- exact recommendation weighting
-- exact influence of reviews
-- exact influence of previously-consumed status
-- exact treatment of repeat consumption in scoring
-- exact tie-breaking policy if the current implementation does not establish one
-
-Use:
-
-> **UNRESOLVED — requires implementation decision.**
-
-when necessary.
-
----
-
-# LOST-BEHAVIOR CHECKLIST
-
-For every behavior discovered during audit:
-
-- [ ] behavior discovered
-- [ ] behavior traced to implementation
-- [ ] behavior traced to tests where applicable
-- [ ] behavior classified
-- [ ] behavior preserved
-- [ ] behavior intentionally changed
-- [ ] behavior documented
-- [ ] behavior covered by tests
-- [ ] downstream consumers checked
-- [ ] API impact checked
-- [ ] deferred behavior recorded if not addressed
-
----
-
-# MASTER CHANGE-SAFETY CHECKLIST
-
-Before removing or substantially changing existing intelligence behavior:
-
-- [ ] What behavior does the code currently provide?
-- [ ] What test protects it?
-- [ ] Is it a meaningful domain rule?
-- [ ] Is it explicitly represented in the Intelligence Contract?
-- [ ] Does the contract contradict it?
-- [ ] Would removing it lose information?
-- [ ] Is it duplicated elsewhere?
-- [ ] Is it actually dead code?
-- [ ] Does an API consumer depend on it?
-- [ ] Does the frontend depend on it?
-- [ ] Does Profile generation depend on it?
-- [ ] Does Recommendation infrastructure depend on it?
-- [ ] Does a fixture encode it?
-- [ ] Does a regression test need to be added?
-- [ ] Is the change Phase 1 scope?
-- [ ] If not, has it been explicitly deferred?
+1. **Clean up and lock the Phase 1 roadmap**
+2. **Resolve confidence terminology**
+3. **Align Designation terminology/explanation**
+4. **Clarify Identity / Designation separation**
+5. **Clarify Findings vs Observations**
+6. **Clarify Secondary Identity presentation**
+7. **Clarify ranking / tie behavior**
+8. **Investigate debug/dead-code test candidates**
+9. **Run and preserve regression coverage**
+10. **Build dedicated Archive Profile UI**
+11. **Build Recommendation Engine**
+12. **Add Recommendations surface**
+13. **Library pagination / scale**
+14. **Import / Export**
+15. **Metadata expansion**
+16. **Polish / accessibility / stability / documentation**
+17. **Release**
+18. **React migration**
 
 ---
 
 # ONE-SENTENCE PROJECT DIRECTION
 
-> **Media Tracker turns raw media scores and user-provided consumption data into measurable traits and genre signals, independently interprets those signals through observations, findings, designations, and curator identities, presents the resulting meaning through an Archive Profile, and eventually uses the measurable signals to recommend what should come next.**
+> **Media Tracker turns raw media scores and other user-provided signals into measurable traits and genre signals, independently interprets those signals through observations, findings, designations, and curator identities, presents the resulting meaning through an Archive Profile, and eventually uses those measurable signals to recommend what should come next.**
