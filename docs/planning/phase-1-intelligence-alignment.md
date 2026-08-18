@@ -238,11 +238,11 @@ Unless a direct contract conflict is demonstrated, these behaviors should be pre
 
 Current Trait normalization uses a floor at `6` and reaches maximum strength at `10`.
 
-[start python]
+```python
 
 strength = min(max((value - 6) / 4, 0), 1)
 
-[end snippet]
+```
 
 Therefore:
 
@@ -261,12 +261,12 @@ This is a meaningful semantic distinction from Identity normalization.
 
 Identity scoring currently resolves trait values using proportional 0–10 normalization.
 
-[start python]
+```python
 
 normalized_value = clamp(value / 10, 0, 1)
 identity_contribution = normalized_value \* fixture_weight
 
-[end snippet]
+```
 
 This does **not** apply the Trait Signal Strength floor.
 
@@ -363,11 +363,11 @@ The contract distinguishes:
 
 Current behavior is approximately:
 
-[start python]
+```python
 
 entry_count / minimum_entries
 
-[end snippet]
+```
 
 This represents **Data Sufficiency**, not Classification Confidence.
 
@@ -389,11 +389,11 @@ It therefore behaves more like **Signal Strength** than Classification Confidenc
 
 Current Observation confidence is threshold-relative support:
 
-[start python]
+```python
 
 observed_value / threshold
 
-[end snippet]
+```
 
 This is meaningful support-strength information, but it should not automatically be represented as generic Classification Confidence.
 

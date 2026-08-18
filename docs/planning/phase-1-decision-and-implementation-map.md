@@ -190,11 +190,11 @@ Unless a direct contract conflict is demonstrated, preserve:
 
 ### Trait Signal Strength normalization
 
-[start python]
+```python
 
 strength = min(max((value - 6) / 4, 0), 1)
 
-[end snippet]
+```
 
 **Classification:** PRESERVE
 
@@ -202,11 +202,11 @@ strength = min(max((value - 6) / 4, 0), 1)
 
 ### Identity Score normalization
 
-[start python]
+```python
 
 normalize_identity_score(value) = max(0, min(value / 10, 1))
 
-[end snippet]
+```
 
 **Classification:** PRESERVE
 
