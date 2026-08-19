@@ -74,6 +74,10 @@ def test_identity_endpoint_returns_primary_identity(
     assert "breakdown" in data
     assert "top_traits" in data
 
+    assert "data_sufficiency" in data
+    assert isinstance(data["data_sufficiency"], (int, float))
+    assert 0 <= data["data_sufficiency"] <= 1
+
 
 def test_identity_below_minimum_is_excluded_and_at_minimum_is_eligible():
 

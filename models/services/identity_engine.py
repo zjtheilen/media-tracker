@@ -1,6 +1,6 @@
 from .identity_scorer import get_primary_identity
 from .identity_explainer import explain_identity_score
-from .identity_confidence import calculate_identity_confidence
+from .identity_data_sufficiency import calculate_identity_data_sufficiency
 
 
 def generate_identity(profile):
@@ -15,7 +15,7 @@ def generate_identity(profile):
         profile,
     )
 
-    confidence = calculate_identity_confidence(
+    data_sufficiency = calculate_identity_data_sufficiency(
         identity,
         profile,
     )
@@ -23,5 +23,5 @@ def generate_identity(profile):
     return {
         **identity,
         **explanation,
-        "confidence": confidence,
+        "data_sufficiency": data_sufficiency,
     }

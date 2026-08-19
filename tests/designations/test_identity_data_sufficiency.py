@@ -1,9 +1,9 @@
-from models.services.identity_confidence import (
-    calculate_identity_confidence,
+from models.services.identity_data_sufficiency import (
+    calculate_identity_data_sufficiency,
 )
 
 
-def test_identity_confidence_reaches_one_after_minimum_entries():
+def test_identity_data_sufficiency_reaches_one_after_minimum_entries():
 
     identity = {
         "requirements": {"minimum_entries": 15},
@@ -15,7 +15,7 @@ def test_identity_confidence_reaches_one_after_minimum_entries():
 
     profile = {"entryCount": 20}
 
-    result = calculate_identity_confidence(
+    result = calculate_identity_data_sufficiency(
         identity,
         profile,
     )
@@ -23,13 +23,13 @@ def test_identity_confidence_reaches_one_after_minimum_entries():
     assert result == 1
 
 
-def test_identity_confidence_handles_empty_archive():
+def test_identity_data_sufficiency_handles_empty_archive():
 
     identity = {"requirements": {"minimum_entries": 15}}
 
     profile = {"entryCount": 0}
 
-    result = calculate_identity_confidence(
+    result = calculate_identity_data_sufficiency(
         identity,
         profile,
     )
@@ -37,7 +37,7 @@ def test_identity_confidence_handles_empty_archive():
     assert result == 0
 
 
-def test_identity_confidence_with_scoring_context():
+def test_identity_data_sufficiency_with_scoring_context():
 
     identity = {
         "requirements": {
@@ -49,7 +49,7 @@ def test_identity_confidence_with_scoring_context():
         "entryCount": 20
     }
 
-    result = calculate_identity_confidence(
+    result = calculate_identity_data_sufficiency(
         identity,
         profile,
     )

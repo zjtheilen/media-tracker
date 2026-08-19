@@ -1,5 +1,5 @@
 from .identity_scoring import calculate_identity_breakdown
-from .identity_confidence import calculate_identity_confidence
+from .identity_data_sufficiency import calculate_identity_data_sufficiency
 from .identity_utils import normalize_identity_score
 
 
@@ -18,14 +18,14 @@ def explain_identity_score(identity, profile):
 
     top_traits = breakdown[:3]
 
-    confidence = calculate_identity_confidence(
+    data_sufficiency = calculate_identity_data_sufficiency(
         identity,
         profile,
     )
 
     return {
         "score": score,
-        "confidence": confidence,
+        "data_sufficiency": data_sufficiency,
         "breakdown": breakdown,
         "top_traits": top_traits,
     }
