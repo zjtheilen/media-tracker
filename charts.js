@@ -343,7 +343,7 @@ async function renderAverageScoreByMediaTypeChart() {
                 },
                 title: {
                     display: true,
-                    text: "Average Evaluation Index by Classification",
+                    text: "Average Score by Media Type",
                 }
             },
         },
@@ -493,7 +493,7 @@ async function renderRatingDistributionChart() {
             plugins: {
                 title: {
                     display: true,
-                    text: "Evaluation Index Distribution",
+                    text: "Score Distribution",
                 }
             },
         },

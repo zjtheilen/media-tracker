@@ -173,13 +173,13 @@ function getReportQuery(containerId) {
 
     const queries = {
         "top-rated-overall-list":
-            "ORDER BY EVALUATION INDEX DESC",
+            "ORDER BY SCORE DESC",
 
         "recent-archive-list":
             "SORT BY ARCHIVE DATE DESC",
 
         "hall-of-fame-list":
-            "FILTER: EVALUATION INDEX >= 95%"
+            "FILTER: SCORE >= 95"
     };
 
     return queries[containerId] || "GENERATED REPORT";

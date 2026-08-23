@@ -103,7 +103,7 @@ function renderEntryMetadata(entry) {
 
                 <div class="meta-label">
                     <i class="media-icon" data-lucide="${icon}"></i>
-                    <strong>CLASSIFICATION</strong>
+                    <strong>MEDIA TYPE</strong>
                 </div>
             
                 <span>${entry.media_type.toUpperCase()}</span>
@@ -113,7 +113,7 @@ function renderEntryMetadata(entry) {
             <div class="meta-item">
                 <div class="meta-label">
                     <i class="media-icon" data-lucide="badge-percent"></i>
-                    <strong>EVALUATION INDEX</strong>
+                    <strong>SCORE</strong>
                 </div>
                 
                 <span>${percentScore}%</span>
