@@ -557,6 +557,14 @@ genre_diversity identity-derived trait
 genre presence signals
 ```
 
+### Phase 1 decision
+
+`genreDiversityScore` remains a profile-level metric used by the Designation system, specifically as the Curator's genre-breadth component. It is intentionally distinct from the Identity-derived `genre_diversity` trait.
+
+The Genre Intelligence layer does not replace this metric. `genreAffinity` and `genreCombinations` remain additional profile-level genre signals and are produced alongside `genreDiversityScore`.
+
+`_build_metrics()` therefore serves as an aggregation stage for both profile metrics and Genre Intelligence outputs.
+
 These are not automatically equivalent.
 
 The formulas differ.

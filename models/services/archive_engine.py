@@ -136,6 +136,9 @@ def _build_narrative(archive_profile):
 
 
 def _build_metrics(archive_profile):
+    archive_profile.update(
+        calculate_profile_metrics(archive_profile)
+    )
     archive_profile["genreAffinity"] = calculate_genre_affinity(archive_profile)
     archive_profile["genreCombinations"] = calculate_genre_combinations(archive_profile)
 
