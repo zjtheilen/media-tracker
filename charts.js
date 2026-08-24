@@ -816,7 +816,7 @@ async function renderArchiveProfileCard() {
                         </h2>
 
 
-                        <h3>Classification Confidence</h3>
+                        <h3>Signal Strength</h3>
 
                         <p>
                             ${confidenceLabel}
