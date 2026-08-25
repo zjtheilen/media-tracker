@@ -835,8 +835,8 @@ The current contract does not require a universal evidence object.
 
 | Current Field                | Current Meaning                                         | Closest Contract Term                             | Action                      |
 | ---------------------------- | ------------------------------------------------------- | ------------------------------------------------- | --------------------------- |
-| `designationConfidence`      | Mean of top universal/media trait scores                | No exact match; **not Classification Confidence** | CLARIFY                     |
-| `designationConfidenceLabel` | Bucket derived from designationConfidence               | No exact contract equivalent                      | ALIGN UI/backend vocabulary |
+| `designationConfidence`      | Mean of top universal/media trait scores; aggregate strength of the classification basis | Signal Strength of Classification Basis | CLARIFY |
+| `designationConfidenceLabel` | Presentation bucket derived from `designationConfidence`; backend is canonical source               | Signal Strength label                      | ALIGN UI/backend vocabulary |
 | `primaryIdentity.confidence` | Entry count relative to identity minimum                | Data Sufficiency                                  | CLARIFY                     |
 | Observation `confidence`     | Threshold-relative support for rule metric; sorting key | Evidence Strength family, but incomplete          | CLARIFY                     |
 | Trait `*_strength`           | Floor-normalized trait magnitude                        | Signal Strength                                   | PRESERVE                    |
@@ -844,24 +844,23 @@ The current contract does not require a universal evidence object.
 | Identity `score`             | Weighted identity fit                                   | Identity score                                    | PRESERVE                    |
 | Finding confidence           | Not implemented                                         | Classification/Evidence confidence not present    | DEFER                       |
 
-### Important scale distinction
+### Designation confidence semantic clarification
 
-Trait Signal Strength and `designationConfidence` are not the same calculation.
+`designationConfidence` is a legacy field name retained for API compatibility.
 
-Trait strength:
+It is not statistical confidence, probability, uncertainty, or confidence in the correctness of a Designation.
 
-```text
-floor-normalized 0–1
-```
+It represents the aggregate strength of the three trait signals used to construct the archive's `classificationBasis`:
 
-Designation confidence:
+* top universal trait
+* second universal trait
+* top media trait
 
-```text
-mean of raw top-trait scores
-approximately 0–10
-```
+The value is the arithmetic mean of those raw trait scores on the 0–10 trait scale.
 
-Calling both exactly the same quantitative field would create a new semantic ambiguity.
+The name `designationConfidence` is therefore historical terminology; the conceptual meaning is **Signal Strength of Classification Basis**.
+
+The corresponding `designationConfidenceLabel` is a presentation label for that signal strength and must use the backend's canonical vocabulary.
 
 **Classification:** CLARIFY
 
