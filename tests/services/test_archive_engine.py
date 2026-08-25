@@ -32,6 +32,8 @@ def test_build_archive_profile():
 
     assert result["designationConfidence"] == 9.7
 
+    assert result["designationConfidenceLabel"] == "Very High"
+
     assert result["classificationBasis"]["primary"]["name"] == "Depth"
 
     assert result["classificationBasis"]["media"]["name"] == "Art Atmosphere"

@@ -100,41 +100,6 @@ function generateArchiveTitle(
 
 }
 
-function calculateDesignationConfidence(
-    primaryTrait,
-    secondaryTrait,
-    mediaTrait
-) {
-
-    const primaryScore = primaryTrait[1];
-    const secondaryScore = secondaryTrait[1];
-    const mediaScore = mediaTrait[1];
-
-    const confidence =
-        (
-            primaryScore +
-            secondaryScore +
-            mediaScore
-        ) / 3;
-
-    return Number(confidence.toFixed(1));
-
-}
-
-function getDesignationConfidenceLabel(score) {
-
-    if (score >= 9.0) {
-        return "High";
-    }
-
-    if (score >= 8.0) {
-        return "Moderate";
-    }
-
-    return "Low";
-
-}
-
 function generateClassificationBasis(
     primaryTrait,
     secondaryTrait,
@@ -738,10 +703,7 @@ async function renderArchiveProfileCard() {
     const observationSummary =
         archiveProfile.observationSummary || "";
 
-    const confidenceLabel =
-        getDesignationConfidenceLabel(
-            archiveProfile.designationConfidence
-        );
+    const confidenceLabel = archiveProfile.designationConfidenceLabel;
 
     const findingsHtml = archiveFindings
         .map(
