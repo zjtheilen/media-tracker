@@ -1,5 +1,6 @@
 from models.services.archive_engine import build_archive_profile
 from models.services.observation_engine import evaluate_observations
+from models.services.observation_utils import score_confidence
 from tests.helpers.fixture_loader import load_profile_fixture
 
 
@@ -222,3 +223,28 @@ def test_observations_have_neutral_structure():
     assert "description" in observation
     assert "evidence" in observation
     assert "confidence" in observation
+
+
+def test_score_confidence_is_threshold_relative():
+
+    assert score_confidence(6, 8) == 0.75
+
+
+def test_score_confidence_reaches_one_at_threshold():
+
+    assert score_confidence(8, 8) == 1.0
+
+
+def test_score_confidence_is_capped_at_one():
+
+    assert score_confidence(10, 8) == 1.0
+
+
+def test_score_confidence_rounds_to_two_decimal_places():
+
+    assert score_confidence(7, 8) == 0.88
+
+
+def test_score_confidence_returns_zero_for_zero_threshold():
+
+    assert score_confidence(8, 0) == 0
