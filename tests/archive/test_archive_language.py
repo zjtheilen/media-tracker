@@ -4,6 +4,7 @@ from models.services.archive_narrative import (
     get_trait_intensity,
     get_designation_confidence_label,
 )
+from models.services.trait_calculator import normalize_trait_signal
 
 GENRE_DESCRIPTIONS = {
     "sci-fi": "speculative worlds and unfamiliar possibilities",
@@ -35,3 +36,18 @@ def test_confidence_label():
     assert get_designation_confidence_label(9.1) == "Very High"
     assert get_designation_confidence_label(8.2) == "High"
     assert get_designation_confidence_label(7.4) == "Moderate"
+
+
+def test_trait_signal_normalization_scales_between_boundaries():
+
+    assert normalize_trait_signal(6) == 0
+    assert normalize_trait_signal(7) == 0.25
+    assert normalize_trait_signal(8) == 0.5
+    assert normalize_trait_signal(9) == 0.75
+    assert normalize_trait_signal(10) == 1.0
+
+
+def test_trait_signal_normalization_clamps_to_zero_one():
+
+    assert normalize_trait_signal(0) == 0
+    assert normalize_trait_signal(12) == 1
