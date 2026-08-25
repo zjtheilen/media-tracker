@@ -837,12 +837,38 @@ The current contract does not require a universal evidence object.
 | ---------------------------- | ------------------------------------------------------- | ------------------------------------------------- | --------------------------- |
 | `designationConfidence`      | Mean of top universal/media trait scores; aggregate strength of the classification basis | Signal Strength of Classification Basis | CLARIFY |
 | `designationConfidenceLabel` | Presentation bucket derived from `designationConfidence`; backend is canonical source               | Signal Strength label                      | ALIGN UI/backend vocabulary |
-| `primaryIdentity.confidence` | Entry count relative to identity minimum                | Data Sufficiency                                  | CLARIFY                     |
+| `primaryIdentity.confidence` | Entry count relative to the selected Identity's minimum-entry requirement                | Data Sufficiency                                  | CLARIFY                     |
 | Observation `confidence`     | Threshold-relative support for rule metric; sorting key | Evidence Strength family, but incomplete          | CLARIFY                     |
 | Trait `*_strength`           | Floor-normalized trait magnitude                        | Signal Strength                                   | PRESERVE                    |
 | Designation `score`          | Weighted classification fit, 0–100                      | Classification score/fit                          | PRESERVE                    |
 | Identity `score`             | Weighted identity fit                                   | Identity score                                    | PRESERVE                    |
 | Finding confidence           | Not implemented                                         | Classification/Evidence confidence not present    | DEFER                       |
+
+### Identity eligibility vs. data sufficiency
+
+Identity minimum-entry requirements serve as **eligibility gates**, not scoring inputs.
+
+An Identity is eligible for scoring only when the archive meets that Identity's configured minimum-entry requirement. The minimum-entry threshold therefore determines whether an Identity may participate in ranking.
+
+`primaryIdentity.confidence` is a separate presentation metric. Despite the historical field name, it does not represent statistical confidence or confidence in the correctness of the Identity classification.
+
+It represents **data sufficiency relative to the selected Identity's minimum-entry requirement**, normalized to the `0–1` range:
+
+```text
+min(entryCount / minimum_entries, 1)
+```
+
+Therefore:
+
+* **Minimum-entry requirement** → eligibility gate
+* **Identity score** → classification fit
+* **`primaryIdentity.confidence`** → data sufficiency
+* **Identity ranking** → comparison among eligible Identity candidates
+
+The eligibility threshold and data-sufficiency value should not be conflated with Identity scoring or classification confidence.
+
+**Classification:** CLARIFY
+
 
 ### Designation confidence semantic clarification
 
