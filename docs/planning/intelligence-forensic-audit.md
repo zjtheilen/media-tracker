@@ -289,6 +289,31 @@ The contract does not require one universal evidence schema.
 
 **Classification:** EVIDENCE / PRESERVE
 
+* Evidence schema: PRESERVE
+* Evidence constructors: PRESERVE
+* Identity evidence model: PRESERVE
+* Observation/Finding evidence provenance: CLARIFY
+    Current behavior:
+        Evidence is contextual/explanatory packaging attached to an emitted intelligence result.
+
+    Not established by the implementation:
+        That every evidence item represents a predicate that directly caused the rule to fire.
+
+    OR-rule behavior:
+        OR branches may emit evidence for both alternatives even when only one branch satisfied eligibility.
+
+    AND-rule behavior:
+        Evidence generally corresponds to the signals participating in the rule.
+
+    Identity behavior:
+        Identity findings use a separate evidence representation based on identity explanation rather than the metric/genre evidence constructors.
+
+    Universal evidence schema:
+        None.
+
+    Implementation change: NONE.
+* OR-rule evidence semantics: INVESTIGATE
+
 ---
 
 # 3. Contract Conflicts
