@@ -870,6 +870,34 @@ The eligibility threshold and data-sufficiency value should not be conflated wit
 **Classification:** CLARIFY
 
 
+### Observation confidence semantic clarification
+
+Observation `confidence` is a threshold-relative evidence-strength metric.
+
+It does not represent statistical confidence, probability, uncertainty, or confidence that the observation itself is objectively correct.
+
+Each observation rule defines a threshold for its primary supporting metric. The observation's `confidence` measures how strongly that metric reaches the rule's threshold:
+
+```text
+min(round(value / threshold, 2), 1)
+```
+
+A value equal to the threshold produces `1.0`. Values below the threshold produce a proportional value between `0` and `1`, while values above the threshold are capped at `1.0`.
+
+A zero threshold produces `0` to avoid division by zero.
+
+Therefore:
+
+* **Observation rule evaluation** → determines whether the observation is emitted
+* **Rule threshold** → defines the target level of supporting evidence
+* **Observation `confidence`** → measures threshold-relative evidence strength
+* **Observation ranking** → sorts emitted observations by that evidence-strength value
+
+The `confidence` value should therefore be interpreted as **Evidence Strength**, not classification confidence or statistical confidence.
+
+**Classification:** CLARIFY
+
+
 ### Designation confidence semantic clarification
 
 `designationConfidence` is a legacy field name retained for API compatibility.
