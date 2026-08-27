@@ -429,17 +429,22 @@ archive-profile/API field consumed by the frontend.
 
 ### Observation confidence
 
-Observation `confidence` is an active threshold-relative evidence-strength value.
+Observation `confidence` is an active threshold-relative **Evidence Strength** value.
 
-Each Observation rule defines a threshold for its primary supporting metric. The confidence value represents how strongly that metric reaches the rule's threshold, capped at `1.0`.
+Each Observation rule defines a predicate determining whether the Observation fires and a dedicated `confidence` calculation identifying the strength of its designated primary supporting metric relative to that metric's threshold.
 
-It does not represent statistical confidence, probability, or confidence that the Observation itself is objectively correct.
+The confidence calculation is therefore independent from the Observation's generated evidence list.
 
-The calculation is preserved. Dedicated tests protect its threshold-relative behavior, and consumer tracing found no frontend dependency requiring a rename or compatibility change.
+Additional predicate conditions may establish that an Observation qualifies without contributing directly to its numerical confidence value.
 
-The preferred conceptual vocabulary is **Evidence Strength**.
+For example, a rule may require multiple metric or genre conditions while using one designated metric as its Evidence Strength basis. This is intentional and should not be interpreted as an incomplete compound-confidence calculation.
 
-**Status:** RESOLVED — preserve calculation; terminology clarification only.
+The value does not represent statistical confidence, probability, or confidence that the Observation itself is objectively correct.
+
+The existing calculation is preserved and protected by dedicated tests.
+
+**Status:** RESOLVED — preserve calculation; clarify rule-level Evidence Strength semantics.
+
 
 ---
 

@@ -215,15 +215,22 @@ No replacement implementation is required.
 
 **LOCKED:** The existing Observation `confidence` calculation is preserved.
 
-It represents threshold-relative evidence strength for the metric supporting an Observation. It does not represent statistical confidence, probability, or confidence that the Observation itself is objectively correct.
+It represents threshold-relative **Evidence Strength** for the rule's designated primary supporting metric. It does not represent statistical confidence, probability, or confidence that the Observation itself is objectively correct.
 
-The calculation is protected by dedicated tests, including proportional values below threshold, threshold saturation at `1.0`, rounding, and zero-threshold handling.
+The Observation rule predicate determines whether the Observation fires. The rule's dedicated `confidence` function independently determines the strength of its designated supporting metric.
+
+Additional predicate conditions may be required for an Observation to fire, but they do not automatically contribute numerically to the `confidence` value.
+
+This behavior is intentional and is not an incomplete compound-evidence confidence model.
+
+The calculation is protected by dedicated tests covering threshold-relative behavior, threshold saturation at `1.0`, rounding, and zero-threshold handling.
 
 Consumer verification found no frontend dependency requiring a public rename.
 
-**LOCKED:** Do not introduce a replacement confidence algorithm.
+**LOCKED:** Do not introduce a generalized or compound Observation confidence algorithm during Phase 1.
 
 **Status:** RESOLVED / PRESERVE
+
 
 ---
 

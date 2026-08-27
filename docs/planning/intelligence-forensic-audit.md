@@ -658,6 +658,23 @@ No implementation change or replacement confidence algorithm is required.
 
 **Classification:** RESOLVED / PRESERVE
 
+### 9.2.2 Rule-level confidence basis
+
+Further tracing of the Observation engine and rule definitions confirms that Observation `confidence` is calculated independently from the generated `evidence` array.
+
+The Observation engine evaluates each rule's predicate, generates the Observation, and then applies the rule's dedicated `confidence` function. Observations are subsequently sorted by that value.
+
+The rule predicate determines **whether the Observation fires**. The rule's `confidence` function determines **Evidence Strength**, using the rule's designated primary supporting metric relative to that metric's threshold.
+
+Additional predicate conditions do not automatically contribute numerically to the confidence value.
+
+For example, a rule may require multiple conditions to be satisfied while using one designated metric as its confidence basis. This is intentional rule-level behavior rather than an incomplete compound-confidence calculation.
+
+**Decision:** Preserve the current calculation model. Do not introduce a generalized confidence aggregation algorithm during Phase 1.
+
+**Classification:** RESOLVED / PRESERVE
+
+
 ---
 
 ## 9.3 Designation confidence semantic clarification
