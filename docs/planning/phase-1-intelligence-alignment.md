@@ -385,6 +385,20 @@ It therefore behaves more like **Signal Strength** than Classification Confidenc
 
 ---
 
+### Designation confidence resolution
+
+The existing `designationConfidence` calculation is preserved.
+
+Its actual semantic meaning is aggregate Signal Strength of the classification basis.
+
+The field name remains a compatibility concern rather than a mathematical defect.
+
+No replacement Classification Confidence algorithm is required.
+
+**Status:** RESOLVED — terminology/presentation alignment remains.
+
+---
+
 ### Observation confidence
 
 Current Observation confidence is threshold-relative support:

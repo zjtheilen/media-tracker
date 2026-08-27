@@ -230,6 +230,30 @@ The implementation rule is:
 
 ---
 
+## Phase 1 forensic work status
+
+The forensic audit is complete.
+
+Any subsequent forensic work is limited to a specific unresolved or implementation-gating question identified by the Decision & Implementation Map.
+
+A forensic pass must produce one of:
+
+* a locked decision
+* a concrete implementation correction
+* a test gap requiring protection
+* a documented clarification
+* an explicit deferral
+
+Forensic work should not reopen already-resolved decisions without new contradictory repository evidence.
+
+Current next forensic pass:
+
+> Trace `generateClassificationBasis()` / `classificationBasis` through backend production paths, API serialization, and frontend consumers.
+
+This is a targeted consumer audit, not a reopening of the completed forensic phase.
+
+---
+
 # PHASE 1 — LOCKED CONCEPTUAL MODEL
 
 The following cardinalities are locked:

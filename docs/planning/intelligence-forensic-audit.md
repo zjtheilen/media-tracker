@@ -652,6 +652,22 @@ The field remains part of the API contract unless a separate migration decision 
 
 ---
 
+## 9.3.1 Forensic resolution
+
+The designation-confidence calculation has been reconciled against the current implementation and planning contract.
+
+The calculation itself is considered valid and is preserved.
+
+`designationConfidence` should be interpreted as the aggregate strength of the classification basis, not statistical confidence in the correctness of the designation.
+
+No replacement confidence algorithm is required.
+
+The remaining Phase 1 work is terminology/presentation alignment only, subject to API/frontend blast-radius verification.
+
+**Classification:** RESOLVED / PRESERVE
+
+---
+
 # 10. Duplicate Rule Candidates
 
 The repository contains two pairs of behaviorally similar rules.

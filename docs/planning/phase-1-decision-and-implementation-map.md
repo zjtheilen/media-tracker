@@ -145,9 +145,19 @@ Introduce a distinct field only where the semantic distinction is genuinely requ
 | Current field                       | Actual meaning                      | Classification              | Phase 1 action                                    |
 | ----------------------------------- | ----------------------------------- | --------------------------- | ------------------------------------------------- |
 | Identity `confidence`               | Data Sufficiency-like               | TERMINOLOGY                 | Rename/reframe only if blast radius is understood |
-| Designation `designationConfidence` | Signal Strength-like                | TERMINOLOGY                 | Rename/reframe only if blast radius is understood |
+| Designation `designationConfidence` | Signal Strength-like; aggregate strength of classification basis | TERMINOLOGY | Preserve calculation; clarify/reframe terminology after consumer audit |
 | Observation `confidence`            | Threshold-relative support strength | TERMINOLOGY / CLARIFICATION | Rename/reframe and document semantics             |
 | Finding confidence                  | Not standardized                    | CLARIFICATION               | Do not add until semantics are defined            |
+
+### Designation confidence resolution
+
+**LOCKED:** The existing `designationConfidence` calculation is preserved.
+
+It represents aggregate signal strength of the classification basis, not statistical confidence or probability that the designation is correct.
+
+No replacement confidence algorithm is required.
+
+Remaining work is limited to terminology/presentation alignment. API/frontend consumer verification is the gating step before any public rename.
 
 **LOCKED:** Do not invent a Classification Confidence algorithm merely to justify the word `confidence`.
 
