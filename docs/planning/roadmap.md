@@ -246,11 +246,22 @@ A forensic pass must produce one of:
 
 Forensic work should not reopen already-resolved decisions without new contradictory repository evidence.
 
-Current next forensic pass:
+The previously scheduled `generateClassificationBasis()` / `classificationBasis` consumer audit is **COMPLETE**.
 
-> Trace `generateClassificationBasis()` / `classificationBasis` through backend production paths, API serialization, and frontend consumers.
+The audit established that:
 
-This is a targeted consumer audit, not a reopening of the completed forensic phase.
+* `classificationBasis` is produced authoritatively by the backend.
+* The API exposes the backend-produced representation.
+* The frontend consumes `archiveProfile.classificationBasis` directly.
+* The frontend `generateClassificationBasis()` helper was dead legacy duplication and has been removed.
+* `classificationBasis` is a dominant-signal summary, not an exhaustive designation-input registry.
+
+This item is therefore closed.
+
+**Current forensic status:** No additional forensic work should begin until the Decision & Implementation Map identifies another unresolved or implementation-gating question.
+
+Forensic work remains bounded by the exit criteria above and should not continue merely because additional repository code can be inspected.
+
 
 ---
 

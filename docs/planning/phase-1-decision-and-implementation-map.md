@@ -157,11 +157,44 @@ It represents aggregate signal strength of the classification basis, not statist
 
 No replacement confidence algorithm is required.
 
-Remaining work is limited to terminology/presentation alignment. API/frontend consumer verification is the gating step before any public rename.
+Consumer verification is complete. The existing calculation and current API behavior are preserved.
+
+Remaining work is limited to terminology/presentation alignment if and when a public rename is separately approved.
 
 **LOCKED:** Do not invent a Classification Confidence algorithm merely to justify the word `confidence`.
 
 **DEFERRED:** Generalized Classification Confidence remains outside Phase 1.
+
+### `classificationBasis` resolution
+
+**LOCKED:** `classificationBasis` is backend-authoritative.
+
+It represents a concise summary of the dominant classification signals:
+
+* strongest universal trait
+* second-strongest universal trait
+* strongest media-specific trait
+
+It does **not** represent an exhaustive enumeration of every signal consumed by every designation rule.
+
+The frontend consumes the backend-produced `classificationBasis` value from the archive-profile response rather than recomputing it.
+
+A legacy frontend `generateClassificationBasis()` helper was found to be disconnected from the active production path and duplicated backend behavior.
+
+The frontend helper has now been removed from `charts.js`.
+
+`classificationBasis` remains an active backend-produced archive-profile field
+and is still consumed by the frontend. Removal applies only to the obsolete
+frontend producer, not to the backend/API contract.
+
+**RESOLVED:** The dead frontend helper has been removed.
+
+No replacement implementation is required.
+
+**TEST REQUIREMENT:** Existing backend/archive-profile and API tests should continue to protect the presence and structure of `classificationBasis`.
+
+**Classification:** RESOLVED / PRESERVE
+
 
 ---
 

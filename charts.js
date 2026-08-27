@@ -100,31 +100,6 @@ function generateArchiveTitle(
 
 }
 
-function generateClassificationBasis(
-    primaryTrait,
-    secondaryTrait,
-    mediaTrait
-) {
-
-    return {
-        primary: {
-            name: formatScoreCategory(primaryTrait[0]),
-            score: primaryTrait[1]
-        },
-
-        secondary: {
-            name: formatScoreCategory(secondaryTrait[0]),
-            score: secondaryTrait[1]
-        },
-
-        media: {
-            name: formatScoreCategory(mediaTrait[0]),
-            score: mediaTrait[1]
-        }
-    };
-
-}
-
 function getTraitDescription(category) {
 
     const descriptions = {

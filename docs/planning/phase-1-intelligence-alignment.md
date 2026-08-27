@@ -399,6 +399,31 @@ No replacement Classification Confidence algorithm is required.
 
 ---
 
+### `classificationBasis`
+
+`classificationBasis` is a backend-produced summary of the dominant classification signals used to characterize an archive's classification basis.
+
+It contains:
+
+* the strongest universal trait
+* the second-strongest universal trait
+* the strongest media-specific trait
+
+It should not be interpreted as an exhaustive list of every signal that may participate in designation-rule evaluation.
+
+The frontend consumes this backend-produced representation directly.
+
+A legacy frontend `generateClassificationBasis()` helper was found to duplicate the backend behavior without being part of the active production path. The legacy frontend `generateClassificationBasis()` helper has been removed.
+
+The backend `generate_classification_basis()` implementation remains the
+authoritative producer of `classificationBasis`, which remains an active
+archive-profile/API field consumed by the frontend.
+
+**Status:** RESOLVED — preserve backend/API behavior; dead frontend duplicate removed.
+
+
+---
+
 ### Observation confidence
 
 Current Observation confidence is threshold-relative support:

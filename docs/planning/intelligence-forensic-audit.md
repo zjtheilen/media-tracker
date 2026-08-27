@@ -668,6 +668,46 @@ The remaining Phase 1 work is terminology/presentation alignment only, subject t
 
 ---
 
+## 9.4 `classificationBasis` production and consumer resolution
+
+The `classificationBasis` field has been traced through the current production system.
+
+The authoritative producer is the backend classification layer. It is generated from the strongest universal trait, second-strongest universal trait, and strongest media-specific trait selected during archive-profile construction.
+
+The resulting structure is exposed through the `/archive-profile` API response without a separate frontend recomputation step.
+
+The frontend consumes the backend-produced `archiveProfile.classificationBasis` representation directly.
+
+The legacy frontend `generateClassificationBasis()` helper previously existed in
+`charts.js`, but forensic tracing established that it was not part of the active
+production path. It duplicated backend behavior without serving as an
+authoritative producer.
+
+The helper has now been removed from `charts.js`.
+
+The backend `generate_classification_basis()` implementation remains the
+authoritative producer of `archiveProfile.classificationBasis`, and the
+frontend continues to consume the backend-produced field.
+
+Backend/API consumers and tests continue to protect this contract.
+
+**Classification:** RESOLVED / REMOVED — frontend producer
+
+That dead frontend implementation has been removed.
+
+`classificationBasis` should therefore be interpreted as a **summary of the dominant classification signals**, not as an exhaustive enumeration of every signal that may participate in designation-rule evaluation.
+
+No change to the backend calculation or API field is required.
+
+**Classification:** RESOLVED / PRESERVE
+
+**Cleanup:** Dead frontend duplicate removed.
+
+**Protection:** Backend/API contract should remain covered by existing archive-profile and endpoint tests.
+
+
+---
+
 # 10. Duplicate Rule Candidates
 
 The repository contains two pairs of behaviorally similar rules.
