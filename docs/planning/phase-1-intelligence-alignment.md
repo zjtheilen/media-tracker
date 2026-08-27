@@ -361,17 +361,21 @@ The contract distinguishes:
 
 ### Identity confidence
 
-Current behavior is approximately:
+### Identity data sufficiency
 
-```python
+Identity `data_sufficiency` represents entry-count sufficiency relative to the minimum-entry requirement for the Identity.
 
-entry_count / minimum_entries
+It answers:
 
-```
+> Does the archive contain enough entries for this Identity to be considered sufficiently supported by the available data?
 
-This represents **Data Sufficiency**, not Classification Confidence.
+It does **not** represent statistical confidence, probability, or confidence that the Identity classification is objectively correct.
 
-**Classification:** TERMINOLOGY
+The existing calculation is preserved and is protected by dedicated tests.
+
+The previous `confidence` terminology has been retired in favor of `data_sufficiency`. No compatibility alias or replacement algorithm is required.
+
+**Status:** RESOLVED — preserve calculation; use Data Sufficiency terminology.
 
 ---
 

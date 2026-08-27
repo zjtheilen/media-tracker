@@ -955,6 +955,22 @@ Does not yet strongly protect serialized API field presence.
 
 **Status:** PRESERVED / TESTED WITH API SERIALIZATION GAP
 
+### Identity confidence resolution
+
+Forensic tracing established that the former Identity `confidence` concept has already been reconciled in the implementation as `data_sufficiency`.
+
+`data_sufficiency` represents entry-count sufficiency relative to the Identity's minimum-entry requirement. It is not a measure of classification confidence, probability, or correctness.
+
+The calculation is preserved. The `/identity` endpoint exposes `data_sufficiency`, and dedicated tests protect the calculation and endpoint contract.
+
+Consumer tracing found no frontend dependency on the former Identity `confidence` field requiring a compatibility alias.
+
+No replacement calculation or additional `confidence` field is required.
+
+**Decision:** Retire the `confidence` terminology in favor of `data_sufficiency`.
+
+**Classification:** RESOLVED / PRESERVE / RENAME
+
 ---
 
 ### Archive engine/endpoints
