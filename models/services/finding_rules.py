@@ -48,26 +48,6 @@ FINDING_RULES = [
         },
     },
     {
-        "id": "systems-preference",
-        "category": "Media Signal",
-        "evaluate": lambda profile: (
-            profile.get("mediaAverages", {}).get("gameplay_mechanics", 0) >= 9
-        ),
-        "generate": lambda profile: {
-            "title": "Systems-Oriented Collector",
-            "description": (
-                "The archive consistently rewards interactive systems, mechanics, and structured experiences."
-            ),
-            "evidence": [
-                metric_evidence(
-                    "gameplay_mechanics",
-                    "Gameplay Mechanics",
-                    profile["mediaAverages"]["gameplay_mechanics"],
-                ),
-            ],
-        },
-    },
-    {
         "id": "speculative-interest",
         "category": "Genre Pattern",
         "evaluate": lambda profile: (

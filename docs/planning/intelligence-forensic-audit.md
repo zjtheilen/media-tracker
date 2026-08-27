@@ -988,7 +988,7 @@ The two likely duplicate pairs should have explicit documentation or tests ident
 
 Pairs:
 
-* `systems-affinity` / `systems-preference`
+* `systems-affinity` / `systems-preference` — RESOLVED: consolidated into `systems-affinity`
 * `atmospheric-focus` / `atmospheric-interest`
 
 **Classification:** TEST GAP / POSSIBLE DEAD CODE
@@ -1148,7 +1148,22 @@ Observation confidence is now documented as threshold-relative Evidence Strength
 
 Pairs:
 
-* `systems-affinity` ↔ `systems-preference`
+* `systems-affinity` ↔ `systems-preference` — RESOLVED / CONSOLIDATED
+
+### Forensic resolution
+
+`systems-preference` and `systems-affinity` were determined to represent the same underlying interpretive concept.
+
+Both were driven by the same `gameplay_mechanics` signal and the same threshold (`>= 9`). The distinction implied by the names was not reflected in their logic or evidence.
+
+Because the repository's intelligence systems are parallel, the overlap was not inherently invalid. The deciding factor was semantic redundancy: retaining both names would have represented one concept twice without providing distinct interpretive meaning.
+
+The redundant `systems-preference` Finding was removed. `systems-affinity` remains as the canonical Observation for this concept.
+
+A regression test was added to explicitly protect the surviving `systems-affinity` behavior.
+
+**Classification:** RESOLVED / CONSOLIDATED
+
 * `atmospheric-focus` ↔ `atmospheric-interest`
 
 Repository evidence establishes near-identical behavior but not historical intent.
@@ -1348,7 +1363,7 @@ The strongest confirmed duplicate candidates remain:
 ```text
 systems-affinity
 ↕
-systems-preference
+systems-preference — RESOLVED / REMOVED; consolidated into `systems-affinity`
 
 atmospheric-focus
 ↕

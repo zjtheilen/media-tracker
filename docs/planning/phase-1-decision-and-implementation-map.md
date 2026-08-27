@@ -559,13 +559,17 @@ If no, investigate it as a possible duplicate or misclassified layer.
 
 ## 17.1 `systems-affinity` ↔ `systems-preference`
 
-**Classification:** POSSIBLE DEAD CODE / CLARIFICATION
+**RESOLVED:** `systems-preference` was semantically redundant with `systems-affinity` and has been removed.
 
-These rules substantially overlap at the predicate level.
+Both concepts used the same underlying `gameplay_mechanics` signal and the same threshold (`>= 9`). No distinct interpretive meaning was identified that justified maintaining both names.
 
-Do not delete either automatically.
+The repository's intelligence systems remain parallel: this decision is not based on one system consuming another. It is based on the two rules expressing the same concept with the same evidence.
 
-Before changing `systems-preference`, determine whether it contributes genuine interpretive meaning beyond `systems-affinity`.
+`systems-affinity` is therefore the canonical surviving concept.
+
+The former `systems-preference` Finding has been removed from the production rule set, and explicit regression coverage now protects `systems-affinity`.
+
+**Decision:** CONSOLIDATE INTO `systems-affinity`
 
 ---
 
@@ -618,7 +622,7 @@ This supports preserving independent rule systems.
 | ---------------------- | ----------------------------- | --------------------------------------------- |
 | `concept-driven`       | PRESERVE                      | Preserve; strengthen evidence if needed       |
 | `engagement-priority`  | CLARIFICATION / ELEVATE       | Define interpretive purpose before changing   |
-| `systems-preference`   | CLARIFICATION / ELEVATE       | Establish distinction from `systems-affinity` |
+| `systems-preference`   | REMOVED / CONSOLIDATED        | Redundant with `systems-affinity`; no distinct semantics identified |
 | `speculative-interest` | CLARIFICATION / ELEVATE       | Define interpretive role beyond genre signal  |
 | `atmospheric-interest` | DEFERRED / POSSIBLE DUPLICATE | Do not manufacture distinction during Phase 1 |
 
@@ -814,7 +818,7 @@ No field rename is complete until its full blast radius is mapped.
 | Secondary Identity                       | CLARIFICATION                       | UNRESOLVED thresholds  | Define meaningfulness later                                           | Score distribution             |
 | Tie / near-tie                           | CLARIFICATION                       | UNRESOLVED             | Define explicit policy before implementation                          | Policy text                    |
 | Finding boundary                         | ALIGNMENT + CLARIFICATION + TESTING | LOCKED concept         | Prevent Observation/Genre Signal duplication                          | Regression tests               |
-| `systems-preference`                     | POSSIBLE DEAD CODE / CLARIFICATION  | UNRESOLVED             | Investigate distinction from `systems-affinity`                       | Semantic decision              |
+| `systems-preference` | REDUNDANT FINDING | RESOLVED | Removed; consolidated into `systems-affinity` | Semantic decision |
 | `atmospheric-interest`                   | DEFERRED / POSSIBLE DEAD CODE       | DEFERRED               | Do not manufacture distinction during Phase 1                         | Later review                   |
 | Finding catalog                          | PRESERVE + CLARIFICATION            | LOCKED classifications | Preserve/Elevate/Defer as tabled                                      | Purpose statements for Elevate |
 | Finding evidence                         | EVIDENCE                            | LOCKED minimum         | Provide explainable support                                           | Per-Finding evidence decision  |
@@ -878,7 +882,7 @@ Implementation begins only when the decision being implemented is **LOCKED** and
 * [ ] Phase 1 Observation shortlist
 * [ ] Archive-state operational thresholds
 * [ ] Per-field API/frontend terminology rename plan
-* [ ] Distinction/remediation decision for `systems-affinity` / `systems-preference`
+* [x] Distinction/remediation decision for `systems-affinity` / `systems-preference` — consolidated into `systems-affinity`
 * [ ] Distinction/remediation decision for `atmospheric-focus` / `atmospheric-interest`
 
 ---
@@ -956,7 +960,7 @@ Preserve `concept-driven`.
 
 Investigate:
 
-* `systems-preference`
+* `systems-preference` — REMOVED; consolidated into `systems-affinity`
 * `atmospheric-interest`
 
 against their Observation counterparts.

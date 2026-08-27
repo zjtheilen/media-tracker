@@ -89,6 +89,26 @@ def test_observations_sorted_by_confidence():
     assert results[0]["confidence"] >= results[-1]["confidence"]
 
 
+def test_systems_affinity_observation():
+
+    profile = {
+        "mediaAverages": {
+            "gameplay_mechanics": 9,
+        }
+    }
+
+    results = evaluate_observations(profile)
+
+    observation = next(
+        item for item in results if item["id"] == "systems-affinity"
+    )
+
+    assert observation["title"] == "Systems Affinity"
+    assert observation["traits"] == ["gameplay_mechanics"]
+    assert observation["evidence"][0]["metric"] == "gameplay_mechanics"
+    assert observation["evidence"][0]["value"] == 9
+
+
 def test_observation_contains_generated_content():
 
     profile = {

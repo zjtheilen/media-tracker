@@ -11,20 +11,20 @@ Media Tracker is a personal media archive and taste-intelligence application.
 
 The project currently has:
 
-* a functioning media archive
-* hybrid universal + media-specific scoring
-* genre intelligence
-* measurable traits
-* Observation infrastructure
-* Finding infrastructure
-* Designation infrastructure
-* Identity scoring infrastructure
-* identity-derived traits
-* identity contribution/explanation infrastructure
-* Archive Profile backend infrastructure
-* template-driven narrative infrastructure
-* recommendation infrastructure/stub
-* automated regression coverage
+- a functioning media archive
+- hybrid universal + media-specific scoring
+- genre intelligence
+- measurable traits
+- Observation infrastructure
+- Finding infrastructure
+- Designation infrastructure
+- Identity scoring infrastructure
+- identity-derived traits
+- identity contribution/explanation infrastructure
+- Archive Profile backend infrastructure
+- template-driven narrative infrastructure
+- recommendation infrastructure/stub
+- automated regression coverage
 
 The current intelligence architecture is intentionally modular.
 
@@ -83,38 +83,38 @@ The **behavior protected by meaningful tests** is what matters.
 
 The Intelligence Contract v1 defines:
 
-* Trait
-* Genre Signal
-* Observation
-* Finding
-* Designation
-* Identity
-* Evidence
-* Signal Strength
-* Data Sufficiency
-* Classification Confidence
-* Evidence Strength
-* Narrative
-* Recommendation Signals
-* Recommendation Bias
-* Archive Profile
-* Analytics
+- Trait
+- Genre Signal
+- Observation
+- Finding
+- Designation
+- Identity
+- Evidence
+- Signal Strength
+- Data Sufficiency
+- Classification Confidence
+- Evidence Strength
+- Narrative
+- Recommendation Signals
+- Recommendation Bias
+- Archive Profile
+- Analytics
 
 The contract also establishes:
 
-* Observation vs Finding distinction
-* Designation vs Identity distinction
-* multiple Observations
-* multiple Findings
-* multiple internal Designations
-* one Primary Designation on Profile
-* multiple Identities internally
-* one Primary Identity
-* zero or more meaningful Secondary Identities
-* Analytics vs Profile separation
-* empty/sparse/established archive states
-* explainability requirements
-* evolution rather than rewrite
+- Observation vs Finding distinction
+- Designation vs Identity distinction
+- multiple Observations
+- multiple Findings
+- multiple internal Designations
+- one Primary Designation on Profile
+- multiple Identities internally
+- one Primary Identity
+- zero or more meaningful Secondary Identities
+- Analytics vs Profile separation
+- empty/sparse/established archive states
+- explainability requirements
+- evolution rather than rewrite
 
 Phase 0 is complete.
 
@@ -137,21 +137,21 @@ The repository was audited against:
 
 The audit specifically examined:
 
-* Observations
-* Findings
-* Designations
-* Identities
-* Traits
-* Genre intelligence
-* Evidence
-* confidence/strength semantics
-* archive-state behavior
-* ranking and primary selection
-* API/downstream contracts
-* test coverage
-* hidden behavioral contracts
-* potentially lost behavior
-* debugging/dead-code candidates
+- Observations
+- Findings
+- Designations
+- Identities
+- Traits
+- Genre intelligence
+- Evidence
+- confidence/strength semantics
+- archive-state behavior
+- ranking and primary selection
+- API/downstream contracts
+- test coverage
+- hidden behavioral contracts
+- potentially lost behavior
+- debugging/dead-code candidates
 
 The purpose of the audit was to recover the project's **behavioral memory** before Phase 1 changes.
 
@@ -175,12 +175,12 @@ Bring the existing intelligence implementation into alignment with the locked co
 
 Phase 1 should change behavior only where:
 
-* existing behavior directly contradicts the contract
-* terminology creates meaningful semantic confusion
-* an important hidden contract needs to become explicit
-* deterministic behavior is currently under-specified
-* regression protection is missing
-* existing conceptual layers are improperly duplicated
+- existing behavior directly contradicts the contract
+- terminology creates meaningful semantic confusion
+- an important hidden contract needs to become explicit
+- deterministic behavior is currently under-specified
+- regression protection is missing
+- existing conceptual layers are improperly duplicated
 
 The detailed implementation decisions live in:
 
@@ -238,11 +238,11 @@ Any subsequent forensic work is limited to a specific unresolved or implementati
 
 A forensic pass must produce one of:
 
-* a locked decision
-* a concrete implementation correction
-* a test gap requiring protection
-* a documented clarification
-* an explicit deferral
+- a locked decision
+- a concrete implementation correction
+- a test gap requiring protection
+- a documented clarification
+- an explicit deferral
 
 Forensic work should not reopen already-resolved decisions without new contradictory repository evidence.
 
@@ -250,18 +250,17 @@ The previously scheduled `generateClassificationBasis()` / `classificationBasis`
 
 The audit established that:
 
-* `classificationBasis` is produced authoritatively by the backend.
-* The API exposes the backend-produced representation.
-* The frontend consumes `archiveProfile.classificationBasis` directly.
-* The frontend `generateClassificationBasis()` helper was dead legacy duplication and has been removed.
-* `classificationBasis` is a dominant-signal summary, not an exhaustive designation-input registry.
+- `classificationBasis` is produced authoritatively by the backend.
+- The API exposes the backend-produced representation.
+- The frontend consumes `archiveProfile.classificationBasis` directly.
+- The frontend `generateClassificationBasis()` helper was dead legacy duplication and has been removed.
+- `classificationBasis` is a dominant-signal summary, not an exhaustive designation-input registry.
 
 This item is therefore closed.
 
 **Current forensic status:** No additional forensic work should begin until the Decision & Implementation Map identifies another unresolved or implementation-gating question.
 
 Forensic work remains bounded by the exit criteria above and should not continue merely because additional repository code can be inspected.
-
 
 ---
 
@@ -323,11 +322,11 @@ Do **not** create four numerical fields everywhere merely because four concepts 
 
 Introduce a distinct field only where the semantic distinction is genuinely required by:
 
-* API
-* UI
-* explanation layer
-* decision logic
-* downstream consumer
+- API
+- UI
+- explanation layer
+- decision logic
+- downstream consumer
 
 Do not invent a Classification Confidence algorithm merely to justify the word `confidence`.
 
@@ -354,29 +353,29 @@ A valid calculation with a misleading name is not automatically a bad algorithm.
 
 Unless a direct contract conflict is demonstrated, preserve:
 
-* Universal scoring
-* Media-specific scoring
-* Scoring profiles
-* Scoring rubrics
-* Entry model
-* Archive mapping
-* CRUD behavior
-* Genre handling
-* Observation evidence architecture
-* `metric_evidence`
-* `genre_evidence`
-* Fixture-/rule-driven Designations
-* Designation ranking
-* Designation primary selection
-* Designation recommendation-bias metadata
-* Identity scoring machinery
-* Identity weighted scoring
-* Identity derived-trait machinery
-* Identity ranking infrastructure
-* Identity contribution breakdown
-* Existing narrative architecture
-* API response structures relied upon by downstream consumers
-* Existing regression behavior unless intentionally changed
+- Universal scoring
+- Media-specific scoring
+- Scoring profiles
+- Scoring rubrics
+- Entry model
+- Archive mapping
+- CRUD behavior
+- Genre handling
+- Observation evidence architecture
+- `metric_evidence`
+- `genre_evidence`
+- Fixture-/rule-driven Designations
+- Designation ranking
+- Designation primary selection
+- Designation recommendation-bias metadata
+- Identity scoring machinery
+- Identity weighted scoring
+- Identity derived-trait machinery
+- Identity ranking infrastructure
+- Identity contribution breakdown
+- Existing narrative architecture
+- API response structures relied upon by downstream consumers
+- Existing regression behavior unless intentionally changed
 
 ---
 
@@ -436,19 +435,19 @@ Do not replace this hierarchy merely for architectural consistency.
 
 Current derived Identity signals include:
 
-* `experimental_affinity`
-* `genre_diversity`
-* `novelty`
-* `analysis`
-* `ambiguity`
-* `reflection`
-* `system_design`
+- `experimental_affinity`
+- `genre_diversity`
+- `novelty`
+- `analysis`
+- `ambiguity`
+- `reflection`
+- `system_design`
 
 Current implementation facts include:
 
-* `novelty` and `experimental_affinity` currently rely on the same experimental-genre percentage signal
-* `genre_diversity = len(genres) × 2` and may exceed 10 before clamping
-* `system_design` currently aliases `gameplay_mechanics`
+- `novelty` and `experimental_affinity` currently rely on the same experimental-genre percentage signal
+- `genre_diversity = len(genres) × 2` and may exceed 10 before clamping
+- `system_design` currently aliases `gameplay_mechanics`
 
 These are implementation facts.
 
@@ -542,11 +541,11 @@ Primary selection should operate only on eligible candidates.
 
 Required regression coverage:
 
-* ineligible Identity cannot become primary
-* exact minimum-entry threshold makes Identity eligible
-* ranking is deterministic
-* primary selection is deterministic
-* contribution breakdown remains available for eligible candidates
+- ineligible Identity cannot become primary
+- exact minimum-entry threshold makes Identity eligible
+- ranking is deterministic
+- primary selection is deterministic
+- contribution breakdown remains available for eligible candidates
 
 Tie policy remains separately unresolved.
 
@@ -558,17 +557,17 @@ Tie policy remains separately unresolved.
 
 The contract permits:
 
-* one Primary Identity
-* zero or more meaningful Secondary Identities
+- one Primary Identity
+- zero or more meaningful Secondary Identities
 
 The system must not simply display every Identity with a nonzero score.
 
 Meaningful Secondary Identity presentation must eventually consider:
 
-* eligibility / Data Sufficiency
-* meaningful signal strength
-* relationship to Primary Identity
-* separation from weak candidates
+- eligibility / Data Sufficiency
+- meaningful signal strength
+- relationship to Primary Identity
+- separation from weak candidates
 
 ### Gate
 
@@ -618,12 +617,12 @@ These remain **WORKING DIRECTION**, not finalized implementation contracts.
 
 Earlier candidates remain historical context:
 
-* Systems-Seeking
-* Interpretive
-* Boundary-Seeking
-* Immersive
-* Craft-Conscious
-* Reflective
+- Systems-Seeking
+- Interpretive
+- Boundary-Seeking
+- Immersive
+- Craft-Conscious
+- Reflective
 
 They do not override the current Identity direction.
 
@@ -631,23 +630,23 @@ They do not override the current Identity direction.
 
 Do not make Identity vocabulary:
 
-* Genre-specific labels
-* Designation clones
-* Pure “Systems Architect” as the main Identity
+- Genre-specific labels
+- Designation clones
+- Pure “Systems Architect” as the main Identity
 
 ### Identity implementation gate
 
 Before implementing new Identity fixture semantics, each accepted Identity must have:
 
-* Purpose
-* Primary signals
-* Secondary signals
-* Explicitly excluded/non-contributing signals
-* Minimum data requirements
-* Scoring approach
-* Contribution/evidence explanation
-* Distinction from other Identities
-* Distinction from Designations
+- Purpose
+- Primary signals
+- Secondary signals
+- Explicitly excluded/non-contributing signals
+- Minimum data requirements
+- Scoring approach
+- Contribution/evidence explanation
+- Distinction from other Identities
+- Distinction from Designations
 
 No new Identity fixture semantics should be implemented until this gate is satisfied.
 
@@ -676,13 +675,13 @@ Current Designations:
 
 Preserve:
 
-* rule/fixture-driven definitions
-* multiple internal candidates
-* ranking
-* primary selection
-* trait inputs
-* genre inputs
-* recommendation-bias metadata
+- rule/fixture-driven definitions
+- multiple internal candidates
+- ranking
+- primary selection
+- trait inputs
+- genre inputs
+- recommendation-bias metadata
 
 Phase 1 may improve terminology and lightweight explanation.
 
@@ -714,13 +713,13 @@ Do not solve this by deleting Identity machinery.
 
 Instead:
 
-* preserve Identity scoring
-* preserve Identity normalization
-* preserve weighted scoring
-* preserve derived traits
-* preserve contribution breakdown
-* preserve explanations
-* evolve fixture vocabulary toward curator philosophy
+- preserve Identity scoring
+- preserve Identity normalization
+- preserve weighted scoring
+- preserve derived traits
+- preserve contribution breakdown
+- preserve explanations
+- evolve fixture vocabulary toward curator philosophy
 
 ---
 
@@ -755,13 +754,13 @@ Do not automatically delete borderline Findings.
 
 # PHASE 1 — EXISTING FINDING DECISIONS
 
-| Finding                | Classification | Decision                                                  |
-| ---------------------- | -------------- | --------------------------------------------------------- |
-| `concept-driven`       | PRESERVE       | Preserve dual-threshold behavior                          |
-| `engagement-priority`  | ELEVATE        | Define interpretive purpose beyond engagement threshold   |
-| `systems-preference`   | ELEVATE        | Define distinction from systems-affinity                  |
-| `speculative-interest` | ELEVATE        | Define interpretive role and boundary                     |
-| `atmospheric-interest` | DEFER          | Current behavior substantially overlaps atmospheric-focus |
+| Finding                | Classification | Decision                                                                   |
+| ---------------------- | -------------- | -------------------------------------------------------------------------- |
+| `concept-driven`       | PRESERVE       | Preserve dual-threshold behavior                                           |
+| `engagement-priority`  | ELEVATE        | Define interpretive purpose beyond engagement threshold                    |
+| `systems-preference`   | REMOVED        | Redundant with `systems-affinity`; consolidated into canonical Observation |
+| `speculative-interest` | ELEVATE        | Define interpretive role and boundary                                      |
+| `atmospheric-interest` | DEFER          | Current behavior substantially overlaps atmospheric-focus                  |
 
 `identity-profile` remains a protected special case.
 
@@ -785,11 +784,11 @@ Findings require explainable support.
 
 Evidence may come from:
 
-* Observations
-* Traits
-* Genre Signals
-* Metrics
-* other explicit signals
+- Observations
+- Traits
+- Genre Signals
+- Metrics
+- other explicit signals
 
 The evidence schema does **not** need to be identical to Observation evidence.
 
@@ -809,10 +808,10 @@ There is currently no standardized Finding confidence field.
 
 Do not add one until its semantic meaning can be distinguished from:
 
-* Signal Strength
-* Data Sufficiency
-* Evidence Strength
-* Classification Confidence
+- Signal Strength
+- Data Sufficiency
+- Evidence Strength
+- Classification Confidence
 
 ### Gate
 
@@ -848,12 +847,12 @@ Do not automatically implement these.
 
 Before locking any new Observation, examine:
 
-* redundancy
-* medium-specific vs cross-media behavior
-* Observation vs Finding ownership
-* evidence strength
-* false-positive risk
-* information not already represented elsewhere
+- redundancy
+- medium-specific vs cross-media behavior
+- Observation vs Finding ownership
+- evidence strength
+- false-positive risk
+- information not already represented elsewhere
 
 ---
 
@@ -871,26 +870,26 @@ Strong evidence supports:
 
 Strong cross-media patterns include:
 
-* high concept/originality + thought-provoking/depth among top works
-* mind-bending / psychological / speculative structure rather than mere genre membership
-* engagement acting as a gate for top-tier scores
-* visual novel / puzzle-narrative dominance in game top tier
-* emotion often behaving as a medium-specific signal
-* spectacle without conceptual weight scoring poorly
-* atmosphere elevating some works without being universally required
-* systems/mechanics excellence alone being insufficient evidence of the primary curator identity
+- high concept/originality + thought-provoking/depth among top works
+- mind-bending / psychological / speculative structure rather than mere genre membership
+- engagement acting as a gate for top-tier scores
+- visual novel / puzzle-narrative dominance in game top tier
+- emotion often behaving as a medium-specific signal
+- spectacle without conceptual weight scoring poorly
+- atmosphere elevating some works without being universally required
+- systems/mechanics excellence alone being insufficient evidence of the primary curator identity
 
 Negative evidence indicates that the system should not currently model as primary preferences:
 
-* universal high-emotion preference
-* atmosphere as the primary driver of top scores
-* systems/mechanics as the defining curator identity
-* “likes horror” as a sufficient explanation
-* “likes sci-fi” as a sufficient explanation
-* production value as a primary predictor
-* replayability as a core cross-media trait
-* genre frequency as equivalent to preference
-* single-metric Findings as the primary interpretive layer
+- universal high-emotion preference
+- atmosphere as the primary driver of top scores
+- systems/mechanics as the defining curator identity
+- “likes horror” as a sufficient explanation
+- “likes sci-fi” as a sufficient explanation
+- production value as a primary predictor
+- replayability as a core cross-media trait
+- genre frequency as equivalent to preference
+- single-metric Findings as the primary interpretive layer
 
 Archive evidence should inform prioritization, not become hard-coded personality logic.
 
@@ -916,11 +915,11 @@ Operational thresholds remain unresolved.
 
 Still to define:
 
-* numeric thresholds per state
-* whether thresholds differ by subsystem
-* interaction with Identity eligibility
-* Observation minimum evidence
-* Designation-specific requirements
+- numeric thresholds per state
+- whether thresholds differ by subsystem
+- interaction with Identity eligibility
+- Observation minimum evidence
+- Designation-specific requirements
 
 Do not branch production behavior on these state labels until thresholds are locked.
 
@@ -938,20 +937,20 @@ The repository contains explicit score-based ranking.
 
 For each ranking system, document:
 
-* sort key
-* precision
-* tie behavior
-* stable ordering
-* primary selection
-* close-competitor behavior
+- sort key
+- precision
+- tie behavior
+- stable ordering
+- primary selection
+- close-competitor behavior
 
 Do not invent a tie-breaking rule unless repository evidence or an explicit conceptual decision supports it.
 
 The final policy must distinguish:
 
-* exact ties
-* meaningful near-ties
-* strong-vs-weak differences
+- exact ties
+- meaningful near-ties
+- strong-vs-weak differences
 
 Example:
 
@@ -967,12 +966,12 @@ is conceptually different from:
 
 The policy must eventually determine:
 
-* deterministic exact-tie behavior
-* stable secondary sort key where necessary
-* meaningful near-tie definition
-* whether close competitors are displayed
-* whether close competitors can affect Primary selection
-* whether the policy applies to Designations, Identities, or both
+- deterministic exact-tie behavior
+- stable secondary sort key where necessary
+- meaningful near-tie definition
+- whether close competitors are displayed
+- whether close competitors can affect Primary selection
+- whether the policy applies to Designations, Identities, or both
 
 ### Gate
 
@@ -988,18 +987,18 @@ Narrative is downstream of established intelligence.
 
 Narrative may:
 
-* synthesize
-* translate
-* contextualize
-* summarize
+- synthesize
+- translate
+- contextualize
+- summarize
 
 Narrative may not:
 
-* invent evidence
-* invent classifications
-* invent traits
-* invent Findings
-* imply unsupported certainty
+- invent evidence
+- invent classifications
+- invent traits
+- invent Findings
+- imply unsupported certainty
 
 Narrative should consume intelligence rather than become another intelligence engine.
 
@@ -1011,16 +1010,16 @@ Narrative should consume intelligence rather than become another intelligence en
 
 Every terminology or field change must account for the complete blast radius:
 
-* backend model
-* calculation layer
-* API response
-* serialization
-* frontend consumers
-* `charts.js`
-* future Profile UI
-* tests
-* narrative consumers
-* fixtures
+- backend model
+- calculation layer
+- API response
+- serialization
+- frontend consumers
+- `charts.js`
+- future Profile UI
+- tests
+- narrative consumers
+- fixtures
 
 No field rename is complete merely because the backend has been renamed.
 
@@ -1061,15 +1060,15 @@ Potential future recommendation signals include:
 
 ### Hard / measurable
 
-* Trait Strength
-* Genre Affinity
-* Scoring Preferences
+- Trait Strength
+- Genre Affinity
+- Scoring Preferences
 
 ### Soft / interpretive
 
-* Observations
-* Findings
-* Identity indirectly
+- Observations
+- Findings
+- Identity indirectly
 
 Identity must not become an opaque recommendation score.
 
@@ -1081,26 +1080,26 @@ Preserve existing recommendation-bias metadata on Designations and Identities.
 
 Phase 1 does **not** include:
 
-* rewriting scoring rubrics
-* rewriting CRUD
-* replacing the Entry model
-* replacing archive mapping
-* Recommendation Engine implementation
-* Profile UI
-* React migration
-* mass deletion of Findings
-* mass deletion of Identities
-* inventing Classification Confidence mathematics for its own sake
-* unifying Trait and Identity normalization
-* designing Identities that only describe Zach
-* treating genre frequency as preference
-* treating a single metric as sufficient interpretive evidence
-* implementing new Observation rules before the shortlist is accepted
-* implementing elevated Findings before their purposes are defined
-* implementing Secondary Identity thresholds before score distributions are inspected
-* implementing Archive State branching before operational thresholds are defined
-* solving Designation/Identity name collisions through artificial rewording
-* rewriting working infrastructure merely because its implementation is imperfect
+- rewriting scoring rubrics
+- rewriting CRUD
+- replacing the Entry model
+- replacing archive mapping
+- Recommendation Engine implementation
+- Profile UI
+- React migration
+- mass deletion of Findings
+- mass deletion of Identities
+- inventing Classification Confidence mathematics for its own sake
+- unifying Trait and Identity normalization
+- designing Identities that only describe Zach
+- treating genre frequency as preference
+- treating a single metric as sufficient interpretive evidence
+- implementing new Observation rules before the shortlist is accepted
+- implementing elevated Findings before their purposes are defined
+- implementing Secondary Identity thresholds before score distributions are inspected
+- implementing Archive State branching before operational thresholds are defined
+- solving Designation/Identity name collisions through artificial rewording
+- rewriting working infrastructure merely because its implementation is imperfect
 
 ---
 
@@ -1108,31 +1107,31 @@ Phase 1 does **not** include:
 
 The following decisions remain unresolved and block dependent semantic implementation:
 
-* [ ] Final Phase 1 Identity shortlist
-* [ ] Per-Identity signal definitions
-* [ ] Secondary Identity numeric thresholds
-* [ ] Tie / close-competitor policy
-* [ ] Written purpose statements for each ELEVATE Finding
-* [ ] Finding evidence model for elevated Findings
-* [ ] Finding confidence semantics, if a field will be added
-* [ ] Phase 1 Observation shortlist, if new rules will be added
-* [ ] Archive-state operational thresholds, if state labels will affect code
-* [ ] Per-field API/frontend rename plan
+- [ ] Final Phase 1 Identity shortlist
+- [ ] Per-Identity signal definitions
+- [ ] Secondary Identity numeric thresholds
+- [ ] Tie / close-competitor policy
+- [ ] Written purpose statements for each ELEVATE Finding
+- [ ] Finding evidence model for elevated Findings
+- [ ] Finding confidence semantics, if a field will be added
+- [ ] Phase 1 Observation shortlist, if new rules will be added
+- [ ] Archive-state operational thresholds, if state labels will affect code
+- [ ] Per-field API/frontend rename plan
 
 The following are already locked and may proceed where their dependencies are satisfied:
 
-* [x] Confidence semantic vocabulary
-* [x] Identity ≠ Designation
-* [x] Identity minimum-entry = eligibility gate
-* [x] Primary Identity = one from eligible ranked candidates
-* [x] Secondary Identity = meaningful-only principle
-* [x] Finding boundary rule
-* [x] Finding operational boundary test
-* [x] Existing Finding PRESERVE / ELEVATE / DEFER classifications
-* [x] Trait and Identity normalizations remain separate
-* [x] Narrative is downstream-only
-* [x] Recommendation work deferred
-* [x] Identity catalog must be generic and must not clone Designations
+- [x] Confidence semantic vocabulary
+- [x] Identity ≠ Designation
+- [x] Identity minimum-entry = eligibility gate
+- [x] Primary Identity = one from eligible ranked candidates
+- [x] Secondary Identity = meaningful-only principle
+- [x] Finding boundary rule
+- [x] Finding operational boundary test
+- [x] Existing Finding PRESERVE / ELEVATE / DEFER classifications
+- [x] Trait and Identity normalizations remain separate
+- [x] Narrative is downstream-only
+- [x] Recommendation work deferred
+- [x] Identity catalog must be generic and must not clone Designations
 
 ---
 
@@ -1140,16 +1139,16 @@ The following are already locked and may proceed where their dependencies are sa
 
 Before any Phase 1 change is merged:
 
-* [ ] Change is explicitly classified
-* [ ] Change has a documented reason tied to Contract and/or audit evidence
-* [ ] Affected modules are identified
-* [ ] Affected API/frontend consumers are identified
-* [ ] Affected tests are identified
-* [ ] Existing regression behavior is understood
-* [ ] Full suite passes
-* [ ] New/changed behavior has regression coverage
-* [ ] No unrelated redesign has been introduced
-* [ ] No gated semantic decision has been implemented early
+- [ ] Change is explicitly classified
+- [ ] Change has a documented reason tied to Contract and/or audit evidence
+- [ ] Affected modules are identified
+- [ ] Affected API/frontend consumers are identified
+- [ ] Affected tests are identified
+- [ ] Existing regression behavior is understood
+- [ ] Full suite passes
+- [ ] New/changed behavior has regression coverage
+- [ ] No unrelated redesign has been introduced
+- [ ] No gated semantic decision has been implemented early
 
 ---
 
@@ -1167,14 +1166,14 @@ Correct confidence terminology without changing underlying algorithms.
 
 Required:
 
-* map current field semantics
-* identify consumers
-* identify API exposure
-* identify frontend usage
-* identify narrative usage
-* rename/reframe where appropriate
-* preserve behavior
-* update tests and serialization
+- map current field semantics
+- identify consumers
+- identify API exposure
+- identify frontend usage
+- identify narrative usage
+- rename/reframe where appropriate
+- preserve behavior
+- update tests and serialization
 
 ---
 
@@ -1188,12 +1187,12 @@ Change the current score-gate behavior to a true eligibility gate.
 
 Required:
 
-* exclude ineligible Identities before ranking
-* preserve eligible scoring
-* preserve contribution breakdown
-* preserve Data Sufficiency semantics separately
-* update affected regression tests
-* run the full suite
+- exclude ineligible Identities before ranking
+- preserve eligible scoring
+- preserve contribution breakdown
+- preserve Data Sufficiency semantics separately
+- update affected regression tests
+- run the full suite
 
 This is the first intentional behavioral change currently authorized by the Decision & Implementation Map.
 
@@ -1205,12 +1204,12 @@ This is the first intentional behavioral change currently authorized by the Deci
 
 Preserve:
 
-* scoring machinery
-* ranking
-* primary selection
-* traits
-* genres
-* recommendation-bias metadata
+- scoring machinery
+- ranking
+- primary selection
+- traits
+- genres
+- recommendation-bias metadata
 
 Correct semantic terminology and improve lightweight evidence/explanation where necessary.
 
@@ -1222,11 +1221,11 @@ Do not redesign the Designation catalog as part of terminology work.
 
 **Status:** READY
 
-* Preserve `concept-driven`
-* Document `atmospheric-interest` as deferred
-* Protect existing Finding boundaries
-* Add missing regression coverage
-* Do not mass-delete Findings
+- Preserve `concept-driven`
+- Document `atmospheric-interest` as deferred
+- Protect existing Finding boundaries
+- Add missing regression coverage
+- Do not mass-delete Findings
 
 ---
 
@@ -1236,10 +1235,10 @@ Do not redesign the Designation catalog as part of terminology work.
 
 For each ELEVATE Finding:
 
-* define interpretive purpose
-* define evidence relationship
-* demonstrate distinction from Observation / Genre Signal
-* add dedicated tests
+- define interpretive purpose
+- define evidence relationship
+- demonstrate distinction from Observation / Genre Signal
+- add dedicated tests
 
 Do not implement until purpose statements are LOCKED.
 
@@ -1251,14 +1250,14 @@ Do not implement until purpose statements are LOCKED.
 
 Before changing Identity fixture semantics:
 
-* accept the Phase 1 Identity shortlist
-* define signals
-* define exclusions
-* define minimum data requirements
-* define scoring approach
-* define explanation/contribution requirements
-* define distinctions between Identities
-* define distinctions from Designations
+- accept the Phase 1 Identity shortlist
+- define signals
+- define exclusions
+- define minimum data requirements
+- define scoring approach
+- define explanation/contribution requirements
+- define distinctions between Identities
+- define distinctions from Designations
 
 Machinery-only work may proceed independently.
 
@@ -1272,16 +1271,16 @@ Inspect score distributions under the accepted Identity catalog before defining 
 
 Define:
 
-* meaningfulness
-* relationship to Primary
-* threshold behavior
-* minimum separation from weak candidates
+- meaningfulness
+- relationship to Primary
+- threshold behavior
+- minimum separation from weak candidates
 
 ---
 
 ## 8. Tie / close-competitor policy
 
-**Status:** BLOCKED**
+**Status:** BLOCKED\*\*
 
 Write and lock the conceptual policy before implementing presentation behavior.
 
@@ -1291,7 +1290,7 @@ Apply consistently where ranking/presentation requires it.
 
 ## 9. Observation changes
 
-**Status:** BLOCKED**
+**Status:** BLOCKED\*\*
 
 Accept the Phase 1 Observation shortlist before adding new rules.
 
@@ -1301,7 +1300,7 @@ Existing Observation machinery remains protected.
 
 ## 10. Archive-state implementation
 
-**Status:** BLOCKED**
+**Status:** BLOCKED\*\*
 
 Do not add state-dependent branching until operational thresholds are LOCKED.
 
@@ -1309,7 +1308,7 @@ Do not add state-dependent branching until operational thresholds are LOCKED.
 
 ## 11. Regression
 
-**Status:** ONGOING**
+**Status:** ONGOING\*\*
 
 Run the full suite after each intentional behavior change.
 
@@ -1328,72 +1327,61 @@ Phase 1 expectation:
 The active implementation queue is now:
 
 1. **Correct the roadmap/documentation around Identity eligibility**
-
-   * Eligibility is not yet fully aligned in production behavior.
-   * Treat minimum-entry as a hard gate.
-   * Exclude ineligible Identities before ranking.
-   * Update tests.
+    - Eligibility is not yet fully aligned in production behavior.
+    - Treat minimum-entry as a hard gate.
+    - Exclude ineligible Identities before ranking.
+    - Update tests.
 
 2. **Resolve confidence terminology**
-
-   * Build the per-field semantic map.
-   * Identify consumers.
-   * Correct terminology without unnecessary algorithm changes.
+    - Build the per-field semantic map.
+    - Identify consumers.
+    - Correct terminology without unnecessary algorithm changes.
 
 3. **Create the per-field API/frontend rename plan**
-
-   * Include backend.
-   * Include serialization.
-   * Include `charts.js`.
-   * Include tests.
-   * Include narrative consumers.
-   * Include fixtures.
+    - Include backend.
+    - Include serialization.
+    - Include `charts.js`.
+    - Include tests.
+    - Include narrative consumers.
+    - Include fixtures.
 
 4. **Align Designation terminology/explanation**
-
-   * Preserve scoring machinery.
-   * Preserve ranking.
-   * Preserve primary selection.
-   * Preserve recommendation-bias metadata.
+    - Preserve scoring machinery.
+    - Preserve ranking.
+    - Preserve primary selection.
+    - Preserve recommendation-bias metadata.
 
 5. **Lock Identity shortlist and signal definitions**
-
-   * Move toward generic curator-philosophy concepts.
-   * Do not clone Designations.
-   * Do not make the catalog Zach-specific.
+    - Move toward generic curator-philosophy concepts.
+    - Do not clone Designations.
+    - Do not make the catalog Zach-specific.
 
 6. **Clarify Findings vs Observations**
-
-   * Preserve useful Findings.
-   * Define purpose for ELEVATE Findings.
-   * Strengthen evidence where needed.
+    - Preserve useful Findings.
+    - Define purpose for ELEVATE Findings.
+    - Strengthen evidence where needed.
 
 7. **Define Finding evidence requirements**
-
-   * Do not force Observation evidence and Finding evidence into one universal schema.
+    - Do not force Observation evidence and Finding evidence into one universal schema.
 
 8. **Clarify Secondary Identity presentation**
-
-   * Preserve internal multiple-Identity scoring.
-   * Define meaningfulness and thresholds only after score distributions are inspected.
+    - Preserve internal multiple-Identity scoring.
+    - Define meaningfulness and thresholds only after score distributions are inspected.
 
 9. **Clarify ranking / tie behavior**
-
-   * Document actual behavior.
-   * Define deterministic exact-tie behavior.
-   * Define near-tie semantics.
-   * Add regression protection.
+    - Document actual behavior.
+    - Define deterministic exact-tie behavior.
+    - Define near-tie semantics.
+    - Add regression protection.
 
 10. **Review suspicious/debug tests**
-
-    * Investigate `test_debug_identity_scores`.
-    * Investigate redundant or debugging-only tests.
-    * Do not remove behavior blindly.
+    - Investigate `test_debug_identity_scores`.
+    - Investigate redundant or debugging-only tests.
+    - Do not remove behavior blindly.
 
 11. **Run and preserve full regression coverage**
-
-    * Maintain the current 210-test baseline except for intentional changes.
-    * Record the resulting suite after each intentional change.
+    - Maintain the current 210-test baseline except for intentional changes.
+    - Record the resulting suite after each intentional change.
 
 12. **Only after Phase 1 alignment is complete, move to Archive Profile UI.**
 
@@ -1409,13 +1397,13 @@ A major product principle recovered during the audit is:
 
 This includes:
 
-* scores
-* genres
-* media type
-* notes/reviews
-* previously-consumed status
-* future metadata fields
-* other explicitly user-entered signals
+- scores
+- genres
+- media type
+- notes/reviews
+- previously-consumed status
+- future metadata fields
+- other explicitly user-entered signals
 
 The existence of a field does **not** mean it must immediately affect scoring.
 
@@ -1445,13 +1433,13 @@ A future `watch_count` / `read_count` / `play_count` style system may be useful,
 
 Potential future intelligence uses include:
 
-* familiarity
-* novelty
-* rewatch/replay behavior
-* comfort-media behavior
-* recommendation interpretation
-* preference persistence
-* distinction between first-exposure reactions and established preferences
+- familiarity
+- novelty
+- rewatch/replay behavior
+- comfort-media behavior
+- recommendation interpretation
+- preference persistence
+- distinction between first-exposure reactions and established preferences
 
 Do not invent scoring behavior for this during Phase 1.
 
@@ -1497,19 +1485,19 @@ Build the dedicated Profile experience.
 
 Profile should present:
 
-* Primary Designation
-* Designation explanation
-* Primary Identity
-* meaningful Secondary Identities
-* Identity Data Sufficiency where appropriate
-* Identity contribution breakdown
-* Traits
-* Genre Signals
-* Observations
-* Observation evidence
-* Findings
-* Finding evidence
-* Narrative
+- Primary Designation
+- Designation explanation
+- Primary Identity
+- meaningful Secondary Identities
+- Identity Data Sufficiency where appropriate
+- Identity contribution breakdown
+- Traits
+- Genre Signals
+- Observations
+- Observation evidence
+- Findings
+- Finding evidence
+- Narrative
 
 Analytics remains separate.
 
@@ -1543,15 +1531,15 @@ recommendations = [...]
 
 The eventual engine should consume measurable archive signals including:
 
-* Trait Strength
-* Genre Affinity
-* scoring preferences
-* universal scoring
-* media-specific scoring
-* Designation recommendation bias
-* soft Observation signals
-* soft Finding signals
-* future user-input signals where meaningful
+- Trait Strength
+- Genre Affinity
+- scoring preferences
+- universal scoring
+- media-specific scoring
+- Designation recommendation bias
+- soft Observation signals
+- soft Finding signals
+- future user-input signals where meaningful
 
 Identity should influence recommendations primarily through underlying measurable signals rather than becoming a direct opaque recommendation score.
 
@@ -1577,11 +1565,11 @@ The surface should make recommendation reasoning inspectable rather than present
 
 Implement:
 
-* pagination
-* stable ordering
-* server-side sorting
-* server-side filtering where useful
-* large-archive testing
+- pagination
+- stable ordering
+- server-side sorting
+- server-side filtering where useful
+- large-archive testing
 
 Scale improvements should preserve existing intelligence semantics.
 
@@ -1593,13 +1581,13 @@ Scale improvements should preserve existing intelligence semantics.
 
 Prioritize:
 
-* JSON export
-* JSON import
-* schema versioning
-* validation
-* duplicate handling
-* migration compatibility
-* backup/restore
+- JSON export
+- JSON import
+- schema versioning
+- validation
+- duplicate handling
+- migration compatibility
+- backup/restore
 
 CSV can remain later.
 
@@ -1611,16 +1599,16 @@ CSV can remain later.
 
 Potential metadata:
 
-* author
-* director
-* developer
-* publisher/studio
-* release year
-* runtime
-* platform
-* covers/posters
-* ISBN
-* external IDs
+- author
+- director
+- developer
+- publisher/studio
+- release year
+- runtime
+- platform
+- covers/posters
+- ISBN
+- external IDs
 
 Metadata should enrich intelligence rather than replace it.
 
@@ -1634,22 +1622,22 @@ Metadata should not be treated as a substitute for the user's own reactions and 
 
 Includes:
 
-* Profile polish
-* Analytics polish
-* Library polish
-* Reports polish
-* navigation
-* forms
-* keyboard navigation
-* semantic markup
-* labels
-* contrast
-* focus states
-* screen-reader testing
-* edge cases
-* sparse/partial data
-* large archives
-* documentation
+- Profile polish
+- Analytics polish
+- Library polish
+- Reports polish
+- navigation
+- forms
+- keyboard navigation
+- semantic markup
+- labels
+- contrast
+- focus states
+- screen-reader testing
+- edge cases
+- sparse/partial data
+- large archives
+- documentation
 
 ---
 
@@ -1659,17 +1647,17 @@ Includes:
 
 Release requirements include:
 
-* stable test suite
-* no known critical bugs
-* migration strategy
-* backup strategy
-* import/export
-* documentation
-* accessibility review
-* deployment plan
-* release build
-* versioning
-* changelog
+- stable test suite
+- no known critical bugs
+- migration strategy
+- backup strategy
+- import/export
+- documentation
+- accessibility review
+- deployment plan
+- release build
+- versioning
+- changelog
 
 ---
 
@@ -1679,12 +1667,12 @@ Release requirements include:
 
 React migration should occur only after:
 
-* intelligence is stable
-* Profile is stable
-* recommendations work
-* library scale works
-* import/export works
-* the application is genuinely usable
+- intelligence is stable
+- Profile is stable
+- recommendations work
+- library scale works
+- import/export works
+- the application is genuinely usable
 
 React is an implementation evolution, not an escape from unfinished product work.
 
@@ -1694,39 +1682,39 @@ React is an implementation evolution, not an escape from unfinished product work
 
 Do not redo:
 
-* scoring
-* scoring rubrics
-* CRUD
-* generated Reports / Lists
-* Archive infrastructure
-* Observation evidence
-* Identity scoring machinery
-* Designation machinery
-* existing derived-trait machinery
+- scoring
+- scoring rubrics
+- CRUD
+- generated Reports / Lists
+- Archive infrastructure
+- Observation evidence
+- Identity scoring machinery
+- Designation machinery
+- existing derived-trait machinery
 
 Do not merge:
 
-* Findings with Observations
-* Designations with Identity
-* Analytics with Profile
-* Signal Strength with Data Sufficiency
-* Data Sufficiency with Classification Confidence
-* Evidence Strength with Signal Strength
+- Findings with Observations
+- Designations with Identity
+- Analytics with Profile
+- Signal Strength with Data Sufficiency
+- Data Sufficiency with Classification Confidence
+- Evidence Strength with Signal Strength
 
 Do not make:
 
-* Identity a Designation clone
-* Identity a direct recommendation score
-* narrative a new intelligence engine
-* user reviews an automatic opaque AI authority
-* previously-consumed status a mandatory watch/read/play counter
+- Identity a Designation clone
+- Identity a direct recommendation score
+- narrative a new intelligence engine
+- user reviews an automatic opaque AI authority
+- previously-consumed status a mandatory watch/read/play counter
 
 Do not:
 
-* invent arbitrary thresholds
-* invent new confidence mathematics merely to fix terminology
-* implement unresolved conceptual decisions early
-* delete existing behavior merely because the new contract does not mention it explicitly
+- invent arbitrary thresholds
+- invent new confidence mathematics merely to fix terminology
+- implement unresolved conceptual decisions early
+- delete existing behavior merely because the new contract does not mention it explicitly
 
 ---
 
@@ -1815,22 +1803,22 @@ The remaining work is to close the explicit implementation gates and then make t
 
 ### Currently authorized implementation
 
-* [ ] Identity eligibility gate alignment
-* [ ] Regression updates for Identity eligibility
-* [ ] Terminology consumer mapping
-* [ ] Per-field API/frontend rename plan
-* [ ] Designation terminology/explanation alignment
-* [ ] Finding documentation/regression protection
+- [ ] Identity eligibility gate alignment
+- [ ] Regression updates for Identity eligibility
+- [ ] Terminology consumer mapping
+- [ ] Per-field API/frontend rename plan
+- [ ] Designation terminology/explanation alignment
+- [ ] Finding documentation/regression protection
 
 ### Currently blocked
 
-* [ ] New Identity fixture semantics
-* [ ] Elevated Finding implementation
-* [ ] Secondary Identity thresholds
-* [ ] Final tie/near-tie presentation behavior
-* [ ] New Observation rules
-* [ ] Archive-state branching
-* [ ] Finding confidence field
+- [ ] New Identity fixture semantics
+- [ ] Elevated Finding implementation
+- [ ] Secondary Identity thresholds
+- [ ] Final tie/near-tie presentation behavior
+- [ ] New Observation rules
+- [ ] Archive-state branching
+- [ ] Finding confidence field
 
 ### Current regression baseline
 
@@ -1888,20 +1876,20 @@ Phase 1 is complete when:
 
 The following should remain outside Phase 1 unless a concrete dependency forces them earlier:
 
-* Review/NLP intelligence
-* previously-consumed intelligence
-* watch/read/play counts
-* Recommendation Engine implementation
-* recommendation UI
-* Archive Profile UI
-* pagination
-* import/export
-* metadata expansion
-* large-archive optimization
-* React migration
-* advanced classification algorithms
-* automated semantic interpretation of reviews
-* broad AI-based recommendation systems
+- Review/NLP intelligence
+- previously-consumed intelligence
+- watch/read/play counts
+- Recommendation Engine implementation
+- recommendation UI
+- Archive Profile UI
+- pagination
+- import/export
+- metadata expansion
+- large-archive optimization
+- React migration
+- advanced classification algorithms
+- automated semantic interpretation of reviews
+- broad AI-based recommendation systems
 
 These are product directions, not Phase 1 alignment requirements.
 

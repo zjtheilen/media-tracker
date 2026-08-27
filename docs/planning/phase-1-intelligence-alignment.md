@@ -405,9 +405,9 @@ No replacement Classification Confidence algorithm is required.
 
 It contains:
 
-* the strongest universal trait
-* the second-strongest universal trait
-* the strongest media-specific trait
+- the strongest universal trait
+- the second-strongest universal trait
+- the strongest media-specific trait
 
 It should not be interpreted as an exhaustive list of every signal that may participate in designation-rule evaluation.
 
@@ -420,7 +420,6 @@ authoritative producer of `classificationBasis`, which remains an active
 archive-profile/API field consumed by the frontend.
 
 **Status:** RESOLVED — preserve backend/API behavior; dead frontend duplicate removed.
-
 
 ---
 
@@ -759,13 +758,17 @@ The audit established the following cross-layer relationships.
 
 ### `systems-affinity` ↔ `systems-preference`
 
-These rules substantially overlap in their evaluated signals and may represent the same underlying phenomenon at two layers.
+**RESOLVED:** `systems-preference` does not provide distinct interpretive meaning beyond `systems-affinity`.
 
-This does not automatically justify deletion.
+Both rules were driven by `gameplay_mechanics >= 9` and expressed substantially the same interpretation. Because their semantics and evidence were materially identical, maintaining both would duplicate one concept rather than provide complementary intelligence.
 
-The distinction must be established by determining whether `systems-preference` contributes genuine interpretive meaning beyond `systems-affinity`.
+The former `systems-preference` Finding has therefore been removed.
 
-**Classification:** POSSIBLE DEAD CODE / CLARIFICATION
+`systems-affinity` is the canonical surviving Observation for the concept.
+
+This is a semantic consolidation decision, not a change to the parallel architecture of the intelligence systems. Findings, Observations, Designations, Identities, and Narrative remain independent systems.
+
+**Status:** RESOLVED — CONSOLIDATED INTO `systems-affinity`
 
 ---
 
@@ -819,7 +822,7 @@ The current forensic classifications are:
 | ---------------------- | -------------------------- |
 | `concept-driven`       | PRESERVE                   |
 | `engagement-priority`  | CLARIFY / ELEVATE          |
-| `systems-preference`   | CLARIFY / ELEVATE          |
+| `systems-preference`   | REMOVED / CONSOLIDATED     |
 | `speculative-interest` | CLARIFY / ELEVATE          |
 | `atmospheric-interest` | DEFER / POSSIBLE DUPLICATE |
 
@@ -1154,7 +1157,7 @@ Preserve `concept-driven`.
 Document the treatment of:
 
 - `engagement-priority`
-- `systems-preference`
+- `systems-preference` — RESOLVED / REMOVED
 - `speculative-interest`
 - `atmospheric-interest`
 
@@ -1166,7 +1169,7 @@ Do not mass-delete Findings.
 
 Prioritize:
 
-- `systems-affinity` ↔ `systems-preference`
+- `systems-affinity` ↔ `systems-preference` — RESOLVED / CONSOLIDATED
 - `atmospheric-focus` ↔ `atmospheric-interest`
 
 Determine whether each Finding contributes genuine interpretive meaning.
