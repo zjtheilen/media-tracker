@@ -147,7 +147,7 @@ Introduce a distinct field only where the semantic distinction is genuinely requ
 | Identity `confidence`               | Data Sufficiency-like               | TERMINOLOGY                 | Rename/reframe only if blast radius is understood |
 | Designation `designationConfidence` | Signal Strength-like; aggregate strength of classification basis | TERMINOLOGY | Preserve calculation; clarify/reframe terminology after consumer audit |
 | Observation `confidence`            | Threshold-relative support strength | TERMINOLOGY / CLARIFICATION | Rename/reframe and document semantics             |
-| Finding confidence                  | Not standardized                    | CLARIFICATION               | Do not add until semantics are defined            |
+| Finding confidence | Not implemented; Findings are binary rule-triggered interpretations supported by explicit evidence | N/A | Do not add in Phase 1; future graded Finding strength would require a separate design decision | Finding rules / Finding engine | Finding consumers, if any | Finding tests | RESOLVED / DO NOT ADD |
 
 ### Designation confidence resolution
 

@@ -465,7 +465,19 @@ The current Finding system does not implement a dedicated Finding confidence met
 
 Do not infer one from Observation confidence or other signal-strength fields.
 
-**Classification:** DEFER
+### Finding confidence resolution
+
+Forensic tracing established that Finding confidence is not an active implementation concept.
+
+The Finding engine evaluates rule predicates and emits Findings when those predicates are satisfied. Finding output contains explicit evidence describing the basis for the result, but no `confidence` field is calculated or attached.
+
+Therefore there is no existing Finding-confidence calculation to preserve, replace, or reconcile.
+
+**Decision:** Do not add Finding confidence during Phase 1.
+
+A future graded Finding-strength/confidence model would require a separate semantic/product decision.
+
+**Classification:** RESOLVED / DO NOT ADD
 
 ---
 

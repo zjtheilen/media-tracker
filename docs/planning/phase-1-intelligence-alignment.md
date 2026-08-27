@@ -441,11 +441,17 @@ This is meaningful support-strength information, but it should not automatically
 
 ### Finding confidence
 
-Finding confidence is not standardized sufficiently to define a single semantic meaning.
+Findings currently do not expose or calculate a confidence value.
 
-**Classification:** CLARIFICATION
+Finding evaluation is binary: the Finding rule either fires or does not fire. The resulting Finding includes explicit evidence describing the metrics or conditions that caused the rule to fire.
 
-Do not invent a new formula merely to populate the field.
+This is intentional for the current Phase 1 model.
+
+No Finding confidence algorithm should be introduced as part of terminology alignment or forensic cleanup.
+
+If a future design requires graded Finding strength, that should be treated as a separate semantic/product decision rather than an inferred correction to the existing implementation.
+
+**Status:** RESOLVED — DO NOT ADD
 
 ---
 
