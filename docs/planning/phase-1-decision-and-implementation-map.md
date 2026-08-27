@@ -146,7 +146,7 @@ Introduce a distinct field only where the semantic distinction is genuinely requ
 | ----------------------------------- | ----------------------------------- | --------------------------- | ------------------------------------------------- |
 | Identity `confidence`               | Data Sufficiency-like               | TERMINOLOGY                 | Rename/reframe only if blast radius is understood |
 | Designation `designationConfidence` | Signal Strength-like; aggregate strength of classification basis | TERMINOLOGY | Preserve calculation; clarify/reframe terminology after consumer audit |
-| Observation `confidence`            | Threshold-relative support strength | TERMINOLOGY / CLARIFICATION | Rename/reframe and document semantics             |
+| Observation `confidence` | Threshold-relative evidence strength | TERMINOLOGY / CLARIFICATION | Preserve calculation and API behavior; clarify as Evidence Strength | Observation rules / mapper / engine | No identified frontend consumer | Observation tests | RESOLVED / PRESERVE |
 | Finding confidence | Not implemented; Findings are binary rule-triggered interpretations supported by explicit evidence | N/A | Do not add in Phase 1; future graded Finding strength would require a separate design decision | Finding rules / Finding engine | Finding consumers, if any | Finding tests | RESOLVED / DO NOT ADD |
 
 ### Designation confidence resolution
@@ -195,6 +195,19 @@ No replacement implementation is required.
 
 **Classification:** RESOLVED / PRESERVE
 
+### Observation confidence resolution
+
+**LOCKED:** The existing Observation `confidence` calculation is preserved.
+
+It represents threshold-relative evidence strength for the metric supporting an Observation. It does not represent statistical confidence, probability, or confidence that the Observation itself is objectively correct.
+
+The calculation is protected by dedicated tests, including proportional values below threshold, threshold saturation at `1.0`, rounding, and zero-threshold handling.
+
+Consumer verification found no frontend dependency requiring a public rename.
+
+**LOCKED:** Do not introduce a replacement confidence algorithm.
+
+**Status:** RESOLVED / PRESERVE
 
 ---
 

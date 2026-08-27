@@ -425,17 +425,17 @@ archive-profile/API field consumed by the frontend.
 
 ### Observation confidence
 
-Current Observation confidence is threshold-relative support:
+Observation `confidence` is an active threshold-relative evidence-strength value.
 
-```python
+Each Observation rule defines a threshold for its primary supporting metric. The confidence value represents how strongly that metric reaches the rule's threshold, capped at `1.0`.
 
-observed_value / threshold
+It does not represent statistical confidence, probability, or confidence that the Observation itself is objectively correct.
 
-```
+The calculation is preserved. Dedicated tests protect its threshold-relative behavior, and consumer tracing found no frontend dependency requiring a rename or compatibility change.
 
-This is meaningful support-strength information, but it should not automatically be represented as generic Classification Confidence.
+The preferred conceptual vocabulary is **Evidence Strength**.
 
-**Classification:** TERMINOLOGY / CLARIFICATION
+**Status:** RESOLVED — preserve calculation; terminology clarification only.
 
 ---
 

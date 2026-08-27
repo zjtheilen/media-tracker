@@ -642,7 +642,21 @@ Therefore:
 
 The `confidence` value should therefore be interpreted as **Evidence Strength**, not classification confidence or statistical confidence.
 
-**Classification:** CLARIFY
+**Classification:** RESOLVED / PRESERVE / CLARIFY
+
+### 9.2.1 Forensic resolution
+
+Forensic tracing established that Observation `confidence` is an active backend calculation with dedicated test coverage.
+
+The calculation is preserved.
+
+Its meaning is threshold-relative evidence strength for the metric supporting the Observation. It does not represent statistical confidence, probability, or confidence that the Observation is objectively correct.
+
+Consumer tracing found no frontend dependency on the Observation `confidence` field.
+
+No implementation change or replacement confidence algorithm is required.
+
+**Classification:** RESOLVED / PRESERVE
 
 ---
 
