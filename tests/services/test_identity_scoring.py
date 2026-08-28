@@ -175,24 +175,6 @@ def test_calculate_derived_trait():
     assert calculate_derived_trait("system_design", profile) == 10
 
 
-def test_debug_identity_scores():
-    profile = load_profile_fixture("boundary_explorer_profile.json")
-
-    results = evaluate_identity_scores(profile)
-
-    # for result in results:
-    #     print(result["title"], result["score"])
-
-    #     for item in result["breakdown"]:
-    #         print(
-    #             " ",
-    #             item["trait"],
-    #             item["value"],
-    #             "=>",
-    #             item["contribution"],
-    #         )
-
-
 def test_identity_is_ineligible_below_minimum_entries():
 
     profile = {
@@ -217,6 +199,66 @@ def test_identity_is_eligible_at_minimum_entries():
 
     profile = {
         "entryCount": 20,
+        "universalAverages": {
+            "depth": 10,
+            "emotional_impact": 10,
+            "reflection": 10,
+            "ambiguity": 10,
+            "analysis": 10,
+        },
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    identity_ids = {result["id"] for result in results}
+
+    assert "deep_diver" in identity_ids
+
+
+def test_identity_below_minimum_entries_is_excluded_even_with_perfect_evidence():
+
+    profile = {
+        "entryCount": 19,
+        "universalAverages": {
+            "depth": 10,
+            "emotional_impact": 10,
+            "reflection": 10,
+            "ambiguity": 10,
+            "analysis": 10,
+        },
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    identity_ids = {result["id"] for result in results}
+
+    assert "deep_diver" not in identity_ids
+
+
+def test_identity_at_minimum_entries_is_included():
+
+    profile = {
+        "entryCount": 20,
+        "universalAverages": {
+            "depth": 10,
+            "emotional_impact": 10,
+            "reflection": 10,
+            "ambiguity": 10,
+            "analysis": 10,
+        },
+    }
+
+    results = evaluate_identity_scores(profile)
+
+    identity_ids = {result["id"] for result in results}
+
+    assert "deep_diver" in identity_ids
+
+
+def test_identity_above_minimum_entries_is_included():
+
+    profile = {
+        "entryCount": 21,
         "universalAverages": {
             "depth": 10,
             "emotional_impact": 10,
