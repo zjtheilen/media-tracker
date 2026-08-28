@@ -190,6 +190,62 @@ Consumer verification found no frontend dependency requiring a compatibility ali
 
 **Status:** RESOLVED / PRESERVE
 
+### Identity Resolution, Primary, Secondary, and Tie Handling
+
+The Identity system assigns one Primary Identity and may assign one Secondary Identity. Eligible Identities are evaluated using the existing Identity scoring model.
+
+**Primary Identity**
+
+The Primary Identity is the strongest eligible Identity after applying the Identity resolution hierarchy.
+
+Identity resolution proceeds from the existing overall Identity score to increasingly granular evidence already supported by the Identity definitions and archive/profile data.
+
+**Secondary Identity**
+
+A Secondary Identity is the highest-scoring eligible non-primary Identity whose existing Identity score meets the defined minimum threshold for meaningful support.
+
+Meaningful Secondary support is based on the Identity's absolute score, not on its score relative to the Primary. A candidate is not considered meaningfully supported merely because it ranks second or is numerically close to the Primary.
+
+The Secondary Identity is evaluated independently from the Primary Identity. It is not derived from, inferred from, or computationally dependent on the Primary.
+
+If no eligible non-primary Identity meets the meaningful-support threshold, no Secondary Identity is assigned.
+
+**Tie resolution**
+
+If Identity scores remain tied, the system uses increasingly granular evidence already supported by the Identity definitions and archive/profile data.
+
+The first implemented tie-resolution layer is existing component-level evidence. Identity breakdown contributions are compared from strongest to weakest. If one candidate has stronger evidence at the first differing component, that candidate is resolved as Primary.
+
+If the strongest component contribution is tied, the next component contribution is considered, continuing until the candidates are distinguished or all available component contributions remain equal.
+
+Additional archive dimensions, including genre patterns, may be considered at a later tie-resolution layer when they are materially relevant to the competing Identity definitions.
+
+Genre is not a universal tie-breaker and must not receive arbitrary weighting solely to resolve an Identity tie.
+
+If meaningful available evidence cannot distinguish two candidates, the system must not use Identity definition order, configuration order, IDs, or another arbitrary deterministic fallback to claim that one Identity has stronger evidence.
+
+The product nevertheless requires a single Primary Identity. Therefore, when two meaningfully supported Identities remain genuinely tied after available evidence has been considered, one is assigned as Primary and the other may be exposed as Secondary. This assignment does not imply that the Primary has stronger evidence.
+
+**Implementation**
+
+`resolve_identity_candidates()` is responsible for Primary/Secondary candidate resolution.
+
+Overall Identity score remains the first-level ranking signal. For equal scores, the function compares existing Identity breakdown contributions as an evidence hierarchy rather than relying on Identity definition or configuration order.
+
+The Secondary Identity remains subject to `SECONDARY_MIN_SCORE` and is selected independently of the Primary.
+
+Dedicated Identity engine tests protect:
+
+* Primary and Secondary selection for existing Identity fixtures.
+* Secondary minimum-support behavior.
+* Exclusion of the Primary from Secondary selection.
+* Equal-score resolution using stronger component evidence.
+* Progression to the next component when the strongest component is tied.
+
+**Status:** SEMANTICALLY RESOLVED / PARTIALLY IMPLEMENTED
+
+The component-evidence tie-resolution layer is implemented and covered by Identity Engine tests. Additional archive-dimension tie-breakers, such as semantically relevant genre evidence, remain available for a later implementation step if existing component evidence cannot distinguish candidates.
+
 ### `classificationBasis` resolution
 
 **LOCKED:** `classificationBasis` is backend-authoritative.
