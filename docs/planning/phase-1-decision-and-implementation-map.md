@@ -265,6 +265,8 @@ Dedicated Identity engine tests protect:
 * Equal-score resolution using stronger component evidence.
 * Progression to the next component when the strongest component is tied.
 
+The implementation is order-independent when tied candidates contain distinguishable component evidence: reversing the input candidate order does not change the resolved Primary Identity.
+
 **Status:** SEMANTICALLY RESOLVED / PARTIALLY IMPLEMENTED
 
 The component-evidence tie-resolution layer is implemented and covered by Identity Engine tests. Additional archive-dimension tie-breakers, such as semantically relevant genre evidence, remain available for a later implementation step if existing component evidence cannot distinguish candidates.
@@ -349,7 +351,7 @@ Unless a direct contract conflict is demonstrated, preserve:
 * Existing narrative architecture
 * Deterministic behavior
 * Empty-profile behavior
-* Current **210-test regression baseline**
+* Current **227-test regression baseline**
 
 ---
 
@@ -436,7 +438,7 @@ These are implementation facts, not automatic redesign triggers.
 | Recommendations   | `models/recommendations/*`                                                                                                                                                 | Deferred                                                   |
 | Frontend          | `charts.js` and other current consumers                                                                                                                                    | Field-specific blast radius must be verified before rename |
 
-**Test baseline — FACT:** **210 tests pass.**
+**Test baseline — FACT:** **227 tests pass.**
 
 ---
 
@@ -625,26 +627,41 @@ Potential considerations:
 
 # 15. Ties and Close Competitors
 
-**Classification:** CLARIFICATION
-**Status:** UNRESOLVED
+**Classification:** CLARIFICATION + TESTING
 
-The system must distinguish:
+**Status:** PARTIALLY RESOLVED
 
-* exact ties
-* meaningful near-ties
-* strong-vs-weak differences
+The Identity system treats exact score ties separately from non-equal scores; near-tie semantics remain unresolved.
 
-The final policy must define:
+### Exact score ties
 
-* exact tie-breaking
-* stable secondary sort key if necessary
-* score precision
-* meaningful near-tie threshold
-* presentation of close competitors
-* whether close competitors affect Primary selection
-* whether the policy applies to Designations, Identities, or both
+**RESOLVED / IMPLEMENTED**
 
-**Gate:** No new tie/near-tie behavior until the policy is LOCKED.
+When two or more Identity candidates have the same overall Identity score, the system applies the existing Identity evidence hierarchy.
+
+The current implementation compares existing Identity breakdown contributions from strongest to weakest.
+
+If one candidate has stronger evidence at the first differing component, that candidate becomes Primary.
+
+If component-level evidence remains identical, the system does not invent additional numeric scoring solely to manufacture a winner.
+
+Genre and other archive dimensions may provide later semantic tie-resolution evidence when those dimensions have a substantive relationship to the competing Identity definitions.
+
+### Near-ties
+
+**UNRESOLVED / DEFERRED**
+
+The system does not currently define a universal numeric threshold for when two non-equal Identity scores constitute a meaningful near-tie.
+
+No near-tie threshold should be introduced until score-distribution analysis and Identity semantics establish that such a threshold represents meaningful product behavior.
+
+Near-tie behavior must not be implemented merely to make rankings appear more deterministic.
+
+### Scope
+
+This policy currently applies to Identity resolution.
+
+Designation ranking and tie behavior remain governed by their existing machinery unless a separate contract decision establishes otherwise.
 
 ---
 
@@ -969,7 +986,7 @@ Implementation begins only when the decision being implemented is **LOCKED** and
 * [x] API/profile assembly mapped
 * [x] Frontend consumers mapped
 * [x] Tests mapped
-* [x] **210-test baseline verified**
+* [x] **227-test baseline verified**
 * [x] Recovered behavioral contracts identified
 * [x] Observation/Finding overlap matrix completed
 
@@ -1025,7 +1042,7 @@ Before any Phase 1 change is merged:
 * [ ] New/changed behavior has regression coverage
 * [ ] No unrelated redesign has been introduced
 * [ ] No gated semantic decision has been implemented early
-* [ ] Current baseline of **210 passing tests** remains protected
+* [ ] Current baseline of **227 passing tests** remains protected
 
 ---
 
@@ -1146,7 +1163,7 @@ Run the full suite after each intentional behavior change.
 
 Current baseline:
 
-> **210 tests passing**
+> **227 tests passing**
 
 Phase 1 must preserve the baseline except for explicitly approved changes.
 
@@ -1196,7 +1213,7 @@ Phase 1 is successful when:
 9. Archive evidence informs prioritization without becoming Zach-specific hard-coded logic.
 10. No new intelligence behavior depends on an unresolved conceptual decision.
 11. Every intentional behavioral change has regression coverage.
-12. The **210-test baseline** remains green except for explicitly approved changes.
+12. The **227-test baseline** remains green except for explicitly approved changes.
 13. No unrelated rewrite or redesign has entered Phase 1.
 
 ---
