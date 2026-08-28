@@ -1,3 +1,10 @@
+```
+__    __ ___    ___ ___  ____ ___
+\ \/\/ // _ \  _\\ / _ \ | D )| |
+ \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
+ Weighted Archive System for Analysis & Behavioral Insights
+```
+
 # Media Tracker — Master Roadmap & Source of Truth
 
 **Authoritative branch:** `develop-3`
@@ -336,7 +343,7 @@ Do not invent a Classification Confidence algorithm merely to justify the word `
 
 | Current Field                       | Actual Meaning                 | Contract Term                       | Classification | Phase 1 Action                         |
 | ----------------------------------- | ------------------------------ | ----------------------------------- | -------------- | -------------------------------------- |
-| Identity `confidence`               | `entryCount / minimum_entries` | Data Sufficiency                    | TERMINOLOGY    | Rename/reframe                         |
+Identity `data_sufficiency` | Archive-data sufficiency relative to Identity minimum | PRESERVE | Correct stale confidence terminology
 | Designation `designationConfidence` | Average of trait scores        | Signal Strength-like                | TERMINOLOGY    | Rename/reframe                         |
 | Observation `confidence`            | Threshold-relative support     | Signal Strength / Evidence Strength | CLARIFICATION  | Define and rename appropriately        |
 | Finding confidence                  | Not standardized               | Unresolved                          | CLARIFICATION  | Do not add until semantics are defined |

@@ -1,3 +1,10 @@
+```
+__    __ ___    ___ ___  ____ ___
+\ \/\/ // _ \  _\\ / _ \ | D )| |
+ \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
+ Weighted Archive System for Analysis & Behavioral Insights
+```
+
 # Media Tracker — Phase 1 Intelligence Alignment
 
 **Project:** Media Tracker
@@ -360,6 +367,22 @@ The contract distinguishes:
 ## Current Semantic Mappings
 
 ### Identity confidence
+
+### Identity score vs. data sufficiency
+
+Identity uses two distinct measures:
+
+* **Identity `score`** measures the strength of the archive's trait alignment with the selected Identity.
+* **Identity `data_sufficiency`** measures whether the archive contains enough entries relative to that Identity's minimum-data requirement.
+
+These dimensions are intentionally independent. A profile can have a strong trait alignment with an Identity while having insufficient archive volume, or sufficient archive volume without strong trait alignment.
+
+`data_sufficiency` is therefore not an Identity confidence score, and `score` is not a measure of statistical confidence.
+
+No consolidation or replacement algorithm is required.
+
+**Status:** RESOLVED — preserve both concepts; correct stale `confidence` terminology.
+
 
 ### Identity data sufficiency
 

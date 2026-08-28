@@ -1,3 +1,10 @@
+```
+__    __ ___    ___ ___  ____ ___
+\ \/\/ // _ \  _\\ / _ \ | D )| |
+ \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
+ Weighted Archive System for Analysis & Behavioral Insights
+```
+
 # Media Tracker — Phase 1 Decision & Implementation Map
 
 **Project:** Media Tracker
@@ -144,7 +151,7 @@ Introduce a distinct field only where the semantic distinction is genuinely requ
 
 | Current field                       | Actual meaning                      | Classification              | Phase 1 action                                    |
 | ----------------------------------- | ----------------------------------- | --------------------------- | ------------------------------------------------- |
-| Identity `confidence` | Entry-count sufficiency relative to fixture minimum | Data Sufficiency | Preserve existing calculation; use `data_sufficiency` terminology | `identity_data_sufficiency.py`, `identity_engine.py` | `/identity` response; no identified frontend consumer | `tests/designations/test_identity_data_sufficiency.py`, identity endpoint tests | RESOLVED / PRESERVE |
+| Identity `data_sufficiency` | Archive-data sufficiency relative to the Identity's minimum entry requirement | Data Sufficiency | Preserve calculation and API behavior; correct stale `confidence` terminology | `identity_data_sufficiency.py`, `identity_engine.py` | `/identity` response; no identified frontend consumer | `tests/designations/test_identity_data_sufficiency.py`, identity endpoint tests | RESOLVED / PRESERVE |
 | Designation `designationConfidence` | Signal Strength-like; aggregate strength of classification basis | TERMINOLOGY | Preserve calculation; clarify/reframe terminology after consumer audit |
 | Observation `confidence` | Threshold-relative evidence strength | TERMINOLOGY / CLARIFICATION | Preserve calculation and API behavior; clarify as Evidence Strength | Observation rules / mapper / engine | No identified frontend consumer | Observation tests | RESOLVED / PRESERVE |
 | Finding confidence | Not implemented; Findings are binary rule-triggered interpretations supported by explicit evidence | N/A | Do not add in Phase 1; future graded Finding strength would require a separate design decision | Finding rules / Finding engine | Finding consumers, if any | Finding tests | RESOLVED / DO NOT ADD |
@@ -167,7 +174,11 @@ Remaining work is limited to terminology/presentation alignment if and when a pu
 
 ### Identity data sufficiency resolution
 
-**LOCKED:** Identity `confidence` has been retired in favor of `data_sufficiency`.
+**LOCKED:** The former Identity `confidence` terminology has been retired in favor of the current `data_sufficiency` field.
+
+The current Identity implementation does not expose an Identity `confidence` field.
+
+**LOCKED:** Do not add a second Identity `confidence` field.
 
 `data_sufficiency` represents whether the archive contains sufficient entries for the Identity's minimum-entry requirement. It is a sufficiency measure, not a confidence/probability measure.
 
@@ -176,8 +187,6 @@ The existing calculation is preserved.
 The `/identity` API exposes `data_sufficiency`, and dedicated calculation and endpoint tests protect the contract.
 
 Consumer verification found no frontend dependency requiring a compatibility alias for the former `confidence` field.
-
-**LOCKED:** Do not add a second Identity `confidence` field.
 
 **Status:** RESOLVED / PRESERVE
 

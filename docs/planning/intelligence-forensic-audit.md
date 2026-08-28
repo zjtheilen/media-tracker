@@ -1,3 +1,10 @@
+```
+__    __ ___    ___ ___  ____ ___
+\ \/\/ // _ \  _\\ / _ \ | D )| |
+ \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
+ Weighted Archive System for Analysis & Behavioral Insights
+```
+
 # Intelligence Forensic Audit
 
 ## Purpose
@@ -263,11 +270,28 @@ The existing field name is retained for API compatibility unless a separate API 
 
 **Classification:** CLARIFY / PRESERVE
 
+### Identity confidence terminology resolution
+
+Forensic tracing established that the current Identity implementation does not expose an Identity `confidence` field.
+
+The current implementation exposes two distinct concepts:
+
+* `score` — strength of trait alignment with the Identity.
+* `data_sufficiency` — adequacy of archive volume relative to the Identity's minimum entry requirement.
+
+The prior planning terminology describing Identity `confidence` as entry-count sufficiency was therefore stale terminology referring to the current `data_sufficiency` concept.
+
+These concepts are semantically distinct and should both be preserved.
+
+**Decision:** Do not consolidate Identity `score` and `data_sufficiency`. Do not introduce or restore an Identity `confidence` field.
+
+**Classification:** RESOLVED / PRESERVE BOTH / DOCUMENTATION CORRECTION
+
 ---
 
 ## 5.6 Identity API serialization
 
-The Identity confidence calculation itself is tested.
+The current `data_sufficiency` calculation is tested.
 
 However, the repository does not currently establish equally strong explicit tests guaranteeing that the serialized Identity API response always contains the `confidence` field.
 

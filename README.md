@@ -1,3 +1,10 @@
+```
+__    __ ___    ___ ___  ____ ___
+\ \/\/ // _ \  _\\ / _ \ | D )| |
+ \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
+ Weighted Archive System for Analysis & Behavioral Insights
+```
+
 # Media Tracker
 
 Media Tracker is a personal media library and taste-intelligence platform built with FastAPI, Python, JavaScript, and SQLite.
