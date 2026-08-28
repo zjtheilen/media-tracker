@@ -3,6 +3,7 @@ from models.services.identity_scorer import (
     evaluate_identity_scores,
     get_primary_identity,
 )
+from models.services.identity_scoring import resolve_identity_trait_value
 from tests.helpers.fixture_loader import load_profile_fixture
 
 
@@ -195,28 +196,7 @@ def test_identity_is_ineligible_below_minimum_entries():
     assert "deep_diver" not in identity_ids
 
 
-def test_identity_is_eligible_at_minimum_entries():
-
-    profile = {
-        "entryCount": 20,
-        "universalAverages": {
-            "depth": 10,
-            "emotional_impact": 10,
-            "reflection": 10,
-            "ambiguity": 10,
-            "analysis": 10,
-        },
-    }
-
-    results = evaluate_identity_scores(profile)
-
-    identity_ids = {result["id"] for result in results}
-
-    assert "deep_diver" in identity_ids
-
-
 def test_identity_below_minimum_entries_is_excluded_even_with_perfect_evidence():
-
     profile = {
         "entryCount": 19,
         "universalAverages": {
@@ -236,7 +216,6 @@ def test_identity_below_minimum_entries_is_excluded_even_with_perfect_evidence()
 
 
 def test_identity_at_minimum_entries_is_included():
-
     profile = {
         "entryCount": 20,
         "universalAverages": {
@@ -256,7 +235,6 @@ def test_identity_at_minimum_entries_is_included():
 
 
 def test_identity_above_minimum_entries_is_included():
-
     profile = {
         "entryCount": 21,
         "universalAverages": {
@@ -273,3 +251,38 @@ def test_identity_above_minimum_entries_is_included():
     identity_ids = {result["id"] for result in results}
 
     assert "deep_diver" in identity_ids
+
+
+def test_identity_trait_resolution_prefers_universal_average():
+    profile = {
+        "universalAverages": {"craft": 8},
+        "mediaAverages": {"craft": 4},
+    }
+
+    result = resolve_identity_trait_value("craft", profile)
+
+    assert result == 8
+
+
+def test_identity_trait_resolution_uses_media_average_when_universal_is_missing():
+    profile = {
+        "mediaAverages": {"gameplay_mechanics": 9},
+    }
+
+    result = resolve_identity_trait_value(
+        "gameplay_mechanics",
+        profile,
+    )
+
+    assert result == 9
+
+
+def test_unknown_identity_trait_resolves_to_zero():
+    profile = {}
+
+    result = resolve_identity_trait_value(
+        "not_a_real_trait",
+        profile,
+    )
+
+    assert result == 0
