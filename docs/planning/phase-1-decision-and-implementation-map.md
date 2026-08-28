@@ -218,7 +218,30 @@ The first implemented tie-resolution layer is existing component-level evidence.
 
 If the strongest component contribution is tied, the next component contribution is considered, continuing until the candidates are distinguished or all available component contributions remain equal.
 
-Additional archive dimensions, including genre patterns, may be considered at a later tie-resolution layer when they are materially relevant to the competing Identity definitions.
+**Genre evidence as a tie-resolution layer**
+
+Genre evidence may be used only after overall Identity score and existing component-level evidence have failed to distinguish tied candidates.
+
+Genre evidence is comparative semantic evidence, not an additional Identity score. It must not modify the existing Identity score or introduce a second set of arbitrary genre weights.
+
+Genre evidence is meaningful only when the competing Identity definition establishes a substantive relationship to the relevant genre pattern.
+
+For the current Identities:
+
+* **Boundary Explorer:** meaningful genre evidence includes broad genre diversity and meaningful engagement with experimental, surreal, hybrid, or otherwise unconventional genre patterns.
+* **Deep Diver:** meaningful genre evidence includes sustained concentration in psychological, mystery, surreal, and drama-oriented material associated with interpretation, ambiguity, emotional depth, or reflection.
+* **Engagement Architect:** no direct genre-specific tie-breaker is currently defined. Its Identity definition is primarily supported by execution, engagement, mechanics, pacing, and system-design evidence.
+
+Existing genre-derived Identity traits such as `genre_diversity`, `experimental_affinity`, `novelty`, `analysis`, `ambiguity`, and `reflection` remain part of the normal Identity scoring model. Genre evidence used later for tie resolution must not simply re-count those same derived contributions.
+
+When genre evidence is reached as a tie-resolution layer, the system asks which competing Identity definition is more meaningfully reflected by the archive's genre pattern. It does not convert that evidence into additional numeric Identity points.
+
+Genre evidence may resolve a genuine tie only when the evidence materially favors one competing Identity. If the genre patterns do not meaningfully distinguish the candidates, the tie remains unresolved and the system proceeds to the next applicable evidence layer.
+
+Genre evidence cannot override a meaningful difference already established by a higher-priority evidence layer.
+
+Other archive dimensions may be considered as additional tie-resolution evidence when they are materially relevant to the competing Identity definitions. Such dimensions must follow the same principle: they provide comparative evidence rather than arbitrary additional scoring.
+
 
 Genre is not a universal tie-breaker and must not receive arbitrary weighting solely to resolve an Identity tie.
 
