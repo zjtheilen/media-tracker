@@ -1,8 +1,7 @@
 {
     "entryCount": 50,
-
     "averageScore": 90,
-
+    "average_score_strength": 0.75,
     "universalAverages": {
         "originality": 6.5,
         "depth": 6.7,
@@ -11,13 +10,25 @@
         "presentation": 8.8,
         "emotional_impact": 7.9
     },
-
     "mediaAverages": {
         "art_atmosphere": 7.5,
         "world_building": 7.8,
         "gameplay_mechanics": 9.7
     },
-
+    "traits": {
+        "originality_strength": 0.13,
+        "depth_strength": 0.18,
+        "craft_strength": 0.75,
+        "engagement_strength": 0.90,
+        "presentation_strength": 0.70,
+        "emotional_strength": 0.48,
+        "gameplay_strength": 0.93
+    },
+    "genreAffinity": {
+        "action": 0.30,
+        "adventure": 0.30,
+        "rpg": 0.40
+    },
     "genreDistribution": {
         "action": {
             "count": 15,

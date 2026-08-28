@@ -1,4 +1,4 @@
-from .designation_utils import genre_affinity, trait_strength
+from .designation_utils import genre_affinity
 
 
 def evaluate_boundary_explorer(profile):
@@ -10,7 +10,7 @@ def evaluate_boundary_explorer(profile):
     score += genre_affinity(profile, "sci-fi") * 50
     score += genre_affinity(profile, "horror") * 25
 
-    score += trait_strength(profile["universalAverages"].get("originality", 0)) * 25
+    score += profile.get("traits", {}).get("originality_strength", 0) * 25
 
     return min(score, 100)
 
@@ -18,14 +18,12 @@ def evaluate_boundary_explorer(profile):
 def evaluate_engagement_architect(profile):
 
     score = 0
+    traits = profile.get("traits", {})
 
-    score += trait_strength(profile["universalAverages"].get("engagement", 0)) * 40
-
-    score += trait_strength(profile["universalAverages"].get("craft", 0)) * 25
-
-    score += trait_strength(profile["mediaAverages"].get("gameplay_mechanics", 0)) * 20
-
-    score += trait_strength(profile["mediaAverages"].get("narrative_pacing", 0)) * 15
+    score += traits.get("engagement_strength", 0) * 40
+    score += traits.get("craft_strength", 0) * 25
+    score += traits.get("gameplay_strength", 0) * 20
+    score += traits.get("pacing_strength", 0) * 15
 
     return min(score, 100)
 
@@ -33,14 +31,11 @@ def evaluate_engagement_architect(profile):
 def evaluate_deep_diver(profile):
 
     score = 0
+    traits = profile.get("traits", {})
 
-    score += trait_strength(profile["universalAverages"].get("depth", 0)) * 45
-
-    score += (
-        trait_strength(profile["universalAverages"].get("emotional_impact", 0)) * 20
-    )
-
-    score += trait_strength(profile["averageScore"] / 10) * 20
+    score += traits.get("depth_strength", 0) * 45
+    score += traits.get("emotional_strength", 0) * 20
+    score += traits.get("average_score_strength", 0) * 20
 
     score += genre_affinity(profile, "psychological") * 15
 
@@ -50,12 +45,13 @@ def evaluate_deep_diver(profile):
 def evaluate_curator(profile):
 
     score = 0
+    traits = profile.get("traits", {})
 
-    score += trait_strength(profile["universalAverages"].get("craft", 0)) * 25
+    score += traits.get("craft_strength", 0) * 25
 
-    score += trait_strength(profile["universalAverages"].get("presentation", 0)) * 25
+    score += traits.get("presentation_strength", 0) * 25
 
-    score += min(profile["entryCount"] / 50, 1) * 25
+    score += min(profile.get("entryCount", 0) / 50, 1) * 25
 
     score += profile.get("genreDiversityScore", 0) * 25
 

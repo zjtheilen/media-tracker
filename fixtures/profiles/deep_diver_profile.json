@@ -1,8 +1,7 @@
 {
     "entryCount": 40,
-
     "averageScore": 89,
-
+    "average_score_strength": 0.73,
     "universalAverages": {
         "originality": 8.2,
         "depth": 9.5,
@@ -11,13 +10,26 @@
         "presentation": 7.6,
         "emotional_impact": 9.2
     },
-
     "mediaAverages": {
         "art_atmosphere": 8.9,
         "world_building": 9.0,
         "gameplay_mechanics": 6.8
     },
-
+    "traits": {
+        "originality_strength": 0.55,
+        "depth_strength": 0.88,
+        "craft_strength": 0.58,
+        "engagement_strength": 0.35,
+        "presentation_strength": 0.40,
+        "emotional_strength": 0.80,
+        "gameplay_strength": 0.20
+    },
+    "genreAffinity": {
+        "psychological": 0.35,
+        "mystery": 0.25,
+        "drama": 0.20,
+        "horror": 0.20
+    },
     "genreDistribution": {
         "psychological": {
             "count": 14,

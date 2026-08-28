@@ -22,6 +22,11 @@ def calculate_trait_strengths(profile):
     media = profile.get("mediaAverages", {})
 
     return {
+        # Archive-level signal
+        "average_score_strength": normalize_trait_signal(
+            profile.get("averageScore", 0) / 10
+        ),
+
         # Universal traits
         "originality_strength": normalize_trait_signal(universal.get("originality", 0)),
         "depth_strength": normalize_trait_signal(universal.get("depth", 0)),
@@ -29,6 +34,7 @@ def calculate_trait_strengths(profile):
         "engagement_strength": normalize_trait_signal(universal.get("engagement", 0)),
         "emotional_strength": normalize_trait_signal(universal.get("emotional_impact", 0)),
         "presentation_strength": normalize_trait_signal(universal.get("presentation", 0)),
+
         # Media traits
         "gameplay_strength": normalize_trait_signal(media.get("gameplay_mechanics", 0)),
         "atmosphere_strength": normalize_trait_signal(media.get("art_atmosphere", 0)),

@@ -1,6 +1,3 @@
-from .trait_calculator import calculate_archive_traits
-
-
 def calculate_archive_average_score(entries):
 
     if not entries:

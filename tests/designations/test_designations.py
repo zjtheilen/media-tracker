@@ -38,9 +38,9 @@ def test_curator_designation_scores_archive_breadth():
     profile = {
         "entryCount": 50,
         "genreDiversityScore": 1,
-        "universalAverages": {
-            "craft": 10,
-            "presentation": 10,
+        "traits": {
+            "craft_strength": 1,
+            "presentation_strength": 1,
         },
     }
 
