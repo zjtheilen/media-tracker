@@ -12,7 +12,9 @@ def normalize_trait_signal(value):
     if not value:
         return 0
 
-    return min(max((value - 6) / 4, 0), 1)
+    strength = min(max((value - 6) / 4, 0), 1)
+
+    return round(strength, 2)
 
 
 def calculate_trait_strengths(profile):

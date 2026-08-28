@@ -1,7 +1,6 @@
 {
     "entryCount": 50,
     "averageScore": 90,
-    "average_score_strength": 0.75,
     "universalAverages": {
         "originality": 6.5,
         "depth": 6.7,
@@ -14,20 +13,6 @@
         "art_atmosphere": 7.5,
         "world_building": 7.8,
         "gameplay_mechanics": 9.7
-    },
-    "traits": {
-        "originality_strength": 0.13,
-        "depth_strength": 0.18,
-        "craft_strength": 0.75,
-        "engagement_strength": 0.90,
-        "presentation_strength": 0.70,
-        "emotional_strength": 0.48,
-        "gameplay_strength": 0.93
-    },
-    "genreAffinity": {
-        "action": 0.30,
-        "adventure": 0.30,
-        "rpg": 0.40
     },
     "genreDistribution": {
         "action": {
@@ -42,5 +27,28 @@
             "count": 20,
             "percentage": 40
         }
+    },
+    "traits": {
+        "average_score_strength": 0.75,
+        "originality_strength": 0.13,
+        "depth_strength": 0.18,
+        "craft_strength": 0.75,
+        "engagement_strength": 0.90,
+        "emotional_strength": 0.48,
+        "presentation_strength": 0.70,
+        "gameplay_strength": 0.95,
+        "atmosphere_strength": 0.37,
+        "world_building_strength": 0.45,
+        "pacing_strength": 0.00,
+        "experimental_presence": 0.00,
+        "surreal_presence": 0.00,
+        "sci_fi_presence": 0.00,
+        "psychological_presence": 0.00,
+        "horror_presence": 0.00
+    },
+    "genreAffinity": {
+        "action": 0.3,
+        "adventure": 0.3,
+        "rpg": 0.4
     }
 }
