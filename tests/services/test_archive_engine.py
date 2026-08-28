@@ -34,9 +34,9 @@ def test_build_archive_profile():
 
     assert result["designationConfidenceLabel"] == "Very High"
 
-    assert result["classificationBasis"]["primary"]["name"] == "Depth"
+    assert result["designationBasis"]["primary"]["name"] == "Depth"
 
-    assert result["classificationBasis"]["media"]["name"] == "Art Atmosphere"
+    assert result["designationBasis"]["media"]["name"] == "Art Atmosphere"
 
     assert result["designations"][0]["id"] == "deep_diver"
 
@@ -87,7 +87,7 @@ def test_archive_profile_shape():
         "topUniversal",
         "topMedia",
         "designationConfidence",
-        "classificationBasis",
+        "designationBasis",
         "designations",
         "primaryDesignation",
         "findings",

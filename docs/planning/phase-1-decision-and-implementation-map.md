@@ -152,7 +152,7 @@ Introduce a distinct field only where the semantic distinction is genuinely requ
 | Current field                       | Actual meaning                      | Classification              | Phase 1 action                                    |
 | ----------------------------------- | ----------------------------------- | --------------------------- | ------------------------------------------------- |
 | Identity `data_sufficiency` | Archive-data sufficiency relative to the Identity's minimum entry requirement | Data Sufficiency | Preserve calculation and API behavior; correct stale `confidence` terminology | `identity_data_sufficiency.py`, `identity_engine.py` | `/identity` response; no identified frontend consumer | `tests/designations/test_identity_data_sufficiency.py`, identity endpoint tests | RESOLVED / PRESERVE |
-| Designation `designationConfidence` | Signal Strength-like; aggregate strength of classification basis | TERMINOLOGY | Preserve calculation; clarify/reframe terminology after consumer audit |
+| Designation `designationConfidence` | Signal Strength-like; aggregate strength of Designation Basis | TERMINOLOGY | Preserve calculation; clarify/reframe terminology after consumer audit |
 | Observation `confidence` | Threshold-relative evidence strength | TERMINOLOGY / CLARIFICATION | Preserve calculation and API behavior; clarify as Evidence Strength | Observation rules / mapper / engine | No identified frontend consumer | Observation tests | RESOLVED / PRESERVE |
 | Finding confidence | Not implemented; Findings are binary rule-triggered interpretations supported by explicit evidence | N/A | Do not add in Phase 1; future graded Finding strength would require a separate design decision | Finding rules / Finding engine | Finding consumers, if any | Finding tests | RESOLVED / DO NOT ADD |
 
@@ -160,7 +160,7 @@ Introduce a distinct field only where the semantic distinction is genuinely requ
 
 **LOCKED:** The existing `designationConfidence` calculation is preserved.
 
-It represents aggregate signal strength of the classification basis, not statistical confidence or probability that the designation is correct.
+It represents aggregate signal strength of the Designation Basis, not statistical confidence or probability that the designation is correct.
 
 No replacement confidence algorithm is required.
 
@@ -271,9 +271,9 @@ The implementation is order-independent when tied candidates contain distinguish
 
 The component-evidence tie-resolution layer is implemented and covered by Identity Engine tests. Additional archive-dimension tie-breakers, such as semantically relevant genre evidence, remain available for a later implementation step if existing component evidence cannot distinguish candidates.
 
-### `classificationBasis` resolution
+### `designationBasis` resolution
 
-**LOCKED:** `classificationBasis` is backend-authoritative.
+**LOCKED:** `designationBasis` is backend-authoritative.
 
 It represents a concise summary of the dominant classification signals:
 
@@ -283,13 +283,13 @@ It represents a concise summary of the dominant classification signals:
 
 It does **not** represent an exhaustive enumeration of every signal consumed by every designation rule.
 
-The frontend consumes the backend-produced `classificationBasis` value from the archive-profile response rather than recomputing it.
+The frontend consumes the backend-produced `designationBasis` value from the archive-profile response rather than recomputing it.
 
-A legacy frontend `generateClassificationBasis()` helper was found to be disconnected from the active production path and duplicated backend behavior.
+A legacy frontend `generatedesignationBasis()` helper was found to be disconnected from the active production path and duplicated backend behavior.
 
 The frontend helper has now been removed from `charts.js`.
 
-`classificationBasis` remains an active backend-produced archive-profile field
+`designationBasis` remains an active backend-produced archive-profile field
 and is still consumed by the frontend. Removal applies only to the obsolete
 frontend producer, not to the backend/API contract.
 
@@ -297,7 +297,7 @@ frontend producer, not to the backend/API contract.
 
 No replacement implementation is required.
 
-**TEST REQUIREMENT:** Existing backend/archive-profile and API tests should continue to protect the presence and structure of `classificationBasis`.
+**TEST REQUIREMENT:** Existing backend/archive-profile and API tests should continue to protect the presence and structure of `designationBasis`.
 
 **Classification:** RESOLVED / PRESERVE
 

@@ -253,15 +253,15 @@ A forensic pass must produce one of:
 
 Forensic work should not reopen already-resolved decisions without new contradictory repository evidence.
 
-The previously scheduled `generateClassificationBasis()` / `classificationBasis` consumer audit is **COMPLETE**.
+The previously scheduled `generatedesignationBasis()` / `designationBasis` consumer audit is **COMPLETE**.
 
 The audit established that:
 
-- `classificationBasis` is produced authoritatively by the backend.
+- `designationBasis` is produced authoritatively by the backend.
 - The API exposes the backend-produced representation.
-- The frontend consumes `archiveProfile.classificationBasis` directly.
-- The frontend `generateClassificationBasis()` helper was dead legacy duplication and has been removed.
-- `classificationBasis` is a dominant-signal summary, not an exhaustive designation-input registry.
+- The frontend consumes `archiveProfile.designationBasis` directly.
+- The frontend `generatedesignationBasis()` helper was dead legacy duplication and has been removed.
+- `designationBasis` is a dominant-signal summary, not an exhaustive designation-input registry.
 
 This item is therefore closed.
 

@@ -437,7 +437,7 @@ async function renderGenreAverageRatingsChart() {
 
 }
 
-async function renderCoreEvaluationRadar(archiveProfile) {
+async function renderUniversalEvaluationRadar(archiveProfile) {
 
     const canvas = document.getElementById(
         "universal-profile-radar"
@@ -463,7 +463,7 @@ async function renderCoreEvaluationRadar(archiveProfile) {
 
             datasets: [
                 {
-                    label: "Core Evaluation Matrix",
+                    label: "Universal Evaluation",
                     data: radarData.values,
 
                     backgroundColor: "rgba(127,174,135,0.25)",
@@ -672,7 +672,7 @@ async function renderArchiveProfileCard() {
                         </p>
 
 
-                        <h3>Classification Basis</h3>
+                        <h3>Designation Basis</h3>
 
 
                         <div class="basis-item">
@@ -682,8 +682,8 @@ async function renderArchiveProfileCard() {
                             </span>
 
                             <div>
-                                ${archiveProfile.classificationBasis.primary.name}
-                                (${archiveProfile.classificationBasis.primary.score.toFixed(1)} / 10)
+                                ${archiveProfile.designationBasis.primary.name}
+                                (${archiveProfile.designationBasis.primary.score.toFixed(1)} / 10)
                             </div>
 
                         </div>
@@ -696,8 +696,8 @@ async function renderArchiveProfileCard() {
                             </span>
 
                             <div>
-                                ${archiveProfile.classificationBasis.secondary.name}
-                                (${archiveProfile.classificationBasis.secondary.score.toFixed(1)} / 10)
+                                ${archiveProfile.designationBasis.secondary.name}
+                                (${archiveProfile.designationBasis.secondary.score.toFixed(1)} / 10)
                             </div>
 
                         </div>
@@ -710,8 +710,8 @@ async function renderArchiveProfileCard() {
                             </span>
 
                             <div>
-                                ${archiveProfile.classificationBasis.media.name}
-                                (${archiveProfile.classificationBasis.media.score.toFixed(1)} / 10)
+                                ${archiveProfile.designationBasis.media.name}
+                                (${archiveProfile.designationBasis.media.score.toFixed(1)} / 10)
                             </div>
 
                         </div>

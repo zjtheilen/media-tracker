@@ -1,7 +1,7 @@
 from .archive_utils import format_score_category
 
 
-def generate_classification_basis(primary_trait, secondary_trait, media_trait):
+def generate_designation_basis(primary_trait, secondary_trait, media_trait):
 
     return {
         "primary": {

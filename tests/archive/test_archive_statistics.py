@@ -1,11 +1,10 @@
-from models.services.archive_classification import (
-    generate_classification_basis,
-)
-
 from models.services.archive_statistics import (
     calculate_archive_average_score,
     get_highest_rated_entry,
     get_lowest_rated_entry,
+)
+from models.services.designation_basis import (
+    generate_designation_basis,
 )
 
 
@@ -43,9 +42,9 @@ def test_lowest_rated_entry():
     assert result["title"] == "A"
 
 
-def test_generate_classification_basis():
+def test_generate_designation_basis():
 
-    result = generate_classification_basis(
+    result = generate_designation_basis(
         ("originality", 9.5), ("depth", 9), ("world_building", 8)
     )
 

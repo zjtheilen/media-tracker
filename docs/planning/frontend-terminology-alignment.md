@@ -232,7 +232,7 @@ Average Score by Media Type
 Examples:
 
 ```text
-classificationBasis
+designationBasis
 designationConfidence
 primaryDesignation
 primaryIdentity
@@ -321,8 +321,8 @@ change. Each change must still be validated against its consumers and tests.
 | FO-18 | `<Media Type> Evaluation`                    | `forms.js`   | Entry scoring section            | Media-specific scoring dimensions                                                          | Scoring Dimensions                          | Possibly `<Media Type> Scoring`                               | NO                  | LOW    | Backend scoring profile           | CLARIFY            | Needs semantic verification    |
 | FO-19 | `Core Evaluation Matrix`                     | `charts.js`  | Universal scoring visualization  | Universal scoring averages                                                                 | Scoring Dimensions / Traits boundary        | Possibly `Universal Scoring Profile`                          | NO                  | LOW    | Backend scoring data              | CLARIFY            | Needs semantic verification    |
 | FO-20 | `Classification Confidence`                  | `charts.js`  | Archive Profile                  | `archiveProfile.designationConfidence`                                                     | Designation confidence/strength             | Preserve pending semantic decision                            | NO                  | MEDIUM | Yes                               | CLARIFY            | Frozen temporarily             |
-| FO-21 | `Classification Basis`                       | `charts.js`  | Archive Profile                  | `archiveProfile.classificationBasis`                                                       | Designation/classification metadata         | Preserve pending semantic decision                            | NO                  | MEDIUM | Yes                               | CLARIFY            | Frozen temporarily             |
-| FO-22 | `classificationBasis`                        | `charts.js`  | API/profile consumer             | Backend-generated field                                                                    | Domain/API field                            | Keep field name unchanged                                     | NO                  | HIGH   | Yes                               | DEFER              | Preserve                       |
+| FO-21 | `Designation Basis`                       | `charts.js`  | Archive Profile                  | `archiveProfile.designationBasis`                                                       | Designation/classification metadata         | Preserve pending semantic decision                            | NO                  | MEDIUM | Yes                               | CLARIFY            | Frozen temporarily             |
+| FO-22 | `designationBasis`                        | `charts.js`  | API/profile consumer             | Backend-generated field                                                                    | Domain/API field                            | Keep field name unchanged                                     | NO                  | HIGH   | Yes                               | DEFER              | Preserve                       |
 | FO-23 | `designationConfidence`                      | `charts.js`  | API/profile consumer             | Backend-generated designation value                                                        | Domain/API field                            | Keep field name unchanged                                     | NO                  | HIGH   | Yes                               | DEFER              | Preserve                       |
 | FO-24 | `primaryDesignation`                         | `charts.js`  | Archive Profile                  | Backend-generated primary Designation                                                      | Designation                                 | Preserve                                                      | YES                 | LOW    | Yes                               | PRESERVE           | Correct                        |
 | FO-25 | `Designation`                                | `charts.js`  | Archive Profile heading          | `archiveProfile.primaryDesignation`                                                        | Designation                                 | Preserve                                                      | YES                 | LOW    | Yes                               | PRESERVE           | Correct                        |
@@ -338,7 +338,7 @@ change. Each change must still be validated against its consumers and tests.
 | FO-35 | `archiveDesignations` | `charts.js` | Legacy frontend intelligence | Hard-coded frontend Designation definitions | Designation | Do not use as authoritative Designation source; removed after confirming backend is authoritative | NO | HIGH | Backend now supplies Designations | RESOLVED / REMOVED | Resolved |
 | FO-36 | `generateArchiveTitle()` | `charts.js` | Legacy frontend intelligence | Generated title from primary/secondary/media traits | Interpretation / Designation-adjacent | Superseded by backend `primaryDesignation.title`; frontend helper removed | NO | MEDIUM | Backend now supplies Designation title | RESOLVED / REMOVED | Resolved |
 | FO-37 | `calculateDesignationConfidence()` | `charts.js` | Legacy frontend intelligence | Previously calculated designation-confidence value from primary/secondary/media trait scores | Designation signal strength | Superseded by backend designation signal calculation; no current frontend implementation | NO | MEDIUM | Backend now supplies designation signal value | RESOLVED / REMOVED | Resolved |
-| FO-38 | `generateClassificationBasis()` | `charts.js` | Legacy frontend intelligence | Generated primary/secondary/media trait basis | Designation basis / classification metadata | Superseded by backend `generate_classification_basis()`; frontend producer removed | NO | MEDIUM | None identified | RESOLVED / REMOVED | Resolved |
+| FO-38 | `generateDesignationBasis()` | `charts.js` | Legacy frontend intelligence | Generated primary/secondary/media trait basis | Designation basis / classification metadata | Superseded by backend `generate_designation_basis()`; frontend producer removed | NO | MEDIUM | None identified | RESOLVED / REMOVED | Resolved |
 | FO-39 | `getDesignationConfidenceLabel()`            | `charts.js`  | Active presentation helper       | Converts designation-confidence value to High/Moderate/Low label                           | Classification confidence presentation      | Preserve until semantics resolved                             | NO                  | MEDIUM | `designationConfidence`           | CLARIFY            | Active                         |
 | FO-40 | `identity` / `identities`                    | Frontend     | Repository-wide occurrence audit | No current frontend Identity presentation found                                            | Identity                                    | No new terminology introduced                                 | N/A                 | N/A    | Backend may expose Identity       | PRESERVE           | No current occurrence          |
 | FO-41 | `primaryIdentity`                            | Frontend     | Repository-wide occurrence audit | No current frontend consumer found                                                         | Identity                                    | No change                                                     | N/A                 | N/A    | Backend may expose Identity       | PRESERVE           | No current occurrence          |
@@ -373,7 +373,7 @@ These are safe presentation-level alignment candidates.
 
 ### Domain/API terminology
 
-`classificationBasis` is different.
+`designationBasis` is different.
 
 It is a backend-generated profile field and therefore cannot be treated as
 ordinary presentation terminology.
@@ -504,7 +504,7 @@ Universal Scores
 The following should not be renamed during this terminology-only pass:
 
 ```text
-classificationBasis
+designationBasis
 designationConfidence
 primaryDesignation
 primaryIdentity
@@ -569,7 +569,7 @@ The investigation established that:
 - `archiveDesignations` was a hard-coded frontend Designation definition table and was not authoritative.
 - `generateArchiveTitle()` generated a Designation title from trait combinations that are now handled by the backend.
 - `calculateDesignationConfidence()` was legacy frontend intelligence superseded by the backend designation signal calculation.
-- The current frontend `renderArchiveProfileCard()` consumes the backend-provided `primaryDesignation`, `classificationBasis`, `designationConfidence`, and `designationConfidenceLabel`.
+- The current frontend `renderArchiveProfileCard()` consumes the backend-provided `primaryDesignation`, `designationBasis`, `designationConfidence`, and `designationConfidenceLabel`.
 - The frontend does not independently select or generate the Designation.
 - The obsolete frontend Designation-generation logic has been removed from `charts.js`.
 
@@ -663,7 +663,7 @@ A repository-wide semantic audit remains necessary before changing the terminolo
 
 ## Designation Basis
 
-The current `classificationBasis` field may represent the basis for a Designation rather than a separate Archive Classification.
+The current `designationBasis` field may represent the basis for a Designation rather than a separate Archive Classification.
 
 The presentation label may eventually become:
 

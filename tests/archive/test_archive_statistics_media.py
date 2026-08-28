@@ -1,8 +1,8 @@
-from models.services.archive_classification import (
-    generate_classification_basis,
-)
-from models.services.archive_utils import calculate_designation_confidence
 from models.services.archive_statistics import calculate_media_distribution
+from models.services.archive_utils import calculate_designation_confidence
+from models.services.designation_basis import (
+    generate_designation_basis,
+)
 
 
 def test_media_distribution():
@@ -21,9 +21,9 @@ def test_media_distribution():
     assert result["book"] == 1
 
 
-def test_generate_classification_basis():
+def test_generate_designation_basis():
 
-    result = generate_classification_basis(
+    result = generate_designation_basis(
         ("originality", 9.5), ("depth", 9), ("world_building", 8)
     )
 

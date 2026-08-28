@@ -416,7 +416,7 @@ It therefore behaves more like **Signal Strength** than Classification Confidenc
 
 The existing `designationConfidence` calculation is preserved.
 
-Its actual semantic meaning is aggregate Signal Strength of the classification basis.
+Its actual semantic meaning is aggregate Signal Strength of the Designation Basis.
 
 The field name remains a compatibility concern rather than a mathematical defect.
 
@@ -426,9 +426,9 @@ No replacement Classification Confidence algorithm is required.
 
 ---
 
-### `classificationBasis`
+### `designationBasis`
 
-`classificationBasis` is a backend-produced summary of the dominant classification signals used to characterize an archive's classification basis.
+`designationBasis` is a backend-produced summary of the dominant classification signals used to characterize an archive's Designation Basis.
 
 It contains:
 
@@ -440,10 +440,10 @@ It should not be interpreted as an exhaustive list of every signal that may part
 
 The frontend consumes this backend-produced representation directly.
 
-A legacy frontend `generateClassificationBasis()` helper was found to duplicate the backend behavior without being part of the active production path. The legacy frontend `generateClassificationBasis()` helper has been removed.
+A legacy frontend `generatedesignationBasis()` helper was found to duplicate the backend behavior without being part of the active production path. The legacy frontend `generatedesignationBasis()` helper has been removed.
 
-The backend `generate_classification_basis()` implementation remains the
-authoritative producer of `classificationBasis`, which remains an active
+The backend `generate_designation_basis()` implementation remains the
+authoritative producer of `designationBasis`, which remains an active
 archive-profile/API field consumed by the frontend.
 
 **Status:** RESOLVED — preserve backend/API behavior; dead frontend duplicate removed.

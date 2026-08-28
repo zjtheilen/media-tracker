@@ -1,45 +1,40 @@
+from models.services.archive_statistics import (
+    calculate_archive_average_score,
+    calculate_genre_distribution,
+    calculate_media_distribution,
+    get_highest_rated_entry,
+    get_lowest_rated_entry,
+)
 from models.services.genre_intelligence import (
     calculate_genre_affinity,
     calculate_genre_combinations,
 )
 from models.services.identity_engine import generate_identity
 from models.services.identity_scorer import evaluate_identity_scores
-from .trait_calculator import calculate_archive_traits
-from .profile_metrics import calculate_profile_metrics
-
-from .archive_utils import (
-    calculate_average_scores,
-    get_top_categories,
-    calculate_designation_confidence,
-)
-
-from .archive_classification import (
-    generate_classification_basis,
-)
-
-from models.services.archive_statistics import (
-    calculate_archive_average_score,
-    get_highest_rated_entry,
-    get_lowest_rated_entry,
-    calculate_genre_distribution,
-    calculate_media_distribution,
-)
-
-from .designation_engine import evaluate_designations
-from .finding_engine import evaluate_findings
-from .observation_engine import evaluate_observations
 
 from .archive_interpretation import (
-    generate_primary_trait_sentence,
-    generate_secondary_trait_sentence,
     generate_archive_summary,
     generate_genre_signature_sentence,
     generate_observation_summary,
+    generate_primary_trait_sentence,
+    generate_secondary_trait_sentence,
 )
-
 from .archive_narrative import (
     get_designation_confidence_label,
 )
+from .archive_utils import (
+    calculate_average_scores,
+    calculate_designation_confidence,
+    get_top_categories,
+)
+from .designation_basis import (
+    generate_designation_basis,
+)
+from .designation_engine import evaluate_designations
+from .finding_engine import evaluate_findings
+from .observation_engine import evaluate_observations
+from .profile_metrics import calculate_profile_metrics
+from .trait_calculator import calculate_archive_traits
 
 
 def build_archive_profile(entries):
@@ -145,7 +140,7 @@ def _build_metrics(archive_profile):
 
 def _build_designations(archive_profile):
 
-    archive_profile["classificationBasis"] = generate_classification_basis(
+    archive_profile["designationBasis"] = generate_designation_basis(
         archive_profile["topUniversal"][0],
         archive_profile["topUniversal"][1],
         archive_profile["topMedia"][0],
@@ -208,7 +203,7 @@ def _empty_profile():
         "topMedia": [],
         "designationConfidence": 0,
         "designationConfidenceLabel": "Tentative",
-        "classificationBasis": None,
+        "designationBasis": None,
         "designations": [],
         "primaryDesignation": None,
         "identities": [],

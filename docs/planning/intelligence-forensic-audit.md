@@ -597,7 +597,7 @@ These meanings must not be conflated.
 
 | Field                        | Actual meaning                                                                           | Preferred conceptual vocabulary                | Status   |
 | ---------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------- | -------- |
-| `designationConfidence`      | Mean of top universal/media trait scores; aggregate strength of the classification basis | Signal Strength of Classification Basis        | CLARIFY  |
+| `designationConfidence`      | Mean of top universal/media trait scores; aggregate strength of the Designation Basis | Signal Strength of Designation Basis        | CLARIFY  |
 | `designationConfidenceLabel` | Presentation bucket derived from `designationConfidence`; backend is canonical source    | Signal Strength label                          | ALIGN    |
 | `primaryIdentity.confidence` | Entry count relative to the selected Identity's minimum-entry requirement                | Data Sufficiency                               | CLARIFY  |
 | Observation `confidence`     | Threshold-relative support for the rule's primary metric; sorting key                    | Threshold-relative Evidence Strength           | CLARIFY  |
@@ -707,11 +707,11 @@ For example, a rule may require multiple conditions to be satisfied while using 
 
 The implementation calculates it as the mean of the top universal/media trait scores used by the designation system.
 
-It therefore represents the aggregate strength of the classification basis rather than statistical probability that the designation is correct.
+It therefore represents the aggregate strength of the Designation Basis rather than statistical probability that the designation is correct.
 
 The preferred conceptual vocabulary is:
 
-> **Signal Strength of Classification Basis**
+> **Signal Strength of Designation Basis**
 
 The field remains part of the API contract unless a separate migration decision changes that contract.
 
@@ -725,7 +725,7 @@ The designation-confidence calculation has been reconciled against the current i
 
 The calculation itself is considered valid and is preserved.
 
-`designationConfidence` should be interpreted as the aggregate strength of the classification basis, not statistical confidence in the correctness of the designation.
+`designationConfidence` should be interpreted as the aggregate strength of the Designation Basis, not statistical confidence in the correctness of the designation.
 
 No replacement confidence algorithm is required.
 
@@ -735,25 +735,25 @@ The remaining Phase 1 work is terminology/presentation alignment only, subject t
 
 ---
 
-## 9.4 `classificationBasis` production and consumer resolution
+## 9.4 `designationBasis` production and consumer resolution
 
-The `classificationBasis` field has been traced through the current production system.
+The `designationBasis` field has been traced through the current production system.
 
 The authoritative producer is the backend classification layer. It is generated from the strongest universal trait, second-strongest universal trait, and strongest media-specific trait selected during archive-profile construction.
 
 The resulting structure is exposed through the `/archive-profile` API response without a separate frontend recomputation step.
 
-The frontend consumes the backend-produced `archiveProfile.classificationBasis` representation directly.
+The frontend consumes the backend-produced `archiveProfile.designationBasis` representation directly.
 
-The legacy frontend `generateClassificationBasis()` helper previously existed in
+The legacy frontend `generatedesignationBasis()` helper previously existed in
 `charts.js`, but forensic tracing established that it was not part of the active
 production path. It duplicated backend behavior without serving as an
 authoritative producer.
 
 The helper has now been removed from `charts.js`.
 
-The backend `generate_classification_basis()` implementation remains the
-authoritative producer of `archiveProfile.classificationBasis`, and the
+The backend `generate_designation_basis()` implementation remains the
+authoritative producer of `archiveProfile.designationBasis`, and the
 frontend continues to consume the backend-produced field.
 
 Backend/API consumers and tests continue to protect this contract.
@@ -762,7 +762,7 @@ Backend/API consumers and tests continue to protect this contract.
 
 That dead frontend implementation has been removed.
 
-`classificationBasis` should therefore be interpreted as a **summary of the dominant classification signals**, not as an exhaustive enumeration of every signal that may participate in designation-rule evaluation.
+`designationBasis` should therefore be interpreted as a **summary of the dominant classification signals**, not as an exhaustive enumeration of every signal that may participate in designation-rule evaluation.
 
 No change to the backend calculation or API field is required.
 
@@ -1158,7 +1158,7 @@ The audit now records Observations and Findings as sibling rule collections rath
 
 The intended conceptual vocabulary is now established:
 
-> `designationConfidence` → Signal Strength of Classification Basis
+> `designationConfidence` → Signal Strength of Designation Basis
 
 The frontend still requires alignment.
 

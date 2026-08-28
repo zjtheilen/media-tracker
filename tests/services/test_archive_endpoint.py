@@ -24,7 +24,7 @@ def test_archive_profile_contains_designations(client):
 
     assert "designations" in data
     assert "primaryDesignation" in data
-    assert "classificationBasis" in data
+    assert "designationBasis" in data
 
 
 def test_archive_profile_contains_analysis(client):
