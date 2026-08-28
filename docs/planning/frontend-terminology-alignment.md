@@ -335,9 +335,9 @@ change. Each change must still be validated against its consumers and tests.
 | FO-32 | `genreSignature`                             | `charts.js`  | Archive interpretation           | Backend-generated genre summary                                                            | Genre Intelligence                          | Preserve pending Genre Signal audit                           | NO                  | MEDIUM | Yes                               | CLARIFY            | Investigate                    |
 | FO-33 | `observationSummary`                         | `charts.js`  | Archive interpretation           | Backend-generated Observation summary                                                      | Observation / Interpretation                | Preserve pending interpretation audit                         | NO                  | MEDIUM | Yes                               | CLARIFY            | Investigate                    |
 | FO-34 | `archiveSummary`                             | `charts.js`  | Archive interpretation           | Backend-generated archive summary                                                          | Interpretation / Narrative                  | Preserve pending interpretation audit                         | NO                  | MEDIUM | Yes                               | CLARIFY            | Investigate                    |
-| FO-35 | `archiveDesignations`                        | `charts.js`  | Legacy frontend intelligence     | Hard-coded frontend Designation definitions                                                | Designation                                 | Do not use as authoritative Designation source; investigate   | NO                  | HIGH   | Backend now supplies Designations | POSSIBLE DEAD CODE | Investigate                    |
-| FO-36 | `generateArchiveTitle()`                     | `charts.js`  | Legacy frontend intelligence     | Generates title from primary/secondary/media traits                                        | Interpretation / Designation-adjacent       | Investigate whether migrated/replaced                         | NO                  | MEDIUM | Potentially none                  | POSSIBLE DEAD CODE | Investigate                    |
-| FO-37 | `calculateDesignationConfidence()`           | `charts.js`  | Legacy frontend intelligence     | Calculates value from primary/secondary/media trait scores                                 | Designation confidence/strength             | Investigate whether superseded by backend                     | NO                  | MEDIUM | Potentially none                  | POSSIBLE DEAD CODE | Investigate                    |
+| FO-35 | `archiveDesignations` | `charts.js` | Legacy frontend intelligence | Hard-coded frontend Designation definitions | Designation | Do not use as authoritative Designation source; removed after confirming backend is authoritative | NO | HIGH | Backend now supplies Designations | RESOLVED / REMOVED | Resolved |
+| FO-36 | `generateArchiveTitle()` | `charts.js` | Legacy frontend intelligence | Generated title from primary/secondary/media traits | Interpretation / Designation-adjacent | Superseded by backend `primaryDesignation.title`; frontend helper removed | NO | MEDIUM | Backend now supplies Designation title | RESOLVED / REMOVED | Resolved |
+| FO-37 | `calculateDesignationConfidence()` | `charts.js` | Legacy frontend intelligence | Previously calculated designation-confidence value from primary/secondary/media trait scores | Designation signal strength | Superseded by backend designation signal calculation; no current frontend implementation | NO | MEDIUM | Backend now supplies designation signal value | RESOLVED / REMOVED | Resolved |
 | FO-38 | `generateClassificationBasis()` | `charts.js` | Legacy frontend intelligence | Generated primary/secondary/media trait basis | Designation basis / classification metadata | Superseded by backend `generate_classification_basis()`; frontend producer removed | NO | MEDIUM | None identified | RESOLVED / REMOVED | Resolved |
 | FO-39 | `getDesignationConfidenceLabel()`            | `charts.js`  | Active presentation helper       | Converts designation-confidence value to High/Moderate/Low label                           | Classification confidence presentation      | Preserve until semantics resolved                             | NO                  | MEDIUM | `designationConfidence`           | CLARIFY            | Active                         |
 | FO-40 | `identity` / `identities`                    | Frontend     | Repository-wide occurrence audit | No current frontend Identity presentation found                                            | Identity                                    | No new terminology introduced                                 | N/A                 | N/A    | Backend may expose Identity       | PRESERVE           | No current occurrence          |
@@ -558,34 +558,26 @@ Do not rename the frontend helper or API field merely for consistency.
 
 ---
 
-# Frontend Intelligence Logic Requiring Separate Investigation
+# Frontend Intelligence Logic — Investigation Complete
 
-The frontend contains or has historically contained logic associated with intelligence generation.
+The frontend previously contained logic associated with Designation generation and interpretation.
 
-Known candidates include:
+The relevant legacy components were investigated against the current backend implementation.
 
-```text
-archiveDesignations
-calculateDesignationConfidence()
-generateArchiveTitle()
-getDesignationConfidenceLabel()
-```
+The investigation established that:
 
-These should not automatically be deleted.
+- `archiveDesignations` was a hard-coded frontend Designation definition table and was not authoritative.
+- `generateArchiveTitle()` generated a Designation title from trait combinations that are now handled by the backend.
+- `calculateDesignationConfidence()` was legacy frontend intelligence superseded by the backend designation signal calculation.
+- The current frontend `renderArchiveProfileCard()` consumes the backend-provided `primaryDesignation`, `classificationBasis`, `designationConfidence`, and `designationConfidenceLabel`.
+- The frontend does not independently select or generate the Designation.
+- The obsolete frontend Designation-generation logic has been removed from `charts.js`.
 
-Each must be classified as one of:
+The backend is therefore the authoritative source for Designation interpretation.
 
-```text
-ACTIVE BACKEND DUPLICATE
-ACTIVE PRESENTATION LOGIC
-LEGACY FRONTEND INTELLIGENCE
-POSSIBLE DEAD CODE
-REQUIRED COMPATIBILITY LOGIC
-```
+The frontend is responsible for presenting the resulting Designation and its supporting information.
 
-The repository must establish which category applies.
-
-The existence of this code is particularly important because the original architectural motivation for the WASABI cleanup was to establish an appropriate frontend/backend responsibility boundary.
+This investigation is complete. No further forensic work is required for these legacy Designation components unless new implementation evidence emerges.
 
 ---
 

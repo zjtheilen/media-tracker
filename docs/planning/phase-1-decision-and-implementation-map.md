@@ -19,7 +19,7 @@ __    __ ___    ___ ___  ____ ___
 * `roadmap.md`
 * `forgotten-features-register.md`
 
-**Current regression baseline:** **210 passing tests**
+**Current regression baseline:** **219 passing tests**
 
 **Guiding principle:** **Evolution, not rewrite.**
 

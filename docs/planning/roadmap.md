@@ -1827,9 +1827,30 @@ The remaining work is to close the explicit implementation gates and then make t
 - [ ] Archive-state branching
 - [ ] Finding confidence field
 
-### Current regression baseline
+### CURRENT REGRESSION BASELINE
 
-> **210 passing tests, 0 failures**
+The current test suite has:
+
+> **219 passing tests, 0 failures**
+
+This is the current regression baseline for Phase 1 implementation work.
+
+The earlier forensic audit established a historical baseline of approximately 199 tests. The repository subsequently grew beyond that baseline.
+
+The **current 219-test baseline is therefore the active regression reference**.
+
+Phase 1 changes should preserve existing meaningful behavior unless a behavior is **deliberately changed** as part of contract alignment.
+
+Any intentional test change should be accompanied by:
+
+1. an explicit reason
+2. a corresponding decision in the Phase 1 Decision & Implementation Map
+3. replacement regression coverage where appropriate
+4. a full-suite run
+
+The test count itself is not sacred.
+
+The **behavior protected by meaningful tests** is what matters.
 
 ### Phase 1 completion condition
 
