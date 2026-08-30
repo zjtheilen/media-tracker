@@ -26,7 +26,7 @@ def calculate_trait_strengths(profile):
     return {
         # Archive-level signal
         "average_score_strength": normalize_trait_signal(
-            profile.get("averageScore", 0) / 10
+            profile.get("averageScore", 0)
         ),
 
         # Universal traits

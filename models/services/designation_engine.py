@@ -19,3 +19,14 @@ def evaluate_designations(profile):
         key=lambda x: x["score"],
         reverse=True,
     )
+
+
+def resolve_primary_designation(designations):
+
+    if not designations:
+        return None
+
+    return max(
+        designations,
+        key=lambda designation: designation["score"],
+    )

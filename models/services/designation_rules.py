@@ -5,12 +5,12 @@ def evaluate_boundary_explorer(profile):
 
     score = 0
 
-    score += genre_affinity(profile, "experimental") * 100
-    score += genre_affinity(profile, "surreal") * 75
-    score += genre_affinity(profile, "sci-fi") * 50
-    score += genre_affinity(profile, "horror") * 25
+    score += genre_affinity(profile, "experimental") * 36.36
+    score += genre_affinity(profile, "surreal") * 27.27
+    score += genre_affinity(profile, "sci-fi") * 18.18
+    score += genre_affinity(profile, "horror") * 9.09
 
-    score += profile.get("traits", {}).get("originality_strength", 0) * 25
+    score += profile.get("traits", {}).get("originality_strength", 0) * 9.09
 
     return min(score, 100)
 

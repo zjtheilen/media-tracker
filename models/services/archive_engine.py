@@ -30,7 +30,10 @@ from .archive_utils import (
 from .designation_basis import (
     generate_designation_basis,
 )
-from .designation_engine import evaluate_designations
+from .designation_engine import (
+    evaluate_designations,
+    resolve_primary_designation,
+)
 from .finding_engine import evaluate_findings
 from .observation_engine import evaluate_observations
 from .profile_metrics import calculate_profile_metrics
@@ -131,9 +134,7 @@ def _build_narrative(archive_profile):
 
 
 def _build_metrics(archive_profile):
-    archive_profile.update(
-        calculate_profile_metrics(archive_profile)
-    )
+    archive_profile.update(calculate_profile_metrics(archive_profile))
     archive_profile["genreAffinity"] = calculate_genre_affinity(archive_profile)
     archive_profile["genreCombinations"] = calculate_genre_combinations(archive_profile)
 
@@ -158,7 +159,9 @@ def _build_designations(archive_profile):
 
     archive_profile["designations"] = evaluate_designations(archive_profile)
 
-    archive_profile["primaryDesignation"] = archive_profile["designations"][0]
+    archive_profile["primaryDesignation"] = resolve_primary_designation(
+        archive_profile["designations"]
+    )
 
 
 def _build_observations(archive_profile):
