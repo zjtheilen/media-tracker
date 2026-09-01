@@ -29,16 +29,16 @@ Its purpose is to prevent terminology changes from being made in isolation.
 A terminology change is complete only when its full downstream blast radius has
 been considered, including:
 
-* backend models
-* calculation layers
-* API response models
-* serialization
-* frontend consumers
-* charts and visualizations
-* narrative consumers
-* tests
-* fixtures
-* future Profile consumers
+- backend models
+- calculation layers
+- API response models
+- serialization
+- frontend consumers
+- charts and visualizations
+- narrative consumers
+- tests
+- fixtures
+- future Profile consumers
 
 This document is an implementation-alignment aid.
 
@@ -285,10 +285,10 @@ Observation relative to that metric's threshold.
 
 It does not represent:
 
-* statistical confidence
-* probability
-* certainty that the Observation is objectively correct
-* generalized confidence across every condition in the rule
+- statistical confidence
+- probability
+- certainty that the Observation is objectively correct
+- generalized confidence across every condition in the rule
 
 An Observation may require multiple predicate conditions while using one
 designated supporting metric as the basis for its numerical Evidence Strength.
@@ -323,11 +323,11 @@ The internal helper `score_confidence()` is intentionally preserved during Phase
 
 Updated consumers:
 
-* `models/services/observation_rules.py`
-* `models/services/observation_mapper.py`
-* `models/services/observation_engine.py`
-* `tests/designations/test_observations.py`
-* `tests/services/test_archive_engine.py`
+- `models/services/observation_rules.py`
+- `models/services/observation_mapper.py`
+- `models/services/observation_engine.py`
+- `tests/designations/test_observations.py`
+- `tests/services/test_archive_engine.py`
 
 Targeted regression coverage: **29 tests passing.**
 
@@ -360,11 +360,11 @@ The Phase 1 contract therefore does not require a Finding confidence field.
 
 Do not:
 
-* invent Finding confidence mathematics
-* add a confidence field merely for consistency with other subsystems
-* rename an absent field
-* assign Finding confidence the semantics of Evidence Strength
-* assign Finding confidence the semantics of Classification Confidence
+- invent Finding confidence mathematics
+- add a confidence field merely for consistency with other subsystems
+- rename an absent field
+- assign Finding confidence the semantics of Evidence Strength
+- assign Finding confidence the semantics of Classification Confidence
 
 If a future Finding confidence concept becomes necessary, its semantics must
 be explicitly defined before implementation.
@@ -373,8 +373,7 @@ be explicitly defined before implementation.
 
 **RESOLVED / NOT IMPLEMENTED**
 
-No code change is required.
----
+## No code change is required.
 
 # 10. Classification Confidence
 
@@ -399,12 +398,12 @@ That concept is no longer part of the active Phase 1 intelligence contract.
 
 The project instead uses explicit domain concepts:
 
-* **Designation** for the selected taste classification
-* **Designation Signal Strength** for the strength of the Designation signal
-* **Identity** for the selected broader interpretive profile
-* **Identity Data Sufficiency** for the sufficiency of evidence supporting an
+- **Designation** for the selected taste classification
+- **Designation Signal Strength** for the strength of the Designation signal
+- **Identity** for the selected broader interpretive profile
+- **Identity Data Sufficiency** for the sufficiency of evidence supporting an
   Identity
-* **Observation Evidence Strength** for threshold-relative support of an
+- **Observation Evidence Strength** for threshold-relative support of an
   Observation
 
 These concepts should not be collapsed back into a generic Classification
@@ -448,9 +447,9 @@ it.
 
 Evidence Strength is not interchangeable with:
 
-* Signal Strength
-* Data Sufficiency
-* Classification Confidence
+- Signal Strength
+- Data Sufficiency
+- Classification Confidence
 
 ## Treatment
 
@@ -470,13 +469,13 @@ Evidence mechanisms are intentionally allowed to differ by subsystem.
 
 The repository already contains several established evidence mechanisms, including:
 
-* metric evidence
-* genre evidence
-* Observation evidence
-* Finding evidence
-* Designation-specific evidence and explanation
-* Identity contribution and comparison evidence
-* narrative explanation
+- metric evidence
+- genre evidence
+- Observation evidence
+- Finding evidence
+- Designation-specific evidence and explanation
+- Identity contribution and comparison evidence
+- narrative explanation
 
 The contract requires **explainability**, not architectural uniformity.
 
@@ -648,10 +647,10 @@ The frontend uses `primaryDesignation` as the displayed primary designation.
 
 Existing tests establish:
 
-* highest-scoring designation wins
-* empty designation results produce `None`
-* the full winning designation is preserved
-* ties are resolved deterministically
+- highest-scoring designation wins
+- empty designation results produce `None`
+- the full winning designation is preserved
+- ties are resolved deterministically
 
 These behaviors constitute the current contract.
 
@@ -792,11 +791,11 @@ A Close Competitor is a **ranking/context concept**, not a separate classificati
 
 A Close Competitor:
 
-* does **not** become co-primary
-* does **not** override deterministic Primary selection
-* does **not** automatically become a Secondary Identity
-* represents a strong alternative whose proximity to the Primary makes the ranking meaningfully less decisive
-* may provide useful context for explaining how strongly the Primary is separated from competing candidates
+- does **not** become co-primary
+- does **not** override deterministic Primary selection
+- does **not** automatically become a Secondary Identity
+- represents a strong alternative whose proximity to the Primary makes the ranking meaningfully less decisive
+- may provide useful context for explaining how strongly the Primary is separated from competing candidates
 
 The conceptual distinction is:
 
@@ -871,9 +870,9 @@ Do not invent a fixed threshold until the accepted Identity/Designation score di
 
 The eventual implementation must determine how Close Competitor status is calculated, including whether score proximity should be:
 
-* absolute
-* relative to the Primary score
-* or combined with additional evidence/relevance requirements
+- absolute
+- relative to the Primary score
+- or combined with additional evidence/relevance requirements
 
 No implementation algorithm should be inferred solely from the semantic definition.
 
@@ -885,10 +884,10 @@ The semantic existence of Close Competitors does not require immediate Profile o
 
 Whether Close Competitors should be:
 
-* exposed in the Profile
-* included in API responses
-* used only by the explanation/narrative layer
-* or retained as internal ranking metadata
+- exposed in the Profile
+- included in API responses
+- used only by the explanation/narrative layer
+- or retained as internal ranking metadata
 
 requires a separate implementation/product decision.
 
@@ -898,9 +897,9 @@ requires a separate implementation/product decision.
 
 The conceptual contract does not yet establish whether one Primary may have:
 
-* zero Close Competitors
-* one Close Competitor
-* or multiple Close Competitors
+- zero Close Competitors
+- one Close Competitor
+- or multiple Close Competitors
 
 That should be determined together with the selection and presentation policy.
 
@@ -1044,10 +1043,10 @@ The existence of an exact tie does not by itself require a new API field.
 
 Whether the API or Profile should expose:
 
-* that a tie occurred
-* the tie-breaking basis
-* the tied candidate
-* or other ranking context
+- that a tie occurred
+- the tie-breaking basis
+- the tied candidate
+- or other ranking context
 
 is a separate presentation/API decision.
 
@@ -1071,42 +1070,126 @@ Exact ties are deterministic single-Primary outcomes.
 
 ---
 
-# 19. Archive State
+## 19. Archive State: EMPTY → SPARSE → ESTABLISHED
 
-The Intelligence Layer recognizes three conceptual archive states:
+**Status:** Semantic model resolved; operational thresholds and API representation remain unresolved.
 
-* EMPTY
-* SPARSE
-* ESTABLISHED
+Archive State describes the overall analytical maturity of the archive based on **archive volume and usable intelligence coverage**. It distinguishes between an archive with no evidence, a limited but meaningful archive, and an archive sufficiently developed for broad archive-level interpretation.
 
-These labels are conceptual until operational thresholds are explicitly
-defined.
+### 19.1 State Definitions
 
-The core principle is:
+**EMPTY**
 
-> Insufficient data should produce insufficient evidence, not false certainty.
+No archive entries exist.
 
-Different intelligence subsystems may legitimately require different amounts
-or types of data.
+**SPARSE**
 
-## Treatment
+Some archive evidence exists, but the corpus remains limited for broad or stable interpretation.
 
-Do not add state-dependent branching based on undefined thresholds.
+A SPARSE archive is **not an intelligence-free archive**. Legitimate traits, genre signals, observations, findings, or other subsystem-specific intelligence may still be produced when sufficient evidence exists for those individual signals. The state indicates that the archive as a whole remains limited, not that every subsystem lacks evidence.
 
-Do not imply that a universal archive-state threshold already exists.
+**ESTABLISHED**
 
-## Status
+The archive contains sufficient usable evidence for broad archive-level interpretation.
 
-**CONCEPT DEFINED / OPERATIONAL POLICY DEFERRED**
+ESTABLISHED does not mean that every classification or inference is certain. It indicates that the archive has developed enough volume and coverage for the system to make broader interpretations without treating the corpus as merely preliminary.
+
+### 19.2 Archive State Is Distinct From Other Sufficiency Concepts
+
+Archive State must remain conceptually separate from:
+
+```text
+Archive State
+≠ Data Sufficiency
+≠ Signal Strength
+≠ Evidence Strength
+≠ Classification Confidence
+≠ successful classification
+```
+
+Archive State is an **archive-level** concept. Data Sufficiency and related confidence/evidence measures may remain **subsystem-specific**.
+
+For example, an archive may be SPARSE overall while still providing sufficient evidence for a particular Designation or Identity signal. Conversely, an ESTABLISHED archive may still produce weak evidence for a particular classification.
+
+### 19.3 Evidence From Current Archive Data
+
+Current fixtures and tests demonstrate a continuum of usable intelligence rather than a single natural entry-count boundary:
+
+- **0 entries** is explicitly treated as an empty archive and produces no meaningful archive interpretation.
+- **Small non-empty archives** can still produce legitimate signals. Existing tests demonstrate meaningful Designation and genre-derived behavior with small entry counts.
+- **10-entry archives** can already provide quantitative genre/trait signals.
+- **15–20 entries** are meaningful for some Identity-specific analysis, but the Identity minimum-entry requirement is subsystem-specific and must not become an archive-wide maturity threshold.
+- **30–40 entries** are used by current Identity fixtures/tests for more substantial multi-genre analysis.
+- **50-entry archives** are used by representative fixtures for broad, highly developed archive behavior.
+
+This evidence does **not** establish a justified universal rule such as:
+
+```text
+0 = EMPTY
+1–19 = SPARSE
+20+ = ESTABLISHED
+```
+
+The existing `minimum_entries` requirements belong to individual intelligence subsystems and therefore cannot, by themselves, define Archive State.
+
+### 19.4 Volume and Coverage
+
+Archive State should consider both:
+
+1. **Archive volume** — how much evidence exists.
+2. **Usable intelligence coverage** — how broadly that evidence supports interpretation.
+
+Entry count alone is therefore insufficient as the conceptual definition of Archive State.
+
+For example, two archives with the same number of entries may not have equivalent analytical maturity if one provides broad genre/trait coverage while the other is highly concentrated in a narrow area.
+
+This does **not** justify introducing a large universal "archive maturity score." Archive State should remain a small, explainable state model unless later evidence demonstrates that a more complex model is necessary.
+
+### 19.5 Operational Behavior
+
+The semantic state model is:
+
+```text
+EMPTY
+  ↓
+SPARSE
+  ↓
+ESTABLISHED
+```
+
+The exact operational thresholds for transitioning between these states remain **UNRESOLVED**.
+
+The implementation should not suppress legitimate subsystem intelligence merely because the archive is SPARSE. Instead, state should provide context for how broadly or confidently the resulting intelligence should be interpreted.
+
+Any state-driven suppression, branching, scoring adjustment, or presentation behavior requires separate evidence and should not be assumed from the state definitions alone.
+
+### 19.6 Open Questions
+
+The following remain intentionally unresolved:
+
+- Exact entry-count threshold for SPARSE → ESTABLISHED
+- Whether volume and coverage should be evaluated through explicit rules or another minimal mechanism
+- API representation of Archive State
+- Whether Archive State should affect presentation, confidence language, or downstream behavior
+- Whether any subsystem-specific exceptions are required
+
+These should be resolved only after examining the relevant archive behavior and fixtures rather than introducing arbitrary universal thresholds.
+
+**Current decision:** Archive State is a three-state archive-level maturity concept—**EMPTY, SPARSE, ESTABLISHED**—based conceptually on **archive volume plus usable intelligence coverage**. EMPTY is established at zero entries; SPARSE and ESTABLISHED remain semantically defined but numerically unresolved.
 
 ---
 
-# 20. API Rename Principles
+## 20. API Rename Principles
 
-A field rename must not be performed merely because a field name is
-conceptually imperfect.
+**Status:** Locked.
 
-Before renaming an API field, audit:
+An API field rename is a **contract migration**, not a string replacement.
+
+A semantic correction can justify renaming a field, but conceptual imperfection alone is not sufficient reason to change an established API contract. Before renaming a field, its semantic meaning must be established and its full dependency path audited.
+
+### 20.1 Required Rename Audit
+
+Audit the field through the complete dependency path:
 
 ```text
 backend model
@@ -1115,9 +1198,11 @@ calculation
     ↓
 service
     ↓
-API response model
+API response model / response construction
     ↓
-serialization
+serialized response shape
+    ↓
+API client
     ↓
 frontend consumer
     ↓
@@ -1128,30 +1213,50 @@ narrative consumers
 tests / fixtures
 ```
 
+Not every field will pass through every layer. The audit should follow the field through the layers that actually exist in the implementation.
+
 A backend rename without downstream alignment is incomplete.
 
-## Treatment
+### 20.2 Treatment
 
 Prefer:
 
-* terminology clarification
-* field-level mapping
-* compatibility-preserving changes
-* incremental migration
-* explicit tests
+- terminology clarification before implementation changes
+- field-level mapping where a mapping layer already exists
+- the smallest migration necessary to correct the established semantic contract
+- preserving existing behavior while terminology is migrated
+- explicit updates to downstream consumers
+- explicit regression tests and fixture updates
+- deliberate migration of public API fields rather than silent contract changes
 
 Avoid:
 
-* mass renames
-* speculative API redesign
-* changing multiple semantic layers simultaneously
-* renaming fields whose semantics have not been fully established
+- mass renames
+- speculative API redesign
+- changing multiple semantic layers simultaneously
+- renaming fields whose semantics have not been fully established
+- treating an API rename as an isolated backend change
+- maintaining duplicate terminology indefinitely without a defined migration purpose
+
+### 20.3 Rename Decision Rule
+
+A field should be renamed only when:
+
+1. the intended terminology and semantic contract are established;
+2. the existing field name is demonstrably inconsistent with that contract;
+3. the field's actual dependency path has been audited;
+4. downstream consumers and tests can be aligned deliberately; and
+5. the migration provides a meaningful semantic improvement rather than cosmetic consistency alone.
+
+**Principle:** API terminology should follow established semantics, and API renames should follow the dependency graph.
 
 ---
 
 # 21. High-Risk Existing Field Names
 
-The following names require particular care:
+**Status:** Resolved by field-level semantic audit; several names remain intentionally generic because their meaning is domain-specific.
+
+The following existing names require particular care:
 
 ```text
 confidence
@@ -1163,78 +1268,340 @@ evidence
 recommendation_bias
 ```
 
-Each must be evaluated according to its actual semantic role.
+These names must **not** be renamed globally merely because they are generic or conceptually imperfect.
 
-A generic field name does not justify changing valid underlying behavior.
+Each occurrence must be evaluated according to its actual semantic role, consumer path, and established contract.
+
+## 21.1 `confidence`
+
+`confidence` is a high-risk generic term because it has been used for different kinds of support or certainty.
+
+It must be evaluated **by subsystem**, not treated as one universal concept.
+
+Where the semantic contract has been established, the public field should use the appropriate domain terminology.
+
+Example:
+
+```text
+Observation confidence
+        ↓
+Observation Evidence Strength
+        ↓
+evidenceStrength
+```
+
+The existing Observation `confidence` field has already been migrated to `evidenceStrength` while preserving its threshold-relative calculation and behavior.
+
+Internal helper names containing `confidence` may remain when they do not expose an API or user-facing contract and renaming them would create unnecessary implementation churn.
+
+**Treatment:** Audit by occurrence; do not globally rename.
+
+---
+
+## 21.2 `designationConfidence`
+
+`designationConfidence` is an existing Designation-level signal derived from designation scoring inputs.
+
+It does **not** represent comparative Classification Confidence.
+
+Its established contract terminology is:
+
+**Signal Strength**
+
+The existing calculation and API field are preserved. User-facing terminology should describe the value as Signal Strength.
+
+**Treatment:** Preserve field and calculation; correct misleading presentation terminology where necessary.
+
+**Status:** RESOLVED / TERMINOLOGY
+
+---
+
+## 21.3 `score`
+
+`score` is a high-risk generic field because its meaning is domain-specific.
+
+Examples include:
+
+```text
+Designation score
+= degree of fit to a Designation rule
+
+Identity score
+= strength of alignment with an Identity
+
+Identity contribution
+= weighted contribution of an individual Identity signal
+```
+
+These values must not be collapsed into a universal scoring concept merely because they share the field name `score`.
+
+A `score` field should be renamed only when its specific semantic contract has been established and the existing name creates an actual contract or consumer problem.
+
+**Treatment:** Preserve by domain; audit each occurrence independently.
+
+---
+
+## 21.4 `breakdown`
+
+Identity `breakdown` is an explanatory scoring structure containing the contributing traits, values, weights, normalized values, and calculated contributions used to explain Identity scoring.
+
+It also provides evidence used by deterministic Identity tie-breaking.
+
+Therefore `breakdown` is not merely an arbitrary internal score dump.
+
+The existing structure should be preserved unless a concrete consumer or semantic conflict requires a more specific name.
+
+**Treatment:** Preserve current behavior and structure.
+
+**Status:** RESOLVED / PRESERVE
+
+---
+
+## 21.5 `top_traits`
+
+Identity `top_traits` currently represents the highest-contributing entries from the Identity scoring breakdown.
+
+It therefore means:
+
+```text
+top contributing Identity signals
+```
+
+rather than a universal list of the archive's most important traits.
+
+The existing field should not be renamed solely because `top_traits` is somewhat generic.
+
+If a future consumer audit establishes that the distinction is materially confusing, a more precise field name may be considered separately.
+
+**Treatment:** Preserve pending demonstrated consumer or contract need.
+
+**Status:** DEFERRED / TERMINOLOGY DEBT
+
+---
+
+## 21.6 `evidence`
+
+`evidence` is not a universal data type.
+
+The project intentionally permits subsystem-specific evidence mechanisms:
+
+```text
+Observation evidence
+≠
+Finding evidence
+≠
+Designation evidence
+≠
+Identity contribution evidence
+```
+
+A structured evidence object and a numeric Evidence Strength value are also distinct concepts.
+
+Therefore:
+
+```text
+evidence
+≠
+evidenceStrength
+```
+
+A generic `evidence` field should be evaluated according to the evidence it actually represents rather than renamed globally.
+
+**Treatment:** Preserve subsystem-specific evidence structures; audit individual occurrences when their public semantics are changed.
+
+---
+
+## 21.7 `recommendation_bias`
+
+`recommendation_bias` represents recommendation-oriented metadata associated with an intelligence result.
+
+It is not itself a recommendation score or completed recommendation.
+
+Therefore:
+
+```text
+recommendation_bias
+≠
+recommendation_score
+≠
+recommendation
+```
+
+The existing metadata should be preserved while the Recommendation Engine remains intentionally deferred.
+
+When substantive recommendation scoring is implemented, its weighting and consumer behavior should receive a separate audit.
+
+**Treatment:** Preserve existing metadata; defer recommendation-system redesign.
+
+**Status:** RESOLVED / DEFERRED
+
+---
+
+## 21.8 General Rule
+
+Generic field names are not themselves implementation defects.
+
+A field should be renamed when:
+
+1. its semantic contract has been established;
+2. the existing name materially conflicts with that contract;
+3. the downstream consumer path has been audited; and
+4. the rename provides meaningful semantic improvement.
+
+Do not perform global terminology cleanup merely to make names look consistent.
+
+**Principle:** **Semantic specificity must come from the domain contract, not from renaming generic fields for cosmetic consistency.**
 
 ---
 
 # 22. Field-Level Rename Status
 
-| Field                    | Current semantic interpretation                   | Phase 1 action                                                  |
-| ------------------------ | ------------------------------------------------- | --------------------------------------------------------------- |
-| `data_sufficiency`       | Data Sufficiency                                  | Preserve                                                        |
-| Identity `score`         | Identity alignment strength                       | Preserve                                                        |
-| `designationConfidence`  | Designation Signal Strength                       | Clarify terminology                                             |
-| Observation `evidenceStrength` | Observation Evidence Strength                     | Preserve renamed API field                                      |
-| Finding `confidence`     | Undefined                                         | Defer                                                           |
-| `score` generally        | Context-dependent scoring value                   | Preserve; do not globally rename                                |
-| `evidence`               | Layer-specific support/explanation                | Preserve; do not universalize                                   |
-| `recommendation_bias`    | Recommendation-oriented metadata                  | Preserve                                                        |
-| `breakdown`              | Layer-specific contribution/explanation structure | Preserve                                                        |
-| `top_traits`             | Profile trait presentation                        | Preserve unless consumer-specific audit requires change         |
+| Field                          | Current semantic interpretation                   | Phase 1 action                                          |
+| ------------------------------ | ------------------------------------------------- | ------------------------------------------------------- |
+| `data_sufficiency`             | Data Sufficiency                                  | Preserve                                                |
+| Identity `score`               | Identity alignment strength                       | Preserve                                                |
+| `designationConfidence`        | Designation Signal Strength                       | Clarify terminology                                     |
+| Observation `evidenceStrength` | Observation Evidence Strength                     | Preserve renamed API field                              |
+| Finding `confidence`           | No current field / undefined concept              | Defer                                                   |
+| `score` generally              | Context-dependent scoring value                   | Preserve; do not globally rename                        |
+| `evidence`                     | Layer-specific support/explanation                | Preserve; do not universalize                           |
+| `recommendation_bias`          | Recommendation-oriented metadata                  | Preserve                                                |
+| `breakdown`                    | Layer-specific contribution/explanation structure | Preserve                                                |
+| `top_traits`                   | Top contributing Identity signals                 | Preserve unless consumer-specific audit requires change |
 
 ---
 
-# 23. Frontend Terminology
+## 23. Frontend Terminology
 
-Frontend terminology should communicate the reconciled semantic meaning without
-necessarily requiring an API field rename.
+**Status:** Locked.
+
+Frontend terminology should communicate the **established semantic meaning** of an intelligence field without necessarily requiring an API field rename.
+
+A frontend label may clarify terminology when the underlying API field and calculation remain valid but the field name is misleading to users.
 
 For example:
 
 ```text
+
 API:
+
 designationConfidence
 
 Frontend:
+
 Signal Strength
+
 ```
 
-may be appropriate if the underlying calculation is unchanged and the frontend
-label is the misleading portion.
+may be appropriate when the underlying value represents Signal Strength and the API field is being preserved for compatibility.
 
-Likewise:
+Likewise, Observation terminology is now represented publicly as:
 
 ```text
-API:
+
+Internal / legacy implementation:
+
 confidence
 
+Public API:
+
+evidenceStrength
+
 Frontend:
+
 Evidence Strength
+
 ```
 
-may be appropriate for Observation output once the consumer audit confirms the
-context.
+The frontend should use the established semantic meaning of `evidenceStrength` rather than reintroducing the retired `confidence` terminology.
 
-Frontend terminology must not independently create new intelligence concepts.
+### 23.1 Presentation Is Not Semantic Redefinition
+
+Frontend terminology may clarify an established concept, but it must not reinterpret an existing value as a different intelligence concept.
+
+For example:
+
+```text
+
+designationConfidence = 72
+
+```
+
+must not be presented as:
+
+```text
+
+72% confidence
+
+```
+
+if the established semantic meaning is Signal Strength rather than probabilistic or classification confidence.
+
+Likewise, frontend code must not derive new concepts such as "overall confidence," "certainty," "accuracy," or "evidence quality" from existing fields unless those concepts have been explicitly established.
+
+### 23.2 Frontend Terminology Rules
+
+Prefer:
+
+- user-facing labels that match established semantic definitions
+- presentation-layer clarification when an API field name is misleading
+- preserving valid API contracts when a frontend label can resolve the terminology problem
+- consistent terminology across related frontend consumers
+- explicit semantic definitions before introducing derived intelligence terminology
+
+Avoid:
+
+- treating frontend labels as the source of semantic definitions
+- reintroducing retired terminology
+- converting Signal Strength into implied probability or certainty
+- creating new intelligence concepts solely for presentation convenience
+- using a frontend label to conceal unresolved backend semantics
+
+**Principle:** The frontend may clarify intelligence terminology, but it must not redefine the intelligence model.
 
 ---
 
-# 24. Backward Compatibility
+## 24. Backward Compatibility
 
-Phase 1 should favor compatibility-preserving terminology alignment.
+**Status:** Locked.
 
-Where an existing API field is consumed by multiple clients, a semantic label
-correction may be preferable to an immediate field rename.
+Phase 1 should favor **compatibility-preserving terminology alignment** where the existing public API contract remains semantically usable.
 
-A public rename should occur only when:
+Where an existing API field is consumed by one or more clients, a semantic label correction may be preferable to an immediate field rename when the field itself can remain valid and the terminology problem can be resolved at the presentation layer.
 
-1. the semantic mapping is locked
-2. all known consumers are identified
-3. tests are updated
-4. compatibility implications are understood
-5. the rename is explicitly approved
+Backward compatibility should be treated as a constraint on implementation, not as a reason to preserve terminology whose semantic meaning has been demonstrably superseded.
+
+### 24.1 Public Rename Requirements
+
+A public API field rename should occur only when:
+
+1. the semantic mapping is locked;
+2. all known consumers and dependency paths have been identified;
+3. affected tests and fixtures have been identified and can be updated deliberately;
+4. compatibility implications, including downstream consumers, have been understood;
+5. the migration provides a meaningful semantic improvement; and
+6. the rename is explicitly approved.
+
+Updated tests demonstrate that the implementation matches the migrated contract; they do not by themselves establish that compatibility has been preserved.
+
+### 24.2 Compatibility Strategy
+
+When terminology can be corrected without changing the public field:
+
+* prefer frontend or presentation-layer clarification;
+* preserve the existing API field where its semantic meaning remains valid;
+* avoid unnecessary contract changes;
+* document the relationship between the API field and its user-facing terminology.
+
+When a field's public name is itself materially inconsistent with its established semantic meaning:
+
+* treat the rename as an intentional contract migration;
+* audit all known consumers before implementation;
+* update affected tests and fixtures as part of the migration;
+* explicitly consider whether a staged transition or compatibility mechanism is necessary;
+* do not maintain duplicate terminology indefinitely without a defined migration purpose.
+
+**Principle:** Preserve valid API contracts when possible, but compatibility should not prevent deliberate correction of an established semantic mismatch.
 
 ---
 
@@ -1242,17 +1609,17 @@ A public rename should occur only when:
 
 Phase 1 does not:
 
-* invent Classification Confidence mathematics
-* invent Finding confidence
-* invent Secondary Identity thresholds
-* invent tie/near-tie thresholds
-* implement Recommendation weighting
-* create a universal evidence schema
-* redesign the API
-* rename every occurrence of `confidence`
-* rename fields solely for aesthetic consistency
-* make Identity a Designation clone
-* make Findings into renamed Observations
+- invent Classification Confidence mathematics
+- invent Finding confidence
+- invent or promote Secondary Identity thresholds
+- invent tie/near-tie thresholds
+- implement Recommendation weighting
+- create a universal evidence schema
+- redesign the API
+- rename every occurrence of `confidence`
+- rename fields solely for aesthetic consistency
+- make Identity a Designation clone
+- make Findings into renamed Observations
 
 ---
 
@@ -1265,103 +1632,113 @@ Tests should protect:
 
 ### Identity
 
-* Data Sufficiency
-* Identity score
-* eligibility
-* deterministic ranking
-* primary selection
-* contribution breakdown
-* insufficient-data behavior
-* secondary-selection behavior once defined
+- Data Sufficiency
+- Identity score
+- eligibility
+- deterministic ranking
+- primary selection
+- contribution breakdown
+- insufficient-data behavior
+- secondary-selection behavior once defined
 
 ### Designations
 
-* scoring
-* deterministic ranking
-* primary selection
-* explanation/evidence
-* recommendation bias
+- scoring
+- deterministic ranking
+- primary selection
+- explanation/evidence
+- recommendation bias
 
 ### Observations
 
-* rule behavior
-* Evidence Strength
-* evidence
-* deterministic ordering
+- rule behavior
+- Evidence Strength
+- evidence
+- deterministic ordering
 
 ### Findings
 
-* interpretive boundary
-* evidence
-* synthesis behavior
-* future confidence semantics when defined
+- interpretive boundary
+- evidence
+- synthesis behavior
+- future confidence semantics when defined
 
 ### API / Frontend
 
-* response compatibility
-* serialization
-* field mapping
-* terminology presentation
-* downstream consumer behavior
+- response compatibility
+- serialization
+- field mapping
+- terminology presentation
+- downstream consumer behavior
 
 ---
 
-# 27. Implementation Rule
+## 27. Implementation Rule
 
 The governing implementation rule is:
 
 > **Change terminology where the semantic meaning is already established.**
->
-> **Do not change behavior merely because terminology is imperfect.**
->
-> **Do not assign semantics to unresolved concepts merely because an existing
-> field requires a name.**
 
-The implementation should evolve from the reconciled conceptual contract.
+> **Do not change behavior merely because terminology is imperfect.**
+
+> **Do not assign semantics to unresolved concepts merely because an existing field requires a name.**
+
+The implementation should evolve from the **established conceptual contract**.
+
+Resolved terminology should guide implementation changes; unresolved concepts should remain unresolved until their semantics are explicitly defined.
 
 It should not be rewritten to fit a cleaner vocabulary.
 
+**Principle:** Establish the meaning first, then align terminology and implementation to that meaning.
+
 ---
 
-# 28. Final Reconciled Mapping
+## 28. Final Reconciled Mapping
 
 The Phase 1 semantic vocabulary can be summarized as:
 
-```text
+[start text]
+
 Trait
-    ↓
+
+```
+↓
+```
+
 Signal Strength
 
 Identity
-    ├── score
-    │     ↓
-    │   alignment strength
-    │
-    └── data_sufficiency
-          ↓
-        Data Sufficiency
+├── score
+│     ↓
+│   alignment strength
+│
+└── data_sufficiency
+↓
+Data Sufficiency
 
 Observation
-    └── confidence
-          ↓
-        Evidence Strength
-        (threshold-relative)
+└── evidenceStrength
+↓
+Evidence Strength
+(threshold-relative)
 
 Designation
-    └── designationConfidence
-          ↓
-        Signal Strength
+└── designationConfidence
+↓
+Signal Strength
 
 Finding
-    └── confidence
-          ↓
-        UNRESOLVED
+└── confidence
+↓
+UNRESOLVED / NOT CURRENTLY DEFINED
 
 Future / optional concept
-    └── Classification Confidence
-          ↓
-        separation between competing classifications
-```
+└── Classification Confidence
+↓
+separation between competing classifications
+(not currently defined or implemented)
+
+[end code]
 
 These mappings describe semantics.
 
@@ -1373,35 +1750,28 @@ They do not automatically require immediate API field renames.
 
 This document is aligned when:
 
-* [x] Identity `data_sufficiency` is defined as Data Sufficiency
-* [x] Identity `score` remains distinct from Data Sufficiency
-* [x] Designation `designationConfidence` is recognized as Signal Strength
-* [x] Observation `confidence` is recognized as threshold-relative Evidence Strength
-* [x] Finding confidence remains unresolved
-* [x] Classification Confidence is not invented as an existing metric
-* [x] Evidence mechanisms remain layer-specific
-* [x] Recommendation Bias remains descriptive metadata
-* [x] Primary Identity remains distinct from Designation
-* [x] Secondary Identity meaningfulness remains unresolved until policy is locked
-* [x] Tie / close-competitor behavior remains unresolved until policy is locked
-* [x] Archive-state thresholds remain unresolved
-* [x] API renames are treated as downstream changes rather than isolated backend edits
-* [x] No unrelated API redesign is introduced
+- [x] Identity `data_sufficiency` is defined as Data Sufficiency
+- [x] Identity `score` remains distinct from Data Sufficiency
+- [x] Designation `designationConfidence` is recognized as Signal Strength
+- [x] Observation `confidence` is recognized as threshold-relative Evidence Strength
+- [x] Finding confidence remains unresolved
+- [x] Classification Confidence is not invented as an existing metric
+- [x] Evidence mechanisms remain layer-specific
+- [x] Recommendation Bias remains descriptive metadata
+- [x] Primary Identity remains distinct from Designation
+- [x] Secondary Identity meaningfulness remains unresolved until policy is locked
+- [x] Tie / close-competitor behavior remains unresolved until policy is locked
+- [x] Archive-state thresholds remain unresolved
+- [x] API renames are treated as downstream changes rather than isolated backend edits
+- [x] No unrelated API redesign is introduced
 
 ---
 
-# 30. Governing Principle
+## 30. Governing Principle
 
-> **The API should describe the intelligence system that actually exists, while
-> the intelligence system should only change when an explicit conceptual
-> decision requires it.**
+> **The API should describe the intelligence system that actually exists, while the intelligence system should only change when an explicit conceptual decision requires it.**
 
-Terminology alignment is therefore a controlled evolution of the existing
-Media Tracker architecture, not a justification for rewriting it.
+Terminology alignment is therefore a controlled evolution of the existing Media Tracker architecture, not a justification for rewriting it.
 
-```
+**Principle:** Establish the semantic contract first. Align terminology and implementation to that contract without changing behavior unless an explicit conceptual decision requires the change.
 
-This is intentionally **conservative**. I did not turn any of the unresolved items into fake decisions just to make the map look cleaner. The biggest correction is that the old map's `Observation confidence → Signal Strength` mapping is now **Evidence Strength**, while `designationConfidence → Signal Strength` remains separate. That matches the reconciled contract.
-
-Once you replace that file, **the only remaining planning document is `frontend-terminology-alignment.md`**.
-```
