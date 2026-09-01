@@ -126,7 +126,7 @@ def test_boundary_exploration_evidence_counts_media_types_equally():
                 "media_type": "book",
             },
             {
-                "genres": ["psychological"],
+                "genres": ["sci-fi"],
                 "media_type": "game",
             },
         ],

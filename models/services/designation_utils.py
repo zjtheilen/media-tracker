@@ -4,7 +4,6 @@ BOUNDARY_GENRES = {
     "experimental",
     "surreal",
     "sci-fi",
-    "psychological",
 }
 
 

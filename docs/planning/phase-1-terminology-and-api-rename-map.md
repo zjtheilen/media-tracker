@@ -720,87 +720,354 @@ evidence-based tie-breaking behavior are preserved.
 
 ---
 
-# 16. Secondary Identities
+## 16. Secondary Identities
 
-The contract permits:
+**Contract:** Secondary Identities are **ZERO OR MORE** meaningfully relevant additional curator philosophies.
+
+### Locked Phase 1 Policy
+
+A Secondary Identity must not be presented merely because it has a positive score.
+
+Secondary Identity selection must consider:
+
+1. **Eligibility / Data Sufficiency** — the Identity must first satisfy its minimum data requirement.
+2. **Meaningful Signal Strength** — the Identity must have sufficient calculated support to be meaningfully distinguishable from a weak candidate.
+3. **Relevance to the Primary Identity** — the Secondary should represent a meaningfully related additional curator philosophy rather than merely being another ranked candidate.
+4. **Separation from weak candidates** — low-ranking or weakly supported Identities should not be surfaced simply because they have a non-zero score.
+
+The conceptual selection model is:
 
 ```text
-ZERO OR MORE meaningful Secondary Identities
+Eligible Identity
+       ↓
+Meaningful Signal
+       ↓
+Relevant to Primary
+       ↓
+Meaningfully separated from weak candidates
+       ↓
+Secondary Identity
 ```
 
-The existence of a positive score does not automatically make an Identity
-meaningful enough for Profile presentation.
+### Numeric Thresholds
 
-Meaningfulness may eventually consider:
+**UNRESOLVED / IMPLEMENTATION POLICY**
 
-* Data Sufficiency
-* signal strength
-* relationship to the Primary Identity
-* separation from weak candidates
+Phase 1 does **not** lock a universal numeric Secondary Identity threshold.
 
-Exact thresholds remain unresolved.
+Any numeric threshold used by the current implementation must be treated as an implementation choice subject to validation against the accepted Identity catalog and observed score distributions.
 
-## Treatment
+Do not promote an implementation threshold into a conceptual contract merely because it currently exists in code.
 
-Do not invent numerical thresholds during terminology alignment.
+### Cardinality
 
-Do not expose every positive-score Identity merely to satisfy cardinality.
+The conceptual contract permits:
 
-## Status
+```text
+Primary Identity:    ONE
+Secondary Identities: ZERO OR MORE
+```
 
-**DEFERRED / POLICY**
+The current implementation may expose a narrower presentation shape while the Profile/API surface remains under development. Expanding the current representation to support multiple Secondary Identities is a separate implementation/API decision and is not required merely to establish the Phase 1 semantic contract.
 
----
+### Status
 
-# 17. Designation Close Competitors
+**RESOLVED / SEMANTIC POLICY**
 
-The Profile may optionally present:
+The meaning and selection principles for Secondary Identities are locked.
 
-* close competitors
-* ranked alternatives
-* other useful Designation context
+**NUMERIC THRESHOLDS: UNRESOLVED**
 
-These are presentation choices, not automatically additional primary
-Designations.
-
-Whether close competitors should be shown depends on the final ranking and
-presentation policy.
-
-## Treatment
-
-Do not create a new API field solely to support a presumed close-competitor
-policy.
-
-Do not invent near-tie thresholds.
-
-## Status
-
-**DEFERRED / POLICY**
+**MULTI-SECONDARY PRESENTATION/API SHAPE: DEFERRED**
 
 ---
 
-# 18. Tie Behavior
+## 17. Close Competitors / Near-Ties
 
-Ranking must be inspected before terminology or implementation changes are made.
+**Contract:** A Close Competitor is an eligible classification candidate whose support is sufficiently close to the Primary candidate that the ranking represents **meaningful competitive ambiguity** rather than a clearly separated winner.
 
-The audit should identify:
+### Locked Semantic Purpose
 
-* sort key
-* score precision
-* exact tie behavior
-* stable ordering
-* primary selection
-* close-competitor behavior
-* whether Python or file-system ordering can influence results
+A Close Competitor is a **ranking/context concept**, not a separate classification.
 
-Where current deterministic behavior exists without conceptual contradiction,
-preserve it.
+A Close Competitor:
 
-Do not introduce arbitrary tie-breaking solely to make output appear cleaner.
+* does **not** become co-primary
+* does **not** override deterministic Primary selection
+* does **not** automatically become a Secondary Identity
+* represents a strong alternative whose proximity to the Primary makes the ranking meaningfully less decisive
+* may provide useful context for explaining how strongly the Primary is separated from competing candidates
 
-## Status
+The conceptual distinction is:
 
-**DEFERRED / POLICY**
+```text
+Secondary Identity
+    ↓
+Meaningfully relevant additional curator philosophy
+
+Close Competitor
+    ↓
+Strong competing candidate whose proximity to Primary
+creates meaningful ambiguity in ranking strength
+```
+
+Close Competitor status and Secondary Identity status are therefore **distinct concepts**. They may potentially overlap, but one does not automatically imply the other.
+
+### Primary Selection
+
+Close Competitor status does not alter the Primary Identity or Primary Designation selection process.
+
+The system continues to select a single Primary through its applicable deterministic ranking and tie-breaking behavior.
+
+Conceptually:
+
+```text
+Eligible candidates
+       ↓
+Score
+       ↓
+Ranking / tie-breaking
+       ↓
+ONE Primary
+       ↓
+Identify meaningful close competitors
+```
+
+A Close Competitor therefore describes the **relationship between the Primary and a strong alternative after ranking**, rather than creating an alternative primary classification.
+
+### Explainability Purpose
+
+Close Competitor semantics preserve information that a single Primary result cannot communicate by itself:
+
+> **How decisively did the Primary separate from other strongly supported candidates?**
+
+For example:
+
+```text
+Primary:       Boundary Explorer    0.91
+Close Competitor: Deep Diver        0.90
+```
+
+represents a materially different classification context from:
+
+```text
+Primary:       Boundary Explorer    0.91
+Alternative:   Deep Diver            0.54
+```
+
+The first indicates meaningful competitive ambiguity; the second indicates clearer separation.
+
+### Numeric Threshold
+
+**UNRESOLVED**
+
+Phase 1 does not currently establish a universal numeric definition of "close."
+
+Do not invent a fixed threshold until the accepted Identity/Designation score distributions have been inspected and the appropriate comparison model has been established.
+
+### Selection Mechanism
+
+**UNRESOLVED**
+
+The eventual implementation must determine how Close Competitor status is calculated, including whether score proximity should be:
+
+* absolute
+* relative to the Primary score
+* or combined with additional evidence/relevance requirements
+
+No implementation algorithm should be inferred solely from the semantic definition.
+
+### Presentation / API
+
+**UNRESOLVED**
+
+The semantic existence of Close Competitors does not require immediate Profile or API presentation.
+
+Whether Close Competitors should be:
+
+* exposed in the Profile
+* included in API responses
+* used only by the explanation/narrative layer
+* or retained as internal ranking metadata
+
+requires a separate implementation/product decision.
+
+### Cardinality
+
+**UNRESOLVED**
+
+The conceptual contract does not yet establish whether one Primary may have:
+
+* zero Close Competitors
+* one Close Competitor
+* or multiple Close Competitors
+
+That should be determined together with the selection and presentation policy.
+
+### Status
+
+**RESOLVED / SEMANTIC PURPOSE**
+
+**NUMERIC THRESHOLD: UNRESOLVED**
+
+**SELECTION MECHANISM: UNRESOLVED**
+
+**PRESENTATION/API: UNRESOLVED**
+
+**CARDINALITY: UNRESOLVED**
+
+# 18. Ties and Deterministic Primary Selection
+
+**Contract:** Exact score ties must produce a **deterministic single Primary result**. An exact tie does not create a co-primary result.
+
+### Locked Semantic Policy
+
+A tie occurs when two or more eligible candidates have the same calculated score at the precision used by the applicable ranking system.
+
+When an exact tie occurs:
+
+1. **Exactly one Primary is still selected.**
+2. **The Primary selection must be deterministic.**
+3. **The tie-breaking behavior must be stable across repeated evaluations of the same archive.**
+4. **The tie-break should use meaningful, explainable evidence or an established stable ordering rather than incidental runtime ordering.**
+5. **A tie does not imply that the candidates should both be presented as Primary.**
+6. **A tie does not automatically create a Secondary Identity or Close Competitor.**
+
+The conceptual model is:
+
+```text id="7f4q2m"
+Eligible candidates
+       ↓
+Calculated score
+       ↓
+Exact tie?
+   ↙         ↘
+ No          Yes
+ ↓            ↓
+Ranking    Deterministic
+            tie-break
+               ↓
+          ONE Primary
+```
+
+### Identity Tie Behavior
+
+Identity ranking already has an evidence-based deterministic tie-breaking mechanism.
+
+When eligible Identity candidates have identical scores, their underlying contribution evidence may be compared to establish a stable winner.
+
+This preserves the distinction between:
+
+```text
+Identity score
+=
+strength of alignment
+```
+
+and:
+
+```text
+Tie-breaking evidence
+=
+which equally-scored candidate has the stronger underlying evidence
+```
+
+The tie-break therefore does not redefine or alter the Identity score itself.
+
+### Designation Tie Behavior
+
+Designation ranking must also produce exactly one Primary Designation when multiple eligible Designations have the same score.
+
+The deterministic result may rely on the established stable ordering of the Designation rule set where no more domain-specific tie-break is defined.
+
+The important contract requirement is **determinism and stability**, not that every classification subsystem must use the same internal tie-breaking mechanism.
+
+### Tie vs. Close Competitor
+
+An exact tie and a Close Competitor are related but distinct concepts.
+
+```text id="7v2k8c"
+Exact Tie
+    ↓
+Same calculated score
+    ↓
+Deterministic tie-break
+    ↓
+ONE Primary
+```
+
+versus:
+
+```text id="r8m1qa"
+Close Competitor
+    ↓
+Strong alternative
+    ↓
+Meaningfully close to Primary
+    ↓
+Competitive ambiguity
+```
+
+An exact tie may eventually also qualify as a Close Competitor, but that is a separate policy decision. Tie resolution itself does not establish Close Competitor status.
+
+### Score Precision
+
+**IMPLEMENTATION DETAIL / AUDIT REQUIRED**
+
+Tie behavior must operate against the score representation actually used by each subsystem.
+
+The system should not claim that two candidates are tied merely because their unrounded internal calculations are similar, nor should implementation introduce arbitrary precision changes solely to affect tie frequency.
+
+The applicable score precision should remain an implementation concern unless a Phase 1 contract explicitly requires otherwise.
+
+### Explainability
+
+A deterministic tie-break must not be presented as evidence that the winning candidate was intrinsically stronger when the candidates had equal calculated scores.
+
+Where tie-breaking evidence is retained, it may be used internally or by future explanation layers to explain why one candidate was selected.
+
+The distinction should remain:
+
+```text
+Score:
+    candidates were equally supported at the ranking precision
+
+Tie-break:
+    system required a stable way to select one Primary
+```
+
+### Presentation / API
+
+**UNRESOLVED**
+
+The existence of an exact tie does not by itself require a new API field.
+
+Whether the API or Profile should expose:
+
+* that a tie occurred
+* the tie-breaking basis
+* the tied candidate
+* or other ranking context
+
+is a separate presentation/API decision.
+
+### Status
+
+**RESOLVED / SEMANTIC POLICY**
+
+Exact ties are deterministic single-Primary outcomes.
+
+**PRIMARY CARDINALITY: LOCKED — ONE**
+
+**CO-PRIMARY RESULTS: NOT SUPPORTED**
+
+**TIE-BREAKING MECHANISM: IMPLEMENTATION-SPECIFIC**
+
+**SCORE PRECISION: IMPLEMENTATION DETAIL / AUDIT REQUIRED**
+
+**TIE PRESENTATION/API: UNRESOLVED**
+
+**RELATIONSHIP BETWEEN EXACT TIES AND CLOSE COMPETITORS: UNRESOLVED**
 
 ---
 

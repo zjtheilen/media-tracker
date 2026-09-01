@@ -15,7 +15,7 @@ def test_boundary_explorer_uses_boundary_evidence():
                 "media_type": "book",
             },
             {
-                "genres": ["psychological"],
+                "genres": ["sci-fi"],
                 "media_type": "game",
             },
             {
@@ -27,7 +27,7 @@ def test_boundary_explorer_uses_boundary_evidence():
                 "media_type": "book",
             },
             {
-                "genres": ["psychological"],
+                "genres": ["sci-fi"],
                 "media_type": "game",
             },
             {
@@ -39,7 +39,7 @@ def test_boundary_explorer_uses_boundary_evidence():
                 "media_type": "book",
             },
             {
-                "genres": ["psychological"],
+                "genres": ["sci-fi"],
                 "media_type": "game",
             },
             {
@@ -51,7 +51,7 @@ def test_boundary_explorer_uses_boundary_evidence():
                 "media_type": "book",
             },
             {
-                "genres": ["psychological"],
+                "genres": ["sci-fi"],
                 "media_type": "game",
             },
         ],
