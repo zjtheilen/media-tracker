@@ -124,7 +124,7 @@ def test_archive_profile_contains_observation_summary():
     assert "traits" in result["observations"][0]
     assert "genres" in result["observations"][0]
     assert "relatedDesignations" in result["observations"][0]
-    assert "confidence" in result["observations"][0]
+    assert "evidenceStrength" in result["observations"][0]
 
 
 def test_observation_summary_exists():

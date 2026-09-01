@@ -8,7 +8,7 @@ def map_observation(rule, profile):
         "category": rule["category"],
         "traits": rule.get("traits", []),
         "genres": rule.get("genres", []),
-        "confidence": rule["confidence"](profile),
+        "evidenceStrength": rule["evidence_strength"](profile),
         "relatedDesignations": rule.get(
             "related_designations",
             [],

@@ -57,17 +57,17 @@ def test_observation_contains_metadata():
     assert "relatedDesignations" in observation
 
 
-def test_observation_contains_confidence():
+def test_observation_contains_evidence_strength():
 
     profile = load_profile_fixture("boundary_explorer_profile.json")
 
     observations = evaluate_observations(profile)
 
-    assert "confidence" in observations[0]
-    assert 0 <= observations[0]["confidence"] <= 1
+    assert "evidenceStrength" in observations[0]
+    assert 0 <= observations[0]["evidenceStrength"] <= 1
 
 
-def test_observations_sorted_by_confidence():
+def test_observations_sorted_by_evidence_strength():
 
     profile = {
         "universalAverages": {
@@ -86,7 +86,7 @@ def test_observations_sorted_by_confidence():
 
     results = evaluate_observations(profile)
 
-    assert results[0]["confidence"] >= results[-1]["confidence"]
+    assert results[0]["evidenceStrength"] >= results[-1]["evidenceStrength"]
 
 
 def test_systems_affinity_observation():
@@ -242,7 +242,7 @@ def test_observations_have_neutral_structure():
     assert "title" in observation
     assert "description" in observation
     assert "evidence" in observation
-    assert "confidence" in observation
+    assert "evidenceStrength" in observation
 
 
 def test_score_confidence_is_threshold_relative():

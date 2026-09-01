@@ -4,7 +4,7 @@ from models.services.observation_utils import score_confidence
 OBSERVATION_RULES = [
     {
         "id": "boundary-preference",
-        "confidence": lambda profile: score_confidence(
+        "evidence_strength": lambda profile: score_confidence(
             profile.get("universalAverages", {}).get("originality", 0),
             8,
         ),
@@ -66,7 +66,7 @@ OBSERVATION_RULES = [
     },
     {
         "id": "systems-affinity",
-        "confidence": lambda profile: score_confidence(
+        "evidence_strength": lambda profile: score_confidence(
             profile.get("mediaAverages", {}).get("gameplay_mechanics", 0),
             9,
         ),
@@ -105,7 +105,7 @@ OBSERVATION_RULES = [
     },
     {
         "id": "interpretive-depth",
-        "confidence": lambda profile: score_confidence(
+        "evidence_strength": lambda profile: score_confidence(
             profile.get("universalAverages", {}).get("depth", 0),
             8,
         ),
@@ -146,7 +146,7 @@ OBSERVATION_RULES = [
     },
     {
         "id": "atmospheric-focus",
-        "confidence": lambda profile: score_confidence(
+        "evidence_strength": lambda profile: score_confidence(
             profile.get("mediaAverages", {}).get("art_atmosphere", 0),
             8.5,
         ),
@@ -196,7 +196,7 @@ OBSERVATION_RULES = [
     },
     {
         "id": "emotional-resonance",
-        "confidence": lambda profile: score_confidence(
+        "evidence_strength": lambda profile: score_confidence(
             profile.get("universalAverages", {}).get("emotional_impact", 0),
             8.5,
         ),
@@ -234,7 +234,7 @@ OBSERVATION_RULES = [
     },
     {
         "id": "craft-appreciation",
-        "confidence": lambda profile: score_confidence(
+        "evidence_strength": lambda profile: score_confidence(
             profile.get("universalAverages", {}).get("craft", 0),
             8.5,
         ),

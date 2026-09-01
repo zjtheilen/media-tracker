@@ -331,9 +331,13 @@ Whether enough archive data exists to reasonably evaluate a conclusion.
 
 ---
 
-## Classification Confidence
+## Classification Confidence — Retired
 
-How clearly one classification beats plausible alternatives.
+Classification Confidence was previously considered as a possible concept for
+describing how clearly one classification beats plausible alternatives.
+
+It is not part of the current intelligence implementation and should not be
+reintroduced merely to provide terminology consistency.
 
 ---
 
@@ -504,7 +508,7 @@ The immediate goal is to align existing intelligence behavior with the conceptua
 
 Phase 1 focuses on:
 
-- confidence terminology
+- intelligence terminology alignment
 - Designation semantics
 - Identity / Designation separation
 - Identity eligibility

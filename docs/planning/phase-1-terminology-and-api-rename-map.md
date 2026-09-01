@@ -60,6 +60,11 @@ The Phase 1 conceptual vocabulary is:
 | Evidence Strength         | How strongly available evidence supports a conclusion          |
 | Classification Confidence | How clearly one classification outranks plausible alternatives |
 
+> **Historical / retired concept:** Classification Confidence is no longer part
+> of the active intelligence implementation. It is retained in this document
+> only to record the terminology decision and prevent its accidental
+> reintroduction.
+
 These concepts are distinct.
 
 They must not be collapsed merely because an existing implementation field
@@ -242,6 +247,26 @@ application actually requires it and its semantics are explicitly defined.
 
 **RESOLVED / TERMINOLOGY**
 
+The existing API field `designationConfidence` and its underlying calculation are preserved.
+
+The existing `designationConfidenceLabel` field is also preserved.
+
+The complete consumer audit found no downstream API or frontend contract requiring a field rename during Phase 1.
+
+The frontend presentation already uses **Signal Strength** as the user-facing terminology:
+
+`Signal Strength`
+
+with the existing designation label and numeric value.
+
+The internal frontend variable `confidenceLabel` is retained because it does not expose the misleading terminology to users and renaming it would provide no meaningful architectural benefit.
+
+The internal calculation name `calculate_designation_confidence()` is also retained to avoid unnecessary implementation churn.
+
+No Classification Confidence calculation is introduced by this audit.
+
+**Designation `designationConfidence` consumer audit: COMPLETE.**
+
 ---
 
 # 8. Observation `confidence`
@@ -284,78 +309,129 @@ generic confidence.
 A public API rename should occur only after the complete Observation consumer
 blast radius has been audited.
 
-## Status
+**## Status**
 
-**RESOLVED / CLARIFY**
+**RESOLVED / TERMINOLOGY**
+
+The Observation output field has been renamed from `confidence` to `evidenceStrength`.
+
+The existing threshold-relative calculation and ranking behavior are preserved.
+
+The rule-level calculation now uses the internal `evidence_strength` key, which maps to the output field `evidenceStrength`.
+
+The internal helper `score_confidence()` is intentionally preserved during Phase 1. Its current implementation calculates the threshold-relative value used as Observation Evidence Strength, but renaming the helper would introduce implementation churn without resolving an active API or behavioral contract issue.
+
+Updated consumers:
+
+* `models/services/observation_rules.py`
+* `models/services/observation_mapper.py`
+* `models/services/observation_engine.py`
+* `tests/designations/test_observations.py`
+* `tests/services/test_archive_engine.py`
+
+Targeted regression coverage: **29 tests passing.**
+
+No new Classification Confidence calculation was introduced.
+
+The Observation terminology migration is complete for Phase 1.
+
+The remaining generic `confidence` references associated with Designation calculations are governed by the separate Designation terminology decision and are not part of this Observation rename.
 
 ---
 
 # 9. Finding `confidence`
 
-## Current field
+## Current implementation
 
-`confidence`
+No Finding `confidence` field currently exists.
 
-## Actual meaning
+Finding generation currently produces descriptive findings with structured
+evidence, but does not calculate or expose a Finding confidence value.
 
-Finding confidence is not currently standardized.
+This applies to both rule-generated Findings and identity-derived Findings.
 
-The Phase 1 contract does not establish a numerical Finding confidence model.
+## Contract meaning
+
+No Finding confidence semantics are currently defined.
+
+The Phase 1 contract therefore does not require a Finding confidence field.
 
 ## Treatment
 
 Do not:
 
 * invent Finding confidence mathematics
-* rename the field merely for consistency
-* assign it Evidence Strength semantics without explicit decision
-* assign it Classification Confidence semantics without explicit decision
+* add a confidence field merely for consistency with other subsystems
+* rename an absent field
+* assign Finding confidence the semantics of Evidence Strength
+* assign Finding confidence the semantics of Classification Confidence
 
-Finding confidence remains a deferred conceptual decision.
+If a future Finding confidence concept becomes necessary, its semantics must
+be explicitly defined before implementation.
 
 ## Status
 
-**DEFERRED / CLARIFICATION**
+**RESOLVED / NOT IMPLEMENTED**
 
+No code change is required.
 ---
 
 # 10. Classification Confidence
 
-Classification Confidence is a distinct conceptual category.
+# 10. Classification / Classification Confidence
 
-It answers:
+## Current implementation
 
-> How clearly does one classification or identity/designation outrank
-> plausible alternatives?
+The project does not currently implement a separate Classification subsystem.
 
-This may eventually be useful for:
+No Classification API field, calculation, consumer, test fixture, or frontend
+presentation remains in the current implementation.
 
-* Designations
-* Identities
-* other competing classification systems
+Classification Confidence therefore has no active implementation to rename or
+migrate.
 
-However, the existence of this concept does not mean the current application
-already calculates it.
+## Historical / conceptual meaning
+
+Classification Confidence was previously considered as a possible concept for
+representing comparative confidence between competing classifications.
+
+That concept is no longer part of the active Phase 1 intelligence contract.
+
+The project instead uses explicit domain concepts:
+
+* **Designation** for the selected taste classification
+* **Designation Signal Strength** for the strength of the Designation signal
+* **Identity** for the selected broader interpretive profile
+* **Identity Data Sufficiency** for the sufficiency of evidence supporting an
+  Identity
+* **Observation Evidence Strength** for threshold-relative support of an
+  Observation
+
+These concepts should not be collapsed back into a generic Classification
+Confidence field.
 
 ## Treatment
 
-Do not retroactively relabel existing Signal Strength values as Classification
+Do not reintroduce Classification as a separate intelligence layer merely to
+resolve terminology.
+
+Do not introduce Classification Confidence for terminology consistency.
+
+Do not rename an existing Designation or Identity score to Classification
 Confidence.
 
-Do not invent a Classification Confidence algorithm during Phase 1.
-
-Any future implementation must define:
-
-* competing candidates
-* comparison method
-* precision
-* tie behavior
-* meaningful separation
-* presentation behavior
+If a future feature requires comparative candidate separation, that should be
+defined as a new explicit contract rather than reviving the retired
+Classification concept.
 
 ## Status
 
-**CONCEPT DEFINED / IMPLEMENTATION DEFERRED**
+**RESOLVED / RETIRED**
+
+Classification is not part of the current intelligence implementation.
+
+No production code change, API rename, frontend change, test change, or
+fixture change is required.
 
 ---
 
@@ -384,7 +460,7 @@ Do not create a universal evidence structure merely to standardize field names.
 
 ## Status
 
-**RESOLVED / SEMANTIC DISTINCTION**
+**RESOLVED / TERMINOLOGY**
 
 ---
 
@@ -392,17 +468,17 @@ Do not create a universal evidence structure merely to standardize field names.
 
 Evidence mechanisms are intentionally allowed to differ by subsystem.
 
-Existing mechanisms include:
+The repository already contains several established evidence mechanisms, including:
 
 * metric evidence
 * genre evidence
 * Observation evidence
 * Finding evidence
-* Designation explanation
-* Identity contribution breakdowns
+* Designation-specific evidence and explanation
+* Identity contribution and comparison evidence
 * narrative explanation
 
-The contract requires explainability, not architectural uniformity.
+The contract requires **explainability**, not architectural uniformity.
 
 Therefore:
 
@@ -411,107 +487,236 @@ Observation evidence
 ≠
 Finding evidence
 ≠
-Designation explanation
+Designation evidence
 ≠
-Identity contribution breakdown
+Identity contribution evidence
+≠
+Narrative explanation
 ```
 
-These mechanisms may evolve independently where appropriate.
+These mechanisms may evolve independently where their respective consumers or semantic requirements differ.
+
+The existence of multiple evidence representations is therefore **not considered architectural inconsistency by itself**.
+
+The current Observation architecture uses structured evidence objects alongside the separate `evidenceStrength` value.
+
+Designation logic may use domain-specific evidence calculations such as boundary-exploration evidence.
+
+Identity logic may use evidence internally for contribution comparison and tie-breaking.
+
+These representations should not be forcibly unified into a universal evidence object merely for terminology or structural consistency.
+
+## Internal Terminology Note
+
+The Observation evidence-strength calculation currently uses the internal function name `score_confidence`.
+
+Its current semantic role is Evidence Strength, not statistical or probabilistic confidence.
+
+This is considered **internal terminology debt**, not an active contract violation.
+
+Renaming the internal function is therefore deferred unless a future change makes the rename materially useful or necessary.
+
+No behavioral change is required by this audit.
 
 ## Treatment
 
-Preserve strong existing mechanisms.
+Preserve strong existing evidence mechanisms.
 
 Strengthen missing explanation where useful.
 
+Allow subsystem-specific evidence representations where they reflect different semantic requirements.
+
 Do not introduce a universal evidence object solely for consistency.
+
+Do not rename internal evidence-related functions solely to eliminate legacy terminology when doing so would create unnecessary implementation churn.
 
 ## Status
 
 **RESOLVED / PRESERVE**
+
+The existing evidence architecture is coherent and intentionally heterogeneous.
+
+No architectural consolidation is required during Phase 1.
 
 ---
 
 # 13. Recommendation Bias
 
-Recommendation bias is descriptive recommendation-oriented metadata.
+Recommendation-oriented bias metadata already exists within the intelligence layer.
 
-It is not itself a recommendation score.
+Designation rules may provide `recommendation_bias` metadata, which is preserved through the designation mapping layer.
 
-Existing recommendation-bias metadata on Designations and Identities should
-be preserved.
+Identity findings may also expose recommendation-oriented bias metadata.
 
-Identity must not become a direct numerical recommendation score.
+These fields currently represent **inputs that a future Recommendation Engine may use**. They do not constitute a completed recommendation algorithm.
 
-The future Recommendation Engine should consume measurable signals directly.
+The current Recommendation Engine is intentionally incomplete and does not yet generate substantive recommendations.
+
+## Architectural Principle
+
+Recommendation bias must not be treated as equivalent to recommendation score.
+
+In particular:
+
+```text
+Designation
+≠
+Recommendation
+
+Identity
+≠
+Recommendation
+
+Identity Score
+≠
+Recommendation Score
+```
+
+Future recommendations should primarily consume measurable archive signals and may use designation or identity-derived recommendation metadata as contextual inputs.
+
+Identity should influence recommendations indirectly through the underlying measurable signals rather than becoming a direct recommendation score.
+
+This preserves explainability and prevents interpretive classifications from becoming opaque recommendation authority.
 
 ## Treatment
 
-Preserve existing metadata.
+Preserve the existing `recommendation_bias` metadata.
 
-Defer future weighting and recommendation algorithms.
+Do not implement or redesign the Recommendation Engine as part of the Phase 1 terminology and intelligence-alignment work.
+
+Do not introduce recommendation scoring semantics before the Recommendation Engine is intentionally implemented.
+
+When recommendation functionality is developed, audit its weighting and consumer behavior separately to ensure that interpretive layers do not override the underlying measurable evidence without explicit justification.
 
 ## Status
 
-**RESOLVED / PRESERVE + DEFERRED**
+**RESOLVED / DEFERRED**
+
+The current recommendation-bias architecture is intentionally preserved.
+
+No production changes are required during Phase 1.
+
+A dedicated recommendation-system audit should occur when substantive recommendation scoring is implemented.
 
 ---
 
 # 14. Primary Designation
 
-Primary Designation is the Designation selected for primary Profile
-presentation after Designation candidates have been ranked.
+`primaryDesignation` represents the designation selected as the primary result of designation evaluation.
 
-The Designation system may maintain multiple candidates internally.
+The current selection behavior is explicit:
 
-Profile presentation is intentionally different from internal cardinality.
+**The highest-scoring designation is selected as the primary designation.**
+
+The resolver also defines deterministic behavior for ties.
+
+The selected designation is preserved as the complete designation object rather than being reduced to only its identifier.
+
+## Contract
+
+```text id="c5x4pq"
+Designation evaluation
+        ↓
+Scored designation results
+        ↓
+Highest-scoring designation
+        ↓
+primaryDesignation
+```
+
+An empty designation result produces no primary designation.
+
+The primary designation is distinct from the designation's **primary scoring basis**.
+
+```text id="j4s1nd"
+primaryDesignation
+=
+winning designation
+
+designationBasis.primary
+=
+primary scoring basis / trait
+```
+
+The latter may be displayed alongside the winning designation but does not independently determine which designation is primary.
+
+## Consumer Behavior
+
+The Archive Profile exposes `primaryDesignation` for downstream consumers.
+
+The frontend uses `primaryDesignation` as the displayed primary designation.
+
+Existing tests establish:
+
+* highest-scoring designation wins
+* empty designation results produce `None`
+* the full winning designation is preserved
+* ties are resolved deterministically
+
+These behaviors constitute the current contract.
 
 ## Treatment
 
-Preserve deterministic ranking and primary selection.
+Preserve the existing primary-designation resolution behavior.
 
-Do not reinterpret primary selection as an Identity operation.
+Do not introduce a separate concept of "primary" designation based on frequency, identity, narrative importance, or recommendation relevance.
+
+Do not conflate `primaryDesignation` with `designationBasis.primary`.
 
 ## Status
 
 **RESOLVED / PRESERVE**
 
+The existing primary-designation semantics are explicit, deterministic, and covered by tests.
+
+No production changes are required during Phase 1.
+
 ---
 
 # 15. Primary Identity
 
-Primary Identity is the single Identity selected after eligible Identity
-candidates have been evaluated and ranked.
+## Current field
 
-Conceptually:
+`primaryIdentity`
 
-```text
-many eligible candidates
-        ↓
-deterministic ranking
-        ↓
-one primary Identity
-```
+## Actual meaning
 
-Primary Identity selection must remain independent from Designation naming.
+`primaryIdentity` is the identity interpretation with the strongest
+calculated identity score among eligible identity candidates.
 
-An Identity must not become a differently named Designation.
+Primary identity selection is performed by the identity engine rather than
+being determined solely by declaration order.
+
+When multiple identity candidates have the same score, the identity engine
+uses deterministic evidence-based tie-breaking to select the primary identity.
+
+The selected primary identity may also contain a secondary identity when
+another eligible candidate meets the requirements for secondary status.
+
+## Contract term
+
+**Primary Identity**
 
 ## Treatment
 
-Preserve existing ranking and primary-selection machinery unless the eligibility
-audit identifies a direct conflict.
+Preserve the existing selection architecture.
 
-Protect:
+Primary identity should continue to be determined from calculated identity
+scores, eligibility, and the existing deterministic evidence-based tie-breaking
+rules.
 
-* deterministic ranking
-* primary selection
-* primary selection explainability
-* behavior when insufficient-data identities are present
+Do not introduce a separate "primary identity confidence" concept unless a
+specific product requirement establishes a distinct semantic need.
 
 ## Status
 
-**RESOLVED / PRESERVE + TESTING**
+**RESOLVED / PRESERVE**
+
+Primary Identity is a defined selection result, not a generic confidence
+label.
+
+The existing identity engine, scoring model, eligibility rules, and
+evidence-based tie-breaking behavior are preserved.
 
 ---
 
@@ -704,7 +909,7 @@ A generic field name does not justify changing valid underlying behavior.
 | `data_sufficiency`       | Data Sufficiency                                  | Preserve                                                        |
 | Identity `score`         | Identity alignment strength                       | Preserve                                                        |
 | `designationConfidence`  | Designation Signal Strength                       | Clarify terminology                                             |
-| Observation `confidence` | Observation Evidence Strength                     | Clarify terminology; defer public rename pending consumer audit |
+| Observation `evidenceStrength` | Observation Evidence Strength                     | Preserve renamed API field                                      |
 | Finding `confidence`     | Undefined                                         | Defer                                                           |
 | `score` generally        | Context-dependent scoring value                   | Preserve; do not globally rename                                |
 | `evidence`               | Layer-specific support/explanation                | Preserve; do not universalize                                   |

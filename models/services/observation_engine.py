@@ -15,6 +15,6 @@ def evaluate_observations(profile):
 
     return sorted(
         observations,
-        key=lambda x: x["confidence"],
+        key=lambda x: x["evidenceStrength"],
         reverse=True,
     )
