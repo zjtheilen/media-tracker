@@ -12,6 +12,8 @@
 * `intelligence-forensic-audit.md`
 * `roadmap.md`
 
+**Authority note:** This document records future Designation evolution and working hypotheses. It does not override decisions marked **LOCKED**, **UNRESOLVED**, or **DEFERRED** in the Phase 1 Intelligence Alignment and Decision & Implementation Map.
+
 ---
 
 # 1. Purpose
@@ -27,6 +29,8 @@ The guiding principle remains:
 > **Evolution, not rewrite.**
 
 The existing Designation infrastructure is useful and should be refined rather than discarded.
+
+Phase 1 alignment decisions take precedence over future Designation ideas recorded here.
 
 ---
 
@@ -86,6 +90,8 @@ The goal is not to create more Designations for variety.
 
 The goal is to create enough distinct Designations to represent genuinely different and reusable patterns of media behavior.
 
+No catalog expansion is implied by this document alone. Any Phase 1 Designation changes remain subject to the locked Phase 1 gates.
+
 ---
 
 # 4. Current Phase 1 Work vs Future Designation Evolution
@@ -112,6 +118,8 @@ The current four Designations should therefore be treated as:
 
 They are not the final ontology.
 
+Phase 1 should not expand or redesign the Designation catalog merely because future concepts are documented here.
+
 ---
 
 # 5. Designation Scores
@@ -130,19 +138,29 @@ A Designation score is an **evidence-strength / fit score**.
 
 Scores should ideally be normalized to a common range so that different Designation rules are comparable.
 
+Any future scoring redesign must preserve the distinction between:
+
+* Designation Score / fit
+* Signal Strength
+* Data Sufficiency
+* Classification Confidence
+* Evidence Strength
+
+The existence of these conceptual distinctions does not by itself require new numerical fields or scoring algorithms during Phase 1.
+
 ---
 
 # 6. Score Comparability Is Mandatory
 
 Different Designation rules currently use different combinations of signals and weights.
 
-This creates an important requirement:
+This creates an important future-design requirement:
 
-> A score of 80 for one Designation must be meaningfully comparable to a score of 80 for another Designation.
+> A score of 80 for one Designation should be meaningfully comparable to a score of 80 for another Designation.
 
 A rule must not be able to produce a higher maximum simply because it has more additive opportunities.
 
-For example, if one rule has five components capable of independently contributing large values while another has three components, both rules must still map their evidence to the same conceptual scale.
+For example, if one rule has five components capable of independently contributing large values while another has three components, both rules should still map their evidence to the same conceptual scale.
 
 The final score should therefore represent:
 
@@ -155,6 +173,8 @@ The earlier `boundary_explorer` implementation demonstrated why this matters: it
 That is technically capped but conceptually weak.
 
 A future Designation rule should have a defined maximum of 100 by construction rather than by accidental overflow followed by clipping.
+
+This is a **future Designation-system quality requirement**, not an authorization to redesign current scoring during Phase 1 without an explicit contract decision.
 
 ---
 
@@ -183,7 +203,7 @@ The question is:
 
 > **"Do these weights actually encode the behavior this Designation is supposed to describe?"**
 
-Fixture preservation remains important, but fixtures should not prevent correction of a conceptually weak rule.
+Fixture preservation remains important, but fixtures should not prevent correction of a conceptually weak rule when that correction is explicitly approved.
 
 ---
 
@@ -191,7 +211,7 @@ Fixture preservation remains important, but fixtures should not prevent correcti
 
 The current architecture evaluates multiple Designations and ranks them.
 
-The Primary Designation is the strongest candidate presented on the Profile.
+The Primary Designation is the strongest eligible candidate presented on the Profile.
 
 This remains the basic model:
 
@@ -220,6 +240,8 @@ How clearly the winning Designation is distinguished from plausible alternatives
 Whether enough archive evidence exists to make the classification meaningful.
 
 These must not be conflated.
+
+The exact operational treatment of Classification Confidence and close competitors remains subject to the Phase 1 tie / near-tie policy and should not be invented during current implementation.
 
 ---
 
@@ -253,7 +275,9 @@ The score describes the winner.
 
 The margin describes how strongly the winner separates from competing candidates.
 
-Future classification-resolution logic should consider both.
+Future classification-resolution logic may consider both.
+
+The existence of this distinction does **not** establish a Phase 1 Classification Confidence algorithm.
 
 ---
 
@@ -283,6 +307,8 @@ For example:
 |     41 |        28 |     13 | Weak classification despite a clear relative winner |
 
 This demonstrates why classification confidence cannot simply be derived from the winner score.
+
+**Important:** Margin and near-tie behavior remain future design considerations. The Phase 1 tie / close-competitor policy is separately unresolved and must be explicitly locked before implementation depends on it.
 
 ---
 
@@ -336,20 +362,20 @@ A strong Boundary Explorer candidate may demonstrate:
 The current working model uses three primary dimensions:
 
 ```text
-                 BOUNDARY EXPLORATION
-                         │
-             ┌───────────┼───────────┐
-             │           │           │
-          BREADTH     SUSTAINED  APPRECIATION
-             │        EXPLORATION      │
-             │           │             │
-       archive shape   repeated      originality
-       genre coverage  exposure      depth
-       media coverage  meaningful    related traits
-             │           │             │
-             └───────────┼─────────────┘
-                         ↓
-                 BOUNDARY EXPLORER
+BOUNDARY EXPLORATION
+│
+┌───────────┼───────────┐
+│           │           │
+BREADTH     SUSTAINED  APPRECIATION
+│        EXPLORATION      │
+│           │             │
+archive shape   repeated      originality
+genre coverage  exposure      depth
+media coverage  meaningful    related traits
+│           │             │
+└───────────┼─────────────┘
+↓
+BOUNDARY EXPLORER
 ```
 
 ### 13.1 Breadth
@@ -392,6 +418,8 @@ The current working threshold proposal is:
 This is a working direction, not yet a locked universal threshold.
 
 The intention is to prevent one-off exposure from being treated as sustained exploration while still allowing smaller archives to demonstrate meaningful repeated behavior.
+
+Any operational threshold remains subject to the Phase 1 archive-state and evidence decisions before it becomes implementation authority.
 
 ---
 
@@ -614,12 +642,12 @@ Conceptually:
 
 ```text
 GENRE TAXONOMY
-       │
-       ├── families / related groups
-       │
-       ├── hierarchical subgenres
-       │
-       └── cross-family relationships
+│
+├── families / related groups
+│
+├── hierarchical subgenres
+│
+└── cross-family relationships
 ```
 
 The underlying representation should be flexible enough for a genre to participate in multiple meaningful relationships.
@@ -784,6 +812,8 @@ The broader principle is:
 
 > **Require meaningful representation before treating a genre/family/media area as evidence of sustained exploration.**
 
+Operational archive-state and threshold decisions remain outside this document's authority until explicitly locked by the Phase 1 decision documents.
+
 ---
 
 # 25. Sampling vs Sustained Exploration
@@ -821,6 +851,8 @@ The threshold must eventually account for both:
 * absolute entry count
 * relative archive prevalence
 
+The exact threshold remains a future implementation decision until explicitly locked.
+
 ---
 
 # 26. Future Designation Architecture
@@ -831,33 +863,33 @@ Conceptually:
 
 ```text
 RAW ARCHIVE
-     │
-     ↓
+│
+↓
 SHARED ARCHIVE SIGNALS
-     │
-     ├── traits
-     ├── genre prevalence
-     ├── genre families
-     ├── subgenre structure
-     ├── media coverage
-     ├── archive concentration
-     ├── exploration patterns
-     └── rating/appreciation signals
-              │
-              ↓
-      DESIGNATION RULES
-              │
-       ┌──────┼──────┐
-       ↓      ↓      ↓
-    Rule A  Rule B  Rule C ...
-       │      │      │
-       └──────┼──────┘
-              ↓
-       ranked candidates
-              ↓
-       classification resolution
-              ↓
-       Primary Designation
+│
+├── traits
+├── genre prevalence
+├── genre families
+├── subgenre structure
+├── media coverage
+├── archive concentration
+├── exploration patterns
+└── rating/appreciation signals
+│
+↓
+DESIGNATION RULES
+│
+┌──────┼──────┐
+↓      ↓      ↓
+Rule A  Rule B  Rule C ...
+│      │      │
+└──────┼──────┘
+↓
+ranked candidates
+↓
+classification resolution
+↓
+Primary Designation
 ```
 
 Shared archive analysis should provide reusable evidence.
@@ -925,11 +957,17 @@ Identity:
 WHAT CURATOR PHILOSOPHY?
 ```
 
+This distinction is part of the locked Phase 1 conceptual model and should not be weakened by future Designation expansion.
+
 ---
 
 # 29. Implementation Order
 
-The preferred future order is:
+The following is the **future Designation-evolution order**, not a replacement for the current Phase 1 implementation work order.
+
+Phase 1 terminology, eligibility, regression, Finding, Identity, Observation, archive-state, and tie-policy gates take precedence.
+
+Once the relevant Phase 1 decisions are locked, the preferred future Designation evolution order is:
 
 ### Step 1 — Audit existing Designation rules
 
@@ -977,6 +1015,8 @@ Potentially grow toward approximately 10–12 distinct Designations.
 
 Once real score distributions exist, determine whether explicit Classification Confidence based on winner/runner-up separation is useful.
 
+No step above should be interpreted as authorization to bypass a locked Phase 1 gate.
+
 ---
 
 # 30. What Is Not Locked Yet
@@ -996,6 +1036,15 @@ The following remain working directions rather than final implementation contrac
 * whether every Designation needs the same evidence architecture
 * whether Designations should expose explicit confidence to users
 * whether genre-family evidence should be shared infrastructure or Designation-specific interpretation
+
+In addition, the following Phase 1 decisions remain governed by the authoritative Phase 1 documents rather than by this future-design document:
+
+* tie / close-competitor policy
+* archive-state operational thresholds
+* per-field API/frontend terminology changes
+* Identity eligibility/ranking/presentation semantics
+* Finding semantics where unresolved
+* Observation shortlist and changes
 
 These decisions should be validated against actual archive distributions and fixtures before being locked.
 
@@ -1039,3 +1088,7 @@ The immediate work is not to create a final Designation catalog.
 The immediate work is to make the underlying evidence model strong enough that future Designations can be meaningful, comparable, explainable, and extensible.
 
 The current four Designations are therefore best understood as the **first test cases for the evolving Designation system**, not the final taxonomy.
+
+Phase 1 alignment work remains governed by `phase-1-intelligence-alignment.md` and `phase-1-decision-and-implementation-map.md`.
+
+Future Designation evolution should begin only where those documents establish that the relevant conceptual and implementation gates have been satisfied.

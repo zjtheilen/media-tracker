@@ -1,22 +1,24 @@
-```
-__    __ ___    ___ ___  ____ ___
-\ \/\/ // _ \  _\\ / _ \ | D )| |
- \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
- Weighted Archive System for Analysis & Behavioral Insights
-```
+---
+
+// // _ \  */ \ / _ \ | D )| |
+_/_//*/ _/__//*/ __D*)|_|
+Weighted Archive System for Analysis & Behavioral Insights
 
 # Media Tracker — Intelligence Contract v1
 
 **Project:** Media Tracker
+
 **Authoritative branch:** `develop-3`
+
 **Status:** Working conceptual contract
+
 **Guiding principle:** **Evolution, not rewrite.**
 
 ---
 
 # 1. Purpose
 
-The Intelligence Layer exists to transform the raw record of media experiences into increasingly useful descriptions of the archive.
+The Intelligence Layer exists to transform the raw record of media experiences into increasingly useful, explainable descriptions of the archive.
 
 It should answer:
 
@@ -31,6 +33,8 @@ It should answer:
 
 The Intelligence Layer must remain **explainable, evidence-oriented, and modular**.
 
+Observations, Findings, Designations, Identities, and other intelligence systems may examine shared underlying archive data, but they do not need to form a strict causal pipeline or universal processing hierarchy.
+
 No intelligence subsystem should exist merely to produce impressive-sounding prose.
 
 ---
@@ -43,34 +47,36 @@ They are not required to form a strict causal pipeline.
 
 Conceptually:
 
-```text
-                         RAW ARCHIVE
-                              │
-                    ┌─────────┴─────────┐
-                    ↓                   ↓
-                  TRAITS          GENRE SIGNALS
-                    │                   │
-                    └─────────┬─────────┘
-                              │
-          ┌──────────┬────────┼──────────┬──────────┐
-          ↓          ↓        ↓          ↓          ↓
-    OBSERVATIONS  FINDINGS  DESIGNATIONS IDENTITIES NARRATIVE
-          │          │        │          │
-          └──────────┴────────┴──────────┘
+```
+                     RAW ARCHIVE
+                          │
+                ┌─────────┴─────────┐
+                ↓                   ↓
+             TRAITS          GENRE SIGNALS
+                │                   │
+                └─────────┬─────────┘
+                          │
+      ┌──────────┬────────┼──────────┬──────────┐
+      ↓          ↓        ↓          ↓          ↓
+OBSERVATIONS  FINDINGS  DESIGNATIONS IDENTITIES NARRATIVE
+      │          │        │          │
+      └──────────┴────────┴──────────┘
                          │
                          ↓
-                  ARCHIVE PROFILE
+                 ARCHIVE PROFILE
                          │
                          ↓
-              RECOMMENDATION SIGNALS
+             RECOMMENDATION SIGNALS
                          │
                          ↓
-                RECOMMENDATION ENGINE
+              RECOMMENDATION ENGINE
 ```
 
 This diagram represents **conceptual relationships**, not a mandatory runtime call graph.
 
 A subsystem may use shared underlying data without being formally dependent upon another subsystem's generated output.
+
+Observations and Findings in particular should not be assumed to form an `Observation → Finding` processing pipeline merely because Findings may interpret evidence that could include Observations.
 
 ---
 
@@ -105,34 +111,57 @@ Every important interpretive conclusion should have an understandable answer to:
 
 The exact representation may differ by subsystem, but conclusions should not be opaque.
 
+The contract requires explainability, not identical evidence architecture.
+
 ---
 
 ## 3.4 Cardinality Is Intentional
 
 The number of results each subsystem may produce is part of its conceptual contract.
 
-```text
 Traits
-    MANY
+
+```
+MANY
+```
 
 Genre Signals
-    MANY
+
+```
+MANY
+```
 
 Observations
-    MANY
+
+```
+MANY
+```
 
 Findings
-    MANY
+
+```
+MANY
+```
 
 Designations
-    MANY internally
-    ONE PRIMARY on Profile
+
+```
+MANY internally
+
+ONE PRIMARY on Profile
+```
 
 Identities
-    MANY internally
-    ONE PRIMARY
-    ZERO OR MORE meaningful SECONDARIES
+
 ```
+MANY internally
+
+ONE PRIMARY
+
+ZERO OR MORE meaningful SECONDARIES
+```
+
+"Meaningful" Secondary Identity behavior remains an explicit implementation decision and must not be reduced to an arbitrary fixed number or an unexamined score threshold.
 
 ---
 
@@ -146,7 +175,16 @@ A high designation score does not automatically mean high classification confide
 
 An archive containing many entries does not automatically mean a conclusion is certain.
 
-The system must distinguish these concepts.
+The system must distinguish:
+
+- Signal Strength
+- Data Sufficiency
+- Evidence Strength
+- Classification Confidence
+
+These concepts are related but are not interchangeable.
+
+Not every subsystem requires every concept as a numerical field.
 
 ---
 
@@ -184,6 +222,8 @@ Traits are derived primarily from measurable archive data, including:
 - other explicitly defined quantitative signals
 
 Genre-related information may contribute to derived traits where appropriate.
+
+User-provided archive fields may eventually provide additional intelligence inputs where their semantic usefulness is explicitly established.
 
 ---
 
@@ -352,13 +392,30 @@ Existing evidence mechanisms such as:
 
 should be preserved.
 
+Observation evidence does not establish a requirement that every other intelligence subsystem use the same schema.
+
 ---
 
-## Confidence
+## Evidence Strength
 
-Observation confidence should describe how strongly the available evidence supports the observation.
+Observation `confidence` is an active threshold-relative **Evidence Strength** value.
 
-It should not simply be a synonym for trait strength or entry count.
+It describes how strongly the designated supporting metric supports the Observation relative to that metric's threshold.
+
+It does **not** represent:
+
+- statistical confidence
+- probability
+- certainty that the Observation is objectively correct
+- general confidence across every condition used by the Observation rule
+
+An Observation rule may require multiple conditions while using one designated supporting metric as its Evidence Strength basis.
+
+This is intentional.
+
+Additional predicate conditions may establish that an Observation qualifies without contributing directly to its numerical Evidence Strength value.
+
+The existing calculation should be preserved unless a specific contract conflict requires change.
 
 ---
 
@@ -377,7 +434,11 @@ An archive may contain:
 
 ## Ranking
 
-Observations may be ranked by confidence/evidence strength or another clearly defined relevance measure.
+Observations may be ranked by their established Evidence Strength semantics or another clearly defined relevance measure.
+
+Ordering must remain deterministic where ranking is required.
+
+Tie and close-competitor presentation behavior must follow an explicitly defined policy rather than being inferred from incidental sort order.
 
 ---
 
@@ -385,17 +446,25 @@ Observations may be ranked by confidence/evidence strength or another clearly de
 
 An Observation should generally satisfy:
 
-```text
 Pattern exists
-        +
-Pattern is directly demonstrable
-        +
-Evidence can be identified
-        ↓
-Observation
+
+```
+    +
 ```
 
-An Observation should **not** simply be a Finding with different wording.
+Pattern is directly demonstrable
+
+```
+    +
+```
+
+Evidence can be identified
+
+```
+    ↓
+```
+
+Observation
 
 ---
 
@@ -403,63 +472,105 @@ An Observation should **not** simply be a Finding with different wording.
 
 ## Definition
 
-A **Finding** is an interpretive conclusion suggested by one or more pieces of evidence.
+A **Finding** is an interpretive conclusion about what the available evidence suggests.
 
 Finding answers:
 
-> **What does the available evidence suggest?**
+> **What does the evidence suggest?**
 
-A Finding sits one interpretive level above an Observation.
-
----
-
-## Observation vs Finding
-
-### Observation
-
-> Your archive repeatedly favors unusual concepts.
-
-### Finding
-
-> Your archive demonstrates a strong preference for experiences that challenge conventional genre boundaries.
-
-The Observation describes what can be demonstrated.
-
-The Finding interprets what that pattern means.
+A Finding should provide additional meaning beyond simply restating an underlying Observation, Genre Signal, Trait, or raw metric.
 
 ---
 
-## Synthesis
+## Key Property
 
-A Finding should be capable of synthesizing:
+Findings are more interpretive than Observations.
 
-- multiple Observations
-- multiple Traits
-- Genre Signals
-- other explicitly defined evidence
+The distinction is:
 
-Example:
+Observation
 
-```text
-Observation A
-    Boundary Preference
+What can we directly demonstrate?
 
-Observation B
-    Experimental Genre Affinity
-
-Observation C
-    High Originality
-
-          ↓
+```
+    ↓
+```
 
 Finding
 
-The archive demonstrates a strong preference
-for experiences that challenge conventional
-genre boundaries.
-```
+What does the evidence suggest?
 
-A Finding does not necessarily need multiple Observations, but it should operate at a meaningfully more interpretive level.
+This does **not** require Findings to consume generated Observations at runtime.
+
+Observation and Finding rule systems may remain independently evaluated.
+
+---
+
+## Findings May
+
+Findings may:
+
+- synthesize multiple Observations
+- synthesize Traits
+- synthesize Genre Signals
+- synthesize quantitative evidence
+- provide a meaningful interpretive frame
+- use a single signal when that signal gains genuine additional meaning through interpretation
+
+---
+
+## Findings Must Not
+
+Findings must not:
+
+- merely restate an Observation
+- merely restate a Genre Signal percentage
+- duplicate a rule condition under a new ID
+- become a second Designation layer
+
+A useful operational test is:
+
+> If the Finding were removed and replaced with its underlying Observation or raw signal, would meaningful information be lost?
+
+If the answer is no, the item is probably functioning as an Observation or Genre Signal rather than a Finding.
+
+---
+
+## Evidence
+
+Findings should expose sufficient supporting evidence to explain why the Finding was produced.
+
+Evidence may consist of:
+
+- Observations
+- Traits
+- Genre Signals
+- quantitative metrics
+- other explicitly defined archive signals
+
+Finding evidence does not need to use the Observation evidence schema.
+
+---
+
+## Finding Catalog
+
+The existing Finding catalog should be handled conservatively.
+
+Current forensic treatment:
+
+| Finding                | Treatment                  |
+| ---------------------- | -------------------------- |
+| `concept-driven`       | PRESERVE                   |
+| `engagement-priority`  | CLARIFY / ELEVATE          |
+| `systems-preference`   | REMOVED / CONSOLIDATED     |
+| `speculative-interest` | CLARIFY / ELEVATE          |
+| `atmospheric-interest` | DEFER / POSSIBLE DUPLICATE |
+
+No mass deletion should occur.
+
+Before changing an ELEVATE candidate, define:
+
+> What interpretive conclusion does this Finding add that the underlying Observation, Trait, or Genre Signal does not already communicate?
 
 ---
 
@@ -467,41 +578,7 @@ A Finding does not necessarily need multiple Observations, but it should operate
 
 **MANY.**
 
-An archive may produce multiple Findings.
-
----
-
-## Evidence
-
-Findings should eventually provide structured supporting evidence.
-
-The evidence representation does **not** need to be identical to Observation evidence.
-
-The requirement is explainability, not schema uniformity.
-
----
-
-## Confidence
-
-Finding confidence should reflect how strongly the available evidence supports the interpretation.
-
-Where possible, it should distinguish:
-
-- evidence strength
-- data sufficiency
-- interpretive/classification confidence
-
----
-
-## Contract
-
-A Finding should not merely restate an Observation.
-
-The system should ask:
-
-> **What additional meaning does this conclusion provide?**
-
-If the answer is "none," it is probably an Observation rather than a Finding.
+An archive may produce zero, one, or many Findings.
 
 ---
 
@@ -521,22 +598,23 @@ Example:
 
 Possible characteristics:
 
-```text
 Traits:
+
 - Originality
 - Depth
 
 Genres:
+
 - Experimental
 - Surreal
 - Sci-Fi
 - Horror
 
 Recommendation Bias:
+
 - Unusual concepts
 - Genre hybrids
 - Experimental storytelling
-```
 
 ---
 
@@ -589,6 +667,8 @@ Optional:
 
 may be displayed where useful.
 
+The exact presentation of ties and close competitors is governed by the explicit Phase 1 ranking/presentation policy and must not be inferred from incidental sort order.
+
 ---
 
 ## Classification
@@ -603,7 +683,7 @@ It should not be confused with Identity.
 
 ## Evidence
 
-Designations may eventually expose lightweight structured evidence explaining why the designation ranked highly.
+Designations may expose lightweight structured evidence explaining why the designation ranked highly.
 
 This does not need to replicate the Observation evidence model.
 
@@ -615,11 +695,13 @@ Current designation "confidence" is effectively derived from trait strength.
 
 That should not be called Classification Confidence.
 
-The system should eventually distinguish:
+The system should conceptually distinguish:
 
 - Signal Strength
 - Classification Confidence
 - Data Sufficiency
+
+Classification Confidence is not currently required as a generalized numerical field.
 
 ---
 
@@ -690,13 +772,13 @@ They must not be redundant.
 
 ## Forbidden conceptual outcome
 
-```text
 Designation:
+
 Boundary Explorer
 
 Identity:
+
 Boundary Explorer
-```
 
 If an Identity is merely a differently formatted Designation, the distinction has failed.
 
@@ -716,6 +798,8 @@ It may synthesize qualities such as:
 
 Identity names should therefore be allowed to diverge completely from Designation names.
 
+The Identity catalog should move toward durable curator-philosophy concepts rather than user-specific personality labels or archive-specific nicknames.
+
 ---
 
 # 12. MULTIPLE IDENTITIES
@@ -724,16 +808,17 @@ An archive can demonstrate multiple meaningful curator identities.
 
 Example:
 
-```text
 Primary Identity
+
 Systems-Seeking Interpretive Curator
 
 Secondary Identity
+
 Boundary-Driven Explorer
 
 Secondary Identity
+
 Deep Analytical Curator
-```
 
 Conceptually:
 
@@ -752,13 +837,19 @@ Profile presentation:
 
 Not every low-ranking identity needs to be displayed.
 
+The definition of "meaningful" and the threshold for Secondary Identity presentation remain unresolved until accepted Identity semantics and score distributions have been inspected.
+
+Do not invent arbitrary thresholds merely to satisfy the cardinality requirement.
+
 ---
 
 ## Ranking
 
 The system may maintain ranked identities internally.
 
-Primary/secondary presentation should be based on meaningful relevance rather than arbitrary fixed counts alone.
+Primary and secondary presentation should be based on explicitly defined relevance and meaningfulness.
+
+The exact relationship between eligibility, scoring, ranking, and presentation must be established before behavior is changed.
 
 ---
 
@@ -786,6 +877,10 @@ The fixture system provides:
 - easier testing
 - controlled vocabulary
 
+Identity eligibility, scoring, ranking, and presentation are distinct concepts and must not be conflated.
+
+`minimum_entries` should be understood as part of Data Sufficiency / eligibility semantics rather than automatically treated as an exclusion-before-ranking rule unless the locked implementation contract establishes that behavior.
+
 ---
 
 # 14. IDENTITY EVIDENCE / EXPLANATION
@@ -794,24 +889,27 @@ Identity should be explainable through contribution breakdown.
 
 Example:
 
-```text
 Systems-Seeking Interpretive Curator
 
 Major contributions:
 
-Gameplay Mechanics     9.6
-Depth                   8.4
-Systems Affinity       Strong
-Interpretive Depth     Strong
-```
+Gameplay Mechanics 9.6
+
+Depth 8.4
+
+Systems Affinity Strong
+
+Interpretive Depth Strong
 
 The current contribution-breakdown infrastructure should be preserved.
 
 Identity does not need to use the same evidence schema as Observations.
 
+The requirement is that the contribution breakdown meaningfully explains why the Identity was selected.
+
 ---
 
-# 15. IDENTITY CONFIDENCE
+# 15. IDENTITY DATA SUFFICIENCY
 
 The current implementation's entry-count-based confidence is better understood as:
 
@@ -825,9 +923,11 @@ That is different from:
 
 > This identity beats competing identities by a large margin.
 
-The latter is **Classification Confidence**.
+The latter is conceptually **Classification Confidence**.
 
-Identity should eventually expose the appropriate concepts separately where useful.
+Data Sufficiency, Classification Confidence, scoring, eligibility, ranking, and presentation are distinct concepts.
+
+The exact operational semantics of Identity eligibility and presentation must be confirmed before behavior is changed.
 
 ---
 
@@ -859,7 +959,7 @@ This is currently the strongest implementation.
 
 ### Findings
 
-Should eventually expose structured supporting evidence.
+Should expose sufficient structured or otherwise explicit supporting evidence to explain the conclusion.
 
 ### Designations
 
@@ -868,6 +968,10 @@ May expose lightweight "why this designation" evidence.
 ### Identities
 
 Contribution breakdowns are an appropriate evidence/explanation mechanism.
+
+### Narrative
+
+Narrative should synthesize established evidence and conclusions rather than inventing support.
 
 ---
 
@@ -893,15 +997,11 @@ The generic word "confidence" should be avoided where a more precise term exists
 
 Examples:
 
-```text
 Originality: 0.88
-```
 
 or:
 
-```text
 Originality: 8.8/10
-```
 
 ---
 
@@ -919,13 +1019,19 @@ This is fundamentally about sample size and available information.
 
 This is about separation between competing classifications.
 
+This concept is currently distinct from score magnitude and Data Sufficiency.
+
+A generalized Classification Confidence algorithm is **not** part of Phase 1 unless explicitly introduced by a future locked decision.
+
 ---
 
 ## Evidence Strength
 
 > How strongly does the available evidence support the conclusion?
 
-This is about the quality/quantity/directness of supporting evidence.
+This is about the quality, quantity, or directness of supporting evidence.
+
+Observation Evidence Strength may use the existing threshold-relative calculation where that behavior is already established.
 
 ---
 
@@ -934,6 +1040,10 @@ This is about the quality/quantity/directness of supporting evidence.
 These values may correlate.
 
 They are not interchangeable.
+
+Not every subsystem requires all four as numerical fields.
+
+A distinct field should exist only where the API, UI, explanation layer, or decision logic actually requires the distinction.
 
 ---
 
@@ -964,6 +1074,15 @@ Narrative must not invent conclusions unsupported by the intelligence layer.
 
 It translates and synthesizes established signals.
 
+Narrative may not:
+
+- invent Traits
+- invent evidence
+- invent classifications
+- invent Findings
+- imply certainty beyond the intelligence layer
+- treat speculation as demonstrated fact
+
 ---
 
 ## Current Status
@@ -992,6 +1111,8 @@ They may include:
 - soft Observation signals
 - soft Finding signals
 
+The exact weighting of these signals belongs to Recommendation Engine work.
+
 ---
 
 ## Important distinction
@@ -999,6 +1120,8 @@ They may include:
 Recommendation Signals are **not the same thing as human-readable Identity**.
 
 Identity may highlight important underlying signals, but the recommendation engine should consume those measurable signals directly.
+
+Identity should not become a direct numerical recommendation score.
 
 ---
 
@@ -1008,16 +1131,28 @@ A Designation or other intelligence layer may identify recommendation-relevant t
 
 Example:
 
-```text
 The Boundary Explorer
 
 Recommendation Bias:
+
 - unusual concepts
 - genre hybrids
 - experimental storytelling
-```
 
 These are machine-usable preferences, not necessarily direct recommendation scores.
+
+Recommendation bias is descriptive recommendation-oriented metadata.
+
+It is not itself a recommendation score.
+
+Preserve existing recommendation-bias metadata on:
+
+- Designations
+- Identities
+
+The future Recommendation Engine should consume measurable signals directly.
+
+**Classification:** PRESERVE / DEFERRED
 
 ---
 
@@ -1065,52 +1200,86 @@ It answers:
 
 ## Contents
 
-```text
 Archive Profile
+
 │
+
 ├── Narrative
+
 │
+
 ├── Primary Designation
+
 │
+
 ├── Primary Identity
-│   └── Secondary Identities
+
+│ └── Secondary Identities
+
 │
+
 ├── Traits
+
 │
+
 ├── Genre Signals
+
 │
+
 ├── Observations
+
 │
+
 ├── Findings
+
 │
+
 └── Evidence / Explanations
-```
 
 ---
 
 ## Cardinality
 
-```text
 Traits
-    MANY
+
+```
+MANY
+```
 
 Genre Signals
-    MANY
+
+```
+MANY
+```
 
 Observations
-    MANY
+
+```
+MANY
+```
 
 Findings
-    MANY
+
+```
+MANY
+```
 
 Designation
-    MANY internally
-    ONE PRIMARY displayed
+
+```
+MANY internally
+
+ONE PRIMARY displayed
+```
 
 Identities
-    MANY internally
-    ONE PRIMARY
-    ZERO+ meaningful SECONDARY
+
+```
+MANY internally
+
+ONE PRIMARY
+
+ZERO+ meaningful SECONDARY
 ```
 
 ---
@@ -1121,13 +1290,15 @@ Identities
 
 **What qualities are strongly represented?**
 
-```text
-Originality          8.8
-Depth                8.4
-Gameplay Mechanics   9.6
-Engagement           9.1
-Craft                8.7
-```
+Originality 8.8
+
+Depth 8.4
+
+Gameplay Mechanics 9.6
+
+Engagement 9.1
+
+Craft 8.7
 
 ---
 
@@ -1162,6 +1333,8 @@ Potential supporting observations/signals:
 - High Originality
 - Surreal/Horror cross-interest
 
+The Finding provides an interpretive conclusion rather than merely renaming one of the underlying signals.
+
 ---
 
 ## Designation
@@ -1170,22 +1343,23 @@ Potential supporting observations/signals:
 
 ### ◈ The Boundary Explorer
 
-```text
 Traits:
+
 - Originality
 - Depth
 
 Genres:
+
 - Experimental
 - Surreal
 - Sci-Fi
 - Horror
 
 Recommendation Bias:
+
 - Unusual concepts
 - Genre hybrids
 - Experimental storytelling
-```
 
 ---
 
@@ -1248,26 +1422,31 @@ Identity may influence recommendations **indirectly** by highlighting important 
 
 Identity should not be treated as a direct numerical recommendation score.
 
+The exact weighting of Identity-derived context remains future Recommendation Engine work.
+
 ---
 
 # 25. RECOMMENDATION OUTPUT
 
 Eventually:
 
-```text
 Recommendation:
+
 Movie X
 
 Match: 92
 
 Why:
 
-+ Strong experimental affinity
-+ High originality alignment
-+ Matches Boundary Explorer preferences
-+ Strong atmospheric compatibility
-+ Similar to highly-rated archive records
-```
+- Strong experimental affinity
+
+- High originality alignment
+
+- Matches Boundary Explorer preferences
+
+- Strong atmospheric compatibility
+
+- Similar to highly-rated archive records
 
 The engine must ultimately answer both:
 
@@ -1277,6 +1456,8 @@ and:
 
 > **Why was this recommended?**
 
+The exact recommendation scoring and weighting algorithm is outside the current Intelligence Contract.
+
 ---
 
 # 26. EMPTY / SPARSE ARCHIVE BEHAVIOR
@@ -1285,7 +1466,7 @@ Empty and sparse archives are valid system states.
 
 The intelligence layer must not assume that enough data always exists.
 
-The Profile should distinguish:
+Conceptually, the archive may be understood as:
 
 ### Empty Archive
 
@@ -1293,13 +1474,19 @@ Not enough data to produce meaningful intelligence.
 
 ### Sparse Archive
 
-Some signals may exist, but conclusions should clearly communicate limited data sufficiency.
+Some signals may exist, but conclusions should clearly communicate limited Data Sufficiency.
 
 ### Established Archive
 
 Enough data exists for meaningful interpretation.
 
-Data sufficiency should be represented explicitly rather than hidden behind misleading confidence percentages.
+The exact operational thresholds for these states remain unresolved.
+
+Data Sufficiency should be represented explicitly rather than hidden behind misleading confidence percentages.
+
+Do not introduce state-dependent branching based on undefined thresholds.
+
+Different intelligence subsystems may require different minimum data conditions.
 
 ---
 
@@ -1316,6 +1503,10 @@ Potential conditions:
 - partially populated archive
 
 Systems should degrade gracefully rather than fabricate certainty.
+
+Partial-data behavior is primarily an implementation and testing concern.
+
+Where a subsystem requires particular information, its behavior should be explicitly defined rather than assuming every subsystem shares the same minimum data requirement.
 
 ---
 
@@ -1342,16 +1533,38 @@ When implementing changes based on this contract:
 - making Identity a Designation clone
 - making Findings into renamed Observations
 - using labels as opaque recommendation scores
+- implementing unresolved conceptual decisions merely to complete a feature
 
 ---
 
 # 29. TESTING CONTRACT
 
-Any subsystem changed under this contract must preserve existing behavior unless that behavior directly conflicts with the locked conceptual definition.
+The test suite is part of the behavioral contract.
 
-Current baseline:
+Any subsystem changed under this contract must preserve existing behavior unless that behavior directly conflicts with an explicitly locked conceptual definition.
 
-**199 tests passing.**
+## Current Test Status
+
+**247 passing tests and 1 failing test.**
+
+The current failure is an established Designation regression involving the `deep_diver` fixture and the updated `boundary_explorer` evidence model.
+
+The suite is therefore **not currently green**.
+
+Historical regression milestones are:
+
+- 199 passing tests — original forensic baseline
+- 210 passing tests — earlier Phase 1 baseline
+- 218 passing tests — post-forensic test baseline
+- 247 passing tests — current passing count
+
+These historical counts document the evolution of regression coverage and should not be confused with the current green baseline.
+
+The 210-test count is therefore **not the current baseline**.
+
+---
+
+## Testing Requirements
 
 Changes should add or update tests for:
 
@@ -1359,16 +1572,19 @@ Changes should add or update tests for:
 
 - rule behavior
 - evidence
-- confidence
+- Evidence Strength
 - multiple observations
+- deterministic ordering where applicable
 
 ### Findings
 
 - interpretive level
 - synthesis
 - evidence
-- confidence
 - multiple findings
+- distinction from duplicate Observations
+
+Finding confidence remains unresolved.
 
 ### Designations
 
@@ -1377,17 +1593,20 @@ Changes should add or update tests for:
 - primary selection
 - explanation/evidence
 - recommendation bias
+- deterministic behavior
 
 ### Identities
 
 - fixture loading
+- eligibility
+- Data Sufficiency
 - multiple identities
 - ranking
 - primary selection
-- secondary selection
+- secondary selection once policy is locked
 - contribution breakdown
-- data sufficiency
-- classification confidence
+
+Classification Confidence should be tested only where an explicit implementation contract defines it.
 
 ### Recommendations
 
@@ -1395,6 +1614,18 @@ Changes should add or update tests for:
 - ranking
 - explanations
 - edge cases
+
+Recommendation weighting belongs to Recommendation Engine work and should not be invented during Phase 1.
+
+---
+
+## Regression Principle
+
+Run the full suite after every intentional behavior change.
+
+Once intentional behavior changes are resolved, the full suite should return to green unless an explicitly approved contract change changes an expected result.
+
+Every intentional behavioral change requires regression coverage.
 
 ---
 
@@ -1411,6 +1642,10 @@ This contract does **not** currently attempt to define:
 - external metadata integrations
 - machine-learning-based recommendations
 - React architecture
+- generalized Classification Confidence mathematics
+- Secondary Identity thresholds before their meaningfulness policy is defined
+- tie / near-tie thresholds before the ranking policy is locked
+- Archive State operational thresholds before they are defined
 
 Those can evolve after the conceptual boundaries are stable.
 
@@ -1418,31 +1653,47 @@ Those can evolve after the conceptual boundaries are stable.
 
 # 31. PHASE 0 EXIT CRITERIA
 
-Phase 0 is complete when:
+Phase 0 is complete when the foundational conceptual distinctions are established.
 
-- [ ] Trait has an unambiguous definition
-- [ ] Genre Signal has an unambiguous definition
-- [ ] Observation has an unambiguous definition
-- [ ] Finding has an unambiguous definition
-- [ ] Designation has an unambiguous definition
-- [ ] Identity has an unambiguous definition
-- [ ] Evidence has an unambiguous purpose
-- [ ] Signal Strength is distinguished from confidence
-- [ ] Data Sufficiency is defined
-- [ ] Classification Confidence is defined
-- [ ] Evidence Strength is defined
-- [ ] Narrative's role is defined
-- [ ] Recommendation Signals are defined
-- [ ] Analytics vs Archive Profile is defined
-- [ ] Cardinality is locked
-- [ ] Observation vs Finding is locked
-- [ ] Designation vs Identity is locked
-- [ ] Multiple identities are explicitly supported
-- [ ] Primary/secondary identity behavior is defined
-- [ ] Empty/sparse archive behavior is acknowledged
-- [ ] No major conceptual contradiction remains
+The following concepts are now established at the conceptual level:
 
-Only then should Phase 1 implementation alignment begin.
+- [x] Trait has an unambiguous definition
+- [x] Genre Signal has an unambiguous definition
+- [x] Observation has an unambiguous definition
+- [x] Finding has an unambiguous definition
+- [x] Designation has an unambiguous definition
+- [x] Identity has an unambiguous definition
+- [x] Evidence has an unambiguous purpose
+- [x] Signal Strength is distinguished from confidence
+- [x] Data Sufficiency is defined
+- [x] Classification Confidence is conceptually distinguished
+- [x] Evidence Strength is defined
+- [x] Narrative's role is defined
+- [x] Recommendation Signals are defined
+- [x] Analytics vs Archive Profile is defined
+- [x] Cardinality is defined
+- [x] Observation vs Finding is defined
+- [x] Designation vs Identity is defined
+- [x] Multiple identities are explicitly supported
+- [x] Primary/secondary identity behavior is conceptually defined
+- [x] Empty/sparse archive behavior is acknowledged
+- [x] Parallel intelligence architecture is established
+
+The following remain implementation-level or policy-level gates rather than assumptions to be silently filled in:
+
+- [ ] final Identity shortlist
+- [ ] per-Identity signal definitions
+- [ ] Secondary Identity thresholds
+- [ ] tie / near-tie policy
+- [ ] Finding purpose statements for ELEVATE candidates
+- [ ] Finding evidence model where needed
+- [ ] Finding confidence semantics
+- [ ] new Observation shortlist
+- [ ] archive-state operational thresholds
+- [ ] per-field API/frontend rename plan
+- [ ] precise Identity eligibility/ranking/presentation semantics
+
+Phase 1 implementation alignment should proceed only where these unresolved decisions do not create a dependency.
 
 ---
 
@@ -1450,31 +1701,41 @@ Only then should Phase 1 implementation alignment begin.
 
 The Media Tracker intelligence layer follows this conceptual progression:
 
-```text
 RAW DATA
-   ↓
+
+↓
+
 MEASUREMENT
-   ↓
+
+↓
+
 TRAITS + GENRE SIGNALS
-   ↓
+
+↓
+
 ┌───────────────────────────────────────────────┐
-│                                               │
-│  OBSERVATIONS     FINDINGS     DESIGNATIONS   │
-│                                               │
-│  demonstrable    interpretive   named taste   │
-│  patterns        conclusions    classification│
-│                                               │
-│                     IDENTITY                  │
-│              curator synthesis                │
-│                                               │
+│ │
+│ OBSERVATIONS FINDINGS DESIGNATIONS │
+│ │
+│ demonstrable interpretive named taste │
+│ patterns conclusions classification│
+│ │
+│ IDENTITY │
+│ curator synthesis │
+│ │
 └───────────────────────────────────────────────┘
-   ↓
+
+↓
+
 ARCHIVE PROFILE
-   ↓
+
+↓
+
 RECOMMENDATION SIGNALS
-   ↓
+
+↓
+
 RECOMMENDATION ENGINE
-```
 
 The four key distinctions are:
 
@@ -1527,6 +1788,8 @@ The principle is:
 
 Any actual algorithmic use must remain explainable and explicitly defined.
 
+---
+
 # 34. Review
 
 The current user-authored notes field should eventually become:
@@ -1552,17 +1815,17 @@ The contract does not currently define a review-analysis algorithm.
 
 Review analysis is therefore a future capability.
 
+Preserving the Review as archive data does not imply that it should immediately affect any intelligence score.
+
+---
+
 # 35. Previously Consumed Media
 
 The archive should eventually allow the user to indicate whether the recorded media was previously consumed before this archive record, even if this is the first time the user is recording it in Media Tracker.
 
 The initial representation should preferably be binary:
 
-```text
-
 previously_consumed: true / false
-
-```
 
 A full consumption count may be useful later, but it introduces additional maintenance burden.
 
@@ -1581,23 +1844,29 @@ Potential future intelligence uses include:
 
 No specific scoring effect is currently defined.
 
+---
+
 # 36. Intelligence Input Principle
 
 The intelligence layer should evolve toward a model in which:
 
-```text
-
 RAW USER DATA
-↓
-MEASURABLE SIGNALS
-↓
-INTELLIGENCE
-↓
-INTERPRETATION
-↓
-RECOMMENDATION SIGNALS
 
-```
+↓
+
+MEASURABLE SIGNALS
+
+↓
+
+INTELLIGENCE
+
+↓
+
+INTERPRETATION
+
+↓
+
+RECOMMENDATION SIGNALS
 
 The system should not assume that only numerical scores are legitimate intelligence inputs.
 
@@ -1605,11 +1874,13 @@ At the same time, raw user input should not automatically become a score merely 
 
 The correct sequence is:
 
-    1. preserve the data
-    2. establish whether it contains a meaningful signal
-    3. define the signal's semantics
-    4. test the behavior
-    5. only then incorporate it into downstream intelligence
+1. preserve the data
+2. establish whether it contains a meaningful signal
+3. define the signal's semantics
+4. test the behavior
+5. only then incorporate it into downstream intelligence
+
+---
 
 # 37. Constitutional Extension
 
@@ -1626,3 +1897,7 @@ User-provided information should remain available for future analytical use, whi
 - regression-tested
 
 This principle applies to Reviews, previously-consumed status, and future user-provided metadata.
+
+It does not authorize new intelligence behavior by itself. Any actual downstream use remains subject to an explicit semantic definition, implementation decision, and regression coverage.
+
+---

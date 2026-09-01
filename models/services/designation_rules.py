@@ -1,18 +1,43 @@
-from .designation_utils import genre_affinity
+from .designation_utils import calculate_boundary_exploration_evidence, genre_affinity
 
 
 def evaluate_boundary_explorer(profile):
 
-    score = 0
+    evidence = calculate_boundary_exploration_evidence(profile)
 
-    score += genre_affinity(profile, "experimental") * 36.36
-    score += genre_affinity(profile, "surreal") * 27.27
-    score += genre_affinity(profile, "sci-fi") * 18.18
-    score += genre_affinity(profile, "horror") * 9.09
+    if not evidence["sampling"]:
+        return 0
 
-    score += profile.get("traits", {}).get("originality_strength", 0) * 9.09
+    prevalence = evidence["boundary_prevalence"]
 
-    return min(score, 100)
+    if prevalence == 0:
+        prevalence_score = 0
+    elif prevalence < 0.03:
+        prevalence_score = 8
+    elif prevalence < 0.10:
+        prevalence_score = 16
+    elif prevalence < 0.20:
+        prevalence_score = 24
+    elif prevalence < 0.30:
+        prevalence_score = 32
+    else:
+        prevalence_score = 40
+
+    sustained_score = 25 if evidence["sustained"] else 0
+
+    media_type_count = evidence["boundary_media_type_count"]
+    media_breadth_score = min(media_type_count / 3, 1) * 15
+
+    originality = profile.get("universalAverages", {}).get("originality", 0)
+    originality_score = (originality / 10) * 20
+
+    return round(
+        prevalence_score
+        + sustained_score
+        + media_breadth_score
+        + originality_score,
+        2,
+    )
 
 
 def evaluate_engagement_architect(profile):

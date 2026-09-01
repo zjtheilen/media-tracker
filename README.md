@@ -1,6 +1,6 @@
 ```
 __    __ ___    ___ ___  ____ ___
-\ \/\/ // _ \  _\\ / _ \ | D )| |
+\ \/\/ // A \  _\\ / A \ | D )| |
  \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
  Weighted Archive System for Analysis & Behavioral Insights
 ```

@@ -10,7 +10,7 @@ __    __ ___    ___ ___  ____ ___
 **Project:** Media Tracker
 **Authoritative branch:** `develop-3`
 **Phase:** Phase 1 — Intelligence Alignment
-**Status:** Reconciled post-forensic audit
+**Status:** Reconciled against the current Phase 1 Intelligence Alignment
 **Related documents:**
 
 * `intelligence-contract.md`
@@ -19,7 +19,9 @@ __    __ ___    ___ ___  ____ ___
 * `roadmap.md`
 * `forgotten-features-register.md`
 
-**Current regression baseline:** **219 passing tests**
+**Current test status:** **247 passing tests / 1 failing test**
+
+**Historical regression milestones:** 199 → 210 → 218 → 247 passing tests
 
 **Guiding principle:** **Evolution, not rewrite.**
 
@@ -42,6 +44,8 @@ The documents have distinct responsibilities:
 * **Archive Behavioral Analysis** establishes what the rated archive actually demonstrates.
 
 This document is the bridge between conceptual contract and code changes.
+
+The **Phase 1 Intelligence Alignment** document is the reconciled conceptual reference. When an older statement in this document conflicts with a later locked Phase 1 decision, the locked Phase 1 decision supersedes the older statement.
 
 ---
 
@@ -112,7 +116,7 @@ No implementation may depend on an **UNRESOLVED** decision.
 
 # 5. Locked Conceptual Decisions
 
-These meanings come from `intelligence-contract.md`.
+These meanings come from `intelligence-contract.md` and the reconciled Phase 1 alignment.
 
 | Concept               | Locked meaning                                          | Cardinality     |
 | --------------------- | ------------------------------------------------------- | --------------- |
@@ -149,12 +153,12 @@ Introduce a distinct field only where the semantic distinction is genuinely requ
 
 ### Existing field mappings — LOCKED semantics
 
-| Current field                       | Actual meaning                      | Classification              | Phase 1 action                                    |
-| ----------------------------------- | ----------------------------------- | --------------------------- | ------------------------------------------------- |
-| Identity `data_sufficiency` | Archive-data sufficiency relative to the Identity's minimum entry requirement | Data Sufficiency | Preserve calculation and API behavior; correct stale `confidence` terminology | `identity_data_sufficiency.py`, `identity_engine.py` | `/identity` response; no identified frontend consumer | `tests/designations/test_identity_data_sufficiency.py`, identity endpoint tests | RESOLVED / PRESERVE |
-| Designation `designationConfidence` | Signal Strength-like; aggregate strength of Designation Basis | TERMINOLOGY | Preserve calculation; clarify/reframe terminology after consumer audit |
-| Observation `confidence` | Threshold-relative evidence strength | TERMINOLOGY / CLARIFICATION | Preserve calculation and API behavior; clarify as Evidence Strength | Observation rules / mapper / engine | No identified frontend consumer | Observation tests | RESOLVED / PRESERVE |
-| Finding confidence | Not implemented; Findings are binary rule-triggered interpretations supported by explicit evidence | N/A | Do not add in Phase 1; future graded Finding strength would require a separate design decision | Finding rules / Finding engine | Finding consumers, if any | Finding tests | RESOLVED / DO NOT ADD |
+| Current field                       | Actual meaning                                                                                     | Classification              | Phase 1 action                                                          |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------- | --------------------------- | ----------------------------------------------------------------------- |
+| Identity `data_sufficiency`         | Archive-data sufficiency relative to the Identity's minimum entry requirement                      | Data Sufficiency            | Preserve calculation and API behavior; use Data Sufficiency terminology |
+| Designation `designationConfidence` | Aggregate signal strength of the Designation Basis                                                 | TERMINOLOGY                 | Preserve calculation; clarify/reframe terminology                       |
+| Observation `confidence`            | Threshold-relative Evidence Strength                                                               | TERMINOLOGY / CLARIFICATION | Preserve calculation and API behavior; clarify semantics                |
+| Finding confidence                  | Not implemented; Findings are binary rule-triggered interpretations supported by explicit evidence | N/A                         | Do not add in Phase 1                                                   |
 
 ### Designation confidence resolution
 
@@ -164,163 +168,47 @@ It represents aggregate signal strength of the Designation Basis, not statistica
 
 No replacement confidence algorithm is required.
 
-Consumer verification is complete. The existing calculation and current API behavior are preserved.
-
-Remaining work is limited to terminology/presentation alignment if and when a public rename is separately approved.
-
 **LOCKED:** Do not invent a Classification Confidence algorithm merely to justify the word `confidence`.
 
 **DEFERRED:** Generalized Classification Confidence remains outside Phase 1.
 
 ### Identity data sufficiency resolution
 
-**LOCKED:** The former Identity `confidence` terminology has been retired in favor of the current `data_sufficiency` field.
+**LOCKED:** Identity `data_sufficiency` represents archive-volume sufficiency relative to the Identity's minimum-entry requirement.
 
-The current Identity implementation does not expose an Identity `confidence` field.
-
-**LOCKED:** Do not add a second Identity `confidence` field.
-
-`data_sufficiency` represents whether the archive contains sufficient entries for the Identity's minimum-entry requirement. It is a sufficiency measure, not a confidence/probability measure.
+It does not represent statistical confidence, probability, or confidence that the Identity classification is objectively correct.
 
 The existing calculation is preserved.
 
-The `/identity` API exposes `data_sufficiency`, and dedicated calculation and endpoint tests protect the contract.
-
-Consumer verification found no frontend dependency requiring a compatibility alias for the former `confidence` field.
+The current Identity implementation does not require a replacement `confidence` field or compatibility alias.
 
 **Status:** RESOLVED / PRESERVE
-
-### Identity Resolution, Primary, Secondary, and Tie Handling
-
-The Identity system assigns one Primary Identity and may assign one Secondary Identity. Eligible Identities are evaluated using the existing Identity scoring model.
-
-**Primary Identity**
-
-The Primary Identity is the strongest eligible Identity after applying the Identity resolution hierarchy.
-
-Identity resolution proceeds from the existing overall Identity score to increasingly granular evidence already supported by the Identity definitions and archive/profile data.
-
-**Secondary Identity**
-
-A Secondary Identity is the highest-scoring eligible non-primary Identity whose existing Identity score meets the defined minimum threshold for meaningful support.
-
-Meaningful Secondary support is based on the Identity's absolute score, not on its score relative to the Primary. A candidate is not considered meaningfully supported merely because it ranks second or is numerically close to the Primary.
-
-The Secondary Identity is evaluated independently from the Primary Identity. It is not derived from, inferred from, or computationally dependent on the Primary.
-
-If no eligible non-primary Identity meets the meaningful-support threshold, no Secondary Identity is assigned.
-
-**Tie resolution**
-
-If Identity scores remain tied, the system uses increasingly granular evidence already supported by the Identity definitions and archive/profile data.
-
-The first implemented tie-resolution layer is existing component-level evidence. Identity breakdown contributions are compared from strongest to weakest. If one candidate has stronger evidence at the first differing component, that candidate is resolved as Primary.
-
-If the strongest component contribution is tied, the next component contribution is considered, continuing until the candidates are distinguished or all available component contributions remain equal.
-
-**Genre evidence as a tie-resolution layer**
-
-Genre evidence may be used only after overall Identity score and existing component-level evidence have failed to distinguish tied candidates.
-
-Genre evidence is comparative semantic evidence, not an additional Identity score. It must not modify the existing Identity score or introduce a second set of arbitrary genre weights.
-
-Genre evidence is meaningful only when the competing Identity definition establishes a substantive relationship to the relevant genre pattern.
-
-For the current Identities:
-
-* **Boundary Explorer:** meaningful genre evidence includes broad genre diversity and meaningful engagement with experimental, surreal, hybrid, or otherwise unconventional genre patterns.
-* **Deep Diver:** meaningful genre evidence includes sustained concentration in psychological, mystery, surreal, and drama-oriented material associated with interpretation, ambiguity, emotional depth, or reflection.
-* **Engagement Architect:** no direct genre-specific tie-breaker is currently defined. Its Identity definition is primarily supported by execution, engagement, mechanics, pacing, and system-design evidence.
-
-Existing genre-derived Identity traits such as `genre_diversity`, `experimental_affinity`, `novelty`, `analysis`, `ambiguity`, and `reflection` remain part of the normal Identity scoring model. Genre evidence used later for tie resolution must not simply re-count those same derived contributions.
-
-When genre evidence is reached as a tie-resolution layer, the system asks which competing Identity definition is more meaningfully reflected by the archive's genre pattern. It does not convert that evidence into additional numeric Identity points.
-
-Genre evidence may resolve a genuine tie only when the evidence materially favors one competing Identity. If the genre patterns do not meaningfully distinguish the candidates, the tie remains unresolved and the system proceeds to the next applicable evidence layer.
-
-Genre evidence cannot override a meaningful difference already established by a higher-priority evidence layer.
-
-Other archive dimensions may be considered as additional tie-resolution evidence when they are materially relevant to the competing Identity definitions. Such dimensions must follow the same principle: they provide comparative evidence rather than arbitrary additional scoring.
-
-
-Genre is not a universal tie-breaker and must not receive arbitrary weighting solely to resolve an Identity tie.
-
-If meaningful available evidence cannot distinguish two candidates, the system must not use Identity definition order, configuration order, IDs, or another arbitrary deterministic fallback to claim that one Identity has stronger evidence.
-
-The product nevertheless requires a single Primary Identity. Therefore, when two meaningfully supported Identities remain genuinely tied after available evidence has been considered, one is assigned as Primary and the other may be exposed as Secondary. This assignment does not imply that the Primary has stronger evidence.
-
-**Implementation**
-
-`resolve_identity_candidates()` is responsible for Primary/Secondary candidate resolution.
-
-Overall Identity score remains the first-level ranking signal. For equal scores, the function compares existing Identity breakdown contributions as an evidence hierarchy rather than relying on Identity definition or configuration order.
-
-The Secondary Identity remains subject to `SECONDARY_MIN_SCORE` and is selected independently of the Primary.
-
-Dedicated Identity engine tests protect:
-
-* Primary and Secondary selection for existing Identity fixtures.
-* Secondary minimum-support behavior.
-* Exclusion of the Primary from Secondary selection.
-* Equal-score resolution using stronger component evidence.
-* Progression to the next component when the strongest component is tied.
-
-The implementation is order-independent when tied candidates contain distinguishable component evidence: reversing the input candidate order does not change the resolved Primary Identity.
-
-**Status:** SEMANTICALLY RESOLVED / PARTIALLY IMPLEMENTED
-
-The component-evidence tie-resolution layer is implemented and covered by Identity Engine tests. Additional archive-dimension tie-breakers, such as semantically relevant genre evidence, remain available for a later implementation step if existing component evidence cannot distinguish candidates.
-
-### `designationBasis` resolution
-
-**LOCKED:** `designationBasis` is backend-authoritative.
-
-It represents a concise summary of the dominant classification signals:
-
-* strongest universal trait
-* second-strongest universal trait
-* strongest media-specific trait
-
-It does **not** represent an exhaustive enumeration of every signal consumed by every designation rule.
-
-The frontend consumes the backend-produced `designationBasis` value from the archive-profile response rather than recomputing it.
-
-A legacy frontend `generatedesignationBasis()` helper was found to be disconnected from the active production path and duplicated backend behavior.
-
-The frontend helper has now been removed from `charts.js`.
-
-`designationBasis` remains an active backend-produced archive-profile field
-and is still consumed by the frontend. Removal applies only to the obsolete
-frontend producer, not to the backend/API contract.
-
-**RESOLVED:** The dead frontend helper has been removed.
-
-No replacement implementation is required.
-
-**TEST REQUIREMENT:** Existing backend/archive-profile and API tests should continue to protect the presence and structure of `designationBasis`.
-
-**Classification:** RESOLVED / PRESERVE
 
 ### Observation confidence resolution
 
 **LOCKED:** The existing Observation `confidence` calculation is preserved.
 
-It represents threshold-relative **Evidence Strength** for the rule's designated primary supporting metric. It does not represent statistical confidence, probability, or confidence that the Observation itself is objectively correct.
+It represents threshold-relative **Evidence Strength** for the rule's designated supporting metric.
 
-The Observation rule predicate determines whether the Observation fires. The rule's dedicated `confidence` function independently determines the strength of its designated supporting metric.
+It does not represent statistical confidence, probability, or confidence that the Observation itself is objectively correct.
 
-Additional predicate conditions may be required for an Observation to fire, but they do not automatically contribute numerically to the `confidence` value.
+Additional predicate conditions may establish that an Observation qualifies without contributing directly to its numerical Evidence Strength.
 
-This behavior is intentional and is not an incomplete compound-evidence confidence model.
-
-The calculation is protected by dedicated tests covering threshold-relative behavior, threshold saturation at `1.0`, rounding, and zero-threshold handling.
-
-Consumer verification found no frontend dependency requiring a public rename.
-
-**LOCKED:** Do not introduce a generalized or compound Observation confidence algorithm during Phase 1.
+This is intentional and is not an incomplete compound-confidence model.
 
 **Status:** RESOLVED / PRESERVE
 
+### Finding confidence resolution
+
+Findings do not expose or calculate a confidence value.
+
+Finding evaluation is binary: the Finding rule either fires or does not fire. The resulting Finding provides explicit support explaining why the rule fired.
+
+**LOCKED:** Do not add Finding confidence during Phase 1.
+
+Any future graded Finding strength would require a separate semantic/product decision.
+
+**Status:** RESOLVED / DO NOT ADD
 
 ---
 
@@ -351,7 +239,20 @@ Unless a direct contract conflict is demonstrated, preserve:
 * Existing narrative architecture
 * Deterministic behavior
 * Empty-profile behavior
-* Current **227-test regression baseline**
+* Current passing behavior except for explicitly approved intentional changes
+
+The current suite is **247 passing / 1 failing**, so the suite is not presently green.
+
+The current failure is an established Designation regression involving the `deep_diver` fixture and the updated `boundary_explorer` evidence model.
+
+The passing count documents current regression coverage; it is not itself a green baseline.
+
+Historical milestones are:
+
+* 199 passing tests — original forensic baseline
+* 210 passing tests — earlier Phase 1 baseline
+* 218 passing tests — post-forensic test baseline
+* 247 passing tests — current passing count
 
 ---
 
@@ -360,9 +261,14 @@ Unless a direct contract conflict is demonstrated, preserve:
 ### Trait Signal Strength normalization
 
 ```python
-
 strength = min(max((value - 6) / 4, 0), 1)
+```
 
+Therefore:
+
+```text
+value <= 6 → 0
+value = 10 → 1
 ```
 
 **Classification:** PRESERVE
@@ -372,9 +278,7 @@ strength = min(max((value - 6) / 4, 0), 1)
 ### Identity Score normalization
 
 ```python
-
 normalize_identity_score(value) = max(0, min(value / 10, 1))
-
 ```
 
 **Classification:** PRESERVE
@@ -423,22 +327,40 @@ These are implementation facts, not automatic redesign triggers.
 
 ---
 
+### Deterministic existing behavior
+
+The audit recovered meaningful deterministic behavior including:
+
+* Designations are ranked by score
+* Primary Designation is selected from ranked candidates
+* Observations have deterministic ordering based on their established Evidence Strength semantics
+* Identity scoring uses fixture weights
+* Identity contribution breakdowns are available
+* Structured Observation evidence exists
+* Empty-profile behavior produces empty/zero intelligence rather than fabricated certainty
+* Recommendation-bias metadata exists independently of recommendation scoring
+* Designations are not emitted as Findings
+* Identity ranking is deterministic among eligible candidates
+* Primary Identity selection remains deterministic
+
+Tie and close-competitor behavior is governed by the locked Phase 1 ranking/presentation policy and must not be inferred from incidental sort order.
+
+---
+
 # 8. Repository Implementation Map
 
-| Concept           | Responsible modules                                                                                                                                                        | Notes                                                      |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Traits            | `trait_calculator.py`                                                                                                                                                      | Universal + media strengths                                |
-| Genre Signals     | `genre_intelligence.py`, `genre_signals.py`, `genre_signal_utils.py`, designation affinity helpers                                                                         | Presence / percentage / affinity                           |
-| Observations      | `observation_rules.py`, `observation_engine.py`, `observation_mapper.py`, `observation_utils.py`                                                                           | Existing rule system                                       |
-| Findings          | `finding_rules.py`, `finding_engine.py`, `identity_finding.py`                                                                                                             | Independent Finding rules + Identity special case          |
-| Designations      | `designation_rules.py`, `designation_engine.py`, `designation_mapper.py`                                                                                                   | Fixture/rule-driven classifications                        |
+| Concept           | Responsible modules                                                                                                                                                              | Notes                                                      |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Traits            | `trait_calculator.py`                                                                                                                                                            | Universal + media strengths                                |
+| Genre Signals     | `genre_intelligence.py`, `genre_signals.py`, `genre_signal_utils.py`, designation affinity helpers                                                                               | Presence / percentage / affinity                           |
+| Observations      | `observation_rules.py`, `observation_engine.py`, `observation_mapper.py`, `observation_utils.py`                                                                                 | Existing rule system                                       |
+| Findings          | `finding_rules.py`, `finding_engine.py`, `identity_finding.py`                                                                                                                   | Independent Finding rules + Identity special case          |
+| Designations      | `designation_rules.py`, `designation_engine.py`, `designation_mapper.py`                                                                                                         | Fixture/rule-driven classifications                        |
 | Identities        | `identity_scorer.py`, `identity_scoring.py`, `identity_engine.py`, `identity_explainer.py`, `identity_data_sufficiency.py`, `identity_derived_traits.py`, `fixtures/identities/` | Scoring, explanation, derived traits                       |
-| Narrative         | `archive_narrative.py`                                                                                                                                                     | Downstream synthesis                                       |
-| Archive / Profile | `archive_engine.py`, `archive_mapper.py`, `archive_utils.py`                                                                                                               | Profile assembly                                           |
-| Recommendations   | `models/recommendations/*`                                                                                                                                                 | Deferred                                                   |
-| Frontend          | `charts.js` and other current consumers                                                                                                                                    | Field-specific blast radius must be verified before rename |
-
-**Test baseline — FACT:** **227 tests pass.**
+| Narrative         | `archive_narrative.py`                                                                                                                                                           | Downstream synthesis                                       |
+| Archive / Profile | `archive_engine.py`, `archive_mapper.py`, `archive_utils.py`                                                                                                                     | Profile assembly                                           |
+| Recommendations   | `models/recommendations/*`                                                                                                                                                       | Deferred                                                   |
+| Frontend          | `charts.js` and other current consumers                                                                                                                                          | Field-specific blast radius must be verified before rename |
 
 ---
 
@@ -463,6 +385,7 @@ Preserve:
 * ranking
 * primary selection
 * recommendation-bias metadata
+* deterministic behavior
 
 ## 9.3 Phase 1 decisions
 
@@ -501,21 +424,13 @@ They do not justify merging the systems.
 
 ## System-level decision — LOCKED
 
-The Identity subsystem should detect durable curator philosophies that could plausibly apply to other archives.
+The Identity subsystem describes durable curator philosophies that could plausibly apply to other archives.
 
 It should not become a collection of Zach-specific personality labels.
 
-## Archive-supported working direction
+The accepted Phase 1 Identity direction is based on durable curator philosophy rather than user-specific personality description.
 
-The current archive provides strong evidence for:
-
-* Structural Curator
-* Concept-First Curator
-* Engagement-Gated Curator
-
-These remain **WORKING DIRECTION**, not finalized fixture contracts.
-
-Each accepted Identity must eventually have:
+Each Identity must have:
 
 * purpose
 * primary signals
@@ -527,55 +442,59 @@ Each accepted Identity must eventually have:
 * distinction from other Identities
 * distinction from Designations
 
-**Gate:** New Identity fixture semantics cannot be implemented until the shortlist and signal definitions are accepted.
+The Identity catalog should remain small and conceptually differentiated.
+
+**Status:** LOCKED for Phase 1 implementation.
 
 ---
 
-# 12. Identity Minimum-Entry / Eligibility Semantics
+# 12. Identity Eligibility / Ranking / Presentation
 
-**Classification:** CLARIFICATION / POSSIBLE ALIGNMENT
-**Status:** UNRESOLVED
+**Classification:** ALIGNMENT
+**Status:** LOCKED
 
-Earlier Phase 1 planning treated `minimum_entries` as an automatic exclusion-before-ranking gate.
+Identity eligibility, scoring, ranking, and presentation are distinct concepts.
 
-The forensic audit establishes that this conclusion should not be implemented automatically without confirming the semantic relationship between:
+The locked Phase 1 model is:
 
 ```text
-minimum_entries
-↓
 Data Sufficiency
-↓
-score
-↓
-ranking
-↓
-presentation
-↓
-primary selection
+      ↓
+Eligibility
+      ↓
+Score
+      ↓
+Ranking
+      ↓
+Presentation
+      ↓
+Primary / Secondary selection
 ```
 
-The implementation currently uses `minimum_entries` as part of Identity scoring/sufficiency behavior.
+`minimum_entries` is the operational basis for Identity eligibility.
 
-Before changing it, determine:
+An Identity that does not meet its minimum-entry requirement is **not eligible for Identity resolution**.
 
-* whether insufficient identities are intended to remain internally rankable
-* whether they are intended to remain externally presentable
-* whether zero-score identities can become primary
-* whether that behavior is a genuine contract conflict
-* which layer should enforce exclusion if exclusion is required
+Eligibility is therefore established before ranking and presentation.
 
-**Gate:** No Identity eligibility/ranking behavior change until this decision is LOCKED.
+Among eligible Identities:
 
-This replaces the earlier blanket decision:
+* existing Identity scoring remains the scoring mechanism
+* ranking remains deterministic
+* Primary selection occurs from the eligible ranked candidates
+* Secondary selection occurs only from eligible non-primary candidates
+* presentation does not manufacture an Identity merely because a candidate exists in the catalog
 
-> "minimum_entries must always exclude an Identity before ranking."
+This separates archive-volume sufficiency from Identity score and prevents insufficient-data Identities from becoming Primary merely because of incidental scoring or ordering behavior.
+
+**Decision:** Implement eligibility at the Identity-resolution boundary rather than rewriting the underlying scoring model.
 
 ---
 
 # 13. Primary Identity
 
 **Classification:** PRESERVE + TESTING
-**Status:** LOCKED shape
+**Status:** LOCKED
 
 Conceptually:
 
@@ -587,87 +506,109 @@ deterministic ranking
 ONE PRIMARY
 ```
 
-Preserve existing ranking machinery unless the eligibility clarification establishes a direct conflict.
+Primary Identity is the strongest eligible Identity after applying the locked Identity ranking and resolution policy.
 
-Required tests:
+Required tests protect:
 
 * deterministic ranking
 * primary selection
-* explainability
-* insufficient-data behavior
+* primary selection explainability
 * independence from Designation naming
+* behavior when insufficient-data Identities are present
+* deterministic behavior when candidate input order changes
+
+Primary Identity selection must not depend on Designation naming or incidental fixture/configuration order.
 
 ---
 
 # 14. Secondary Identity
 
-**Classification:** CLARIFICATION
-**Status:** Principle LOCKED; thresholds UNRESOLVED
+**Classification:** ALIGNMENT + CLARIFICATION
+**Status:** LOCKED
 
-Secondary Identities may be zero or more, but must be meaningful.
+The contract allows zero or more meaningful Secondary Identities.
 
-Do not implement:
+For the current Phase 1 implementation model, a Secondary Identity must satisfy all of the following:
 
-```text
-score > 0
-↓
-display secondary
-```
+* be eligible
+* not be the Primary Identity
+* have meaningful Identity support
+* provide enough signal to justify presentation as an additional curator philosophy
 
-Potential considerations:
+A Secondary Identity is **not** surfaced merely because:
 
-* Data Sufficiency
-* signal strength
-* relationship to Primary Identity
-* separation from weak candidates
+* its score is greater than zero
+* it ranks second
+* it is numerically close to the Primary
+* it exists in the Identity catalog
 
-**Gate:** Numeric thresholds require accepted Identity semantics and score-distribution analysis.
+Meaningfulness is based on the candidate's own support, not merely its relationship to the Primary.
+
+The Secondary Identity is independently evaluated and must not be derived from the Primary.
+
+If no eligible non-primary Identity meets the meaningfulness requirement, no Secondary Identity is presented.
+
+**Decision:** Secondary Identity is a presentation-level concept layered on top of eligibility and scoring. It does not alter the underlying Identity score.
 
 ---
 
-# 15. Ties and Close Competitors
+# 15. Ranking, Ties, and Close Competitors
 
-**Classification:** CLARIFICATION + TESTING
+**Classification:** ALIGNMENT + TESTING
+**Status:** LOCKED
 
-**Status:** PARTIALLY RESOLVED
+Ranking and presentation must be treated as separate concerns.
 
-The Identity system treats exact score ties separately from non-equal scores; near-tie semantics remain unresolved.
+## Exact ties
 
-### Exact score ties
+When candidates have equal scores, the system must use the established evidence hierarchy to determine whether meaningful evidence distinguishes them.
 
-**RESOLVED / IMPLEMENTED**
+Existing component-level Identity evidence may be used where it is already part of the Identity scoring/explanation model.
 
-When two or more Identity candidates have the same overall Identity score, the system applies the existing Identity evidence hierarchy.
+Additional evidence may be considered only when it has a substantive relationship to the competing Identity definitions.
 
-The current implementation compares existing Identity breakdown contributions from strongest to weakest.
+Evidence used for tie resolution is comparative evidence.
 
-If one candidate has stronger evidence at the first differing component, that candidate becomes Primary.
+It must not become arbitrary additional scoring.
 
-If component-level evidence remains identical, the system does not invent additional numeric scoring solely to manufacture a winner.
+## Close competitors
 
-Genre and other archive dimensions may provide later semantic tie-resolution evidence when those dimensions have a substantive relationship to the competing Identity definitions.
+A close competitor is not automatically a tie.
 
-### Near-ties
+A non-equal score remains a ranked difference unless the locked presentation policy establishes that the candidate also meets the requirements for meaningful Secondary presentation.
 
-**UNRESOLVED / DEFERRED**
+The system must not introduce an arbitrary near-tie threshold merely to make the ranking appear cleaner.
 
-The system does not currently define a universal numeric threshold for when two non-equal Identity scores constitute a meaningful near-tie.
+A close competitor may be presented as Secondary when it independently satisfies the Secondary meaningfulness policy.
 
-No near-tie threshold should be introduced until score-distribution analysis and Identity semantics establish that such a threshold represents meaningful product behavior.
+It must not be presented merely because it is numerically close to the Primary.
 
-Near-tie behavior must not be implemented merely to make rankings appear more deterministic.
+## Arbitrary ordering
 
-### Scope
+The system must not use:
 
-This policy currently applies to Identity resolution.
+* Identity definition order
+* fixture order
+* configuration order
+* IDs
+* file-system ordering
 
-Designation ranking and tie behavior remain governed by their existing machinery unless a separate contract decision establishes otherwise.
+as evidence that one Identity is conceptually stronger.
+
+Where a single Primary is required but meaningful evidence remains genuinely indistinguishable, the Primary assignment is a presentation resolution, not a claim that the selected Identity has stronger evidence.
+
+## Scope
+
+This policy applies to Identity resolution.
+
+Designation ranking continues to use its established ranking machinery unless a separate Designation policy explicitly changes it.
 
 ---
 
 # 16. Findings vs Observations
 
 **Classification:** ALIGNMENT + CLARIFICATION + TESTING
+**Status:** LOCKED
 
 ## Locked distinction
 
@@ -694,6 +635,8 @@ The Phase 1 objective is to prevent Findings from becoming duplicated Observatio
 
 If no, investigate it as a possible duplicate or misclassified layer.
 
+Findings may synthesize multiple signals, including Observations, Traits, Genre Signals, and quantitative evidence, when the resulting interpretation adds genuine meaning.
+
 ---
 
 # 17. Observation / Finding Overlap Decisions
@@ -708,7 +651,7 @@ The repository's intelligence systems remain parallel: this decision is not base
 
 `systems-affinity` is therefore the canonical surviving concept.
 
-The former `systems-preference` Finding has been removed from the production rule set, and explicit regression coverage now protects `systems-affinity`.
+The former `systems-preference` Finding has been removed from the production rule set, and regression coverage protects the surviving concept.
 
 **Decision:** CONSOLIDATE INTO `systems-affinity`
 
@@ -716,13 +659,15 @@ The former `systems-preference` Finding has been removed from the production rul
 
 ## 17.2 `atmospheric-focus` ↔ `atmospheric-interest`
 
-**Classification:** POSSIBLE DEAD CODE / CLARIFICATION
+These rules were identified as substantially overlapping.
 
-These rules substantially overlap at the predicate level.
+The Phase 1 policy is not to manufacture an artificial distinction merely through prose or renaming.
 
-Do not manufacture an artificial distinction merely through prose or renaming.
+Preserve the distinction only if the surviving layer provides genuinely different interpretive meaning.
 
-Determine whether one layer contains meaningful additional information.
+No mass deletion is justified by signal overlap alone.
+
+**Status:** DEFERRED / POSSIBLE DUPLICATE
 
 ---
 
@@ -743,7 +688,7 @@ These require predicate and semantic analysis, not name matching.
 
 ## 17.4 Distinct concepts
 
-The forensic matrix also establishes that several Observations and Findings are genuinely distinct.
+The forensic matrix establishes that several Observations and Findings are genuinely distinct.
 
 Notably:
 
@@ -757,17 +702,25 @@ This supports preserving independent rule systems.
 
 ---
 
-# 18. Existing Finding Treatment
+# 18. Finding Catalog Treatment
 
-| Finding                | Classification                | Phase 1 treatment                             |
-| ---------------------- | ----------------------------- | --------------------------------------------- |
-| `concept-driven`       | PRESERVE                      | Preserve; strengthen evidence if needed       |
-| `engagement-priority`  | CLARIFICATION / ELEVATE       | Define interpretive purpose before changing   |
-| `systems-preference`   | REMOVED / CONSOLIDATED        | Redundant with `systems-affinity`; no distinct semantics identified |
-| `speculative-interest` | CLARIFICATION / ELEVATE       | Define interpretive role beyond genre signal  |
-| `atmospheric-interest` | DEFERRED / POSSIBLE DUPLICATE | Do not manufacture distinction during Phase 1 |
+| Finding                | Classification                | Phase 1 treatment                                                                   |
+| ---------------------- | ----------------------------- | ----------------------------------------------------------------------------------- |
+| `concept-driven`       | PRESERVE                      | Preserve                                                                            |
+| `engagement-priority`  | ELEVATE                       | Preserve as a Finding with an explicit interpretive purpose and supporting evidence |
+| `systems-preference`   | REMOVED / CONSOLIDATED        | Removed; canonical concept is `systems-affinity`                                    |
+| `speculative-interest` | ELEVATE                       | Preserve as a Finding with an explicit interpretive purpose and supporting evidence |
+| `atmospheric-interest` | DEFERRED / POSSIBLE DUPLICATE | Do not manufacture a distinction; retain pending later ownership resolution         |
 
-No mass deletion of Findings.
+## ELEVATE policy
+
+An elevated Finding must answer:
+
+> What interpretive conclusion does this Finding add that the underlying Observation, Trait, Genre Signal, or metric does not already communicate?
+
+The Finding must provide genuine interpretive value rather than merely renaming an existing signal.
+
+No mass deletion of Findings is permitted.
 
 ---
 
@@ -775,23 +728,37 @@ No mass deletion of Findings.
 
 ## Evidence — LOCKED minimum
 
-Findings should expose explainable support.
+Findings must expose sufficient explicit support to explain why the Finding was produced.
 
-Possible evidence:
+Evidence may include:
 
 * Observations
 * Traits
 * Genre Signals
-* metrics
-* other explicit signals
+* quantitative metrics
+* other explicitly defined archive signals
 
 The evidence schema does not need to match Observation evidence.
 
-## Finding confidence — UNRESOLVED
+The requirement is:
 
-Do not add a standardized Finding confidence field until its semantics are defined.
+> **Why does the system think this?**
 
-Do not create a Classification Confidence algorithm merely to populate it.
+not:
+
+> **Does every subsystem use the same JSON structure?**
+
+Finding evidence should be sufficient to distinguish an interpretive conclusion from an unsupported assertion.
+
+## Finding confidence — RESOLVED
+
+Findings remain binary rule-triggered interpretations.
+
+No generalized Finding confidence field is required for Phase 1.
+
+No Classification Confidence algorithm should be invented to populate one.
+
+If future product requirements call for graded Finding strength, that is a separate semantic/product decision.
 
 ---
 
@@ -810,35 +777,40 @@ Strong patterns include:
 * spectacle without conceptual weight performing poorly
 * atmosphere being useful but not universally necessary
 
-Do not promote these directly into new hard-coded rules without passing the Observation/Finding/Identity gates.
+These observations may inform rule selection and prioritization.
+
+They do not automatically become new hard-coded rules.
 
 ---
 
 # 21. Observation Catalog
 
-**Status:** WORKING DIRECTION
+**Classification:** ALIGNMENT + PRESERVE
+**Status:** LOCKED for Phase 1 shortlist
 
 Existing Observation machinery remains protected.
 
-No new Observation rule should be implemented until its:
+The Phase 1 Observation shortlist is now the accepted scope for Observation changes.
+
+No Observation should be added, removed, or materially redefined outside that accepted shortlist without a separate decision.
+
+Every Observation change must still preserve:
 
 * distinctness
 * ownership
 * evidence strength
 * medium specificity
-* false-positive risk
+* false-positive awareness
 * relationship to Findings
 
-have been evaluated.
-
-Archive-supported candidates remain investigation targets rather than automatic implementation requirements.
+Existing Observation rules remain protected unless a specific approved change addresses one of the accepted Phase 1 Observation decisions.
 
 ---
 
 # 22. Archive States
 
-**Classification:** CLARIFICATION
-**Status:** Concept LOCKED; thresholds UNRESOLVED
+**Classification:** ALIGNMENT
+**Status:** LOCKED
 
 Conceptual states:
 
@@ -846,13 +818,21 @@ Conceptual states:
 * `SPARSE`
 * `ESTABLISHED`
 
-Operational thresholds remain undefined.
+The Phase 1 operational policy establishes that Archive State is determined from archive volume and usable intelligence coverage rather than from arbitrary classification success.
 
-**LOCKED principle:**
+The state model exists to prevent inappropriate interpretation of insufficient data.
 
-> Insufficient data should produce insufficient evidence, not false certainty.
+The locked principle is:
 
-**Gate:** No code branches on semantic archive-state labels until operational thresholds are LOCKED.
+> **Insufficient data should produce insufficient evidence, not false certainty.**
+
+Archive State is not itself a replacement for subsystem-specific sufficiency rules.
+
+Subsystems may continue to use their own requirements.
+
+State-dependent branching should be limited to decisions explicitly justified by the Archive State policy.
+
+Do not allow an archive-state label to manufacture intelligence that the underlying evidence does not support.
 
 ---
 
@@ -869,6 +849,7 @@ Narrative may:
 * translate
 * contextualize
 * summarize
+* connect established conclusions
 
 Narrative may not:
 
@@ -877,6 +858,7 @@ Narrative may not:
 * invent traits
 * invent Findings
 * imply unsupported certainty
+* treat speculation as demonstrated fact
 
 Preserve the existing template-driven architecture.
 
@@ -942,36 +924,40 @@ Every terminology or field change must account for:
 
 No field rename is complete until its full blast radius is mapped.
 
-**Gate:** Create a per-field rename/compatibility map before executing the terminology pass.
+The backend `designationBasis` producer remains authoritative.
+
+The obsolete frontend `generatedesignationBasis()` duplicate has been removed.
+
+**Gate:** Create a per-field rename/compatibility map before executing any public terminology rename.
 
 ---
 
 # 27. Change Matrix
 
-| Issue                                    | Classification                      | Status                 | Required Phase 1 treatment                                            | Gate                           |
-| ---------------------------------------- | ----------------------------------- | ---------------------- | --------------------------------------------------------------------- | ------------------------------ |
-| Confidence terminology                   | TERMINOLOGY                         | LOCKED semantics       | Correct terminology without changing valid calculations               | Field-level rename map         |
-| Designation semantics                    | PRESERVE + TERMINOLOGY + EVIDENCE   | LOCKED                 | Preserve machinery; improve terminology/evidence                      | None for terminology-only work |
-| Identity vs Designation                  | ALIGNMENT                           | LOCKED                 | Maintain distinct responsibilities; evolve Identity vocabulary        | Identity shortlist             |
-| Identity catalog                         | ALIGNMENT                           | WORKING DIRECTION      | Evolve toward generic curator philosophy                              | Shortlist + signals            |
-| Identity minimum-entry behavior          | CLARIFICATION / POSSIBLE ALIGNMENT  | UNRESOLVED             | Audit eligibility vs score vs ranking vs presentation before changing | Semantic decision              |
-| Primary Identity                         | PRESERVE + TESTING                  | LOCKED shape           | Preserve deterministic selection                                      | Eligibility decision           |
-| Secondary Identity                       | CLARIFICATION                       | UNRESOLVED thresholds  | Define meaningfulness later                                           | Score distribution             |
-| Tie / near-tie                           | CLARIFICATION                       | UNRESOLVED             | Define explicit policy before implementation                          | Policy text                    |
-| Finding boundary                         | ALIGNMENT + CLARIFICATION + TESTING | LOCKED concept         | Prevent Observation/Genre Signal duplication                          | Regression tests               |
-| `systems-preference` | REDUNDANT FINDING | RESOLVED | Removed; consolidated into `systems-affinity` | Semantic decision |
-| `atmospheric-interest`                   | DEFERRED / POSSIBLE DEAD CODE       | DEFERRED               | Do not manufacture distinction during Phase 1                         | Later review                   |
-| Finding catalog                          | PRESERVE + CLARIFICATION            | LOCKED classifications | Preserve/Elevate/Defer as tabled                                      | Purpose statements for Elevate |
-| Finding evidence                         | EVIDENCE                            | LOCKED minimum         | Provide explainable support                                           | Per-Finding evidence decision  |
-| Finding confidence                       | CLARIFICATION                       | UNRESOLVED             | Do not add until semantics defined                                    | Semantic decision              |
-| Observation catalog                      | CLARIFICATION                       | WORKING DIRECTION      | Preserve current rules; shortlist new rules                           | Accepted shortlist             |
-| Archive states                           | CLARIFICATION                       | Thresholds UNRESOLVED  | Do not branch on undefined labels                                     | Threshold policy               |
-| Narrative                                | PRESERVE + TESTING                  | LOCKED                 | Keep downstream-only                                                  | Regression tests               |
-| Recommendations                          | DEFERRED                            | DEFERRED               | Phase 3                                                               | None                           |
-| Profile UI                               | DEFERRED                            | DEFERRED               | Phase 2                                                               | None                           |
-| Classification Confidence algorithm      | DEFERRED                            | DEFERRED               | Do not implement in Phase 1                                           | None                           |
-| Trait/Identity normalization unification | PRESERVE                            | LOCKED                 | Keep separate                                                         | None                           |
-| API/frontend terminology rename          | TERMINOLOGY                         | UNRESOLVED per field   | Map complete blast radius before rename                               | Rename map                     |
+| Issue                                    | Classification                      | Status                 | Required Phase 1 treatment                                                       | Gate                                |
+| ---------------------------------------- | ----------------------------------- | ---------------------- | -------------------------------------------------------------------------------- | ----------------------------------- |
+| Confidence terminology                   | TERMINOLOGY                         | LOCKED semantics       | Correct terminology without changing valid calculations                          | Field-level rename map              |
+| Designation semantics                    | PRESERVE + TERMINOLOGY + EVIDENCE   | LOCKED                 | Preserve machinery; improve terminology/evidence                                 | None for terminology-only work      |
+| Identity vs Designation                  | ALIGNMENT                           | LOCKED                 | Maintain distinct responsibilities; evolve Identity vocabulary                   | Identity catalog decisions          |
+| Identity catalog                         | ALIGNMENT                           | LOCKED                 | Use durable curator-philosophy concepts                                          | Final accepted Identity definitions |
+| Identity eligibility                     | ALIGNMENT                           | LOCKED                 | Apply minimum-entry eligibility before Identity resolution                       | Regression tests                    |
+| Primary Identity                         | PRESERVE + TESTING                  | LOCKED                 | Preserve deterministic selection among eligible candidates                       | Regression tests                    |
+| Secondary Identity                       | ALIGNMENT + CLARIFICATION           | LOCKED                 | Present only meaningful eligible non-primary support                             | Regression tests                    |
+| Tie / close-competitor                   | ALIGNMENT + TESTING                 | LOCKED                 | Use established ranking/evidence policy; no arbitrary near-tie rule              | Regression tests                    |
+| Finding boundary                         | ALIGNMENT + CLARIFICATION + TESTING | LOCKED                 | Prevent Observation/Genre Signal duplication                                     | Regression tests                    |
+| `systems-preference`                     | REDUNDANT FINDING                   | RESOLVED               | Removed; consolidated into `systems-affinity`                                    | Regression tests                    |
+| `atmospheric-interest`                   | DEFERRED / POSSIBLE DUPLICATE       | DEFERRED               | Do not manufacture distinction                                                   | Later review                        |
+| Finding catalog                          | PRESERVE + ALIGNMENT                | LOCKED classifications | Preserve/Elevate/Defer as defined                                                | Purpose/evidence tests              |
+| Finding evidence                         | EVIDENCE                            | LOCKED minimum         | Provide sufficient explicit support                                              | Per-Finding evidence decisions      |
+| Finding confidence                       | DEFERRED / DO NOT ADD               | RESOLVED               | Do not add confidence field                                                      | None                                |
+| Observation catalog                      | ALIGNMENT + PRESERVE                | LOCKED shortlist       | Protect existing machinery and use accepted Phase 1 shortlist                    | Regression tests                    |
+| Archive states                           | ALIGNMENT                           | LOCKED                 | Apply accepted operational state policy; preserve subsystem-specific sufficiency | Regression tests                    |
+| Narrative                                | PRESERVE + TESTING                  | LOCKED                 | Keep downstream-only                                                             | Regression tests                    |
+| Recommendations                          | DEFERRED                            | Phase 3                | Do not implement weighting                                                       | None                                |
+| Profile UI                               | DEFERRED                            | Phase 2                | Do not build final Profile UI in Phase 1                                         | None                                |
+| Classification Confidence algorithm      | DEFERRED                            | DEFERRED               | Do not implement in Phase 1                                                      | None                                |
+| Trait/Identity normalization unification | PRESERVE                            | LOCKED                 | Keep separate                                                                    | None                                |
+| API/frontend terminology rename          | TERMINOLOGY                         | UNRESOLVED per field   | Map complete blast radius before rename                                          | Rename map                          |
 
 ---
 
@@ -986,7 +972,7 @@ Implementation begins only when the decision being implemented is **LOCKED** and
 * [x] API/profile assembly mapped
 * [x] Frontend consumers mapped
 * [x] Tests mapped
-* [x] **227-test baseline verified**
+* [x] Historical regression baselines documented
 * [x] Recovered behavioral contracts identified
 * [x] Observation/Finding overlap matrix completed
 
@@ -997,12 +983,19 @@ Implementation begins only when the decision being implemented is **LOCKED** and
 * [x] Confidence semantic vocabulary established
 * [x] Identity ≠ Designation
 * [x] Identity catalog direction established
+* [x] Identity eligibility semantics established
 * [x] Primary Identity remains deterministic
-* [x] Secondary Identity meaningful-only principle
+* [x] Secondary Identity meaningfulness policy established
+* [x] Ranking / tie / close-competitor policy established
 * [x] Finding conceptual boundary
 * [x] Finding operational boundary test
 * [x] Finding treatment classifications
+* [x] Finding purpose policy established
+* [x] Finding evidence minimum established
+* [x] Finding confidence explicitly excluded
 * [x] Trait and Identity normalizations remain separate
+* [x] Observation shortlist established
+* [x] Archive State operational policy established
 * [x] Narrative is downstream-only
 * [x] Recommendation work deferred
 * [x] Identity catalog must be generic and must not clone Designations
@@ -1010,21 +1003,24 @@ Implementation begins only when the decision being implemented is **LOCKED** and
 
 ---
 
-## 28.3 Explicit implementation gates — UNRESOLVED
+## 28.3 Remaining implementation gates
 
-* [ ] Identity eligibility/ranking/presentation semantics
-* [ ] Final Identity shortlist
-* [ ] Per-Identity signal definitions
-* [ ] Secondary Identity numeric thresholds
-* [ ] Tie / close-competitor policy
-* [ ] Purpose statements for ELEVATE Findings
-* [ ] Finding evidence model where needed
-* [ ] Finding confidence semantics
-* [ ] Phase 1 Observation shortlist
-* [ ] Archive-state operational thresholds
+The following are still unresolved or implementation-specific:
+
 * [ ] Per-field API/frontend terminology rename plan
-* [x] Distinction/remediation decision for `systems-affinity` / `systems-preference` — consolidated into `systems-affinity`
-* [ ] Distinction/remediation decision for `atmospheric-focus` / `atmospheric-interest`
+* [ ] Implementation of locked Identity eligibility behavior
+* [ ] Implementation of locked Secondary Identity behavior
+* [ ] Implementation/verification of locked tie and presentation behavior
+* [ ] Implementation of accepted Identity fixture/catalog changes
+* [ ] Implementation of accepted Observation shortlist changes
+* [ ] Implementation of Archive State behavior
+* [ ] Finding evidence implementation where required
+* [ ] Final implementation of ELEVATE Finding purpose/evidence decisions
+* [ ] Resolution of `atmospheric-focus` / `atmospheric-interest` ownership if later required
+
+These are **implementation gates**, not unresolved conceptual decisions.
+
+No new conceptual policy should be invented while implementing them.
 
 ---
 
@@ -1038,11 +1034,11 @@ Before any Phase 1 change is merged:
 * [ ] Affected API/frontend consumers are identified
 * [ ] Tests are planned
 * [ ] Existing regression behavior is understood
-* [ ] Full suite passes
+* [ ] Full suite passes, unless an explicitly approved behavioral change temporarily changes an expected result
 * [ ] New/changed behavior has regression coverage
 * [ ] No unrelated redesign has been introduced
-* [ ] No gated semantic decision has been implemented early
-* [ ] Current baseline of **227 passing tests** remains protected
+* [ ] No unresolved semantic decision has been implemented early
+* [ ] The current test suite returns to green after intentional behavior changes are resolved
 
 ---
 
@@ -1056,23 +1052,27 @@ Correct misleading confidence terminology without changing underlying algorithms
 
 ---
 
-## 2. Identity eligibility semantic audit
+## 2. Implement locked Identity eligibility semantics
 
 **Allowed:** Yes.
 
-Do not immediately modify behavior.
-
-First determine the intended boundary between:
+Apply the established relationship:
 
 ```text
 Data Sufficiency
-score
-ranking
-presentation
-primary selection
+↓
+Eligibility
+↓
+Score
+↓
+Ranking
+↓
+Presentation
+↓
+Primary / Secondary
 ```
 
-Only then make the smallest necessary change, if any.
+Do not rewrite Identity scoring.
 
 ---
 
@@ -1090,6 +1090,9 @@ Protect:
 * empty-profile behavior
 * recommendation-bias metadata
 * existing primary selection
+* Identity eligibility behavior
+* Secondary presentation behavior
+* tie/presentation behavior
 
 ---
 
@@ -1099,25 +1102,25 @@ Protect:
 
 Preserve `concept-driven`.
 
-Investigate:
+Maintain:
 
 * `systems-preference` — REMOVED; consolidated into `systems-affinity`
-* `atmospheric-interest`
-
-against their Observation counterparts.
+* `engagement-priority` — ELEVATE
+* `speculative-interest` — ELEVATE
+* `atmospheric-interest` — DEFERRED / possible duplicate
 
 Do not mass-delete Findings.
 
 ---
 
-## 5. Elevated Finding purposes
+## 5. Elevated Finding implementation
 
-**Blocked until purpose statements are LOCKED.**
+**Allowed:** Yes, based on the locked purpose decisions.
 
-For each candidate:
+For each elevated Finding:
 
-* define interpretive purpose
-* define evidence relationship
+* preserve the interpretive purpose
+* provide sufficient supporting evidence
 * demonstrate distinction from Observation / Trait / Genre Signal
 * add dedicated tests
 
@@ -1125,27 +1128,35 @@ For each candidate:
 
 ## 6. Identity catalog evolution
 
-**Blocked until Identity shortlist and signal definitions are LOCKED.**
+**Allowed:** Yes, using the accepted Phase 1 Identity definitions.
 
-Machinery-only preparation may proceed.
-
----
-
-## 7. Secondary Identity policy
-
-**Blocked until score distributions are inspected.**
+Do not invent new Identity semantics outside the accepted catalog decisions.
 
 ---
 
-## 8. Tie / close-competitor policy
+## 7. Secondary Identity implementation
 
-**Blocked until policy is written and LOCKED.**
+**Allowed:** Yes.
+
+Implement the locked meaningfulness policy.
+
+Do not expose every positive-scoring Identity.
+
+---
+
+## 8. Tie / close-competitor implementation
+
+**Allowed:** Yes.
+
+Implement the locked ranking/presentation policy.
+
+Do not invent a new arbitrary near-tie threshold.
 
 ---
 
 ## 9. Observation changes
 
-**Blocked until Observation shortlist is LOCKED.**
+**Allowed:** Yes, within the accepted Phase 1 Observation shortlist.
 
 Existing Observation machinery remains protected.
 
@@ -1153,7 +1164,11 @@ Existing Observation machinery remains protected.
 
 ## 10. Archive-state implementation
 
-**Blocked until operational thresholds are LOCKED.**
+**Allowed:** Yes.
+
+Implement only the accepted operational Archive State policy.
+
+Do not introduce unrelated state-dependent behavior.
 
 ---
 
@@ -1161,11 +1176,13 @@ Existing Observation machinery remains protected.
 
 Run the full suite after each intentional behavior change.
 
-Current baseline:
+Current test status:
 
-> **227 tests passing**
+> **247 passing / 1 failing**
 
-Phase 1 must preserve the baseline except for explicitly approved changes.
+The known failing test is the `deep_diver` designation-profile regression caused by the updated `boundary_explorer` evidence model.
+
+Phase 1 must return the suite to green after intentional behavior changes are resolved, unless an explicitly approved contract change changes an expected result.
 
 ---
 
@@ -1187,14 +1204,17 @@ Phase 1 does not include:
 * designing Identities that only describe Zach
 * treating genre frequency as preference
 * treating a single metric as sufficient interpretive evidence
-* implementing new Observation rules before the shortlist is accepted
-* implementing elevated Findings before purposes are defined
-* implementing Secondary Identity thresholds before score distributions are inspected
-* implementing Archive State branching before thresholds are defined
-* preserving Designation/Identity name collisions as the intended final state
-* solving systems-vs-atmosphere ownership through artificial rewording
-* rewriting working infrastructure merely because its current implementation is imperfect
 * forcing Observations and Findings into a sequential pipeline merely because their conceptual roles differ
+* inventing additional Identity scoring mechanisms solely for tie resolution
+* inventing arbitrary near-tie thresholds
+* turning Secondary Identity into a second Primary ranking
+* adding Finding confidence
+* adding Observation rules outside the accepted Phase 1 shortlist
+* implementing Recommendation weighting
+* redesigning the evidence architecture into one universal schema
+* adding Archive State branches unrelated to the locked operational policy
+* preserving obsolete frontend duplicate producers such as the removed `generatedesignationBasis()` helper
+* rewriting working infrastructure merely because its current implementation is imperfect
 
 ---
 
@@ -1205,19 +1225,30 @@ Phase 1 is successful when:
 1. Existing intelligence machinery remains intact unless a specific contract conflict requires change.
 2. Confidence terminology no longer conflates fundamentally different concepts.
 3. Identity and Designation have distinct conceptual responsibilities.
-4. Identity eligibility, ranking, and presentation semantics are explicitly defined before behavior is changed.
-5. Findings have a defensible boundary from Observations and Genre Signals.
-6. Existing Findings have explicit PRESERVE / CLARIFY / DEFER treatment.
-7. Likely duplicate Observation/Finding rules have been investigated rather than blindly deleted.
-8. Identity vocabulary is moving toward durable curator-philosophy concepts.
-9. Archive evidence informs prioritization without becoming Zach-specific hard-coded logic.
-10. No new intelligence behavior depends on an unresolved conceptual decision.
-11. Every intentional behavioral change has regression coverage.
-12. The **227-test baseline** remains green except for explicitly approved changes.
-13. No unrelated rewrite or redesign has entered Phase 1.
+4. Identity eligibility, ranking, and presentation semantics are explicitly defined and implemented consistently.
+5. Primary Identity selection remains deterministic.
+6. Secondary Identity presentation reflects meaningful support rather than merely positive or near-primary scores.
+7. Tie and close-competitor behavior does not rely on arbitrary ordering or invented thresholds.
+8. Findings have a defensible boundary from Observations and Genre Signals.
+9. Existing Findings have explicit PRESERVE / ELEVATE / DEFER treatment.
+10. Elevated Findings provide genuine interpretive meaning and sufficient supporting evidence.
+11. Likely duplicate Observation/Finding rules have been investigated rather than blindly deleted.
+12. `systems-preference` remains removed in favor of canonical `systems-affinity`.
+13. Identity vocabulary is moving toward durable curator-philosophy concepts.
+14. Archive evidence informs prioritization without becoming Zach-specific hard-coded logic.
+15. Archive State does not produce false certainty from insufficient evidence.
+16. No new intelligence behavior depends on an unresolved conceptual decision.
+17. Every intentional behavioral change has regression coverage.
+18. The current regression suite returns to green after intentional changes are resolved.
+19. No unrelated rewrite or redesign has entered Phase 1.
 
 ---
 
 # 33. One-Sentence Phase 1 North Star
 
 > **Align the existing deterministic intelligence machinery so Observations demonstrate patterns, Findings interpret conclusions, Designations classify taste, and Identities describe curator philosophy—while preserving recovered behavioral memory and changing only behavior that demonstrably conflicts with the locked conceptual model.**
+
+```
+
+**One thing to flag before you replace it:** I intentionally changed the document from treating the old 227-test number as a "baseline" to treating **247 passing / 1 failing as the current test status**, because your actual latest pytest output is the authoritative state. I also left genuinely implementation-specific work as *implementation gates* rather than calling those conceptual decisions unresolved. That distinction is important for preventing us from reopening the matrix every time we start coding.
+```

@@ -88,7 +88,7 @@ The Profile answers:
 It presents established intelligence such as:
 
 - Primary Designation
-- Secondary Designations
+- optional ranked/close-competitor Designations where useful
 - Primary Identity
 - Secondary Identities
 - Findings
@@ -786,7 +786,7 @@ Phase 1 remains:
 3. Finding boundary alignment
 4. Identity catalog clarification
 5. Observation coherence
-6. Secondary/tie policy
+6. Secondary Identity and tie / close-competitor policy
 7. Archive-state definitions
 8. Regression protection
 
