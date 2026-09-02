@@ -6,15 +6,15 @@ This document maps the current Identity concepts against the evidence actually a
 
 The purpose is to determine:
 
-* which existing signals genuinely support each Identity
-* which signals are supporting or proxy evidence
-* which signals overlap excessively
-* which signals represent taste rather than curatorial orientation
-* which current derived traits make legitimate but limited evidence
-* which evidence should not independently establish an Identity
-* where the current implementation cannot directly observe the intended concept
-* whether the surviving Identity concepts can coexist without collapsing into the same conclusion
-* which conceptual changes are required before Identity fixtures are rebuilt
+- which existing signals genuinely support each Identity
+- which signals are supporting or proxy evidence
+- which signals overlap excessively
+- which signals represent taste rather than curatorial orientation
+- which current derived traits make legitimate but limited evidence
+- which evidence should not independently establish an Identity
+- where the current implementation cannot directly observe the intended concept
+- whether the surviving Identity concepts can coexist without collapsing into the same conclusion
+- which conceptual changes are required before Identity fixtures are rebuilt
 
 This is an evidence audit, not an implementation plan.
 
@@ -55,11 +55,11 @@ For each signal, the system:
 
 The resulting breakdown exposes:
 
-* trait
-* value
-* weight
-* normalized value
-* contribution
+- trait
+- value
+- weight
+- normalized value
+- contribution
 
 This structure is considered useful and should be preserved unless later evidence demonstrates otherwise.
 
@@ -79,8 +79,8 @@ Direct evidence still does not necessarily prove the complete Identity.
 
 For example:
 
-* Depth directly measures the degree to which the curator values depth.
-* Genre diversity directly measures the variety represented in the archive.
+- Depth directly measures the degree to which the curator values depth.
+- Genre diversity directly measures the variety represented in the archive.
 
 Direct evidence should still be interpreted in context rather than treated as automatic proof of an Identity.
 
@@ -90,8 +90,8 @@ A signal that meaningfully strengthens an Identity interpretation but is not suf
 
 For example:
 
-* Emotional impact may strengthen an interpretation-oriented profile.
-* Genre diversity may strengthen an exploratory interpretation when combined with other evidence.
+- Emotional impact may strengthen an interpretation-oriented profile.
+- Genre diversity may strengthen an exploratory interpretation when combined with other evidence.
 
 Supporting evidence contributes to a pattern but should not independently establish the Identity.
 
@@ -101,8 +101,8 @@ A signal that correlates with the intended concept but measures something adjace
 
 For example:
 
-* Experimental genre prevalence may act as a proxy for exploratory orientation.
-* Psychological genre prevalence may act as a proxy for interpretive interest.
+- Experimental genre prevalence may act as a proxy for exploratory orientation.
+- Psychological genre prevalence may act as a proxy for interpretive interest.
 
 Proxy evidence must not be presented as direct observation.
 
@@ -112,9 +112,9 @@ A signal that may correlate with an Identity but does not meaningfully establish
 
 For example:
 
-* Archive size alone does not establish breadth.
-* High average score alone does not establish interpretation.
-* Experimental media alone does not establish exploration.
+- Archive size alone does not establish breadth.
+- High average score alone does not establish interpretation.
+- Experimental media alone does not establish exploration.
 
 ---
 
@@ -204,12 +204,12 @@ Interpretive Philosophy has the strongest conceptual alignment with the current 
 
 The available system already contains several signals that can reasonably support the concept:
 
-* depth
-* emotional impact
-* analysis
-* ambiguity
-* reflection
-* psychological/mystery/surreal/drama genre prevalence
+- depth
+- emotional impact
+- analysis
+- ambiguity
+- reflection
+- psychological/mystery/surreal/drama genre prevalence
 
 However, the evidence types are not equally independent.
 
@@ -233,9 +233,9 @@ Analysis, Ambiguity, and Reflection should not automatically be treated as three
 
 Their current derivations are:
 
-* Analysis → psychological + mystery
-* Ambiguity → psychological + mystery + surreal
-* Reflection → drama + psychological
+- Analysis → psychological + mystery
+- Ambiguity → psychological + mystery + surreal
+- Reflection → drama + psychological
 
 These signals are not mathematically identical, but they share underlying genre evidence.
 
@@ -255,19 +255,19 @@ It requires interpreting them honestly and preventing correlated evidence from m
 
 The following evidence should **not independently cause a high Interpretive Philosophy score**:
 
-* high average score
-* high emotional impact
-* psychological genre prevalence
-* mystery genre prevalence
-* surreal genre prevalence
-* depth alone
-* experimental media
-* high originality
-* high engagement
-* high craft
-* archive size
-* genre count
-* media-type diversity
+- high average score
+- high emotional impact
+- psychological genre prevalence
+- mystery genre prevalence
+- surreal genre prevalence
+- depth alone
+- experimental media
+- high originality
+- high engagement
+- high craft
+- archive size
+- genre count
+- media-type diversity
 
 Some of these can legitimately contribute as supporting or proxy evidence.
 
@@ -325,8 +325,8 @@ Exploratory Philosophy is about the **relationship between the curator and the b
 
 It is therefore distinct from:
 
-* **Boundary Explorer Designation**, which describes attraction to unconventional, experimental, or boundary-pushing media.
-* **Breadth / Curatorial Variety Philosophy**, which describes the range and variety of the archive itself.
+- **Boundary Explorer Designation**, which describes attraction to unconventional, experimental, or boundary-pushing media.
+- **Breadth / Curatorial Variety Philosophy**, which describes the range and variety of the archive itself.
 
 The distinction is:
 
@@ -348,13 +348,13 @@ The current evidence supports an **inference of exploratory orientation**, but d
 
 The system does **not** currently observe:
 
-* chronological expansion of taste
-* deliberate seeking of unfamiliar experiences
-* discovery behavior
-* movement from established preferences into new territory
-* abandoned experiments
-* changes in taste boundaries over time
-* explicit curiosity or intent
+- chronological expansion of taste
+- deliberate seeking of unfamiliar experiences
+- discovery behavior
+- movement from established preferences into new territory
+- abandoned experiments
+- changes in taste boundaries over time
+- explicit curiosity or intent
 
 Therefore, Exploratory Philosophy must remain an **inferred behavioral orientation**, not a claim about deliberate intent.
 
@@ -420,18 +420,18 @@ Exploratory Philosophy is currently **conditionally supported by the available e
 
 The archive can observe several characteristics associated with exploration:
 
-* originality
-* genre diversity
-* media-type breadth
-* experimental affinity
-* novelty
-* depth
+- originality
+- genre diversity
+- media-type breadth
+- experimental affinity
+- novelty
+- depth
 
 However, these signals primarily describe:
 
-* unconventionality
-* variety
-* engagement with experimental material
+- unconventionality
+- variety
+- engagement with experimental material
 
 They do not directly describe **movement beyond established preferences**.
 
@@ -463,10 +463,10 @@ The same principle applies more broadly:
 
 In particular:
 
-* Experimental Affinity should not independently prove exploration.
-* Novelty should not independently prove exploration.
-* Experimental Affinity + Novelty should not create an artificial appearance of strong exploratory evidence simply because both are present.
-* Genre Diversity should not simultaneously be treated as direct proof of both Breadth and Exploration.
+- Experimental Affinity should not independently prove exploration.
+- Novelty should not independently prove exploration.
+- Experimental Affinity + Novelty should not create an artificial appearance of strong exploratory evidence simply because both are present.
+- Genre Diversity should not simultaneously be treated as direct proof of both Breadth and Exploration.
 
 The scoring system may use overlapping evidence, but the conceptual interpretation must remain distinct.
 
@@ -478,22 +478,22 @@ The scoring system may use overlapping evidence, but the conceptual interpretati
 
 The following characteristics should **not independently establish Exploratory Philosophy**:
 
-* high experimental-media prevalence
-* high originality
-* high novelty
-* high genre diversity
-* high media-type diversity
-* high depth
-* high emotional impact
-* high craft
-* high engagement
-* high average score
-* large archive size
-* strong psychological genre affinity
-* strong horror affinity
-* strong surreal affinity
-* any single dominant genre
-* any single dominant media type
+- high experimental-media prevalence
+- high originality
+- high novelty
+- high genre diversity
+- high media-type diversity
+- high depth
+- high emotional impact
+- high craft
+- high engagement
+- high average score
+- large archive size
+- strong psychological genre affinity
+- strong horror affinity
+- strong surreal affinity
+- any single dominant genre
+- any single dominant media type
 
 These characteristics may contribute to an exploratory interpretation when combined appropriately, but none should be treated as synonymous with exploration.
 
@@ -575,11 +575,11 @@ The Boundary Explorer Designation describes a recognizable **taste classificatio
 
 Its evidence centers on characteristics such as:
 
-* originality
-* experimental affinity
-* unconventionality
-* boundary-pushing media
-* associated genre patterns
+- originality
+- experimental affinity
+- unconventionality
+- boundary-pushing media
+- associated genre patterns
 
 ### Exploratory Philosophy
 
@@ -589,12 +589,12 @@ Exploratory Philosophy describes a broader **curatorial orientation**:
 
 Its evidence centers on:
 
-* movement beyond established territory
-* engagement with unfamiliar areas
-* variety as contextual evidence
-* originality as contextual evidence
-* experimental material as contextual evidence
-* potential expansion of established taste
+- movement beyond established territory
+- engagement with unfamiliar areas
+- variety as contextual evidence
+- originality as contextual evidence
+- experimental material as contextual evidence
+- potential expansion of established taste
 
 The distinction can therefore be expressed as:
 
@@ -604,10 +604,10 @@ The distinction can therefore be expressed as:
 
 A curator may therefore be:
 
-* a strong Boundary Explorer without being strongly Exploratory
-* strongly Exploratory without having a particularly experimental archive
-* both
-* neither
+- a strong Boundary Explorer without being strongly Exploratory
+- strongly Exploratory without having a particularly experimental archive
+- both
+- neither
 
 The current evidence cannot directly observe the process of exploration, so the Exploratory interpretation must remain appropriately qualified.
 
@@ -617,10 +617,10 @@ The stress test found that Exploratory Philosophy survives as a distinct concept
 
 The concept becomes problematic when it is defined as:
 
-* liking unfamiliar things
-* liking experimental media
-* liking unconventional forms
-* seeking novelty
+- liking unfamiliar things
+- liking experimental media
+- liking unconventional forms
+- seeking novelty
 
 Those characteristics overlap too heavily with the Boundary Explorer Designation.
 
@@ -636,151 +636,422 @@ This distinction preserves Exploratory Philosophy as a potentially meaningful Id
 
 The current system should therefore treat Exploration as a **provisional inference supported by indirect evidence**, rather than as a directly observed behavioral property.
 
-
 ---
 
 # 6. Breadth / Curatorial Variety Philosophy
 
-## 6.1 Concept
+## 6.1 Concept Definition
 
-Breadth / Curatorial Variety Philosophy describes an orientation toward maintaining and engaging with meaningful variety across genres, forms, or types of media.
+**Breadth / Curatorial Variety Philosophy** describes a recurring orientation toward engaging with a **varied range of genres, media types, and areas of the media landscape**.
 
-The Identity is not simply:
+Its core question is:
 
-> “has a large archive.”
+> **How varied is the territory this curator engages with?**
 
-The current system can directly observe archive variety more reliably than it can observe an intentional philosophy of variety.
+Breadth describes the **range of territory represented in the archive**.
+
+It is therefore distinct from:
+
+- **Exploratory Philosophy**, which describes movement through or beyond established territory.
+- **The Curator Designation**, which describes a recognizable taste classification associated with characteristics such as craft, presentation, and archive behavior.
+
+The distinction can be expressed as:
+
+> **Breadth describes the shape of the territory.**
+
+> **Exploration describes movement through or beyond that territory.**
+
+> **The Curator Designation describes a recognizable taste classification.**
+
+Breadth does not require experimentation, unconventionality, or deliberate discovery.
+
+A curator may have a highly diverse archive while preferring conventional media.
+
+Likewise, a curator may have relatively little overall diversity while exploring deeply within a particular genre or medium.
+
+Breadth is therefore fundamentally about **variety**, not novelty.
+
+The system can observe the variety represented in an archive more directly than it can observe whether the curator intentionally values or pursues that variety.
+
+Therefore, Breadth / Curatorial Variety Philosophy should remain an **inferred orientation**, not a claim about conscious curatorial intent.
+
+The system does not currently observe:
+
+- explicit intent to diversify
+- deliberate selection strategy
+- reasons for consuming different genres
+- reasons for consuming different media types
+- whether diversity was accidental or intentional
+- chronological development of variety
+- conscious rejection of established preferences
+
+The current evidence therefore supports:
+
+> **“This archive demonstrates a recurring orientation toward variety.”**
+
+It does not directly support:
+
+> **“This curator intentionally seeks variety.”**
 
 ---
 
-## 6.2 Current Supporting Signals
+## 6.2 Evidence Hierarchy
 
-### Genre Diversity
+Current Breadth evidence should be interpreted according to the following hierarchy.
 
-**Classification:** Direct observable evidence for archive breadth; supporting/proxy evidence for curatorial philosophy
+### Strongest Observable Evidence
 
-The system can directly observe how many genres are represented.
+**Genre Diversity**
 
-That is strong evidence for archive breadth.
+Genre Diversity is the strongest currently available observable signal for Breadth.
 
-It is weaker evidence for the philosophical claim that the curator values breadth intentionally.
+It directly measures the range of genres represented within the archive.
+
+A curator engaging meaningfully across multiple genres provides evidence of broad engagement with the media landscape.
+
+However, genre diversity is still an observable archive characteristic rather than direct evidence of a conscious philosophy.
+
+Genre Diversity should therefore be treated as the primary observable evidence for Breadth, while avoiding the implication that it perfectly measures curatorial intent.
+
+### Supporting Evidence
+
+**Media-Type Breadth**
+
+Engagement across multiple media types provides a second important dimension of Breadth.
+
+Examples include engaging with:
+
+- film
+- television
+- books
+- games
+- music
+- other supported media types
+
+Media-Type Breadth complements Genre Diversity rather than replacing it.
+
+A curator can demonstrate meaningful breadth through genre diversity within a single medium, media-type diversity within a narrow genre, or both.
+
+Neither dimension should be required for Breadth to exist.
+
+**Archive Composition**
+
+The overall composition of the archive can provide supporting contextual evidence.
+
+This includes the distribution of entries across genres and media types rather than simply the total number of entries.
+
+Archive composition can help distinguish:
+
+- concentrated archives
+- moderately distributed archives
+- highly distributed archives
+
+It should support interpretation of Breadth rather than become a separate proxy for intentionality.
+
+### Contextual Evidence
+
+**Archive Size**
+
+Archive size provides context and affects Data Sufficiency, but should not be treated as substantive evidence of Breadth.
+
+A large archive can be extremely narrow.
+
+A small archive can already demonstrate substantial variety.
 
 Therefore:
 
-> Genre diversity is the strongest current evidence for Breadth, but it should be interpreted as observable archive variety rather than direct observation of intent.
+> **Archive size determines how much evidence exists, not how broad the evidence is.**
+
+---
+
+## 6.3 Evidence Strength and Limitation
+
+Breadth / Curatorial Variety Philosophy is **conditionally supported by the available evidence**.
+
+The system can observe archive characteristics that meaningfully correspond to variety:
+
+- genre diversity
+- media-type breadth
+- archive composition
+
+These provide substantially stronger evidence for Breadth than signals such as:
+
+- originality
+- experimental affinity
+- novelty
+- depth
+- emotional impact
+- engagement
+- craft
+- presentation
+
+However, the system cannot directly observe whether the curator **values variety as a philosophy**.
+
+This creates an important evidence limitation:
+
+> **The current system measures the shape of the archive more directly than it measures the curator's reason for creating that shape.**
+
+Therefore, Breadth should be interpreted as an inferred orientation based on recurring observable variety.
+
+It should not be framed as a psychological characteristic or a claim about conscious intention.
+
+The system can reasonably infer:
+
+> **“Your archive consistently spans a wide range of territory.”**
+
+It should not overclaim:
+
+> **“You deliberately curate a diverse archive because variety is important to you.”**
+
+---
+
+## 6.4 Multidimensional Breadth
+
+Breadth should be understood as **multidimensional**.
+
+The two most important observable dimensions are:
+
+### Genre Breadth
+
+The range of genres represented within the archive.
 
 ### Media-Type Breadth
 
-**Classification:** Supporting evidence
+The range of media types represented within the archive.
 
-Representation across multiple media types can strengthen an interpretation of broad engagement.
+These dimensions can exist independently.
 
-However, media-type diversity does not independently establish that the curator intentionally values variety.
+For example:
 
-### Archive Composition
+| Archive pattern                     | Genre Breadth | Media-Type Breadth |
+| ----------------------------------- | ------------: | -----------------: |
+| Many genres, mostly films           |          High |                Low |
+| One genre across many media types   |           Low |               High |
+| Many genres across many media types |          High |               High |
+| One genre in one medium             |           Low |                Low |
 
-**Classification:** Supporting evidence
+The system should not require high values in both dimensions to conclude that Breadth exists.
 
-The distribution of entries across genres and media types can provide additional evidence about the shape of the archive.
+Likewise, Breadth should not be reduced to a single simplistic measurement such as:
 
-This can strengthen a breadth interpretation when the variety is meaningful rather than incidental.
+> “Number of genres.”
 
-### Archive Size
+Genre count is useful evidence, but it is a heuristic for observable variety rather than a perfect measurement of conceptual breadth.
 
-**Classification:** Insufficient as primary evidence; contextual only
+Taxonomy also matters.
 
-A larger archive provides more opportunity for variety but does not establish variety itself.
+A single genre may contain substantial internal variation, while several formally distinct genres may be closely related conceptually.
 
-A large archive can remain highly specialized.
+The existing genre taxonomy should therefore remain the current source of observable genre breadth without implying that it represents a perfect philosophical measurement of variety.
 
-Therefore:
-
-> Archive size must not be treated as a primary Breadth Identity signal.
-
-### Craft
-
-**Classification:** Insufficient for Breadth
-
-Craft may indicate perceived quality or selectivity, but it does not directly establish breadth or variety.
-
-### Presentation
-
-**Classification:** Insufficient for Breadth
-
-Presentation does not establish a breadth-oriented relationship.
-
-If retained in any Breadth-related scoring model, its conceptual role would require explicit justification.
+No genre-taxonomy redesign is justified by this audit.
 
 ---
 
-## 6.3 Current Evidence Strength
+## 6.5 Negative-Space Guardrails
 
-Breadth is observable.
+The following characteristics should **not independently establish Breadth / Curatorial Variety Philosophy**:
 
-Curatorial philosophy is not.
+- large archive size
+- high originality
+- high experimental affinity
+- high novelty
+- high depth
+- high emotional impact
+- high engagement
+- high craft
+- high presentation
+- high average score
+- strong psychological genre affinity
+- strong horror affinity
+- strong surreal affinity
+- any single dominant genre
+- any single dominant media type
 
-The current system can confidently describe:
+These characteristics may coexist with Breadth, but they are not Breadth itself.
 
-> “This archive is broad.”
+### Archive Size ≠ Breadth
 
-It cannot independently establish:
+A large archive may remain highly concentrated.
 
-> “This curator intentionally seeks variety.”
+Archive size should primarily affect Data Sufficiency rather than Breadth strength.
 
-without additional evidence.
+### Originality ≠ Breadth
 
-Therefore Breadth / Curatorial Variety Philosophy remains provisional.
+A curator may prefer highly original media while remaining concentrated in one genre or medium.
+
+### Experimental Affinity ≠ Breadth
+
+Experimental preferences may support Boundary Explorer classification without indicating broad engagement.
+
+### Novelty ≠ Breadth
+
+Novelty concerns unfamiliarity or unconventionality, not the range of territory represented.
+
+### Depth ≠ Breadth
+
+A curator may engage deeply with a very narrow area.
+
+### Craft ≠ Breadth
+
+High craft should not increase Breadth.
+
+### Presentation ≠ Breadth
+
+Presentation should remain associated with The Curator Designation rather than becoming an Identity signal for Breadth.
+
+### Average Score ≠ Breadth
+
+Breadth concerns the range of engagement, not how much the curator enjoys the media.
 
 ---
 
-## 6.4 Negative-Space Guardrails
+## 6.6 Breadth vs. Exploratory Philosophy
 
-The following evidence should **not independently cause a high Breadth / Curatorial Variety score**:
+Breadth and Exploratory Philosophy are closely related but fundamentally distinct.
 
-* archive size
-* high originality
-* experimental affinity
-* high novelty
-* high depth
-* high emotional impact
-* high engagement
-* high craft
-* high average score
-* a single dominant genre
-* a single dominant media type
+**Breadth / Curatorial Variety Philosophy** asks:
 
-Genre diversity and media-type diversity are legitimate breadth evidence, but even those should be understood as evidence of observable variety rather than proof of intentional diversification.
+> **How varied is the territory this curator engages with?**
+
+**Exploratory Philosophy** asks:
+
+> **How does this curator relate to the boundaries of their established territory?**
+
+The distinction is:
+
+> **Breadth describes the shape of the territory. Exploration describes movement through or beyond that territory.**
+
+A static, highly diverse archive may demonstrate strong Breadth without demonstrating Exploration.
+
+An archive that continually expands beyond established preferences may demonstrate Exploration even before it becomes broadly diverse.
+
+For example:
+
+| Archive pattern                                             | Breadth          | Exploration      |
+| ----------------------------------------------------------- | ---------------- | ---------------- |
+| Large archive dominated by one genre                        | Low              | Low / uncertain  |
+| Small archive spanning many genres                          | Potentially high | Uncertain        |
+| Broad archive with no evidence of expansion                 | High             | Uncertain        |
+| Narrow archive with repeated movement into unfamiliar areas | Low–moderate     | Potentially high |
+| Broad archive that repeatedly expands into new territory    | High             | Strong candidate |
+
+The current system can observe the **resulting range** more reliably than it can observe the **movement that produced that range**.
+
+Therefore, high Breadth should not automatically produce high Exploratory Philosophy.
+
+Likewise, exploratory evidence should not be required for Breadth.
 
 ---
 
-## 6.5 Important Guardrail
+## 6.7 Relationship to The Curator Designation
 
-The system must not equate:
+Breadth has a significant conceptual overlap with **The Curator Designation**, particularly because the current Curator scoring includes Genre Diversity.
 
-* archive size
-* genre count
-* genre diversity
-* media-type diversity
+This overlap is acceptable only if the two systems interpret that evidence differently.
 
-with intentional diversification.
+### Breadth / Curatorial Variety Philosophy
 
-The Identity should remain framed as an evidence-supported interpretation.
+Breadth asks:
+
+> **How varied is the territory represented in the archive?**
+
+Its evidence centers on:
+
+- Genre Diversity
+- Media-Type Breadth
+- Archive Composition
+
+It describes the **range of engagement** represented by the archive.
+
+### The Curator Designation
+
+The Curator Designation asks:
+
+> **What recognizable taste classification fits this curator?**
+
+Its current evidence includes:
+
+- craft
+- presentation
+- archive size
+- genre diversity
+
+It therefore describes a broader taste classification associated with the characteristics of the curator's archive and selection behavior.
+
+The two concepts must not collapse into:
+
+> **“The Curator, but with a different name.”**
+
+Breadth should therefore explicitly exclude the following as substantive evidence:
+
+- craft
+- presentation
+- selection quality
+- archive size
+- perceived sophistication
+- hidden-gem preference
+- recommendation-oriented behavior
+
+Genre Diversity may be shared evidence.
+
+The interpretation is different:
+
+- **Curator Designation:** Genre Diversity contributes to a recognizable taste classification.
+- **Breadth Philosophy:** Genre Diversity provides direct observable evidence of range.
+
+This is an example of legitimate evidence overlap:
+
+> **The same evidence may support different conclusions when the conclusions answer different questions.**
+
+But:
+
+> **Shared evidence is acceptable. Shared conclusion is not.**
 
 ---
 
-## 6.6 Relationship to Curator Designation
+## 6.8 Stress-Test Conclusion
 
-Curator Designation describes an observable archive/taste classification involving collection shape, breadth, and variety.
+Breadth / Curatorial Variety Philosophy survived the adversarial stress test as a distinct concept.
 
-Breadth / Curatorial Variety Philosophy describes the broader relationship with variety.
+### Results
 
-The two may coexist, but the Identity must not simply restate the Designation.
+**Concept:** PASS
 
-The distinction should remain:
+**Evidence:** CONDITIONAL PASS
 
-> Curator describes a recognizable archive/taste classification.
+**Distinct from Interpretive Philosophy:** STRONG PASS
 
-> Breadth describes the curator's apparent orientation toward variety.
+**Distinct from Exploratory Philosophy:** PASS
+
+**Distinct from The Curator Designation:** PASS with explicit guardrails
+
+### Primary Findings
+
+The stress test established that:
+
+1. **Quantity does not equal Breadth.**
+2. **Variety can exist in a relatively small archive.**
+3. **Genre diversity and media-type diversity represent complementary dimensions.**
+4. **High experimental or unconventional taste does not establish Breadth.**
+5. **Breadth can exist without Exploration.**
+6. **Exploration can exist without immediately producing broad diversity.**
+7. **Breadth does not require high ratings, depth, engagement, or craft.**
+8. **The Curator Designation and Breadth may share Genre Diversity evidence but must interpret it differently.**
+9. **The current system observes archive variety more directly than intentional curatorial philosophy.**
+10. **The Identity should therefore remain an inference about recurring orientation, not a claim about conscious intent.**
+
+### Governing Rule
+
+> **Breadth / Curatorial Variety Philosophy should describe the range of territory represented in the archive, not the size, quality, unconventionality, or presumed intent behind that archive.**
+
+A concise version:
+
+> **Breadth is about range, not quantity.**
+
+And the key distinction from Exploration remains:
+
+> **Breadth describes the shape of the territory. Exploration describes movement through or beyond that territory.**
 
 ---
 
@@ -798,11 +1069,11 @@ Construction / Systems Philosophy does not currently have sufficiently independe
 
 The current system includes:
 
-* gameplay mechanics
-* system design
-* engagement
-* craft
-* pacing
+- gameplay mechanics
+- system design
+- engagement
+- craft
+- pacing
 
 However, the current `system_design` derived signal is itself based on gameplay mechanics.
 
@@ -814,11 +1085,11 @@ This makes the signal highly dependent on an existing media-specific trait.
 
 Engagement Architect already emphasizes:
 
-* engagement
-* craft
-* gameplay mechanics
-* pacing
-* system-related qualities
+- engagement
+- craft
+- gameplay mechanics
+- pacing
+- system-related qualities
 
 This creates substantial conceptual and evidentiary overlap.
 
@@ -838,13 +1109,13 @@ A future version may support a distinct Construction / Systems Philosophy if the
 
 Examples might eventually include evidence about:
 
-* narrative structure
-* worldbuilding systems
-* mechanical complexity
-* systemic interaction
-* cause-and-effect structures
-* emergent behavior
-* structural experimentation across multiple media types
+- narrative structure
+- worldbuilding systems
+- mechanical complexity
+- systemic interaction
+- cause-and-effect structures
+- emergent behavior
+- structural experimentation across multiple media types
 
 No such evidence should be invented for the current implementation.
 
@@ -876,9 +1147,9 @@ They should not automatically receive separate conceptual weight simply because 
 
 These signals are all derived from genre prevalence:
 
-* Analysis → psychological + mystery
-* Ambiguity → psychological + mystery + surreal
-* Reflection → drama + psychological
+- Analysis → psychological + mystery
+- Ambiguity → psychological + mystery + surreal
+- Reflection → drama + psychological
 
 They are not identical, but they are correlated.
 
@@ -920,15 +1191,15 @@ from:
 
 Originality may support:
 
-* Boundary Explorer Designation
-* Exploratory Philosophy
+- Boundary Explorer Designation
+- Exploratory Philosophy
 
 provided the two systems interpret originality differently.
 
 Similarly, depth may support:
 
-* Deep Diver Designation
-* Interpretive Philosophy
+- Deep Diver Designation
+- Interpretive Philosophy
 
 provided the resulting conclusions remain distinct.
 
@@ -976,9 +1247,9 @@ Breadth / Curatorial Variety concerns the range of genres, forms, and media expe
 
 A curator may have:
 
-* high interpretation and narrow breadth
-* high breadth and low interpretation
-* high interpretation and high breadth
+- high interpretation and narrow breadth
+- high breadth and low interpretation
+- high interpretation and high breadth
 
 Therefore the concepts can legitimately coexist.
 
@@ -1022,19 +1293,19 @@ This prevents individual signals, genres, or archive-size measures from becoming
 
 Should not independently become high from:
 
-* high average score
-* emotional impact
-* psychological genre prevalence
-* mystery genre prevalence
-* surreal genre prevalence
-* depth alone
-* experimental media
-* originality
-* engagement
-* craft
-* archive size
-* genre count
-* media-type diversity
+- high average score
+- emotional impact
+- psychological genre prevalence
+- mystery genre prevalence
+- surreal genre prevalence
+- depth alone
+- experimental media
+- originality
+- engagement
+- craft
+- archive size
+- genre count
+- media-type diversity
 
 The Identity requires a pattern rather than a single indicator.
 
@@ -1042,17 +1313,17 @@ The Identity requires a pattern rather than a single indicator.
 
 Should not independently become high from:
 
-* experimental media alone
-* originality alone
-* novelty alone
-* genre diversity alone
-* depth
-* emotional impact
-* craft
-* engagement
-* average score
-* archive size
-* any single genre
+- experimental media alone
+- originality alone
+- novelty alone
+- genre diversity alone
+- depth
+- emotional impact
+- craft
+- engagement
+- average score
+- archive size
+- any single genre
 
 In particular:
 
@@ -1062,17 +1333,17 @@ In particular:
 
 Should not independently become high from:
 
-* archive size
-* originality
-* experimental affinity
-* novelty
-* depth
-* emotional impact
-* engagement
-* craft
-* average score
-* one dominant genre
-* one dominant media type
+- archive size
+- originality
+- experimental affinity
+- novelty
+- depth
+- emotional impact
+- engagement
+- craft
+- average score
+- one dominant genre
+- one dominant media type
 
 Breadth requires observable variety.
 
@@ -1199,16 +1470,16 @@ Depth is strong evidence for Interpretive Philosophy but does not independently 
 
 This audit does not independently justify changing:
 
-* derived-trait formulas
-* universal trait definitions
-* media trait definitions
-* scoring normalization
-* Identity ranking
-* Primary Identity selection
-* Secondary Identity threshold
-* tie-breaking
-* API shape
-* recommendation behavior
+- derived-trait formulas
+- universal trait definitions
+- media trait definitions
+- scoring normalization
+- Identity ranking
+- Primary Identity selection
+- Secondary Identity threshold
+- tie-breaking
+- API shape
+- recommendation behavior
 
 Those decisions require separate analysis.
 
@@ -1250,9 +1521,9 @@ When two Identities share an observable signal, the evidence contract should spe
 
 For example:
 
-* genre diversity should primarily support Breadth
-* experimental affinity should support Exploration but remain proxy evidence
-* depth should primarily support Interpretive Philosophy
+- genre diversity should primarily support Breadth
+- experimental affinity should support Exploration but remain proxy evidence
+- depth should primarily support Interpretive Philosophy
 
 ---
 
@@ -1264,14 +1535,14 @@ The Identity subsystem is now ready for the next conceptual stage:
 
 The conceptual audit has established:
 
-* three surviving provisional Identity concepts
-* one deferred Identity candidate
-* evidence classifications
-* major evidence gaps
-* negative-space boundaries
-* cross-Identity coexistence rules
-* signal-correlation constraints
-* Identity/Designation separation requirements
+- three surviving provisional Identity concepts
+- one deferred Identity candidate
+- evidence classifications
+- major evidence gaps
+- negative-space boundaries
+- cross-Identity coexistence rules
+- signal-correlation constraints
+- Identity/Designation separation requirements
 
 The next work should therefore be an **Identity Evidence Contract / Fixture Redesign Pass**.
 
@@ -1316,18 +1587,18 @@ Construction / Systems Philosophy remains deferred because the current evidence 
 
 The three surviving concepts can coexist:
 
-* Interpretive owns **meaning and examination**
-* Exploratory owns **unfamiliarity and discovery**
-* Breadth owns **variety**
+- Interpretive owns **meaning and examination**
+- Exploratory owns **unfamiliarity and discovery**
+- Breadth owns **variety**
 
 Their evidence may overlap, but their conclusions must remain distinct.
 
 The strongest evidence limitations are:
 
-* interpretation is not directly observed
-* exploration and exploratory intent are not directly observed
-* intentional valuation of variety is not directly observed
-* several derived signals are correlated representations of overlapping genre evidence
+- interpretation is not directly observed
+- exploration and exploratory intent are not directly observed
+- intentional valuation of variety is not directly observed
+- several derived signals are correlated representations of overlapping genre evidence
 
 The governing evidence principle is therefore:
 
