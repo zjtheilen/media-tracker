@@ -224,7 +224,7 @@ function createDetailCard(entry) {
                 ${renderEntryMetadata(entry)}
 
                 <div class="detail-section">
-                    <h4>Observations</h4>
+                    <h4>Notes</h4>
                     ${renderEntryNotes(entry)}
                 </div>
 
@@ -239,14 +239,14 @@ function createDetailCard(entry) {
             <div class="entry-charts">
 
                 <div class="chart-panel radar-panel">
-                    <h4>Universal Evaluation</h4>
+                    <h4>Universal Scoring</h4>
                     <canvas id="universal-chart-${entry.id}"></canvas>
                 </div>
 
                 <div class="chart-panel">
                     <h4>
                         ${entry.media_type.charAt(0).toUpperCase() + entry.media_type.slice(1)}
-                        Evaluation
+                        Scoring
                     </h4>
                     <canvas id="media-chart-${entry.id}"></canvas>
                 </div>

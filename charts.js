@@ -463,7 +463,7 @@ async function renderUniversalEvaluationRadar(archiveProfile) {
 
             datasets: [
                 {
-                    label: "Universal Evaluation",
+                    label: "Universal Scoring",
                     data: radarData.values,
 
                     backgroundColor: "rgba(127,174,135,0.25)",
@@ -777,7 +777,7 @@ async function renderArchiveProfileCard() {
 
                     <div class="chart-panel">
                 
-                        <h3>Core Evaluation Matrix</h3>
+                        <h3>Universal Scoring Profile</h3>
                 
                         <canvas id="universal-profile-radar"></canvas>
                 
@@ -852,7 +852,7 @@ function renderUniversalScoreChart(entry, canvas) {
                 labels,
 
                 datasets: [{
-                    label: "Universal Evaluation",
+                    label: "Universal Scoring",
                     data,
 
                     backgroundColor:
@@ -933,7 +933,7 @@ function renderMediaScoreChart(entry, canvas) {
                 labels,
 
                 datasets: [{
-                    label: "Media Evaluation",
+                    label: "Media Scoring",
                     data,
 
                     backgroundColor:

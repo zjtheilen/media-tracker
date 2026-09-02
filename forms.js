@@ -77,7 +77,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
         Object.keys(scoringProfiles.media[mediaType]);
 
 
-    createScoreSection("Universal Evaluation");
+    createScoreSection("Universal Scoring");
 
     renderScoreCategoryList(
         universalCategories,
@@ -86,7 +86,7 @@ function renderScoreInputs(mediaType, existingScores = {}) {
 
 
     createScoreSection(
-        `${mediaType.charAt(0).toUpperCase() + mediaType.slice(1)} Evaluation`
+        `${mediaType.charAt(0).toUpperCase() + mediaType.slice(1)} Scoring`
     );
 
     renderScoreCategoryList(
