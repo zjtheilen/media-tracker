@@ -11,7 +11,9 @@ The purpose is to determine:
 * which signals overlap excessively
 * which signals represent taste rather than curatorial orientation
 * which current derived traits make legitimate but limited evidence
+* which evidence should not independently establish an Identity
 * where the current implementation cannot directly observe the intended concept
+* whether the surviving Identity concepts can coexist without collapsing into the same conclusion
 * which conceptual changes are required before Identity fixtures are rebuilt
 
 This is an evidence audit, not an implementation plan.
@@ -25,12 +27,19 @@ No fixture, scoring rule, derived trait, or API implementation should be changed
 Identity scoring currently follows this general pipeline:
 
 Archive Profile
+
 → Universal Averages
+
 → Media Averages
+
 → Derived Traits
+
 → Identity Weights
+
 → Normalized Contributions
+
 → Identity Score
+
 → Ranking
 
 Each Identity defines weighted signals.
@@ -54,6 +63,8 @@ The resulting breakdown exposes:
 
 This structure is considered useful and should be preserved unless later evidence demonstrates otherwise.
 
+The conceptual issue identified by this audit is primarily **which signals should contribute to an Identity and what those signals legitimately mean**, rather than the existence of weighted scoring itself.
+
 ---
 
 # 3. Evidence Classification
@@ -64,27 +75,34 @@ For this audit, Identity signals are classified into four categories.
 
 A signal that directly measures a meaningful component of the Identity concept.
 
-Example:
-
-* originality may directly support an orientation toward unconventional media.
-
 Direct evidence still does not necessarily prove the complete Identity.
+
+For example:
+
+* Depth directly measures the degree to which the curator values depth.
+* Genre diversity directly measures the variety represented in the archive.
+
+Direct evidence should still be interpreted in context rather than treated as automatic proof of an Identity.
 
 ## 3.2 Supporting Evidence
 
 A signal that meaningfully strengthens an Identity interpretation but is not sufficient by itself.
 
-Example:
+For example:
 
-* genre diversity may support a breadth-oriented interpretation.
+* Emotional impact may strengthen an interpretation-oriented profile.
+* Genre diversity may strengthen an exploratory interpretation when combined with other evidence.
+
+Supporting evidence contributes to a pattern but should not independently establish the Identity.
 
 ## 3.3 Proxy Evidence
 
 A signal that correlates with the intended concept but measures something adjacent rather than the concept itself.
 
-Example:
+For example:
 
-* experimental genre prevalence may act as a proxy for exploratory behavior.
+* Experimental genre prevalence may act as a proxy for exploratory orientation.
+* Psychological genre prevalence may act as a proxy for interpretive interest.
 
 Proxy evidence must not be presented as direct observation.
 
@@ -92,9 +110,11 @@ Proxy evidence must not be presented as direct observation.
 
 A signal that may correlate with an Identity but does not meaningfully establish it.
 
-Example:
+For example:
 
-* archive size alone does not establish a breadth-oriented philosophy.
+* Archive size alone does not establish breadth.
+* High average score alone does not establish interpretation.
+* Experimental media alone does not establish exploration.
 
 ---
 
@@ -110,23 +130,39 @@ The Identity is not simply:
 
 It describes a relationship with media in which interpretation itself appears to be valuable.
 
+The current system cannot directly observe whether a curator consciously interprets or reflects on media. It can only infer an interpretive orientation from observable taste patterns.
+
 ---
 
 ## 4.2 Current Supporting Signals
 
 ### Depth
 
-**Classification:** Direct / strong supporting evidence
+**Classification:** Direct / strongest available evidence
 
 Depth is a meaningful component of interpretive engagement.
 
+It is currently the strongest available evidence for Interpretive Philosophy because it directly reflects the curator's valuation of depth.
+
 However:
 
-> depth alone does not establish Interpretive Philosophy.
+> Depth alone does not establish Interpretive Philosophy.
 
 A curator may value emotionally or intellectually substantial media without demonstrating a broader interpretive orientation.
 
----
+### Emotional Impact
+
+**Classification:** Supporting evidence
+
+Emotional engagement may strengthen an interpretation-oriented profile when combined with depth and other interpretive evidence.
+
+However:
+
+> Emotional impact is not inherently interpretive.
+
+A curator may strongly value emotional experiences without being particularly interested in meaning-making, analysis, or reflection.
+
+It should therefore remain supporting rather than primary evidence.
 
 ### Analysis
 
@@ -140,8 +176,6 @@ Therefore:
 
 > Analysis is currently a genre-derived proxy for interpretive orientation.
 
----
-
 ### Ambiguity
 
 **Classification:** Proxy evidence
@@ -152,9 +186,7 @@ This can support the interpretation that the archive favors material with unreso
 
 However:
 
-> liking ambiguous media does not prove that the curator engages interpretively with that ambiguity.
-
----
+> Liking ambiguous media does not prove that the curator engages interpretively with that ambiguity.
 
 ### Reflection
 
@@ -162,17 +194,7 @@ However:
 
 Reflection is currently derived from drama and psychological genre prevalence.
 
-This provides supporting context but does not directly observe reflective engagement.
-
----
-
-### Emotional Impact
-
-**Classification:** Supporting evidence
-
-Emotional engagement may strengthen an interpretation-oriented profile when combined with depth, ambiguity, analysis, and reflection.
-
-It should not independently establish Interpretive Philosophy.
+This provides contextual evidence that may support an interpretive interpretation, but it does not directly observe reflective engagement.
 
 ---
 
@@ -183,17 +205,79 @@ Interpretive Philosophy has the strongest conceptual alignment with the current 
 The available system already contains several signals that can reasonably support the concept:
 
 * depth
+* emotional impact
 * analysis
 * ambiguity
 * reflection
-* emotional impact
-* psychological/mystery/surreal genre prevalence
+* psychological/mystery/surreal/drama genre prevalence
 
-The primary limitation is that several of these signals are genre-derived proxies rather than direct measurements of interpretation.
+However, the evidence types are not equally independent.
+
+Depth is direct evidence.
+
+Emotional impact is supporting evidence.
+
+Analysis, ambiguity, and reflection are genre-derived proxies.
+
+The proxy signals are also correlated because they are derived from overlapping genre prevalence.
+
+Therefore:
+
+> Interpretive Philosophy has strong provisional support, but its evidence model must not treat multiple correlated genre proxies as fully independent observations.
 
 ---
 
-## 4.4 Important Guardrail
+## 4.4 Signal Duplication Constraint
+
+Analysis, Ambiguity, and Reflection should not automatically be treated as three independent discoveries of interpretive orientation.
+
+Their current derivations are:
+
+* Analysis → psychological + mystery
+* Ambiguity → psychological + mystery + surreal
+* Reflection → drama + psychological
+
+These signals are not mathematically identical, but they share underlying genre evidence.
+
+In particular, psychological prevalence contributes to all three.
+
+Therefore:
+
+> The eventual scoring model should avoid allowing correlated genre-derived proxies to dominate Interpretive Philosophy merely because they are represented by separate signal names.
+
+This does not require removing the signals.
+
+It requires interpreting them honestly and preventing correlated evidence from masquerading as independent evidence.
+
+---
+
+## 4.5 Negative-Space Guardrails
+
+The following evidence should **not independently cause a high Interpretive Philosophy score**:
+
+* high average score
+* high emotional impact
+* psychological genre prevalence
+* mystery genre prevalence
+* surreal genre prevalence
+* depth alone
+* experimental media
+* high originality
+* high engagement
+* high craft
+* archive size
+* genre count
+* media-type diversity
+
+Some of these can legitimately contribute as supporting or proxy evidence.
+
+The distinction is that none should function as:
+
+> “This evidence exists, therefore the curator is Interpretive.”
+
+---
+
+## 4.6 Important Explanation Guardrail
 
 The system must not claim:
 
@@ -203,11 +287,11 @@ when the evidence actually demonstrates:
 
 > “Your archive contains many forms of media commonly associated with analysis and interpretation.”
 
-The distinction matters.
+The distinction matters because the current system does not directly observe analytical behavior.
 
 ---
 
-## 4.5 Relationship to Deep Diver Designation
+## 4.7 Relationship to Deep Diver Designation
 
 Deep Diver Designation and Interpretive Philosophy may use overlapping evidence.
 
@@ -219,9 +303,11 @@ Deep Diver:
 
 Interpretive Philosophy:
 
-> recurring orientation toward meaning-making and interpretation.
+> recurring orientation toward meaning-making, examination, and interpretation.
 
 The same archive can legitimately demonstrate both.
+
+Shared evidence is acceptable when the interpretation differs.
 
 ---
 
@@ -237,19 +323,39 @@ The Identity is not simply:
 
 It describes an apparent relationship with unfamiliarity.
 
+The current system cannot directly observe whether a curator intentionally seeks unfamiliar experiences. It can only infer an exploratory orientation from observable archive patterns.
+
 ---
 
 ## 5.2 Current Supporting Signals
 
 ### Originality
 
-**Classification:** Direct / strong supporting evidence
+**Classification:** Supporting evidence
 
 Originality is relevant to a preference for unconventional experiences.
 
-However, high originality does not prove exploratory behavior.
+However:
 
----
+> High originality does not prove exploratory behavior.
+
+A curator may strongly value originality while repeatedly seeking it within a narrow genre, medium, or familiar area of interest.
+
+Originality therefore supports Exploration but should not independently establish it.
+
+### Genre Diversity
+
+**Classification:** Supporting evidence
+
+A broad genre range may support an exploratory interpretation.
+
+However:
+
+> Genre diversity demonstrates variety, not necessarily exploration.
+
+A curator may maintain a broad archive without intentionally seeking unfamiliar experiences.
+
+Genre diversity is therefore stronger evidence for Breadth / Curatorial Variety than for Exploration.
 
 ### Experimental Affinity
 
@@ -261,13 +367,11 @@ This is useful evidence that the archive contains experimental media.
 
 It does not directly establish that the curator intentionally seeks unfamiliar experiences.
 
----
-
 ### Novelty
 
 **Classification:** Proxy evidence
 
-The current implementation derives novelty from the same experimental genre percentage used by experimental affinity.
+The current implementation derives novelty from the same experimental genre percentage used by Experimental Affinity.
 
 This creates an important evidence-model issue:
 
@@ -275,39 +379,76 @@ This creates an important evidence-model issue:
 
 They should not be treated as independent discoveries merely because they have different names.
 
----
-
-### Genre Diversity
-
-**Classification:** Supporting evidence
-
-A broad genre range may support exploration.
-
-However, diversity alone does not establish exploratory intent.
-
----
-
 ### Depth
 
 **Classification:** Weak supporting evidence
 
 Depth may accompany exploration, especially when unfamiliar media is engaged with seriously.
 
-However, depth is not inherently exploratory and should not be used as a primary exploratory signal without explicit justification.
+However:
+
+> Depth is not inherently exploratory.
+
+It should not be treated as a primary exploratory signal.
 
 ---
 
 ## 5.3 Current Evidence Strength
 
-Exploratory Philosophy remains conceptually viable, but the current implementation observes **experimental taste** more directly than **exploratory behavior**.
+Exploratory Philosophy remains conceptually viable, but the current implementation observes **experimental taste and archive variety** more directly than **exploratory behavior**.
 
 This is a major evidence limitation.
 
-The system should therefore treat exploratory interpretation as an inference from observable taste patterns rather than direct observation of intent.
+The current system does not directly observe:
+
+> “I chose this because it was unfamiliar.”
+
+Therefore exploratory interpretation remains an inference from observable taste patterns rather than direct observation of intent.
 
 ---
 
-## 5.4 Important Guardrail
+## 5.4 Signal Duplication Constraint
+
+Experimental Affinity and Novelty currently depend on the same underlying experimental genre prevalence.
+
+Therefore:
+
+> They should not both independently receive substantial weight merely because they are represented as separate derived signals.
+
+The underlying experimental evidence may support Exploration, but it should not be artificially amplified through duplicate representations.
+
+---
+
+## 5.5 Negative-Space Guardrails
+
+The following evidence should **not independently cause a high Exploratory Philosophy score**:
+
+* experimental media alone
+* high originality alone
+* novelty alone
+* genre diversity alone
+* high depth
+* high emotional impact
+* high craft
+* high engagement
+* high average score
+* large archive
+* psychological media
+* horror
+* surreal media
+* any single genre
+
+In particular:
+
+> Experimental taste is not equivalent to exploration.
+
+And:
+
+> Genre diversity is not equivalent to exploratory intent.
+
+---
+
+## 5.6 Important Guardrail
 
 The system must not imply:
 
@@ -323,7 +464,7 @@ The second statement accurately communicates the inferential nature of the concl
 
 ---
 
-## 5.5 Relationship to Boundary Explorer Designation
+## 5.7 Relationship to Boundary Explorer Designation
 
 Boundary Explorer Designation describes a recognizable taste classification involving unusual, speculative, experimental, or boundary-pushing media.
 
@@ -332,6 +473,12 @@ Exploratory Philosophy describes the broader orientation toward encountering unf
 Shared evidence is acceptable.
 
 Shared conclusion is not.
+
+The distinction should remain:
+
+> Boundary Explorer describes **what kind of media relationship is recognizable in the archive**.
+
+> Exploratory Philosophy describes **the curator's apparent orientation toward unfamiliarity and discovery**.
 
 ---
 
@@ -345,41 +492,59 @@ The Identity is not simply:
 
 > “has a large archive.”
 
+The current system can directly observe archive variety more reliably than it can observe an intentional philosophy of variety.
+
 ---
 
 ## 6.2 Current Supporting Signals
 
 ### Genre Diversity
 
-**Classification:** Direct observable evidence for breadth; proxy evidence for curatorial philosophy
+**Classification:** Direct observable evidence for archive breadth; supporting/proxy evidence for curatorial philosophy
 
 The system can directly observe how many genres are represented.
 
 That is strong evidence for archive breadth.
 
-It is weaker evidence for the philosophical claim that the curator values breadth.
+It is weaker evidence for the philosophical claim that the curator values breadth intentionally.
 
----
+Therefore:
+
+> Genre diversity is the strongest current evidence for Breadth, but it should be interpreted as observable archive variety rather than direct observation of intent.
+
+### Media-Type Breadth
+
+**Classification:** Supporting evidence
+
+Representation across multiple media types can strengthen an interpretation of broad engagement.
+
+However, media-type diversity does not independently establish that the curator intentionally values variety.
+
+### Archive Composition
+
+**Classification:** Supporting evidence
+
+The distribution of entries across genres and media types can provide additional evidence about the shape of the archive.
+
+This can strengthen a breadth interpretation when the variety is meaningful rather than incidental.
 
 ### Archive Size
 
-**Classification:** Contextual evidence only
+**Classification:** Insufficient as primary evidence; contextual only
 
 A larger archive provides more opportunity for variety but does not establish variety itself.
 
 A large archive can remain highly specialized.
 
-Archive size must therefore not be treated as a primary Breadth Identity signal.
+Therefore:
 
----
+> Archive size must not be treated as a primary Breadth Identity signal.
 
 ### Craft
 
 **Classification:** Insufficient for Breadth
 
-Craft may be associated with curatorial selectivity, but it does not directly establish breadth or variety.
-
----
+Craft may indicate perceived quality or selectivity, but it does not directly establish breadth or variety.
 
 ### Presentation
 
@@ -387,7 +552,7 @@ Craft may be associated with curatorial selectivity, but it does not directly es
 
 Presentation does not establish a breadth-oriented relationship.
 
-If retained in any Breadth-related scoring model, its conceptual role must be explicitly justified.
+If retained in any Breadth-related scoring model, its conceptual role would require explicit justification.
 
 ---
 
@@ -397,7 +562,7 @@ Breadth is observable.
 
 Curatorial philosophy is not.
 
-The current system can confidently say:
+The current system can confidently describe:
 
 > “This archive is broad.”
 
@@ -411,13 +576,34 @@ Therefore Breadth / Curatorial Variety Philosophy remains provisional.
 
 ---
 
-## 6.4 Important Guardrail
+## 6.4 Negative-Space Guardrails
+
+The following evidence should **not independently cause a high Breadth / Curatorial Variety score**:
+
+* archive size
+* high originality
+* experimental affinity
+* high novelty
+* high depth
+* high emotional impact
+* high engagement
+* high craft
+* high average score
+* a single dominant genre
+* a single dominant media type
+
+Genre diversity and media-type diversity are legitimate breadth evidence, but even those should be understood as evidence of observable variety rather than proof of intentional diversification.
+
+---
+
+## 6.5 Important Guardrail
 
 The system must not equate:
 
 * archive size
 * genre count
 * genre diversity
+* media-type diversity
 
 with intentional diversification.
 
@@ -425,13 +611,19 @@ The Identity should remain framed as an evidence-supported interpretation.
 
 ---
 
-## 6.5 Relationship to Curator Designation
+## 6.6 Relationship to Curator Designation
 
-Curator Designation describes an observable archive/taste classification involving breadth, collection behavior, and variety.
+Curator Designation describes an observable archive/taste classification involving collection shape, breadth, and variety.
 
 Breadth / Curatorial Variety Philosophy describes the broader relationship with variety.
 
 The two may coexist, but the Identity must not simply restate the Designation.
+
+The distinction should remain:
+
+> Curator describes a recognizable archive/taste classification.
+
+> Breadth describes the curator's apparent orientation toward variety.
 
 ---
 
@@ -441,7 +633,7 @@ The two may coexist, but the Identity must not simply restate the Designation.
 
 **Deferred.**
 
-Construction / Systems Philosophy does not currently have sufficiently independent evidence.
+Construction / Systems Philosophy does not currently have sufficiently independent evidence to function as a distinct Identity.
 
 ---
 
@@ -469,20 +661,43 @@ Engagement Architect already emphasizes:
 * craft
 * gameplay mechanics
 * pacing
+* system-related qualities
 
-This creates substantial conceptual overlap.
+This creates substantial conceptual and evidentiary overlap.
 
-The current evidence therefore does not justify introducing Construction / Systems Philosophy as a distinct Identity.
+A Construction / Systems Identity based on the current signals would therefore risk becoming:
+
+> “Engagement Architect, but described differently.”
+
+That does not satisfy the Identity boundary.
 
 ---
 
-## 7.4 Decision
+## 7.4 Future Possibility
+
+The underlying concept is not rejected permanently.
+
+A future version may support a distinct Construction / Systems Philosophy if the archive model gains broader structural evidence independent of engagement and gameplay mechanics.
+
+Examples might eventually include evidence about:
+
+* narrative structure
+* worldbuilding systems
+* mechanical complexity
+* systemic interaction
+* cause-and-effect structures
+* emergent behavior
+* structural experimentation across multiple media types
+
+No such evidence should be invented for the current implementation.
+
+---
+
+## 7.5 Decision
 
 Do not implement Construction / Systems Philosophy in the current Identity catalog.
 
 Retain the concept as a documented deferred candidate.
-
-A future version may revisit it if the archive model gains broader structural evidence independent of engagement and gameplay mechanics.
 
 ---
 
@@ -494,7 +709,7 @@ The current derived-trait system contains several cases where apparently distinc
 
 Both currently depend on experimental genre prevalence.
 
-This means they should be considered related representations of the same underlying evidence.
+They should therefore be considered related representations of the same underlying evidence.
 
 They should not automatically receive separate conceptual weight simply because they have different names.
 
@@ -510,7 +725,17 @@ These signals are all derived from genre prevalence:
 
 They are not identical, but they are correlated.
 
-An Identity that heavily weights all three risks effectively counting genre composition multiple times.
+An Identity that heavily weights all three risks effectively counting overlapping genre composition multiple times.
+
+The eventual evidence contract should therefore distinguish:
+
+> **separate signals**
+
+from:
+
+> **independent evidence.**
+
+A signal may remain useful without being treated as an independent observation.
 
 ---
 
@@ -534,62 +759,184 @@ from:
 
 > **Shared conclusion**
 
-For example:
+## 9.1 Acceptable Overlap
 
-### Acceptable
-
-Originality supports:
+Originality may support:
 
 * Boundary Explorer Designation
 * Exploratory Philosophy
 
 provided the two systems interpret originality differently.
 
-### Not acceptable
+Similarly, depth may support:
 
-Originality independently causes:
+* Deep Diver Designation
+* Interpretive Philosophy
 
-* Boundary Explorer Designation
-* Boundary Explorer Identity
+provided the resulting conclusions remain distinct.
 
-because the two conclusions collapse into the same classification.
+## 9.2 Unacceptable Overlap
 
----
+The system should not create an Identity that is effectively a Designation renamed, reweighted, or restated.
 
-# 10. Current Fixture Assessment
+Examples:
 
-The current Identity fixtures represent the previous Identity ontology.
+> “Likes experimental media” → Boundary Explorer Identity
 
-They currently include:
+or:
 
-* Boundary Explorer
-* Deep Diver
-* Engagement Architect
+> “Values engagement and systems” → Engagement Architect Identity
 
-These names directly overlap with Designations.
-
-The fixtures also contain weighted signal sets that reflect the older conceptual model.
-
-Therefore:
-
-> The fixtures should not be treated as authoritative evidence definitions for the new Identity catalog.
-
-They are implementation artifacts that must eventually be replaced or substantially revised.
+would collapse Identity and Designation into the same conceptual layer.
 
 ---
 
-# 11. Evidence Mapping Summary
+# 10. Cross-Identity Coexistence Check
 
-| Identity                                | Strongest Evidence | Supporting Evidence    | Proxy Evidence                  | Major Limitation                                          |
-| --------------------------------------- | ------------------ | ---------------------- | ------------------------------- | --------------------------------------------------------- |
-| Interpretive Philosophy                 | depth              | emotional impact       | analysis, ambiguity, reflection | interpretation itself is not directly observed            |
-| Exploratory Philosophy                  | originality        | genre diversity, depth | experimental affinity, novelty  | exploration/intent is not directly observed               |
-| Breadth / Curatorial Variety Philosophy | genre diversity    | archive composition    | archive size                    | intentional valuation of variety is not directly observed |
-| Construction / Systems Philosophy       | —                  | —                      | gameplay/system signals         | excessive overlap with Engagement Architect               |
+The surviving Identity concepts were tested against one another to determine whether they can coexist without producing three versions of the same conclusion.
+
+## 10.1 Interpretive vs Exploratory
+
+**Status: Pass**
+
+Interpretive Philosophy concerns the relationship with meaning, examination, and reflection.
+
+Exploratory Philosophy concerns the relationship with unfamiliarity, discovery, and unconventional experiences.
+
+The same media can be both unfamiliar and deeply interpretable.
+
+Shared evidence is possible, but the conclusions remain distinct.
 
 ---
 
-# 12. Evidence Confidence by Concept
+## 10.2 Interpretive vs Breadth
+
+**Status: Pass**
+
+Interpretive Philosophy concerns the desire for interpretation and deeper examination.
+
+Breadth / Curatorial Variety concerns the range of genres, forms, and media experiences represented.
+
+A curator may have:
+
+* high interpretation and narrow breadth
+* high breadth and low interpretation
+* high interpretation and high breadth
+
+Therefore the concepts can legitimately coexist.
+
+---
+
+## 10.3 Exploratory vs Breadth
+
+**Status: Conditional Pass**
+
+Exploration and breadth are correlated but separable.
+
+Breadth concerns:
+
+> “I engage with many different kinds of experiences.”
+
+Exploration concerns:
+
+> “I seek unfamiliar experiences.”
+
+A curator may explore deeply within one narrow area, producing high exploration without high breadth.
+
+A curator may also maintain a broad range of familiar media, producing breadth without strong evidence of exploration.
+
+Therefore both concepts can coexist.
+
+However, the implementation should avoid allowing the same archive-diversity measure to become strong independent evidence for both Identities.
+
+Genre diversity should primarily represent **Breadth**.
+
+For Exploration, diversity should remain supporting evidence alongside originality and experimental material.
+
+---
+
+# 11. Negative-Space Test
+
+The surviving Identity concepts were also tested by asking what evidence should **not** independently cause a high Identity score.
+
+This prevents individual signals, genres, or archive-size measures from becoming automatic Identity classifiers.
+
+## 11.1 Interpretive Philosophy
+
+Should not independently become high from:
+
+* high average score
+* emotional impact
+* psychological genre prevalence
+* mystery genre prevalence
+* surreal genre prevalence
+* depth alone
+* experimental media
+* originality
+* engagement
+* craft
+* archive size
+* genre count
+* media-type diversity
+
+The Identity requires a pattern rather than a single indicator.
+
+## 11.2 Exploratory Philosophy
+
+Should not independently become high from:
+
+* experimental media alone
+* originality alone
+* novelty alone
+* genre diversity alone
+* depth
+* emotional impact
+* craft
+* engagement
+* average score
+* archive size
+* any single genre
+
+In particular:
+
+> Experimental taste is not equivalent to exploration.
+
+## 11.3 Breadth / Curatorial Variety Philosophy
+
+Should not independently become high from:
+
+* archive size
+* originality
+* experimental affinity
+* novelty
+* depth
+* emotional impact
+* engagement
+* craft
+* average score
+* one dominant genre
+* one dominant media type
+
+Breadth requires observable variety.
+
+---
+
+# 12. Evidence Mapping Summary
+
+| Identity                                | Strongest Evidence           | Supporting Evidence                     | Proxy Evidence                  | Major Limitation                                                             |
+| --------------------------------------- | ---------------------------- | --------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------- |
+| Interpretive Philosophy                 | Depth                        | Emotional impact                        | Analysis, ambiguity, reflection | Interpretation itself is not directly observed; proxy signals are correlated |
+| Exploratory Philosophy                  | No direct behavioral measure | Originality, genre diversity, depth     | Experimental affinity, novelty  | Exploration and intent are not directly observed                             |
+| Breadth / Curatorial Variety Philosophy | Genre diversity              | Media-type breadth, archive composition | Archive-shape measures          | Intentional valuation of variety is not directly observed                    |
+| Construction / Systems Philosophy       | —                            | —                                       | Gameplay/system signals         | Excessive overlap with Engagement Architect                                  |
+
+The absence of a direct measure for Exploration or Curatorial Intent does not invalidate the concepts.
+
+It means the system must represent them as evidence-supported inferences rather than direct observations.
+
+---
+
+# 13. Evidence Confidence by Concept
 
 ## Interpretive Philosophy
 
@@ -597,9 +944,7 @@ They are implementation artifacts that must eventually be replaced or substantia
 
 The current archive model contains multiple signals that can reasonably support the concept.
 
-The primary concern is proxy dependence, not conceptual weakness.
-
----
+The primary concern is proxy dependence and correlation among genre-derived signals, not conceptual weakness.
 
 ## Exploratory Philosophy
 
@@ -607,9 +952,7 @@ The primary concern is proxy dependence, not conceptual weakness.
 
 The concept survives.
 
-The current evidence supports an interpretation of exploratory orientation, but does not directly observe exploration or intent.
-
----
+The current evidence supports an interpretation of exploratory orientation, but does not directly observe exploration or intentionality.
 
 ## Breadth / Curatorial Variety Philosophy
 
@@ -617,9 +960,7 @@ The current evidence supports an interpretation of exploratory orientation, but 
 
 The archive can demonstrate breadth.
 
-The current model is weaker at demonstrating breadth as a curatorial philosophy.
-
----
+The current model is weaker at demonstrating breadth as an intentional curatorial philosophy.
 
 ## Construction / Systems Philosophy
 
@@ -629,7 +970,7 @@ Current evidence does not provide sufficient conceptual independence from Engage
 
 ---
 
-# 13. Evidence Gaps
+# 14. Evidence Gaps
 
 The current model cannot directly observe several things the Identity concepts would ideally describe.
 
@@ -653,13 +994,53 @@ The system cannot directly observe:
 
 These are genuine evidence gaps.
 
-They should not be silently converted into certainty by scoring language.
+They should not be silently converted into certainty by scoring or explanation language.
 
 ---
 
-# 14. What Should Not Change Yet
+# 15. Governing Evidence Principles
 
-This audit does not justify immediately changing:
+The evidence audit establishes the following principles for the Identity system.
+
+### 15.1 Evidence Can Overlap
+
+The same underlying archive evidence may legitimately contribute to multiple Identity interpretations.
+
+### 15.2 Conclusions Cannot Collapse
+
+Two Identities should not exist merely because the same evidence has been given different names or weights.
+
+### 15.3 A Signal Is Not Necessarily Independent Evidence
+
+Multiple signals may be derived from overlapping underlying observations.
+
+Separate signal names do not automatically constitute separate evidence.
+
+### 15.4 Proxy Evidence Must Remain Proxy Evidence
+
+A genre-derived signal may support an interpretation but must not be described as direct observation of a behavior or intention the system does not measure.
+
+### 15.5 No Single Signal Should Automatically Establish an Identity
+
+Identity should emerge from a pattern of evidence.
+
+### 15.6 Variety Is Not Quantity
+
+Archive size must not be treated as a substitute for breadth.
+
+### 15.7 Experimental Taste Is Not Exploration
+
+Experimental genre prevalence may support Exploration but does not directly establish exploratory behavior.
+
+### 15.8 Depth Is Not Interpretation
+
+Depth is strong evidence for Interpretive Philosophy but does not independently prove interpretive behavior.
+
+---
+
+# 16. What Should Not Change Yet
+
+This audit does not independently justify changing:
 
 * derived-trait formulas
 * universal trait definitions
@@ -674,49 +1055,85 @@ This audit does not justify immediately changing:
 
 Those decisions require separate analysis.
 
+The evidence audit instead establishes constraints that future scoring and fixture design must respect.
+
 ---
 
-# 15. What the Audit Does Justify
+# 17. What the Audit Does Justify
 
 The evidence mapping establishes several requirements for the eventual Identity implementation.
 
-### 15.1 Avoid duplicate evidence weighting
+### 17.1 Avoid Duplicate Evidence Weighting
 
 Signals derived from the same underlying evidence should not be treated as fully independent without justification.
 
-### 15.2 Distinguish direct evidence from proxy evidence
+### 17.2 Distinguish Direct Evidence From Proxy Evidence
 
 Explanations should avoid implying that a proxy directly measures an Identity concept.
 
-### 15.3 Preserve evidence limitations
+### 17.3 Preserve Evidence Limitations
 
 Exploratory and Breadth identities must communicate inference rather than falsely claiming access to intent.
 
-### 15.4 Rebuild fixtures around the new ontology
+### 17.4 Rebuild Fixtures Around the New Ontology
 
 The old Identity fixtures should not be mechanically renamed.
 
-### 15.5 Preserve the scoring architecture where possible
+They represent the previous Identity model and contain substantial overlap with Designation vocabulary.
+
+### 17.5 Preserve the Scoring Architecture Where Possible
 
 The weighted breakdown model is useful and explainable.
 
 The conceptual problem is primarily the signal selection and interpretation, not the existence of weighted scoring.
 
----
+### 17.6 Establish Evidence Ownership Where Necessary
 
-# 16. Implementation Readiness
+When two Identities share an observable signal, the evidence contract should specify which Identity treats that signal as primary and which treats it as supporting or proxy evidence.
 
-The Identity subsystem is **not yet ready for fixture replacement**.
+For example:
 
-It is ready for the next conceptual decision:
-
-> **Determine the final evidence model for each Identity using only signals the archive can legitimately support.**
-
-The next work should therefore be a **Fixture Redesign / Evidence Contract Pass**, not immediate code modification.
+* genre diversity should primarily support Breadth
+* experimental affinity should support Exploration but remain proxy evidence
+* depth should primarily support Interpretive Philosophy
 
 ---
 
-# 17. Final Audit Conclusion
+# 18. Implementation Readiness
+
+The Identity subsystem is now ready for the next conceptual stage:
+
+> **Define the final evidence contract for each surviving Identity.**
+
+The conceptual audit has established:
+
+* three surviving provisional Identity concepts
+* one deferred Identity candidate
+* evidence classifications
+* major evidence gaps
+* negative-space boundaries
+* cross-Identity coexistence rules
+* signal-correlation constraints
+* Identity/Designation separation requirements
+
+The next work should therefore be an **Identity Evidence Contract / Fixture Redesign Pass**.
+
+That pass should determine, for each surviving Identity:
+
+1. which signals are allowed
+2. which signals are primary
+3. which signals are supporting
+4. which signals are proxy/contextual
+5. which signals should not contribute independently
+6. approximate conceptual importance before numeric weights are chosen
+7. what explanations each contribution can legitimately produce
+8. what minimum evidence is required before the Identity can be meaningfully evaluated
+
+No code changes are required merely to complete this evidence-mapping stage.
+
+---
+
+# 19. Final Audit Conclusion
 
 The Identity system does not need to be rewritten.
 
@@ -724,20 +1141,45 @@ Its existing weighted-scoring architecture is structurally useful.
 
 The primary problem is that the current Identity signal sets were designed for the previous Identity ontology and contain significant overlap with the old Designation vocabulary.
 
-The new conceptual catalog can be supported by the current system, but only if its evidence is interpreted honestly:
+The conceptual audit supports three provisional Identity concepts:
 
-> **Interpretive Philosophy has the strongest current evidence.**
+> **Interpretive Philosophy**
 
-> **Exploratory Philosophy is viable but relies substantially on proxy evidence for exploration.**
+A recurring orientation toward meaning-making, examination, reflection, and interpretation.
 
-> **Breadth / Curatorial Variety Philosophy is viable but relies on observable breadth as a proxy for curatorial intent.**
+> **Exploratory Philosophy**
 
-> **Construction / Systems Philosophy should remain deferred because current evidence overlaps too heavily with Engagement Architect.**
+A recurring orientation toward unfamiliarity, discovery, unconventional experiences, and departure from established patterns.
 
-The governing implementation principle is therefore:
+> **Breadth / Curatorial Variety Philosophy**
+
+A recurring orientation toward meaningful variety across genres, forms, and media types.
+
+Construction / Systems Philosophy remains deferred because the current evidence overlaps too heavily with Engagement Architect.
+
+The three surviving concepts can coexist:
+
+* Interpretive owns **meaning and examination**
+* Exploratory owns **unfamiliarity and discovery**
+* Breadth owns **variety**
+
+Their evidence may overlap, but their conclusions must remain distinct.
+
+The strongest evidence limitations are:
+
+* interpretation is not directly observed
+* exploration and exploratory intent are not directly observed
+* intentional valuation of variety is not directly observed
+* several derived signals are correlated representations of overlapping genre evidence
+
+The governing evidence principle is therefore:
+
+> **Evidence can overlap. Meaning cannot.**
+
+And the governing implementation principle remains:
 
 > **Do not make the model more certain than the evidence allows.**
 
-And the governing evolution principle remains:
+The governing evolution principle remains:
 
 > **Preserve the working scoring infrastructure; change the conceptual model only where the evidence requires it.**
