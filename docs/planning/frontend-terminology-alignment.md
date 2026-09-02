@@ -918,24 +918,41 @@ These changes alter presentation terminology, not intelligence behavior.
 
 ---
 
-# 25. Changes That Require Semantic Verification
+# 25. Changes Requiring Semantic Verification
 
-The following should not be changed merely for consistency:
+The following terminology items were initially deferred pending repository and consumer verification. That verification has now been completed.
 
-```text
-Universal Evaluation
-<Media Type> Evaluation
-Core Evaluation Matrix
-Designation Basis
-Archive Interpretation
-primaryTrait
-secondaryTrait
-genreSignature
-observationSummary
-archiveSummary
-```
+The following are **verified and reconciled**:
 
-These require verification of the actual backend semantics and frontend usage.
+* `Universal Evaluation` → **Universal Scoring**
+* `<Media Type> Evaluation` → **<Media Type> Scoring**
+* `Media Evaluation` → **Media Scoring**
+* `Core Evaluation Matrix` → **Universal Scoring Profile**
+* Entry-detail `Observations` → **Notes**
+* `Designation Basis` → **Designation Basis**
+* `Archive Interpretation` → **Archive Interpretation**
+* `primaryTrait` → **Primary Trait**
+* `secondaryTrait` → **Secondary Trait**
+* `genreSignature` → **Genre Signature**
+* `observationSummary` → **Observation Summary**
+* `archiveSummary` → **Archive Summary**
+
+These decisions are reflected in the terminology alignment table and, where applicable, have been implemented as frontend presentation changes.
+
+The following concepts remain unresolved and are therefore still governed by the deferral rules in §26:
+
+* Finding Confidence
+* Classification Confidence values that do not currently exist
+* Secondary Identity thresholds
+* Tie / near-tie thresholds
+* Archive-state thresholds
+* Recommendation weighting
+* Any new or alternative Observation terminology
+* Any otherwise unresolved Identity terminology or policy
+* Any otherwise unresolved Designation terminology or policy
+
+The distinction is important: **semantic verification of existing terminology is complete; unresolved new semantics and policy decisions remain deferred.**
+
 
 ---
 
