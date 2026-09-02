@@ -1202,17 +1202,34 @@ Evidence-role semantics remain authoritative documentation rather than additiona
 
 ## 12.7 Numeric and Threshold Constraints
 
-The implementation comparison does not finalize:
+The fixture redesign has now finalized the **fixture-specific numeric weights and minimum-entry requirements** for the three provisional Identity concepts:
 
-* numeric Identity weights,
-* minimum-entry thresholds,
+* **Interpretive Philosophy**
+
+  * minimum entries: 20
+  * finalized weights: depth 0.45, emotional impact 0.25, reflection 0.12, ambiguity 0.10, analysis 0.08
+* **Exploratory Philosophy**
+
+  * minimum entries: 20
+  * finalized weights: originality 0.35, genre diversity 0.25, depth 0.15, experimental affinity 0.15, novelty 0.10
+* **Breadth Philosophy**
+
+  * minimum entries: 15
+  * finalized weight: genre diversity 1.00
+
+These values are part of the redesigned fixture contract and supersede the numeric values inherited from the retired Identity fixtures.
+
+The fixture redesign does **not** finalize or alter broader ranking behavior, including:
+
 * secondary Identity thresholds,
 * tie or near-tie rules,
-* or other ranking behavior.
+* primary Identity selection behavior,
+* general score calibration,
+* or future classification-confidence semantics.
 
-Those decisions remain separate from the conceptual evidence contract.
+Those concerns remain separate from the fixture-specific evidence contract and should not be changed merely to accommodate the fixture redesign.
 
-Existing fixture values should therefore be treated as implementation history rather than authoritative values for the redesigned catalog.
+The current scoring architecture and its normalization behavior are preserved. Any future changes to ranking or calibration should be made only through an explicit conceptual decision.
 
 ## 12.8 Implementation Readiness Conclusion
 
