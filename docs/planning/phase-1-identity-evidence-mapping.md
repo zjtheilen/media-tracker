@@ -1055,6 +1055,178 @@ And the key distinction from Exploration remains:
 
 ---
 
+## 6.9 Final Three-Way Identity Differentiation
+
+The three surviving Identity concepts were subjected to a final adversarial differentiation stress test:
+
+- **Interpretive Philosophy**
+- **Exploratory Philosophy**
+- **Breadth / Curatorial Variety Philosophy**
+
+The purpose of this test was not to make the Identities mutually exclusive.
+
+A real archive may legitimately demonstrate all three orientations simultaneously.
+
+The purpose was to verify that each Identity answers a genuinely different question and that none can be reduced to a renamed or lightly reweighted version of another.
+
+### Core Questions
+
+The three Identities are distinguished by their primary questions:
+
+> **Interpretive Philosophy:** How do you engage with what you consume?
+
+> **Exploratory Philosophy:** How do you relate to the boundaries of what you consume?
+
+> **Breadth / Curatorial Variety Philosophy:** How wide is the territory you consume?
+
+A concise conceptual shorthand is:
+
+> **Interpretive = depth of meaning.**
+
+> **Exploratory = relationship with boundaries.**
+
+> **Breadth = range of territory.**
+
+These are related dimensions of a curator's relationship with media, but they describe different dimensions of that relationship.
+
+### Three-Way Collision Test
+
+The most difficult case is an archive that simultaneously demonstrates:
+
+- high depth
+- high analysis
+- high ambiguity
+- high reflection
+- high originality
+- high experimental affinity
+- high novelty
+- high genre diversity
+- high media-type breadth
+
+Such an archive may legitimately score highly across all three Identities.
+
+This does not represent conceptual failure.
+
+The same evidence can support multiple conclusions when the conclusions answer different questions.
+
+For example:
+
+**Interpretive Philosophy** may conclude:
+
+> The curator demonstrates patterns consistent with meaning-oriented, reflective, and interpretive engagement.
+
+**Exploratory Philosophy** may conclude:
+
+> The curator demonstrates patterns consistent with extending beyond established territory.
+
+**Breadth / Curatorial Variety Philosophy** may conclude:
+
+> The curator demonstrates substantial variety across the territory represented in the archive.
+
+These conclusions can coexist without being synonymous.
+
+Therefore:
+
+> **Identity differentiation does not require Identity exclusivity.**
+
+### Negative-Space Differentiation
+
+Each Identity also survives cases where the other Identities should remain low.
+
+**High Breadth, low Interpretive**
+
+A broad archive with shallow or conventional engagement may demonstrate strong Breadth without providing strong evidence for Interpretive Philosophy.
+
+**High Breadth, low Exploration**
+
+A diverse archive that does not provide evidence of movement beyond established territory may demonstrate strong Breadth while Exploration remains uncertain.
+
+**High Exploration, low Breadth**
+
+A curator may repeatedly venture into unfamiliar areas within a relatively narrow genre or medium. This can support Exploratory Philosophy without requiring a highly diverse archive.
+
+**High Exploration, low Interpretive**
+
+Experimental, original, or novel media can provide evidence consistent with Exploration even when the archive does not demonstrate strong interpretive engagement.
+
+**High Interpretive, low Breadth**
+
+A curator may engage extremely deeply with a narrow area of media, producing strong evidence for Interpretive Philosophy without demonstrating broad territory.
+
+**High Interpretive, low Exploration**
+
+A curator may demonstrate extensive reflection, analysis, ambiguity, and meaning-oriented engagement while remaining within familiar or established territory.
+
+These cases demonstrate that no Identity is logically dependent upon another.
+
+### Relationship to Designations
+
+The three Identity concepts also remain distinct from the current Designation catalog.
+
+**Boundary Explorer Designation** describes attraction to unconventional or boundary-pushing media.
+
+This may provide evidence relevant to Exploratory Philosophy, but unconventional taste does not directly establish movement beyond established territory.
+
+**Deep Diver Designation** describes sustained attention and deep engagement with layered or psychologically complex media.
+
+This may provide evidence relevant to Interpretive Philosophy, but depth alone does not establish a broader interpretive philosophy.
+
+**The Curator Designation** incorporates characteristics including craft, presentation, archive size, and genre diversity.
+
+This may overlap with Breadth through Genre Diversity, but Breadth describes the range represented in the archive rather than the broader taste classification represented by The Curator.
+
+Therefore:
+
+> **Designation evidence may overlap with Identity evidence, but Designations and Identities must continue to answer different questions.**
+
+### Final Differentiation Findings
+
+The final stress test produced the following results:
+
+| Identity                                | Core Territory                                                    | Evidence Strength          | Distinctness         |
+| --------------------------------------- | ----------------------------------------------------------------- | -------------------------- | -------------------- |
+| Interpretive Philosophy                 | Meaning, interpretation, reflection, complexity                   | Strongest of the three     | **PASS**             |
+| Exploratory Philosophy                  | Relationship with unfamiliar territory and established boundaries | Conditional / indirect     | **CONDITIONAL PASS** |
+| Breadth / Curatorial Variety Philosophy | Range and variety of represented territory                        | Conditional but observable | **CONDITIONAL PASS** |
+
+Cross-Identity differentiation:
+
+- **Interpretive ↔ Exploratory:** PASS
+- **Interpretive ↔ Breadth:** STRONG PASS
+- **Exploratory ↔ Breadth:** PASS
+
+No Identity requires another Identity to be present.
+
+No Identity is simply a renamed version of a current Designation.
+
+No Identity requires mutually exclusive evidence.
+
+### Final Identity Ontology
+
+The current Phase 1 Identity ontology is therefore considered conceptually viable:
+
+1. **Interpretive Philosophy** — meaning-oriented engagement with media.
+2. **Exploratory Philosophy** — orientation toward extending beyond established territory.
+3. **Breadth / Curatorial Variety Philosophy** — orientation toward a varied range of represented territory.
+
+The three concepts should remain separate because they describe different dimensions of the curator's relationship with media.
+
+The system should allow them to coexist when the evidence supports multiple orientations.
+
+### Governing Principle
+
+> **A strong Identity system does not force one conclusion when an archive legitimately demonstrates several distinct orientations.**
+
+The goal is not artificial exclusivity.
+
+The goal is:
+
+> **Different questions, different meanings, explainable conclusions.**
+
+At this point, the conceptual differentiation audit for the three surviving Identities is considered complete.
+
+---
+
 # 7. Construction / Systems Philosophy
 
 ## 7.1 Status
