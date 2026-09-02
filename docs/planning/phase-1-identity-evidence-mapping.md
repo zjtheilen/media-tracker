@@ -313,172 +313,329 @@ Shared evidence is acceptable when the interpretation differs.
 
 # 5. Exploratory Philosophy
 
-## 5.1 Concept
+## 5.1 Concept Definition
 
-Exploratory Philosophy describes a recurring orientation toward unfamiliarity, discovery, creative contrast, unconventional forms, and experiences outside established patterns.
+**Exploratory Philosophy** describes a recurring orientation toward **extending beyond established territory**.
 
-The Identity is not simply:
+Its core question is:
 
-> “likes experimental media.”
+> **Does this archive demonstrate a recurring tendency to venture beyond established preferences and engage with unfamiliar territory?**
 
-It describes an apparent relationship with unfamiliarity.
+Exploratory Philosophy is about the **relationship between the curator and the boundaries of their established taste**.
 
-The current system cannot directly observe whether a curator intentionally seeks unfamiliar experiences. It can only infer an exploratory orientation from observable archive patterns.
+It is therefore distinct from:
 
----
+* **Boundary Explorer Designation**, which describes attraction to unconventional, experimental, or boundary-pushing media.
+* **Breadth / Curatorial Variety Philosophy**, which describes the range and variety of the archive itself.
 
-## 5.2 Current Supporting Signals
+The distinction is:
 
-### Originality
+> **Boundary Explorer = attraction to what exists beyond conventional boundaries.**
 
-**Classification:** Supporting evidence
+> **Exploratory Philosophy = a tendency to extend or traverse beyond established territory.**
 
-Originality is relevant to a preference for unconventional experiences.
+> **Breadth Philosophy = the variety of the territory being engaged with.**
 
-However:
+Or more simply:
 
-> High originality does not prove exploratory behavior.
+> **Breadth describes the shape of the territory. Exploration describes movement through or beyond that territory.**
 
-A curator may strongly value originality while repeatedly seeking it within a narrow genre, medium, or familiar area of interest.
+Exploration may therefore occur within a relatively narrow genre or medium. A curator does not need a highly diverse archive to demonstrate an exploratory orientation.
 
-Originality therefore supports Exploration but should not independently establish it.
+Conversely, a highly diverse archive does not automatically demonstrate exploration. Diversity may describe the resulting archive without providing evidence that the curator is repeatedly extending beyond established preferences.
 
-### Genre Diversity
+The current evidence supports an **inference of exploratory orientation**, but does not directly observe exploration as a process.
 
-**Classification:** Supporting evidence
+The system does **not** currently observe:
 
-A broad genre range may support an exploratory interpretation.
+* chronological expansion of taste
+* deliberate seeking of unfamiliar experiences
+* discovery behavior
+* movement from established preferences into new territory
+* abandoned experiments
+* changes in taste boundaries over time
+* explicit curiosity or intent
 
-However:
-
-> Genre diversity demonstrates variety, not necessarily exploration.
-
-A curator may maintain a broad archive without intentionally seeking unfamiliar experiences.
-
-Genre diversity is therefore stronger evidence for Breadth / Curatorial Variety than for Exploration.
-
-### Experimental Affinity
-
-**Classification:** Proxy evidence
-
-The current implementation derives experimental affinity from experimental genre prevalence.
-
-This is useful evidence that the archive contains experimental media.
-
-It does not directly establish that the curator intentionally seeks unfamiliar experiences.
-
-### Novelty
-
-**Classification:** Proxy evidence
-
-The current implementation derives novelty from the same experimental genre percentage used by Experimental Affinity.
-
-This creates an important evidence-model issue:
-
-> Experimental Affinity and Novelty currently represent substantially overlapping underlying evidence.
-
-They should not be treated as independent discoveries merely because they have different names.
-
-### Depth
-
-**Classification:** Weak supporting evidence
-
-Depth may accompany exploration, especially when unfamiliar media is engaged with seriously.
-
-However:
-
-> Depth is not inherently exploratory.
-
-It should not be treated as a primary exploratory signal.
+Therefore, Exploratory Philosophy must remain an **inferred behavioral orientation**, not a claim about deliberate intent.
 
 ---
 
-## 5.3 Current Evidence Strength
+## 5.2 Evidence Hierarchy
 
-Exploratory Philosophy remains conceptually viable, but the current implementation observes **experimental taste and archive variety** more directly than **exploratory behavior**.
+Current evidence should be interpreted according to the following hierarchy.
 
-This is a major evidence limitation.
+### Supporting Evidence
 
-The current system does not directly observe:
+**Originality**
 
-> “I chose this because it was unfamiliar.”
+Originality provides evidence that the curator engages with media perceived as distinctive or unconventional.
 
-Therefore exploratory interpretation remains an inference from observable taste patterns rather than direct observation of intent.
+It is relevant to exploration because unusual or original experiences may represent movement beyond familiar territory.
+
+However, originality does not directly demonstrate exploration. A curator can consistently prefer highly original media without expanding beyond an established taste pattern.
+
+**Genre Diversity**
+
+Genre diversity provides evidence that the curator engages with multiple areas of the available media landscape.
+
+It is relevant to exploration because movement across genres can indicate engagement with unfamiliar territory.
+
+However, genre diversity is also the primary observable evidence for Breadth Philosophy and should not be treated as direct evidence of exploratory behavior.
+
+**Media-Type Breadth**
+
+Engagement across different media types can provide supporting evidence of exploration when it represents movement beyond an established medium.
+
+However, media-type diversity alone does not establish exploration.
+
+### Proxy / Contextual Evidence
+
+**Experimental Affinity**
+
+Experimental Affinity indicates attraction toward experimental media.
+
+This provides contextual evidence that the curator is comfortable engaging with experiences outside conventional patterns.
+
+However, this signal overlaps substantially with the **Boundary Explorer Designation** and therefore cannot independently establish Exploratory Philosophy.
+
+**Novelty**
+
+Novelty currently derives from the same underlying experimental-genre prevalence as Experimental Affinity.
+
+It therefore provides contextual evidence related to unconventional or unfamiliar experiences but should not be treated as an independent strong signal of exploration.
+
+**Depth**
+
+Depth may provide weak supporting context.
+
+A curator may explore deeply within a new area after entering it, but depth itself does not indicate that movement beyond established territory occurred.
+
+Depth should therefore remain secondary and should never independently determine Exploratory Philosophy.
+
+---
+
+## 5.3 Evidence Strength and Limitation
+
+Exploratory Philosophy is currently **conditionally supported by the available evidence**.
+
+The archive can observe several characteristics associated with exploration:
+
+* originality
+* genre diversity
+* media-type breadth
+* experimental affinity
+* novelty
+* depth
+
+However, these signals primarily describe:
+
+* unconventionality
+* variety
+* engagement with experimental material
+
+They do not directly describe **movement beyond established preferences**.
+
+This creates an important evidence limitation:
+
+> **The current system observes unconventional taste and archive variety more reliably than it observes exploration itself.**
+
+Therefore, a high Exploratory Philosophy score should be interpreted as:
+
+> “The archive contains several patterns consistent with an exploratory orientation.”
+
+It should **not** be interpreted as:
+
+> “The curator deliberately seeks unfamiliar experiences.”
+
+The latter would require evidence that the current system does not possess.
 
 ---
 
 ## 5.4 Signal Duplication Constraint
 
-Experimental Affinity and Novelty currently depend on the same underlying experimental genre prevalence.
+Experimental Affinity and Novelty currently derive from substantially the same underlying experimental-genre percentage.
 
-Therefore:
+They must therefore **not be treated as two fully independent pieces of evidence**.
 
-> They should not both independently receive substantial weight merely because they are represented as separate derived signals.
+The same principle applies more broadly:
 
-The underlying experimental evidence may support Exploration, but it should not be artificially amplified through duplicate representations.
+> **A single underlying observation should not become multiple independent copies of the same conclusion.**
+
+In particular:
+
+* Experimental Affinity should not independently prove exploration.
+* Novelty should not independently prove exploration.
+* Experimental Affinity + Novelty should not create an artificial appearance of strong exploratory evidence simply because both are present.
+* Genre Diversity should not simultaneously be treated as direct proof of both Breadth and Exploration.
+
+The scoring system may use overlapping evidence, but the conceptual interpretation must remain distinct.
+
+> **Evidence can overlap. Meaning cannot.**
 
 ---
 
 ## 5.5 Negative-Space Guardrails
 
-The following evidence should **not independently cause a high Exploratory Philosophy score**:
+The following characteristics should **not independently establish Exploratory Philosophy**:
 
-* experimental media alone
-* high originality alone
-* novelty alone
-* genre diversity alone
+* high experimental-media prevalence
+* high originality
+* high novelty
+* high genre diversity
+* high media-type diversity
 * high depth
 * high emotional impact
 * high craft
 * high engagement
 * high average score
-* large archive
-* psychological media
-* horror
-* surreal media
-* any single genre
+* large archive size
+* strong psychological genre affinity
+* strong horror affinity
+* strong surreal affinity
+* any single dominant genre
+* any single dominant media type
+
+These characteristics may contribute to an exploratory interpretation when combined appropriately, but none should be treated as synonymous with exploration.
 
 In particular:
 
-> Experimental taste is not equivalent to exploration.
+### Experimental Taste ≠ Exploration
 
-And:
+A curator may strongly prefer experimental media while remaining entirely within one established territory.
 
-> Genre diversity is not equivalent to exploratory intent.
+That is evidence for the **Boundary Explorer Designation**, but not necessarily Exploratory Philosophy.
+
+### Diversity ≠ Exploration
+
+A curator may have a broad archive without having demonstrated movement beyond established preferences.
+
+That is evidence for **Breadth / Curatorial Variety Philosophy**, not automatically Exploration.
+
+### Depth ≠ Exploration
+
+A curator may engage deeply with familiar territory without expanding beyond it.
+
+Depth may support exploration only when interpreted alongside other evidence.
+
+### Archive Size ≠ Exploration
+
+A large archive provides more opportunities for exploratory behavior but does not itself demonstrate that behavior.
+
+### High Ratings ≠ Exploration
+
+Enjoying media strongly does not indicate whether the curator is exploring unfamiliar territory.
 
 ---
 
-## 5.6 Important Guardrail
+## 5.6 Breadth vs. Exploration
 
-The system must not imply:
+Breadth and Exploration are related but distinct concepts.
 
-> “You deliberately seek unfamiliar experiences.”
+**Breadth / Curatorial Variety Philosophy** asks:
 
-unless the evidence actually supports intentionality.
+> **How varied is the territory this curator engages with?**
 
-A safer interpretation is:
+**Exploratory Philosophy** asks:
 
-> “Your archive repeatedly engages with unconventional and experimental experiences, suggesting an exploratory orientation.”
+> **How does this curator relate to the boundaries of their established territory?**
 
-The second statement accurately communicates the inferential nature of the conclusion.
+A static, highly diverse archive may demonstrate strong Breadth without demonstrating Exploration.
+
+An archive with relatively little overall diversity may still demonstrate Exploration if the curator repeatedly ventures into unfamiliar areas within that territory.
+
+For example:
+
+| Archive pattern                                                | Breadth          | Exploration      |
+| -------------------------------------------------------------- | ---------------- | ---------------- |
+| Large archive dominated by one familiar genre                  | Low              | Low / uncertain  |
+| Small archive spanning many genres                             | Potentially high | Uncertain        |
+| Broad archive with no evidence of expansion                    | High             | Uncertain        |
+| Narrow archive with repeated movement into unfamiliar subareas | Low–moderate     | Potentially high |
+| Broad archive that repeatedly expands into new territory       | High             | Strong candidate |
+
+The important distinction is:
+
+> **Breadth describes the resulting range. Exploration describes the relationship to the limits of that range.**
+
+The current system can measure the first substantially better than the second.
 
 ---
 
 ## 5.7 Relationship to Boundary Explorer Designation
 
-Boundary Explorer Designation describes a recognizable taste classification involving unusual, speculative, experimental, or boundary-pushing media.
+Exploratory Philosophy has a particularly important distinction from the **Boundary Explorer Designation** because the two concepts can draw upon overlapping evidence.
 
-Exploratory Philosophy describes the broader orientation toward encountering unfamiliar experiences.
+They should not be treated as synonyms.
 
-Shared evidence is acceptable.
+### Boundary Explorer Designation
 
-Shared conclusion is not.
+The Boundary Explorer Designation describes a recognizable **taste classification**:
 
-The distinction should remain:
+> **What kind of unconventional media do you tend to like?**
 
-> Boundary Explorer describes **what kind of media relationship is recognizable in the archive**.
+Its evidence centers on characteristics such as:
 
-> Exploratory Philosophy describes **the curator's apparent orientation toward unfamiliarity and discovery**.
+* originality
+* experimental affinity
+* unconventionality
+* boundary-pushing media
+* associated genre patterns
+
+### Exploratory Philosophy
+
+Exploratory Philosophy describes a broader **curatorial orientation**:
+
+> **How does your archive relate to unfamiliar territory?**
+
+Its evidence centers on:
+
+* movement beyond established territory
+* engagement with unfamiliar areas
+* variety as contextual evidence
+* originality as contextual evidence
+* experimental material as contextual evidence
+* potential expansion of established taste
+
+The distinction can therefore be expressed as:
+
+> **Boundary Explorer describes attraction to unconventional territory.**
+
+> **Exploratory Philosophy describes a tendency to venture beyond established territory.**
+
+A curator may therefore be:
+
+* a strong Boundary Explorer without being strongly Exploratory
+* strongly Exploratory without having a particularly experimental archive
+* both
+* neither
+
+The current evidence cannot directly observe the process of exploration, so the Exploratory interpretation must remain appropriately qualified.
+
+### Stress-Test Conclusion
+
+The stress test found that Exploratory Philosophy survives as a distinct concept, but only under a narrower definition than the original formulation.
+
+The concept becomes problematic when it is defined as:
+
+* liking unfamiliar things
+* liking experimental media
+* liking unconventional forms
+* seeking novelty
+
+Those characteristics overlap too heavily with the Boundary Explorer Designation.
+
+The concept remains viable when defined as:
+
+> **A recurring orientation toward extending beyond established territory and engaging with unfamiliar areas.**
+
+This distinction preserves Exploratory Philosophy as a potentially meaningful Identity while acknowledging the current evidence gap.
+
+### Governing Rule
+
+> **Exploratory Philosophy should describe an inferred tendency toward extending beyond established territory, not simply an attraction to unconventional media.**
+
+The current system should therefore treat Exploration as a **provisional inference supported by indirect evidence**, rather than as a directly observed behavioral property.
+
 
 ---
 
