@@ -108,15 +108,14 @@ into generic terminology.
 
 # 4. Quantitative Vocabulary
 
-The frontend must distinguish the following concepts where they are actually
-used:
+The frontend must distinguish the following concepts where they are actually used:
 
-| Term                          | Meaning                                                        |
-| ----------------------------- | -------------------------------------------------------------- |
-| **Signal Strength**           | How strongly a quality or signal is expressed                  |
-| **Data Sufficiency**          | Whether enough archive data exists to evaluate a conclusion    |
-| **Evidence Strength**         | How strongly available evidence supports a conclusion          |
-| **Classification Confidence** | How clearly one classification outranks plausible alternatives |
+| Term | Meaning |
+| --- | --- |
+| **Signal Strength** | How strongly a quality or signal is expressed |
+| **Data Sufficiency** | Whether enough archive data exists to evaluate a conclusion |
+| **Evidence Strength** | How strongly available evidence supports a conclusion |
+| **Classification Confidence** | How clearly one classification outranks plausible alternatives; a future/optional concept that is not currently defined or implemented in Phase 1 |
 
 These concepts are not interchangeable.
 
@@ -135,13 +134,12 @@ Classification Confidence
 and:
 
 ```text
-confidence
+evidenceStrength
 ```
 
 on an Observation does **not** automatically mean generic confidence.
 
-Frontend labels should communicate the actual semantic meaning of the
-underlying field.
+Frontend labels should communicate the actual semantic meaning of the underlying field.
 
 ---
 
@@ -402,22 +400,19 @@ where those concepts are actually represented.
 
 ---
 
-## 8.1 Observation `confidence`
+## 8.1 Observation `evidenceStrength`
 
-The existing Observation field may remain:
+The public Observation field is:
 
 ```text
-confidence
+evidenceStrength
 ```
 
-at the API level while its semantic meaning is clarified.
-
-The reconciled semantic meaning is:
+Its reconciled semantic meaning is:
 
 > **Evidence Strength**
 
-Specifically, it is threshold-relative support for the Observation's
-designated supporting signal.
+Specifically, it represents threshold-relative support for the Observation's designated supporting signal.
 
 The frontend should therefore prefer:
 
@@ -430,8 +425,6 @@ over:
 ```text
 Confidence
 ```
-
-when displaying this value.
 
 Do not imply that the value represents:
 
@@ -819,7 +812,7 @@ Examples of behavior that should remain backend-owned:
 * determining Identity eligibility
 * ranking Identity candidates
 * determining Primary/Secondary Identity semantics
-* calculating Evidence Strength
+* calculating Observation Evidence Strength
 * inventing recommendation weights
 
 ---
@@ -844,14 +837,13 @@ Likewise:
 
 ```text
 API:
-confidence
+evidenceStrength
 
 Frontend:
 Evidence Strength
 ```
 
-is valid for Observation output when the consumer has been confirmed to use
-the Observation's threshold-relative Evidence Strength semantics.
+is valid because the Observation API already exposes its threshold-relative Evidence Strength semantics under `evidenceStrength`.
 
 The API field should remain unchanged unless the dedicated API rename map
 explicitly authorizes a future rename.
@@ -860,39 +852,30 @@ explicitly authorizes a future rename.
 
 # 22. Do Not Globally Rename `confidence`
 
-The word `confidence` may appear in multiple unrelated contexts.
+The existence of a `confidence` field or historical use of the term `confidence` does not justify a global rename.
 
-Therefore:
-
-```text
-confidence
-```
-
-must not be globally replaced with a single alternative.
-
-Each occurrence must be evaluated according to its actual semantics.
+Each occurrence must be evaluated according to its actual semantic role.
 
 Current reconciled mappings include:
 
-```text
-Identity data_sufficiency
-    ↓
-Data Sufficiency
+| Existing Field / Concept | Frontend Meaning | Status |
+| --- | --- | --- |
+| Identity `data_sufficiency` | Data Sufficiency | Preserve |
+| Identity `score` | Identity alignment strength | Preserve |
+| Designation `designationConfidence` | Signal Strength | Preserve API field; clarify frontend terminology |
+| Observation `evidenceStrength` | Evidence Strength | Preserve API field and frontend terminology |
+| Finding `confidence` | Unresolved | No current defined field/concept |
+| Classification Confidence | Classification separation concept | Future/optional; not currently defined or implemented |
 
-Designation designationConfidence
-    ↓
-Signal Strength
+Therefore:
 
-Observation confidence
-    ↓
-Evidence Strength
+* Do not globally rename `confidence`.
+* Do not assume all historical uses of `confidence` represent the same concept.
+* Do not rename an API field solely because its frontend presentation needs clarification.
+* Resolve terminology according to the subsystem that owns the underlying meaning.
+* Preserve unresolved concepts as unresolved rather than assigning them a new semantic meaning.
 
-Finding confidence
-    ↓
-UNRESOLVED
-```
-
-This is a semantic mapping, not a mechanical search-and-replace instruction.
+The goal is **semantic alignment**, not vocabulary normalization for its own sake.
 
 ---
 
@@ -952,19 +935,23 @@ These require verification of the actual backend semantics and frontend usage.
 
 ---
 
-# 26. Changes That Are Explicitly Deferred
+# 26. Changes Explicitly Deferred
 
-Do not implement frontend terminology based on unresolved concepts:
+The following changes remain outside the scope of Phase 1 frontend terminology alignment:
 
-* Finding confidence
-* Classification Confidence values that do not yet exist
+* Finding Confidence
+* Classification Confidence values that do not currently exist
 * Secondary Identity thresholds
-* tie / near-tie thresholds
-* archive-state operational thresholds
+* Tie / near-tie thresholds
+* Archive-state thresholds
 * Recommendation weighting
-* new Observation vocabulary
-* final Identity vocabulary
-* final Designation vocabulary
+* New or alternative Observation terminology
+* Unresolved Identity terminology or policy
+* Unresolved Designation terminology or policy
+
+These items may require explicit semantic or behavioral decisions before frontend terminology is changed.
+
+Deferral does not mean that the underlying subsystem terminology is undefined. Where terminology has already been reconciled, the frontend should use that established vocabulary. Only unresolved or newly proposed terminology remains deferred.
 
 ---
 
@@ -1019,27 +1006,23 @@ Terminology-only changes should not require calculation changes.
 
 # 28. Phase 1 Frontend Alignment Checklist
 
-* [ ] Replace misleading `Evaluation Index` presentation terminology with
-  `Score` where the underlying value is `total_score`
-* [ ] Replace misleading `Classification` presentation terminology with
-  `Media Type` where the underlying value is `media_type`
-* [ ] Replace `Classification Confidence` presentation of
-  `designationConfidence` with `Signal Strength`
-* [ ] Preserve `designationConfidence` API field unless a future API rename is
-  explicitly approved
-* [ ] Preserve `designationBasis` API field unless a future API rename is
-  explicitly approved
-* [ ] Present Observation `confidence` as `Evidence Strength` where exposed
-* [ ] Do not invent Finding confidence semantics
-* [ ] Present Identity `data_sufficiency` as `Data Sufficiency`
-* [ ] Keep Identity score distinct from Data Sufficiency
-* [ ] Keep Primary Identity distinct from Primary Designation
-* [ ] Do not invent Secondary Identity thresholds in the frontend
-* [ ] Do not invent tie / near-tie thresholds in the frontend
-* [ ] Preserve backend-authoritative intelligence
-* [ ] Remove or avoid reintroducing superseded frontend intelligence
-* [ ] Verify ambiguous scoring and interpretation terminology before changing it
-* [ ] Preserve API compatibility during presentation-only terminology work
+Before considering frontend terminology alignment complete:
+
+* [ ] Confirm all frontend intelligence labels use the reconciled Phase 1 vocabulary
+* [ ] Present `designationConfidence` as **Signal Strength** where exposed
+* [ ] Present Observation `evidenceStrength` as **Evidence Strength** where exposed
+* [ ] Do not present Identity Score as Confidence
+* [ ] Do not present Data Sufficiency as Confidence
+* [ ] Do not present unresolved Finding Confidence as an established metric
+* [ ] Do not present Classification Confidence unless an actual backend value exists
+* [ ] Preserve established Designation and Identity terminology
+* [ ] Preserve subsystem-specific Evidence terminology
+* [ ] Do not introduce frontend-only intelligence calculations
+* [ ] Verify terminology changes against actual consumers
+* [ ] Run relevant frontend and backend regression tests where terminology changes affect behavior or serialized contracts
+* [ ] Leave unresolved semantic and policy decisions explicitly unresolved
+
+Completion means the frontend communicates the intelligence system's established semantics accurately without changing the intelligence itself.
 
 ---
 
