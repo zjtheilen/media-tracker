@@ -1,9 +1,9 @@
 {
-    "id": "deep_diver",
-    "title": "Deep Diver",
+    "id": "interpretive_philosophy",
+    "title": "Interpretive Philosophy",
     "category": "interpretive",
     "icon": "diver",
-    "description": "Pursues experiences that reward careful attention, emotional investment, and repeated interpretation.",
+    "description": "Engages with media through depth, reflection, complexity, and interpretation.",
     "identity": [
         "depth",
         "emotional_impact",
@@ -12,19 +12,21 @@
         "analysis"
     ],
     "recommendation_bias": [
-        "psychological fiction",
         "layered narratives",
         "ambiguous endings",
-        "slow-burn storytelling"
+        "psychologically rich works",
+        "reflective storytelling",
+        "complex or multi-interpretive experiences",
+        "works that reward close attention"
     ],
     "requirements": {
         "minimum_entries": 20
     },
     "identity_weights": {
-        "depth": 0.35,
+        "depth": 0.45,
         "emotional_impact": 0.25,
-        "reflection": 0.20,
+        "reflection": 0.12,
         "ambiguity": 0.10,
-        "analysis": 0.10
+        "analysis": 0.08
     }
 }

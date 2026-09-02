@@ -1087,31 +1087,148 @@ Existing scoring systems are not redefined by this document.
 
 # 12. Implementation Readiness
 
-The conceptual Identity catalog is sufficiently defined for an implementation comparison pass.
+The conceptual Identity catalog is sufficiently defined for fixture redesign, subject to alignment with the signals that are actually implemented by the current intelligence system.
 
-The next phase should compare each existing fixture against this contract.
+The implementation comparison has established several important constraints.
 
-That comparison should identify:
+## 12.1 Implemented Evidence vs Conceptual Evidence
 
-* signals currently present,
-* signals missing,
-* signals that no longer belong,
-* incorrect evidence roles,
-* duplicated or correlated signals,
-* category mismatches,
-* description mismatches,
-* recommendation-bias mismatches,
-* minimum-evidence mismatches,
-* Designation contamination,
-* and implementation behavior that conflicts with the conceptual contract.
+The conceptual contracts may identify useful evidence dimensions that the current implementation does not yet represent as Identity scoring signals.
 
-The comparison should **not** begin by rewriting fixtures.
+The fixture redesign must distinguish between:
 
-The first step is to identify the exact differences between:
+* evidence that is conceptually relevant,
+* evidence that is currently implemented,
+* evidence that is available as contextual archive data,
+* and evidence that would require a new derived metric.
 
-> **Current fixture → Authoritative conceptual contract**
+Conceptual relevance does not by itself justify introducing a new signal.
 
-Only after those differences are understood should fixture redesign decisions be made.
+> **A fixture should use implemented evidence unless a separate decision explicitly authorizes a new derived signal.**
+
+## 12.2 Breadth Implementation Alignment
+
+The conceptual Breadth contract originally identified:
+
+* Genre Diversity,
+* Media-Type Breadth,
+* Archive Composition,
+* and Archive Size as contextual evidence.
+
+Repository inspection establishes the following implementation state:
+
+| Evidence                | Implementation Status                 | Fixture Treatment                                    |
+| ----------------------- | ------------------------------------- | ---------------------------------------------------- |
+| **Genre Diversity**     | Implemented Identity signal           | Primary / strongest currently implemented observable |
+| **Media Distribution**  | Implemented archive statistic         | Available contextual evidence; not currently scored  |
+| **Media-Type Breadth**  | Not implemented as an Identity signal | Evidence gap; deferred                               |
+| **Archive Composition** | Not implemented                       | Removed from active fixture contract                 |
+| **Archive Size**        | Available archive data                | Data Sufficiency/context only                        |
+
+`Archive Composition` must therefore **not** be introduced merely to satisfy the conceptual contract.
+
+`Media-Type Breadth` remains a valid conceptual evidence dimension, but introducing it as an Identity scoring signal would require a separate derived-signal decision defining its calculation, normalization, and scoring behavior.
+
+No such decision is part of this fixture redesign.
+
+## 12.3 No New Derived Metrics
+
+The fixture redesign does not introduce new derived metrics.
+
+In particular, it does not introduce:
+
+* `archive_composition`,
+* `media_type_breadth`,
+* exploration-rate metrics,
+* trajectory metrics,
+* intent metrics,
+* or other new measurements.
+
+Existing implemented signals may be reassigned, removed, or reweighted according to the conceptual contracts.
+
+New measurements require a separate conceptual and implementation decision.
+
+## 12.4 Current Breadth Fixture Constraint
+
+The active Breadth fixture should therefore be designed around the strongest currently implemented observable:
+
+> **Genre Diversity**
+
+Media distribution may inform future evidence design, but it is not currently a scored Breadth signal.
+
+Archive Size remains relevant to Data Sufficiency rather than Breadth strength.
+
+This intentionally makes the initial Breadth implementation narrower than the full conceptual evidence model.
+
+That is preferable to creating a metric whose behavior has not been explicitly defined.
+
+## 12.5 Implementation Comparison Findings
+
+The comparison of the existing fixtures against the authoritative contracts establishes the following redesign direction:
+
+### Interpretive Philosophy
+
+The existing `deep_diver` fixture is the strongest conceptual match.
+
+Its signal neighborhood can be retained, but its Identity meaning, evidence roles, description, recommendation bias, and fixture identity must be aligned with Interpretive Philosophy.
+
+### Exploratory Philosophy
+
+The existing `boundary_explorer` fixture contains relevant evidence but represents the wrong conceptual conclusion.
+
+It must be redesigned around Exploratory Philosophy rather than simply renamed.
+
+Experimental Affinity and Novelty must remain subject to their known correlation constraint.
+
+### Breadth Philosophy
+
+The existing `engagement_architect` fixture does not meaningfully represent Breadth.
+
+It should not be force-fit into the new catalog.
+
+Its underlying Construction / Systems Philosophy concept remains deferred as a potential future Identity.
+
+Breadth requires a new fixture based on the currently implemented evidence available for archive variety.
+
+## 12.6 Fixture Schema Constraint
+
+The existing fixture schema is sufficient for the current redesign.
+
+The conceptual evidence roles defined in this document do not require new `evidence_roles` fields in the fixture schema at this stage.
+
+The fixture should continue to provide the signals and weights used by the existing scoring architecture.
+
+Evidence-role semantics remain authoritative documentation rather than additional fixture metadata unless a future implementation decision establishes a need for them.
+
+## 12.7 Numeric and Threshold Constraints
+
+The implementation comparison does not finalize:
+
+* numeric Identity weights,
+* minimum-entry thresholds,
+* secondary Identity thresholds,
+* tie or near-tie rules,
+* or other ranking behavior.
+
+Those decisions remain separate from the conceptual evidence contract.
+
+Existing fixture values should therefore be treated as implementation history rather than authoritative values for the redesigned catalog.
+
+## 12.8 Implementation Readiness Conclusion
+
+The three Identity concepts are ready for fixture redesign.
+
+The redesign should produce:
+
+1. **Interpretive Philosophy** using existing interpretive evidence.
+2. **Exploratory Philosophy** using existing evidence that can support a qualified exploratory inference.
+3. **Breadth Philosophy** using `genre_diversity` as its currently implemented primary observable, without inventing additional derived metrics.
+
+The resulting fixtures should reflect the authoritative conceptual contracts while remaining honest about the limits of the current evidence system.
+
+> **The fixture should describe the intelligence system that actually exists, not an intelligence system we have not yet implemented.**
+
+The implementation phase may therefore proceed to the actual JSON fixture redesign without requiring another conceptual Identity audit.
 
 ---
 
