@@ -13,7 +13,9 @@ __    __ ___    ___ ___  ____ ___
 
 **Status:** Reconciled reference
 
-**Source of truth:** `phase-1-intelligence-alignment.md`
+**Semantic authority:** `phase-1-intelligence-alignment.md`
+
+**Implementation authority:** `phase-1-decision-and-implementation-map.md`
 
 **Guiding principle:** **Evolution, not rewrite.**
 
@@ -47,46 +49,53 @@ It does not independently redefine the Intelligence Contract.
 Where this document conflicts with `phase-1-intelligence-alignment.md`, the
 reconciled Intelligence Alignment document takes precedence.
 
+Where this document describes current implementation behavior, the repository
+on `develop-3` is authoritative.
+
 ---
 
 # 2. Core Terminology
 
 The Phase 1 conceptual vocabulary is:
 
-| Concept                   | Meaning                                                        |
-| ------------------------- | -------------------------------------------------------------- |
-| Signal Strength           | How strongly a quality or signal is expressed                  |
-| Data Sufficiency          | Whether enough archive data exists to evaluate a conclusion    |
-| Evidence Strength         | How strongly available evidence supports a conclusion          |
-| Classification Confidence | How clearly one classification outranks plausible alternatives |
+| Concept                       | Meaning                                                        |
+| ----------------------------- | -------------------------------------------------------------- |
+| **Signal Strength**           | How strongly a quality or signal is expressed                  |
+| **Data Sufficiency**          | Whether enough archive data exists to evaluate a conclusion    |
+| **Evidence Strength**         | How strongly available evidence supports a conclusion          |
+| **Classification Confidence** | How clearly one classification outranks plausible alternatives |
 
-> **Historical / retired concept:** Classification Confidence is no longer part
-> of the active intelligence implementation. It is retained in this document
-> only to record the terminology decision and prevent its accidental
-> reintroduction.
+Classification Confidence is a historical/retired concept in the current
+Phase 1 implementation.
 
-These concepts are distinct.
+It is retained here only because earlier implementation and planning work used
+the term and because the distinction remains important.
 
-They must not be collapsed merely because an existing implementation field
-uses the generic name `confidence`.
+The current system does **not** calculate a general Classification Confidence
+value.
+
+These concepts must not be collapsed merely because an existing implementation
+field uses the generic name `confidence`.
 
 ---
 
 # 3. Current Field Mapping
 
-| Current field                       | Actual meaning                                                                | Contract term                    | Proposed treatment                                                                                     | Status                 |
-| ----------------------------------- | ----------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------- |
-| Identity `data_sufficiency`         | Archive-data sufficiency relative to the Identity's minimum-data requirement  | Data Sufficiency                 | Preserve calculation and API behavior                                                                  | RESOLVED / PRESERVE    |
-| Identity `score`                    | Strength of the archive's trait alignment with the Identity                   | Signal Strength / Identity Score | Preserve calculation and semantics                                                                     | RESOLVED / PRESERVE    |
-| Designation `designationConfidence` | Aggregate designation signal strength derived from designation scoring inputs | Signal Strength                  | Preserve calculation; correct terminology where presented as confidence                                | RESOLVED / TERMINOLOGY |
-| Observation `confidence`            | Threshold-relative support for the Observation's designated supporting signal | Evidence Strength                | Preserve existing calculation; clarify semantics; public rename remains a separate downstream decision | RESOLVED / CLARIFY     |
-| Finding `confidence`                | Not yet standardized                                                          | UNRESOLVED                       | Do not add, rename, or assign semantics until Finding confidence is explicitly defined                 | DEFERRED               |
-| Designation `score`                 | Degree to which the archive fits a Designation's rule/classification          | Designation Score                | Preserve                                                                                               | RESOLVED / PRESERVE    |
-| Identity ranking                    | Relative ordering of eligible Identity candidates                             | Ranking                          | Preserve deterministic behavior pending explicit policy changes                                        | RESOLVED / PRESERVE    |
-| Primary Identity                    | Highest-ranked eligible Identity selected for primary presentation            | Primary Identity                 | Preserve                                                                                               | RESOLVED / PRESERVE    |
-| Secondary Identities                | Additional meaningful Identity candidates                                     | Secondary Identities             | Preserve concept; meaningfulness threshold remains unresolved                                          | DEFERRED               |
-| Designation ranking                 | Relative ordering of Designation candidates                                   | Ranking                          | Preserve deterministic behavior                                                                        | RESOLVED / PRESERVE    |
-| Primary Designation                 | Highest-ranked Designation selected for Profile presentation                  | Primary Designation              | Preserve                                                                                               | RESOLVED / PRESERVE    |
+| Current field                            | Actual meaning                                                 | Reconciled term                      | Treatment                                                        | Status   |
+| ---------------------------------------- | -------------------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------- | -------- |
+| Identity `data_sufficiency`              | Whether enough archive data exists to evaluate the Identity    | **Data Sufficiency**                 | Preserve                                                         | Resolved |
+| Identity `score`                         | Strength of alignment with the Identity's defined signals      | **Identity Score / Signal Strength** | Preserve                                                         | Resolved |
+| Designation `designationConfidence`      | Aggregate strength of the designation signal                   | **Signal Strength**                  | Preserve field and calculation; correct presentation terminology | Resolved |
+| Designation `designationConfidenceLabel` | Presentation label associated with designation signal strength | **Signal Strength label**            | Preserve                                                         | Resolved |
+| Designation `score`                      | Degree to which the archive fits a Designation                 | **Designation Score**                | Preserve                                                         | Resolved |
+| Observation `confidence`                 | Threshold-relative support for an Observation                  | **Evidence Strength**                | Public field migrated to `evidenceStrength`                      | Resolved |
+| Finding `confidence`                     | No current standardized field/concept                          | **Unresolved / not implemented**     | Do not invent or rename                                          | Resolved |
+| Identity ranking                         | Relative ordering of eligible Identity candidates              | **Ranking**                          | Preserve deterministic behavior                                  | Resolved |
+| Primary Identity                         | Highest-ranked eligible Identity                               | **Primary Identity**                 | Preserve                                                         | Resolved |
+| Secondary Identity                       | Additional meaningful eligible Identity                        | **Secondary Identity**               | Current threshold policy implemented separately                  | Resolved |
+| Primary Designation                      | Highest-scoring Designation                                    | **Primary Designation**              | Preserve                                                         | Resolved |
+| `designationBasis`                       | Explanation/basis for selected Designation                     | **Designation Basis**                | Preserve                                                         | Resolved |
+| `recommendation_bias`                    | Recommendation-oriented metadata                               | **Recommendation Bias**              | Preserve; not a recommendation score                             | Resolved |
 
 ---
 
@@ -94,7 +103,9 @@ uses the generic name `confidence`.
 
 ## Current field
 
-`data_sufficiency`
+```text
+data_sufficiency
+```
 
 ## Contract meaning
 
@@ -105,28 +116,45 @@ Data Sufficiency answers:
 > Does the archive contain enough information for this Identity to be
 > meaningfully evaluated?
 
-It is related to an Identity's minimum-data requirement.
+It is related to an Identity's minimum-entry requirement.
 
-It does not answer:
+It does **not** answer:
 
 > How strongly does the archive fit this Identity?
 
-That is the role of Identity score.
+That is the role of Identity Score.
 
-It also does not answer:
+It also does **not** answer:
 
-> How clearly does this Identity beat competing identities?
+> How clearly does this Identity beat competing Identities?
 
-That is conceptually closer to Classification Confidence.
+That would be a comparative classification concept and is not represented by
+Data Sufficiency.
+
+## Current behavior
+
+Identity fixtures define minimum-entry requirements.
+
+An Identity below its minimum-entry requirement is ineligible for scoring and
+ranking.
+
+The current Identity catalog uses:
+
+| Identity                | Minimum entries |
+| ----------------------- | --------------: |
+| Interpretive Philosophy |              20 |
+| Exploratory Philosophy  |              20 |
+| Breadth Philosophy      |              15 |
 
 ## Treatment
 
-Preserve the existing `data_sufficiency` calculation and API behavior unless a
-specific implementation audit identifies a direct contract conflict.
+Preserve the `data_sufficiency` concept and API behavior.
 
 Do not rename it to `confidence`.
 
-Do not merge it with Identity `score`.
+Do not merge it with Identity Score.
+
+Do not use Data Sufficiency as a proxy for classification certainty.
 
 ## Status
 
@@ -138,29 +166,58 @@ Do not merge it with Identity `score`.
 
 ## Current field
 
-`score`
+```text
+score
+```
 
 ## Contract meaning
 
-Identity score represents the strength of the archive's alignment with the
-Identity's defined signals and scoring weights.
+Identity Score represents the strength of the archive's alignment with an
+Identity's defined signals and fixture weights.
 
 Conceptually:
 
 ```text
-Identity score
+Identity Score
 =
 strength of alignment with the Identity
 ```
 
-It is not Data Sufficiency.
+The score is a signal-strength measure.
 
-It is not automatically Classification Confidence.
+It is not:
+
+- Data Sufficiency
+- Evidence Strength
+- statistical confidence
+- probability
+- Classification Confidence
+
+## Current scoring architecture
+
+The existing architecture remains:
+
+```text
+Identity fixture
+        ↓
+Resolve signals
+        ↓
+Normalize values
+        ↓
+Apply fixture weights
+        ↓
+Sum contributions
+        ↓
+Identity Score
+```
+
+The contribution breakdown exposes the component reasoning.
 
 ## Treatment
 
-Preserve the existing calculation and deterministic ranking machinery unless
-the Identity eligibility audit establishes a direct conceptual conflict.
+Preserve the calculation and scoring architecture.
+
+Do not introduce a new score merely to make the terminology more intuitive.
 
 ## Status
 
@@ -170,7 +227,7 @@ the Identity eligibility audit establishes a direct conceptual conflict.
 
 # 6. Identity Eligibility, Ranking, and Presentation
 
-These concepts must remain separate.
+These concepts are distinct.
 
 ```text
 Data Sufficiency
@@ -186,264 +243,354 @@ Presentation
 Primary / Secondary selection
 ```
 
-The existence of `data_sufficiency` does not by itself establish that an
-Identity must be removed from every internal ranking collection.
+The current implementation uses fixture-level minimum-entry requirements as an
+eligibility gate.
 
-Likewise, a score does not by itself establish that an Identity should be
-presented to the user.
+Only eligible Identities participate in scoring and ranking.
 
-The exact relationship between eligibility, ranking, presentation, and
-primary/secondary selection must be explicitly defined before behavior is
-changed.
+Current resolution behavior is:
+
+1. determine eligible Identities
+2. calculate their scores
+3. rank them by score
+4. resolve the primary Identity deterministically
+5. select a secondary Identity when the current secondary policy is satisfied
+
+The existence of a score does not by itself mean that an Identity must be
+presented as a meaningful secondary.
+
+## Current secondary policy
+
+The current implementation defines:
+
+```text
+SECONDARY_MIN_SCORE = 0.60
+```
+
+A secondary Identity must:
+
+- be eligible
+- not be the primary Identity
+- meet or exceed the current minimum score
+- remain a distinct Identity rather than being treated as the primary
+
+This is a presentation/resolution policy.
+
+It does not alter Identity scoring.
 
 ## Treatment
 
-Do not collapse these concepts into one field or one gate merely for
-implementation convenience.
+Do not collapse eligibility, scoring, ranking, or presentation into one field.
+
+The current deterministic behavior is preserved.
 
 ## Status
 
-**RESOLVED / SEMANTIC DISTINCTION**
-
-**Operational behavior:** requires explicit implementation alignment.
+**RESOLVED / PRESERVE**
 
 ---
 
-# 7. Designation `designationConfidence`
+# 7. Identity Ranking and Tie Behavior
+
+Identity ranking is based on Identity Score.
+
+The system evaluates multiple candidates and selects one Primary Identity.
+
+The current model is:
+
+```text
+MANY internally
+↓
+ONE PRIMARY
+↓
+ZERO OR ONE CURRENT SECONDARY
+```
+
+The implementation does not use an arbitrary near-tie threshold.
+
+Exact score ties are resolved deterministically using contribution evidence
+ordering.
+
+The contribution comparison:
+
+- does not add points
+- does not change the underlying score
+- does not create a new classification metric
+- exists only to make exact ties deterministic
+
+Non-equal scores remain meaningfully ordered.
+
+## Treatment
+
+Preserve the current deterministic ranking and tie behavior.
+
+Do not introduce fuzzy or arbitrary near-tie behavior merely for presentation.
+
+## Status
+
+**RESOLVED / PRESERVE**
+
+---
+
+# 8. Designation `designationConfidence`
 
 ## Current field
 
-`designationConfidence`
+```text
+designationConfidence
+```
 
 ## Actual meaning
 
-The existing value functions as a designation-related signal derived from
-designation scoring inputs, including trait-based scoring.
+The existing value is derived from Designation scoring inputs and represents
+the strength of the Designation signal.
 
-It should not automatically be interpreted as statistical or comparative
-Classification Confidence.
+It does not represent:
+
+- probability that the Designation is correct
+- statistical confidence
+- comparative confidence against all alternatives
+- a calibrated probability
 
 ## Contract term
 
 **Signal Strength**
 
-where the value represents the strength of the designation's underlying
-classification signal.
-
 ## Treatment
 
-Preserve the existing calculation unless a specific contract conflict is
-identified.
+Preserve:
 
-Correct misleading presentation terminology.
+```text
+designationConfidence
+designationConfidenceLabel
+```
 
-Do not invent a new Classification Confidence calculation merely because the
-field is named `designationConfidence`.
+Preserve the existing calculation.
 
-A future Classification Confidence concept may be introduced only if the
-application actually requires it and its semantics are explicitly defined.
+Present the concept to users as **Signal Strength**.
+
+Do not introduce a new Classification Confidence calculation merely because
+the API identifier contains the word `Confidence`.
+
+The internal calculation name:
+
+```text
+calculate_designation_confidence()
+```
+
+may remain during Phase 1.
+
+Renaming an internal helper provides no meaningful architectural benefit by
+itself and would create unnecessary implementation churn.
+
+## Consumer audit
+
+The downstream consumer audit is complete.
+
+The existing API field remains compatible with current consumers.
+
+The frontend presents the concept using **Signal Strength** rather than
+Classification Confidence.
 
 ## Status
 
 **RESOLVED / TERMINOLOGY**
 
-The existing API field `designationConfidence` and its underlying calculation are preserved.
-
-The existing `designationConfidenceLabel` field is also preserved.
-
-The complete consumer audit found no downstream API or frontend contract requiring a field rename during Phase 1.
-
-The frontend presentation already uses **Signal Strength** as the user-facing terminology:
-
-`Signal Strength`
-
-with the existing designation label and numeric value.
-
-The internal frontend variable `confidenceLabel` is retained because it does not expose the misleading terminology to users and renaming it would provide no meaningful architectural benefit.
-
-The internal calculation name `calculate_designation_confidence()` is also retained to avoid unnecessary implementation churn.
-
-No Classification Confidence calculation is introduced by this audit.
-
 **Designation `designationConfidence` consumer audit: COMPLETE.**
 
 ---
 
-# 8. Observation `confidence`
+# 9. Observation `confidence` → `evidenceStrength`
 
-## Current field
+## Historical field
 
-`confidence`
+```text
+confidence
+```
 
 ## Actual meaning
 
-Observation `confidence` is an active threshold-relative measure of support for
-the Observation's designated supporting signal.
+Observation confidence represented threshold-relative support for the
+Observation's designated supporting signal.
 
-It describes how strongly the designated supporting metric supports the
-Observation relative to that metric's threshold.
+Conceptually:
+
+```text
+observed value
+÷
+supporting threshold
+```
+
+The resulting value describes how strongly the designated metric supports the
+Observation relative to its threshold.
 
 It does not represent:
 
 - statistical confidence
 - probability
-- certainty that the Observation is objectively correct
-- generalized confidence across every condition in the rule
+- certainty
+- generalized confidence across every rule predicate
 
-An Observation may require multiple predicate conditions while using one
-designated supporting metric as the basis for its numerical Evidence Strength.
+An Observation may require multiple conditions while using one designated
+supporting metric for its numerical Evidence Strength.
 
-This distinction is intentional.
-
-## Contract term
+## Reconciled term
 
 **Evidence Strength**
 
+## Current public field
+
+```text
+evidenceStrength
+```
+
+The public API terminology has been migrated from `confidence` to
+`evidenceStrength`.
+
+The underlying threshold-relative calculation and Observation ranking behavior
+are preserved.
+
+The internal rule-level key is:
+
+```text
+evidence_strength
+```
+
+The internal helper:
+
+```text
+score_confidence()
+```
+
+is intentionally retained during Phase 1.
+
+Its implementation represents Evidence Strength despite its historical name.
+
+Renaming that internal helper is not necessary to satisfy the public contract.
+
 ## Treatment
 
-Preserve the existing calculation.
+Preserve:
 
-Clarify documentation and presentation so the value is not presented as
-generic confidence.
+- threshold-relative calculation
+- Observation ranking
+- structured evidence
+- rule behavior
 
-A public API rename should occur only after the complete Observation consumer
-blast radius has been audited.
+Use `evidenceStrength` for the public representation.
 
-**## Status**
+Do not introduce Classification Confidence.
+
+## Status
 
 **RESOLVED / TERMINOLOGY**
 
-The Observation output field has been renamed from `confidence` to `evidenceStrength`.
-
-The existing threshold-relative calculation and ranking behavior are preserved.
-
-The rule-level calculation now uses the internal `evidence_strength` key, which maps to the output field `evidenceStrength`.
-
-The internal helper `score_confidence()` is intentionally preserved during Phase 1. Its current implementation calculates the threshold-relative value used as Observation Evidence Strength, but renaming the helper would introduce implementation churn without resolving an active API or behavioral contract issue.
-
-Updated consumers:
-
-- `models/services/observation_rules.py`
-- `models/services/observation_mapper.py`
-- `models/services/observation_engine.py`
-- `tests/designations/test_observations.py`
-- `tests/services/test_archive_engine.py`
-
-Targeted regression coverage: **29 tests passing.**
-
-No new Classification Confidence calculation was introduced.
-
-The Observation terminology migration is complete for Phase 1.
-
-The remaining generic `confidence` references associated with Designation calculations are governed by the separate Designation terminology decision and are not part of this Observation rename.
+**Observation terminology migration: COMPLETE.**
 
 ---
 
-# 9. Finding `confidence`
+# 10. Finding `confidence`
 
-## Current implementation
+No current Finding confidence field exists.
 
-No Finding `confidence` field currently exists.
+Finding generation currently produces findings with descriptive and
+interpretive content and structured evidence, but does not expose a standardized
+Finding confidence value.
 
-Finding generation currently produces descriptive findings with structured
-evidence, but does not calculate or expose a Finding confidence value.
-
-This applies to both rule-generated Findings and identity-derived Findings.
-
-## Contract meaning
-
-No Finding confidence semantics are currently defined.
-
-The Phase 1 contract therefore does not require a Finding confidence field.
+This applies to both rule-generated Findings and Identity-derived Findings.
 
 ## Treatment
 
 Do not:
 
 - invent Finding confidence mathematics
-- add a confidence field merely for consistency with other subsystems
+- add a field merely for symmetry
+- assign Evidence Strength semantics to an absent field
+- assign Classification Confidence semantics to Findings
 - rename an absent field
-- assign Finding confidence the semantics of Evidence Strength
-- assign Finding confidence the semantics of Classification Confidence
 
-If a future Finding confidence concept becomes necessary, its semantics must
-be explicitly defined before implementation.
+If a future Finding confidence concept becomes necessary, it must first be
+defined as an explicit conceptual contract.
 
 ## Status
 
 **RESOLVED / NOT IMPLEMENTED**
 
-## No code change is required.
+No code change is required by the terminology map.
 
-# 10. Classification Confidence
+---
 
-# 10. Classification / Classification Confidence
+# 11. Classification Confidence
 
-## Current implementation
+Classification Confidence is retained as a historical conceptual distinction.
 
-The project does not currently implement a separate Classification subsystem.
+It describes a possible future concept:
 
-No Classification API field, calculation, consumer, test fixture, or frontend
-presentation remains in the current implementation.
+> How clearly does one classification outrank plausible alternatives?
 
-Classification Confidence therefore has no active implementation to rename or
-migrate.
+The current system does not implement a general Classification Confidence
+measure.
 
-## Historical / conceptual meaning
+The current intelligence architecture instead uses explicit domain concepts:
 
-Classification Confidence was previously considered as a possible concept for
-representing comparative confidence between competing classifications.
+```text
+Designation
+    ↓
+taste classification
 
-That concept is no longer part of the active Phase 1 intelligence contract.
+Designation Signal Strength
+    ↓
+strength of the classification signal
 
-The project instead uses explicit domain concepts:
+Identity
+    ↓
+broader curator philosophy
 
-- **Designation** for the selected taste classification
-- **Designation Signal Strength** for the strength of the Designation signal
-- **Identity** for the selected broader interpretive profile
-- **Identity Data Sufficiency** for the sufficiency of evidence supporting an
-  Identity
-- **Observation Evidence Strength** for threshold-relative support of an
-  Observation
+Identity Data Sufficiency
+    ↓
+whether enough archive data exists to evaluate the Identity
 
-These concepts should not be collapsed back into a generic Classification
-Confidence field.
+Observation Evidence Strength
+    ↓
+strength of evidence supporting an Observation
+```
 
 ## Treatment
 
-Do not reintroduce Classification as a separate intelligence layer merely to
-resolve terminology.
+Do not reintroduce Classification Confidence merely to make terminology
+uniform.
 
-Do not introduce Classification Confidence for terminology consistency.
+Do not rename:
 
-Do not rename an existing Designation or Identity score to Classification
-Confidence.
+```text
+designationConfidence
+```
 
-If a future feature requires comparative candidate separation, that should be
-defined as a new explicit contract rather than reviving the retired
-Classification concept.
+or:
+
+```text
+score
+```
+
+to Classification Confidence.
+
+If a future feature genuinely requires comparative confidence, it should be
+defined as a new explicit contract.
 
 ## Status
 
 **RESOLVED / RETIRED**
 
-Classification is not part of the current intelligence implementation.
-
-No production code change, API rename, frontend change, test change, or
-fixture change is required.
-
 ---
 
-# 11. Evidence Strength
+# 12. Evidence Strength
 
 Evidence Strength answers:
 
 > How strongly does the available evidence support the conclusion?
 
-The concept is currently most directly applicable to Observation support.
-
-It may eventually be used elsewhere where an explicit evidence model requires
-it.
+The concept is currently most directly represented by Observation
+`evidenceStrength`.
 
 Evidence Strength is not interchangeable with:
 
@@ -451,11 +598,13 @@ Evidence Strength is not interchangeable with:
 - Data Sufficiency
 - Classification Confidence
 
+The distinctions are intentional.
+
 ## Treatment
 
-Preserve existing Observation Evidence Strength behavior.
+Preserve existing Evidence Strength behavior.
 
-Do not create a universal evidence structure merely to standardize field names.
+Do not create a universal evidence object solely to standardize terminology.
 
 ## Status
 
@@ -463,19 +612,23 @@ Do not create a universal evidence structure merely to standardize field names.
 
 ---
 
-# 12. Evidence Architecture
+# 13. Evidence Architecture
 
-Evidence mechanisms are intentionally allowed to differ by subsystem.
+The intelligence system contains multiple evidence mechanisms.
 
-The repository already contains several established evidence mechanisms, including:
+Examples include:
 
 - metric evidence
 - genre evidence
 - Observation evidence
 - Finding evidence
-- Designation-specific evidence and explanation
-- Identity contribution and comparison evidence
+- Designation-specific evidence
+- Designation explanation
+- Identity contribution evidence
+- Identity tie-breaking evidence
 - narrative explanation
+
+These mechanisms do not need to share one universal structure.
 
 The contract requires **explainability**, not architectural uniformity.
 
@@ -493,69 +646,79 @@ Identity contribution evidence
 Narrative explanation
 ```
 
-These mechanisms may evolve independently where their respective consumers or semantic requirements differ.
+Different subsystems may use different evidence representations when those
+representations reflect different semantic requirements.
 
-The existence of multiple evidence representations is therefore **not considered architectural inconsistency by itself**.
+## Observation evidence
 
-The current Observation architecture uses structured evidence objects alongside the separate `evidenceStrength` value.
+Observation evidence remains structured and includes metric and/or genre
+evidence as appropriate.
 
-Designation logic may use domain-specific evidence calculations such as boundary-exploration evidence.
+`evidenceStrength` communicates the strength of the designated supporting
+signal.
 
-Identity logic may use evidence internally for contribution comparison and tie-breaking.
+## Designation evidence
 
-These representations should not be forcibly unified into a universal evidence object merely for terminology or structural consistency.
+Designation rules may use domain-specific evidence calculations such as
+boundary-exploration evidence.
 
-## Internal Terminology Note
+That evidence does not need to become a universal evidence object.
 
-The Observation evidence-strength calculation currently uses the internal function name `score_confidence`.
+## Identity evidence
 
-Its current semantic role is Evidence Strength, not statistical or probabilistic confidence.
+Identity scoring exposes contribution-level evidence including:
 
-This is considered **internal terminology debt**, not an active contract violation.
+- trait
+- value
+- weight
+- normalized value
+- contribution
 
-Renaming the internal function is therefore deferred unless a future change makes the rename materially useful or necessary.
+This contribution structure also supports deterministic exact-tie resolution.
 
-No behavioral change is required by this audit.
+## Internal terminology debt
+
+The Observation Evidence Strength calculation still contains the internal
+helper name:
+
+```text
+score_confidence()
+```
+
+This is internal terminology debt, not a public semantic contradiction.
+
+It is intentionally deferred.
 
 ## Treatment
 
-Preserve strong existing evidence mechanisms.
+Preserve strong evidence mechanisms.
 
-Strengthen missing explanation where useful.
+Do not force all intelligence systems into one evidence schema.
 
-Allow subsystem-specific evidence representations where they reflect different semantic requirements.
-
-Do not introduce a universal evidence object solely for consistency.
-
-Do not rename internal evidence-related functions solely to eliminate legacy terminology when doing so would create unnecessary implementation churn.
+Do not rename internal helpers solely for aesthetic consistency.
 
 ## Status
 
 **RESOLVED / PRESERVE**
 
-The existing evidence architecture is coherent and intentionally heterogeneous.
-
-No architectural consolidation is required during Phase 1.
-
 ---
 
-# 13. Recommendation Bias
+# 14. Recommendation Bias
 
-Recommendation-oriented bias metadata already exists within the intelligence layer.
+Recommendation-oriented metadata exists in the intelligence layer.
 
-Designation rules may provide `recommendation_bias` metadata, which is preserved through the designation mapping layer.
+For example:
 
-Identity findings may also expose recommendation-oriented bias metadata.
+```text
+recommendation_bias
+```
 
-These fields currently represent **inputs that a future Recommendation Engine may use**. They do not constitute a completed recommendation algorithm.
+may describe recommendation tendencies associated with a Designation or
+Identity.
 
-The current Recommendation Engine is intentionally incomplete and does not yet generate substantive recommendations.
+This metadata is not itself a Recommendation Engine.
 
-## Architectural Principle
-
-Recommendation bias must not be treated as equivalent to recommendation score.
-
-In particular:
+The distinction is:
 
 ```text
 Designation
@@ -569,1209 +732,1476 @@ Recommendation
 Identity Score
 ≠
 Recommendation Score
+
+Recommendation Bias
+≠
+Recommendation Score
 ```
 
-Future recommendations should primarily consume measurable archive signals and may use designation or identity-derived recommendation metadata as contextual inputs.
-
-Identity should influence recommendations indirectly through the underlying measurable signals rather than becoming a direct recommendation score.
-
-This preserves explainability and prevents interpretive classifications from becoming opaque recommendation authority.
+Recommendation Bias represents contextual information that a future
+Recommendation Engine may consume.
 
 ## Treatment
 
-Preserve the existing `recommendation_bias` metadata.
+Preserve existing recommendation metadata.
 
-Do not implement or redesign the Recommendation Engine as part of the Phase 1 terminology and intelligence-alignment work.
-
-Do not introduce recommendation scoring semantics before the Recommendation Engine is intentionally implemented.
-
-When recommendation functionality is developed, audit its weighting and consumer behavior separately to ensure that interpretive layers do not override the underlying measurable evidence without explicit justification.
+Do not redesign or implement substantive recommendation scoring as part of
+Phase 1 terminology alignment.
 
 ## Status
 
 **RESOLVED / DEFERRED**
 
-The current recommendation-bias architecture is intentionally preserved.
-
-No production changes are required during Phase 1.
-
-A dedicated recommendation-system audit should occur when substantive recommendation scoring is implemented.
+Recommendation behavior remains future work.
 
 ---
 
-# 14. Primary Designation
-
-`primaryDesignation` represents the designation selected as the primary result of designation evaluation.
-
-The current selection behavior is explicit:
-
-**The highest-scoring designation is selected as the primary designation.**
-
-The resolver also defines deterministic behavior for ties.
-
-The selected designation is preserved as the complete designation object rather than being reduced to only its identifier.
-
-## Contract
-
-```text id="c5x4pq"
-Designation evaluation
-        ↓
-Scored designation results
-        ↓
-Highest-scoring designation
-        ↓
-primaryDesignation
-```
-
-An empty designation result produces no primary designation.
-
-The primary designation is distinct from the designation's **primary scoring basis**.
-
-```text id="j4s1nd"
-primaryDesignation
-=
-winning designation
-
-designationBasis.primary
-=
-primary scoring basis / trait
-```
-
-The latter may be displayed alongside the winning designation but does not independently determine which designation is primary.
-
-## Consumer Behavior
-
-The Archive Profile exposes `primaryDesignation` for downstream consumers.
-
-The frontend uses `primaryDesignation` as the displayed primary designation.
-
-Existing tests establish:
-
-- highest-scoring designation wins
-- empty designation results produce `None`
-- the full winning designation is preserved
-- ties are resolved deterministically
-
-These behaviors constitute the current contract.
-
-## Treatment
-
-Preserve the existing primary-designation resolution behavior.
-
-Do not introduce a separate concept of "primary" designation based on frequency, identity, narrative importance, or recommendation relevance.
-
-Do not conflate `primaryDesignation` with `designationBasis.primary`.
-
-## Status
-
-**RESOLVED / PRESERVE**
-
-The existing primary-designation semantics are explicit, deterministic, and covered by tests.
-
-No production changes are required during Phase 1.
-
----
-
-# 15. Primary Identity
+# 15. `designationBasis`
 
 ## Current field
 
-`primaryIdentity`
+```text
+designationBasis
+```
 
-## Actual meaning
+## Meaning
 
-`primaryIdentity` is the identity interpretation with the strongest
-calculated identity score among eligible identity candidates.
+The field describes the basis used to explain the selected Designation.
 
-Primary identity selection is performed by the identity engine rather than
-being determined solely by declaration order.
+It is explanation-oriented metadata.
 
-When multiple identity candidates have the same score, the identity engine
-uses deterministic evidence-based tie-breaking to select the primary identity.
+It is not:
 
-The selected primary identity may also contain a secondary identity when
-another eligible candidate meets the requirements for secondary status.
-
-## Contract term
-
-**Primary Identity**
+- Classification Confidence
+- Designation Score
+- Recommendation Score
+- Identity evidence
 
 ## Treatment
 
-Preserve the existing selection architecture.
+Preserve the API field.
 
-Primary identity should continue to be determined from calculated identity
-scores, eligibility, and the existing deterministic evidence-based tie-breaking
-rules.
+Present it as:
 
-Do not introduce a separate "primary identity confidence" concept unless a
-specific product requirement establishes a distinct semantic need.
+```text
+Designation Basis
+```
+
+No terminology correction is required.
+
+The consumer audit confirmed that the field has legitimate downstream use.
 
 ## Status
 
 **RESOLVED / PRESERVE**
 
-Primary Identity is a defined selection result, not a generic confidence
-label.
+---
 
-The existing identity engine, scoring model, eligibility rules, and
-evidence-based tie-breaking behavior are preserved.
+# 16. Primary Designation
+
+## Current field
+
+```text
+primaryDesignation
+```
+
+This represents the primary Designation selected by the Designation evaluation
+system.
+
+The current behavior is:
+
+```text
+Designation evaluation
+        ↓
+Designation scores
+        ↓
+highest-scoring Designation
+        ↓
+primaryDesignation
+```
+
+The selection is deterministic.
+
+## Treatment
+
+Preserve the field and behavior.
+
+The frontend should present:
+
+```text
+Primary Designation
+```
+
+No rename is required.
+
+## Status
+
+**RESOLVED / PRESERVE**
 
 ---
 
-## 16. Secondary Identities
+# 17. Primary Identity
 
-**Contract:** Secondary Identities are **ZERO OR MORE** meaningfully relevant additional curator philosophies.
-
-### Locked Phase 1 Policy
-
-A Secondary Identity must not be presented merely because it has a positive score.
-
-Secondary Identity selection must consider:
-
-1. **Eligibility / Data Sufficiency** — the Identity must first satisfy its minimum data requirement.
-2. **Meaningful Signal Strength** — the Identity must have sufficient calculated support to be meaningfully distinguishable from a weak candidate.
-3. **Relevance to the Primary Identity** — the Secondary should represent a meaningfully related additional curator philosophy rather than merely being another ranked candidate.
-4. **Separation from weak candidates** — low-ranking or weakly supported Identities should not be surfaced simply because they have a non-zero score.
-
-The conceptual selection model is:
+## Current field
 
 ```text
-Eligible Identity
-       ↓
-Meaningful Signal
-       ↓
-Relevant to Primary
-       ↓
-Meaningfully separated from weak candidates
-       ↓
-Secondary Identity
+primaryIdentity
 ```
 
-### Numeric Thresholds
+This represents the primary Identity selected from eligible Identity
+candidates.
 
-**UNRESOLVED / IMPLEMENTATION POLICY**
+The current behavior is deterministic and independent of Designation names.
 
-Phase 1 does **not** lock a universal numeric Secondary Identity threshold.
+Identity and Designation selection remain separate processes.
 
-Any numeric threshold used by the current implementation must be treated as an implementation choice subject to validation against the accepted Identity catalog and observed score distributions.
+## Treatment
 
-Do not promote an implementation threshold into a conceptual contract merely because it currently exists in code.
+Preserve the field and behavior.
 
-### Cardinality
-
-The conceptual contract permits:
+The frontend should present:
 
 ```text
-Primary Identity:    ONE
-Secondary Identities: ZERO OR MORE
+Primary Identity
 ```
 
-The current implementation may expose a narrower presentation shape while the Profile/API surface remains under development. Expanding the current representation to support multiple Secondary Identities is a separate implementation/API decision and is not required merely to establish the Phase 1 semantic contract.
+No rename is required.
 
-### Status
+## Status
 
-**RESOLVED / SEMANTIC POLICY**
-
-The meaning and selection principles for Secondary Identities are locked.
-
-**NUMERIC THRESHOLDS: UNRESOLVED**
-
-**MULTI-SECONDARY PRESENTATION/API SHAPE: DEFERRED**
+**RESOLVED / PRESERVE**
 
 ---
 
-## 17. Close Competitors / Near-Ties
+# 18. Identity Fixtures
 
-**Contract:** A Close Competitor is an eligible classification candidate whose support is sufficiently close to the Primary candidate that the ranking represents **meaningful competitive ambiguity** rather than a clearly separated winner.
-
-### Locked Semantic Purpose
-
-A Close Competitor is a **ranking/context concept**, not a separate classification.
-
-A Close Competitor:
-
-- does **not** become co-primary
-- does **not** override deterministic Primary selection
-- does **not** automatically become a Secondary Identity
-- represents a strong alternative whose proximity to the Primary makes the ranking meaningfully less decisive
-- may provide useful context for explaining how strongly the Primary is separated from competing candidates
-
-The conceptual distinction is:
+The current Identity catalog is:
 
 ```text
-Secondary Identity
-    ↓
-Meaningfully relevant additional curator philosophy
-
-Close Competitor
-    ↓
-Strong competing candidate whose proximity to Primary
-creates meaningful ambiguity in ranking strength
+interpretive_philosophy
+exploratory_philosophy
+breadth_philosophy
 ```
 
-Close Competitor status and Secondary Identity status are therefore **distinct concepts**. They may potentially overlap, but one does not automatically imply the other.
+The old Identity fixtures that duplicated Designation concepts are superseded.
 
-### Primary Selection
-
-Close Competitor status does not alter the Primary Identity or Primary Designation selection process.
-
-The system continues to select a single Primary through its applicable deterministic ranking and tie-breaking behavior.
-
-Conceptually:
+Current fixture semantics are governed by:
 
 ```text
-Eligible candidates
-       ↓
+phase-1-identity-fixture-contract.md
+```
+
+Current fixture-level numeric constraints are:
+
+| Identity                | Minimum entries | Weights                                                                                 |
+| ----------------------- | --------------: | --------------------------------------------------------------------------------------- |
+| Interpretive Philosophy |              20 | depth .45, emotional impact .25, reflection .12, ambiguity .10, analysis .08            |
+| Exploratory Philosophy  |              20 | originality .35, genre diversity .25, depth .15, experimental affinity .15, novelty .10 |
+| Breadth Philosophy      |              15 | genre diversity 1.00                                                                    |
+
+These fixture values are authoritative for the current implementation.
+
+General ranking and resolution policy remains governed by the Decision &
+Implementation Map and the repository implementation.
+
+## Status
+
+**RESOLVED / IMPLEMENTED**
+
+---
+
+# 19. Frontend Terminology
+
+The frontend has been aligned with the reconciled scoring terminology.
+
+Current presentation terminology includes:
+
+```text
+Universal Scoring
+Universal Scoring Profile
+Media Scoring
 Score
-       ↓
-Ranking / tie-breaking
-       ↓
-ONE Primary
-       ↓
-Identify meaningful close competitors
+Score Distribution
+Average Score
+Average Score by Media Type
+Highest Rated Records
+Signal Strength
+Evidence Strength
+Notes
+Observations
+Findings
+Archive Interpretation
+Primary Designation
+Primary Identity
 ```
 
-A Close Competitor therefore describes the **relationship between the Primary and a strong alternative after ranking**, rather than creating an alternative primary classification.
+The frontend should describe the intelligence system that the backend actually
+produces.
 
-### Explainability Purpose
+It should not independently invent analytical terminology.
 
-Close Competitor semantics preserve information that a single Primary result cannot communicate by itself:
+## Status
 
-> **How decisively did the Primary separate from other strongly supported candidates?**
+**RESOLVED / IMPLEMENTED**
 
-For example:
+See:
 
 ```text
-Primary:       Boundary Explorer    0.91
-Close Competitor: Deep Diver        0.90
+frontend-terminology-alignment.md
 ```
 
-represents a materially different classification context from:
+for the frontend-specific mapping.
+
+---
+
+# 20. Legacy Frontend Intelligence
+
+Several historical frontend intelligence functions have been superseded by
+backend-owned intelligence.
+
+Examples include:
 
 ```text
-Primary:       Boundary Explorer    0.91
-Alternative:   Deep Diver            0.54
+archiveDesignations
+generateArchiveTitle
+calculateDesignationConfidence
+generateDesignationBasis
 ```
 
-The first indicates meaningful competitive ambiguity; the second indicates clearer separation.
+These are not candidates for terminology cleanup.
 
-### Numeric Threshold
+They represent an architectural migration in which intelligence calculations
+are owned by the backend rather than duplicated in presentation code.
 
-**UNRESOLVED**
+## Treatment
 
-Phase 1 does not currently establish a universal numeric definition of "close."
+Do not recreate or reintroduce these frontend intelligence paths.
 
-Do not invent a fixed threshold until the accepted Identity/Designation score distributions have been inspected and the appropriate comparison model has been established.
+## Status
 
-### Selection Mechanism
+**RESOLVED / REMOVED**
 
-**UNRESOLVED**
+---
 
-The eventual implementation must determine how Close Competitor status is calculated, including whether score proximity should be:
+# 21. API Compatibility Principle
 
-- absolute
-- relative to the Primary score
-- or combined with additional evidence/relevance requirements
+A terminology correction does not automatically require an API rename.
 
-No implementation algorithm should be inferred solely from the semantic definition.
-
-### Presentation / API
-
-**UNRESOLVED**
-
-The semantic existence of Close Competitors does not require immediate Profile or API presentation.
-
-Whether Close Competitors should be:
-
-- exposed in the Profile
-- included in API responses
-- used only by the explanation/narrative layer
-- or retained as internal ranking metadata
-
-requires a separate implementation/product decision.
-
-### Cardinality
-
-**UNRESOLVED**
-
-The conceptual contract does not yet establish whether one Primary may have:
-
-- zero Close Competitors
-- one Close Competitor
-- or multiple Close Competitors
-
-That should be determined together with the selection and presentation policy.
-
-### Status
-
-**RESOLVED / SEMANTIC PURPOSE**
-
-**NUMERIC THRESHOLD: UNRESOLVED**
-
-**SELECTION MECHANISM: UNRESOLVED**
-
-**PRESENTATION/API: UNRESOLVED**
-
-**CARDINALITY: UNRESOLVED**
-
-# 18. Ties and Deterministic Primary Selection
-
-**Contract:** Exact score ties must produce a **deterministic single Primary result**. An exact tie does not create a co-primary result.
-
-### Locked Semantic Policy
-
-A tie occurs when two or more eligible candidates have the same calculated score at the precision used by the applicable ranking system.
-
-When an exact tie occurs:
-
-1. **Exactly one Primary is still selected.**
-2. **The Primary selection must be deterministic.**
-3. **The tie-breaking behavior must be stable across repeated evaluations of the same archive.**
-4. **The tie-break should use meaningful, explainable evidence or an established stable ordering rather than incidental runtime ordering.**
-5. **A tie does not imply that the candidates should both be presented as Primary.**
-6. **A tie does not automatically create a Secondary Identity or Close Competitor.**
-
-The conceptual model is:
-
-```text id="7f4q2m"
-Eligible candidates
-       ↓
-Calculated score
-       ↓
-Exact tie?
-   ↙         ↘
- No          Yes
- ↓            ↓
-Ranking    Deterministic
-            tie-break
-               ↓
-          ONE Primary
-```
-
-### Identity Tie Behavior
-
-Identity ranking already has an evidence-based deterministic tie-breaking mechanism.
-
-When eligible Identity candidates have identical scores, their underlying contribution evidence may be compared to establish a stable winner.
-
-This preserves the distinction between:
+The decision sequence is:
 
 ```text
-Identity score
-=
-strength of alignment
+Semantic meaning established
+        ↓
+Does the public field name contradict that meaning?
+        ↓
+Audit consumers
+        ↓
+Determine compatibility impact
+        ↓
+Rename only if justified
+```
+
+The current Phase 1 policy is to preserve public identifiers when their
+continued existence does not create a meaningful semantic contradiction.
+
+Examples:
+
+```text
+designationConfidence
+designationConfidenceLabel
+designationBasis
+primaryDesignation
+primaryIdentity
+score
+data_sufficiency
+```
+
+Their semantic meanings are documented separately from their historical
+identifiers.
+
+The public Observation field is an exception because the generic
+`confidence` name directly obscured the established Evidence Strength concept
+and the consumer audit supported the migration.
+
+---
+
+# 22. Internal Terminology Principle
+
+Internal helper names are not automatically public semantic contracts.
+
+An internal identifier may retain historical terminology when:
+
+- its actual behavior is understood
+- the public contract is correct
+- renaming it would create unnecessary implementation churn
+- no active semantic confusion results
+
+Current examples include:
+
+```text
+calculate_designation_confidence()
+score_confidence()
+confidenceLabel
+```
+
+These names may be revisited later during ordinary technical cleanup.
+
+They do not justify algorithmic changes during Phase 1.
+
+---
+
+# 23. What This Document Does Not Authorize
+
+This terminology map does not authorize:
+
+- redesigning Identity scoring
+- redesigning Designation scoring
+- creating Classification Confidence
+- creating Finding confidence
+- redesigning Observation rules
+- creating a universal evidence schema
+- redesigning recommendation scoring
+- changing normalization merely for consistency
+- changing deterministic ranking merely for aesthetic reasons
+- replacing backend intelligence with frontend calculations
+- broad API redesign
+- unrelated refactoring
+
+Terminology alignment is not a pretext for architectural rewriting.
+
+---
+
+# 24. Current Resolution Summary
+
+| Area                                     | Resolution                                           |
+| ---------------------------------------- | ---------------------------------------------------- |
+| Signal Strength                          | Active semantic concept                              |
+| Data Sufficiency                         | Active semantic concept                              |
+| Evidence Strength                        | Active semantic concept                              |
+| Classification Confidence                | Retired / future-only unless explicitly reintroduced |
+| Identity `data_sufficiency`              | Preserve                                             |
+| Identity `score`                         | Preserve                                             |
+| Identity eligibility                     | Implemented                                          |
+| Identity primary selection               | Implemented                                          |
+| Identity secondary policy                | Implemented                                          |
+| Identity exact ties                      | Deterministic                                        |
+| Designation `designationConfidence`      | Preserve API field; present as Signal Strength       |
+| Designation `designationConfidenceLabel` | Preserve                                             |
+| Observation `confidence`                 | Migrated to public `evidenceStrength`                |
+| Finding confidence                       | Not implemented                                      |
+| `designationBasis`                       | Preserve                                             |
+| `primaryDesignation`                     | Preserve                                             |
+| `primaryIdentity`                        | Preserve                                             |
+| Recommendation Bias                      | Preserve                                             |
+| Universal Scoring terminology            | Implemented                                          |
+| Media Scoring terminology                | Implemented                                          |
+| Legacy frontend intelligence             | Removed/superseded                                   |
+
+---
+
+# 25. Final Principle
+
+The API should describe the intelligence system that actually exists.
+
+The intelligence system should only change when an explicit conceptual decision
+requires it.
+
+Therefore:
+
+> **Terminology changes should clarify existing behavior before they create
+> new behavior.**
+
+Phase 1 terminology alignment is considered complete when the public and
+frontend vocabulary accurately describes the existing intelligence architecture
+without requiring unnecessary changes to its calculations or behavior.
+
+````
+
+### `docs/planning/frontend-terminology-alignment.md`
+
+```markdown
+````
+
+---
+
+\ // // _ \ \*\ / _ \ | D )| |
+_/_//_/ \_/\_\_//_/ \_|_D_)|\*|
+Weighted Archive System for Analysis & Behavioral Insights
+
+````
+
+# Frontend Terminology Alignment
+
+**Project:** Media Tracker
+
+**Authoritative branch:** `develop-3`
+
+**Status:** Reconciled Phase 1 frontend terminology reference
+
+**Semantic authority:** `phase-1-intelligence-alignment.md`
+
+**API terminology reference:** `phase-1-terminology-and-api-rename-map.md`
+
+**Implementation authority:** Current repository implementation on `develop-3`
+
+**Guiding principle:** **Evolution, not rewrite.**
+
+---
+
+# 1. Purpose
+
+This document maps terminology currently used by the frontend against the
+reconciled Phase 1 semantic vocabulary.
+
+Its purpose is to identify:
+
+- terminology that accurately represents the underlying data
+- terminology that was historically misleading
+- terminology that can safely be corrected at the presentation layer
+- API/domain terminology that should not be renamed merely because a frontend
+  label is ambiguous
+- frontend intelligence logic that belongs in the backend rather than the
+  presentation layer
+
+This is a Phase 1 planning and verification document.
+
+It does not independently redefine the Intelligence Contract.
+
+It does not authorize unrelated frontend redesign.
+
+The repository remains authoritative for current implementation behavior.
+
+---
+
+# 2. Authority and Scope
+
+Terminology decisions are governed by the following order:
+
+1. `phase-1-intelligence-alignment.md`
+2. `phase-1-terminology-and-api-rename-map.md`
+3. `phase-1-decision-and-implementation-map.md`
+4. Current repository implementation on `develop-3`
+5. Verified frontend consumer relationships
+6. Historical project intent
+
+If implementation and terminology disagree, the implementation should be
+investigated rather than silently reinterpreted.
+
+If semantic meaning cannot be established:
+
+> **UNRESOLVED — insufficient repository evidence.**
+
+This document concerns frontend terminology and frontend/backend responsibility.
+
+It does not independently redefine:
+
+- Traits
+- Genre Signals
+- Observations
+- Findings
+- Designations
+- Identities
+- Recommendation metadata
+- Recommendation behavior
+
+---
+
+# 3. Frontend Responsibility Boundary
+
+The intended architecture is:
+
+```text
+                 BACKEND
+                    │
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+   Intelligence             API data
+        │                       │
+        └───────────┬───────────┘
+                    ↓
+                 FRONTEND
+                    │
+        ┌───────────┼───────────┐
+        ↓           ↓           ↓
+    Presentation  Interaction  Visualization
+````
+
+## Backend
+
+The backend is responsible for:
+
+- calculating Traits
+- calculating Genre Signals
+- evaluating Observations
+- evaluating Findings
+- calculating Designation scores
+- selecting the Primary Designation
+- calculating Identity scores
+- determining Identity Data Sufficiency
+- determining Identity eligibility
+- ranking Identity candidates
+- selecting the Primary Identity
+- resolving current secondary Identity behavior
+- producing evidence and explanations
+- producing recommendation-oriented metadata
+- assembling Archive Profile data
+- generating archive-level narrative content
+
+## Frontend
+
+The frontend is responsible for:
+
+- presenting backend-produced intelligence
+- formatting values
+- displaying evidence
+- visualizing results
+- presenting explanations
+- handling interaction
+- displaying entry-level user data
+- filtering and sorting for presentation where appropriate
+
+The frontend should not independently reproduce intelligence calculations.
+
+---
+
+# 4. Reconciled Semantic Vocabulary
+
+The frontend should distinguish the major intelligence layers:
+
+```text
+Traits
+    ↓
+Genre Signals
+    ↓
+┌──────────────┬──────────────┬──────────────┬──────────────┐
+Observations   Findings       Designations   Identities
+demonstrate    interpret      classify       describe
+patterns       conclusions    taste          curator
+```
+
+These are different analytical perspectives.
+
+They are not interchangeable.
+
+The frontend should present their distinct roles rather than flattening them
+into generic terminology.
+
+---
+
+# 5. Quantitative Vocabulary
+
+The frontend must distinguish the following concepts where they are actually
+used:
+
+| Term                          | Meaning                                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Signal Strength**           | How strongly a quality or signal is expressed                                                     |
+| **Data Sufficiency**          | Whether enough archive data exists to evaluate a conclusion                                       |
+| **Evidence Strength**         | How strongly available evidence supports a conclusion                                             |
+| **Classification Confidence** | How clearly one classification outranks plausible alternatives; retired/not currently implemented |
+
+These concepts are not interchangeable.
+
+In particular:
+
+```text
+designationConfidence
+```
+
+does not automatically mean:
+
+```text
+Classification Confidence
 ```
 
 and:
 
 ```text
-Tie-breaking evidence
-=
-which equally-scored candidate has the stronger underlying evidence
-```
-
-The tie-break therefore does not redefine or alter the Identity score itself.
-
-### Designation Tie Behavior
-
-Designation ranking must also produce exactly one Primary Designation when multiple eligible Designations have the same score.
-
-The deterministic result may rely on the established stable ordering of the Designation rule set where no more domain-specific tie-break is defined.
-
-The important contract requirement is **determinism and stability**, not that every classification subsystem must use the same internal tie-breaking mechanism.
-
-### Tie vs. Close Competitor
-
-An exact tie and a Close Competitor are related but distinct concepts.
-
-```text id="7v2k8c"
-Exact Tie
-    ↓
-Same calculated score
-    ↓
-Deterministic tie-break
-    ↓
-ONE Primary
-```
-
-versus:
-
-```text id="r8m1qa"
-Close Competitor
-    ↓
-Strong alternative
-    ↓
-Meaningfully close to Primary
-    ↓
-Competitive ambiguity
-```
-
-An exact tie may eventually also qualify as a Close Competitor, but that is a separate policy decision. Tie resolution itself does not establish Close Competitor status.
-
-### Score Precision
-
-**IMPLEMENTATION DETAIL / AUDIT REQUIRED**
-
-Tie behavior must operate against the score representation actually used by each subsystem.
-
-The system should not claim that two candidates are tied merely because their unrounded internal calculations are similar, nor should implementation introduce arbitrary precision changes solely to affect tie frequency.
-
-The applicable score precision should remain an implementation concern unless a Phase 1 contract explicitly requires otherwise.
-
-### Explainability
-
-A deterministic tie-break must not be presented as evidence that the winning candidate was intrinsically stronger when the candidates had equal calculated scores.
-
-Where tie-breaking evidence is retained, it may be used internally or by future explanation layers to explain why one candidate was selected.
-
-The distinction should remain:
-
-```text
-Score:
-    candidates were equally supported at the ranking precision
-
-Tie-break:
-    system required a stable way to select one Primary
-```
-
-### Presentation / API
-
-**UNRESOLVED**
-
-The existence of an exact tie does not by itself require a new API field.
-
-Whether the API or Profile should expose:
-
-- that a tie occurred
-- the tie-breaking basis
-- the tied candidate
-- or other ranking context
-
-is a separate presentation/API decision.
-
-### Status
-
-**RESOLVED / SEMANTIC POLICY**
-
-Exact ties are deterministic single-Primary outcomes.
-
-**PRIMARY CARDINALITY: LOCKED — ONE**
-
-**CO-PRIMARY RESULTS: NOT SUPPORTED**
-
-**TIE-BREAKING MECHANISM: IMPLEMENTATION-SPECIFIC**
-
-**SCORE PRECISION: IMPLEMENTATION DETAIL / AUDIT REQUIRED**
-
-**TIE PRESENTATION/API: UNRESOLVED**
-
-**RELATIONSHIP BETWEEN EXACT TIES AND CLOSE COMPETITORS: UNRESOLVED**
-
----
-
-## 19. Archive State: EMPTY → SPARSE → ESTABLISHED
-
-**Status:** Semantic model resolved; operational thresholds and API representation remain unresolved.
-
-Archive State describes the overall analytical maturity of the archive based on **archive volume and usable intelligence coverage**. It distinguishes between an archive with no evidence, a limited but meaningful archive, and an archive sufficiently developed for broad archive-level interpretation.
-
-### 19.1 State Definitions
-
-**EMPTY**
-
-No archive entries exist.
-
-**SPARSE**
-
-Some archive evidence exists, but the corpus remains limited for broad or stable interpretation.
-
-A SPARSE archive is **not an intelligence-free archive**. Legitimate traits, genre signals, observations, findings, or other subsystem-specific intelligence may still be produced when sufficient evidence exists for those individual signals. The state indicates that the archive as a whole remains limited, not that every subsystem lacks evidence.
-
-**ESTABLISHED**
-
-The archive contains sufficient usable evidence for broad archive-level interpretation.
-
-ESTABLISHED does not mean that every classification or inference is certain. It indicates that the archive has developed enough volume and coverage for the system to make broader interpretations without treating the corpus as merely preliminary.
-
-### 19.2 Archive State Is Distinct From Other Sufficiency Concepts
-
-Archive State must remain conceptually separate from:
-
-```text
-Archive State
-≠ Data Sufficiency
-≠ Signal Strength
-≠ Evidence Strength
-≠ Classification Confidence
-≠ successful classification
-```
-
-Archive State is an **archive-level** concept. Data Sufficiency and related confidence/evidence measures may remain **subsystem-specific**.
-
-For example, an archive may be SPARSE overall while still providing sufficient evidence for a particular Designation or Identity signal. Conversely, an ESTABLISHED archive may still produce weak evidence for a particular classification.
-
-### 19.3 Evidence From Current Archive Data
-
-Current fixtures and tests demonstrate a continuum of usable intelligence rather than a single natural entry-count boundary:
-
-- **0 entries** is explicitly treated as an empty archive and produces no meaningful archive interpretation.
-- **Small non-empty archives** can still produce legitimate signals. Existing tests demonstrate meaningful Designation and genre-derived behavior with small entry counts.
-- **10-entry archives** can already provide quantitative genre/trait signals.
-- **15–20 entries** are meaningful for some Identity-specific analysis, but the Identity minimum-entry requirement is subsystem-specific and must not become an archive-wide maturity threshold.
-- **30–40 entries** are used by current Identity fixtures/tests for more substantial multi-genre analysis.
-- **50-entry archives** are used by representative fixtures for broad, highly developed archive behavior.
-
-This evidence does **not** establish a justified universal rule such as:
-
-```text
-0 = EMPTY
-1–19 = SPARSE
-20+ = ESTABLISHED
-```
-
-The existing `minimum_entries` requirements belong to individual intelligence subsystems and therefore cannot, by themselves, define Archive State.
-
-### 19.4 Volume and Coverage
-
-Archive State should consider both:
-
-1. **Archive volume** — how much evidence exists.
-2. **Usable intelligence coverage** — how broadly that evidence supports interpretation.
-
-Entry count alone is therefore insufficient as the conceptual definition of Archive State.
-
-For example, two archives with the same number of entries may not have equivalent analytical maturity if one provides broad genre/trait coverage while the other is highly concentrated in a narrow area.
-
-This does **not** justify introducing a large universal "archive maturity score." Archive State should remain a small, explainable state model unless later evidence demonstrates that a more complex model is necessary.
-
-### 19.5 Operational Behavior
-
-The semantic state model is:
-
-```text
-EMPTY
-  ↓
-SPARSE
-  ↓
-ESTABLISHED
-```
-
-The exact operational thresholds for transitioning between these states remain **UNRESOLVED**.
-
-The implementation should not suppress legitimate subsystem intelligence merely because the archive is SPARSE. Instead, state should provide context for how broadly or confidently the resulting intelligence should be interpreted.
-
-Any state-driven suppression, branching, scoring adjustment, or presentation behavior requires separate evidence and should not be assumed from the state definitions alone.
-
-### 19.6 Open Questions
-
-The following remain intentionally unresolved:
-
-- Exact entry-count threshold for SPARSE → ESTABLISHED
-- Whether volume and coverage should be evaluated through explicit rules or another minimal mechanism
-- API representation of Archive State
-- Whether Archive State should affect presentation, confidence language, or downstream behavior
-- Whether any subsystem-specific exceptions are required
-
-These should be resolved only after examining the relevant archive behavior and fixtures rather than introducing arbitrary universal thresholds.
-
-**Current decision:** Archive State is a three-state archive-level maturity concept—**EMPTY, SPARSE, ESTABLISHED**—based conceptually on **archive volume plus usable intelligence coverage**. EMPTY is established at zero entries; SPARSE and ESTABLISHED remain semantically defined but numerically unresolved.
-
----
-
-## 20. API Rename Principles
-
-**Status:** Locked.
-
-An API field rename is a **contract migration**, not a string replacement.
-
-A semantic correction can justify renaming a field, but conceptual imperfection alone is not sufficient reason to change an established API contract. Before renaming a field, its semantic meaning must be established and its full dependency path audited.
-
-### 20.1 Required Rename Audit
-
-Audit the field through the complete dependency path:
-
-```text
-backend model
-    ↓
-calculation
-    ↓
-service
-    ↓
-API response model / response construction
-    ↓
-serialized response shape
-    ↓
-API client
-    ↓
-frontend consumer
-    ↓
-charts / visualizations
-    ↓
-narrative consumers
-    ↓
-tests / fixtures
-```
-
-Not every field will pass through every layer. The audit should follow the field through the layers that actually exist in the implementation.
-
-A backend rename without downstream alignment is incomplete.
-
-### 20.2 Treatment
-
-Prefer:
-
-- terminology clarification before implementation changes
-- field-level mapping where a mapping layer already exists
-- the smallest migration necessary to correct the established semantic contract
-- preserving existing behavior while terminology is migrated
-- explicit updates to downstream consumers
-- explicit regression tests and fixture updates
-- deliberate migration of public API fields rather than silent contract changes
-
-Avoid:
-
-- mass renames
-- speculative API redesign
-- changing multiple semantic layers simultaneously
-- renaming fields whose semantics have not been fully established
-- treating an API rename as an isolated backend change
-- maintaining duplicate terminology indefinitely without a defined migration purpose
-
-### 20.3 Rename Decision Rule
-
-A field should be renamed only when:
-
-1. the intended terminology and semantic contract are established;
-2. the existing field name is demonstrably inconsistent with that contract;
-3. the field's actual dependency path has been audited;
-4. downstream consumers and tests can be aligned deliberately; and
-5. the migration provides a meaningful semantic improvement rather than cosmetic consistency alone.
-
-**Principle:** API terminology should follow established semantics, and API renames should follow the dependency graph.
-
----
-
-# 21. High-Risk Existing Field Names
-
-**Status:** Resolved by field-level semantic audit; several names remain intentionally generic because their meaning is domain-specific.
-
-The following existing names require particular care:
-
-```text
-confidence
-designationConfidence
-score
-breakdown
-top_traits
-evidence
-recommendation_bias
-```
-
-These names must **not** be renamed globally merely because they are generic or conceptually imperfect.
-
-Each occurrence must be evaluated according to its actual semantic role, consumer path, and established contract.
-
-## 21.1 `confidence`
-
-`confidence` is a high-risk generic term because it has been used for different kinds of support or certainty.
-
-It must be evaluated **by subsystem**, not treated as one universal concept.
-
-Where the semantic contract has been established, the public field should use the appropriate domain terminology.
-
-Example:
-
-```text
-Observation confidence
-        ↓
-Observation Evidence Strength
-        ↓
 evidenceStrength
 ```
 
-The existing Observation `confidence` field has already been migrated to `evidenceStrength` while preserving its threshold-relative calculation and behavior.
+does not mean generic confidence.
 
-Internal helper names containing `confidence` may remain when they do not expose an API or user-facing contract and renaming them would create unnecessary implementation churn.
-
-**Treatment:** Audit by occurrence; do not globally rename.
-
----
-
-## 21.2 `designationConfidence`
-
-`designationConfidence` is an existing Designation-level signal derived from designation scoring inputs.
-
-It does **not** represent comparative Classification Confidence.
-
-Its established contract terminology is:
-
-**Signal Strength**
-
-The existing calculation and API field are preserved. User-facing terminology should describe the value as Signal Strength.
-
-**Treatment:** Preserve field and calculation; correct misleading presentation terminology where necessary.
-
-**Status:** RESOLVED / TERMINOLOGY
+Frontend labels should communicate the actual semantic meaning of the data being
+shown.
 
 ---
 
-## 21.3 `score`
+# 6. Alignment Table
 
-`score` is a high-risk generic field because its meaning is domain-specific.
+| ID    | Historical/current frontend term           | Location                        | Underlying meaning                          | Reconciled frontend term                           | Safe to change? | Status   |
+| ----- | ------------------------------------------ | ------------------------------- | ------------------------------------------- | -------------------------------------------------- | --------------- | -------- |
+| FO-01 | `CLASSIFICATION`                           | `entries.js` media type display | Type/category of media consumed             | **Media Type**                                     | Yes             | Verified |
+| FO-02 | Evaluation Index                           | Entry/archive display           | User's overall numeric rating               | **Score**                                          | Yes             | Verified |
+| FO-03 | Evaluation Index                           | Entry detail                    | User's overall numeric rating               | **Score**                                          | Yes             | Verified |
+| FO-04 | Evaluation Index                           | Archive analytics               | Aggregate rating value                      | **Score**                                          | Yes             | Verified |
+| FO-05 | Evaluation Index Distribution              | Charts                          | Distribution of rating values               | **Score Distribution**                             | Yes             | Verified |
+| FO-06 | Average Evaluation Index                   | Charts                          | Average user rating                         | **Average Score**                                  | Yes             | Verified |
+| FO-07 | Average Evaluation Index by Classification | Charts                          | Average score grouped by media type         | **Average Score by Media Type**                    | Yes             | Verified |
+| FO-08 | Highest Evaluated Records                  | Charts                          | Highest-rated records                       | **Highest Rated Records**                          | Yes             | Verified |
+| FO-09 | Evaluation                                 | Entry scoring UI                | User-provided scoring                       | **Scoring**                                        | Yes             | Verified |
+| FO-10 | Evaluation Index                           | Rating presentation             | Overall user rating                         | **Score**                                          | Yes             | Verified |
+| FO-11 | Evaluation Index                           | Charts                          | Aggregate rating value                      | **Score**                                          | Yes             | Verified |
+| FO-12 | Evaluation Index Distribution              | Charts                          | Distribution of rating values               | **Score Distribution**                             | Yes             | Verified |
+| FO-13 | Average Evaluation Index                   | Charts                          | Average rating                              | **Average Score**                                  | Yes             | Verified |
+| FO-14 | Average Evaluation Index by Classification | Charts                          | Average score grouped by media type         | **Average Score by Media Type**                    | Yes             | Verified |
+| FO-15 | Highest Evaluated Records                  | Charts                          | Highest-rated records                       | **Highest Rated Records**                          | Yes             | Verified |
+| FO-16 | Classification                             | Media grouping                  | Media type grouping                         | **Media Type**                                     | Yes             | Verified |
+| FO-17 | Universal Evaluation                       | `forms.js`                      | Universal scoring dimensions                | **Universal Scoring**                              | Yes             | Verified |
+| FO-18 | `<Media Type> Evaluation`                  | Forms/charts                    | Media-specific scoring dimensions           | **<Media Type> Scoring**                           | Yes             | Verified |
+| FO-19 | Core Evaluation Matrix                     | `charts.js`                     | Aggregate universal scoring dimensions      | **Universal Scoring Profile**                      | Yes             | Verified |
+| FO-20 | Classification Confidence                  | Designation presentation        | Strength of designation signal              | **Signal Strength**                                | Yes             | Verified |
+| FO-21 | Designation Basis                          | Designation display             | Explanation/basis for selected designation  | **Designation Basis**                              | No              | Verified |
+| FO-22 | `designationBasis`                         | API data                        | Designation explanation/basis               | **Preserve API field**                             | No              | Verified |
+| FO-23 | `designationConfidence`                    | API data                        | Designation signal strength                 | **Preserve API field; present as Signal Strength** | No              | Verified |
+| FO-24 | `primaryDesignation`                       | API/Profile                     | Primary designation                         | **Primary Designation**                            | No              | Verified |
+| FO-25 | Designation                                | Designation display             | Named taste classification                  | **Designation**                                    | No              | Verified |
+| FO-26 | Observations                               | Entry detail                    | User-authored `entry.notes`                 | **Notes**                                          | Yes             | Verified |
+| FO-27 | Archive Observations                       | Archive intelligence            | Backend-generated recurring patterns        | **Archive Observations**                           | No              | Verified |
+| FO-28 | Archive Findings                           | Archive intelligence            | Backend-generated interpretive findings     | **Archive Findings**                               | No              | Verified |
+| FO-29 | Archive Interpretation                     | Archive intelligence            | Backend-generated interpretation layer      | **Archive Interpretation**                         | No              | Verified |
+| FO-30 | `primaryTrait`                             | Archive Profile                 | Primary archive-level trait signal          | **Primary Trait**                                  | No              | Verified |
+| FO-31 | `secondaryTrait`                           | Archive Profile                 | Secondary archive-level trait signal        | **Secondary Trait**                                | No              | Verified |
+| FO-32 | `genreSignature`                           | Archive Profile                 | Archive-level genre summary                 | **Genre Signature**                                | No              | Verified |
+| FO-33 | `observationSummary`                       | Archive Profile                 | Summary of Observation intelligence         | **Observation Summary**                            | No              | Verified |
+| FO-34 | `archiveSummary`                           | Archive Profile                 | Archive-level synthesis                     | **Archive Summary**                                | No              | Verified |
+| FO-35 | `archiveDesignations`                      | Legacy frontend intelligence    | Superseded frontend designation generation  | **Removed / backend authoritative**                | N/A             | Resolved |
+| FO-36 | `generateArchiveTitle`                     | Legacy frontend intelligence    | Superseded frontend title generation        | **Removed / backend authoritative**                | N/A             | Resolved |
+| FO-37 | `calculateDesignationConfidence`           | Legacy frontend intelligence    | Superseded frontend designation calculation | **Removed / backend authoritative**                | N/A             | Resolved |
+| FO-38 | `generateDesignationBasis`                 | Legacy frontend intelligence    | Superseded frontend designation explanation | **Removed / backend authoritative**                | N/A             | Resolved |
+
+---
+
+# 7. Scoring Terminology
+
+## 7.1 Score
+
+The word **Score** is the preferred frontend term for user-provided numerical
+ratings.
+
+Examples:
+
+```text
+Score
+Average Score
+Score Distribution
+Highest Rated Records
+```
+
+The frontend should not use "Evaluation Index" for these values.
+
+"Evaluation" historically described the user's scoring activity, but the
+underlying data is more accurately described as a score.
+
+---
+
+# 8. Universal Scoring
+
+Universal scoring dimensions apply across media types.
+
+The preferred frontend terminology is:
+
+```text
+Universal Scoring
+```
+
+not:
+
+```text
+Universal Evaluation
+```
+
+The term "scoring" more accurately describes the user's act of assigning
+numeric values to universal dimensions.
+
+The underlying API and calculation architecture does not change.
+
+---
+
+# 9. Media-Specific Scoring
+
+Media-specific dimensions should be presented as:
+
+```text
+<Movie> Scoring
+<Game> Scoring
+<Book> Scoring
+```
+
+rather than:
+
+```text
+<Movie> Evaluation
+<Game> Evaluation
+<Book> Evaluation
+```
+
+The exact media type is supplied dynamically.
+
+This terminology reflects the same existing user-input scoring dimensions.
+
+No scoring algorithm changes are implied.
+
+---
+
+# 10. Universal Scoring Profile
+
+The historical frontend term:
+
+```text
+Core Evaluation Matrix
+```
+
+does not represent a separate intelligence subsystem.
+
+The visualization presents aggregate universal scoring dimensions.
+
+The preferred presentation term is:
+
+```text
+Universal Scoring Profile
+```
+
+This describes what the visualization actually represents without implying the
+existence of a distinct "Core Evaluation Matrix" intelligence layer.
+
+---
+
+# 11. Designation Terminology
+
+Designation is a named taste classification.
+
+The frontend should use:
+
+```text
+Designation
+Primary Designation
+Designation Score
+Designation Basis
+Signal Strength
+```
+
+The core question is:
+
+> **What recognizable taste classification fits this archive?**
+
+Designation should not be presented as:
+
+- an Identity
+- a personality diagnosis
+- a recommendation category
+- a favorite genre
+- a single preference
+- a measure of certainty
+
+---
+
+# 12. Designation Signal Strength
+
+The API field remains:
+
+```text
+designationConfidence
+```
+
+The frontend should not interpret the identifier literally.
+
+Its reconciled semantic meaning is:
+
+> **Signal Strength**
+
+Therefore:
+
+```text
+Signal Strength
+```
+
+is the preferred visible label.
+
+Do not display:
+
+```text
+Classification Confidence
+```
+
+for this value.
+
+The underlying calculation is preserved.
+
+The existing `designationConfidenceLabel` is also preserved.
+
+No new Classification Confidence calculation is introduced.
+
+---
+
+# 13. Designation Basis
+
+The API field:
+
+```text
+designationBasis
+```
+
+is preserved.
+
+The preferred visible terminology is:
+
+```text
+Designation Basis
+```
+
+The field provides explanatory context for the selected Designation.
+
+It is not a confidence measure.
+
+It is not an Identity explanation.
+
+It is not a recommendation score.
+
+No terminology correction is required.
+
+---
+
+# 14. Observation Terminology
+
+Observations represent recurring patterns identified by the intelligence
+system.
+
+The frontend should use:
+
+```text
+Observation
+Observations
+Archive Observations
+Evidence
+Evidence Strength
+```
+
+where those concepts are actually represented.
+
+The word "Observation" should not be used for user-authored entry notes.
+
+---
+
+# 15. Entry Notes vs Archive Observations
+
+The entry-detail interface historically used:
+
+```text
+Observations
+```
+
+for user-authored:
+
+```text
+entry.notes
+```
+
+This created a semantic collision with the actual intelligence-layer
+Observation system.
+
+The correct entry-detail label is:
+
+```text
+Notes
+```
+
+The intelligence layer retains:
+
+```text
+Archive Observations
+```
+
+or:
+
+```text
+Observations
+```
+
+where the context already makes the distinction clear.
+
+This is a presentation terminology correction only.
+
+---
+
+# 16. Observation Evidence Strength
+
+The public Observation field is:
+
+```text
+evidenceStrength
+```
+
+The frontend should present it as:
+
+```text
+Evidence Strength
+```
+
+It represents threshold-relative support for the Observation's designated
+supporting signal.
+
+It does not represent:
+
+- statistical confidence
+- probability
+- certainty
+- Classification Confidence
+
+The underlying calculation and Observation ranking remain unchanged.
+
+---
+
+# 17. Findings Terminology
+
+Findings are interpretive conclusions generated from available archive
+evidence.
+
+The frontend should use:
+
+```text
+Findings
+Archive Findings
+```
+
+where appropriate.
+
+Finding should not be presented as synonymous with Observation.
+
+The distinction is:
+
+```text
+Observation
+    ↓
+demonstrates a recurring pattern
+
+Finding
+    ↓
+interprets what the available patterns may mean
+```
+
+The frontend should preserve this distinction.
+
+---
+
+# 18. Archive Interpretation
+
+The archive interpretation layer may be presented as:
+
+```text
+Archive Interpretation
+```
+
+It represents the higher-level interpretation/narrative layer assembled from
+the underlying intelligence.
+
+It should not be collapsed into:
+
+```text
+Observations
+```
+
+or:
+
+```text
+Findings
+```
+
+because those are separate analytical layers.
+
+No terminology change is required.
+
+---
+
+# 19. Identity Terminology
+
+The current Identity catalog is:
+
+```text
+Interpretive Philosophy
+Exploratory Philosophy
+Breadth Philosophy
+```
+
+The frontend should use:
+
+```text
+Identity
+Primary Identity
+Secondary Identity
+Identity Score
+Data Sufficiency
+```
+
+The core Identity question is:
+
+> **What relationship does the curator tend to establish with what they
+> consume?**
+
+This distinguishes Identity from Designation.
+
+```text
+Designation
+    ↓
+What recognizable taste classification fits?
+
+Identity
+    ↓
+What broader curatorial philosophy does the archive demonstrate?
+```
+
+---
+
+# 20. Identity Score
+
+Identity Score represents the strength of alignment between the archive and the
+Identity's defined signals.
+
+The frontend may describe this as:
+
+```text
+Identity Score
+```
+
+or, where appropriate:
+
+```text
+Signal Strength
+```
+
+It should not be labeled:
+
+```text
+Identity Confidence
+```
+
+Identity Score is not Data Sufficiency.
+
+---
+
+# 21. Identity Data Sufficiency
+
+Identity Data Sufficiency describes whether enough archive data exists to
+evaluate the Identity.
+
+It should not be presented as:
+
+```text
+Identity Confidence
+```
+
+The distinction is:
+
+```text
+Data Sufficiency
+=
+Do we have enough data?
+
+Identity Score
+=
+How strongly does the archive align?
+
+Classification Confidence
+=
+How clearly does one candidate beat alternatives?
+```
+
+Only the first two are active concepts in the current Identity system.
+
+---
+
+# 22. Primary and Secondary Identity Presentation
+
+The frontend should distinguish:
+
+```text
+Primary Identity
+```
+
+from additional meaningful Identity candidates.
+
+Current resolution behavior uses a minimum score threshold for a secondary
+Identity.
+
+The frontend should not imply that every positive-scoring Identity is
+meaningful enough to display as a secondary.
+
+Likewise, the frontend should not imply that a secondary Identity is equally
+strong as the primary Identity.
+
+---
+
+# 23. Archive Profile Terminology
+
+The current Archive Profile contains several established fields whose names
+are already semantically appropriate.
+
+These should be preserved:
+
+```text
+primaryTrait
+secondaryTrait
+genreSignature
+observationSummary
+archiveSummary
+primaryDesignation
+primaryIdentity
+```
+
+Preferred presentation terminology is:
+
+```text
+Primary Trait
+Secondary Trait
+Genre Signature
+Observation Summary
+Archive Summary
+Primary Designation
+Primary Identity
+```
+
+No renaming is required.
+
+---
+
+# 24. Recommendation Terminology
+
+Recommendation-oriented metadata should not be presented as a completed
+Recommendation Engine.
+
+For example:
+
+```text
+recommendation_bias
+```
+
+represents contextual recommendation tendencies.
+
+It does not mean:
+
+```text
+Recommendation Score
+```
+
+and it does not mean that the current system has generated a recommendation.
+
+The frontend should not imply recommendation functionality that the backend
+does not currently provide.
+
+Recommendation behavior remains future work.
+
+---
+
+# 25. Legacy Frontend Intelligence
+
+Historical frontend code contained intelligence responsibilities that are now
+owned by the backend.
 
 Examples include:
 
 ```text
-Designation score
-= degree of fit to a Designation rule
-
-Identity score
-= strength of alignment with an Identity
-
-Identity contribution
-= weighted contribution of an individual Identity signal
+archiveDesignations
+generateArchiveTitle
+calculateDesignationConfidence
+generateDesignationBasis
 ```
 
-These values must not be collapsed into a universal scoring concept merely because they share the field name `score`.
+These functions should not be recreated in the frontend.
 
-A `score` field should be renamed only when its specific semantic contract has been established and the existing name creates an actual contract or consumer problem.
-
-**Treatment:** Preserve by domain; audit each occurrence independently.
-
----
-
-## 21.4 `breakdown`
-
-Identity `breakdown` is an explanatory scoring structure containing the contributing traits, values, weights, normalized values, and calculated contributions used to explain Identity scoring.
-
-It also provides evidence used by deterministic Identity tie-breaking.
-
-Therefore `breakdown` is not merely an arbitrary internal score dump.
-
-The existing structure should be preserved unless a concrete consumer or semantic conflict requires a more specific name.
-
-**Treatment:** Preserve current behavior and structure.
-
-**Status:** RESOLVED / PRESERVE
-
----
-
-## 21.5 `top_traits`
-
-Identity `top_traits` currently represents the highest-contributing entries from the Identity scoring breakdown.
-
-It therefore means:
+The current architectural boundary is:
 
 ```text
-top contributing Identity signals
+Backend
+    ↓
+calculate and explain intelligence
+
+Frontend
+    ↓
+present and visualize intelligence
 ```
 
-rather than a universal list of the archive's most important traits.
-
-The existing field should not be renamed solely because `top_traits` is somewhat generic.
-
-If a future consumer audit establishes that the distinction is materially confusing, a more precise field name may be considered separately.
-
-**Treatment:** Preserve pending demonstrated consumer or contract need.
-
-**Status:** DEFERRED / TERMINOLOGY DEBT
+This is an architectural correction, not merely a terminology correction.
 
 ---
 
-## 21.6 `evidence`
+# 26. Terminology vs API Identifier
 
-`evidence` is not a universal data type.
-
-The project intentionally permits subsystem-specific evidence mechanisms:
-
-```text
-Observation evidence
-≠
-Finding evidence
-≠
-Designation evidence
-≠
-Identity contribution evidence
-```
-
-A structured evidence object and a numeric Evidence Strength value are also distinct concepts.
-
-Therefore:
-
-```text
-evidence
-≠
-evidenceStrength
-```
-
-A generic `evidence` field should be evaluated according to the evidence it actually represents rather than renamed globally.
-
-**Treatment:** Preserve subsystem-specific evidence structures; audit individual occurrences when their public semantics are changed.
-
----
-
-## 21.7 `recommendation_bias`
-
-`recommendation_bias` represents recommendation-oriented metadata associated with an intelligence result.
-
-It is not itself a recommendation score or completed recommendation.
-
-Therefore:
-
-```text
-recommendation_bias
-≠
-recommendation_score
-≠
-recommendation
-```
-
-The existing metadata should be preserved while the Recommendation Engine remains intentionally deferred.
-
-When substantive recommendation scoring is implemented, its weighting and consumer behavior should receive a separate audit.
-
-**Treatment:** Preserve existing metadata; defer recommendation-system redesign.
-
-**Status:** RESOLVED / DEFERRED
-
----
-
-## 21.8 General Rule
-
-Generic field names are not themselves implementation defects.
-
-A field should be renamed when:
-
-1. its semantic contract has been established;
-2. the existing name materially conflicts with that contract;
-3. the downstream consumer path has been audited; and
-4. the rename provides meaningful semantic improvement.
-
-Do not perform global terminology cleanup merely to make names look consistent.
-
-**Principle:** **Semantic specificity must come from the domain contract, not from renaming generic fields for cosmetic consistency.**
-
----
-
-# 22. Field-Level Rename Status
-
-| Field                          | Current semantic interpretation                   | Phase 1 action                                          |
-| ------------------------------ | ------------------------------------------------- | ------------------------------------------------------- |
-| `data_sufficiency`             | Data Sufficiency                                  | Preserve                                                |
-| Identity `score`               | Identity alignment strength                       | Preserve                                                |
-| `designationConfidence`        | Designation Signal Strength                       | Clarify terminology                                     |
-| Observation `evidenceStrength` | Observation Evidence Strength                     | Preserve renamed API field                              |
-| Finding `confidence`           | No current field / undefined concept              | Defer                                                   |
-| `score` generally              | Context-dependent scoring value                   | Preserve; do not globally rename                        |
-| `evidence`                     | Layer-specific support/explanation                | Preserve; do not universalize                           |
-| `recommendation_bias`          | Recommendation-oriented metadata                  | Preserve                                                |
-| `breakdown`                    | Layer-specific contribution/explanation structure | Preserve                                                |
-| `top_traits`                   | Top contributing Identity signals                 | Preserve unless consumer-specific audit requires change |
-
----
-
-## 23. Frontend Terminology
-
-**Status:** Locked.
-
-Frontend terminology should communicate the **established semantic meaning** of an intelligence field without necessarily requiring an API field rename.
-
-A frontend label may clarify terminology when the underlying API field and calculation remain valid but the field name is misleading to users.
+A frontend label and an API identifier do not need to be identical.
 
 For example:
 
 ```text
-
 API:
-
 designationConfidence
 
 Frontend:
-
 Signal Strength
-
 ```
 
-may be appropriate when the underlying value represents Signal Strength and the API field is being preserved for compatibility.
+This is valid because the public identifier is preserved for compatibility
+while the visible terminology accurately describes its semantic meaning.
 
-Likewise, Observation terminology is now represented publicly as:
+Similarly:
 
 ```text
-
-Internal / legacy implementation:
-
-confidence
-
-Public API:
-
-evidenceStrength
+API:
+designationBasis
 
 Frontend:
+Designation Basis
+```
 
+requires no rename because the existing identifier already describes the
+concept adequately.
+
+The frontend should not expose historical implementation terminology merely
+because it exists in an API field name.
+
+---
+
+# 27. What the Frontend Must Not Invent
+
+The frontend should not introduce terminology for concepts that do not exist
+in the underlying intelligence system.
+
+Do not introduce:
+
+```text
+Classification Confidence
+Identity Confidence
+Finding Confidence
+Archive Confidence
+Near-Tie Confidence
+Recommendation Confidence
+```
+
+unless those concepts are explicitly defined and actually implemented.
+
+The frontend is not the place to resolve conceptual ambiguity by inventing
+labels.
+
+---
+
+# 28. Current Frontend Vocabulary
+
+The preferred current vocabulary is:
+
+## Entry / Scoring
+
+```text
+Score
+Scoring
+Universal Scoring
+<Media Type> Scoring
+```
+
+## Archive Intelligence
+
+```text
+Traits
+Genre Signals
+Observations
+Evidence
 Evidence Strength
-
-```
-
-The frontend should use the established semantic meaning of `evidenceStrength` rather than reintroducing the retired `confidence` terminology.
-
-### 23.1 Presentation Is Not Semantic Redefinition
-
-Frontend terminology may clarify an established concept, but it must not reinterpret an existing value as a different intelligence concept.
-
-For example:
-
-```text
-
-designationConfidence = 72
-
-```
-
-must not be presented as:
-
-```text
-
-72% confidence
-
-```
-
-if the established semantic meaning is Signal Strength rather than probabilistic or classification confidence.
-
-Likewise, frontend code must not derive new concepts such as "overall confidence," "certainty," "accuracy," or "evidence quality" from existing fields unless those concepts have been explicitly established.
-
-### 23.2 Frontend Terminology Rules
-
-Prefer:
-
-- user-facing labels that match established semantic definitions
-- presentation-layer clarification when an API field name is misleading
-- preserving valid API contracts when a frontend label can resolve the terminology problem
-- consistent terminology across related frontend consumers
-- explicit semantic definitions before introducing derived intelligence terminology
-
-Avoid:
-
-- treating frontend labels as the source of semantic definitions
-- reintroducing retired terminology
-- converting Signal Strength into implied probability or certainty
-- creating new intelligence concepts solely for presentation convenience
-- using a frontend label to conceal unresolved backend semantics
-
-**Principle:** The frontend may clarify intelligence terminology, but it must not redefine the intelligence model.
-
----
-
-## 24. Backward Compatibility
-
-**Status:** Locked.
-
-Phase 1 should favor **compatibility-preserving terminology alignment** where the existing public API contract remains semantically usable.
-
-Where an existing API field is consumed by one or more clients, a semantic label correction may be preferable to an immediate field rename when the field itself can remain valid and the terminology problem can be resolved at the presentation layer.
-
-Backward compatibility should be treated as a constraint on implementation, not as a reason to preserve terminology whose semantic meaning has been demonstrably superseded.
-
-### 24.1 Public Rename Requirements
-
-A public API field rename should occur only when:
-
-1. the semantic mapping is locked;
-2. all known consumers and dependency paths have been identified;
-3. affected tests and fixtures have been identified and can be updated deliberately;
-4. compatibility implications, including downstream consumers, have been understood;
-5. the migration provides a meaningful semantic improvement; and
-6. the rename is explicitly approved.
-
-Updated tests demonstrate that the implementation matches the migrated contract; they do not by themselves establish that compatibility has been preserved.
-
-### 24.2 Compatibility Strategy
-
-When terminology can be corrected without changing the public field:
-
-* prefer frontend or presentation-layer clarification;
-* preserve the existing API field where its semantic meaning remains valid;
-* avoid unnecessary contract changes;
-* document the relationship between the API field and its user-facing terminology.
-
-When a field's public name is itself materially inconsistent with its established semantic meaning:
-
-* treat the rename as an intentional contract migration;
-* audit all known consumers before implementation;
-* update affected tests and fixtures as part of the migration;
-* explicitly consider whether a staged transition or compatibility mechanism is necessary;
-* do not maintain duplicate terminology indefinitely without a defined migration purpose.
-
-**Principle:** Preserve valid API contracts when possible, but compatibility should not prevent deliberate correction of an established semantic mismatch.
-
----
-
-# 25. What Phase 1 Does Not Do
-
-Phase 1 does not:
-
-- invent Classification Confidence mathematics
-- invent Finding confidence
-- invent or promote Secondary Identity thresholds
-- invent tie/near-tie thresholds
-- implement Recommendation weighting
-- create a universal evidence schema
-- redesign the API
-- rename every occurrence of `confidence`
-- rename fields solely for aesthetic consistency
-- make Identity a Designation clone
-- make Findings into renamed Observations
-
----
-
-# 26. Required Testing
-
-Every intentional terminology or behavior change must be protected by tests
-where the change affects behavior.
-
-Tests should protect:
-
-### Identity
-
-- Data Sufficiency
-- Identity score
-- eligibility
-- deterministic ranking
-- primary selection
-- contribution breakdown
-- insufficient-data behavior
-- secondary-selection behavior once defined
-
-### Designations
-
-- scoring
-- deterministic ranking
-- primary selection
-- explanation/evidence
-- recommendation bias
-
-### Observations
-
-- rule behavior
-- Evidence Strength
-- evidence
-- deterministic ordering
-
-### Findings
-
-- interpretive boundary
-- evidence
-- synthesis behavior
-- future confidence semantics when defined
-
-### API / Frontend
-
-- response compatibility
-- serialization
-- field mapping
-- terminology presentation
-- downstream consumer behavior
-
----
-
-## 27. Implementation Rule
-
-The governing implementation rule is:
-
-> **Change terminology where the semantic meaning is already established.**
-
-> **Do not change behavior merely because terminology is imperfect.**
-
-> **Do not assign semantics to unresolved concepts merely because an existing field requires a name.**
-
-The implementation should evolve from the **established conceptual contract**.
-
-Resolved terminology should guide implementation changes; unresolved concepts should remain unresolved until their semantics are explicitly defined.
-
-It should not be rewritten to fit a cleaner vocabulary.
-
-**Principle:** Establish the meaning first, then align terminology and implementation to that meaning.
-
----
-
-## 28. Final Reconciled Mapping
-
-The Phase 1 semantic vocabulary can be summarized as:
-
-[start text]
-
-Trait
-
-```
-↓
-```
-
+Findings
+Archive Interpretation
+Designations
+Primary Designation
+Designation Score
+Designation Basis
 Signal Strength
-
-Identity
-├── score
-│     ↓
-│   alignment strength
-│
-└── data_sufficiency
-↓
+Identities
+Primary Identity
+Secondary Identity
+Identity Score
 Data Sufficiency
+```
 
-Observation
-└── evidenceStrength
-↓
-Evidence Strength
-(threshold-relative)
+## Archive Profile
 
-Designation
-└── designationConfidence
-↓
+```text
+Primary Trait
+Secondary Trait
+Genre Signature
+Observation Summary
+Archive Summary
+```
+
+## User-authored entry content
+
+```text
+Notes
+```
+
+---
+
+# 29. Completed Frontend Terminology Alignment
+
+The following terminology corrections have been implemented:
+
+- `Universal Evaluation` → `Universal Scoring`
+- `Core Evaluation Matrix` → `Universal Scoring Profile`
+- `Media Evaluation` → `Media Scoring`
+- `Evaluation Index` → `Score`
+- `Evaluation Index Distribution` → `Score Distribution`
+- `Average Evaluation Index` → `Average Score`
+- `Average Evaluation Index by Classification` → `Average Score by Media Type`
+- `Highest Evaluated Records` → `Highest Rated Records`
+- frontend `Classification Confidence` presentation → `Signal Strength`
+- entry-detail `Observations` for user notes → `Notes`
+
+These changes are presentation terminology changes.
+
+They do not alter the underlying scoring calculations.
+
+---
+
+# 30. Backend-Owned Intelligence Alignment
+
+The frontend no longer needs to independently calculate or generate:
+
+- Designation scores
+- Designation confidence/signal values
+- Designation basis
+- archive designations
+- archive title intelligence
+- Identity scores
+- Identity eligibility
+- Identity ranking
+- Identity primary selection
+- Observation evidence strength
+- Archive Profile intelligence
+
+The backend is authoritative for these values.
+
+The frontend consumes and presents them.
+
+---
+
+# 31. API Rename Policy
+
+A frontend terminology correction does not automatically require an API field
+rename.
+
+The decision sequence is:
+
+```text
+Semantic meaning established
+        ↓
+Frontend label evaluated
+        ↓
+API field evaluated independently
+        ↓
+Consumer blast radius considered
+        ↓
+Rename only if justified
+```
+
+This prevents presentation cleanup from creating unnecessary API churn.
+
+Current examples intentionally preserved:
+
+```text
+designationConfidence
+designationConfidenceLabel
+designationBasis
+primaryDesignation
+primaryIdentity
+data_sufficiency
+score
+```
+
+The Observation public field is now:
+
+```text
+evidenceStrength
+```
+
+because the public `confidence` terminology was misleading and the consumer
+audit supported the migration.
+
+---
+
+# 32. Internal Frontend Terminology Debt
+
+Not every internal variable needs to be renamed during Phase 1.
+
+For example, an internal variable such as:
+
+```text
+confidenceLabel
+```
+
+may remain when its visible presentation is already:
+
+```text
 Signal Strength
+```
 
-Finding
-└── confidence
-↓
-UNRESOLVED / NOT CURRENTLY DEFINED
+Similarly, internal helper names associated with preserved backend calculations
+do not need to change merely for aesthetic consistency.
 
-Future / optional concept
-└── Classification Confidence
-↓
-separation between competing classifications
-(not currently defined or implemented)
-
-[end code]
-
-These mappings describe semantics.
-
-They do not automatically require immediate API field renames.
+Internal terminology cleanup can occur later as ordinary technical debt work.
 
 ---
 
-# 29. Phase 1 Completion Criteria
+# 33. Non-Goals
 
-This document is aligned when:
+This document does not authorize:
 
-- [x] Identity `data_sufficiency` is defined as Data Sufficiency
-- [x] Identity `score` remains distinct from Data Sufficiency
-- [x] Designation `designationConfidence` is recognized as Signal Strength
-- [x] Observation `confidence` is recognized as threshold-relative Evidence Strength
-- [x] Finding confidence remains unresolved
-- [x] Classification Confidence is not invented as an existing metric
-- [x] Evidence mechanisms remain layer-specific
-- [x] Recommendation Bias remains descriptive metadata
-- [x] Primary Identity remains distinct from Designation
-- [x] Secondary Identity meaningfulness remains unresolved until policy is locked
-- [x] Tie / close-competitor behavior remains unresolved until policy is locked
-- [x] Archive-state thresholds remain unresolved
-- [x] API renames are treated as downstream changes rather than isolated backend edits
-- [x] No unrelated API redesign is introduced
+- frontend framework migration
+- React migration
+- frontend architecture rewrite
+- redesigning charts
+- redesigning scoring algorithms
+- redesigning Identity scoring
+- redesigning Designation scoring
+- implementing Classification Confidence
+- implementing Finding confidence
+- implementing recommendations
+- creating a universal evidence schema
+- changing API contracts without consumer audit
+- changing backend behavior merely to match frontend wording
+
+Terminology alignment should remain targeted.
 
 ---
 
-## 30. Governing Principle
+# 34. Acceptance Criteria
 
-> **The API should describe the intelligence system that actually exists, while the intelligence system should only change when an explicit conceptual decision requires it.**
+Frontend terminology alignment is successful when:
 
-Terminology alignment is therefore a controlled evolution of the existing Media Tracker architecture, not a justification for rewriting it.
+- visible scoring terminology describes scoring rather than generic evaluation
+- media types are not mislabeled as classifications
+- entry notes are not confused with intelligence-layer Observations
+- Designation is presented as a taste classification
+- Identity is presented as a broader curatorial philosophy
+- Designation signal strength is not presented as Classification Confidence
+- Observation Evidence Strength is not presented as generic confidence
+- Data Sufficiency is not presented as confidence
+- nonexistent intelligence concepts are not invented in the UI
+- backend-generated intelligence remains backend authoritative
+- API identifiers are not renamed unnecessarily
+- legacy frontend intelligence is not recreated
+- frontend terminology matches the reconciled Phase 1 contract
 
-**Principle:** Establish the semantic contract first. Align terminology and implementation to that contract without changing behavior unless an explicit conceptual decision requires the change.
+---
 
+# 35. Final Principle
+
+The frontend should describe the intelligence system that actually exists.
+
+It should not create a second interpretation of that system.
+
+> **Presentation terminology may clarify the intelligence layer, but it should
+> not redefine it.**
+
+The goal of Phase 1 frontend terminology alignment is therefore not to make
+every identifier aesthetically uniform.
+
+The goal is to make the interface accurately communicate the semantics of the
+existing intelligence architecture while preserving behavior and avoiding
+unnecessary implementation churn.
+
+These two are now aligned with the **post-Identity-migration state**, rather than the older Phase 1 state where Identity eligibility/secondary behavior and Observation terminology were still unresolved. The main thing I intentionally **didn't** do is turn every historical internal name into a rename just for cleanliness.

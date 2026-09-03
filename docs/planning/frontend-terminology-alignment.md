@@ -1,11 +1,11 @@
-# Frontend Terminology Alignment
-
-```text
+```
 __    __ ___    ___ ___  ____ ___
 \ \/\/ // _ \  _\\ / _ \ | D )| |
  \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
  Weighted Archive System for Analysis & Behavioral Insights
 ```
+
+# Frontend Terminology Alignment
 
 **Project:** Media Tracker
 
@@ -16,6 +16,8 @@ __    __ ___    ___ ___  ____ ___
 **Semantic authority:** `phase-1-intelligence-alignment.md`
 
 **API terminology reference:** `phase-1-terminology-and-api-rename-map.md`
+
+**Implementation authority:** Current repository implementation on `develop-3`
 
 **Guiding principle:** **Evolution, not rewrite.**
 
@@ -29,43 +31,42 @@ reconciled Phase 1 semantic vocabulary.
 Its purpose is to identify:
 
 - terminology that accurately represents the underlying data
-- terminology that is misleading or historically drifted
+- terminology that was historically misleading
 - terminology that can safely be corrected at the presentation layer
-- terminology that requires further semantic investigation
-- API/domain terminology that must not be renamed merely because the frontend
+- API/domain terminology that should not be renamed merely because a frontend
   label is ambiguous
 - frontend intelligence logic that belongs in the backend rather than the
   presentation layer
 
-This is a **Phase 1 planning and verification document**.
+This is a Phase 1 planning and verification document.
 
 It does not independently redefine the Intelligence Contract.
 
-It does not authorize backend or frontend implementation changes by itself.
+It does not authorize unrelated frontend redesign.
 
-The repository remains authoritative for current implementation.
+The repository remains authoritative for current implementation behavior.
 
 ---
 
-# 2. Authority / Scope
+# 2. Authority and Scope
 
-Terminology decisions in this document are governed by the following order:
+Terminology decisions are governed by the following order:
 
 1. `phase-1-intelligence-alignment.md`
 2. `phase-1-terminology-and-api-rename-map.md`
-3. Current repository implementation on `develop-3`
-4. Verified consumer relationships and frontend usage
-5. Historical project intent and previous audit material
+3. `phase-1-decision-and-implementation-map.md`
+4. Current repository implementation on `develop-3`
+5. Verified frontend consumer relationships
+6. Historical project intent
 
-If implementation and terminology disagree, the implementation must be
+If implementation and terminology disagree, the implementation should be
 investigated rather than silently reinterpreted.
 
-If the semantic meaning cannot be established:
+If semantic meaning cannot be established:
 
 > **UNRESOLVED — insufficient repository evidence.**
 
-This document concerns **frontend terminology and frontend/backend
-responsibility**.
+This document concerns frontend terminology and frontend/backend responsibility.
 
 It does not independently redefine:
 
@@ -75,16 +76,73 @@ It does not independently redefine:
 - Findings
 - Designations
 - Identities
-- Recommendation Signals
+- Recommendation metadata
 - Recommendation behavior
-
-Those concepts are governed by the reconciled Phase 1 intelligence contract.
 
 ---
 
-# 3. Reconciled Semantic Vocabulary
+# 3. Frontend Responsibility Boundary
 
-The Phase 1 vocabulary relevant to frontend presentation is:
+The intended architecture is:
+
+```text
+                 BACKEND
+                    │
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+   Intelligence             API data
+        │                       │
+        └───────────┬───────────┘
+                    ↓
+                 FRONTEND
+                    │
+        ┌───────────┼───────────┐
+        ↓           ↓           ↓
+    Presentation  Interaction  Visualization
+```
+
+## Backend
+
+The backend is responsible for:
+
+- calculating Traits
+- calculating Genre Signals
+- evaluating Observations
+- evaluating Findings
+- calculating Designation scores
+- selecting the Primary Designation
+- calculating Identity scores
+- determining Identity Data Sufficiency
+- determining Identity eligibility
+- ranking Identity candidates
+- selecting the Primary Identity
+- resolving current secondary Identity behavior
+- producing evidence and explanations
+- producing recommendation-oriented metadata
+- assembling Archive Profile data
+- generating archive-level narrative content
+
+## Frontend
+
+The frontend is responsible for:
+
+- presenting backend-produced intelligence
+- formatting values
+- displaying evidence
+- visualizing results
+- presenting explanations
+- handling interaction
+- displaying entry-level user data
+- filtering and sorting for presentation where appropriate
+
+The frontend should not independently reproduce intelligence calculations.
+
+---
+
+# 4. Reconciled Semantic Vocabulary
+
+The frontend should distinguish the major intelligence layers:
 
 ```text
 Traits
@@ -97,7 +155,7 @@ demonstrate    interpret      classify       describe
 patterns       conclusions    taste          curator
 ```
 
-These are parallel analytical perspectives.
+These are different analytical perspectives.
 
 They are not interchangeable.
 
@@ -106,16 +164,17 @@ into generic terminology.
 
 ---
 
-# 4. Quantitative Vocabulary
+# 5. Quantitative Vocabulary
 
-The frontend must distinguish the following concepts where they are actually used:
+The frontend must distinguish the following concepts where they are actually
+used:
 
-| Term                          | Meaning                                                                                                                                           |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Signal Strength**           | How strongly a quality or signal is expressed                                                                                                     |
-| **Data Sufficiency**          | Whether enough archive data exists to evaluate a conclusion                                                                                       |
-| **Evidence Strength**         | How strongly available evidence supports a conclusion                                                                                             |
-| **Classification Confidence** | How clearly one classification outranks plausible alternatives; a future/optional concept that is not currently defined or implemented in Phase 1 |
+| Term                          | Meaning                                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Signal Strength**           | How strongly a quality or signal is expressed                                                     |
+| **Data Sufficiency**          | Whether enough archive data exists to evaluate a conclusion                                       |
+| **Evidence Strength**         | How strongly available evidence supports a conclusion                                             |
+| **Classification Confidence** | How clearly one classification outranks plausible alternatives; retired/not currently implemented |
 
 These concepts are not interchangeable.
 
@@ -125,7 +184,7 @@ In particular:
 designationConfidence
 ```
 
-does **not** automatically mean:
+does not automatically mean:
 
 ```text
 Classification Confidence
@@ -137,168 +196,154 @@ and:
 evidenceStrength
 ```
 
-on an Observation does **not** automatically mean generic confidence.
+does not mean generic confidence.
 
-Frontend labels should communicate the actual semantic meaning of the underlying field.
+Frontend labels should communicate the actual semantic meaning of the data being
+shown.
 
 ---
 
-# 5. Alignment Rules
+# 6. Alignment Table
 
-## Rule 1 — Correct misleading presentation terminology where semantics are already locked
+| ID    | Historical/current frontend term           | Location                        | Underlying meaning                          | Reconciled frontend term                           | Safe to change? | Status   |
+| ----- | ------------------------------------------ | ------------------------------- | ------------------------------------------- | -------------------------------------------------- | --------------- | -------- |
+| FO-01 | `CLASSIFICATION`                           | `entries.js` media type display | Type/category of media consumed             | **Media Type**                                     | Yes             | Verified |
+| FO-02 | Evaluation Index                           | Entry/archive display           | User's overall numeric rating               | **Score**                                          | Yes             | Verified |
+| FO-03 | Evaluation Index                           | Entry detail                    | User's overall numeric rating               | **Score**                                          | Yes             | Verified |
+| FO-04 | Evaluation Index                           | Archive analytics               | Aggregate rating value                      | **Score**                                          | Yes             | Verified |
+| FO-05 | Evaluation Index Distribution              | Charts                          | Distribution of rating values               | **Score Distribution**                             | Yes             | Verified |
+| FO-06 | Average Evaluation Index                   | Charts                          | Average user rating                         | **Average Score**                                  | Yes             | Verified |
+| FO-07 | Average Evaluation Index by Classification | Charts                          | Average score grouped by media type         | **Average Score by Media Type**                    | Yes             | Verified |
+| FO-08 | Highest Evaluated Records                  | Charts                          | Highest-rated records                       | **Highest Rated Records**                          | Yes             | Verified |
+| FO-09 | Evaluation                                 | Entry scoring UI                | User-provided scoring                       | **Scoring**                                        | Yes             | Verified |
+| FO-10 | Evaluation Index                           | Rating presentation             | Overall user rating                         | **Score**                                          | Yes             | Verified |
+| FO-11 | Evaluation Index                           | Charts                          | Aggregate rating value                      | **Score**                                          | Yes             | Verified |
+| FO-12 | Evaluation Index Distribution              | Charts                          | Distribution of rating values               | **Score Distribution**                             | Yes             | Verified |
+| FO-13 | Average Evaluation Index                   | Charts                          | Average rating                              | **Average Score**                                  | Yes             | Verified |
+| FO-14 | Average Evaluation Index by Classification | Charts                          | Average score grouped by media type         | **Average Score by Media Type**                    | Yes             | Verified |
+| FO-15 | Highest Evaluated Records                  | Charts                          | Highest-rated records                       | **Highest Rated Records**                          | Yes             | Verified |
+| FO-16 | Classification                             | Media grouping                  | Media type grouping                         | **Media Type**                                     | Yes             | Verified |
+| FO-17 | Universal Evaluation                       | `forms.js`                      | Universal scoring dimensions                | **Universal Scoring**                              | Yes             | Verified |
+| FO-18 | `<Media Type> Evaluation`                  | Forms/charts                    | Media-specific scoring dimensions           | **<Media Type> Scoring**                           | Yes             | Verified |
+| FO-19 | Core Evaluation Matrix                     | `charts.js`                     | Aggregate universal scoring dimensions      | **Universal Scoring Profile**                      | Yes             | Verified |
+| FO-20 | Classification Confidence                  | Designation presentation        | Strength of designation signal              | **Signal Strength**                                | Yes             | Verified |
+| FO-21 | Designation Basis                          | Designation display             | Explanation/basis for selected designation  | **Designation Basis**                              | No              | Verified |
+| FO-22 | `designationBasis`                         | API data                        | Designation explanation/basis               | **Preserve API field**                             | No              | Verified |
+| FO-23 | `designationConfidence`                    | API data                        | Designation signal strength                 | **Preserve API field; present as Signal Strength** | No              | Verified |
+| FO-24 | `primaryDesignation`                       | API/Profile                     | Primary designation                         | **Primary Designation**                            | No              | Verified |
+| FO-25 | Designation                                | Designation display             | Named taste classification                  | **Designation**                                    | No              | Verified |
+| FO-26 | Observations                               | Entry detail                    | User-authored `entry.notes`                 | **Notes**                                          | Yes             | Verified |
+| FO-27 | Archive Observations                       | Archive intelligence            | Backend-generated recurring patterns        | **Archive Observations**                           | No              | Verified |
+| FO-28 | Archive Findings                           | Archive intelligence            | Backend-generated interpretive findings     | **Archive Findings**                               | No              | Verified |
+| FO-29 | Archive Interpretation                     | Archive intelligence            | Backend-generated interpretation layer      | **Archive Interpretation**                         | No              | Verified |
+| FO-30 | `primaryTrait`                             | Archive Profile                 | Primary archive-level trait signal          | **Primary Trait**                                  | No              | Verified |
+| FO-31 | `secondaryTrait`                           | Archive Profile                 | Secondary archive-level trait signal        | **Secondary Trait**                                | No              | Verified |
+| FO-32 | `genreSignature`                           | Archive Profile                 | Archive-level genre summary                 | **Genre Signature**                                | No              | Verified |
+| FO-33 | `observationSummary`                       | Archive Profile                 | Summary of Observation intelligence         | **Observation Summary**                            | No              | Verified |
+| FO-34 | `archiveSummary`                           | Archive Profile                 | Archive-level synthesis                     | **Archive Summary**                                | No              | Verified |
+| FO-35 | `archiveDesignations`                      | Legacy frontend intelligence    | Superseded frontend designation generation  | **Removed / backend authoritative**                | N/A             | Resolved |
+| FO-36 | `generateArchiveTitle`                     | Legacy frontend intelligence    | Superseded frontend title generation        | **Removed / backend authoritative**                | N/A             | Resolved |
+| FO-37 | `calculateDesignationConfidence`           | Legacy frontend intelligence    | Superseded frontend designation calculation | **Removed / backend authoritative**                | N/A             | Resolved |
+| FO-38 | `generateDesignationBasis`                 | Legacy frontend intelligence    | Superseded frontend designation explanation | **Removed / backend authoritative**                | N/A             | Resolved |
 
-If the frontend label clearly misrepresents an established semantic concept,
-the visible label may be corrected without changing the API field or
-calculation.
+---
 
-Example:
+# 7. Scoring Terminology
+
+## 7.1 Score
+
+The word **Score** is the preferred frontend term for user-provided numerical
+ratings.
+
+Examples:
 
 ```text
-API field:
-designationConfidence
-
-Frontend label:
-Signal Strength
+Score
+Average Score
+Score Distribution
+Highest Rated Records
 ```
 
-The underlying calculation remains unchanged.
+The frontend should not use "Evaluation Index" for these values.
+
+"Evaluation" historically described the user's scoring activity, but the
+underlying data is more accurately described as a score.
 
 ---
 
-## Rule 2 — Do not rename API fields merely because the frontend label is questionable
+# 8. Universal Scoring
 
-The following identifiers are API/domain terminology and should not be
-renamed merely to make frontend wording cleaner:
+Universal scoring dimensions apply across media types.
+
+The preferred frontend terminology is:
 
 ```text
-designationBasis
-designationConfidence
-primaryDesignation
-primaryIdentity
-data_sufficiency
-score
-evidence
-recommendation_bias
+Universal Scoring
 ```
 
-A public API rename requires the field-level consumer audit described in
-`phase-1-terminology-and-api-rename-map.md`.
-
----
-
-## Rule 3 — Frontend labels must not invent unresolved semantics
-
-Do not introduce labels such as:
+not:
 
 ```text
-Classification Confidence
-Identity Confidence
-Finding Confidence
-Near-Tie Confidence
-Archive Confidence
+Universal Evaluation
 ```
 
-unless the underlying semantic concept has been explicitly defined and the
-frontend actually consumes such a value.
+The term "scoring" more accurately describes the user's act of assigning
+numeric values to universal dimensions.
 
-Unresolved concepts remain unresolved.
-
----
-
-## Rule 4 — Frontend should present intelligence rather than independently define it
-
-The intended responsibility boundary is:
-
-### Backend
-
-Responsible for:
-
-- calculating Traits
-- calculating Genre Signals
-- evaluating Observations
-- evaluating Findings
-- calculating Designation scores
-- selecting the Primary Designation
-- calculating Identity scores
-- determining Identity Data Sufficiency
-- ranking Identity candidates
-- selecting the Primary Identity
-- producing explanation/evidence
-- producing recommendation-oriented metadata
-
-### Frontend
-
-Responsible for:
-
-- presenting intelligence
-- formatting values
-- displaying evidence
-- visualizing results
-- presenting explanations
-- handling user interaction
-- filtering and sorting for presentation where appropriate
-
-The frontend should not independently reproduce intelligence calculations.
+The underlying API and calculation architecture does not change.
 
 ---
 
-## 6. Terminology Alignment Table
+# 9. Media-Specific Scoring
 
-| ID    | Current Frontend Term                      | Location                                                                                    | Underlying Meaning                              | Reconciled Semantic Category | Recommended Frontend Term       | Safe to Change Now? | Risk | Classification | Status       |
-| ----- | ------------------------------------------ | ------------------------------------------------------------------------------------------- | ----------------------------------------------- | ---------------------------- | ------------------------------- | ------------------- | ---- | -------------- | ------------ |
-| FO-01 | `CLASSIFICATION`                           | `entries.js` — entry `media_type`                                                           | The type/category of media consumed             | Media Type                   | **MEDIA TYPE**                  | YES                 | LOW  | ALIGN          | Verified     |
-| FO-02 | Evaluation Index                           | `entries.js` / archive entry display                                                        | User's overall numeric rating                   | Score                        | **Score**                       | YES                 | LOW  | ALIGN          | Verified     |
-| FO-03 | Evaluation Index                           | `entries.js` / entry display                                                                | User's overall numeric rating                   | Score                        | **Score**                       | YES                 | LOW  | ALIGN          | Verified     |
-| FO-04 | Evaluation Index                           | `charts.js` / archive analytics                                                             | Aggregate rating value                          | Score                        | **Score**                       | YES                 | LOW  | ALIGN          | Verified     |
-| FO-05 | Evaluation Index Distribution              | `charts.js`                                                                                 | Distribution of user rating values              | Score Distribution           | **Score Distribution**          | YES                 | LOW  | ALIGN          | Verified     |
-| FO-06 | Average Evaluation Index                   | `charts.js`                                                                                 | Average user rating                             | Average Score                | **Average Score**               | YES                 | LOW  | ALIGN          | Verified     |
-| FO-07 | Average Evaluation Index by Classification | `charts.js`                                                                                 | Average rating grouped by media type            | Average Score by Media Type  | **Average Score by Media Type** | YES                 | LOW  | ALIGN          | Verified     |
-| FO-08 | Highest Evaluated Records                  | `charts.js`                                                                                 | Records with highest user ratings               | Highest Rated Records        | **Highest Rated Records**       | YES                 | LOW  | ALIGN          | Verified     |
-| FO-09 | Evaluation                                 | `entries.js` / rating presentation                                                          | User-provided scoring                           | Scoring                      | **Scoring**                     | YES                 | LOW  | ALIGN          | Verified     |
-| FO-10 | Evaluation Index                           | `entries.js` / rating presentation                                                          | Overall user rating                             | Score                        | **Score**                       | YES                 | LOW  | ALIGN          | Verified     |
-| FO-11 | Evaluation Index                           | `charts.js`                                                                                 | Aggregate rating value                          | Score                        | **Score**                       | YES                 | LOW  | ALIGN          | Verified     |
-| FO-12 | Evaluation Index Distribution              | `charts.js`                                                                                 | Distribution of rating values                   | Score Distribution           | **Score Distribution**          | YES                 | LOW  | ALIGN          | Verified     |
-| FO-13 | Average Evaluation Index                   | `charts.js`                                                                                 | Average rating                                  | Average Score                | **Average Score**               | YES                 | LOW  | ALIGN          | Verified     |
-| FO-14 | Average Evaluation Index by Classification | `charts.js`                                                                                 | Average rating grouped by media type            | Average Score by Media Type  | **Average Score by Media Type** | YES                 | LOW  | ALIGN          | Verified     |
-| FO-15 | Highest Evaluated Records                  | `charts.js`                                                                                 | Highest-rated records                           | Highest Rated Records        | **Highest Rated Records**       | YES                 | LOW  | ALIGN          | Verified     |
-| FO-16 | Classification                             | `charts.js` / media grouping                                                                | Media type grouping                             | Media Type                   | **Media Type**                  | YES                 | LOW  | ALIGN          | Verified     |
-| FO-17 | Universal Evaluation                       | `forms.js` — entry scoring section                                                          | User-provided universal scoring dimensions      | Scoring Dimensions           | **Universal Scoring**           | YES                 | LOW  | ALIGN          | **Verified** |
-| FO-18 | `<Media Type> Evaluation`                  | `forms.js` — entry scoring section; `entries.js` / `charts.js` — media scoring presentation | User-provided media-specific scoring dimensions | Scoring Dimensions           | **<Media Type> Scoring**        | YES                 | LOW  | ALIGN          | **Verified** |
-| FO-19 | Core Evaluation Matrix | `charts.js` — universal scoring visualization | Aggregate universal scoring dimensions/averages | Universal Scoring Profile | **Universal Scoring Profile** | YES | LOW | ALIGN | **Verified** |
-| FO-20 | Classification Confidence | `charts.js` — `archiveProfile.designationConfidence` | Strength of the designation signal | Signal Strength | **Signal Strength** | YES | LOW | ALIGN | Verified |
-| FO-21 | Designation Basis | `charts.js` / designation display | Explanation/basis for the selected designation | Designation Basis | **Designation Basis** | NO | LOW | PRESERVE | **Verified / Correct** |
-| FO-22 | `designationBasis` | API field | Designation explanation/basis | Designation Basis | **Preserve API field** | NO | LOW | PRESERVE | Verified |
-| FO-23 | `designationConfidence` | API field | Designation signal strength | Signal Strength | **Preserve API field; present as Signal Strength** | NO | LOW | PRESERVE | Verified |
-| FO-24 | `primaryDesignation` | API/profile | Deterministically selected primary designation | Primary Designation | **Primary Designation** | NO | LOW | PRESERVE | Verified |
-| FO-25 | Designation | Frontend designation display | Named taste classification | Designation | **Designation** | NO | LOW | PRESERVE | Verified |
-| FO-26 | Observations | `entries.js` — entry detail | User-authored `entry.notes` content | Notes | **Notes** | YES | LOW | ALIGN | **Verified** |
-| FO-27 | Archive Observations | Archive intelligence display | Backend-generated recurring archive patterns | Observations | **Archive Observations** | NO | LOW | PRESERVE | Verified |
-| FO-28 | Archive Findings | Archive intelligence display | Backend-generated interpretive findings | Findings | **Archive Findings** | NO | LOW | PRESERVE | Verified |
-| FO-29 | Archive Interpretation | Archive intelligence display | Backend-generated interpretation/narrative layer | Interpretation | **Archive Interpretation** | NO | LOW | PRESERVE | **Verified / Correct** |
-| FO-30 | `primaryTrait` | Archive profile | Primary archive-level trait signal | Primary Trait | **Primary Trait** | NO | LOW | PRESERVE | **Verified / Correct** |
-| FO-31 | `secondaryTrait` | Archive profile | Secondary archive-level trait signal | Secondary Trait | **Secondary Trait** | NO | LOW | PRESERVE | **Verified / Correct** |
-| FO-32 | `genreSignature` | Archive profile | Generated archive-level genre summary | Genre Signature | **Genre Signature** | NO | LOW | PRESERVE | **Verified / Correct** |
-| FO-33 | `observationSummary` | Archive profile | Generated summary of intelligence-layer observations | Observation Summary | **Observation Summary** | NO | LOW | PRESERVE | **Verified / Correct** |
-| FO-34 | `archiveSummary` | Archive profile | Generated archive-level synthesis | Archive Summary | **Archive Summary** | NO | LOW | PRESERVE | **Verified / Correct** |
-| FO-35 | `archiveDesignations` | Legacy frontend intelligence | Superseded frontend designation generation | Legacy / Removed | **Removed / Backend authoritative** | N/A | N/A | REMOVE | Verified |
-| FO-36 | `generateArchiveTitle` | Legacy frontend intelligence | Superseded frontend title generation | Legacy / Removed | **Removed / Backend authoritative** | N/A | N/A | REMOVE | Verified |
-| FO-37 | `calculateDesignationConfidence` | Legacy frontend intelligence | Superseded frontend designation calculation | Legacy / Removed | **Removed / Backend authoritative** | N/A | N/A | REMOVE | Verified |
-| FO-38 | `generateDesignationBasis` | Legacy frontend intelligence | Superseded frontend designation explanation | Legacy / Removed | **Removed / Backend authoritative** | N/A | N/A | REMOVE | Verified |
+Media-specific dimensions should be presented as:
 
-### Table Notes
+```text
+<Movie> Scoring
+<Game> Scoring
+<Book> Scoring
+```
 
-- **FO-17 and FO-18:** “Evaluation” was historically used for the entry scoring UI, but the underlying data represents user-provided scoring dimensions. `Universal Scoring` and `<Media Type> Scoring` are therefore more precise frontend terminology.
-- **FO-19:** `Core Evaluation Matrix` does not represent a separate intelligence concept. The visualization presents aggregate universal scoring dimensions, so `Universal Scoring Profile` is the more precise presentation term.
-- **FO-21:** `Designation Basis` is semantically valid. It describes the basis used to explain the selected designation and does not require terminology correction.
-- **FO-26:** The entry-detail “Observations” heading refers to user-authored `entry.notes`, not intelligence-layer Observations. `Notes` is therefore the correct presentation term.
-- **FO-27 through FO-34:** These terms have been verified against the backend archive-profile architecture and are semantically appropriate. No terminology change is required.
-- **FO-35 through FO-38:** These represent legacy frontend intelligence functionality that has already been superseded by backend-owned intelligence. They are not candidates for terminology alignment.
-- `designationConfidence` remains the existing API identifier for compatibility, but its reconciled semantic meaning is **Signal Strength**, not Classification Confidence.
-- The public Observation field is `evidenceStrength`; it represents **Evidence Strength**, not generic Confidence.
+rather than:
+
+```text
+<Movie> Evaluation
+<Game> Evaluation
+<Book> Evaluation
+```
+
+The exact media type is supplied dynamically.
+
+This terminology reflects the same existing user-input scoring dimensions.
+
+No scoring algorithm changes are implied.
 
 ---
 
-# 7. Designation Terminology
+# 10. Universal Scoring Profile
+
+The historical frontend term:
+
+```text
+Core Evaluation Matrix
+```
+
+does not represent a separate intelligence subsystem.
+
+The visualization presents aggregate universal scoring dimensions.
+
+The preferred presentation term is:
+
+```text
+Universal Scoring Profile
+```
+
+This describes what the visualization actually represents without implying the
+existence of a distinct "Core Evaluation Matrix" intelligence layer.
+
+---
+
+# 11. Designation Terminology
 
 Designation is a named taste classification.
 
@@ -307,88 +352,96 @@ The frontend should use:
 ```text
 Designation
 Primary Designation
+Designation Score
+Designation Basis
+Signal Strength
 ```
 
-rather than introducing terminology that implies Designation is an Identity.
+The core question is:
 
-The following distinction is mandatory:
+> **What recognizable taste classification fits this archive?**
 
-```text
-Designation
-    ↓
-What recognizable taste classification fits?
+Designation should not be presented as:
 
-Identity
-    ↓
-What kind of curator does this archive describe?
-```
+- an Identity
+- a personality diagnosis
+- a recommendation category
+- a favorite genre
+- a single preference
+- a measure of certainty
 
 ---
 
-## 7.1 Designation Score
+# 12. Designation Signal Strength
 
-A Designation score represents how well the archive fits a Designation's
-defined classification.
-
-It should not be labeled as Classification Confidence unless a separate
-Classification Confidence measure is actually implemented.
-
----
-
-## 7.2 `designationConfidence`
-
-The existing API identifier may remain:
+The API field remains:
 
 ```text
 designationConfidence
 ```
 
-The frontend should not interpret that identifier literally.
+The frontend should not interpret the identifier literally.
 
 Its reconciled semantic meaning is:
 
 > **Signal Strength**
 
-Therefore the preferred frontend presentation is:
+Therefore:
 
 ```text
 Signal Strength
 ```
 
-not:
+is the preferred visible label.
+
+Do not display:
 
 ```text
 Classification Confidence
 ```
 
-This is a terminology correction, not a calculation change.
+for this value.
+
+The underlying calculation is preserved.
+
+The existing `designationConfidenceLabel` is also preserved.
+
+No new Classification Confidence calculation is introduced.
 
 ---
 
-## 7.3 `designationBasis`
+# 13. Designation Basis
 
-The API field remains:
+The API field:
 
 ```text
 designationBasis
 ```
 
-The frontend may present it as:
+is preserved.
+
+The preferred visible terminology is:
 
 ```text
 Designation Basis
 ```
 
-unless repository evidence establishes a more precise explanation-oriented
-label.
+The field provides explanatory context for the selected Designation.
 
-Do not rename the API field merely to improve the frontend label.
+It is not a confidence measure.
+
+It is not an Identity explanation.
+
+It is not a recommendation score.
+
+No terminology correction is required.
 
 ---
 
-# 8. Observation Terminology
+# 14. Observation Terminology
 
-Observations describe directly demonstrable recurring patterns.
+Observations represent recurring patterns identified by the intelligence
+system.
 
 The frontend should use:
 
@@ -402,9 +455,52 @@ Evidence Strength
 
 where those concepts are actually represented.
 
+The word "Observation" should not be used for user-authored entry notes.
+
 ---
 
-## 8.1 Observation `evidenceStrength`
+# 15. Entry Notes vs Archive Observations
+
+The entry-detail interface historically used:
+
+```text
+Observations
+```
+
+for user-authored:
+
+```text
+entry.notes
+```
+
+This created a semantic collision with the actual intelligence-layer
+Observation system.
+
+The correct entry-detail label is:
+
+```text
+Notes
+```
+
+The intelligence layer retains:
+
+```text
+Archive Observations
+```
+
+or:
+
+```text
+Observations
+```
+
+where the context already makes the distinction clear.
+
+This is a presentation terminology correction only.
+
+---
+
+# 16. Observation Evidence Strength
 
 The public Observation field is:
 
@@ -412,418 +508,301 @@ The public Observation field is:
 evidenceStrength
 ```
 
-Its reconciled semantic meaning is:
-
-> **Evidence Strength**
-
-Specifically, it represents threshold-relative support for the Observation's designated supporting signal.
-
-The frontend should therefore prefer:
+The frontend should present it as:
 
 ```text
 Evidence Strength
 ```
 
-over:
+It represents threshold-relative support for the Observation's designated
+supporting signal.
 
-```text
-Confidence
-```
+It does not represent:
 
-Do not imply that the value represents:
-
-- probability
 - statistical confidence
+- probability
 - certainty
-- general confidence across all rule predicates
+- Classification Confidence
+
+The underlying calculation and Observation ranking remain unchanged.
 
 ---
 
-# 9. Finding Terminology
+# 17. Findings Terminology
 
-Findings provide interpretive conclusions.
+Findings are interpretive conclusions generated from available archive
+evidence.
 
-The frontend should distinguish:
+The frontend should use:
+
+```text
+Findings
+Archive Findings
+```
+
+where appropriate.
+
+Finding should not be presented as synonymous with Observation.
+
+The distinction is:
 
 ```text
 Observation
-```
+    ↓
+demonstrates a recurring pattern
 
-from:
-
-```text
 Finding
+    ↓
+interprets what the available patterns may mean
 ```
 
-An Observation answers:
-
-> What can we directly demonstrate?
-
-A Finding answers:
-
-> What does the available evidence suggest?
-
-A Finding must add meaningful interpretation rather than merely restating an
-Observation.
+The frontend should preserve this distinction.
 
 ---
 
-## 9.1 Finding Confidence
+# 18. Archive Interpretation
 
-Finding confidence remains unresolved.
-
-The frontend must not invent a label or numerical interpretation for Finding
-confidence until its semantics are explicitly defined.
-
-Do not automatically label a future Finding value as:
+The archive interpretation layer may be presented as:
 
 ```text
-Confidence
+Archive Interpretation
+```
+
+It represents the higher-level interpretation/narrative layer assembled from
+the underlying intelligence.
+
+It should not be collapsed into:
+
+```text
+Observations
 ```
 
 or:
 
 ```text
-Evidence Strength
+Findings
 ```
 
-without a locked semantic decision.
+because those are separate analytical layers.
+
+No terminology change is required.
 
 ---
 
-# 10. Identity Terminology
+# 19. Identity Terminology
 
-Identity describes the broader curator philosophy represented by the archive.
+The current Identity catalog is:
+
+```text
+Interpretive Philosophy
+Exploratory Philosophy
+Breadth Philosophy
+```
 
 The frontend should use:
 
 ```text
-Primary Identity
-Secondary Identities
 Identity
-```
-
-where appropriate.
-
-Identity must not be presented as a synonym for Designation.
-
----
-
-## 10.1 Identity Score
-
-Identity score represents alignment with the Identity's defined signals.
-
-It is distinct from Data Sufficiency.
-
-Do not label Identity score as:
-
-```text
-Confidence
-```
-
-merely because it is a numerical value.
-
----
-
-## 10.2 Identity Data Sufficiency
-
-The reconciled semantic term is:
-
-```text
+Primary Identity
+Secondary Identity
+Identity Score
 Data Sufficiency
 ```
 
-It describes whether enough archive data exists to meaningfully evaluate the
+The core Identity question is:
+
+> **What relationship does the curator tend to establish with what they
+> consume?**
+
+This distinguishes Identity from Designation.
+
+```text
+Designation
+    ↓
+What recognizable taste classification fits?
+
+Identity
+    ↓
+What broader curatorial philosophy does the archive demonstrate?
+```
+
+---
+
+# 20. Identity Score
+
+Identity Score represents the strength of alignment between the archive and the
+Identity's defined signals.
+
+The frontend may describe this as:
+
+```text
+Identity Score
+```
+
+or, where appropriate:
+
+```text
+Signal Strength
+```
+
+It should not be labeled:
+
+```text
+Identity Confidence
+```
+
+Identity Score is not Data Sufficiency.
+
+---
+
+# 21. Identity Data Sufficiency
+
+Identity Data Sufficiency describes whether enough archive data exists to
+evaluate the Identity.
+
+It should not be presented as:
+
+```text
+Identity Confidence
+```
+
+The distinction is:
+
+```text
+Data Sufficiency
+=
+Do we have enough data?
+
+Identity Score
+=
+How strongly does the archive align?
+
+Classification Confidence
+=
+How clearly does one candidate beat alternatives?
+```
+
+Only the first two are active concepts in the current Identity system.
+
+---
+
+# 22. Primary and Secondary Identity Presentation
+
+The frontend should distinguish:
+
+```text
+Primary Identity
+```
+
+from additional meaningful Identity candidates.
+
+Current resolution behavior uses a minimum score threshold for a secondary
 Identity.
 
-The frontend should use:
+The frontend should not imply that every positive-scoring Identity is
+meaningful enough to display as a secondary.
+
+Likewise, the frontend should not imply that a secondary Identity is equally
+strong as the primary Identity.
+
+---
+
+# 23. Archive Profile Terminology
+
+The current Archive Profile contains several established fields whose names
+are already semantically appropriate.
+
+These should be preserved:
 
 ```text
-Data Sufficiency
+primaryTrait
+secondaryTrait
+genreSignature
+observationSummary
+archiveSummary
+primaryDesignation
+primaryIdentity
 ```
 
-where this concept is exposed.
-
----
-
-## 10.3 Classification Confidence
-
-Classification Confidence remains a conceptual category rather than a
-guaranteed current field.
-
-The frontend must not display a Classification Confidence value unless the
-backend actually provides a value with that semantic meaning.
-
----
-
-# 11. Secondary Identity Presentation
-
-The Profile may present:
+Preferred presentation terminology is:
 
 ```text
+Primary Trait
+Secondary Trait
+Genre Signature
+Observation Summary
+Archive Summary
+Primary Designation
 Primary Identity
-Secondary Identities
 ```
 
-but the existence of a positive Identity score does not automatically mean
-the Identity should be displayed.
-
-Meaningfulness and threshold policy remain separate decisions.
-
-The frontend must not invent a threshold such as:
-
-```text
-score > X
-```
-
-to determine Secondary Identities.
-
-That policy belongs to the intelligence layer.
+No renaming is required.
 
 ---
 
-# 12. Tie and Close-Competitor Presentation
+# 24. Recommendation Terminology
 
-The frontend must not independently invent a near-tie threshold.
+Recommendation-oriented metadata should not be presented as a completed
+Recommendation Engine.
 
-Potential presentation may eventually include:
+For example:
 
-- close competitors
-- ranked alternatives
-- tied candidates
+```text
+recommendation_bias
+```
 
-but the underlying policy must come from the Intelligence Layer.
+represents contextual recommendation tendencies.
 
-The frontend's responsibility is presentation, not deciding whether two
-classifications are conceptually close.
+It does not mean:
+
+```text
+Recommendation Score
+```
+
+and it does not mean that the current system has generated a recommendation.
+
+The frontend should not imply recommendation functionality that the backend
+does not currently provide.
+
+Recommendation behavior remains future work.
 
 ---
 
-# 13. Evidence Terminology
+# 25. Legacy Frontend Intelligence
 
-The frontend should present evidence according to the subsystem that produced
-it.
-
-Examples:
-
-```text
-Observation
-    Evidence
-    Evidence Strength
-
-Finding
-    Supporting Evidence
-
-Designation
-    Designation Basis / Explanation
-
-Identity
-    Contribution Breakdown
-    Data Sufficiency
-```
-
-These do not need to be represented using one universal frontend component or
-one universal API structure.
-
-The goal is explainability.
-
----
-
-# 14. Archive State
-
-The intelligence layer recognizes the conceptual states:
-
-```text
-EMPTY
-SPARSE
-ESTABLISHED
-```
-
-The operational thresholds remain unresolved.
-
-The frontend may eventually communicate limited-data conditions, but it should
-not invent the thresholds that determine them.
-
-The UI should not imply false certainty when the underlying intelligence layer
-has insufficient evidence.
-
----
-
-# 15. Analytics Terminology
-
-Analytics should describe quantitative information.
-
-Preferred terminology includes:
-
-```text
-Score
-Average Score
-Score Distribution
-Average Score by Media Type
-Highest Rated Records
-```
-
-Avoid replacing established score terminology with ambiguous terms such as:
-
-```text
-Evaluation Index
-Evaluation
-Classification
-```
-
-when the underlying value is simply `total_score`.
-
----
-
-# 16. Scoring Terminology
-
-Where the frontend is displaying the actual scoring interface rather than
-interpreted intelligence, terminology should distinguish:
-
-```text
-Scoring Dimensions
-```
-
-from:
-
-```text
-Traits
-```
-
-A scoring dimension is not automatically a Trait.
-
-A Trait is an intelligence-layer signal derived from archive data.
-
-Therefore the frontend should not rename scoring dimensions to Traits merely
-because both are numerical.
-
----
-
-# 17. Media Type Terminology
-
-When the underlying value is:
-
-```text
-entry.media_type
-```
-
-the frontend should use:
-
-```text
-Media Type
-```
-
-rather than:
-
-```text
-Classification
-```
-
-unless `Classification` has a separate explicitly defined meaning in that
-context.
-
-This is a presentation terminology correction only.
-
----
-
-# 18. Notes / Review Terminology
-
-Entry-level user-authored text should not be labeled `Observations` merely
-because the intelligence layer contains an Observation concept.
-
-If the field represents user-authored notes, the preferred presentation term
-is:
-
-```text
-Notes
-```
-
-The future archive `Review` concept is distinct from intelligence-layer
-Observations.
-
-A Review may eventually become an intelligence input, but it does not thereby
-become an Observation.
-
----
-
-# 19. Legacy Frontend Intelligence
-
-The frontend previously contained intelligence-related logic that has since
-been superseded by backend-authoritative behavior.
+Historical frontend code contained intelligence responsibilities that are now
+owned by the backend.
 
 Examples include:
 
 ```text
 archiveDesignations
-generateArchiveTitle()
-calculateDesignationConfidence()
-generateDesignationBasis()
+generateArchiveTitle
+calculateDesignationConfidence
+generateDesignationBasis
 ```
 
-These should not be reintroduced as frontend intelligence engines.
+These functions should not be recreated in the frontend.
 
-The backend is authoritative for:
-
-- Designation definitions
-- Designation scoring
-- Primary Designation selection
-- Designation explanation
-- Identity calculation
-- Identity ranking
-- Observation evaluation
-- Finding evaluation
-
-The frontend should consume those results.
-
----
-
-# 20. Frontend / Backend Responsibility Boundary
-
-The intended architecture is:
+The current architectural boundary is:
 
 ```text
-RAW ARCHIVE
+Backend
     ↓
-BACKEND INTELLIGENCE
+calculate and explain intelligence
+
+Frontend
     ↓
-API / PROFILE DATA
-    ↓
-FRONTEND PRESENTATION
+present and visualize intelligence
 ```
 
-The frontend may transform data for presentation.
-
-Examples of acceptable frontend behavior:
-
-- formatting numbers
-- sorting visible rows
-- filtering visible results
-- choosing chart representations
-- expanding/collapsing explanations
-- rendering evidence
-- formatting dates
-- selecting display labels
-
-Examples of behavior that should remain backend-owned:
-
-- calculating Trait scores
-- calculating Genre Signals
-- evaluating Observation rules
-- evaluating Finding rules
-- calculating Designation scores
-- determining Primary Designation
-- calculating Identity scores
-- determining Identity eligibility
-- ranking Identity candidates
-- determining Primary/Secondary Identity semantics
-- calculating Observation Evidence Strength
-- inventing recommendation weights
+This is an architectural correction, not merely a terminology correction.
 
 ---
 
-# 21. API Compatibility
+# 26. Terminology vs API Identifier
 
-A frontend terminology correction does not require an API rename.
+A frontend label and an API identifier do not need to be identical.
 
 For example:
 
@@ -835,249 +814,267 @@ Frontend:
 Signal Strength
 ```
 
-is valid when the underlying calculation already represents Signal Strength.
+This is valid because the public identifier is preserved for compatibility
+while the visible terminology accurately describes its semantic meaning.
 
-Likewise:
+Similarly:
 
 ```text
 API:
-evidenceStrength
+designationBasis
 
 Frontend:
-Evidence Strength
+Designation Basis
 ```
 
-is valid because the Observation API already exposes its threshold-relative Evidence Strength semantics under `evidenceStrength`.
+requires no rename because the existing identifier already describes the
+concept adequately.
 
-The API field should remain unchanged unless the dedicated API rename map
-explicitly authorizes a future rename.
-
----
-
-# 22. Do Not Globally Rename `confidence`
-
-The existence of a `confidence` field or historical use of the term `confidence` does not justify a global rename.
-
-Each occurrence must be evaluated according to its actual semantic role.
-
-Current reconciled mappings include:
-
-| Existing Field / Concept            | Frontend Meaning                  | Status                                                |
-| ----------------------------------- | --------------------------------- | ----------------------------------------------------- |
-| Identity `data_sufficiency`         | Data Sufficiency                  | Preserve                                              |
-| Identity `score`                    | Identity alignment strength       | Preserve                                              |
-| Designation `designationConfidence` | Signal Strength                   | Preserve API field; clarify frontend terminology      |
-| Observation `evidenceStrength`      | Evidence Strength                 | Preserve API field and frontend terminology           |
-| Finding `confidence`                | Unresolved                        | No current defined field/concept                      |
-| Classification Confidence           | Classification separation concept | Future/optional; not currently defined or implemented |
-
-Therefore:
-
-- Do not globally rename `confidence`.
-- Do not assume all historical uses of `confidence` represent the same concept.
-- Do not rename an API field solely because its frontend presentation needs clarification.
-- Resolve terminology according to the subsystem that owns the underlying meaning.
-- Preserve unresolved concepts as unresolved rather than assigning them a new semantic meaning.
-
-The goal is **semantic alignment**, not vocabulary normalization for its own sake.
+The frontend should not expose historical implementation terminology merely
+because it exists in an API field name.
 
 ---
 
-# 23. Required Consumer Verification
+# 27. What the Frontend Must Not Invent
 
-Before changing a frontend label or API field, verify:
+The frontend should not introduce terminology for concepts that do not exist
+in the underlying intelligence system.
 
-- the field's actual producer
-- the field's actual meaning
-- all known frontend consumers
-- whether charts consume the field
-- whether narrative components consume the field
-- whether tests assert the field or label
-- whether fixtures depend on the field
-- whether another frontend component interprets the value differently
+Do not introduce:
 
-A terminology change is complete only when its downstream impact is
-understood.
+```text
+Classification Confidence
+Identity Confidence
+Finding Confidence
+Archive Confidence
+Near-Tie Confidence
+Recommendation Confidence
+```
+
+unless those concepts are explicitly defined and actually implemented.
+
+The frontend is not the place to resolve conceptual ambiguity by inventing
+labels.
 
 ---
 
-# 24. Safe Presentation Changes
+# 28. Current Frontend Vocabulary
 
-The following types of changes are generally safe once the specific occurrence
-is verified:
+The preferred current vocabulary is:
 
-- `EVALUATION INDEX` → `SCORE`
+## Entry / Scoring
+
+```text
+Score
+Scoring
+Universal Scoring
+<Media Type> Scoring
+```
+
+## Archive Intelligence
+
+```text
+Traits
+Genre Signals
+Observations
+Evidence
+Evidence Strength
+Findings
+Archive Interpretation
+Designations
+Primary Designation
+Designation Score
+Designation Basis
+Signal Strength
+Identities
+Primary Identity
+Secondary Identity
+Identity Score
+Data Sufficiency
+```
+
+## Archive Profile
+
+```text
+Primary Trait
+Secondary Trait
+Genre Signature
+Observation Summary
+Archive Summary
+```
+
+## User-authored entry content
+
+```text
+Notes
+```
+
+---
+
+# 29. Completed Frontend Terminology Alignment
+
+The following terminology corrections have been implemented:
+
+- `Universal Evaluation` → `Universal Scoring`
+- `Core Evaluation Matrix` → `Universal Scoring Profile`
+- `Media Evaluation` → `Media Scoring`
+- `Evaluation Index` → `Score`
 - `Evaluation Index Distribution` → `Score Distribution`
-- `EVALUATION BY CLASSIFICATION` → `AVERAGE SCORE BY MEDIA TYPE`
-- `CLASSIFICATION` → `MEDIA TYPE` where the underlying value is `media_type`
+- `Average Evaluation Index` → `Average Score`
+- `Average Evaluation Index by Classification` → `Average Score by Media Type`
 - `Highest Evaluated Records` → `Highest Rated Records`
-- `Classification Confidence` → `Signal Strength` when the underlying field is
-  `designationConfidence`
+- frontend `Classification Confidence` presentation → `Signal Strength`
+- entry-detail `Observations` for user notes → `Notes`
 
-These changes alter presentation terminology, not intelligence behavior.
+These changes are presentation terminology changes.
 
----
-
-# 25. Changes Requiring Semantic Verification
-
-The following terminology items were initially deferred pending repository and consumer verification. That verification has now been completed.
-
-The following are **verified and reconciled**:
-
-* `Universal Evaluation` → **Universal Scoring**
-* `<Media Type> Evaluation` → **<Media Type> Scoring**
-* `Media Evaluation` → **Media Scoring**
-* `Core Evaluation Matrix` → **Universal Scoring Profile**
-* Entry-detail `Observations` → **Notes**
-* `Designation Basis` → **Designation Basis**
-* `Archive Interpretation` → **Archive Interpretation**
-* `primaryTrait` → **Primary Trait**
-* `secondaryTrait` → **Secondary Trait**
-* `genreSignature` → **Genre Signature**
-* `observationSummary` → **Observation Summary**
-* `archiveSummary` → **Archive Summary**
-
-These decisions are reflected in the terminology alignment table and, where applicable, have been implemented as frontend presentation changes.
-
-The following concepts remain unresolved and are therefore still governed by the deferral rules in §26:
-
-* Finding Confidence
-* Classification Confidence values that do not currently exist
-* Secondary Identity thresholds
-* Tie / near-tie thresholds
-* Archive-state thresholds
-* Recommendation weighting
-* Any new or alternative Observation terminology
-* Any otherwise unresolved Identity terminology or policy
-* Any otherwise unresolved Designation terminology or policy
-
-The distinction is important: **semantic verification of existing terminology is complete; unresolved new semantics and policy decisions remain deferred.**
-
+They do not alter the underlying scoring calculations.
 
 ---
 
-# 26. Changes Explicitly Deferred
+# 30. Backend-Owned Intelligence Alignment
 
-The following changes remain outside the scope of Phase 1 frontend terminology alignment:
+The frontend no longer needs to independently calculate or generate:
 
-- Finding Confidence
-- Classification Confidence values that do not currently exist
-- Secondary Identity thresholds
-- Tie / near-tie thresholds
-- Archive-state thresholds
-- Recommendation weighting
-- New or alternative Observation terminology
-- Unresolved Identity terminology or policy
-- Unresolved Designation terminology or policy
+- Designation scores
+- Designation confidence/signal values
+- Designation basis
+- archive designations
+- archive title intelligence
+- Identity scores
+- Identity eligibility
+- Identity ranking
+- Identity primary selection
+- Observation evidence strength
+- Archive Profile intelligence
 
-These items may require explicit semantic or behavioral decisions before frontend terminology is changed.
+The backend is authoritative for these values.
 
-Deferral does not mean that the underlying subsystem terminology is undefined. Where terminology has already been reconciled, the frontend should use that established vocabulary. Only unresolved or newly proposed terminology remains deferred.
-
----
-
-# 27. Testing Requirements
-
-Frontend terminology changes should have regression coverage where the
-terminology is behaviorally significant.
-
-Protect:
-
-### Analytics
-
-- score labels
-- score sorting
-- score distribution
-- media-type grouping
-
-### Designations
-
-- Primary Designation display
-- Designation explanation
-- Signal Strength presentation
-- recommendation-bias presentation
-
-### Observations
-
-- Observation display
-- evidence display
-- Evidence Strength presentation
-
-### Findings
-
-- Finding display
-- supporting evidence presentation
-
-### Identities
-
-- Primary Identity display
-- Secondary Identity display
-- Data Sufficiency presentation
-- contribution breakdown
-
-### API
-
-- response field compatibility
-- serialization
-- frontend field consumption
-
-Terminology-only changes should not require calculation changes.
+The frontend consumes and presents them.
 
 ---
 
-# 28. Phase 1 Frontend Alignment Checklist
+# 31. API Rename Policy
 
-Before considering frontend terminology alignment complete:
+A frontend terminology correction does not automatically require an API field
+rename.
 
-- [ ] Confirm all frontend intelligence labels use the reconciled Phase 1 vocabulary
-- [ ] Present `designationConfidence` as **Signal Strength** where exposed
-- [ ] Present Observation `evidenceStrength` as **Evidence Strength** where exposed
-- [ ] Do not present Identity Score as Confidence
-- [ ] Do not present Data Sufficiency as Confidence
-- [ ] Do not present unresolved Finding Confidence as an established metric
-- [ ] Do not present Classification Confidence unless an actual backend value exists
-- [ ] Preserve established Designation and Identity terminology
-- [ ] Preserve subsystem-specific Evidence terminology
-- [ ] Do not introduce frontend-only intelligence calculations
-- [ ] Verify terminology changes against actual consumers
-- [ ] Run relevant frontend and backend regression tests where terminology changes affect behavior or serialized contracts
-- [ ] Leave unresolved semantic and policy decisions explicitly unresolved
+The decision sequence is:
 
-Completion means the frontend communicates the intelligence system's established semantics accurately without changing the intelligence itself.
+```text
+Semantic meaning established
+        ↓
+Frontend label evaluated
+        ↓
+API field evaluated independently
+        ↓
+Consumer blast radius considered
+        ↓
+Rename only if justified
+```
+
+This prevents presentation cleanup from creating unnecessary API churn.
+
+Current examples intentionally preserved:
+
+```text
+designationConfidence
+designationConfidenceLabel
+designationBasis
+primaryDesignation
+primaryIdentity
+data_sufficiency
+score
+```
+
+The Observation public field is now:
+
+```text
+evidenceStrength
+```
+
+because the public `confidence` terminology was misleading and the consumer
+audit supported the migration.
 
 ---
 
-# 29. Phase 1 Boundary
+# 32. Internal Frontend Terminology Debt
 
-The frontend terminology alignment work is complete when the frontend:
+Not every internal variable needs to be renamed during Phase 1.
 
-1. Uses terminology that reflects the reconciled semantic contract.
-2. Does not describe Signal Strength as Classification Confidence.
-3. Does not describe Observation Evidence Strength as generic confidence where
-   the distinction is exposed.
-4. Does not confuse Identity with Designation.
-5. Does not invent unresolved intelligence policies.
-6. Does not reproduce backend intelligence calculations.
-7. Does not require API renames merely to correct presentation terminology.
-8. Preserves backend-authoritative intelligence behavior.
-9. Has regression coverage for behaviorally significant terminology changes.
-10. Leaves unresolved semantic decisions explicitly unresolved.
+For example, an internal variable such as:
+
+```text
+confidenceLabel
+```
+
+may remain when its visible presentation is already:
+
+```text
+Signal Strength
+```
+
+Similarly, internal helper names associated with preserved backend calculations
+do not need to change merely for aesthetic consistency.
+
+Internal terminology cleanup can occur later as ordinary technical debt work.
 
 ---
 
-# 30. Governing Principle
+# 33. Non-Goals
 
-> **The frontend should make the intelligence easier to understand, not change
-> what the intelligence means.**
+This document does not authorize:
 
-Terminology should accurately communicate the underlying semantics.
+- frontend framework migration
+- React migration
+- frontend architecture rewrite
+- redesigning charts
+- redesigning scoring algorithms
+- redesigning Identity scoring
+- redesigning Designation scoring
+- implementing Classification Confidence
+- implementing Finding confidence
+- implementing recommendations
+- creating a universal evidence schema
+- changing API contracts without consumer audit
+- changing backend behavior merely to match frontend wording
 
-Where semantics are locked, misleading presentation terminology should be
-corrected.
+Terminology alignment should remain targeted.
 
-Where semantics are unresolved, the frontend should remain conservative.
+---
 
-Where API fields are historically named but semantically valid, presentation
-terminology may be corrected without forcing an API rename.
+# 34. Acceptance Criteria
 
-The goal is **semantic clarity without architectural churn**.
+Frontend terminology alignment is successful when:
+
+- visible scoring terminology describes scoring rather than generic evaluation
+- media types are not mislabeled as classifications
+- entry notes are not confused with intelligence-layer Observations
+- Designation is presented as a taste classification
+- Identity is presented as a broader curatorial philosophy
+- Designation signal strength is not presented as Classification Confidence
+- Observation Evidence Strength is not presented as generic confidence
+- Data Sufficiency is not presented as confidence
+- nonexistent intelligence concepts are not invented in the UI
+- backend-generated intelligence remains backend authoritative
+- API identifiers are not renamed unnecessarily
+- legacy frontend intelligence is not recreated
+- frontend terminology matches the reconciled Phase 1 contract
+
+---
+
+# 35. Final Principle
+
+The frontend should describe the intelligence system that actually exists.
+
+It should not create a second interpretation of that system.
+
+> **Presentation terminology may clarify the intelligence layer, but it should
+> not redefine it.**
+
+The goal of Phase 1 frontend terminology alignment is therefore not to make
+every identifier aesthetically uniform.
+
+The goal is to make the interface accurately communicate the semantics of the
+existing intelligence architecture while preserving behavior and avoiding
+unnecessary implementation churn.
