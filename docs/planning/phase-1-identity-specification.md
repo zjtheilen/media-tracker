@@ -1,609 +1,643 @@
 # Phase 1 — Identity Specification
 
-## 1. Purpose
+**Project:** Media Tracker
+**Authoritative branch:** `develop-3`
+**Phase:** Phase 1 — Intelligence Alignment
+**Status:** Historical conceptual specification — superseded by the Phase 1 Identity Fixture Contract
 
-This document converts the surviving Identity concepts from the Identity Differentiation Stress Test into precise, implementation-ready conceptual specifications.
-
-The purpose is to establish what each Identity means before modifying Identity fixtures, scoring weights, derived signals, or selection logic.
-
-This document does **not** prescribe implementation. It defines the concepts that implementation must eventually represent.
-
-The current provisional Identity catalog contains three active candidates:
-
-1. **Interpretive Philosophy**
-2. **Exploratory Philosophy**
-3. **Breadth / Curatorial Variety Philosophy**
-
-**Construction / Systems Philosophy** is deferred and is not part of the active catalog.
+> **Authority:** This document records the conceptual specification developed before the Identity catalog was finalized and implemented. It remains valuable as design history. Where it conflicts with the current Identity Fixture Contract, accepted fixture definitions, or implemented Phase 1 behavior, those later artifacts take precedence.
 
 ---
 
-## 2. Governing Identity Boundary
+# 1. Purpose
 
-An Identity describes a broader **curatorial orientation**: the recurring way a person engages with, interprets, explores, or organizes the media they choose.
+The Identity layer exists to describe the **broader curatorial philosophy represented by an archive**.
 
-A Designation describes a recognizable **taste classification**: a pattern in what the person tends to value or select.
+It answers a different question from Designation.
 
-The distinction can be expressed simply:
+> **Designation:** What recognizable taste classification fits this archive?
 
-> **Designation:** What do you tend to like?
+> **Identity:** What broader relationship with media does this archive demonstrate?
 
-> **Identity:** What relationship do you tend to establish with what you like?
+Identity is therefore interpretive rather than merely classificatory.
 
-An Identity should therefore not be derivable by simply renaming, reweighting, or restating a Designation.
-
-Shared evidence between an Identity and Designation is acceptable.
-
-Shared conclusion is not.
+It should synthesize recurring archive signals into a meaningful description without pretending to know more about the person than the archive can demonstrate.
 
 ---
 
-## 3. Identity Requirements
+# 2. Conceptual Boundary
 
-Every Identity in the active catalog should satisfy the following requirements.
+Identity must not become:
 
-### 3.1 It must describe an orientation
+- a personality diagnosis
+- a clinical classification
+- a permanent statement about the user
+- a Designation under another name
+- a recommendation category
+- a single favorite genre
+- a single high-scoring Trait
 
-The Identity should describe a recurring mode of engagement rather than merely a collection of preferences.
+The system describes the archive.
 
-### 3.2 It must synthesize multiple signals
-
-An Identity should arise from a meaningful combination of evidence rather than a single dominant trait.
-
-### 3.3 It must remain distinct from Designations
-
-An Identity may use evidence also used by a Designation, but its conclusion must operate at a different conceptual layer.
-
-### 3.4 It must remain distinct from other Identities
-
-Two Identities may correlate strongly, but they should answer meaningfully different questions.
-
-### 3.5 It must be evidence-based
-
-The system should only infer an Identity when the archive contains sufficient evidence to support the inference.
-
-### 3.6 It must not be personality diagnosis
-
-Identity is a description of the user's relationship with their media archive.
-
-It is not a psychological diagnosis, personality assessment, or claim about the user's broader real-world personality.
+It does not claim to describe the complete person behind the archive.
 
 ---
 
-# 4. Interpretive Philosophy
+# 3. Identity vs Designation
 
-## 4.1 Core Concept
+This distinction is mandatory.
 
-**Interpretive Philosophy** describes a curator who tends to engage with media as something to be examined, interpreted, reconsidered, and understood beyond its immediate surface experience.
+| Layer       | Core question                                                    |
+| ----------- | ---------------------------------------------------------------- |
+| Designation | What recognizable taste classification fits?                     |
+| Identity    | What broader curatorial philosophy does the archive demonstrate? |
 
-The defining characteristic is not simply that the curator likes complicated or deep media.
+A Designation is relatively atomic.
 
-The defining characteristic is a recurring **orientation toward meaning-making**.
+An Identity is broader and synthesized.
 
-The archive suggests that the curator values experiences that reward interpretation and invite continued examination.
+A Designation can say:
 
-## 4.2 Core Question
+> **This archive fits a recognizable taste pattern.**
 
-> **Does this curator tend to engage with media by seeking meaning, interpretation, ambiguity, and deeper understanding?**
+An Identity can say:
 
-## 4.3 Positive Evidence
+> **This archive demonstrates a recurring way of engaging with media.**
 
-Potential supporting evidence includes:
+The two may share evidence.
 
-* strong depth
-* strong analysis
-* strong ambiguity
-* strong reflection
-* meaningful emotional engagement when associated with interpretation
-* sustained prevalence of psychologically or thematically complex media
-* repeated engagement with media whose meaning is not immediately exhausted
-* interest in narratives that reward reconsideration or reinterpretation
-
-## 4.4 Supporting Genre Evidence
-
-Genre prevalence may provide contextual support when genres commonly associated with interpretation appear repeatedly, including:
-
-* psychological fiction
-* mystery
-* surreal or ambiguous fiction
-* thematically layered drama
-* other media whose appeal commonly depends on interpretation
-
-Genre is supporting evidence rather than sufficient evidence by itself.
-
-## 4.5 What It Does Not Mean
-
-Interpretive Philosophy does **not** automatically mean:
-
-* the curator likes deep media
-* the curator likes psychological horror
-* the curator likes ambiguous endings
-* the curator gives high ratings
-* the curator analyzes every piece of media
-* the curator prefers serious media
-* the curator is intellectually superior
-* the curator is an “analytical person” in general
-
-A strong score should represent a recurring relationship with interpretation, not simply the presence of difficult media.
-
-## 4.6 Boundary with Deep Diver Designation
-
-A **Deep Diver Designation** describes a recognizable taste pattern involving sustained attention, depth, and repeated exploration.
-
-**Interpretive Philosophy** describes the orientation behind engagement with meaning and interpretation.
-
-The two may legitimately coexist.
-
-A curator may therefore receive:
-
-* Deep Diver as a Designation
-* Interpretive Philosophy as an Identity
-
-without the two representing the same conclusion.
-
-## 4.7 Boundary with Other Identities
-
-Interpretive Philosophy is primarily concerned with **meaning-making**.
-
-It is not primarily concerned with:
-
-* seeking unfamiliar experiences
-* maintaining a broad archive
-* maximizing genre variety
+They may not become conceptually redundant.
 
 ---
 
-# 5. Exploratory Philosophy
+# 4. Evidence Can Overlap
 
-## 5.1 Core Concept
+Identity and Designation may use the same underlying signals.
 
-**Exploratory Philosophy** describes a curator who tends to use media as a means of encountering unfamiliar ideas, forms, perspectives, genres, or creative boundaries.
+For example:
 
-The defining characteristic is not simply experimental taste.
+- originality may support a boundary-oriented Designation
+- originality may support Exploratory Philosophy
+- depth may support a depth-oriented Designation
+- depth may support Interpretive Philosophy
+- genre diversity may support a broad Designation
+- genre diversity may support Breadth Philosophy
 
-The defining characteristic is a recurring **orientation toward discovery and unfamiliarity**.
+The distinction comes from interpretation.
 
-## 5.2 Core Question
-
-> **Does this curator tend to engage with media by seeking unfamiliar, contrasting, or boundary-pushing experiences?**
-
-## 5.3 Positive Evidence
-
-Potential supporting evidence includes:
-
-* strong originality
-* strong experimental affinity
-* meaningful novelty
-* broad exposure to contrasting genres or forms
-* repeated selection of unfamiliar or unconventional experiences
-* willingness to engage with media outside established preferences
-* repeated evidence of creative or structural contrast across the archive
-
-## 5.4 Supporting Genre Evidence
-
-Potential contextual evidence includes:
-
-* experimental fiction
-* surreal media
-* speculative fiction
-* genre hybrids
-* unconventional formats
-* other media representing meaningful departures from familiar patterns
-
-Genre diversity may support the concept, but raw genre count alone should not establish Exploratory Philosophy.
-
-## 5.5 What It Does Not Mean
-
-Exploratory Philosophy does **not** automatically mean:
-
-* the curator likes experimental media
-* the curator likes unusual media
-* the curator has high originality scores
-* the curator has many genres in the archive
-* the curator likes Boundary Explorer Designations
-* the curator dislikes conventional media
-* the curator deliberately seeks novelty in every case
-
-The central distinction is between **liking unusual things** and demonstrating a recurring orientation toward **exploration**.
-
-## 5.6 Boundary with Boundary Explorer Designation
-
-A **Boundary Explorer Designation** describes a recognizable taste classification centered on unfamiliar, speculative, experimental, or boundary-pushing media.
-
-**Exploratory Philosophy** describes the curator's broader relationship with unfamiliarity and discovery.
-
-The Designation answers:
-
-> What kind of media does this curator tend to value?
-
-The Identity answers:
-
-> How does this curator tend to approach unfamiliar media?
-
-The same evidence may support both, but the conclusion must remain different.
-
-## 5.7 Evidence Limitation
-
-The current archive model provides stronger evidence for **experimental taste** than for deliberate exploration.
-
-The system can observe what the curator chooses and how they score it.
-
-It cannot directly observe intent such as:
-
-> “I chose this specifically because it was outside my comfort zone.”
-
-Therefore Exploratory Philosophy remains provisional until the available evidence can distinguish exploration from simply preferring unusual media.
+> **Evidence can overlap. Meaning cannot.**
 
 ---
 
-# 6. Breadth / Curatorial Variety Philosophy
+# 5. Observable Evidence vs Inferred Orientation
 
-## 6.1 Core Concept
+The archive contains measurable information.
 
-**Breadth / Curatorial Variety Philosophy** describes a curator whose relationship with media is characterized by meaningful variety, contrast, and deliberate diversification of the archive.
+Examples:
 
-The defining characteristic is not simply having a large archive.
+- ratings
+- universal averages
+- media-specific averages
+- genre distribution
+- derived signals
+- archive composition
 
-The defining characteristic is a recurring **orientation toward variety**.
+These are observations about the archive.
 
-## 6.2 Core Question
+An Identity may infer a broader orientation from repeated patterns.
 
-> **Does this curator tend to engage with media by maintaining meaningful breadth and variety across genres, forms, or experiences?**
+That inference must remain proportional to the evidence.
 
-## 6.3 Positive Evidence
+The system should distinguish:
 
-Potential supporting evidence includes:
+### Direct evidence
 
-* substantial genre diversity
-* meaningful distribution across multiple genres
-* repeated engagement with contrasting types of media
-* breadth across media characteristics
-* willingness to maintain multiple distinct taste patterns simultaneously
-* evidence that the archive is not dominated by one narrow category
-
-## 6.4 Supporting Archive Evidence
-
-Archive size may provide context, but quantity alone should not establish this Identity.
-
-A large archive can result from:
-
-* repeated consumption within a narrow category
-* long-term accumulation
-* habitual consumption
-* focused specialization
-
-Therefore archive size should not be treated as equivalent to breadth.
-
-## 6.5 What It Does Not Mean
-
-Breadth / Curatorial Variety Philosophy does **not** automatically mean:
-
-* the archive contains many entries
-* the archive contains many genres
-* the curator likes everything
-* the curator has no strong preferences
-* the curator has a Curator Designation
-* the curator is less specialized
-* the curator intentionally seeks maximum variety
-
-The concept requires meaningful evidence of **variety as an orientation**, not merely variety as an accidental property of the archive.
-
-## 6.6 Boundary with Curator Designation
-
-A **Curator Designation** describes a recognizable archive/taste classification associated with broad, deliberately varied collection behavior.
-
-**Breadth / Curatorial Variety Philosophy** describes the broader orientation toward maintaining and engaging with variety.
-
-The Designation describes the observable classification.
-
-The Identity describes the relationship with that classification.
-
-They may therefore coexist without being duplicates.
-
-## 6.7 Evidence Limitation
-
-The current system observes archive composition more directly than it observes intentional diversification.
-
-As a result, this Identity remains provisional.
-
-The implementation must avoid presenting archive breadth as certainty about the curator's motivation.
-
----
-
-# 7. Identity-to-Identity Boundaries
-
-## 7.1 Interpretive vs Exploratory
-
-These concepts can coexist.
-
-A curator may:
-
-* seek unfamiliar experiences
-* then engage with those experiences through interpretation
-
-Exploratory Philosophy concerns **discovery and unfamiliarity**.
-
-Interpretive Philosophy concerns **meaning-making and interpretation**.
-
-Neither is a subset of the other.
-
-## 7.2 Interpretive vs Breadth
-
-These concepts can coexist.
-
-A curator may maintain a broad archive while consistently interpreting media deeply.
-
-Breadth concerns **variety**.
-
-Interpretation concerns **meaning-making**.
-
-## 7.3 Exploratory vs Breadth
-
-These concepts are related but distinct.
-
-A curator may have:
-
-* broad taste without actively seeking novelty
-* strong novelty-seeking without maintaining broad genre coverage
-* both
-
-Therefore breadth should not be treated as proof of exploration, and exploration should not be treated as proof of breadth.
-
-## 7.4 Construction / Systems Philosophy
-
-Construction / Systems Philosophy remains deferred.
-
-The current evidence model does not sufficiently distinguish it from the existing Engagement Architect Designation.
-
-In particular, current system-oriented evidence is strongly tied to:
-
-* engagement
-* craft
-* gameplay mechanics
-* pacing
-* system design
-
-This creates too much conceptual overlap.
-
-Construction / Systems Philosophy should not be implemented merely to achieve a four-Identity catalog.
-
----
-
-# 8. Negative-Space Guardrails
-
-The following relationships are explicitly rejected:
-
-### High depth ≠ Interpretive Philosophy
-
-Depth is evidence, not the conclusion.
-
-### High experimentation ≠ Exploratory Philosophy
-
-Experimental taste is evidence, not proof of exploratory orientation.
-
-### High genre diversity ≠ Breadth Philosophy
-
-Genre count is evidence, not proof of a breadth-oriented relationship.
-
-### Large archive ≠ Breadth Philosophy
-
-Quantity does not establish variety or intentional diversification.
-
-### High engagement ≠ Construction Philosophy
-
-Engagement does not establish a distinct systems-oriented Identity.
-
-These guardrails should remain part of the conceptual contract.
-
----
-
-# 9. Evidence Hierarchy
-
-Identity evidence should be understood in layers.
-
-### Primary evidence
-
-Signals that directly represent the Identity concept.
+A signal directly represented in the archive.
 
 ### Supporting evidence
 
-Signals that strengthen the interpretation but are not independently sufficient.
+A signal that meaningfully reinforces an Identity interpretation.
 
-### Contextual evidence
+### Proxy evidence
 
-Archive or genre characteristics that help explain the result but should not dominate it.
+A derived or indirect signal that can support an interpretation but does not directly measure it.
 
 ### Insufficient evidence
 
-Signals that may correlate with an Identity but cannot establish it alone.
+A concept for which the current archive model does not provide enough support.
 
-The exact mapping of current traits into these categories is an implementation/evidence-mapping question and is intentionally deferred.
-
----
-
-# 10. Data Sufficiency
-
-Identity conclusions require sufficient archive evidence.
-
-Data Sufficiency answers:
-
-> **Does the archive contain enough information for this Identity to be meaningfully evaluated?**
-
-Data Sufficiency is distinct from Identity Signal Strength.
-
-A curator can have:
-
-* high Signal Strength with sufficient evidence
-* high apparent Signal Strength with insufficient evidence
-* moderate Signal Strength with strong evidence
-* low Signal Strength with strong evidence
-
-The system should not imply that a low Identity score necessarily means the Identity was confidently disproven.
-
-Likewise, sufficient data does not guarantee a strong Identity.
+The system must not convert proxy evidence into certainty merely because the scoring engine can calculate a number.
 
 ---
 
-# 11. Signal Strength
+# 6. Data Sufficiency
 
-Identity Score represents the strength of the evidence/signals associated with an Identity under the scoring model.
+Identity eligibility and Identity strength are separate concepts.
 
-It should not be described as Classification Confidence.
+An Identity may require a minimum amount of archive data before it can reasonably be evaluated.
 
-Signal Strength answers:
+The current accepted fixture requirements are:
 
-> **How strongly does the available evidence express this Identity's defining signals?**
+| Identity                | Minimum entries |
+| ----------------------- | --------------: |
+| Breadth Philosophy      |              15 |
+| Exploratory Philosophy  |              20 |
+| Interpretive Philosophy |              20 |
 
-It does not answer:
+Below the minimum requirement, the Identity is **ineligible for Identity resolution**.
 
-> **How certain is the system that this Identity is the objectively correct classification?**
-
-Classification Confidence remains a separate historical/future-optional concept and is not introduced by this specification.
-
----
-
-# 12. Ranking and Primary Identity
-
-The system may rank multiple Identities.
-
-The highest-ranked Identity is the **Primary Identity**.
-
-A Primary Identity represents the strongest currently supported Identity under the scoring model.
-
-The existence of a Primary Identity does not imply that other Identities are absent.
-
-Multiple Identities may legitimately coexist.
-
-Tie-breaking and near-tie behavior are implementation decisions and are not finalized by this document.
+Eligibility is not the same thing as Identity Score.
 
 ---
 
-# 13. Secondary Identity
+# 7. Identity Score
 
-A Secondary Identity may be exposed when another Identity has sufficiently strong evidence to be meaningfully relevant.
+Identity Score measures how strongly an eligible archive fits the Identity represented by a fixture.
 
-The exact threshold for Secondary Identity selection is intentionally unresolved.
+The existing architecture:
 
-The current implementation contains a numeric threshold, but that value should not be treated as a finalized conceptual contract until explicitly reviewed.
+```text
+Identity fixture
+      ↓
+identity weights
+      ↓
+resolve signal values
+      ↓
+normalize
+      ↓
+weighted contributions
+      ↓
+sum contributions
+      ↓
+Identity Score
+```
 
-The eventual rule should answer:
+The current Identity normalization mechanism maps the working 0–10 signal scale to a 0–1 normalized value:
 
-> **When is a second Identity strong enough to be presented as part of the archive's meaningful curatorial orientation?**
+```text
+normalized = clamp(value / 10, 0, 1)
+```
 
-This decision belongs to the later scoring/selection specification.
+Each contribution is:
 
----
+```text
+contribution = normalized × fixture weight
+```
 
-# 14. Identity Evidence and Explanation
+The Identity Score is the sum of the contributions.
 
-An Identity explanation should make the reasoning inspectable.
-
-Where practical, an explanation should distinguish:
-
-* which signals contributed
-* how strongly they contributed
-* which evidence was primary
-* which evidence was supporting
-* why the Identity ranked highly
-* any meaningful evidence limitations
-
-The current `breakdown` structure provides a useful foundation for this because it exposes contributing signals, weights, normalized values, and contributions.
-
-The final presentation semantics should be reviewed during the later evidence-mapping pass.
-
----
-
-# 15. Relationship to Existing Fixtures
-
-The current Identity fixtures should be treated as **implementation artifacts of the previous Identity ontology**, not as authoritative definitions of the final Identity catalog.
-
-In particular, the existing fixtures named:
-
-* Boundary Explorer
-* Deep Diver
-* Engagement Architect
-
-reflect the earlier conceptual model and overlap directly with existing Designations.
-
-They should therefore not be mechanically renamed into:
-
-* Exploratory Philosophy
-* Interpretive Philosophy
-* Construction / Systems Philosophy
-
-Doing so would preserve the underlying conceptual duplication.
-
-The fixtures must eventually be rebuilt or substantially revised from the specifications established here.
+This scoring architecture is preserved by Phase 1.
 
 ---
 
-# 16. What This Specification Decides
+# 8. Signal Strength vs Data Sufficiency
 
-This document establishes:
+The terminology distinction is important.
 
-1. Identity is a curatorial orientation, not a taste classification.
-2. Identity and Designation may share evidence but must not share conclusions.
-3. Interpretive Philosophy is an active Identity candidate.
-4. Exploratory Philosophy is an active but provisional Identity candidate.
-5. Breadth / Curatorial Variety Philosophy is an active but provisional Identity candidate.
-6. Construction / Systems Philosophy is deferred.
-7. Intentionality must not be inferred where the current evidence model cannot observe it.
-8. Data Sufficiency and Signal Strength remain separate concepts.
-9. Primary Identity selection remains deterministic.
-10. Multiple Identities may coexist.
-11. Secondary Identity threshold semantics remain unresolved.
-12. Current Identity fixtures do not define the final conceptual catalog.
-13. No Identity fixture should be renamed mechanically.
+### Signal Strength
 
----
+How strongly is a characteristic expressed?
 
-# 17. What This Specification Does Not Decide
+### Data Sufficiency
 
-This document intentionally does **not** finalize:
+Does the archive contain enough data to evaluate the Identity?
 
-* exact public-facing Identity names
-* exact Identity scoring weights
-* exact trait-to-Identity mappings
-* exact derived signals
-* exact minimum-entry requirements
-* exact Secondary Identity threshold
-* exact tie-breaking rules
-* exact near-tie behavior
-* whether additional evidence types should be introduced
-* whether existing derived traits should be retained, modified, or replaced
-* API schema changes
-* fixture implementation
+### Classification Confidence
 
-Those decisions belong to subsequent implementation/evidence-mapping work.
+How clearly does one candidate beat competing candidates?
+
+These are not interchangeable.
+
+The current Identity Score is a fit/strength measure.
+
+The current minimum-entry mechanism establishes eligibility and Data Sufficiency.
+
+A separate Classification Confidence algorithm is **not required merely because the conceptual vocabulary contains the term**.
+
+Phase 1 should not invent one unless a specific feature requires it.
 
 ---
 
-# 18. Next Phase
+# 9. Current Identity Catalog
 
-The next phase is an **Identity Evidence Mapping Pass**.
+The Identity specification ultimately converged on three concepts.
 
-That pass should take the actual implementation and determine:
+## 9.1 Interpretive Philosophy
 
-1. Which existing signals support each Identity.
-2. Which signals are primary versus supporting.
-3. Which current derived traits are valid evidence.
-4. Which derived traits are currently overclaiming intent.
-5. Which signals overlap excessively with Designations.
-6. Whether the current scoring model can express the conceptual distinctions.
-7. What minimum data is actually required.
-8. What fixture structure is needed to represent the new catalog.
-9. Which existing tests encode obsolete Identity assumptions.
+Interpretive Philosophy describes engagement with media through:
 
-Only after that pass should Identity fixtures or scoring implementation be changed.
+- depth
+- reflection
+- ambiguity
+- analysis
+- emotional impact
+- complexity
+- interpretation
+
+Core question:
+
+> **How do you engage with what you consume?**
+
+The Identity should represent meaning-making and interpretation rather than simply preference for deep media.
 
 ---
 
-# 19. Final Specification Principle
+## 9.2 Exploratory Philosophy
 
-> **An Identity should describe the recurring orientation through which a curator engages with their archive, not merely the characteristics of the media they consume.**
+Exploratory Philosophy describes engagement with:
 
-The active Identity catalog is therefore intentionally smaller than the previous catalog.
+- unfamiliar territory
+- novelty
+- contrast
+- boundary expansion
+- unusual experiences
 
-The goal is not to produce a fixed number of Identities.
+Core question:
 
-The goal is to produce only Identities that can be meaningfully distinguished, supported by available evidence, and explained without pretending the system knows more about the curator than the archive can demonstrate.
+> **How do you relate to the boundaries of what you consume?**
+
+The Identity must not claim deliberate exploration when the evidence only demonstrates unusual or diverse taste.
+
+---
+
+## 9.3 Breadth Philosophy
+
+Breadth Philosophy describes the range of territory represented in the archive.
+
+Core question:
+
+> **How wide is the territory you consume?**
+
+Breadth is an observable property of archive composition.
+
+It does not automatically establish deliberate diversification.
+
+---
+
+# 10. Historical Construction / Systems Candidate
+
+Construction / Systems Philosophy was evaluated as a possible Identity.
+
+It concerned appreciation for:
+
+- craft
+- engagement
+- pacing
+- gameplay mechanics
+- systems
+- construction
+
+The concept was ultimately deferred for the initial catalog because the current evidence model does not sufficiently distinguish it from Engagement Architect Designation.
+
+The current `system_design` signal is also strongly derived from gameplay mechanics.
+
+This does not permanently reject the concept.
+
+It means:
+
+> **The current evidence model does not justify promoting the concept into the active Phase 1 catalog.**
+
+---
+
+# 11. Identity Evidence Model
+
+The scoring architecture supports signals from several sources.
+
+## Universal signals
+
+Examples:
+
+- depth
+- emotional impact
+- originality
+- craft
+- engagement
+- presentation
+
+## Media-specific signals
+
+Examples:
+
+- gameplay mechanics
+- world building
+- art atmosphere
+- prose writing
+- character development
+
+## Derived signals
+
+Examples include:
+
+- reflection
+- ambiguity
+- analysis
+- novelty
+- experimental affinity
+- genre diversity
+- system design
+
+The Identity system may consume all three categories.
+
+However, derived signals are proxies where their formulas do not directly measure the conceptual Identity.
+
+---
+
+# 12. Correlated Evidence
+
+Some signals are mathematically or conceptually correlated.
+
+For example:
+
+- novelty and experimental affinity may derive from similar genre information
+- analysis, ambiguity, and reflection may draw on overlapping genre patterns
+- system design may derive from gameplay mechanics
+- genre diversity is derived from archive composition
+
+This does not automatically make the concepts invalid.
+
+However:
+
+> **Correlated signals should not be described as independent proof of the same conclusion.**
+
+Phase 1 therefore preserves the existing derived-trait architecture while documenting these limitations.
+
+No new derived metrics are invented merely to eliminate correlation.
+
+---
+
+# 13. Identity Explanation
+
+Identity should be explainable.
+
+The existing contribution breakdown provides:
+
+- trait/signal
+- raw value
+- weight
+- normalized value
+- contribution
+
+The breakdown is sorted by contribution.
+
+This provides an audit trail:
+
+> **Why does the system think this Identity fits?**
+
+The contribution breakdown should remain part of the Identity explanation surface.
+
+It should not be replaced with generic narrative prose.
+
+The current `top_traits` behavior exposes the top three contributing Identity signals.
+
+The precise semantic description is:
+
+> **Top contributing Identity signals.**
+
+---
+
+# 14. Primary Identity
+
+Identity candidates may be evaluated internally as a ranked collection.
+
+The Profile presents:
+
+- one Primary Identity
+- zero or more meaningful Secondary Identities
+
+Primary selection remains deterministic.
+
+Conceptually:
+
+```text
+eligible Identity candidates
+          ↓
+deterministic ranking
+          ↓
+ONE PRIMARY
+```
+
+Primary Identity selection must not depend on:
+
+- Designation names
+- fixture file order
+- filesystem ordering
+- incidental catalog ordering
+
+The Primary Identity is the strongest eligible candidate under the current deterministic ranking and selection machinery.
+
+---
+
+# 15. Secondary Identity
+
+The conceptual contract permits zero or more meaningful Secondary Identities.
+
+A Secondary Identity must not be surfaced merely because:
+
+- it has a positive score
+- it ranks second
+- it exists in the catalog
+- it is numerically close to Primary
+
+The current implementation operationalizes meaningfulness with:
+
+```text
+eligible
+AND
+not Primary
+AND
+Identity Score >= 0.60
+```
+
+The current threshold is:
+
+> `SECONDARY_MIN_SCORE = 0.60`
+
+This is an implementation-level presentation rule.
+
+It does not modify Identity Score.
+
+The conceptual requirement is broader:
+
+> A Secondary Identity should have sufficient independent support to justify being presented as an additional curator philosophy.
+
+The implementation threshold should not be mistaken for a universal mathematical definition of conceptual independence.
+
+---
+
+# 16. Tie Behavior
+
+Identity ranking must remain deterministic.
+
+Exact score ties are resolved using the existing contribution-evidence ordering.
+
+The tie mechanism does not introduce additional score.
+
+A tie does not mean that the system has discovered a stronger conceptual distinction than the scoring model itself provides.
+
+No arbitrary near-tie threshold is introduced.
+
+A non-equal score remains a ranked difference.
+
+Secondary presentation is governed by the Secondary Identity meaningfulness policy rather than by a generic near-tie rule.
+
+---
+
+# 17. Identity / Designation Independence
+
+The Identity catalog must remain independently meaningful from Designations.
+
+The previous Identity concepts:
+
+- Boundary Explorer
+- Deep Diver
+- Engagement Architect
+
+were retired as Identity definitions because they substantially duplicated Designation concepts.
+
+The replacement catalog does not require abandoning the underlying evidence.
+
+Instead, it interprets shared evidence at a different conceptual level.
+
+---
+
+# 18. Recommendation Bias
+
+Identity fixtures may contain recommendation-bias metadata.
+
+This metadata is descriptive.
+
+It is not itself a recommendation score.
+
+Identity should not become a direct numerical recommendation mechanism.
+
+The future Recommendation Engine should consume measurable signals directly.
+
+Identity may inform recommendation-oriented interpretation indirectly, but Identity labels themselves should not become primary recommendation scores.
+
+---
+
+# 19. Fixture Architecture
+
+Fixture-driven Identity definitions are preserved.
+
+A fixture may contain:
+
+- `id`
+- `title`
+- `category`
+- `icon`
+- `description`
+- `identity`
+- `recommendation_bias`
+- `requirements`
+- `identity_weights`
+
+The fixture architecture provides:
+
+- controlled vocabulary
+- deterministic behavior
+- explainability
+- easy testing
+- controlled evolution
+
+The conceptual Identity catalog may evolve without requiring replacement of the fixture architecture.
+
+---
+
+# 20. Current Fixture-Level Constraints
+
+The following constraints were finalized during Phase 1 and supersede earlier provisional numeric values.
+
+## Interpretive Philosophy
+
+Minimum entries: **20**
+
+| Signal             | Weight |
+| ------------------ | -----: |
+| `depth`            |   0.45 |
+| `emotional_impact` |   0.25 |
+| `reflection`       |   0.12 |
+| `ambiguity`        |   0.10 |
+| `analysis`         |   0.08 |
+
+Total weight: **1.00**
+
+---
+
+## Exploratory Philosophy
+
+Minimum entries: **20**
+
+| Signal                  | Weight |
+| ----------------------- | -----: |
+| `originality`           |   0.35 |
+| `genre_diversity`       |   0.25 |
+| `depth`                 |   0.15 |
+| `experimental_affinity` |   0.15 |
+| `novelty`               |   0.10 |
+
+Total weight: **1.00**
+
+---
+
+## Breadth Philosophy
+
+Minimum entries: **15**
+
+| Signal            | Weight |
+| ----------------- | -----: |
+| `genre_diversity` |   1.00 |
+
+Total weight: **1.00**
+
+Breadth's single observable signal is intentional at the fixture level.
+
+Because Identity normalization clamps values at 1.0, sufficiently high genre diversity can saturate Breadth Signal Strength.
+
+That is a future calibration question, not a Phase 1 migration defect.
+
+---
+
+# 21. What This Specification Does Not Establish
+
+The following were intentionally not treated as universal conceptual policy:
+
+- a universal Identity scoring algorithm
+- new derived traits
+- new evidence schemas
+- Classification Confidence mathematics
+- a universal secondary threshold
+- universal near-tie thresholds
+- recommendation weighting
+- API redesign
+- global renaming of every historical `confidence` field
+- personality inference
+- intentionality claims not supported by evidence
+- a fixed permanent Identity catalog size
+
+The accepted fixture-level numeric constraints are documented above because they were explicitly finalized during Phase 1.
+
+---
+
+# 22. Historical vs Current Authority
+
+This document represents the conceptual specification stage that preceded final fixture implementation.
+
+The current authority hierarchy is:
+
+1. `intelligence-contract.md`
+2. `phase-1-identity-fixture-contract.md`
+3. `phase-1-identity-evidence-mapping.md`
+4. current Identity fixtures
+5. executable tests
+6. this historical specification
+
+This hierarchy prevents historical exploratory language from being mistaken for current implementation policy.
+
+---
+
+# 23. Governing Principle
+
+> **The API should describe the intelligence system that actually exists, while the intelligence system should only change when an explicit conceptual decision requires it.**
+
+The Identity system should therefore evolve through explicit conceptual decisions, not through accidental drift in fixture names, scoring code, or presentation behavior.
