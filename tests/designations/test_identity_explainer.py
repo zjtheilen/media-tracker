@@ -1,7 +1,7 @@
 from models.services.identity_explainer import explain_identity_score
 from tests.helpers.fixture_loader import (
-    load_profile_fixture,
     load_identity_fixture,
+    load_profile_fixture,
 )
 
 
@@ -27,22 +27,22 @@ def test_identity_explanation_returns_trait_contributions():
     assert "normalized" in result["breakdown"][0]
 
 
-def test_boundary_explorer_explanation_uses_real_identity_fixture():
+def test_interpretive_explanation_uses_real_identity_fixture():
 
     profile = load_profile_fixture("boundary_explorer_profile.json")
 
-    identity = load_identity_fixture("boundary_explorer.json")
+    identity = load_identity_fixture("interpretive_philosophy.json")
 
     result = explain_identity_score(identity, profile)
 
-    assert result["top_traits"][0]["trait"] == "originality"
+    assert result["top_traits"][0]["trait"] == "depth"
 
 
 def test_identity_explanation_contract():
 
     profile = load_profile_fixture("boundary_explorer_profile.json")
-    
-    identity = load_identity_fixture("boundary_explorer.json")
+
+    identity = load_identity_fixture("interpretive_philosophy.json")
 
     result = explain_identity_score(identity, profile)
 

@@ -25,7 +25,7 @@ def test_identities_endpoint_returns_eligible_identities(
     client,
     valid_game_payload,
 ):
-    
+
     # Add enough entries to satisfy the Identity minimum-entry requirements.
     for i in range(30):
         payload = {
@@ -98,9 +98,9 @@ def test_identity_below_minimum_is_excluded_and_at_minimum_is_eligible():
 
     identity_ids = [result["id"] for result in results]
 
-    assert "boundary_explorer" in identity_ids
-    assert "deep_diver" not in identity_ids
-    assert "engagement_architect" not in identity_ids
+    assert "breadth_philosophy" in identity_ids
+    assert "interpretive_philosophy" not in identity_ids
+    assert "exploratory_philosophy" not in identity_ids
 
     profile["entryCount"] = 20
 
@@ -108,9 +108,9 @@ def test_identity_below_minimum_is_excluded_and_at_minimum_is_eligible():
 
     identity_ids = [result["id"] for result in results]
 
-    assert "boundary_explorer" in identity_ids
-    assert "deep_diver" in identity_ids
-    assert "engagement_architect" in identity_ids
+    assert "breadth_philosophy" in identity_ids
+    assert "interpretive_philosophy" in identity_ids
+    assert "exploratory_philosophy" in identity_ids
 
 
 def test_identity_below_minimum_entries_is_excluded():
@@ -127,4 +127,6 @@ def test_identity_below_minimum_entries_is_excluded():
 
     identity_ids = {result["id"] for result in results}
 
-    assert "boundary_explorer" not in identity_ids
+    assert "breadth_philosophy" not in identity_ids
+    assert "interpretive_philosophy" not in identity_ids
+    assert "exploratory_philosophy" not in identity_ids
