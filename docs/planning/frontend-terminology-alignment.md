@@ -13,9 +13,9 @@ __    __ ___    ___ ___  ____ ___
 
 **Status:** Reconciled Phase 1 frontend terminology reference
 
-**Semantic authority:** `phase-1-intelligence-alignment.md`
+**Semantic authority:** `intelligence-alignment.md`
 
-**API terminology reference:** `phase-1-terminology-and-api-rename-map.md`
+**API terminology reference:** `terminology-and-api-rename-map.md`
 
 **Implementation authority:** Current repository implementation on `develop-3`
 
@@ -52,9 +52,9 @@ The repository remains authoritative for current implementation behavior.
 
 Terminology decisions are governed by the following order:
 
-1. `phase-1-intelligence-alignment.md`
-2. `phase-1-terminology-and-api-rename-map.md`
-3. `phase-1-decision-and-implementation-map.md`
+1. `intelligence-alignment.md`
+2. `terminology-and-api-rename-map.md`
+3. `decision-and-implementation-map.md`
 4. Current repository implementation on `develop-3`
 5. Verified frontend consumer relationships
 6. Historical project intent
@@ -214,7 +214,7 @@ shown.
 | FO-05 | Evaluation Index Distribution              | Charts                          | Distribution of rating values               | **Score Distribution**                             | Yes             | Verified |
 | FO-06 | Average Evaluation Index                   | Charts                          | Average user rating                         | **Average Score**                                  | Yes             | Verified |
 | FO-07 | Average Evaluation Index by Classification | Charts                          | Average score grouped by media type         | **Average Score by Media Type**                    | Yes             | Verified |
-| FO-08 | Highest Evaluated Records                  | Charts                          | Highest-rated records                       | **Highest Rated Records**                          | Yes             | Verified |
+| FO-08 | Highest Evaluated Records                  | Charts                          | Highest-rated records                       | **Highest Scored Records**                          | Yes             | Verified |
 | FO-09 | Evaluation                                 | Entry scoring UI                | User-provided scoring                       | **Scoring**                                        | Yes             | Verified |
 | FO-10 | Evaluation Index                           | Rating presentation             | Overall user rating                         | **Score**                                          | Yes             | Verified |
 | FO-11 | Evaluation Index                           | Charts                          | Aggregate rating value                      | **Score**                                          | Yes             | Verified |

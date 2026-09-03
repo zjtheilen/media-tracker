@@ -10,8 +10,9 @@ __    __ ___    ___ ___  ____ ___
 **Project:** Media Tracker  
 **Authoritative branch:** `develop-3`  
 **Purpose:** Preserve previously identified product intent that could be lost while Phase 1 focuses on Intelligence Alignment  
-**Status:** Pre-implementation register  
+**Status:** Product-intent preservation register
 **Guiding principle:** Recover intent without automatically turning historical ideas into requirements
+**Authority boundary:** This register preserves product intent and historical planning decisions. It does not own current roadmap sequencing, implementation status, or delivery priority. For current sequencing and project status, `docs/planning/roadmap.md` is authoritative.
 
 ---
 
@@ -66,9 +67,9 @@ It must not permanently displace the rest of the product.
 
 ---
 
-# 4. Roadmap-Locked Features
+# 4. Preserved Roadmap Commitments
 
-These are not actually forgotten requirements. They are included here because they are particularly easy to lose while Phase 1 dominates active development.
+The following features were previously identified as roadmap commitments. The phase references below preserve their historical planning context; they do not establish current sequencing or completion status. Current sequencing and status are owned by `docs/planning/roadmap.md`.
 
 ---
 
@@ -259,7 +260,7 @@ Already implemented reports should not be rebuilt.
 
 Existing functionality includes:
 
-- Highest Evaluated
+- Highest Scored
 - per-media top lists
 - Recent
 - Hall of Fame (`>=95`)
