@@ -1115,12 +1115,12 @@ Phase 1 terminology alignment is considered complete when the public and
 frontend vocabulary accurately describes the existing intelligence architecture
 without requiring unnecessary changes to its calculations or behavior.
 
-````
+```
 
 ### `docs/planning/frontend-terminology-alignment.md`
 
 ```markdown
-````
+```
 
 ---
 
@@ -1128,7 +1128,7 @@ without requiring unnecessary changes to its calculations or behavior.
 _/_//_/ \_/\_\_//_/ \_|_D_)|\*|
 Weighted Archive System for Analysis & Behavioral Insights
 
-````
+```
 
 # Frontend Terminology Alignment
 
@@ -1225,7 +1225,7 @@ The intended architecture is:
         ┌───────────┼───────────┐
         ↓           ↓           ↓
     Presentation  Interaction  Visualization
-````
+```
 
 ## Backend
 

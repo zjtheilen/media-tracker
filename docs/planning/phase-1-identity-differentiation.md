@@ -1,37 +1,37 @@
 # Phase 1 — Identity Differentiation & Stress Test
 
-**Status:** Provisional findings
-**Phase:** Phase 1 — Conceptual Foundation
-**Purpose:** Stress-test the provisional Identity catalog against Designations, competing Identity concepts, available evidence, and negative-space cases before implementation changes are made.
+**Status:** Completed conceptual audit; current catalog reconciled
+**Phase:** Phase 1 — Intelligence Alignment
+**Purpose:** Record the adversarial review that established the surviving Identity concepts and their boundaries.
 
 ---
 
 ## 1. Purpose
 
-The Identity catalog was intentionally created as a set of provisional concepts rather than a finalized taxonomy.
+The Identity catalog was originally developed as a set of provisional concepts.
 
-This document records the adversarial review of those concepts.
+This document records the adversarial review used to determine which concepts could survive.
 
-The goal is not to prove that every proposed Identity works.
+A candidate Identity was required to demonstrate:
 
-The goal is to determine which concepts remain defensible after attempting to break them.
+1. a meaningfully different conclusion from the Designation layer
+2. a meaningfully different conclusion from other Identity candidates
+3. sufficient supporting evidence
+4. explainable results
+5. meaningful failure conditions
+6. a useful role in archive interpretation
 
-A candidate Identity should survive only if it can demonstrate:
+Concepts that failed these tests were deferred rather than forced into the catalog.
 
-1. a meaningfully different conclusion from the Designation layer,
-2. a meaningfully different conclusion from other Identity candidates,
-3. sufficient supporting evidence,
-4. explainable results,
-5. meaningful failure conditions,
-6. and a useful role in the overall archive narrative.
+This audit is now a **historical decision record**.
 
-Concepts that cannot meet those requirements should be deferred or rejected rather than forced into the catalog.
+The resulting current catalog is defined authoritatively elsewhere.
 
 ---
 
 # 2. Governing Identity Boundary
 
-The stress test produced a stronger formulation of the Identity/Designation distinction:
+The stress test produced the following formulation:
 
 > **A Designation describes the characteristics of the media relationship. An Identity describes the recurring orientation through which the curator engages with those characteristics.**
 
@@ -45,35 +45,29 @@ In simpler terms:
 
 > **What relationship do you tend to establish with what you like?**
 
-This does not require completely separate evidence.
-
-The same evidence may legitimately contribute to both systems when the systems derive different conclusions from it.
-
 ---
 
-## 2.1 Shared evidence is allowed
+## 2.1 Shared Evidence Is Allowed
 
-For example, high originality may contribute to:
+The same evidence may legitimately contribute to both systems.
 
-* a Designation describing experimental or boundary-pushing taste,
-* an Identity describing a broader orientation toward unfamiliar experiences.
+For example, originality may contribute to:
+
+- a Designation describing experimental taste
+- an Identity describing an exploratory orientation
 
 The raw evidence may overlap.
 
-The conclusion must not.
-
 ---
 
-## 2.2 Shared conclusions are not allowed
+## 2.2 Shared Conclusions Are Not Allowed
 
-An Identity must not simply restate a Designation.
+The following are insufficient:
 
-The following transformations are insufficient:
-
-* renaming a Designation,
-* abstracting a Designation's description,
-* changing its weights while preserving its conclusion,
-* replacing “likes” with “seeks” without changing the underlying concept.
+- renaming a Designation
+- abstracting a Designation's description
+- changing weights while preserving the same conclusion
+- replacing “likes” with “seeks” without changing the underlying concept
 
 An Identity must add a genuinely different interpretive layer.
 
@@ -81,96 +75,45 @@ An Identity must add a genuinely different interpretive layer.
 
 # 3. Stress-Test Method
 
-Each provisional Identity was evaluated against several adversarial cases.
+The original candidates were evaluated against:
 
 ### Test A — Designation collision
 
-Can the Identity be distinguished from the most closely related Designation?
+Can the Identity be distinguished from the closest Designation?
 
 ### Test B — Identity collision
 
-Can the Identity be distinguished from the other provisional Identity candidates?
+Can it be distinguished from other Identity candidates?
 
 ### Test C — Evidence sufficiency
 
-Does the current archive model actually measure the proposed concept?
+Does the current archive model provide meaningful evidence?
 
 ### Test D — Negative space
 
-Can an archive strongly express a related taste pattern without receiving the Identity?
+Can related taste patterns exist without producing the Identity?
 
 ### Test E — Coexistence
 
-Can two different Identities legitimately occur in the same archive?
+Can different Identities legitimately occur together?
 
 ### Test F — Explainability
 
-Can the resulting Identity be explained through observable or defensible derived signals?
+Can the result be explained from observable evidence?
 
 ### Test G — Unsupported inference
 
-Does the concept require assumptions about user behavior or intent that the archive does not actually observe?
+Does the concept require claims about intent or behavior that the system cannot observe?
 
 ---
 
-# 4. Candidate: Interpretive Philosophy
+# 4. Interpretive Philosophy
 
 ## Verdict
 
-**SURVIVES — strong provisional candidate**
+**SURVIVES — strongest current candidate**
 
----
-
-## 4.1 Proposed Concept
-
-Interpretive Philosophy describes a curator whose relationship with media repeatedly involves:
-
-* unpacking,
-* questioning,
-* interpretation,
-* ambiguity,
-* reflection,
-* analysis,
-* and seeking meaning beneath the immediate experience.
-
-The important characteristic is not simply preference for “deep” or complicated media.
-
-The characteristic is the apparent relationship with media as something to **interpret and reconsider**.
-
----
-
-## 4.2 Primary Collision — Deep Diver Designation
-
-The obvious failure mode was:
-
-> “Isn't Interpretive Philosophy just Deep Diver with different words?”
-
-The answer appears to be **no**, provided the concept is defined correctly.
-
-A Deep Diver-style taste pattern can be represented by an archive with:
-
-* very high depth,
-* high emotional impact,
-* strong preference for layered experiences,
-* but relatively weaker analysis, ambiguity, and reflection.
-
-Such an archive can reasonably receive a Deep Diver Designation without necessarily supporting a broader Interpretive Identity.
-
-Conversely, an archive can demonstrate:
-
-* moderate depth,
-* strong ambiguity,
-* strong analysis,
-* strong reflection,
-* psychological or mystery-heavy material,
-
-without requiring the same level of deep-taste preference.
-
-That produces a different conclusion.
-
----
-
-## 4.3 Surviving Distinction
+Interpretive Philosophy survived because it can be differentiated from Deep Diver Designation when its meaning is centered on interpretation rather than depth alone.
 
 ### Deep Diver Designation
 
@@ -178,719 +121,283 @@ That produces a different conclusion.
 
 ### Interpretive Philosophy
 
-> The archive suggests a recurring orientation toward interpreting, unpacking, and finding meaning in experiences.
+> The archive suggests a recurring orientation toward interpretation, reflection, ambiguity, and meaning-making.
 
-The former is a taste classification.
+The two may share:
 
-The latter is a curatorial relationship.
+- depth
+- emotional impact
+- psychological material
+- mystery
+- surreal material
 
----
-
-## 4.4 Available Evidence
-
-Current evidence includes:
-
-* depth,
-* analysis,
-* ambiguity,
-* reflection,
-* psychological prevalence,
-* mystery prevalence,
-* surreal prevalence.
-
-The current derived-trait system already exposes analysis, ambiguity, and reflection as separate signals.
-
-These signals provide a stronger conceptual foundation for Interpretive Philosophy than simply reusing depth.
+but they answer different questions.
 
 ---
 
-## 4.5 Evidence Limitation
+## 4.1 Negative-Space Result
+
+A high-depth archive with relatively weak evidence for:
+
+- analysis
+- ambiguity
+- reflection
+
+can express Deep Diver taste without strongly expressing Interpretive Philosophy.
+
+This establishes an important boundary:
+
+> **Depth is evidence for Interpretive Philosophy, not proof of it.**
+
+---
+
+## 4.2 Evidence Limitation
 
 The archive does not directly observe:
 
-* written interpretation,
-* post-consumption reflection,
-* conversations,
-* reviews,
-* annotations,
-* or explicit statements of meaning.
+- written interpretation
+- reviews
+- annotations
+- post-consumption reflection
+- explicit statements of meaning
 
-Therefore the Identity remains an inference from repeated rating and genre patterns.
-
-The language must not overstate certainty.
+Interpretive Philosophy is therefore an evidence-based inference.
 
 ---
 
-## 4.6 Negative-Space Test
-
-A high-depth archive with low analysis, ambiguity, and reflection should be capable of expressing deep taste without automatically expressing Interpretive Philosophy.
-
-This is an important guardrail.
-
----
-
-## 4.7 Result
-
-**PASS**
-
-Interpretive Philosophy remains the strongest current Identity candidate.
-
----
-
-# 5. Candidate: Exploratory Philosophy
+# 5. Exploratory Philosophy
 
 ## Verdict
 
-**SURVIVES CONDITIONALLY — provisional**
+**SURVIVES CONDITIONALLY — current provisional Identity**
 
----
-
-## 5.1 Proposed Concept
-
-Exploratory Philosophy describes a curator whose archive demonstrates a recurring relationship with:
-
-* unfamiliarity,
-* contrast,
-* novelty,
-* experimentation,
-* and movement outside established taste boundaries.
-
-The concept is not simply “likes weird things.”
-
----
-
-## 5.2 Primary Collision — Boundary Explorer Designation
-
-The obvious failure mode was:
-
-> “Likes unusual, experimental, novel things.”
-
-That conclusion is already substantially represented by the Boundary Explorer Designation.
-
-The existing Boundary Explorer scoring model emphasizes:
-
-* originality,
-* experimental affinity,
-* depth,
-* genre diversity,
-* novelty,
-
-with originality as its largest weighted signal.
-
-Therefore an Exploratory Identity cannot simply reproduce that conclusion.
-
----
-
-## 5.3 Surviving Distinction
+Exploratory Philosophy survived because it can be distinguished from Boundary Explorer when the distinction is centered on the relationship with unfamiliar territory rather than attraction to unconventional media itself.
 
 ### Boundary Explorer Designation
 
-> The archive demonstrates a recognizable taste for boundary-pushing or unfamiliar media.
+> The archive demonstrates a recognizable taste for boundary-pushing or unconventional media.
 
 ### Exploratory Philosophy
 
-> The archive demonstrates a recurring relationship with unfamiliarity and contrast itself.
-
-The distinction is subtle but meaningful.
-
-The Designation describes the **kind of media preferred**.
-
-The Identity describes the **orientation toward unfamiliar territory**.
+> The archive demonstrates a recurring orientation toward unfamiliar territory and the boundaries of established taste.
 
 ---
 
-## 5.4 Negative-Space Test
+## 5.1 Important Limitation
 
-Consider an archive concentrated almost entirely within one experimental aesthetic.
+The current system does not directly observe exploration as a process.
 
-It may strongly support:
+It observes:
 
-**Boundary Explorer**
+- originality
+- genre diversity
+- experimental affinity
+- novelty
+- media-type breadth
+- depth
 
-without necessarily demonstrating broad exploration.
+These provide evidence consistent with exploration.
 
-Conversely, an archive that repeatedly moves among:
+They do not prove deliberate exploration.
 
-* conventional and unconventional works,
-* different genres,
-* different media,
-* unfamiliar styles,
-* unusual combinations,
-
-provides stronger evidence for an exploratory orientation.
-
----
-
-## 5.5 Evidence Limitation
-
-The current evidence model does not directly observe deliberate exploration.
-
-The available signals are primarily derived from archive composition.
-
-Current derived evidence includes:
-
-* experimental affinity,
-* genre diversity,
-* novelty.
-
-These are derived from genre distribution rather than explicit user statements of exploration.
-
-Therefore:
-
-> **Broad or unusual archive composition is evidence of exploration, but does not prove deliberate exploration.**
-
-The final Identity language must remain appropriately cautious.
+Therefore Exploratory Philosophy remains appropriately provisional.
 
 ---
 
-## 5.6 Result
-
-**CONDITIONAL PASS**
-
-The concept remains viable.
-
-It should remain provisional until representative profiles demonstrate that it can reliably diverge from Boundary Explorer.
-
----
-
-# 6. Candidate: Construction / Systems Philosophy
+# 6. Construction / Systems Philosophy
 
 ## Verdict
 
-**FAILS INITIAL STRESS TEST — defer**
+**DEFERRED**
+
+The concept itself is legitimate.
+
+The problem is that the current evidence collapses toward Engagement Architect Designation.
+
+Existing Engagement Architect evidence includes:
+
+- engagement
+- craft
+- gameplay mechanics
+- pacing
+- system design
+
+The current `system_design` signal is itself derived from gameplay mechanics.
+
+The available evidence therefore does not support a genuinely independent Identity-level construction philosophy.
+
+Creating one now would risk producing:
+
+> “Engagement Architect, but called an Identity.”
+
+That would violate the Identity/Designation boundary.
+
+### Decision
+
+Construction / Systems Philosophy is deferred.
+
+It remains a legitimate future candidate if broader structural evidence becomes available.
 
 ---
 
-## 6.1 Proposed Concept
-
-The proposed Identity described appreciation for:
-
-* how experiences are constructed,
-* structure,
-* pacing,
-* systems,
-* mechanics,
-* craft,
-* and execution.
-
-Conceptually, this is a legitimate form of curatorial philosophy.
-
-The problem is current differentiation.
-
----
-
-## 6.2 Primary Collision — Engagement Architect Designation
-
-The existing Engagement Architect Designation already describes preference for:
-
-* engagement,
-* craft,
-* gameplay mechanics,
-* pacing,
-* system design.
-
-Its current scoring heavily weights engagement and craft, followed by gameplay mechanics and pacing.
-
-Attempting to create a Construction Identity from the same evidence produces essentially the same conclusion:
-
-> “This curator values well-constructed, engaging experiences.”
-
-That is insufficiently different.
-
----
-
-## 6.3 Evidence Problem
-
-The current `system_design` signal is derived from gameplay mechanics.
-
-This creates a narrow evidence base for a supposedly broad concept of construction.
-
-The current model does not independently observe appreciation for:
-
-* narrative architecture,
-* cinematic structure,
-* visual construction,
-* editing,
-* storytelling mechanics,
-* game systems,
-* or broader experiential design.
-
-Expanding the interpretation beyond the available evidence would require unsupported inference.
-
----
-
-## 6.4 Result
-
-**FAIL**
-
-Construction / Systems Philosophy should not be part of the initial Identity catalog.
-
-This does not mean the concept is permanently rejected.
-
-It is a strong **future candidate** if the evidence model eventually gains broader structural or constructive signals.
-
-The correct response is to defer the concept rather than weaken the distinction between Identity and Designation.
-
----
-
-# 7. Candidate: Breadth / Curatorial Variety Philosophy
+# 7. Breadth / Curatorial Variety Philosophy
 
 ## Verdict
 
-**SURVIVES CONDITIONALLY — provisional**
+**SURVIVES CONDITIONALLY — current provisional Identity**
 
----
-
-## 7.1 Proposed Concept
-
-Breadth / Curatorial Variety Philosophy describes a recurring relationship with:
-
-* variety,
-* breadth,
-* genre diversity,
-* media diversity,
-* and avoidance of excessive concentration.
-
-The concept concerns the shape of the archive rather than a single preferred taste.
-
----
-
-## 7.2 Primary Collision — The Curator Designation
-
-The primary concern is that a broad archive can already support The Curator Designation.
-
-However, the distinction can survive if carefully framed.
+Breadth survived because it can describe the range of territory represented in the archive without becoming identical to The Curator Designation.
 
 ### The Curator Designation
 
-> The archive exhibits a recognizable broad or varied taste classification.
+> A recognizable broad or varied taste classification.
 
-### Breadth / Curatorial Variety Philosophy
+### Breadth Philosophy
 
-> The archive demonstrates a recurring orientation toward variety itself.
+> A recurring orientation represented by the breadth and variety of the archive.
 
-Again, the Designation describes the archive's classification.
-
-The Identity describes the relationship with breadth.
+The distinction is primarily one of interpretive layer.
 
 ---
 
-## 7.3 Negative-Space Test
+## 7.1 Negative-Space Result
 
-### Large but narrow archive
+A large archive concentrated in one genre is not necessarily broad.
 
-An archive with 100 entries concentrated heavily in one genre is large but not necessarily broad.
+A smaller archive distributed across many genres may provide stronger breadth evidence.
 
-It should not receive a Breadth Identity simply because it contains many entries.
+Therefore:
 
-### Small but diverse archive
-
-An archive with 40 entries distributed meaningfully across many genres may provide stronger evidence for breadth.
-
-### Broad archive with uncertain intent
-
-A diverse archive still does not prove that the curator deliberately seeks variety.
-
-The system should describe the observable archive rather than claiming unsupported motivation.
+> **Archive size is not breadth.**
 
 ---
 
-## 7.4 Evidence
+## 7.2 Evidence Limitation
 
-Current evidence includes:
-
-* genre diversity,
-* genre distribution,
-* archive breadth,
-* concentration.
-
-The existing derived-trait system explicitly calculates genre diversity from genre distribution.
-
-This provides a reasonable observable foundation.
-
----
-
-## 7.5 Evidence Limitation
-
-The system can observe:
+The archive can demonstrate:
 
 > “This archive is broad.”
 
-It cannot necessarily observe:
+It cannot necessarily demonstrate:
 
-> “This curator intentionally seeks breadth.”
+> “This curator intentionally seeks variety.”
 
-That distinction must remain explicit.
-
----
-
-## 7.6 Result
-
-**CONDITIONAL PASS**
-
-The concept remains viable but provisional.
-
-Its final wording should favor observable archive structure over claims about motivation.
+The current Identity should remain focused on observable archive structure.
 
 ---
 
 # 8. Identity-to-Identity Differentiation
 
-The candidates were also tested against one another.
-
----
-
-## 8.1 Interpretive vs Exploratory
-
-These concepts can coexist without collapsing.
-
-A curator may:
-
-* seek unfamiliar experiences,
-* and then spend significant effort interpreting those experiences.
-
-That produces two distinct relationships:
-
-**Exploratory**
-
-> relationship with unfamiliarity.
-
-**Interpretive**
-
-> relationship with meaning.
-
-### Result
+## Interpretive vs. Exploratory
 
 **PASS**
 
+Interpretive concerns relationship with meaning.
+
+Exploratory concerns relationship with unfamiliarity.
+
+They can coexist.
+
 ---
 
-## 8.2 Interpretive vs Breadth
-
-These concepts are independently expressible.
-
-A highly interpretive archive can be concentrated within a small number of genres.
-
-A broad archive can contain little evidence of interpretive orientation.
-
-### Result
+## Interpretive vs. Breadth
 
 **PASS**
 
+An archive may be:
+
+- narrow but highly interpretive
+- broad but minimally interpretive
+
+These are independent dimensions.
+
 ---
 
-## 8.3 Exploratory vs Breadth
-
-These concepts are separable but more correlated.
-
-Exploration can produce breadth.
-
-Breadth can be evidence of exploration.
-
-But neither necessarily implies the other.
-
-For example:
-
-* exploration can occur deeply within one unconventional area,
-* breadth can result from incidental exposure rather than exploration.
-
-### Result
+## Exploratory vs. Breadth
 
 **CONDITIONAL PASS**
 
-The distinction remains defensible, but the current evidence model creates correlation between the two.
+The concepts correlate but remain distinguishable.
+
+Exploration may create breadth.
+
+Breadth may provide evidence consistent with exploration.
+
+Neither necessarily implies the other.
 
 ---
 
-## 8.4 Construction vs Other Identities
-
-Because Construction / Systems already collapses toward Engagement Architect, no additional Identity-level differentiation is justified at this stage.
-
-### Result
+## Construction vs. Other Identities
 
 **DEFERRED**
+
+The current evidence base is insufficiently differentiated from Engagement Architect.
 
 ---
 
 # 9. Negative-Space Findings
 
-The stress test established several important failure boundaries.
+The stress test established:
+
+### High depth ≠ automatically Interpretive
+
+### High experimentation ≠ automatically Exploratory
+
+### High engagement ≠ automatically Construction
+
+### Large archive ≠ automatically Breadth
+
+These remain important guardrails for future fixture and scoring work.
 
 ---
 
-## 9.1 High depth does not automatically mean Interpretive
+# 10. Coexistence
 
-An archive can strongly prefer deep media without demonstrating strong evidence of interpretation, analysis, ambiguity, or reflection.
+Multiple Identities may legitimately apply to the same archive.
 
-Therefore:
-
-> **Depth is evidence, not proof of Interpretive Philosophy.**
-
----
-
-## 9.2 High experimentation does not automatically mean Exploratory
-
-An archive can strongly prefer experimental media without demonstrating broad movement across unfamiliar territory.
-
-Therefore:
-
-> **Experimental preference is evidence, not proof of Exploratory Philosophy.**
-
----
-
-## 9.3 High engagement does not automatically mean Construction
-
-An archive can strongly prefer engaging, polished experiences without providing sufficient evidence that the curator specifically relates to the construction of those experiences.
-
-Therefore:
-
-> **Engagement is evidence, not proof of Construction / Systems Philosophy.**
-
----
-
-## 9.4 Large archive does not automatically mean Breadth
-
-Archive size measures quantity.
-
-Breadth measures distribution.
-
-Therefore:
-
-> **Archive size is not sufficient evidence of Breadth Philosophy.**
-
----
-
-# 10. Coexistence Findings
-
-The Identity system should allow multiple Identity conclusions when evidence supports genuinely different orientations.
-
-For example, an archive may plausibly demonstrate:
+For example:
 
 ### Exploratory + Interpretive
 
-> The curator seeks unfamiliar experiences and repeatedly engages with them through interpretation.
+The curator repeatedly engages with unfamiliar territory and then engages deeply with meaning.
 
 ### Breadth + Interpretive
 
-> The curator explores many types of media while repeatedly seeking layered meaning.
+The curator consumes widely while repeatedly favoring layered or interpretive experiences.
 
 ### Exploratory + Breadth
 
-> The curator repeatedly moves across different genres and experiences.
+The curator repeatedly engages across different areas of the media landscape.
 
-The existence of multiple Identities should not be treated as a failure of classification.
+These are not mutually exclusive.
 
-It should represent a genuinely multi-dimensional archive when evidence supports it.
-
----
-
-# 11. Insufficient Evidence
-
-An archive should also be capable of producing **no meaningful Identity conclusion**.
-
-Identity should not be forced simply because the scoring machinery can produce a numeric result.
-
-Sparse or insufficient archives should remain governed by Data Sufficiency.
-
-This reinforces the distinction between:
-
-* **Signal Strength** — how strongly a pattern appears,
-* **Data Sufficiency** — whether enough archive data exists to support evaluation.
-
-A high score derived from insufficient evidence must not be interpreted as a strong Identity conclusion.
+The Identity system should therefore permit multiple meaningful Identity conclusions.
 
 ---
 
-# 12. Stress-Test Results
+# 11. Final Catalog Result
 
-| Candidate                               | Designation Collision                                           | Evidence | Negative Space      | Final Result    |
-| --------------------------------------- | --------------------------------------------------------------- | -------- | ------------------- | --------------- |
-| Interpretive Philosophy                 | Strongly separable from Deep Diver                              | Strong   | Strong              | **Survives**    |
-| Exploratory Philosophy                  | Separability from Boundary Explorer requires careful definition | Moderate | Strong conceptually | **Provisional** |
-| Construction / Systems Philosophy       | Collapses toward Engagement Architect                           | Limited  | Weak                | **Defer**       |
-| Breadth / Curatorial Variety Philosophy | Separable from The Curator if carefully framed                  | Moderate | Strong conceptually | **Provisional** |
+The stress test resulted in:
 
----
+| Identity                          | Result                                     |
+| --------------------------------- | ------------------------------------------ |
+| Interpretive Philosophy           | **Active — strongest conceptual survivor** |
+| Exploratory Philosophy            | **Active — provisional / conditional**     |
+| Breadth Philosophy                | **Active — provisional / conditional**     |
+| Construction / Systems Philosophy | **Deferred**                               |
 
-# 13. Revised Provisional Catalog
+The three active concepts are now the current Identity catalog.
 
-After stress testing, the initial Identity catalog should be reduced from four active candidates to three.
-
-## Active provisional candidates
-
-### 1. Interpretive Philosophy
-
-Strongest candidate.
-
-Primary conceptual axis:
-
-> **How the curator engages with meaning, ambiguity, analysis, and reflection.**
-
-### 2. Exploratory Philosophy
-
-Provisional candidate.
-
-Primary conceptual axis:
-
-> **How the curator relates to unfamiliarity, contrast, and exploration.**
-
-### 3. Breadth / Curatorial Variety Philosophy
-
-Provisional candidate.
-
-Primary conceptual axis:
-
-> **How the curator relates to variety and breadth across the archive.**
+Historical candidates that were rejected or deferred should not be treated as active fixture definitions.
 
 ---
 
-## Deferred candidate
+# 12. Final Principle
 
-### Construction / Systems Philosophy
+The stress test established the following rule:
 
-Future candidate.
+> **An Identity must describe a different relationship with media than the Designation layer describes.**
 
-Reason for deferral:
+And:
 
-> Current evidence cannot distinguish it sufficiently from Engagement Architect Designation.
-
-Potential future evidence could include broader structural and constructive signals across multiple media types.
-
----
-
-# 14. Existing Identity Fixtures
-
-The current Identity fixtures should not yet be treated as the final conceptual catalog.
-
-The current implementations for:
-
-* Boundary Explorer,
-* Deep Diver,
-* Engagement Architect
-
-represent the previous Identity model and overlap substantially with the corresponding Designations.
-
-For example, the current Boundary Explorer Identity uses originality, experimental affinity, depth, genre diversity, and novelty.
-
-The current Deep Diver Identity uses depth, emotional impact, reflection, ambiguity, and analysis.
-
-The current Engagement Architect Identity uses engagement, craft, gameplay mechanics, pacing, and system design.
-
-These fixtures are therefore **implementation artifacts of the previous Identity ontology**, not authoritative definitions of the new catalog.
-
-They should not be mechanically renamed to the new concepts.
-
----
-
-# 15. What the Stress Test Does Not Decide
-
-This pass does not establish:
-
-* final public-facing Identity names,
-* exact scoring weights,
-* derived-trait formulas,
-* minimum-entry thresholds,
-* secondary Identity thresholds,
-* tie-breaking rules,
-* near-tie behavior,
-* Classification Confidence,
-* final API schema,
-* final recommendation behavior.
-
-Those remain separate conceptual or implementation decisions.
-
----
-
-# 16. Evidence Gaps
-
-The stress test identified several areas where the current archive model limits Identity inference.
-
-### Exploration
-
-The system measures novelty and experimental/genre patterns but does not directly observe deliberate exploration.
-
-### Breadth
-
-The system measures archive distribution but does not directly observe intentional variety-seeking.
-
-### Interpretation
-
-The system has stronger proxy signals, but still does not directly observe explicit interpretation or reflection.
-
-### Construction
-
-The current evidence is too narrow to support a broad construction-oriented Identity.
-
-These limitations should be reflected in Identity explanations rather than hidden.
-
----
-
-# 17. Design Consequences
-
-The stress test establishes several guardrails for the next phase.
-
-### 17.1 Do not preserve the existing Identity names merely for compatibility
-
-The current Identity names overlap with Designations because the previous ontology was insufficiently differentiated.
-
-The new catalog should be driven by conceptual correctness.
-
-### 17.2 Do not rename existing fixtures mechanically
-
-A renamed fixture can preserve the same incorrect conceptual conclusion.
-
-Conceptual redesign must precede fixture redesign.
-
-### 17.3 Preserve useful scoring infrastructure
-
-The existing Identity system provides useful machinery for:
-
-* weighted signals,
-* derived signals,
-* eligibility,
-* scoring,
-* ranking,
-* evidence breakdown,
-* Data Sufficiency,
-* and explanation.
-
-That infrastructure should be evolved rather than discarded unless a conceptual decision requires otherwise.
-
-### 17.4 Do not force four Identities
-
-The stress test demonstrates that four is not automatically better than three.
-
-The catalog should contain only concepts that survive conceptual and evidentiary scrutiny.
-
----
-
-# 18. Final Stress-Test Conclusion
-
-The provisional Identity layer has now been meaningfully differentiated from the Designation layer.
-
-The strongest surviving conceptual boundary is:
-
-> **Designations classify what the archive tends to favor. Identities describe the recurring orientation through which the curator engages with what they favor.**
-
-Under that boundary:
-
-* **Interpretive Philosophy survives strongly.**
-* **Exploratory Philosophy survives provisionally.**
-* **Breadth / Curatorial Variety Philosophy survives provisionally.**
-* **Construction / Systems Philosophy is deferred because it currently collapses into Engagement Architect and lacks sufficiently broad evidence.**
-
-The Identity catalog is therefore **not yet locked**.
-
-The next step is to translate the surviving concepts into a deliberate Identity specification:
-
-1. determine final conceptual names,
-2. define each Identity's precise meaning,
-3. define what evidence belongs to each,
-4. define exclusions and collision boundaries,
-5. determine provisional scoring configurations,
-6. create representative profile fixtures,
-7. then modify implementation.
-
-No implementation change should occur solely because this stress test produced a candidate concept.
-
-> **Evolution, not rewrite.**
+> **Evidence can overlap. Meaning cannot.**

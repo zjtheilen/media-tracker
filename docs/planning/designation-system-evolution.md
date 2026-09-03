@@ -1,1094 +1,403 @@
-# Media Tracker — Designation System Evolution
+# Designation System Evolution
 
-**Project:** Media Tracker
-**Authoritative branch:** `develop-3`
-**Status:** Working Direction / Future Design
-**Scope:** Designations, designation scoring, archive-shape analysis, genre intelligence
-**Related documents:**
-
-* `intelligence-contract.md`
-* `phase-1-intelligence-alignment.md`
-* `phase-1-decision-and-implementation-map.md`
-* `intelligence-forensic-audit.md`
-* `roadmap.md`
-
-**Authority note:** This document records future Designation evolution and working hypotheses. It does not override decisions marked **LOCKED**, **UNRESOLVED**, or **DEFERRED** in the Phase 1 Intelligence Alignment and Decision & Implementation Map.
+**Status:** Reconciled working document
+**Phase:** Phase 1 — Intelligence Alignment
+**Guiding principle:** **Evolution, not rewrite.**
 
 ---
 
 # 1. Purpose
 
-This document records the evolving design direction for the Media Tracker Designation system.
+This document records the evolution of the Media Tracker Designation system.
 
-It exists separately from the Phase 1 Intelligence Alignment documents because many of the ideas below are **future design decisions or working hypotheses**, not currently locked Phase 1 implementation requirements.
+Its purpose is to preserve the reasoning behind the current Designation architecture while identifying areas that may evolve in the future.
 
-The purpose is to preserve the reasoning behind future Designation work so that later implementation can continue from the same conceptual foundation.
-
-The guiding principle remains:
-
-> **Evolution, not rewrite.**
-
-The existing Designation infrastructure is useful and should be refined rather than discarded.
-
-Phase 1 alignment decisions take precedence over future Designation ideas recorded here.
+A Designation is not intended to be a personality diagnosis or a substitute for the Identity layer.
 
 ---
 
 # 2. What a Designation Means
 
-A Designation answers:
+A Designation is a recognizable taste classification.
+
+Its core question is:
 
 > **What recognizable taste classification fits this archive?**
 
-A Designation is therefore a classification of observable media behavior and preference patterns.
+A Designation should describe a recurring characteristic of the media relationship.
 
-It is not:
+It should not describe:
 
-* a personality type
-* a psychological diagnosis
-* a curator philosophy
-* a recommendation category
-* a single favorite genre
-* a description of one isolated preference
-
-The existing distinction between Designation and Identity remains important:
-
-| Layer       | Question                                                                 |
-| ----------- | ------------------------------------------------------------------------ |
-| Designation | What recognizable taste classification fits this archive?                |
-| Identity    | What broader curator philosophy or synthesis does this archive describe? |
-
-Designations and Identities may use some of the same underlying evidence, but they answer different questions.
+- personality
+- psychological diagnosis
+- personal identity
+- a single favorite genre
+- an arbitrary recommendation category
+- a broad curator philosophy
+- an isolated preference
 
 ---
 
-# 3. Current Designations Are Provisional
+# 3. Designation vs. Identity
 
-The current Designation catalog contains:
+The distinction is now locked.
 
-* `boundary_explorer`
-* `curator`
-* `engagement_architect`
-* `deep_diver`
+### Designation
 
-These names and rules were initially introduced as a **skeleton implementation**.
+> **What do you tend to like?**
 
-They should not be treated as permanently correct vocabulary or as the final Designation catalog.
+### Identity
 
-Future work may:
+> **What relationship do you tend to establish with what you like?**
 
-* rename existing Designations
-* redefine their meanings
-* split one Designation into several
-* merge overlapping Designations
-* retire weak Designations
-* introduce additional Designations
+A Designation may describe:
 
-The eventual system may contain approximately **10–12 or more Designations** if the evidence supports that level of differentiation.
+> attraction to experimental media
 
-The goal is not to create more Designations for variety.
+while an Identity may describe:
 
-The goal is to create enough distinct Designations to represent genuinely different and reusable patterns of media behavior.
+> an exploratory relationship with unfamiliar territory.
 
-No catalog expansion is implied by this document alone. Any Phase 1 Designation changes remain subject to the locked Phase 1 gates.
+The evidence can overlap.
+
+The conclusion cannot.
 
 ---
 
-# 4. Current Phase 1 Work vs Future Designation Evolution
+# 4. Current Designation Catalog
 
-Phase 1 remains conservative.
+The current working catalog contains:
 
-The current implementation work should preserve:
+1. Boundary Explorer
+2. Engagement Architect
+3. Deep Diver
+4. Curator
 
-* fixture/rule-driven Designations
-* deterministic evaluation
-* multiple internal candidates
-* candidate ranking
-* primary Designation resolution
-* Designation metadata
-* recommendation bias
-* existing archive/profile integration
-* meaningful regression behavior
+These are current working Designation concepts.
 
-Future Designation evolution is a separate layer of work.
+They are not required to be permanent.
 
-The current four Designations should therefore be treated as:
+Future Designation evolution may:
 
-> **working behavioral hypotheses implemented using the existing rule infrastructure.**
+- rename a Designation
+- redefine one
+- split one
+- merge overlapping classifications
+- retire one
+- introduce another
 
-They are not the final ontology.
-
-Phase 1 should not expand or redesign the Designation catalog merely because future concepts are documented here.
+Such changes should be driven by evidence or explicit conceptual decisions rather than taxonomy expansion for its own sake.
 
 ---
 
-# 5. Designation Scores
+# 5. Boundary Explorer
 
-A Designation score should answer:
+## Concept
 
-> **How strongly does the archive exhibit the evidence associated with this Designation?**
+Boundary Explorer describes attraction to unfamiliar, experimental, unconventional, or boundary-pushing media.
 
-It should not be interpreted as:
+Current evidence includes:
 
-> "There is an X% chance this Designation is objectively correct."
+- originality
+- depth
+- sustained exploration
+- media-type breadth
+- experimental and unconventional genre patterns
 
-Nor should a score of `100` automatically mean that the archive is perfectly or definitively classified.
+Its recommendation metadata favors:
 
-A Designation score is an **evidence-strength / fit score**.
-
-Scores should ideally be normalized to a common range so that different Designation rules are comparable.
-
-Any future scoring redesign must preserve the distinction between:
-
-* Designation Score / fit
-* Signal Strength
-* Data Sufficiency
-* Classification Confidence
-* Evidence Strength
-
-The existence of these conceptual distinctions does not by itself require new numerical fields or scoring algorithms during Phase 1.
+- unusual concepts
+- genre hybrids
+- experimental storytelling
 
 ---
 
-# 6. Score Comparability Is Mandatory
+## Boundary Explorer vs. Exploratory Philosophy
 
-Different Designation rules currently use different combinations of signals and weights.
+These concepts intentionally remain separate.
 
-This creates an important future-design requirement:
+### Boundary Explorer
 
-> A score of 80 for one Designation should be meaningfully comparable to a score of 80 for another Designation.
+> **What unconventional media do you tend to like?**
 
-A rule must not be able to produce a higher maximum simply because it has more additive opportunities.
+### Exploratory Philosophy
 
-For example, if one rule has five components capable of independently contributing large values while another has three components, both rules should still map their evidence to the same conceptual scale.
+> **How does your archive relate to unfamiliar territory?**
 
-The final score should therefore represent:
+Boundary Explorer describes a taste classification.
 
-> **strength of evidence relative to that Designation's own defined evidence model**
+Exploratory Philosophy describes a broader curatorial orientation.
 
-rather than raw accumulated arithmetic.
+The current evidence model cannot directly observe deliberate exploration.
 
-The earlier `boundary_explorer` implementation demonstrated why this matters: its raw weighting could exceed the intended scale and then rely on `min(score, 100)` to force the result into a 0–100 range.
-
-That is technically capped but conceptually weak.
-
-A future Designation rule should have a defined maximum of 100 by construction rather than by accidental overflow followed by clipping.
-
-This is a **future Designation-system quality requirement**, not an authorization to redesign current scoring during Phase 1 without an explicit contract decision.
+Therefore the Identity must not be defined merely as “Boundary Explorer, but more abstract.”
 
 ---
 
-# 7. Designation Rule Audit
+# 6. Engagement Architect
 
-Before expanding the Designation catalog, each existing rule should be examined for whether its weights actually express the concept it claims to represent.
+## Concept
 
-For every Designation, document:
+Engagement Architect describes a recognizable preference for strongly constructed, engaging experiences.
 
-* purpose
-* primary behavioral signals
-* secondary behavioral signals
-* non-contributing signals
-* evidence dimensions
-* weight rationale
-* maximum possible contribution
-* expected score interpretation
-* minimum meaningful evidence
-* distinction from other Designations
+Current scoring incorporates:
 
-The question is not:
+- engagement strength
+- craft strength
+- gameplay strength
+- pacing
 
-> "Can we make the current fixture pass?"
-
-The question is:
-
-> **"Do these weights actually encode the behavior this Designation is supposed to describe?"**
-
-Fixture preservation remains important, but fixtures should not prevent correction of a conceptually weak rule when that correction is explicitly approved.
+The Designation is intentionally preserved.
 
 ---
 
-# 8. Primary Designation Resolution
+## Relationship to Construction / Systems Philosophy
 
-The current architecture evaluates multiple Designations and ranks them.
+Construction / Systems Philosophy was stress-tested as a possible Identity and deferred.
 
-The Primary Designation is the strongest eligible candidate presented on the Profile.
+The reason is that current evidence overlaps too heavily with Engagement Architect.
 
-This remains the basic model:
+This is not a problem with Engagement Architect.
 
-```text
-archive
-↓
-evaluate Designations
-↓
-rank candidates
-↓
-resolve Primary Designation
-```
+It is a reason not to create a redundant Identity.
 
-However, future work should distinguish three separate concepts:
-
-### Designation Score
-
-How strongly the archive fits the Designation.
-
-### Classification Confidence
-
-How clearly the winning Designation is distinguished from plausible alternatives.
-
-### Data Sufficiency
-
-Whether enough archive evidence exists to make the classification meaningful.
-
-These must not be conflated.
-
-The exact operational treatment of Classification Confidence and close competitors remains subject to the Phase 1 tie / near-tie policy and should not be invented during current implementation.
+A future Construction / Systems Identity would require broader structural evidence than the current implementation provides.
 
 ---
 
-# 9. Winner Score vs Classification Confidence
+# 7. Deep Diver
 
-A high winner score does not necessarily mean the classification is highly certain.
+## Concept
 
-Example:
+Deep Diver describes sustained attraction to layered, deep, emotionally involving experiences.
 
-```text
-Boundary Explorer     82
-Deep Diver            80
-```
+Current characteristics include:
 
-The winner has a strong score, but the classification is relatively ambiguous.
-
-Compare:
-
-```text
-Boundary Explorer     82
-Deep Diver            41
-```
-
-The winner has the same score but a much clearer lead.
-
-Therefore:
-
-> **Winner strength and classification confidence are different dimensions.**
-
-The score describes the winner.
-
-The margin describes how strongly the winner separates from competing candidates.
-
-Future classification-resolution logic may consider both.
-
-The existence of this distinction does **not** establish a Phase 1 Classification Confidence algorithm.
+- depth
+- emotional impact
+- strong average score
+- psychological genre affinity
 
 ---
 
-# 10. Margin
+## Relationship to Interpretive Philosophy
 
-A useful future signal is:
+Deep Diver and Interpretive Philosophy may legitimately coexist.
 
-```text
-margin = winner_score - runner_up_score
-```
+### Deep Diver
 
-A larger margin means the winner is more differentiated from the strongest alternative.
+> A taste for deep and layered experiences.
 
-A smaller margin means the archive exhibits competing Designation patterns.
+### Interpretive Philosophy
 
-Margin should not replace the winner's score.
+> A recurring orientation toward interpretation, reflection, ambiguity, and meaning.
 
-It should supplement it.
+The distinction is intentional.
 
-For example:
-
-| Winner | Runner-up | Margin | Interpretation                                      |
-| -----: | --------: | -----: | --------------------------------------------------- |
-|     86 |        58 |     28 | Strong, well-separated classification               |
-|     76 |        45 |     31 | Strong, well-separated classification               |
-|     74 |        61 |     13 | Stronger candidate, but meaningful overlap          |
-|     41 |        28 |     13 | Weak classification despite a clear relative winner |
-
-This demonstrates why classification confidence cannot simply be derived from the winner score.
-
-**Important:** Margin and near-tie behavior remain future design considerations. The Phase 1 tie / close-competitor policy is separately unresolved and must be explicitly locked before implementation depends on it.
+High depth should not automatically produce both conclusions merely because both systems use the same signal.
 
 ---
 
-# 11. Current `designationConfidence`
+# 8. Curator
 
-The existing `designationConfidence` field currently represents aggregate signal strength of the Designation Basis.
+## Concept
 
-It should therefore continue to be treated as a **Signal Strength-like quantity**, consistent with the Phase 1 semantic decision.
+Curator describes a recognizable broad or deliberate-seeming archival taste pattern involving:
 
-It should not silently be repurposed into a new margin-based Classification Confidence algorithm.
+- craft
+- presentation
+- archive composition
+- genre diversity
 
-Future work may introduce an explicitly distinct classification-confidence concept if the API/UI actually needs it.
+The current Designation also incorporates archive size as one component.
 
-Until then:
-
-> **Do not reinterpret the existing field merely because the word `confidence` is imperfect.**
-
-Terminology and presentation remain separate from algorithm redesign.
-
----
-
-# 12. Boundary Explorer — Behavioral Definition
-
-`boundary_explorer` is currently a placeholder name and rule.
-
-Its intended concept is:
-
-> **Someone who is willing to explore outside a typical narrow range of media experiences and who tends to appreciate the unusual, unfamiliar, or unconventional experiences they encounter.**
-
-Boundary Explorer should therefore not simply mean:
-
-> "likes experimental media."
-
-It should describe a broader behavioral pattern.
-
-A strong Boundary Explorer candidate may demonstrate:
-
-* broad genre exploration
-* exploration across conceptually different genre areas
-* exploration across multiple media types
-* repeated engagement with less familiar areas
-* sustained exploration rather than isolated sampling
-* high appreciation for originality
-* high appreciation for other traits associated with unconventional or boundary-pushing work
-* willingness to engage with experiences outside the archive's dominant territory
+This remains a known conceptual weakness.
 
 ---
 
-# 13. Three Core Dimensions of Boundary Exploration
+## Archive Size Limitation
 
-The current working model uses three primary dimensions:
+Archive size measures quantity.
 
-```text
-BOUNDARY EXPLORATION
-│
-┌───────────┼───────────┐
-│           │           │
-BREADTH     SUSTAINED  APPRECIATION
-│        EXPLORATION      │
-│           │             │
-archive shape   repeated      originality
-genre coverage  exposure      depth
-media coverage  meaningful    related traits
-│           │             │
-└───────────┼─────────────┘
-↓
-BOUNDARY EXPLORER
-```
+It does not directly measure:
 
-### 13.1 Breadth
+- deliberateness
+- care
+- curatorial intent
+- breadth
 
-How broadly does the archive explore different areas?
+Therefore archive size should be treated cautiously.
 
-Breadth should consider:
+The existing calculation is preserved for Phase 1 unless a direct conceptual conflict is demonstrated.
 
-* meaningful genre coverage
-* concentration vs dispersion
-* genre families / related groups
-* media-type coverage
-
-Breadth should describe the **shape of the archive**, not simply the number of distinct genre labels.
+Future refinement may determine whether archive size genuinely belongs in Curator scoring.
 
 ---
 
-### 13.2 Sustained Exploration
+# 9. Designation Scores
 
-Breadth alone is insufficient.
+Designation scores answer:
 
-A user who samples one experimental work among 100 otherwise conventional works should not receive the same Boundary Explorer evidence as someone who repeatedly explores experimental material.
+> **How strongly does this archive fit this taste classification?**
 
-The system should therefore distinguish:
+All current Designation scores are on a comparable 0–100 scale.
 
-```text
-sampling
-```
+The current scoring architecture should be preserved.
 
-from:
+A high Designation Score is not automatically:
 
-```text
-sustained exploration
-```
+> Classification Confidence
 
-The current working threshold proposal is:
-
-> **3% of the archive or 2 entries, whichever is greater.**
-
-This is a working direction, not yet a locked universal threshold.
-
-The intention is to prevent one-off exposure from being treated as sustained exploration while still allowing smaller archives to demonstrate meaningful repeated behavior.
-
-Any operational threshold remains subject to the Phase 1 archive-state and evidence decisions before it becomes implementation authority.
+and should not be described as such.
 
 ---
 
-### 13.3 Appreciation
+# 10. Signal Strength vs. Classification Confidence
 
-Exploration alone does not establish Boundary Explorer behavior.
+The existing `designationConfidence` terminology is historical and misleading.
 
-The system should also ask:
+The current semantic interpretation is closer to:
 
-> **Does the user actually value what they explore?**
+> **Signal Strength**
 
-Relevant evidence may include:
+It reflects the strength of the underlying designation-related signals.
 
-* originality
-* depth
-* presentation/atmosphere
-* other derived traits associated with unconventional experiences
+It is not a statistical probability that the Designation is correct.
 
-This distinguishes:
+It is not a universal confidence measure.
 
-```text
-"I tried unusual things."
-```
-
-from:
-
-```text
-"I repeatedly seek unusual things and tend to value them."
-```
-
-The latter is substantially stronger Boundary Explorer evidence.
+It should therefore be presented to users as **Signal Strength** while the existing API field remains preserved for compatibility.
 
 ---
 
-# 14. Genre Prevalence Is Evidence, Not the Whole Meaning
+# 11. Primary Designation
 
-`genreAffinity` remains a useful archive-level signal.
+The system calculates multiple Designation candidates.
 
-It represents genre prevalence and should not be distorted merely to serve Designation scoring.
+The Profile selects:
 
-Current `genreAffinity` should therefore remain conceptually distinct from future Designation-specific genre evidence.
+> **ONE PRIMARY Designation**
 
-A Designation should not simply do:
+The current deterministic highest-score selection is preserved.
 
-```text
-genreAffinity × arbitrary weight
-```
+Exact tie behavior remains deterministic.
 
-and assume that the result is sufficient semantic evidence.
-
-Instead, future work should distinguish:
-
-```text
-GENRE PREVALENCE
-```
-
-from:
-
-```text
-DESIGNATION EVIDENCE DERIVED FROM GENRE PREVALENCE
-```
-
-The first describes the archive.
-
-The second interprets that archive signal in the context of a particular Designation.
+Incidental fixture ordering should not become an intentional conceptual ranking rule.
 
 ---
 
-# 15. Do Not Use Arbitrary Genre Distance
+# 12. Designation Evidence
 
-Genres should not be modeled as a simple linear or radial coordinate system merely to calculate "distance."
+Designation metadata may include:
 
-There is no single obvious axis along which:
+- traits
+- associated genres
+- recommendation bias
+- designation basis
 
-```text
-horror → comedy → romance
-```
+These are explanatory and recommendation-oriented metadata.
 
-or any other genre relationship can be meaningfully measured.
-
-Trying to manufacture a universal genre-distance number risks creating false precision.
-
-Instead:
-
-> **Genre relationships should be modeled as a network of meaningful relationships.**
+They do not constitute a universal evidence schema.
 
 ---
 
-# 16. Related Genre Groups / Genre Families
+## `designationBasis`
 
-One possible future structure is to define related genres as belonging to overlapping conceptual groups.
+`designationBasis` should be understood as:
 
-For example:
+> **a concise summary of dominant classification signals**
 
-```text
-Narrative Tension
-├── horror
-├── psychological
-├── thriller
-├── mystery
-└── suspense
-```
+It is not intended to enumerate every signal participating in the underlying Designation rules.
 
-Another might be:
+The backend remains authoritative for this value.
 
-```text
-Speculative
-├── sci-fi
-├── fantasy
-├── surreal
-├── experimental
-└── speculative
-```
+The frontend should consume the backend-produced representation rather than independently reconstructing it.
 
-A genre may belong to multiple groups.
+The obsolete frontend duplicate producer has been removed.
 
-For example:
-
-```text
-horror
-├── Narrative Tension
-├── Dark
-└── Psychological
-```
-
-The important concept is not the exact labels.
-
-The important concept is:
-
-> **The archive can be broad in genre labels while still concentrated within a small number of conceptual genre regions.**
-
-This allows the system to distinguish:
-
-```text
-many related genres
-```
-
-from:
-
-```text
-many meaningfully different areas of exploration
-```
-
-without inventing arbitrary geometric distance.
+No backend calculation change is required.
 
 ---
 
-# 17. Subgenres
+# 13. Recommendation Bias
 
-A second complementary approach is hierarchical genre structure.
+Designation `recommendation_bias` is preserved.
 
-For example:
+It represents:
 
-```text
-Horror
-├── Psychological Horror
-├── Supernatural Horror
-├── Cosmic Horror
-├── Body Horror
-└── Folk Horror
-```
+> **what kinds of future recommendations may fit the classification**
 
-and:
+It is not itself a recommendation score.
 
-```text
-Science Fiction
-├── Hard Sci-Fi
-├── Space Opera
-├── Cyberpunk
-├── Dystopian
-└── Time Travel
-```
+It is not evidence that a Recommendation Engine currently exists.
 
-Subgenres provide a way to distinguish:
-
-### Breadth
-
-Exploring many different genre families.
-
-from:
-
-### Depth
-
-Exploring deeply within a particular genre family.
-
-A user who explores:
-
-```text
-psychological horror
-cosmic horror
-body horror
-folk horror
-```
-
-may demonstrate strong **genre depth** without necessarily demonstrating broad cross-family exploration.
-
-A user who explores:
-
-```text
-horror
-romance
-strategy
-documentary
-sci-fi
-```
-
-demonstrates much stronger **cross-family breadth**.
-
-Both patterns may eventually be meaningful to different Designations.
+Recommendation generation remains a future system.
 
 ---
 
-# 18. Genre Families and Subgenres Are Complementary
+# 14. Relationship to Findings
 
-These concepts should not be treated as competing solutions.
+Designations are not Findings.
 
-The eventual genre intelligence system may combine them.
+A Designation classifies a recognizable taste pattern.
 
-Conceptually:
+A Finding interprets evidence.
 
-```text
-GENRE TAXONOMY
-│
-├── families / related groups
-│
-├── hierarchical subgenres
-│
-└── cross-family relationships
-```
-
-The underlying representation should be flexible enough for a genre to participate in multiple meaningful relationships.
-
-The system should therefore behave more like a **graph/network** than a strict tree.
+The systems may use overlapping evidence, but they answer different questions.
 
 ---
 
-# 19. Archive Concentration
+# 15. Designation Evolution Rules
 
-The user's "normal territory" should not be manually declared.
+Future Designation changes should follow these rules:
 
-It should emerge from the archive.
+1. Define the conceptual classification first.
+2. Identify the evidence that legitimately supports it.
+3. Test it against existing Designations.
+4. Test negative-space cases.
+5. Define deterministic ranking behavior.
+6. Add regression protection.
+7. Only then implement.
 
-Instead of asking:
-
-> "What are the user's normal genres?"
-
-the system should ask:
-
-> **"How concentrated are the user's preferences?"**
-
-For example:
-
-```text
-Horror          30%
-Comedy          25%
-Action          20%
-Drama           12%
-Sci-fi           8%
-Experimental     5%
-```
-
-has a much stronger dominant core than:
-
-```text
-Horror          18%
-Comedy          17%
-Action          16%
-Drama           15%
-Sci-fi          14%
-Mystery         10%
-Surreal         10%
-```
-
-The second archive does not have a clearly defined narrow center.
-
-That distinction is valuable even without defining a universal "normal territory."
+A new Designation should not be created merely because a high-scoring signal lacks a badge.
 
 ---
 
-# 20. Archive Shape
+# 16. What Phase 1 Does Not Do
 
-Future Designation analysis should consider the overall shape of an archive.
+Phase 1 does not require:
 
-Potential dimensions include:
-
-* genre coverage
-* genre concentration
-* conceptual family coverage
-* subgenre depth
-* media-type coverage
-* cross-family movement
-* repeated exploration
-* rating patterns within explored areas
-
-The system should avoid reducing archive breadth to:
-
-```text
-number of unique genre strings
-```
-
-because ten closely related genres can represent less behavioral breadth than five unrelated areas.
+- a larger Designation catalog
+- machine-learning classification
+- probabilistic classification
+- Classification Confidence math
+- arbitrary near-tie thresholds
+- Designation co-primaries
+- a universal evidence schema
+- recommendation scoring
+- redesign of the current scoring architecture
 
 ---
 
-# 21. Boundary Explorer Is Not a Genre Classifier
+# 17. Current Designation Status
 
-The future Boundary Explorer rule should avoid becoming:
+| Designation          | Current treatment                      |
+| -------------------- | -------------------------------------- |
+| Boundary Explorer    | Preserve / flesh out                   |
+| Engagement Architect | Preserve / flesh out                   |
+| Deep Diver           | Preserve / provisional                 |
+| Curator              | Preserve / clarify archive-size signal |
 
-```text
-experimental + surreal + sci-fi + horror
-```
-
-Instead, those genres are merely potential evidence.
-
-The Designation should ultimately describe the **behavioral pattern**:
-
-```text
-broad exploration
-+
-meaningful cross-family exploration
-+
-sustained exploration
-+
-positive appreciation of unconventional experiences
-```
-
-The exact genres contributing to that evidence may evolve as the Genre Registry evolves.
+This is a working classification, not a promise that these four names are permanent.
 
 ---
 
-# 22. Media Types Matter
+# 18. Final Principle
 
-Boundary exploration should consider media types.
+The Designation system should evolve only when the conceptual model requires it.
 
-A user who explores unusual territory across:
+> **A Designation describes a recognizable taste classification; an Identity describes a broader curatorial philosophy.**
 
-```text
-film
-books
-games
-```
+And:
 
-may demonstrate a broader exploratory pattern than someone whose unusual exploration is isolated to a single medium.
-
-The system should therefore eventually distinguish:
-
-```text
-genre breadth
-```
-
-from:
-
-```text
-genre + media breadth
-```
-
-Media types should not automatically receive more weight than genres.
-
-They are an additional evidence dimension.
-
----
-
-# 23. Equal Treatment of Exploration Evidence
-
-When evaluating whether an archive demonstrates meaningful exploration across distinct areas, the working direction is:
-
-> **Treat qualifying exploration areas equally rather than assigning arbitrary importance to particular genres.**
-
-A user should not receive more Boundary Explorer evidence merely because the system's developer personally considers one genre more adventurous than another.
-
-Genre relationships may establish conceptual grouping, but they should not become hidden subjective weights.
-
----
-
-# 24. Small Archive Protection
-
-Exploration evidence must account for archive size.
-
-A small archive should not be interpreted as highly exploratory merely because it contains several genre labels.
-
-Likewise, a large archive should not be penalized simply because a less-common genre represents a small percentage.
-
-The current working threshold proposal is:
-
-> **3% of entries or 2 entries, whichever is greater.**
-
-This should eventually be tested against real archive distributions before being locked.
-
-The broader principle is:
-
-> **Require meaningful representation before treating a genre/family/media area as evidence of sustained exploration.**
-
-Operational archive-state and threshold decisions remain outside this document's authority until explicitly locked by the Phase 1 decision documents.
-
----
-
-# 25. Sampling vs Sustained Exploration
-
-This distinction is important enough to remain explicit.
-
-### Sampling
-
-A user has encountered an area but has not demonstrated repeated engagement with it.
-
-Example:
-
-```text
-100 entries
-2 experimental
-```
-
-This may be exposure.
-
-### Sustained Exploration
-
-The archive contains enough repeated engagement to demonstrate a meaningful behavioral pattern.
-
-Example:
-
-```text
-100 entries
-10 experimental
-```
-
-This is substantially stronger evidence.
-
-The threshold must eventually account for both:
-
-* absolute entry count
-* relative archive prevalence
-
-The exact threshold remains a future implementation decision until explicitly locked.
-
----
-
-# 26. Future Designation Architecture
-
-The eventual architecture should support a larger Designation catalog without requiring each Designation to reinvent archive analysis.
-
-Conceptually:
-
-```text
-RAW ARCHIVE
-│
-↓
-SHARED ARCHIVE SIGNALS
-│
-├── traits
-├── genre prevalence
-├── genre families
-├── subgenre structure
-├── media coverage
-├── archive concentration
-├── exploration patterns
-└── rating/appreciation signals
-│
-↓
-DESIGNATION RULES
-│
-┌──────┼──────┐
-↓      ↓      ↓
-Rule A  Rule B  Rule C ...
-│      │      │
-└──────┼──────┘
-↓
-ranked candidates
-↓
-classification resolution
-↓
-Primary Designation
-```
-
-Shared archive analysis should provide reusable evidence.
-
-Designation rules should interpret that evidence.
-
-This avoids embedding the entire genre ontology independently inside every Designation rule.
-
----
-
-# 27. Eventual Designation Examples
-
-The following are **illustrative future concepts only**, not approved Designation names:
-
-```text
-Boundary Explorer
-Specialist
-Genre Chameleon
-Deep Specialist
-Cross-Media Explorer
-Completionist
-Curator
-Engagement-Seeker
-Concept Seeker
-Craft Connoisseur
-```
-
-These examples demonstrate the type of behavioral differentiation we may eventually want.
-
-They are not a commitment to the names or catalog.
-
-Any future Designation must earn its place by representing a distinct, reusable behavioral pattern.
-
----
-
-# 28. Relationship to Identity
-
-The eventual Designation catalog should remain distinct from the Identity catalog.
-
-For example:
-
-> **Boundary Explorer**
-
-could describe a recognizable archive behavior:
-
-> frequently explores unfamiliar or conceptually diverse media territory.
-
-An Identity might instead describe:
-
-> **Concept-First Curator**
-
-meaning that unusual ideas and conceptual payoff are central to the user's broader curation philosophy.
-
-The same archive can legitimately exhibit both.
-
-Designation:
-
-```text
-WHAT PATTERN?
-```
-
-Identity:
-
-```text
-WHAT CURATOR PHILOSOPHY?
-```
-
-This distinction is part of the locked Phase 1 conceptual model and should not be weakened by future Designation expansion.
-
----
-
-# 29. Implementation Order
-
-The following is the **future Designation-evolution order**, not a replacement for the current Phase 1 implementation work order.
-
-Phase 1 terminology, eligibility, regression, Finding, Identity, Observation, archive-state, and tie-policy gates take precedence.
-
-Once the relevant Phase 1 decisions are locked, the preferred future Designation evolution order is:
-
-### Step 1 — Audit existing Designation rules
-
-Determine whether current weights actually express their intended concepts.
-
-### Step 2 — Establish score comparability
-
-Ensure every Designation produces a genuinely comparable normalized score.
-
-### Step 3 — Improve archive-shape signals
-
-Develop meaningful concentration/breadth measures.
-
-### Step 4 — Improve genre interpretation
-
-Explore related genre groups/families without altering the semantics of `genreAffinity`.
-
-### Step 5 — Add sustained-exploration detection
-
-Distinguish sampling from repeated meaningful exploration.
-
-### Step 6 — Incorporate media-type exploration
-
-Extend exploration evidence across media types.
-
-### Step 7 — Rework Boundary Explorer
-
-Use the three core dimensions:
-
-```text
-breadth
-sustained exploration
-appreciation
-```
-
-### Step 8 — Re-evaluate the existing catalog
-
-Determine whether the four current Designations remain useful.
-
-### Step 9 — Expand the catalog only where evidence supports it
-
-Potentially grow toward approximately 10–12 distinct Designations.
-
-### Step 10 — Revisit classification resolution
-
-Once real score distributions exist, determine whether explicit Classification Confidence based on winner/runner-up separation is useful.
-
-No step above should be interpreted as authorization to bypass a locked Phase 1 gate.
-
----
-
-# 30. What Is Not Locked Yet
-
-The following remain working directions rather than final implementation contracts:
-
-* exact genre-family definitions
-* exact subgenre taxonomy
-* exact archive-concentration formula
-* exact exploration thresholds
-* exact weighting of breadth vs sustained exploration vs appreciation
-* exact treatment of media types
-* exact Classification Confidence formula
-* exact use of winner/runner-up margin
-* final Designation names
-* final number of Designations
-* whether every Designation needs the same evidence architecture
-* whether Designations should expose explicit confidence to users
-* whether genre-family evidence should be shared infrastructure or Designation-specific interpretation
-
-In addition, the following Phase 1 decisions remain governed by the authoritative Phase 1 documents rather than by this future-design document:
-
-* tie / close-competitor policy
-* archive-state operational thresholds
-* per-field API/frontend terminology changes
-* Identity eligibility/ranking/presentation semantics
-* Finding semantics where unresolved
-* Observation shortlist and changes
-
-These decisions should be validated against actual archive distributions and fixtures before being locked.
-
----
-
-# 31. Guiding Principles
-
-The future Designation system should follow these principles:
-
-1. **Classify behavior, not isolated genres.**
-2. **Do not invent false precision where the domain has no natural geometry.**
-3. **Preserve the meaning of shared archive signals.**
-4. **Separate archive measurement from Designation interpretation.**
-5. **Make scores comparable across Designations.**
-6. **Do not confuse score strength with classification confidence.**
-7. **Use margin as evidence of separation, not as a replacement for score.**
-8. **Distinguish sampling from sustained exploration.**
-9. **Treat genre relationships as a network rather than forcing a linear/radial model.**
-10. **Allow genres to belong to multiple related groups.**
-11. **Support subgenre depth separately from cross-family breadth.**
-12. **Let the user's normal territory emerge from archive concentration rather than manual assumptions.**
-13. **Use media types as additional evidence of exploration.**
-14. **Treat qualifying exploration areas equally unless evidence supports another weighting.**
-15. **Do not allow arbitrary genre weights to dominate classification.**
-16. **Do not expand the Designation catalog merely for variety.**
-17. **Design the shared intelligence layer so future Designations can reuse it.**
-18. **Keep Designations distinct from Identities.**
-19. **Preserve deterministic behavior.**
-20. **Prefer evolution over rewrite.**
-
----
-
-# 32. Current Status
-
-The current Designation implementation should be considered:
-
-> **Working infrastructure with provisional behavioral rules.**
-
-The immediate work is not to create a final Designation catalog.
-
-The immediate work is to make the underlying evidence model strong enough that future Designations can be meaningful, comparable, explainable, and extensible.
-
-The current four Designations are therefore best understood as the **first test cases for the evolving Designation system**, not the final taxonomy.
-
-Phase 1 alignment work remains governed by `phase-1-intelligence-alignment.md` and `phase-1-decision-and-implementation-map.md`.
-
-Future Designation evolution should begin only where those documents establish that the relevant conceptual and implementation gates have been satisfied.
+> **The API should describe the intelligence system that actually exists, while the intelligence system should only change when an explicit conceptual decision requires it.**

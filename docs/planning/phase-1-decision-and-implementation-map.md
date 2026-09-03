@@ -1293,8 +1293,3 @@ Phase 1 is successful when:
 # 33. One-Sentence Phase 1 North Star
 
 > **Align the existing deterministic intelligence machinery so Observations demonstrate patterns, Findings interpret conclusions, Designations classify taste, and Identities describe curator philosophy—while preserving recovered behavioral memory and changing only behavior that demonstrably conflicts with the locked conceptual model.**
-
-```
-
-**One thing to flag before you replace it:** I intentionally changed the document from treating the old 227-test number as a "baseline" to treating **247 passing / 1 failing as the current test status**, because your actual latest pytest output is the authoritative state. I also left genuinely implementation-specific work as *implementation gates* rather than calling those conceptual decisions unresolved. That distinction is important for preventing us from reopening the matrix every time we start coding.
-```

@@ -1,1511 +1,553 @@
-```
-__    __ ___    ___ ___  ____ ___
-\ \/\/ // _ \  _\\ / _ \ | D )| |
- \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
+# Media Tracker — Intelligence Forensic Audit
 
-Weighted Archive System for Analysis & Behavioral Insights
-```
-
-# Intelligence Forensic Audit
-
-## Purpose
-
-This document records the forensic examination of the `develop-3` intelligence system before Phase 1 implementation work.
-
-The purpose is to recover the system's **actual behavioral contract** from:
-
-* production implementation
-* tests
-* fixtures
-* API consumers
-* frontend behavior
-* documentation
-* historical/alternate code paths
-
-This is not a redesign document.
-
-The governing principle is:
-
-> **Recover the behavioral memory first. Decide what to change second. Implement third.**
+**Status:** Historical forensic record; reconciled with current Phase 1 decisions
+**Branch audited:** `develop-3`
+**Purpose:** Preserve the evidence, reasoning, and conclusions from the Phase 1 forensic audit.
 
 ---
 
-# 1. Forensic Method
+# 1. Purpose
 
-The audit evaluates intelligence behavior across the following layers:
+This document preserves the forensic investigation performed against the existing intelligence implementation.
 
-1. Trait calculation
-2. Genre intelligence
-3. Designations
-4. Identity intelligence
-5. Observations
-6. Findings
-7. Evidence
-8. Confidence-related fields
-9. API serialization
-10. Frontend consumption
-11. Historical/alternate systems
-12. Tests and regression protection
+The central question was:
 
-For each behavior, the audit distinguishes:
+> **What behavior does the repository actually implement and protect, what behavior does the conceptual contract require, and where do those differ?**
 
-* **PRESERVE** — behavior is established and should remain intact
-* **CLARIFY** — behavior is established but terminology/documentation is ambiguous
-* **ALIGN** — behavior conflicts with the intended vocabulary or consumer contract
-* **INVESTIGATE** — repository evidence is insufficient for a safe decision
-* **DEFER** — behavior is outside the current Phase 1 scope
-* **POSSIBLE DEAD CODE** — behavior exists but current consumers have not been established
+The audit intentionally separated:
+
+- proven current behavior
+- strongly implied behavior
+- inferred behavior
+- unresolved questions
+- future concerns
+
+This distinction remains important.
 
 ---
 
-# 2. Trait Intelligence
+# 2. Epistemic Standard
 
-## 2.1 Trait score calculation
+Tests are:
 
-Trait scoring is based on the existing scoring model and produces the canonical trait scores used throughout the archive intelligence system.
+> **Executable evidence of behavior that the repository currently chooses to protect.**
 
-Trait values remain on the established 1–10 scoring scale.
+They are not automatically the conceptual contract.
 
-**Classification:** PRESERVE
-
----
-
-## 2.2 Trait strength normalization
-
-Trait strength is calculated through floor-relative normalization.
-
-The implementation establishes the following behavior:
-
-```python
-normalize_trait_signal(value)
-```
-
-The current contract treats the configured trait floor as the lower bound and normalizes the resulting signal into the `0–1` range.
-
-The currently verified behavior includes:
-
-* floor value → `0`
-* midpoint values → proportional normalized signal
-* maximum value → `1`
-* values above the maximum → clamped to `1`
-* values below the floor → clamped to `0`
-
-Current regression coverage explicitly protects these boundaries.
-
-**Classification:** PRESERVE
-
----
-
-## 2.3 Trait strength versus trait score
-
-Trait score and trait strength are different concepts.
-
-* **Trait score** → user/archive rating on the 1–10 scale
-* **Trait strength** → normalized signal derived from the trait score
-
-The systems should not collapse these into one concept.
-
-**Classification:** PRESERVE
-
----
-
-# 3. Genre Intelligence
-
-Genre intelligence contains multiple forms of derived information, including:
-
-* genre distribution
-* genre affinity
-* genre combinations
-* diversity-related calculations
-* genre-derived designation signals
-
-The existing implementation and tests establish meaningful behavior in this area.
-
-**Classification:** PRESERVE
-
----
-
-# 4. Designation Intelligence
-
-## 4.1 Designation scores
-
-Designation scores represent weighted classification fit.
-
-The existing designation system uses weighted signals to calculate a score on a 0–100 scale.
-
-**Classification:** PRESERVE
-
----
-
-## 4.2 Designation ranking
-
-Designations are ranked according to their calculated scores.
-
-The highest-scoring designation is eligible to become the primary designation.
-
-Current tests protect:
-
-* rule scores
-* ranking
-* primary selection
-* designation metadata
-* genre affinity
-
-**Classification:** PRESERVE
-
----
-
-## 4.3 Designation versus Identity
-
-Designation and Identity are conceptually related but are not interchangeable systems.
-
-Designation scoring and Identity scoring use different rule collections and different scoring machinery.
-
-The repository therefore does not support treating Identity as merely another designation category.
-
-**Classification:** PRESERVE
-
----
-
-# 5. Identity Intelligence
-
-## 5.1 Identity scoring
-
-Identity scores represent weighted Identity fit.
-
-The current Identity engine calculates scores independently from Designation scoring.
-
-Current tests protect:
-
-* weighted scoring
-* ranking
-* eligibility
-* derived traits
-* breakdown
-* generalist behavior
-* endpoint shape
-
-**Classification:** PRESERVE
-
----
-
-## 5.2 Identity eligibility
-
-The current implementation uses each Identity's configured minimum-entry requirement as an eligibility gate.
-
-An Identity that does not satisfy its minimum-entry requirement is omitted from the scoring/ranking population.
-
-This is important because earlier implementation behavior treated minimum-entry requirements differently.
-
-### Historical behavior
-
-Earlier behavior could allow an Identity to remain in the candidate population with a zero score when insufficient entries existed.
-
-That historical behavior is retained here as forensic context only.
-
-### Current behavior
-
-The current implementation omits identities that fail their minimum-entry requirement before ranking.
-
-Therefore:
-
-* minimum-entry requirement → eligibility gate
-* eligible Identity → participates in scoring/ranking
-* ineligible Identity → omitted
-
-**Classification:** RESOLVED / PRESERVE
-
----
-
-## 5.3 Identity ranking
-
-Identity ranking occurs among eligible Identity candidates.
-
-The current evidence establishes that eligibility precedes meaningful ranking.
-
-The repository establishes deterministic ranking machinery but does not establish a separate public tie-breaking or near-tie presentation policy.
-
-Tie and close-competitor behavior is therefore governed by the Phase 1 ranking/presentation policy rather than inferred from incidental ordering.
-
-**Classification:** PRESERVE / POLICY UNRESOLVED
-
----
-
-## 5.4 Identity breakdown
-
-Identity output includes a breakdown describing contributing trait/category signals.
-
-This breakdown is part of the established Identity API behavior.
-
-**Classification:** PRESERVE
-
----
-
-## 5.5 Identity data sufficiency
-
-The current implementation exposes `data_sufficiency` rather than an Identity `confidence` field.
-
-`data_sufficiency` describes archive volume relative to the selected Identity's minimum-entry requirement.
-
-The conceptual model is:
-
-```python
-min(entryCount / minimum_entries, 1)
-```
-
-Therefore:
-
-* **Minimum-entry requirement** → eligibility
-* **Identity score** → classification fit
-* **`data_sufficiency`** → archive-volume sufficiency
-* **Identity ranking** → comparison among eligible Identity candidates
-
-The value is normalized to the `0–1` range.
-
-It should not be interpreted as:
-
-* statistical confidence
-* probability
-* uncertainty
-* probability that the Identity is correct
-* Classification Confidence
-
-The former `confidence` terminology is retained here only as forensic history.
-
-**Decision:** Do not consolidate Identity `score` and `data_sufficiency`. Do not introduce or restore an Identity `confidence` field.
-
-**Classification:** RESOLVED / PRESERVE BOTH / DOCUMENTATION CORRECTION
-
----
-
-## 5.6 Identity API serialization
-
-The current `data_sufficiency` calculation is tested.
-
-The `/identity` endpoint exposes `data_sufficiency`, and dedicated tests protect the calculation and endpoint contract.
-
-Consumer tracing found no frontend dependency on the former Identity `confidence` field requiring a compatibility alias.
-
-No replacement calculation or additional `confidence` field is required.
-
-**Classification:** PRESERVE / API BLAST-RADIUS VERIFICATION
-
----
-
-## 5.7 Identity frontend consumption
-
-The current frontend does not consume the Identity intelligence endpoints or Identity response fields as an active presentation surface.
-
-No current frontend dependency on:
-
-* Identity endpoints
-* `primaryIdentity`
-* Identity `data_sufficiency`
-* Identity breakdowns
-
-was established during the forensic pass.
-
-Therefore, Identity terminology can be clarified without requiring an immediate frontend migration.
-
-**Classification:** CLARIFY / PRESERVE
-
----
-
-# 6. Observation Intelligence
-
-## 6.1 Observation rules
-
-Observations are produced through a rule collection.
-
-The current engine:
-
-```python
-for rule in OBSERVATION_RULES:
-    if rule["evaluate"](profile):
-        observations.append(map_observation(rule, profile))
-```
-
-Therefore rule evaluation determines whether an Observation exists.
-
-**Classification:** PRESERVE
-
----
-
-## 6.2 Observation Evidence Strength
-
-Observation `confidence` is a threshold-relative Evidence Strength metric.
-
-It does not represent:
-
-* statistical confidence
-* probability
-* uncertainty
-* confidence that the Observation is objectively correct
-
-Each Observation rule defines a threshold for its primary supporting metric.
-
-The confidence value measures how strongly that metric reaches the rule's threshold:
-
-```python
-min(round(value / threshold, 2), 1)
-```
-
-A value equal to the threshold produces `1.0`.
-
-Values below the threshold produce a proportional value between `0` and `1`.
-
-Values above the threshold are capped at `1.0`.
-
-A zero threshold produces `0` to avoid division by zero.
-
-Therefore:
-
-* **Observation rule evaluation** → determines whether the Observation is emitted
-* **Rule threshold** → defines the target level of supporting evidence
-* **Observation `confidence`** → measures threshold-relative Evidence Strength
-* **Observation ranking** → sorts emitted Observations by that Evidence Strength value
-
-The value should therefore be interpreted as **threshold-relative Evidence Strength**, not Classification Confidence or statistical confidence.
-
-Current tests protect the underlying calculation, including:
-
-* threshold-relative behavior
-* threshold → `1.0`
-* values above threshold → `1.0`
-* two-decimal rounding
-* zero-threshold behavior
-
-**Classification:** RESOLVED / DOCUMENTED / TESTED
-
----
-
-## 6.3 Observation ordering
-
-Observations are sorted by their threshold-relative Evidence Strength.
-
-The current implementation establishes:
-
-```python
-sorted(
-    observations,
-    key=lambda x: x["confidence"],
-    reverse=True,
-)
-```
-
-This creates an ordering effect based on threshold-relative Evidence Strength.
-
-The repository establishes deterministic ranking machinery but does not establish an explicit conceptual secondary tie-breaking policy.
-
-Do not invent a tie-breaker merely to make ordering appear cleaner.
-
-**Classification:** PRESERVE / POLICY UNRESOLVED
-
----
-
-## 6.4 Observation evidence
-
-Observations contain evidence objects produced by shared evidence constructors.
-
-Current evidence includes metric and genre evidence.
-
-The existing structure is:
-
-```python
-{
-    "metric": metric,
-    "label": label,
-    "value": value,
-    "unit": unit,
-    "type": "metric",
-}
-```
-
-and:
-
-```python
-{
-    "metric": genre,
-    "label": label,
-    "value": value,
-    "unit": unit,
-    "type": "genre",
-}
-```
-
-Current tests protect the neutral evidence structure.
-
-**Classification:** PRESERVE
-
----
-
-# 7. Findings
-
-## 7.1 Finding architecture
-
-Findings are a separate rule collection from Observations.
-
-They overlap in subject matter but are not structurally identical.
-
-The repository contains meaningful Finding behavior that does not have an exact Observation equivalent.
-
-**Classification:** PRESERVE
-
----
-
-## 7.2 Observation/Finding relationship
-
-The repository does not enforce a hierarchy in which:
-
-* Findings contain Observations
-* Observations contain Findings
-* one system is a superclass of the other
-
-The safest interpretation supported by current evidence is that they are **sibling rule collections**.
-
-Their coexistence should therefore be preserved unless a future contract explicitly unifies them.
-
-**Classification:** CLARIFY / PRESERVE
-
----
-
-## 7.3 Finding confidence
-
-The current Finding system does not implement a dedicated Finding confidence metric.
-
-Forensic tracing established that Finding confidence is not an active implementation concept.
-
-The Finding engine evaluates rule predicates and emits Findings when those predicates are satisfied. Finding output contains explicit evidence describing the basis for the result, but no `confidence` field is calculated or attached.
-
-Therefore there is no existing Finding-confidence calculation to preserve, replace, or reconcile.
-
-**Decision:** Do not add Finding confidence during Phase 1.
-
-A future graded Finding-strength/confidence model would require a separate semantic/product decision.
-
-**Classification:** RESOLVED / DO NOT ADD
-
----
-
-# 8. Evidence
-
-## 8.1 Evidence packaging
-
-Evidence mechanisms include:
-
-* metric evidence
-* genre evidence
-* identity breakdowns
-* finding evidence
-* designation explanation
-* narrative explanations
-
-Evidence is not a separate intelligence engine.
-
-It is a packaging mechanism attached to intelligence outputs.
-
-The contract does not require one universal evidence schema.
-
-The requirement is that each important intelligence layer can answer:
-
-> **Why does the system think this?**
-
-not that every subsystem use the same data structure.
-
-**Classification:** EVIDENCE / PRESERVE
-
----
-
-## 8.2 Evidence constructors
-
-Shared evidence constructors exist for metric and genre evidence.
-
-They currently provide neutral structural packaging rather than a universal semantic hierarchy.
-
-The constructors should be preserved.
-
-**Classification:** PRESERVE
-
----
-
-## 8.3 Identity evidence
-
-Identity output contains its own contribution/evidence structure.
-
-This should not automatically be forced into the Observation metric/genre evidence schema.
-
-The Identity evidence model has independent established behavior.
-
-**Classification:** PRESERVE
-
----
-
-## 8.4 Observation/Finding evidence provenance
-
-The existing evidence objects expose supporting values but do not encode a universal provenance model.
-
-The repository therefore does not establish a requirement for richer universal provenance metadata.
-
-Future evidence improvements should be driven by an actual explainability need rather than architectural uniformity.
-
-**Classification:** CLARIFY / DEFER
-
----
-
-## 8.5 OR-rule evidence semantics
-
-Several Observation rules use OR conditions.
-
-For example, an Observation may fire when:
-
-```python
-metric >= threshold
-and (
-    genre_a >= threshold
-    or genre_b >= threshold
-)
-```
-
-The current Evidence Strength calculation may nevertheless be based only on one designated primary metric.
-
-The forensic audit established that Observation Evidence Strength is intentionally calculated from the rule's designated primary supporting metric.
-
-Additional predicate conditions do not automatically contribute numerically to the Evidence Strength value.
-
-Therefore a generalized multi-branch evidence aggregation model is not required for Phase 1.
-
-Any future change to compound evidence aggregation requires a separate semantic decision and regression coverage.
-
-**Classification:** DEFERRED / PRESERVE CURRENT BEHAVIOR
-
----
-
-# 9. Confidence Terminology
-
-The word `confidence` historically appeared in multiple unrelated contexts.
-
-These meanings must not be conflated.
-
-| Field                        | Actual meaning                                                                        | Preferred conceptual vocabulary      | Status   |
-| ---------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------ | -------- |
-| `designationConfidence`      | Mean of top universal/media trait scores; aggregate strength of the Designation Basis | Signal Strength of Designation Basis | CLARIFY  |
-| `designationConfidenceLabel` | Presentation bucket derived from `designationConfidence`; backend is canonical source | Signal Strength label                | ALIGN    |
-| `data_sufficiency`           | Archive volume relative to the selected Identity's minimum-entry requirement          | Data Sufficiency                     | RESOLVED |
-| Observation `confidence`     | Threshold-relative support for the rule's primary metric; sorting key                 | Threshold-relative Evidence Strength | RESOLVED |
-| Trait `*_strength`           | Floor-normalized trait magnitude                                                      | Signal Strength                      | PRESERVE |
-| Designation `score`          | Weighted classification fit, 0–100                                                    | Classification score/fit             | PRESERVE |
-| Identity `score`             | Weighted Identity fit                                                                 | Identity score                       | PRESERVE |
-| Finding confidence           | Not implemented                                                                       | No Finding confidence field          | DEFER    |
-
----
-
-## 9.1 Identity eligibility versus data sufficiency
-
-Identity minimum-entry requirements serve as **eligibility gates**, not scoring inputs.
-
-The current conceptual relationship is:
+The following distinction was used:
 
 ```text
-minimum_entries
-      ↓
-Data Sufficiency
-      ↓
-Eligibility
-      ↓
-Score
-      ↓
-Ranking
-      ↓
-Presentation
-      ↓
-Primary / Secondary selection
+code + test
+    ↓
+PROVEN CURRENT BEHAVIOR
+
+code + no test
+    ↓
+PROVEN CURRENT BEHAVIOR
+with weaker regression protection
+
+test contradicted by code
+    ↓
+STALE / BROKEN CONTRACT CANDIDATE
+
+contract + no code/test support
+    ↓
+INTENDED BEHAVIOR
+not proven current behavior
 ```
 
-An Identity that does not satisfy its minimum-entry requirement is not an eligible candidate under the current implementation.
-
-`data_sufficiency` is a separate measure describing archive-volume sufficiency relative to the Identity's minimum-entry requirement.
-
-It does not represent statistical confidence or confidence in the correctness of the Identity classification.
-
-The eligibility boundary, scoring, ranking, and presentation stages must remain conceptually distinct.
-
-**Classification:** RESOLVED / PRESERVE
+This prevented assumptions from being elevated into facts.
 
 ---
 
-## 9.2 Observation confidence semantic clarification
+# 3. Audit Classifications
 
-Observation `confidence` is a threshold-relative Evidence Strength metric.
+### PRESERVE
 
-It does not represent statistical confidence, probability, uncertainty, or confidence that the Observation itself is objectively correct.
+Existing behavior is compatible with the current contract.
 
-Each Observation rule defines a threshold for its primary supporting metric.
+### ALIGN
 
-The Observation's `confidence` measures how strongly that metric reaches the rule's threshold:
+Existing behavior directly contradicts a locked conceptual decision.
+
+### CLARIFY
+
+The behavior is useful but its meaning is under-specified.
+
+### EVIDENCE
+
+Existing evidence/explanation infrastructure should be preserved.
+
+### TEST GAP
+
+Meaningful behavior exists without sufficient regression protection.
+
+### DEFER
+
+The issue is real but belongs to a later phase.
+
+### POSSIBLE DEAD CODE
+
+Potentially obsolete or redundant behavior requiring investigation.
+
+---
+
+# 4. Major Identity Finding
+
+The original Identity catalog contained concepts that overlapped heavily with Designations.
+
+The audit established that simple renaming was insufficient.
+
+In particular, the old Identity concepts:
+
+- Boundary Explorer
+- Deep Diver
+- Engagement Architect
+
+were too close to existing Designation concepts.
+
+The correct solution was not to delete the Identity subsystem.
+
+The correct solution was to establish a genuinely different ontology.
+
+---
+
+# 5. Identity Ontology Result
+
+The resulting distinction is:
+
+> **A Designation describes the characteristics of the media relationship. An Identity describes the recurring orientation through which the curator engages with those characteristics.**
+
+Current Identity concepts:
+
+- Interpretive Philosophy
+- Exploratory Philosophy
+- Breadth Philosophy
+
+Construction / Systems Philosophy was deferred because it collapsed toward Engagement Architect.
+
+---
+
+# 6. Identity Evidence Finding
+
+The Identity scoring architecture itself was found to be valuable.
+
+It provides:
+
+- fixture-defined signals
+- weighted scoring
+- normalization
+- contribution tracking
+- derived traits
+- explanations
+- deterministic ranking
+
+The primary conceptual problem was not the existence of weighted scoring.
+
+It was whether the signals being scored legitimately represented the intended Identity.
+
+The architecture was therefore preserved.
+
+---
+
+# 7. Identity Evidence Limitations
+
+The current system does not directly observe:
+
+- user intent
+- deliberate exploration
+- interpretation
+- reflection
+- taste trajectory
+- discovery process
+- intentional diversification
+
+The audit therefore established:
+
+> **Observable archive patterns may support an inferred orientation, but they must not be presented as direct observations of intent or internal behavior.**
+
+This is especially important for Exploratory Philosophy and Breadth Philosophy.
+
+---
+
+# 8. Identity Eligibility
+
+The audit established that Identity minimum-entry requirements should function as eligibility gates.
+
+Current minimums:
+
+| Identity                | Minimum Entries |
+| ----------------------- | --------------: |
+| Interpretive Philosophy |              20 |
+| Exploratory Philosophy  |              20 |
+| Breadth Philosophy      |              15 |
+
+An Identity below its minimum should not participate in ranking/resolution.
+
+This behavior is now covered by the migrated implementation and tests.
+
+---
+
+# 9. Identity Ranking
+
+Current behavior:
+
+1. determine eligible Identities
+2. calculate Identity Scores
+3. rank by score
+4. resolve Primary Identity deterministically
+5. identify meaningful Secondary Identities
+
+Primary:
+
+> highest-ranked eligible Identity
+
+Secondary:
+
+> eligible, non-primary Identity meeting the current meaningfulness threshold
+
+Current secondary threshold:
+
+> `0.60`
+
+Exact-score ties are deterministic.
+
+No arbitrary near-tie policy was introduced.
+
+---
+
+# 10. Identity Evidence Explanation
+
+The audit confirmed the value of Identity contribution breakdowns.
+
+A breakdown exposes:
+
+- signal
+- value
+- weight
+- normalized value
+- contribution
+
+This is retained as an explanation mechanism.
+
+The top-three representation should be understood as:
+
+> **Top contributing Identity signals**
+
+rather than “all evidence.”
+
+---
+
+# 11. Designation Findings
+
+The existing Designation architecture was found to be fundamentally sound.
+
+It provides:
+
+- named classifications
+- rule-driven evaluation
+- multiple candidate scores
+- deterministic primary selection
+- traits
+- genres
+- recommendation bias
+- classification metadata
+
+The current working catalog remains:
+
+- Boundary Explorer
+- Engagement Architect
+- Deep Diver
+- Curator
+
+No wholesale Designation rewrite was justified.
+
+---
+
+# 12. Designation Confidence Finding
+
+Historical `designationConfidence` terminology was misleading.
+
+The value behaves more like:
+
+> **Signal Strength**
+
+because it derives from the strength of designation-related signals.
+
+It should not be treated as statistical Classification Confidence.
+
+The API field remains preserved.
+
+The presentation terminology is aligned to Signal Strength.
+
+---
+
+# 13. `designationBasis` Finding
+
+The backend classification layer is authoritative for `designationBasis`.
+
+It summarizes dominant classification signals.
+
+It does not enumerate every condition used by every Designation rule.
+
+A duplicate frontend implementation was identified as unnecessary and removed.
+
+The current architecture is:
 
 ```text
-min(round(value / threshold, 2), 1)
+Backend classification
+        ↓
+archiveProfile.designationBasis
+        ↓
+Frontend presentation
 ```
 
-A value equal to the threshold produces `1.0`.
-
-Values below the threshold produce a proportional value between `0` and `1`, while values above the threshold are capped at `1.0`.
-
-A zero threshold produces `0` to avoid division by zero.
-
-Therefore:
-
-* **Observation rule evaluation** → determines whether the Observation is emitted
-* **Rule threshold** → defines the target level of supporting evidence
-* **Observation `confidence`** → measures threshold-relative Evidence Strength
-* **Observation ranking** → sorts emitted Observations by that Evidence Strength value
-
-The `confidence` value should therefore be interpreted as **Evidence Strength**, not Classification Confidence or statistical confidence.
-
-**Classification:** RESOLVED / PRESERVE / CLARIFY
-
-### 9.2.1 Forensic resolution
-
-Forensic tracing established that Observation `confidence` is an active backend calculation with dedicated test coverage.
-
-The calculation is preserved.
-
-Its meaning is threshold-relative Evidence Strength for the metric supporting the Observation. It does not represent statistical confidence, probability, or confidence that the Observation is objectively correct.
-
-Consumer tracing found no frontend dependency on the Observation `confidence` field.
-
-No implementation change or replacement confidence algorithm is required.
-
-**Classification:** RESOLVED / PRESERVE
-
-### 9.2.2 Rule-level confidence basis
-
-Further tracing of the Observation engine and rule definitions confirms that Observation `confidence` is calculated independently from the generated `evidence` array.
-
-The Observation engine evaluates each rule's predicate, generates the Observation, and then applies the rule's dedicated `confidence` function. Observations are subsequently sorted by that value.
-
-The rule predicate determines **whether the Observation fires**.
-
-The rule's `confidence` function determines **Evidence Strength**, using the rule's designated primary supporting metric relative to that metric's threshold.
-
-Additional predicate conditions do not automatically contribute numerically to the Evidence Strength value.
-
-This is intentional rule-level behavior rather than an incomplete compound-confidence calculation.
-
-**Decision:** Preserve the current calculation model. Do not introduce a generalized confidence aggregation algorithm during Phase 1.
-
-**Classification:** RESOLVED / PRESERVE
+No backend behavior change is required.
 
 ---
 
-## 9.3 Designation confidence semantic clarification
+# 14. Observation Findings
 
-`designationConfidence` is a legacy field name retained for API compatibility.
+Observations remain a useful evidence-near intelligence layer.
 
-The implementation calculates it as the mean of the top universal/media trait scores used by the designation system.
+The audit established:
 
-It therefore represents the aggregate strength of the Designation Basis rather than statistical probability that the designation is correct.
+- Observations are recurring demonstrable patterns.
+- Observation evidence is structured.
+- Evidence Strength is distinct from general confidence.
+- Observation evidence architecture does not need to become a universal evidence schema.
 
-The preferred conceptual vocabulary is:
+The public terminology has been migrated from historical `confidence` toward:
 
-> **Signal Strength of Designation Basis**
-
-The field remains part of the API contract unless a separate migration decision changes that contract.
-
-**Classification:** CLARIFY / PRESERVE
-
-### 9.3.1 Forensic resolution
-
-The designation-confidence calculation has been reconciled against the current implementation and planning contract.
-
-The calculation itself is considered valid and is preserved.
-
-`designationConfidence` should be interpreted as the aggregate strength of the Designation Basis, not statistical confidence in the correctness of the designation.
-
-No replacement confidence algorithm is required.
-
-The remaining Phase 1 work is terminology/presentation alignment only, subject to API/frontend blast-radius verification.
-
-**Classification:** RESOLVED / PRESERVE
+> `evidenceStrength`
 
 ---
 
-## 9.4 `designationBasis` production and consumer resolution
+# 15. Finding Findings
 
-The `designationBasis` field has been traced through the current production system.
+The first forensic pass was too confident in declaring the Finding system invalid.
 
-The authoritative producer is the backend classification layer. It is generated from the strongest universal trait, second-strongest universal trait, and strongest media-specific trait selected during archive-profile construction.
+The self-attack downgraded several concerns to:
 
-The resulting structure is exposed through the `/archive-profile` API response without a separate frontend recomputation step.
+> **INFERRED / REQUIRES DELIBERATE DECISION**
 
-The frontend consumes the backend-produced `archiveProfile.designationBasis` representation directly.
+The current position is therefore conservative.
 
-The legacy frontend `generateDesignationBasis()` helper previously existed in `charts.js`, but forensic tracing established that it was not part of the active production path. It duplicated backend behavior without serving as an authoritative producer.
+Findings remain an interpretive layer.
 
-The helper has now been removed from `charts.js`.
+The remaining Phase 1 question is:
 
-The backend `generate_designation_basis()` implementation remains the authoritative producer of `archiveProfile.designationBasis`, and the frontend continues to consume the backend-produced field.
+> **What additional meaning does a Finding provide beyond the Observation, Trait, Genre Signal, or metric underneath it?**
 
-Backend/API consumers and tests continue to protect this contract.
+This question should be answered before elevating or redesigning individual Findings.
 
-**Classification:** RESOLVED / REMOVED — frontend producer
-
-That dead frontend implementation has been removed.
-
-`designationBasis` should therefore be interpreted as a **summary of the dominant classification signals**, not as an exhaustive enumeration of every signal that may participate in designation-rule evaluation.
-
-No change to the backend calculation or API field is required.
-
-**Classification:** RESOLVED / PRESERVE
-
-**Cleanup:** Dead frontend duplicate removed.
-
-**Protection:** Backend/API contract should remain covered by existing archive-profile and endpoint tests.
+No mass deletion is justified.
 
 ---
 
-# 10. Duplicate Rule Candidates
+# 16. Normalization Finding
 
-The forensic audit identified two historically similar rule pairs.
+The audit discovered that the system contains more than one normalization behavior.
 
-## 10.1 Systems rules
+This is important.
 
-```text
-systems-affinity
-↕
-systems-preference
-```
+Trait normalization and Identity normalization are not interchangeable.
 
-The rules were determined to represent the same underlying concept.
+Therefore documentation should never refer generically to:
 
-Both were driven by the same `gameplay_mechanics` signal and threshold (`>= 9`), and their evidence and interpretation did not establish a meaningful semantic distinction.
+> “the normalization function”
 
-The redundant `systems-preference` Finding was removed.
+without specifying which subsystem is meant.
 
-`systems-affinity` remains the canonical surviving Observation for this concept.
-
-This is a semantic consolidation decision, not a change to the parallel architecture of the intelligence systems.
-
-**Classification:** RESOLVED / CONSOLIDATED
+The existing behaviors are preserved.
 
 ---
 
-## 10.2 Atmospheric rules
+# 17. Recommendation Bias
 
-```text
-atmospheric-focus
-↕
-atmospheric-interest
-```
+Recommendation bias exists as metadata attached to intelligence classifications.
 
-These rules remain behaviorally similar.
+The audit established that this should remain preserved.
 
-Repository evidence establishes near-identical behavior but does not establish historical intent strongly enough to safely remove either rule.
+It should not be mistaken for:
 
-Do not delete either rule prematurely.
+- Recommendation Score
+- Recommendation Confidence
+- a completed Recommendation Engine
 
-The Phase 1 question is whether `atmospheric-interest` contributes genuine interpretive meaning beyond `atmospheric-focus`.
-
-**Classification:** POSSIBLE DEAD CODE / CLARIFICATION
+Recommendation generation remains future work.
 
 ---
 
-# 11. Historical / Alternate Systems
+# 18. Generalist Behavior
 
-## 11.1 Interpretation engine
+The audit established a useful negative-space expectation:
 
-The repository contains an interpretation rule system that remains tested but is not called by the current `archive_engine.build_archive_profile` path.
+> **A generalist archive should not automatically receive a strong match to a specialized Identity.**
 
-This is strong evidence of a historical or alternate path.
+This protects the distinction between broad archive composition and specific curatorial philosophy.
 
-**Classification:** POSSIBLE DEAD CODE
-
-Do not remove it during Phase 1 without establishing whether another consumer exists.
+Breadth Philosophy is intentionally different because it describes range itself.
 
 ---
 
-## 11.2 Recommendation system
+# 19. Empty and Sparse Archives
 
-`recommendation_bias` exists on Designation and Identity fixtures and appears in Identity-finding output.
+The audit established that archive state matters.
 
-The Recommendation Engine currently produces no recommendations.
+### Empty
 
-This appears to be forward-looking metadata rather than active recommendation behavior.
+No consumed media.
 
-**Classification:** DEFER
+### Sparse
 
----
+Some consumed media, but insufficient evidence for certain conclusions.
 
-## 11.3 Frontend designation-confidence calculation
+### Established
 
-Earlier forensic work identified a local frontend designation-confidence calculation as a possible parallel implementation.
+Enough archive data for the relevant intelligence systems to operate normally.
 
-Repository tracing subsequently established that the local `calculateDesignationConfidence` implementation is no longer present.
+An empty archive should not imply:
 
-The backend remains the authoritative source for designation-confidence data.
+> negative preference
 
-**Classification:** RESOLVED / REMOVED
+A sparse archive should not imply:
 
----
+> strong certainty
 
-## 11.4 Frontend designation-confidence labels
-
-The frontend has historically recomputed designation-confidence labels rather than consuming the backend's `designationConfidenceLabel`.
-
-This creates potential parallel behavior between API and UI.
-
-The conceptual vocabulary is now established as Signal Strength rather than Classification Confidence.
-
-Frontend terminology alignment remains part of the Phase 1 API/frontend blast-radius work.
-
-**Classification:** ALIGN / TEST GAP
+This is why Signal Strength and Data Sufficiency remain separate.
 
 ---
 
-## 11.5 Trait strength map
+# 20. Test Quality
 
-Stored `*_strength` values are well tested but are largely bypassed by the live intelligence engines.
+Tests should be evaluated according to what they protect.
 
-They remain part of the tested API/data contract.
+### Strong
 
-They should not be removed merely because the current intelligence engines derive many downstream signals directly from trait scores.
+Protect meaningful domain behavior.
 
-**Classification:** PRESERVE / INVESTIGATE
+### Weak
 
----
+Primarily verify implementation details.
 
-## 11.6 Legacy empty-Identity test shape
+### Redundant
 
-A test named around zero scores can pass vacuously when the evaluated result is empty because identities are now omitted by eligibility.
+Duplicate meaningful coverage elsewhere.
 
-This means the test name alone cannot establish that zero-score identities remain a live contract.
+### Debugging Artifact
 
-The test should eventually be evaluated for whether it protects meaningful eligibility behavior or merely reflects historical implementation details.
+Created primarily during investigation.
 
-**Classification:** POSSIBLE DEAD CODE / TEST GAP
+### Missing
 
----
+Meaningful production behavior lacks adequate protection.
 
-## 11.7 Recommendation bias
+### Contradictory
 
-`recommendation_bias` exists but the Recommendation Engine currently produces no recommendations.
+Directly conflicts with the current conceptual contract.
 
-Recommendation bias remains descriptive recommendation-oriented metadata rather than a recommendation score.
-
-**Classification:** DEFER
+Contradictory tests should be deliberately changed rather than silently deleted.
 
 ---
 
-# 12. Test Inventory
+# 21. Phase 1 Test Result
 
-The original forensic baseline was **199 passing tests**.
+The Identity migration and associated test migration were completed.
 
-Historical regression milestones subsequently reached:
+Current regression baseline:
 
-* 199 passing tests — original forensic baseline
-* 210 passing tests — earlier Phase 1 baseline
-* 218 passing tests — post-forensic baseline
-* 247 passing tests — current passing count
+> **245 passing tests, 0 failing tests**
 
-The current test status is:
+The change from earlier historical test counts should not be interpreted mechanically as regression.
 
-> **247 passing tests and 1 failing test**
+The meaningful requirement is:
 
-The suite is therefore **not currently green**.
-
-The historical counts document regression-coverage evolution and should not be confused with the current green baseline.
-
-The current failure is an established Designation regression involving the `deep_diver` fixture and the updated `boundary_explorer` evidence model.
+> **The current suite is green and intentional behavioral changes have corresponding regression protection.**
 
 ---
 
-## 12.1 Strong domain behavior
+# 22. Completed Audit Decisions
 
-### Trait calculator
+The following Phase 1 decisions are now considered complete:
 
-Protects:
+- Identity/Designation conceptual separation
+- Identity differentiation stress test
+- Identity evidence mapping
+- Identity fixture contract
+- Identity fixture migration
+- Identity test migration
+- Identity eligibility behavior
+- Primary Identity deterministic ranking
+- Secondary Identity behavior
+- frontend scoring terminology alignment
+- `systems-preference` consolidation into `systems-affinity`
+- `designationBasis` consumer audit
+- removal of obsolete frontend `generateDesignationBasis()` duplicate
+- full regression suite reconciliation
 
-* floor normalization
-* zero behavior
-* presence signals
-* integration
-* 0–1 normalization boundaries
-
-**Status:** PRESERVED / TESTED
-
----
-
-### Genre intelligence
-
-Protects:
-
-* genre affinity
-* combinations
-* diversity behavior
-
-**Status:** PRESERVED / TESTED
+These decisions should not be reopened merely because an older forensic document contains the earlier state.
 
 ---
 
-### Observations
+# 23. Remaining Phase 1 Work
 
-Protects:
+The remaining work is primarily:
 
-* rule firing
-* Evidence Strength presence
-* Evidence Strength range
-* Evidence Strength calculation
-* Evidence Strength ordering
-* rounding
-* zero-threshold behavior
-* evidence structure
+- terminology reconciliation where still necessary
+- Observation shortlist/alignment
+- Archive State behavior
+- Finding evidence boundaries
+- ELEVATE Finding decisions
+- atmospheric ownership
+- final API/frontend terminology reconciliation
+- final documentation reconciliation
+- final regression pass
 
-**Status:** PRESERVED / TESTED
-
----
-
-### Findings
-
-Protects:
-
-* structure
-* empty behavior
-* Identity finding
-* designation ≠ finding invariant
-
-**Status:** PRESERVED / TESTED
+These are tracked by the Phase 1 Decision & Implementation Map.
 
 ---
 
-### Designations
+# 24. Deferred Items
 
-Protects:
+The following remain future or deferred concerns:
 
-* rule scores
-* ranking
-* primary selection
-* metadata
-* genre affinity
+- universal evidence schema
+- Classification Confidence system
+- deliberate exploration metrics
+- taste trajectory metrics
+- intentionality metrics
+- broader Construction / Systems Identity
+- recommendation algorithm design
+- large-scale taxonomy expansion
+- machine-learning classification
 
-**Status:** PRESERVED / TESTED
-
----
-
-### Identity
-
-Protects:
-
-* weighted scoring
-* ranking
-* eligibility
-* derived traits
-* breakdown
-* generalist behavior
-* endpoint shape
-* `data_sufficiency`
-
-**Status:** PRESERVED / TESTED
+These should not be introduced into Phase 1 simply to make the current system appear more sophisticated.
 
 ---
 
-### Identity data sufficiency
+# 25. Final Forensic Principle
 
-Protects:
+The forensic audit exists to prevent the project from confusing:
 
-* `data_sufficiency` calculation
-* minimum-entry relationship
-* normalization behavior
-* eligibility semantics
+> **what we wish the system did**
 
-The former Identity `confidence` terminology has been retired.
+with:
 
-The `/identity` endpoint exposes `data_sufficiency`, and dedicated tests protect the calculation and endpoint contract.
+> **what the system actually does**
 
-**Status:** PRESERVED / TESTED
+and also from confusing:
 
----
+> **what the system currently does**
 
-### Archive engine/endpoints
+with:
 
-Protects:
+> **what the conceptual contract permanently requires.**
 
-* profile structure
-* designation confidence
-* designation confidence label
-* designations
-* findings
-* Identity fields
+The governing rule is therefore:
 
-**Status:** PRESERVED / TESTED
+> **Preserve proven compatible behavior. Align direct contradictions. Clarify ambiguity. Preserve useful evidence infrastructure. Test meaningful behavior. Defer future concerns.**
 
----
+And above all:
 
-# 13. Test Gaps
-
-The following gaps remain supported by the evidence gathered so far.
-
-## 13.1 API/frontend terminology alignment
-
-The backend and frontend require final field-level verification for designation-confidence terminology.
-
-The backend field `designationConfidence` remains a legacy API field whose conceptual meaning is Signal Strength of Designation Basis.
-
-The frontend should not present that value as Classification Confidence.
-
-**Classification:** ALIGN / TEST GAP
-
----
-
-## 13.2 Observation OR-rule evidence semantics
-
-Observation Evidence Strength is now behaviorally and semantically documented.
-
-The existing calculation intentionally uses the rule's designated primary supporting metric.
-
-No generalized multi-branch aggregation model is required during Phase 1.
-
-Any future change would require a separate semantic decision and regression coverage.
-
-**Classification:** DEFERRED / PRESERVE
-
----
-
-## 13.3 Backend/frontend designation-confidence labels
-
-Backend and frontend label behavior requires final field-level alignment.
-
-The backend `designationConfidenceLabel` remains the canonical API representation.
-
-The frontend should not independently redefine the semantic meaning of the value.
-
-**Classification:** TEST GAP / ALIGN
-
----
-
-## 13.4 Duplicate Observation/Finding behavior
-
-The two likely duplicate pairs have different statuses:
-
-* `systems-affinity` / `systems-preference` — **RESOLVED: consolidated into `systems-affinity`**
-* `atmospheric-focus` / `atmospheric-interest` — **REMAINS UNDER CLARIFICATION**
-
-The surviving `systems-affinity` behavior should remain protected by regression coverage.
-
-The atmospheric pair should not be deleted until its semantic purpose is established.
-
-**Classification:** PRESERVE RESOLUTION / INVESTIGATE REMAINING PAIR
-
----
-
-## 13.5 Explicit tie behavior
-
-Ranking behavior is deterministic, but the conceptual policy for exact ties and meaningful close competitors remains a Phase 1 decision.
-
-The policy must eventually determine:
-
-* exact tie-breaking
-* stable secondary sort key if necessary
-* score precision
-* what qualifies as a meaningful near-tie
-* whether close competitors are displayed
-* whether the policy applies to Designations, Identities, or both
-
-Do not invent a near-tie threshold merely to satisfy presentation requirements.
-
-**Classification:** TEST GAP / POLICY UNRESOLVED
-
----
-
-# 14. Debugging / Dead-Code Candidates
-
-## 14.1 `interpretation_engine`
-
-The repository contains an interpretation rule system that remains tested but is not called by the current archive construction path.
-
-**Classification:** POSSIBLE DEAD CODE
-
----
-
-## 14.2 Frontend designation-confidence calculator
-
-The former local frontend designation-confidence calculation has been removed.
-
-The backend remains authoritative.
-
-**Classification:** RESOLVED / REMOVED
-
----
-
-## 14.3 Frontend designation-confidence label helper
-
-The frontend has historically recomputed designation-confidence labels rather than consuming the backend-produced label.
-
-This remains a possible source of parallel presentation semantics.
-
-**Classification:** CLARIFY / ALIGN
-
----
-
-## 14.4 Trait strength map
-
-Stored `*_strength` values remain tested API artifacts even though the live intelligence engines largely bypass them.
-
-**Classification:** PRESERVE / INVESTIGATE
-
----
-
-## 14.5 Legacy empty-Identity test shape
-
-Some zero-score Identity test behavior may now be vacuous because ineligible identities are omitted.
-
-**Classification:** POSSIBLE DEAD CODE / TEST GAP
-
----
-
-## 14.6 Recommendation bias
-
-`recommendation_bias` exists but the Recommendation Engine currently produces no recommendations.
-
-**Classification:** DEFER
-
----
-
-# 15. Recommended Phase 1 Changes
-
-These are ordered from lowest blast radius to highest.
-
-## 15.1 Document the current Observation/Finding relationship
-
-**Status:** COMPLETE
-
-The audit records Observations and Findings as sibling rule collections rather than assuming a hierarchy.
-
-**Classification:** CLARIFY
-
-**Risk:** LOW
-
----
-
-## 15.2 Correct user-facing Classification Confidence terminology
-
-**Status:** DOCUMENTATION DECISION COMPLETE / IMPLEMENTATION PENDING
-
-The intended conceptual vocabulary is now established:
-
-> `designationConfidence` → Signal Strength of Designation Basis
-
-The frontend still requires final alignment.
-
-**Affected files:**
-
-* `charts.js`
-* associated UI/profile tests
-
-**Classification:** ALIGN
-
-**Risk:** LOW–MEDIUM
-
----
-
-## 15.3 Public treatment of `designationConfidence`
-
-**Status:** PRESERVE PENDING FIELD-LEVEL API DECISION
-
-The current Phase 1 contract does not require removing or replacing the legacy field.
-
-The field should remain available unless a separate API migration decision explicitly changes that contract.
-
-The semantic correction is:
-
-> `designationConfidence` is Signal Strength of Designation Basis, not Classification Confidence.
-
-**Affected files:**
-
-* `archive_utils.py`
-* `archive_engine.py`
-* `charts.js`
-* endpoint tests
-
-**Classification:** CLARIFY / PRESERVE
-
-**Risk:** MEDIUM
-
----
-
-## 15.4 Document Identity data sufficiency
-
-**Status:** COMPLETE
-
-The former Identity `confidence` concept has been reconciled as `data_sufficiency`.
-
-The field represents archive-volume sufficiency relative to the Identity's minimum-entry requirement.
-
-**Classification:** RESOLVED / CLARIFY
-
-**Risk:** LOW
-
----
-
-## 15.5 Document Observation Evidence Strength
-
-**Status:** COMPLETE
-
-Observation `confidence` is documented as threshold-relative Evidence Strength.
-
-The calculation is preserved.
-
-**Classification:** RESOLVED / CLARIFY
-
-**Risk:** LOW
-
----
-
-## 15.6 Investigate the remaining duplicate rule pair
-
-The historically duplicate systems pair has already been resolved:
-
-* `systems-preference` → removed
-* `systems-affinity` → canonical surviving Observation
-
-The remaining investigation is:
-
-* `atmospheric-focus` ↔ `atmospheric-interest`
-
-Repository evidence establishes behavioral similarity but not historical intent.
-
-Do not delete either rule until its semantic purpose is established.
-
-**Classification:** INVESTIGATE
-
-**Risk:** MEDIUM if changed prematurely
-
----
-
-## 15.7 Preserve unique Observation and Finding behavior
-
-**Classification:** PRESERVE
-
-The matrix demonstrates that many rules have no counterpart in the other system.
-
-Do not globally merge the two systems merely because they overlap conceptually.
-
-**Affected files:**
-
-* Observation/Finding rule modules
-
-**Risk:** LOW if preserved; HIGH if globally merged
-
----
-
-# 16. Explicitly Deferred Items
-
-The following should not be changed merely as part of terminology alignment.
-
-* Implementing true Classification Confidence
-* Introducing Identity `confidence`
-* Replacing designation scores
-* Changing designation scoring formulas
-* Changing Identity scoring formulas
-* Changing Identity eligibility behavior without an explicit contract decision
-* Unifying all Signal Strength calculations
-* Creating a universal evidence schema
-* Redesigning Evidence
-* Creating Finding confidence
-* Merging Observations and Findings
-* Removing overlapping Identity/Designation archetypes
-* Rewiring Recommendations
-* Removing recommendation-bias metadata
-* Removing the interpretation engine
-* Replacing deterministic rules with AI
-* Inventing new identities/designations
-* Inventing archive thresholds
-* Inventing ranking tie-breakers
-* Implementing Secondary Identity thresholds before meaningfulness is defined
-* Implementing close-competitor thresholds before policy is locked
-* Changing OR-rule Evidence Strength aggregation without a separate semantic decision
-
-These require separate implementation/design decisions.
-
----
-
-# 17. Lost-Behavior Checklist
-
-## Archive statistics
-
-* [x] behavior discovered
-* [x] behavior preserved
-* [ ] behavior intentionally changed
-* [x] behavior documented
-* [x] behavior covered by tests
-
----
-
-## Trait strengths
-
-* [x] behavior discovered
-* [x] behavior preserved
-* [ ] behavior intentionally changed
-* [x] behavior documented
-* [x] behavior covered by tests
-
----
-
-## Genre intelligence
-
-* [x] behavior discovered
-* [x] behavior preserved
-* [ ] behavior intentionally changed
-* [x] behavior documented
-* [x] behavior covered by tests
-
----
-
-## Designations
-
-* [x] behavior discovered
-* [x] behavior preserved
-* [ ] behavior intentionally changed
-* [x] behavior documented
-* [x] behavior covered by tests
-
----
-
-## Identities
-
-* [x] behavior discovered
-* [x] behavior preserved
-* [ ] behavior intentionally changed
-* [x] behavior documented
-* [x] behavior covered by tests
-
----
-
-## Identity eligibility / data sufficiency
-
-* [x] behavior discovered
-* [x] eligibility behavior documented
-* [x] behavior preserved
-* [x] data-sufficiency semantics documented
-* [x] calculation covered by tests
-* [x] current API representation identified
-* [ ] full downstream field-blast-radius verification
-
----
-
-## Observations
-
-* [x] behavior discovered
-* [x] unique behavior preserved
-* [x] systems duplicate resolved
-* [x] Evidence Strength semantics documented
-* [x] Evidence Strength behavior tested
-* [x] evidence structure tested
-* [x] OR-rule Evidence Strength behavior documented
-* [ ] atmospheric duplicate resolved
-
----
-
-## Findings
-
-* [x] behavior discovered
-* [x] unique behavior preserved
-* [x] systems duplicate resolved
-* [x] behavior documented
-* [x] core behavior covered by tests
-* [x] Finding confidence explicitly deferred
-
----
-
-## Confidence terminology
-
-* [x] current calculations discovered
-* [x] consumer blast radius investigated
-* [x] semantic meanings documented
-* [x] Identity `confidence` terminology retired
-* [x] Observation `confidence` semantics resolved
-* [x] designation-confidence semantics resolved
-* [ ] full API/frontend terminology alignment
-
----
-
-## Historical / alternate systems
-
-* [x] interpretation engine discovered
-* [x] recommendation stub discovered
-* [x] frontend Identity non-consumption established
-* [x] frontend designation-confidence calculator removed
-* [x] frontend designation-basis duplicate removed
-* [ ] historical intent established for remaining alternate systems
-* [ ] remaining dead-code decisions made
-
----
-
-# 18. Final Forensic Conclusion
-
-The `develop-3` intelligence system should not be treated as a failed or incomplete version of the Phase 1 contract.
-
-It is an accumulated system containing several genuinely meaningful behavioral layers alongside historical residue.
-
-The forensic audit has now been reconciled against the current Phase 1 conceptual contract.
-
-The most important preservation rule remains:
-
-> **Do not confuse conceptual overlap with behavioral duplication.**
-
-Designation and Identity overlap in vocabulary but have different scoring machinery.
-
-Observations and Findings overlap in subject matter but contain substantial unique behavior and remain parallel rule systems.
-
-Trait strengths remain tested API/data artifacts even where the live intelligence engines do not directly depend on them.
-
-Confidence-related fields share terminology but do not share meaning.
-
-The current reconciled vocabulary is:
-
-* **Signal Strength** — magnitude of an expressed signal
-* **Data Sufficiency** — adequacy of available archive data
-* **Evidence Strength** — support provided by available evidence
-* **Classification Confidence** — separation between competing classifications where such a concept is explicitly required
-
-The current Identity implementation exposes `score` and `data_sufficiency`. The former Identity `confidence` terminology is retired.
-
-Observation `confidence` is preserved as threshold-relative Evidence Strength.
-
-`designationConfidence` is preserved as a legacy API field whose conceptual meaning is the Signal Strength of the Designation Basis, pending final field-level API/frontend alignment.
-
-Identity eligibility, scoring, ranking, presentation, and primary/secondary selection are distinct concepts and must not be conflated.
-
-The duplicate-rule audit has established:
-
-```text
-systems-affinity
-↕
-systems-preference — RESOLVED / REMOVED
-
-atmospheric-focus
-↕
-atmospheric-interest — REMAINS UNDER CLARIFICATION
-```
-
-The current regression status is:
-
-> **247 passing tests and 1 failing test**
-
-Historical counts of 199, 210, and 218 passing tests remain useful as regression-history milestones but are not the active baseline.
-
-The remaining Phase 1 decision gates are documented in `phase-1-intelligence-alignment.md`.
-
-The forensic audit therefore no longer requires another broad reconciliation pass.
-
-Its role has transitioned from behavioral recovery into a historical record supporting targeted Phase 1 implementation alignment.
-
-The governing principle remains:
-
-> **Recover the behavioral memory first. Decide what to change second. Implement third.**
-
-```
-
-One important thing: **I intentionally corrected the stale `199`, `218`, and Identity-`confidence` references throughout rather than just updating the final conclusion.** Those were exactly the kinds of leftovers that could have caused the documents to contradict each other later.
-
-This version should now be consistent with the Phase 1 alignment document we've been working from.
-```
+> **The API should describe the intelligence system that actually exists, while the intelligence system should only change when an explicit conceptual decision requires it.**
