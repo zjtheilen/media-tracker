@@ -1,8 +1,10 @@
 ```
-__    __ ___    ___ ___  ____ ___
-\ \/\/ // _ \  _\\ / _ \ | D )| |
- \_/\_//_/ \_\/__//_/ \_\|_D_)|_|
- Weighted Archive System for Analysis & Behavioral Insights
+__    __  ___     ___  ___   ____  ___
+\ \/\/ / / O \   _\\  / O \  | D ) | |
+ \_/\_/O/_/ \_\O/__/O/_/ \_\O|_D_)O|_|O
+WEIGHTED ARCHIVE SYSTEM for ANALYSIS & BEHAVIORAL INSIGHTS
+
+A media tracking, rating, and analytics app by Zachary Theilen
 ```
 
 # Phase 1 — Terminology and API Rename Map
@@ -1123,12 +1125,6 @@ without requiring unnecessary changes to its calculations or behavior.
 ```
 
 ---
-
-\ // // _ \ \*\ / _ \ | D )| |
-_/_//_/ \_/\_\_//_/ \_|_D_)|\*|
-Weighted Archive System for Analysis & Behavioral Insights
-
-```
 
 # Frontend Terminology Alignment
 

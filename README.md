@@ -1,7 +1,7 @@
 ```
 __    __  ___     ___  ___   ____  ___
-\ \/\/ / / ◯\   _\\  / ◯\  | D ) | |
- \_/\_/○/_/ \_\○/__/○/_/ \_\○|_D_)○|_|○
+\ \/\/ / / O \   _\\  / O \  | D ) | |
+ \_/\_/O/_/ \_\O/__/O/_/ \_\O|_D_)O|_|O
 WEIGHTED ARCHIVE SYSTEM for ANALYSIS & BEHAVIORAL INSIGHTS
 
 A media tracking, rating, and analytics app by Zachary Theilen
