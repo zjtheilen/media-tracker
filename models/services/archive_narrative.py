@@ -61,7 +61,7 @@ CONFIDENCE_LABELS = [
 ]
 
 
-def get_designation_confidence_label(score):
+def get_designation_signal_strength_label(score):
 
     for threshold, label in CONFIDENCE_LABELS:
         if score >= threshold:

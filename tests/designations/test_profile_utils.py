@@ -1,7 +1,7 @@
 from models.services.archive_utils import (
-    get_top_categories,
-    calculate_designation_confidence,
     calculate_average_scores,
+    calculate_designation_signal_strength,
+    get_top_categories,
 )
 
 
@@ -16,7 +16,7 @@ def test_get_top_categories():
 
 def test_designation_confidence():
 
-    result = calculate_designation_confidence(
+    result = calculate_designation_signal_strength(
         ("originality", 9), ("depth", 8), ("world_building", 7)
     )
 

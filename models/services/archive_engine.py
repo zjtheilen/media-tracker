@@ -20,11 +20,11 @@ from .archive_interpretation import (
     generate_secondary_trait_sentence,
 )
 from .archive_narrative import (
-    get_designation_confidence_label,
+    get_designation_signal_strength_label,
 )
 from .archive_utils import (
     calculate_average_scores,
-    calculate_designation_confidence,
+    calculate_designation_signal_strength,
     get_top_categories,
 )
 from .designation_basis import (
@@ -147,13 +147,13 @@ def _build_designations(archive_profile):
         archive_profile["topMedia"][0],
     )
 
-    archive_profile["designationConfidence"] = calculate_designation_confidence(
+    archive_profile["designationConfidence"] = calculate_designation_signal_strength(
         archive_profile["topUniversal"][0],
         archive_profile["topUniversal"][1],
         archive_profile["topMedia"][0],
     )
 
-    archive_profile["designationConfidenceLabel"] = get_designation_confidence_label(
+    archive_profile["designationConfidenceLabel"] = get_designation_signal_strength_label(
         archive_profile["designationConfidence"]
     )
 

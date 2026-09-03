@@ -29,7 +29,7 @@ def format_score_category(category):
     return " ".join(word.capitalize() for word in category.split("_"))
 
 
-def calculate_designation_confidence(primary_trait, secondary_trait, media_trait):
+def calculate_designation_signal_strength(primary_trait, secondary_trait, media_trait):
 
     confidence = (primary_trait[1] + secondary_trait[1] + media_trait[1]) / 3
 

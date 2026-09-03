@@ -351,7 +351,7 @@ async function renderRatingDistributionChart() {
     });
 }
 
-async function renderGenreAverageRatingsChart() {
+async function renderGenreAverageScoresChart() {
     const entries = await getEntries();
 
     const genreGroups = groupEntries(
@@ -390,7 +390,7 @@ async function renderGenreAverageRatingsChart() {
             labels,
             datasets: [
                 {
-                    label: "Average Rating",
+                    label: "Average Score",
                     data,
                     backgroundColor: "rgba(197,155,74,0.9)",
                     borderColor: "#0b0f0e",
@@ -437,7 +437,7 @@ async function renderGenreAverageRatingsChart() {
 
 }
 
-async function renderUniversalEvaluationRadar(archiveProfile) {
+async function renderUniversalScoringRadar(archiveProfile) {
 
     const canvas = document.getElementById(
         "universal-profile-radar"
@@ -589,7 +589,7 @@ async function renderArchiveProfileCard() {
     const observationSummary =
         archiveProfile.observationSummary || "";
 
-    const confidenceLabel = archiveProfile.designationConfidenceLabel;
+        const signalStrengthLabel = archiveProfile.designationConfidenceLabel;
 
     const findingsHtml = archiveFindings
         .map(
@@ -667,7 +667,7 @@ async function renderArchiveProfileCard() {
                         <h3>Signal Strength</h3>
 
                         <p>
-                            ${confidenceLabel}
+                            ${signalStrengthLabel}
                             (${archiveProfile.designationConfidence.toFixed(1)} / 10)
                         </p>
 

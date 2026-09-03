@@ -1,8 +1,8 @@
 from models.services.archive_utils import (
     calculate_average_scores,
-    get_top_categories,
+    calculate_designation_signal_strength,
     format_score_category,
-    calculate_designation_confidence,
+    get_top_categories,
 )
 
 
@@ -33,9 +33,9 @@ def test_format_score_category():
     assert format_score_category("world_building") == "World Building"
 
 
-def test_calculate_designation_confidence():
+def test_calculate_designation_signal_strength():
 
-    result = calculate_designation_confidence(
+    result = calculate_designation_signal_strength(
         ("originality", 9), ("depth", 8), ("world_building", 7)
     )
 

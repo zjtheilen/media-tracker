@@ -2,7 +2,7 @@ from models.services.archive_narrative import (
     format_trait_score,
     get_trait_description,
     get_trait_intensity,
-    get_designation_confidence_label,
+    get_designation_signal_strength_label,
 )
 from models.services.trait_calculator import normalize_trait_signal
 
@@ -33,9 +33,9 @@ def test_trait_intensity():
 
 
 def test_confidence_label():
-    assert get_designation_confidence_label(9.1) == "Very High"
-    assert get_designation_confidence_label(8.2) == "High"
-    assert get_designation_confidence_label(7.4) == "Moderate"
+    assert get_designation_signal_strength_label(9.1) == "Very High"
+    assert get_designation_signal_strength_label(8.2) == "High"
+    assert get_designation_signal_strength_label(7.4) == "Moderate"
 
 
 def test_trait_signal_normalization_scales_between_boundaries():

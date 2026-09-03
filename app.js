@@ -12,7 +12,7 @@ async function refreshApp() {
         requestAnimationFrame(resolve)
     );
 
-    await renderUniversalEvaluationRadar();
+    await renderUniversalScoringRadar();
     await renderMediaBarCharts();
 
     await renderTopRatedOverall();
