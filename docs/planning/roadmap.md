@@ -59,43 +59,27 @@ Observations, Findings, Designations, and Identities remain analytically paralle
 
 # CURRENT TEST STATUS
 
-The current test suite has:
+The current regression suite has:
 
-> **247 passing tests, 1 failing test**
+> **245 passing tests, 0 failing tests**
 
-The suite is **not currently green**.
+The suite is currently **green**.
 
-The current failure is an established Designation regression involving the `deep_diver` fixture and the updated `boundary_explorer` evidence model.
+The previous 247-passing checkpoint represented the pre-Identity-migration test state. The Identity catalog and affected tests were subsequently migrated to the accepted Phase 1 Identity contract.
 
-The historical regression milestones are:
+The historical milestones are:
 
 * **199 passing tests** — original forensic baseline
 * **210 passing tests** — earlier Phase 1 baseline
 * **218 passing tests** — post-forensic test baseline
-* **247 passing tests** — current passing count
+* **247 passing tests** — pre-Identity-migration checkpoint
+* **245 passing tests** — current post-migration green baseline
 
-These historical counts document the evolution of regression coverage.
+The change in test count should not be interpreted mechanically as regression.
 
-They must not be confused with the current green baseline.
+The meaningful requirement is that the current suite passes and that intentional behavioral changes have corresponding regression coverage.
 
-The active Phase 1 regression status is therefore:
-
-> **247 passing / 1 failing**
-
-Phase 1 changes should preserve established passing behavior unless a behavior is **deliberately changed** as part of contract alignment.
-
-Any intentional test change should be accompanied by:
-
-1. an explicit reason
-2. a corresponding decision in the Phase 1 Decision & Implementation Map
-3. replacement regression coverage where appropriate
-4. a full-suite run
-
-The test count itself is not sacred.
-
-The **behavior protected by meaningful tests** is what matters.
-
-Once intentional behavior changes are resolved, the full suite should return to green unless an explicitly approved contract change changes an expected result.
+Phase 1 changes should preserve established behavior unless behavior is deliberately changed as part of an accepted conceptual decision.
 
 ---
 
@@ -193,28 +177,67 @@ Forensic work should not reopen already-resolved decisions without new contradic
 
 # PHASE 1 — INTELLIGENCE ALIGNMENT
 
-## Status: ACTIVE
+## Status: ACTIVE — DOCUMENTATION RECONCILIATION
 
 ### Goal
 
 Bring the existing intelligence implementation into alignment with the locked conceptual model without rewriting working infrastructure.
+
+The major Identity alignment work is complete.
+
+The current Identity catalog consists of:
+
+* **Interpretive Philosophy**
+* **Exploratory Philosophy**
+* **Breadth Philosophy**
+
+The Identity fixtures and affected tests have been migrated to this catalog, and the current full regression suite is green.
 
 Phase 1 should change behavior only where:
 
 * existing behavior directly contradicts the contract
 * terminology creates meaningful semantic confusion
 * an important hidden contract needs to become explicit
-* deterministic behavior is currently under-specified
+* deterministic behavior is under-specified
 * regression protection is missing
 * existing conceptual layers are improperly duplicated
+* an explicitly accepted Phase 1 decision requires behavioral change
 
-The detailed implementation decisions live in:
+The detailed implementation decisions remain in:
 
 > **Phase 1 — Intelligence Alignment Decision & Implementation Map**
 
-That document is the operational decision authority for Phase 1.
+The remaining Phase 1 effort is primarily reconciliation of terminology, evidence and behavior gates, Archive State implementation, remaining Observation/Finding contract work, and documentation consistency.
 
-This roadmap provides the project-level sequence and phase status.
+The governing principle remains:
+
+> **Evolution, not rewrite.**
+
+---
+
+## Phase 1 Completed Checkpoints
+
+The following major Phase 1 work is complete:
+
+* forensic repository and intelligence audit
+* Identity-vs-Designation differentiation
+* Identity ontology differentiation
+* Identity evidence mapping
+* Identity fixture contract
+* Identity fixture migration
+* Identity test migration
+* deterministic Identity eligibility and selection behavior
+* frontend scoring terminology alignment
+* `systems-preference` consolidation into `systems-affinity`
+* `designationBasis` consumer audit
+* removal of the obsolete frontend `generatedesignationBasis()` duplicate
+* full regression suite restored to green
+
+Current regression baseline:
+
+> **245 passing tests / 0 failing tests**
+
+Remaining Phase 1 work is tracked by the Decision & Implementation Map rather than by reopening completed conceptual decisions.
 
 ---
 

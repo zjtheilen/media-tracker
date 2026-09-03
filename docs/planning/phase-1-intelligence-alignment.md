@@ -10,19 +10,22 @@ __    __ ___    ___ ___  ____ ___
 **Project:** Media Tracker
 **Authoritative branch:** `develop-3`
 **Phase:** Phase 1 — Intelligence Alignment
-**Status:** Reconciled after forensic audit
+**Status:** Reconciled against the completed Identity migration and current implementation state
 **Related documents:**
 
-- `intelligence-contract.md`
-- `intelligence-forensic-audit.md`
-- `phase-1-decision-and-implementation-map.md`
-- `roadmap.md`
-- `forgotten-features-register.md`
+* `intelligence-contract.md`
+* `intelligence-forensic-audit.md`
+* `phase-1-decision-and-implementation-map.md`
+* `roadmap.md`
+* `forgotten-features-register.md`
 
-**Current test status:** **247 passing, 1 failing**
-**Historical regression baselines:** 199 → 210 → 218 → 247 passing tests
+**Current test status:** **245 passing tests / 0 failing tests**
+
+**Historical regression milestones:** 199 → 210 → 218 → 247 passing tests
+**Current post-migration baseline: 245 passing tests / 0 failing tests**
 
 **Guiding principle:** **Evolution, not rewrite.**
+
 
 ---
 
@@ -65,82 +68,103 @@ The `develop-3` branch contains a substantially developed intelligence layer.
 
 The repository contains dedicated services and infrastructure for:
 
-- Traits
-- Genre Signals
-- Observations
-- Findings
-- Designations
-- Identities
-- Identity-derived traits
-- Identity explanations
-- Identity findings
-- Evidence
-- Archive/Profile assembly
-- Narrative
-- Recommendation infrastructure
+* Traits
+* Genre Signals
+* Observations
+* Findings
+* Designations
+* Identities
+* Identity-derived traits
+* Identity explanations
+* Identity findings
+* Evidence
+* Archive/Profile assembly
+* Narrative
+* Recommendation infrastructure
 
 The intelligence layer is deterministic and rule/fixture driven.
 
-The current test suite contains:
+The current regression suite is:
 
-> **247 passing tests and 1 failing test**
+> **245 passing tests and 0 failing tests**
 
-The current failure is an established Designation regression involving the
-`deep_diver` fixture and the updated `boundary_explorer` evidence model.
+The suite is currently **green**.
 
-The suite is therefore **not currently green**.
+The most recent Identity migration replaced the previous overlapping Identity catalog with three differentiated Identity concepts:
 
-The historical regression milestones are:
+* Interpretive Philosophy
+* Exploratory Philosophy
+* Breadth Philosophy
 
-- 199 passing tests — original forensic baseline
-- 210 passing tests — earlier Phase 1 baseline
-- 218 passing tests — post-forensic test baseline
-- 247 passing tests — current passing count
+The corresponding Identity fixtures and affected tests have been migrated to the new conceptual contract.
 
-These historical counts document the evolution of regression coverage and
-should not be confused with the current green baseline.
+The current green suite therefore represents the post-migration regression baseline.
 
-Phase 1 must continue to protect the established passing behavior while
-intentional behavior changes are evaluated explicitly.
+Historical test counts remain useful as development history:
 
-The earlier Phase 1 documents referenced approximately 199 passing tests. That number is now historical and must not be used as the active baseline.
+* 199 passing tests — original forensic baseline
+* 210 passing tests — earlier Phase 1 baseline
+* 218 passing tests — post-forensic test baseline
+* 247 passing tests — pre-Identity-migration regression checkpoint
+* 245 passing tests — current post-migration green baseline
 
-A Phase 1 change is not successful merely because the intended new behavior works.
+These counts should not be interpreted as direct measures of system quality or regression severity. Test counts changed as tests were intentionally migrated to the revised conceptual model.
 
-It must also preserve unrelated existing behavior.
+Phase 1 must continue to protect established behavior while allowing explicitly approved conceptual changes.
+
+A Phase 1 change is successful only when:
+
+1. the intended conceptual behavior is implemented
+2. unrelated established behavior remains intact
+3. affected tests reflect the accepted contract
+4. the full suite remains green
+5. no unresolved conceptual decision has been implemented prematurely
 
 ---
 
 # 3. Phase 1 Status
 
-The forensic audit has established the following:
+The forensic and conceptual alignment work has established the major Phase 1 boundaries.
 
-| Area                               | Status                                                   |
-| ---------------------------------- | -------------------------------------------------------- |
-| Repository inventory               | Complete                                                 |
-| Intelligence service inventory     | Complete                                                 |
-| Existing behavioral contracts      | Recovered                                                |
-| Identity scoring audit             | Complete                                                 |
-| Designation audit                  | Complete                                                 |
-| Observation audit                  | Complete                                                 |
-| Finding audit                      | Complete                                                 |
-| Observation/Finding overlap matrix | Complete                                                 |
-| Evidence audit                     | Complete                                                 |
-| Confidence terminology audit       | Complete                                                 |
-| Archive-state audit                | Conceptually complete; operational policy locked         |
-| Ranking/tie audit                  | Policy established and locked                            |
-| Identity eligibility semantics     | Locked                                                   |
-| Secondary Identity meaningfulness  | Locked                                                   |
-| Finding purpose statements         | Locked                                                   |
-| Finding evidence minimum           | Locked                                                   |
-| Observation shortlist              | Locked                                                   |
-| API/frontend blast-radius audit    | Identified; field-specific compatibility work remains    |
-| Current test baseline              | **247 passing / 1 failing**                              |
-| Phase 1 implementation alignment   | In Progress                                              |
+| Area                                 | Status                                                         |
+| ------------------------------------ | -------------------------------------------------------------- |
+| Repository inventory                 | Complete                                                       |
+| Intelligence service inventory       | Complete                                                       |
+| Existing behavioral contracts        | Recovered                                                      |
+| Identity scoring audit               | Complete                                                       |
+| Designation audit                    | Complete                                                       |
+| Observation audit                    | Complete                                                       |
+| Finding audit                        | Complete                                                       |
+| Observation/Finding overlap matrix   | Complete                                                       |
+| Evidence audit                       | Complete                                                       |
+| Confidence terminology audit         | Complete                                                       |
+| Archive-state audit                  | Conceptually complete; implementation remains separately gated |
+| Ranking/tie audit                    | Deterministic behavior established and tested                  |
+| Identity ontology                    | Complete for current Phase 1 catalog                           |
+| Identity evidence mapping            | Complete                                                       |
+| Identity fixture contract            | Complete                                                       |
+| Identity fixture migration           | Complete                                                       |
+| Identity test migration              | Complete                                                       |
+| Current regression suite             | **245 passing / 0 failing**                                    |
+| Phase 1 documentation reconciliation | In Progress                                                    |
 
-The implementation should proceed from the reconciled decisions captured in:
+The current Identity catalog is:
+
+* **Interpretive Philosophy**
+* **Exploratory Philosophy**
+* **Breadth Philosophy**
+
+These concepts are intentionally differentiated from the Designation layer and from one another.
+
+The Identity migration is now an implemented and tested Phase 1 change rather than an unresolved design direction.
+
+The remaining Phase 1 work should therefore focus on reconciling terminology, implementation-specific gates, remaining accepted evidence/behavior work, and documentation.
+
+The implementation should proceed from the decisions captured in:
 
 `phase-1-decision-and-implementation-map.md`
+
+Historical candidate Identities remain useful as development history, but they do not represent the current Identity catalog.
 
 ---
 
@@ -268,15 +292,22 @@ The test suite is part of the behavioral contract.
 
 Tests should protect meaningful domain behavior rather than merely implementation details.
 
-The current test status is:
+The current regression status is:
 
-> **247 passing tests and 1 failing test**
+> **245 passing tests and 0 failing tests**
 
-The failing test represents an unresolved Designation regression and must not
-be hidden by treating the passing count as a green baseline.
+The suite is currently green.
 
-Once intentional behavior changes are resolved, the full suite must return to
-green unless an explicitly approved contract change changes an expected result.
+The Identity migration intentionally changed the Identity fixture catalog and corresponding test expectations. The resulting test count should therefore be understood as a new post-migration baseline rather than compared mechanically with the previous 247-test checkpoint.
+
+Every future intentional behavioral change must:
+
+1. have an explicit conceptual reason
+2. update the affected tests
+3. preserve unrelated established behavior
+4. be verified against the full suite
+
+A green suite is required after intentional behavior changes are resolved unless an explicitly approved contract change intentionally changes an expected result.
 
 ---
 
@@ -1778,18 +1809,30 @@ Phase 1 is successful when:
 
 ### Current Regression Status
 
-At the time of this document revision, the suite reports:
+The current `develop-3` regression suite reports:
 
-> **247 passing tests / 1 failing test**
+> **245 passing tests / 0 failing tests**
 
-The remaining failure is an established Designation regression involving the `deep_diver` fixture and the updated `boundary_explorer` evidence model.
+The suite is currently **green**.
 
-This failure is not considered a successful Phase 1 endpoint. It must either:
+The previous 247-passing checkpoint represented the pre-Identity-migration test state. The Identity catalog and affected tests were subsequently migrated to the accepted Phase 1 Identity contract, resulting in the current 245-test baseline.
 
-* be resolved while preserving the intended behavior, or
-* be explicitly classified as an approved behavioral change and have its test expectation updated accordingly.
+The change in test count is therefore not itself evidence of regression.
 
-Phase 1 completion therefore requires a documented, intentional resolution of the current regression rather than merely increasing the passing-test count.
+The meaningful requirement is that the current suite passes and that every intentional behavioral change is represented by corresponding regression coverage.
+
+### Phase 1 regression requirement
+
+> **All current tests pass, and every intentional behavioral change is protected by tests that reflect the accepted conceptual contract.**
+
+A future failure must be treated as either:
+
+1. an implementation defect,
+2. a stale test expectation,
+3. or an explicitly approved behavioral change.
+
+A failing test must not be hidden by treating an earlier passing count as authoritative.
+
 
 ---
 

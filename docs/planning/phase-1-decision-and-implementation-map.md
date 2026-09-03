@@ -10,20 +10,15 @@ __    __ ___    ___ ___  ____ ___
 **Project:** Media Tracker
 **Authoritative branch:** `develop-3`
 **Phase:** Phase 1 — Intelligence Alignment
-**Status:** Reconciled against the current Phase 1 Intelligence Alignment
-**Related documents:**
+**Status:** Reconciled against the current Phase 1 conceptual contract and implemented Identity migration
 
-* `intelligence-contract.md`
-* `phase-1-intelligence-alignment.md`
-* `intelligence-forensic-audit.md`
-* `roadmap.md`
-* `forgotten-features-register.md`
-
-**Current test status:** **247 passing tests / 1 failing test**
+**Current test status:** **245 passing tests / 0 failing tests**
 
 **Historical regression milestones:** 199 → 210 → 218 → 247 passing tests
+**Current post-migration baseline:** 245 passing tests / 0 failing tests
 
 **Guiding principle:** **Evolution, not rewrite.**
+
 
 ---
 
@@ -424,27 +419,112 @@ They do not justify merging the systems.
 
 ## System-level decision — LOCKED
 
-The Identity subsystem describes durable curator philosophies that could plausibly apply to other archives.
+The Identity subsystem describes durable curator philosophies that could plausibly apply across different archives.
 
-It should not become a collection of Zach-specific personality labels.
+Identity is not:
 
-The accepted Phase 1 Identity direction is based on durable curator philosophy rather than user-specific personality description.
+* a personality diagnosis
+* a Zach-specific personality label
+* a Designation clone
+* a recommendation category
+* a single favorite genre
+* a restatement of one underlying Trait
 
-Each Identity must have:
+The accepted Phase 1 Identity catalog contains three concepts:
 
-* purpose
-* primary signals
-* secondary signals
-* excluded/non-contributing signals
-* minimum data requirements
-* scoring approach
-* contribution/evidence explanation
-* distinction from other Identities
-* distinction from Designations
+### Interpretive Philosophy
 
-The Identity catalog should remain small and conceptually differentiated.
+Describes a curator whose engagement with media is characterized by depth, reflection, complexity, and interpretation.
 
-**Status:** LOCKED for Phase 1 implementation.
+**Primary signal:** `depth`
+
+**Supporting signals:**
+
+* `emotional_impact`
+* `reflection`
+* `ambiguity`
+* `analysis`
+
+**Minimum entries:** `20`
+
+**Weights:**
+
+| Signal             | Weight |
+| ------------------ | -----: |
+| `depth`            |   0.45 |
+| `emotional_impact` |   0.25 |
+| `reflection`       |   0.12 |
+| `ambiguity`        |   0.10 |
+| `analysis`         |   0.08 |
+
+---
+
+### Exploratory Philosophy
+
+Describes a curator whose engagement extends beyond established preferences into unfamiliar or boundary-expanding territory.
+
+**Strongest observable signals:**
+
+* `originality`
+* `genre_diversity`
+
+**Supporting/proxy signals:**
+
+* `depth`
+* `experimental_affinity`
+* `novelty`
+
+**Minimum entries:** `20`
+
+**Weights:**
+
+| Signal                  | Weight |
+| ----------------------- | -----: |
+| `originality`           |   0.35 |
+| `genre_diversity`       |   0.25 |
+| `depth`                 |   0.15 |
+| `experimental_affinity` |   0.15 |
+| `novelty`               |   0.10 |
+
+Exploratory Philosophy must not be interpreted as proof of deliberate exploration. The current evidence model observes characteristics associated with exploratory behavior but does not directly observe intent or trajectory.
+
+---
+
+### Breadth Philosophy
+
+Describes the range of territory represented in the archive.
+
+**Primary observable signal:** `genre_diversity`
+
+**Minimum entries:** `15`
+
+**Weight:**
+
+| Signal            | Weight |
+| ----------------- | -----: |
+| `genre_diversity` |   1.00 |
+
+Breadth Philosophy measures observable range. It does not by itself establish that the curator intentionally seeks variety.
+
+---
+
+## Cross-Identity boundary
+
+The three Identities answer different questions:
+
+| Identity     | Core question                                            |
+| ------------ | -------------------------------------------------------- |
+| Interpretive | How do you engage with what you consume?                 |
+| Exploratory  | How do you relate to the boundaries of what you consume? |
+| Breadth      | How wide is the territory you consume?                   |
+
+The same archive may legitimately score highly on more than one Identity.
+
+> **Evidence can overlap. Meaning cannot.**
+
+The current Identity fixture contract and fixture definitions are authoritative for implementation.
+
+Historical Identity candidates remain useful only as development history and do not override the current catalog.
 
 ---
 
@@ -455,39 +535,39 @@ The Identity catalog should remain small and conceptually differentiated.
 
 Identity eligibility, scoring, ranking, and presentation are distinct concepts.
 
-The locked Phase 1 model is:
+The model is:
 
 ```text
 Data Sufficiency
-      ↓
+↓
 Eligibility
-      ↓
+↓
 Score
-      ↓
+↓
 Ranking
-      ↓
+↓
 Presentation
-      ↓
+↓
 Primary / Secondary selection
 ```
 
-`minimum_entries` is the operational basis for Identity eligibility.
+`minimum_entries` is an eligibility gate.
 
-An Identity that does not meet its minimum-entry requirement is **not eligible for Identity resolution**.
+The current fixture requirements are:
 
-Eligibility is therefore established before ranking and presentation.
+| Identity                | Minimum entries |
+| ----------------------- | --------------: |
+| Breadth Philosophy      |              15 |
+| Exploratory Philosophy  |              20 |
+| Interpretive Philosophy |              20 |
 
-Among eligible Identities:
+An Identity below its minimum-entry requirement is ineligible and is excluded from Identity resolution.
 
-* existing Identity scoring remains the scoring mechanism
-* ranking remains deterministic
-* Primary selection occurs from the eligible ranked candidates
-* Secondary selection occurs only from eligible non-primary candidates
-* presentation does not manufacture an Identity merely because a candidate exists in the catalog
+An eligible Identity is scored using its fixture-defined weights and the existing Identity normalization mechanism.
 
-This separates archive-volume sufficiency from Identity score and prevents insufficient-data Identities from becoming Primary merely because of incidental scoring or ordering behavior.
+The Phase 1 Identity migration preserves the existing scoring architecture.
 
-**Decision:** Implement eligibility at the Identity-resolution boundary rather than rewriting the underlying scoring model.
+No new scoring algorithm is introduced by the catalog migration.
 
 ---
 
@@ -496,7 +576,7 @@ This separates archive-volume sufficiency from Identity score and prevents insuf
 **Classification:** PRESERVE + TESTING
 **Status:** LOCKED
 
-Conceptually:
+The conceptual shape is:
 
 ```text
 eligible candidates
@@ -506,18 +586,20 @@ deterministic ranking
 ONE PRIMARY
 ```
 
-Primary Identity is the strongest eligible Identity after applying the locked Identity ranking and resolution policy.
+Primary Identity is the strongest eligible Identity under the existing deterministic ranking and resolution machinery.
 
-Required tests protect:
+The migration does not introduce co-primary behavior.
 
-* deterministic ranking
-* primary selection
-* primary selection explainability
-* independence from Designation naming
-* behavior when insufficient-data Identities are present
-* deterministic behavior when candidate input order changes
+Exact-score ties remain deterministic.
 
-Primary Identity selection must not depend on Designation naming or incidental fixture/configuration order.
+Primary selection must remain independent of:
+
+* Designation names
+* fixture file ordering
+* filesystem ordering
+* incidental catalog ordering
+
+The contribution breakdown remains part of the explanation surface for eligible Identity candidates.
 
 ---
 
@@ -526,82 +608,57 @@ Primary Identity selection must not depend on Designation naming or incidental f
 **Classification:** ALIGNMENT + CLARIFICATION
 **Status:** LOCKED
 
-The contract allows zero or more meaningful Secondary Identities.
+The contract permits zero or more meaningful Secondary Identities.
 
-For the current Phase 1 implementation model, a Secondary Identity must satisfy all of the following:
+For the current implementation, the meaningfulness policy is:
 
-* be eligible
-* not be the Primary Identity
-* have meaningful Identity support
-* provide enough signal to justify presentation as an additional curator philosophy
+* the candidate must be eligible
+* the candidate must not be Primary
+* the candidate must meet the accepted minimum signal threshold
+* The conceptual contract requires that a Secondary Identity have independent support as an Identity concept. Operationally, the current implementation expresses meaningfulness through eligibility, non-primary status, and the minimum signal threshold of `0.60`.
+* This threshold is an implementation-level presentation rule, not part of the Identity scoring formula.
 
-A Secondary Identity is **not** surfaced merely because:
+The current implementation uses:
 
-* its score is greater than zero
+> `SECONDARY_MIN_SCORE = 0.60`
+
+This threshold is an implementation-level presentation rule, not part of the Identity scoring formula.
+
+It does not modify Identity scores.
+
+A Secondary Identity is not surfaced merely because:
+
+* it has a positive score
 * it ranks second
-* it is numerically close to the Primary
-* it exists in the Identity catalog
+* it exists in the catalog
+* it is numerically close to Primary
 
-Meaningfulness is based on the candidate's own support, not merely its relationship to the Primary.
-
-The Secondary Identity is independently evaluated and must not be derived from the Primary.
-
-If no eligible non-primary Identity meets the meaningfulness requirement, no Secondary Identity is presented.
-
-**Decision:** Secondary Identity is a presentation-level concept layered on top of eligibility and scoring. It does not alter the underlying Identity score.
+The Primary and Secondary selections are made after eligibility and scoring.
 
 ---
 
 # 15. Ranking, Ties, and Close Competitors
 
-**Classification:** ALIGNMENT + TESTING
+**Classification:** PRESERVE + TESTING
 **Status:** LOCKED
 
-Ranking and presentation must be treated as separate concerns.
+Identity scoring and ranking remain deterministic.
 
-## Exact ties
+Candidates are ranked by Identity Score.
 
-When candidates have equal scores, the system must use the established evidence hierarchy to determine whether meaningful evidence distinguishes them.
+Exact score ties are resolved deterministically using the existing contribution evidence ordering.
 
-Existing component-level Identity evidence may be used where it is already part of the Identity scoring/explanation model.
+The tie-resolution mechanism does not introduce additional score.
 
-Additional evidence may be considered only when it has a substantive relationship to the competing Identity definitions.
+A tie therefore does not mean that the system has discovered a stronger conceptual distinction than the scoring model provides.
 
-Evidence used for tie resolution is comparative evidence.
+No arbitrary near-tie threshold is introduced.
 
-It must not become arbitrary additional scoring.
+A non-equal score remains a ranked difference.
 
-## Close competitors
+Secondary presentation is governed by the Secondary Identity meaningfulness policy rather than by a generic near-tie rule.
 
-A close competitor is not automatically a tie.
-
-A non-equal score remains a ranked difference unless the locked presentation policy establishes that the candidate also meets the requirements for meaningful Secondary presentation.
-
-The system must not introduce an arbitrary near-tie threshold merely to make the ranking appear cleaner.
-
-A close competitor may be presented as Secondary when it independently satisfies the Secondary meaningfulness policy.
-
-It must not be presented merely because it is numerically close to the Primary.
-
-## Arbitrary ordering
-
-The system must not use:
-
-* Identity definition order
-* fixture order
-* configuration order
-* IDs
-* file-system ordering
-
-as evidence that one Identity is conceptually stronger.
-
-Where a single Primary is required but meaningful evidence remains genuinely indistinguishable, the Primary assignment is a presentation resolution, not a claim that the selected Identity has stronger evidence.
-
-## Scope
-
-This policy applies to Identity resolution.
-
-Designation ranking continues to use its established ranking machinery unless a separate Designation policy explicitly changes it.
+Designation ranking remains a separate subsystem and is not altered by Identity resolution.
 
 ---
 
@@ -1005,22 +1062,31 @@ Implementation begins only when the decision being implemented is **LOCKED** and
 
 ## 28.3 Remaining implementation gates
 
-The following are still unresolved or implementation-specific:
+The following Phase 1 implementation work remains gated or separately scoped:
 
-* [ ] Per-field API/frontend terminology rename plan
-* [ ] Implementation of locked Identity eligibility behavior
-* [ ] Implementation of locked Secondary Identity behavior
-* [ ] Implementation/verification of locked tie and presentation behavior
-* [ ] Implementation of accepted Identity fixture/catalog changes
-* [ ] Implementation of accepted Observation shortlist changes
-* [ ] Implementation of Archive State behavior
+* [ ] Per-field API/frontend terminology rename plan and execution where still required
+* [ ] Implementation/verification of remaining accepted Observation shortlist changes
+* [ ] Implementation/verification of Archive State behavior
 * [ ] Finding evidence implementation where required
 * [ ] Final implementation of ELEVATE Finding purpose/evidence decisions
 * [ ] Resolution of `atmospheric-focus` / `atmospheric-interest` ownership if later required
 
-These are **implementation gates**, not unresolved conceptual decisions.
+The following Identity gates are **complete**:
 
-No new conceptual policy should be invented while implementing them.
+* [x] Identity ontology finalized for the Phase 1 catalog
+* [x] Identity differentiation audit completed
+* [x] Identity evidence mapping completed
+* [x] Identity fixture contract completed
+* [x] Identity fixtures migrated
+* [x] Identity tests migrated
+* [x] Identity eligibility behavior implemented
+* [x] Primary Identity deterministic behavior protected
+* [x] Secondary Identity behavior implemented
+* [x] Full regression suite passing
+
+These are implementation gates, not invitations to reopen the conceptual Identity model.
+
+No new conceptual policy should be invented while implementing the remaining gates.
 
 ---
 
@@ -1044,41 +1110,37 @@ Before any Phase 1 change is merged:
 
 # 30. Phase 1 Work Order
 
-## 1. Terminology pass
+## 1. Terminology reconciliation
 
-**Allowed:** Yes, subject to per-field rename mapping.
+**Status:** In Progress
 
-Correct misleading confidence terminology without changing underlying algorithms.
+Correct misleading terminology according to the accepted semantic contract.
+
+Preserve valid calculations.
+
+Complete field-specific API/frontend compatibility work where required.
 
 ---
 
-## 2. Implement locked Identity eligibility semantics
+## 2. Identity catalog migration
 
-**Allowed:** Yes.
+**Status:** COMPLETE
 
-Apply the established relationship:
+The Identity ontology, evidence contract, fixture contract, fixtures, and affected tests have been migrated to:
 
-```text
-Data Sufficiency
-↓
-Eligibility
-↓
-Score
-↓
-Ranking
-↓
-Presentation
-↓
-Primary / Secondary
-```
+* Interpretive Philosophy
+* Exploratory Philosophy
+* Breadth Philosophy
 
-Do not rewrite Identity scoring.
+The full regression suite passes after migration.
+
+No further Identity redesign is implied by this work order.
 
 ---
 
 ## 3. Recovered behavior regression protection
 
-**Allowed:** Yes.
+**Status:** COMPLETE
 
 Protect:
 
@@ -1089,82 +1151,46 @@ Protect:
 * evidence structures
 * empty-profile behavior
 * recommendation-bias metadata
-* existing primary selection
-* Identity eligibility behavior
-* Secondary presentation behavior
-* tie/presentation behavior
+* primary selection
+* Identity eligibility
+* Secondary Identity presentation
+* tie behavior
+
+Future changes must continue to add regression coverage where appropriate.
 
 ---
 
-## 4. Finding boundary and duplicate investigation
+## 4. Finding boundary and evidence work
 
-**Allowed:** Yes.
+**Status:** PARTIALLY COMPLETE
 
-Preserve `concept-driven`.
+Preserve the established Observation/Finding distinction.
 
 Maintain:
 
-* `systems-preference` — REMOVED; consolidated into `systems-affinity`
-* `engagement-priority` — ELEVATE
-* `speculative-interest` — ELEVATE
-* `atmospheric-interest` — DEFERRED / possible duplicate
+* `systems-preference` — removed; consolidated into `systems-affinity`
+* `concept-driven` — preserve
+* `engagement-priority` — elevate where accepted
+* `speculative-interest` — elevate where accepted
+* `atmospheric-interest` — deferred / possible duplicate
 
 Do not mass-delete Findings.
 
 ---
 
-## 5. Elevated Finding implementation
+## 5. Observation alignment
 
-**Allowed:** Yes, based on the locked purpose decisions.
+**Status:** GATED
 
-For each elevated Finding:
-
-* preserve the interpretive purpose
-* provide sufficient supporting evidence
-* demonstrate distinction from Observation / Trait / Genre Signal
-* add dedicated tests
-
----
-
-## 6. Identity catalog evolution
-
-**Allowed:** Yes, using the accepted Phase 1 Identity definitions.
-
-Do not invent new Identity semantics outside the accepted catalog decisions.
-
----
-
-## 7. Secondary Identity implementation
-
-**Allowed:** Yes.
-
-Implement the locked meaningfulness policy.
-
-Do not expose every positive-scoring Identity.
-
----
-
-## 8. Tie / close-competitor implementation
-
-**Allowed:** Yes.
-
-Implement the locked ranking/presentation policy.
-
-Do not invent a new arbitrary near-tie threshold.
-
----
-
-## 9. Observation changes
-
-**Allowed:** Yes, within the accepted Phase 1 Observation shortlist.
+Implement only the accepted Phase 1 Observation decisions.
 
 Existing Observation machinery remains protected.
 
 ---
 
-## 10. Archive-state implementation
+## 6. Archive State
 
-**Allowed:** Yes.
+**Status:** GATED
 
 Implement only the accepted operational Archive State policy.
 
@@ -1172,17 +1198,37 @@ Do not introduce unrelated state-dependent behavior.
 
 ---
 
-## 11. Regression
+## 7. Final terminology/API/frontend reconciliation
 
-Run the full suite after each intentional behavior change.
+**Status:** GATED
 
-Current test status:
+Complete field-specific terminology alignment and verify the full downstream blast radius.
 
-> **247 passing / 1 failing**
+The governing rule remains:
 
-The known failing test is the `deep_diver` designation-profile regression caused by the updated `boundary_explorer` evidence model.
+> **The API should describe the intelligence system that actually exists, while the intelligence system should only change when an explicit conceptual decision requires it.**
 
-Phase 1 must return the suite to green after intentional behavior changes are resolved, unless an explicitly approved contract change changes an expected result.
+---
+
+## 8. Final Phase 1 regression
+
+**Status:** CURRENT BASELINE GREEN
+
+Current suite:
+
+> **245 passing tests / 0 failing tests**
+
+Any future intentional behavioral change must preserve a green full-suite result after its tests are updated.
+
+---
+
+## 9. Phase 1 documentation reconciliation
+
+**Status:** IN PROGRESS
+
+Reconcile current implementation state, locked decisions, historical records, and implementation gates across the planning documents.
+
+Historical documents should retain historical context rather than being rewritten to pretend they were written after the fact.
 
 ---
 
