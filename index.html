@@ -36,15 +36,23 @@
         <nav id="main-nav">
             <button id="library-tab">
                 <i class="media-icon" data-lucide="package"></i>
-                Archive
+                Library
             </button>
             <button id="analytics-tab">
                 <i class="media-icon" data-lucide="chart-column"></i>
-                Analysis
+                Analytics
             </button>
             <button id="lists-tab">
                 <i class="media-icon" data-lucide="file-stack"></i>
-                Reports
+                Lists
+            </button>
+            <button id="archive-profile-tab">
+                <i class="media-icon" data-lucide="user-round"></i>
+                Archive Profile
+            </button>
+            <button id="recommendations-tab">
+                <i class="media-icon" data-lucide="sparkles"></i>
+                Recommendations
             </button>
         </nav>
 
@@ -133,12 +141,8 @@
                             Date Consumed (Newest)
                         </option>
                         <option value="date_asc">Date Consumed (Oldest)</option>
-                        <option value="score_desc">
-                            Highest Score
-                        </option>
-                        <option value="score_asc">
-                            Lowest Score
-                        </option>
+                        <option value="score_desc">Highest Score</option>
+                        <option value="score_asc">Lowest Score</option>
                         <option value="title_asc">Title (A–Z)</option>
                         <option value="title_desc">Title (Z–A)</option>
                         <option value="media_type_asc">
@@ -328,6 +332,25 @@
                 <div class="column-half card">
                     <div id="hall-of-fame-list"></div>
                 </div>
+            </div>
+        </section>
+        <section id="archive-profile-page">
+            <div class="page-header">
+                <h2>Archive Profile</h2>
+                <p>What does your archive say about you?</p>
+            </div>
+
+            <div id="archive-profile-content"></div>
+        </section>
+
+        <section id="recommendations-page">
+            <div class="page-header">
+                <h2>Recommendations</h2>
+                <p>What should you consume next?</p>
+            </div>
+
+            <div id="recommendations-content">
+                <p>Recommendations are not yet available.</p>
             </div>
         </section>
     </body>

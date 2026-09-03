@@ -5,7 +5,7 @@ async function refreshApp() {
     await renderAverageScoreByMediaTypeChart();
     await renderMonthlyCompletionChart();
     await renderRatingDistributionChart();
-    await renderGenreAverageRatingsChart();
+    await renderGenreAverageScoresChart();
     await renderArchiveProfileCard();
 
     await new Promise(resolve =>
