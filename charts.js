@@ -572,6 +572,54 @@ function prepareRadarData(averages) {
     };
 }
 
+function formatFindingEvidence(evidence) {
+
+    if (Array.isArray(evidence)) {
+        return evidence
+            .map(item => {
+
+                if (item.unit === "percent") {
+                    return `
+                        <div class="finding-evidence-item">
+                            <strong>${item.label}:</strong>
+                            ${item.value}%
+                        </div>
+                    `;
+                }
+
+                if (item.unit === "score") {
+                    return `
+                        <div class="finding-evidence-item">
+                            <strong>${item.label}:</strong>
+                            ${Number(item.value).toFixed(1)} / 10
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="finding-evidence-item">
+                        <strong>${item.label}:</strong>
+                        ${item.value}
+                    </div>
+                `;
+            })
+            .join("");
+    }
+
+    if (evidence && evidence.traits) {
+        return evidence.traits
+            .map(item => `
+                <div class="finding-evidence-item">
+                <strong>${item.trait.replaceAll("_", " ").replace(/\b\w/g, char => char.toUpperCase())}:</strong>
+                    ${item.value}
+                </div>
+            `)
+            .join("");
+    }
+
+    return "";
+}
+
 async function renderArchiveProfileCard() {
 
     const archiveProfile =
@@ -589,7 +637,7 @@ async function renderArchiveProfileCard() {
     const observationSummary =
         archiveProfile.observationSummary || "";
 
-        const signalStrengthLabel = archiveProfile.designationConfidenceLabel;
+    const signalStrengthLabel = archiveProfile.designationConfidenceLabel;
 
     const findingsHtml = archiveFindings
         .map(
@@ -605,7 +653,7 @@ async function renderArchiveProfileCard() {
                     <p>${finding.description}</p>
 
                     <div class="finding-evidence">
-                        ${finding.evidence}
+                        ${formatFindingEvidence(finding.evidence)}
                     </div>
 
                 </div>
@@ -640,7 +688,7 @@ async function renderArchiveProfileCard() {
                 <p>${observation.description}</p>
 
                 <div class="finding-evidence">
-                    ${observation.evidence}
+                    ${formatFindingEvidence(observation.evidence)}
                 </div>
 
             </div>

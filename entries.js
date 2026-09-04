@@ -122,7 +122,6 @@ function renderEntryMetadata(entry) {
         </div>
 
         <div class="genre-chip-container">
-        TEST
             ${renderGenreChips(entry.genres)}
         </div>
     `;

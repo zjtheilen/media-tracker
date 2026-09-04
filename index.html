@@ -203,18 +203,6 @@
 
                 <p>Statistical review of recorded media artifacts.</p>
             </div>
-            <div class="row section">
-                <div class="column-full dashboard-card">
-                    <div class="panel-header">
-                        <div class="archive-label">
-                            <i class="media-icon" data-lucide="podium"></i>
-                            ARCHIVE PROFILE
-                        </div>
-                    </div>
-
-                    <div id="favorite-media-type-card"></div>
-                </div>
-            </div>
 
             <div class="row section">
                 <div class="column-half dashboard-card">
@@ -275,7 +263,7 @@
                 </div>
             </div>
             <div class="row section">
-                <div class="column-half dashboard-card">
+                <div class="column-full dashboard-card">
                     <div class="archive-label">
                         <i class="media-icon" data-lucide="tags"></i>
                         GENRE ANALYSIS
@@ -287,23 +275,6 @@
                     >
                         Your browser does not support the chart visualization.
                     </canvas>
-                </div>
-
-                <div class="column-half dashboard-card">
-                    <div class="archive-label">
-                        <i class="media-icon" data-lucide="brain-circuit"></i>
-                        RECOMMENDATION ENGINE
-                    </div>
-
-                    <div class="recommendation-placeholder">
-                        <p class="archive-status-title">
-                            Archive recommendations unavailable.
-                        </p>
-
-                        <p class="archive-status-body">
-                            Prediction model awaiting calibration.
-                        </p>
-                    </div>
                 </div>
             </div>
         </section>
@@ -340,13 +311,41 @@
                 <p>What does your archive say about you?</p>
             </div>
 
-            <div id="archive-profile-content"></div>
+            <div class="row section">
+                <div class="column-full dashboard-card">
+                    <div class="panel-header">
+                        <div class="archive-label">
+                            <i class="media-icon" data-lucide="podium"></i>
+                            ARCHIVE PROFILE
+                        </div>
+                    </div>
+
+                    <div id="favorite-media-type-card"></div>
+                </div>
+            </div>
         </section>
 
         <section id="recommendations-page">
             <div class="page-header">
                 <h2>Recommendations</h2>
                 <p>What should you consume next?</p>
+            </div>
+
+            <div class="column-half dashboard-card">
+                <div class="archive-label">
+                    <i class="media-icon" data-lucide="brain-circuit"></i>
+                    RECOMMENDATION ENGINE
+                </div>
+
+                <div class="recommendation-placeholder">
+                    <p class="archive-status-title">
+                        Archive recommendations unavailable.
+                    </p>
+
+                    <p class="archive-status-body">
+                        Prediction model awaiting calibration.
+                    </p>
+                </div>
             </div>
 
             <div id="recommendations-content">
