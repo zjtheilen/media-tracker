@@ -70,10 +70,18 @@ def test_update_entry(client, valid_game_payload):
 
     get_response = client.get(f"/entries/{entry_id}")
 
+    assert get_response.status_code == 200
+
     updated_entry = get_response.json()
 
     assert updated_entry["title"] == "Silent Hill 2 Remake"
     assert updated_entry["notes"] == "Still peak psychological horror"
+    returned_scores = {
+        score["category"]: score["value"]
+        for score in updated_entry["scores"]
+    }
+
+    assert returned_scores == updated_payload["scores"]
 
 
 def test_delete_entry(client, valid_game_payload):
