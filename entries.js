@@ -20,15 +20,6 @@ function renderEntry(entry) {
             renderMediaScoreChart(entry, mediaCanvas);
         }
 
-
-        if (universalCanvas) {
-            renderUniversalScoreChart(entry);
-        }
-
-        if (mediaCanvas) {
-            renderMediaScoreChart(entry);
-        }
-
         return card;
     }
 
