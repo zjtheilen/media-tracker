@@ -824,28 +824,33 @@ async function renderArchiveProfileCard() {
                 <div class="archive-profile-charts">
 
                     <div class="chart-panel">
-                
+
                         <h3>Universal Scoring Profile</h3>
-                
-                        <canvas id="universal-profile-radar"></canvas>
-                
+                    
+                        <div class="chart-container chart-container-radar">
+                            <canvas id="universal-profile-radar"></canvas>
+                        </div>
+            
                     </div>
                 
                 
                     <div class="chart-panel">
-                
+
                         <h3>Book Profile</h3>
-                
-                        <canvas id="book-profile-chart"></canvas>
-                
+
+                        <div class="chart-container chart-container-bars">
+                            <canvas id="book-profile-chart"></canvas>
+                        </div>
+
                     </div>
                 
                 
                     <div class="chart-panel">
                 
                         <h3>Video Profile</h3>
-                
-                        <canvas id="video-profile-chart"></canvas>
+                        <div class="chart-container">
+                            <canvas id="video-profile-chart"></canvas>
+                        </div>
                 
                     </div>
                 
@@ -854,7 +859,9 @@ async function renderArchiveProfileCard() {
                 
                         <h3>Game Profile</h3>
                 
-                        <canvas id="game-profile-chart"></canvas>
+                        <div class="chart-container">
+                            <canvas id="game-profile-chart"></canvas>
+                        </div>
                 
                     </div>
                 
@@ -1029,7 +1036,7 @@ function renderMediaScoreChart(entry, canvas) {
                 },
 
                 responsive: true,
-                maintainAspectRation: false,
+                maintainAspectRatio: false,
             }
         });
 }

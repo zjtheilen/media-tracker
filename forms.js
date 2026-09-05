@@ -20,7 +20,13 @@ function renderScoreCategoryList(categories, existingScores) {
     categories.forEach((category) => {
         const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
 
-        const scoreValue = existingScores[normalizedKey] || 5;
+        const existingScore = Array.isArray(existingScores)
+            ? existingScores.find(score => score.category === normalizedKey)
+            : null;
+
+        const scoreValue = existingScore ? existingScore.value : 5;
+
+
         const metricRubric = scoringRubrics[category] || {};
 
         const wrapper = document.createElement("div");

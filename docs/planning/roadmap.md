@@ -483,7 +483,16 @@ Current baseline:
 
 **245 passing tests.**
 
-Remaining stability work should focus on:
+### Stability fixes completed
+
+* Fixed amendment behavior so existing universal and media scores are restored when editing a record.
+* Stabilized Archive Profile responsive charts by placing canvases inside dedicated containers with explicit dimensions.
+* Corrected the `maintainAspectRatio` configuration typo in media score charts.
+* Restored the application shell wrapper so the existing layout width and page spacing rules apply consistently.
+
+### Remaining stability work
+
+Remaining work should focus on:
 
 * Regression prevention
 * Edge cases

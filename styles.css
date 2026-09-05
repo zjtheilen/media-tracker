@@ -1464,7 +1464,7 @@ textarea {
 
 
 /* =============================================================
-   Chart Panels
+   Chart Panels / Containers
    ============================================================= */
 
 .chart-panel {
@@ -1517,6 +1517,25 @@ textarea {
     min-height: 240px;
 
     text-align: center;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+
+.chart-container-radar {
+    height: 360px;
+}
+
+.chart-container-bars {
+    height: 220px;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 
