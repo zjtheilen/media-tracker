@@ -100,6 +100,8 @@ async function loadScoringRubric() {
 async function initializeApp() {
     initializeNavigation();
 
+    showPage("library");
+
     await loadGenres();
     await loadScoringProfiles();
     await loadScoringRubric();
@@ -111,7 +113,6 @@ async function initializeApp() {
 
     await refreshApp();
 
-    showPage("library");
     lucide.createIcons();
 }
 

@@ -7,3 +7,6 @@ test_database.db
 *.vscode/
 .venv
 node_modules
+e2e_database.db
+test-results/
+playwright-report/
