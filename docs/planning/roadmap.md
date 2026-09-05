@@ -477,11 +477,11 @@ Current work in this phase is primarily refinement, terminology, UX, documentati
 
 ## Phase 6 — Testing and Stability
 
-Core regression coverage established.
+Core regression coverage established across both backend/domain behavior and browser-level application behavior.
 
 Current baseline:
-
-**245 passing tests.**
+**245 passing Python tests.**
+**Playwright E2E coverage established and validated with 40/40 repeated application-load and navigation runs passing.**
 
 ### Stability fixes completed
 
@@ -489,18 +489,32 @@ Current baseline:
 * Stabilized Archive Profile responsive charts by placing canvases inside dedicated containers with explicit dimensions.
 * Corrected the `maintainAspectRatio` configuration typo in media score charts.
 * Restored the application shell wrapper so the existing layout width and page spacing rules apply consistently.
+* Added Playwright browser-level regression coverage for application loading and navigation across all five primary pages.
+* Fixed an application initialization race in which asynchronous startup could overwrite user navigation after the page had already become interactive.
+
+### Testing strategy
+
+Python tests provide coverage for backend, domain, API, and intelligence behavior.
+
+Playwright E2E tests provide browser-level coverage for critical user-facing behavior and application integration.
+
+The E2E environment uses a dedicated SQLite database and runs with a single worker to prevent shared database state from introducing test races.
+
+E2E tests should validate actual application behavior rather than compensate for application timing or initialization problems with arbitrary delays.
 
 ### Remaining stability work
 
 Remaining work should focus on:
 
 * Regression prevention
+* Library search, filtering, sorting, and reset behavior
 * Edge cases
 * Empty/sparse archive behavior
 * Intelligence boundary cases
 * API consistency
 * Frontend/backend terminology consistency
 * Removal of accidental duplication
+* Additional browser-level coverage for critical user flows
 
 ---
 
