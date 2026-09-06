@@ -375,13 +375,16 @@ The roadmap should point toward these authorities rather than duplicate them.
 
 The current regression baseline is:
 
-**245 tests passing, 0 failing.**
+**245 passing Python tests.**
+**26 passing Playwright E2E tests.**
 
-This is the current clean checkpoint following the Identity migration and terminology-alignment work.
+The Python suite covers backend, domain, API, and intelligence behavior.
+
+The Playwright suite covers critical browser-level application behavior and integration.
 
 Historical test counts are preserved as historical milestones and should not be interpreted as the current baseline.
 
-The current count should be updated whenever intentional implementation changes alter the regression suite.
+The current counts should be updated whenever intentional implementation changes alter the regression suite.
 
 ---
 
@@ -477,11 +480,53 @@ Current work in this phase is primarily refinement, terminology, UX, documentati
 
 ## Phase 6 — Testing and Stability
 
-Core regression coverage established across both backend/domain behavior and browser-level application behavior.
+Core regression coverage is now established across both backend/domain behavior and browser-level application behavior.
 
-Current baseline:
+### Current baseline
+
 **245 passing Python tests.**
-**Playwright E2E coverage established and validated with 40/40 repeated application-load and navigation runs passing.**
+**26 passing Playwright E2E tests.**
+
+The Python suite provides coverage for backend, domain, API, and intelligence behavior.
+
+The Playwright suite provides browser-level coverage for critical user-facing behavior and application integration.
+
+### Playwright coverage
+
+The current E2E suite covers the primary Library workflows:
+
+* Application loading
+* Navigation across all five primary pages
+* Library search
+* Genre filtering
+* Multiple genre filtering
+* Genre filter toggling
+* Sorting by title, date, score, and media type
+* Clearing individual search filters
+* Clearing combined filters
+* Expanding and collapsing library records
+* Switching between expanded records
+* Creating a new record
+* Canceling record creation
+* Editing an existing record
+* Preservation of existing scores during editing
+* Purging a record
+* Canceling a purge
+* Confirming a purge
+* Empty archive behavior
+* No-match search behavior
+* No-match genre behavior
+* Application validation failure behavior
+
+### E2E environment
+
+Playwright runs the frontend and FastAPI backend as part of the test environment.
+
+E2E tests use a dedicated SQLite database and run with a single worker to prevent shared database state from introducing test races.
+
+Complex test data is seeded through the API rather than through the UI. The UI is exercised for the behavior being tested.
+
+The tests prioritize behavioral DOM assertions over screenshots or visual snapshots.
 
 ### Stability fixes completed
 
@@ -492,22 +537,20 @@ Current baseline:
 * Added Playwright browser-level regression coverage for application loading and navigation across all five primary pages.
 * Fixed an application initialization race in which asynchronous startup could overwrite user navigation after the page had already become interactive.
 
-### Testing strategy
-
-Python tests provide coverage for backend, domain, API, and intelligence behavior.
-
-Playwright E2E tests provide browser-level coverage for critical user-facing behavior and application integration.
-
-The E2E environment uses a dedicated SQLite database and runs with a single worker to prevent shared database state from introducing test races.
+### Testing principle
 
 E2E tests should validate actual application behavior rather than compensate for application timing or initialization problems with arbitrary delays.
+
+When an E2E test exposes inconsistent behavior, the preferred response is to determine whether the inconsistency represents an application defect, test defect, or environment issue before adding synchronization.
 
 ### Remaining stability work
 
 Remaining work should focus on:
 
+* Analytics browser coverage
+* Lists browser coverage
+* Archive Profile browser coverage
 * Regression prevention
-* Library search, filtering, sorting, and reset behavior
 * Edge cases
 * Empty/sparse archive behavior
 * Intelligence boundary cases
