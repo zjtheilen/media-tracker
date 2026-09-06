@@ -208,6 +208,158 @@ async function seedRatingDistributionEntries(request) {
     }
 }
 
+async function seedMonthlyCompletionEntries(request) {
+    const entries = [
+        {
+            title: "August Completion 1",
+            media_type: "game",
+            genres: ["horror"],
+            completion_status: "completed",
+            date_consumed: "2026-08-05",
+            notes: "Monthly completion test",
+            scores: {
+                depth: 8,
+                originality: 8,
+                craft: 8,
+                emotional_impact: 8,
+                engagement: 8,
+                presentation: 8,
+                art_atmosphere: 8,
+                gameplay_mechanics: 8,
+                level_design_progression: 8,
+                replayability_systems: 8,
+            },
+        },
+        {
+            title: "August Completion 2",
+            media_type: "video",
+            genres: ["horror"],
+            completion_status: "completed",
+            date_consumed: "2026-08-20",
+            notes: "Monthly completion test",
+            scores: {
+                depth: 9,
+                originality: 8,
+                craft: 9,
+                emotional_impact: 8,
+                engagement: 9,
+                presentation: 8,
+                acting_performances: 9,
+                cinematography_visuals: 8,
+                directing_editing: 9,
+                sound_music: 8,
+            },
+        },
+        {
+            title: "September Completion 1",
+            media_type: "book",
+            genres: ["sci-fi"],
+            completion_status: "completed",
+            date_consumed: "2026-09-02",
+            notes: "Monthly completion test",
+            scores: {
+                depth: 8,
+                originality: 9,
+                craft: 9,
+                emotional_impact: 8,
+                engagement: 10,
+                presentation: 8,
+                character_development: 9,
+                narrative_pacing: 9,
+                prose_writing: 9,
+                world_building: 10,
+            },
+        },
+    ];
+
+    for (const entry of entries) {
+        const response = await request.post(
+            "http://127.0.0.1:8000/entries/",
+            {
+                data: entry,
+            }
+        );
+
+        expect(response.ok()).toBeTruthy();
+    }
+}
+
+async function seedGenreAverageEntries(request) {
+    const entries = [
+        {
+            title: "Horror Average A",
+            media_type: "game",
+            genres: ["horror"],
+            completion_status: "completed",
+            date_consumed: "2026-08-05",
+            notes: "Genre average test",
+            scores: {
+                depth: 8,
+                originality: 8,
+                craft: 8,
+                emotional_impact: 8,
+                engagement: 8,
+                presentation: 8,
+                art_atmosphere: 8,
+                gameplay_mechanics: 8,
+                level_design_progression: 8,
+                replayability_systems: 8,
+            },
+        },
+        {
+            title: "Horror Average B",
+            media_type: "video",
+            genres: ["horror"],
+            completion_status: "completed",
+            date_consumed: "2026-08-15",
+            notes: "Genre average test",
+            scores: {
+                depth: 9,
+                originality: 9,
+                craft: 9,
+                emotional_impact: 9,
+                engagement: 9,
+                presentation: 9,
+                acting_performances: 9,
+                cinematography_visuals: 9,
+                directing_editing: 9,
+                sound_music: 9,
+            },
+        },
+        {
+            title: "Horror/Sci-Fi",
+            media_type: "book",
+            genres: ["horror", "sci-fi"],
+            completion_status: "completed",
+            date_consumed: "2026-08-25",
+            notes: "Genre average test",
+            scores: {
+                depth: 10,
+                originality: 10,
+                craft: 10,
+                emotional_impact: 10,
+                engagement: 10,
+                presentation: 10,
+                character_development: 10,
+                narrative_pacing: 10,
+                prose_writing: 10,
+                world_building: 10,
+            },
+        },
+    ];
+
+    for (const entry of entries) {
+        const response = await request.post(
+            "http://127.0.0.1:8000/entries/",
+            {
+                data: entry,
+            }
+        );
+
+        expect(response.ok()).toBeTruthy();
+    }
+}
+
 test("analytics page loads its core visualizations", async ({ page }) => {
     await page.goto("/");
 
@@ -398,6 +550,12 @@ test("analytics rating distribution chart reflects archive data", async ({
 
     await expect(chart).toBeVisible();
 
+    await expect.poll(async () => {
+        return await chart.evaluate((canvas) => {
+            return !!Chart.getChart(canvas);
+        });
+    }).toBe(true);
+
     const chartData = await chart.evaluate((canvas) => {
         const chartInstance = Chart.getChart(canvas);
 
@@ -422,5 +580,150 @@ test("analytics rating distribution chart reflects archive data", async ({
         0,
         1,
     ]);
+});
+
+test("analytics monthly completion chart reflects archive data", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+    await seedMonthlyCompletionEntries(request);
+
+    const entriesResponse = await request.get(
+        "http://127.0.0.1:8000/entries/"
+    );
+
+    expect(entriesResponse.ok()).toBeTruthy();
+
+    const entries = await entriesResponse.json();
+
+    const expectedMonthlyCounts = {};
+
+    for (const entry of entries) {
+        const month = entry.date_consumed.slice(0, 7);
+
+        if (!expectedMonthlyCounts[month]) {
+            expectedMonthlyCounts[month] = 0;
+        }
+
+        expectedMonthlyCounts[month]++;
+    }
+
+    await page.goto("/");
+
+    await page.locator("#analytics-tab").click();
+
+    const chart = page.locator("#monthly-completion-chart");
+
+    await expect(chart).toBeVisible();
+
+    const chartData = await chart.evaluate((canvas) => {
+        const chartInstance = Chart.getChart(canvas);
+
+        return {
+            labels: chartInstance.data.labels,
+            data: chartInstance.data.datasets[0].data,
+        };
+    });
+
+    expect(chartData.labels).toEqual(
+        expect.arrayContaining(Object.keys(expectedMonthlyCounts))
+    );
+
+    expect(chartData.labels).toHaveLength(
+        Object.keys(expectedMonthlyCounts).length
+    );
+
+    expect(chartData.data).toHaveLength(
+        Object.keys(expectedMonthlyCounts).length
+    );
+
+    for (const month of Object.keys(expectedMonthlyCounts)) {
+        const index = chartData.labels.indexOf(month);
+
+        expect(index).toBeGreaterThanOrEqual(0);
+        expect(chartData.data[index]).toBe(
+            expectedMonthlyCounts[month]
+        );
+    }
+});
+
+test("analytics genre average ratings chart reflects archive data", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+    await seedGenreAverageEntries(request);
+
+    const entriesResponse = await request.get(
+        "http://127.0.0.1:8000/entries/"
+    );
+
+    expect(entriesResponse.ok()).toBeTruthy();
+
+    const entries = await entriesResponse.json();
+
+    const genreScores = {};
+
+    for (const entry of entries) {
+        for (const genre of entry.genres) {
+            if (!genreScores[genre]) {
+                genreScores[genre] = [];
+            }
+
+            genreScores[genre].push(entry.total_score);
+        }
+    }
+
+    const expectedGenreAverages = {};
+
+    for (const genre of Object.keys(genreScores)) {
+        const scores = genreScores[genre];
+
+        expectedGenreAverages[genre] = Number(
+            (
+                scores.reduce((sum, score) => sum + score, 0) /
+                scores.length
+            ).toFixed(2)
+        );
+    }
+
+    await page.goto("/");
+
+    await page.locator("#analytics-tab").click();
+
+    const chart = page.locator("#genre-average-ratings-chart");
+
+    await expect(chart).toBeVisible();
+
+    const chartData = await chart.evaluate((canvas) => {
+        const chartInstance = Chart.getChart(canvas);
+
+        return {
+            labels: chartInstance.data.labels,
+            data: chartInstance.data.datasets[0].data,
+        };
+    });
+
+    expect(chartData.labels).toEqual(
+        expect.arrayContaining(Object.keys(expectedGenreAverages))
+    );
+
+    expect(chartData.labels).toHaveLength(
+        Object.keys(expectedGenreAverages).length
+    );
+
+    expect(chartData.data).toHaveLength(
+        Object.keys(expectedGenreAverages).length
+    );
+
+    for (const genre of Object.keys(expectedGenreAverages)) {
+        const index = chartData.labels.indexOf(genre);
+
+        expect(index).toBeGreaterThanOrEqual(0);
+        expect(chartData.data[index]).toBe(
+            expectedGenreAverages[genre]
+        );
+    }
 });
 

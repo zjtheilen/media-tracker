@@ -485,7 +485,7 @@ Core regression coverage is now established across both backend/domain behavior 
 ### Current baseline
 
 **245 passing Python tests.**
-**26 passing Playwright E2E tests.**
+**33 passing Playwright E2E tests.**
 
 The Python suite provides coverage for backend, domain, API, and intelligence behavior.
 
@@ -493,7 +493,7 @@ The Playwright suite provides browser-level coverage for critical user-facing be
 
 ### Playwright coverage
 
-The current E2E suite covers the primary Library workflows:
+The current E2E suite covers the primary Library, Analytics, and navigation workflows:
 
 * Application loading
 * Navigation across all five primary pages
@@ -517,6 +517,12 @@ The current E2E suite covers the primary Library workflows:
 * No-match search behavior
 * No-match genre behavior
 * Application validation failure behavior
+* Analytics media distribution
+* Analytics average score by media type
+* Analytics monthly completion
+* Analytics rating distribution
+* Analytics genre average ratings
+* Analytics multi-genre participation in genre average ratings
 
 ### E2E environment
 
@@ -536,6 +542,8 @@ The tests prioritize behavioral DOM assertions over screenshots or visual snapsh
 * Restored the application shell wrapper so the existing layout width and page spacing rules apply consistently.
 * Added Playwright browser-level regression coverage for application loading and navigation across all five primary pages.
 * Fixed an application initialization race in which asynchronous startup could overwrite user navigation after the page had already become interactive.
+* Added browser-level regression coverage for the Analytics charts and their underlying data transformations.
+* Added condition-based synchronization for asynchronous Chart.js initialization where chart rendering can occur after the canvas itself becomes visible.
 
 ### Testing principle
 
@@ -543,11 +551,12 @@ E2E tests should validate actual application behavior rather than compensate for
 
 When an E2E test exposes inconsistent behavior, the preferred response is to determine whether the inconsistency represents an application defect, test defect, or environment issue before adding synchronization.
 
+Condition-based synchronization is preferred when asynchronous application behavior is legitimate. Arbitrary timeouts should not be used to mask application races or unreliable test behavior.
+
 ### Remaining stability work
 
 Remaining work should focus on:
 
-* Analytics browser coverage
 * Lists browser coverage
 * Archive Profile browser coverage
 * Regression prevention
@@ -558,6 +567,7 @@ Remaining work should focus on:
 * Frontend/backend terminology consistency
 * Removal of accidental duplication
 * Additional browser-level coverage for critical user flows
+
 
 ---
 
