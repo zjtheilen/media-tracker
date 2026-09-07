@@ -309,3 +309,256 @@ test("Archive Profile handles an empty archive", async ({
     await expect(page.locator("#universal-profile-radar")).not.toBeVisible();
 });
 
+test("Archive Profile does not establish curator identity at 14 entries", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+
+    for (let i = 0; i < 14; i++) {
+        await createEntry(request, {
+            title: `Boundary 14 Entry ${i + 1}`,
+            media_type: "game",
+            genres: ["experimental", "horror"],
+            completion_status: "completed",
+            date_consumed: "2026-01-01",
+            notes: "",
+            scores: gameScores(),
+        });
+    }
+
+    await page.goto("/");
+
+    await page.locator("#archive-profile-tab").click();
+
+    const profilePage = page.locator("#archive-profile-page");
+
+    await expect(profilePage).toBeVisible();
+
+    const card = page.locator("#favorite-media-type-card");
+
+    await expect(card).toContainText("Designation");
+    await expect(card).toContainText("Signal Strength");
+    await expect(card).toContainText("Archive Interpretation");
+
+    await expect(card).toContainText(
+        "Your curator identity is not yet established."
+    );
+
+    await expect(card).not.toContainText(
+        "Your curator identity most closely aligns with"
+    );
+
+    const radar = page.locator("#universal-profile-radar");
+
+    await expect(radar).toBeVisible();
+
+    await expect.poll(async () => {
+        return await radar.evaluate((canvas) => {
+            return !!Chart.getChart(canvas);
+        });
+    }).toBe(true);
+});
+
+test("Archive Profile establishes Breadth Philosophy at 15 entries", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+
+    for (let i = 0; i < 15; i++) {
+        await createEntry(request, {
+            title: `Boundary 15 Entry ${i + 1}`,
+            media_type: "game",
+            genres: ["experimental", "horror"],
+            completion_status: "completed",
+            date_consumed: "2026-01-01",
+            notes: "",
+            scores: gameScores(),
+        });
+    }
+
+    await page.goto("/");
+
+    await page.locator("#archive-profile-tab").click();
+
+    const profilePage = page.locator("#archive-profile-page");
+
+    await expect(profilePage).toBeVisible();
+
+    const card = page.locator("#favorite-media-type-card");
+
+    await expect(card).toContainText("Designation");
+    await expect(card).toContainText("Signal Strength");
+    await expect(card).toContainText("Archive Interpretation");
+
+    await expect(card).toContainText(
+        "Your curator identity most closely aligns with Breadth Philosophy."
+    );
+
+    await expect(card).not.toContainText("Exploratory Philosophy");
+    await expect(card).not.toContainText("Interpretive Philosophy");
+
+    const radar = page.locator("#universal-profile-radar");
+
+    await expect(radar).toBeVisible();
+
+    await expect.poll(async () => {
+        return await radar.evaluate((canvas) => {
+            return !!Chart.getChart(canvas);
+        });
+    }).toBe(true);
+});
+
+test("Archive Profile keeps only Breadth Philosophy eligible at 19 entries", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+
+    for (let i = 0; i < 19; i++) {
+        await createEntry(request, {
+            title: `Boundary 19 Entry ${i + 1}`,
+            media_type: "game",
+            genres: ["experimental", "horror"],
+            completion_status: "completed",
+            date_consumed: "2026-01-01",
+            notes: "",
+            scores: gameScores(),
+        });
+    }
+
+    await page.goto("/");
+
+    await page.locator("#archive-profile-tab").click();
+
+    const profilePage = page.locator("#archive-profile-page");
+
+    await expect(profilePage).toBeVisible();
+
+    const card = page.locator("#favorite-media-type-card");
+
+    await expect(card).toContainText("Designation");
+    await expect(card).toContainText("Signal Strength");
+    await expect(card).toContainText("Archive Interpretation");
+
+    await expect(card).toContainText(
+        "Your curator identity most closely aligns with Breadth Philosophy."
+    );
+
+    await expect(card).not.toContainText("Exploratory Philosophy");
+    await expect(card).not.toContainText("Interpretive Philosophy");
+
+    const radar = page.locator("#universal-profile-radar");
+
+    await expect(radar).toBeVisible();
+
+    await expect.poll(async () => {
+        return await radar.evaluate((canvas) => {
+            return !!Chart.getChart(canvas);
+        });
+    }).toBe(true);
+});
+
+test("Archive Profile enters full identity evaluation at 20 entries", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+
+    for (let i = 0; i < 20; i++) {
+        await createEntry(request, {
+            title: `Boundary 20 Entry ${i + 1}`,
+            media_type: "game",
+            genres: ["experimental", "horror"],
+            completion_status: "completed",
+            date_consumed: "2026-01-01",
+            notes: "",
+            scores: gameScores(),
+        });
+    }
+
+    await page.goto("/");
+
+    await page.locator("#archive-profile-tab").click();
+
+    const profilePage = page.locator("#archive-profile-page");
+
+    await expect(profilePage).toBeVisible();
+
+    const card = page.locator("#favorite-media-type-card");
+
+    await expect(card).toContainText("Designation");
+    await expect(card).toContainText("Signal Strength");
+    await expect(card).toContainText("Archive Interpretation");
+
+    await expect(card).toContainText(
+        "Your curator identity most closely aligns with"
+    );
+
+    await expect(card).not.toContainText(
+        "Your curator identity is not yet established."
+    );
+
+    const radar = page.locator("#universal-profile-radar");
+
+    await expect(radar).toBeVisible();
+
+    await expect.poll(async () => {
+        return await radar.evaluate((canvas) => {
+            return !!Chart.getChart(canvas);
+        });
+    }).toBe(true);
+});
+
+test("Archive Profile remains identity-established at 21 entries", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+
+    for (let i = 0; i < 21; i++) {
+        await createEntry(request, {
+            title: `Boundary 21 Entry ${i + 1}`,
+            media_type: "game",
+            genres: ["experimental", "horror"],
+            completion_status: "completed",
+            date_consumed: "2026-01-01",
+            notes: "",
+            scores: gameScores(),
+        });
+    }
+
+    await page.goto("/");
+
+    await page.locator("#archive-profile-tab").click();
+
+    const profilePage = page.locator("#archive-profile-page");
+
+    await expect(profilePage).toBeVisible();
+
+    const card = page.locator("#favorite-media-type-card");
+
+    await expect(card).toContainText("Designation");
+    await expect(card).toContainText("Signal Strength");
+    await expect(card).toContainText("Archive Interpretation");
+
+    await expect(card).toContainText(
+        "Your curator identity most closely aligns with"
+    );
+
+    await expect(card).not.toContainText(
+        "Your curator identity is not yet established."
+    );
+
+    const radar = page.locator("#universal-profile-radar");
+
+    await expect(radar).toBeVisible();
+
+    await expect.poll(async () => {
+        return await radar.evaluate((canvas) => {
+            return !!Chart.getChart(canvas);
+        });
+    }).toBe(true);
+});
+

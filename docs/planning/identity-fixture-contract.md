@@ -1,3 +1,12 @@
+```
+__    __  ___     ___  ___   ____  ___
+\ \/\/ / / O \   _\\  / O \  | D ) | |
+ \_/\_/O/_/ \_\O/__/O/_/ \_\O|_D_)O|_|O
+WEIGHTED ARCHIVE SYSTEM for ANALYSIS & BEHAVIORAL INSIGHTS
+
+A media tracking, rating, and analytics app by Zachary Theilen
+```
+
 # Phase 1 — Identity Fixture Contract
 
 **Project:** Media Tracker
