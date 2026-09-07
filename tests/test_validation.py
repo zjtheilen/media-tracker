@@ -1,6 +1,9 @@
 import copy
 
+import pytest
 
+
+@pytest.mark.api
 def test_invalid_media_type(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
     payload["media_type"] = "anime"
@@ -13,6 +16,7 @@ def test_invalid_media_type(client, valid_game_payload):
     assert data["detail"] == "Invalid media type: anime"
 
 
+@pytest.mark.api
 def test_invalid_score(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
     payload["scores"]["craft"] = 0
@@ -26,6 +30,7 @@ def test_invalid_score(client, valid_game_payload):
     assert "between 1 and 10" in data["detail"]
 
 
+@pytest.mark.api
 def test_invalid_genres(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
 
@@ -39,6 +44,7 @@ def test_invalid_genres(client, valid_game_payload):
     assert "Invalid genre" in data["detail"]
 
 
+@pytest.mark.api
 def test_empty_title(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
     payload["title"] = ""
@@ -50,6 +56,7 @@ def test_empty_title(client, valid_game_payload):
     assert data["detail"] == "Title cannot be empty"
 
 
+@pytest.mark.api
 def test_missing_score_categories(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
 
@@ -63,6 +70,7 @@ def test_missing_score_categories(client, valid_game_payload):
     assert "Missing scoring categories" in data["detail"]
 
 
+@pytest.mark.api
 def test_invalid_completion_status(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
 
@@ -76,6 +84,7 @@ def test_invalid_completion_status(client, valid_game_payload):
     assert "Invalid completion status" in data["detail"]
 
 
+@pytest.mark.api
 def test_extra_score_categories(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload).copy()
 

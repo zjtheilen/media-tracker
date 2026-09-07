@@ -1,8 +1,9 @@
+import pytest
+
 from models.entry import Entry
 from models.media_item import MediaItem
 from models.score import Score
-from models.services.scoring_rubric import get_metric_meaning
-from models.services.scoring_rubric import get_score_meaning
+from models.services.scoring_rubric import get_metric_meaning, get_score_meaning
 
 
 def make_uniform_scores(value: int):
@@ -16,6 +17,7 @@ def make_uniform_scores(value: int):
     ]
 
 
+@pytest.mark.unit
 def test_perfect_score():
     entry = Entry(
         media_item=MediaItem("Test Game", "game"),
@@ -26,6 +28,7 @@ def test_perfect_score():
     assert entry.total_score() == 100
 
 
+@pytest.mark.unit
 def test_average_score():
     entry = Entry(
         media_item=MediaItem("Test Game", "game"),
@@ -36,6 +39,7 @@ def test_average_score():
     assert entry.total_score() == 50
 
 
+@pytest.mark.unit
 def test_low_score():
     entry = Entry(
         media_item=MediaItem("Test Game", "game"),
@@ -46,6 +50,7 @@ def test_low_score():
     assert entry.total_score() == 10
 
 
+@pytest.mark.unit
 def test_weighting_behavior():
     test_scores = [
         Score("emotional_impact", 10),
@@ -63,6 +68,7 @@ def test_weighting_behavior():
     assert abs(entry.total_score() - 76.2) < 0.01
 
 
+@pytest.mark.unit
 def test_score_to_dict_contains_rubric_meaning():
     score = Score("depth", 9)
 
@@ -73,6 +79,7 @@ def test_score_to_dict_contains_rubric_meaning():
     assert result["metricMeaning"] == get_metric_meaning("depth", 9)
 
 
+@pytest.mark.unit
 def test_score_to_dict_uses_metric_specific_meaning():
     depth = Score("depth", 9).to_dict()
     craft = Score("craft", 9).to_dict()
@@ -80,6 +87,7 @@ def test_score_to_dict_uses_metric_specific_meaning():
     assert depth["metricMeaning"] != craft["metricMeaning"]
 
 
+@pytest.mark.unit
 def test_score_to_dict_contains_metric_meaning():
     score = Score("depth", 9)
 

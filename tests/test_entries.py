@@ -1,10 +1,13 @@
 import copy
 
+import pytest
+
 
 def valid_completion_statuses():
     return ["completed", "in-progress", "dropped", "planned"]
 
 
+@pytest.mark.api
 def test_create_entry_success(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
 
@@ -18,6 +21,7 @@ def test_create_entry_success(client, valid_game_payload):
     assert data["media_type"] == "game"
 
 
+@pytest.mark.api
 def test_get_entry_not_found(client, valid_game_payload):
     response = client.get("/entries/-1")
 
@@ -27,6 +31,7 @@ def test_get_entry_not_found(client, valid_game_payload):
     assert "Entry not found" in data["detail"]
 
 
+@pytest.mark.api
 def test_get_entry(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
 
@@ -45,6 +50,8 @@ def test_get_entry(client, valid_game_payload):
     assert data["title"] == "Silent Hill 2"
 
 
+@pytest.mark.api
+@pytest.mark.regression
 def test_update_entry(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
 
@@ -77,13 +84,13 @@ def test_update_entry(client, valid_game_payload):
     assert updated_entry["title"] == "Silent Hill 2 Remake"
     assert updated_entry["notes"] == "Still peak psychological horror"
     returned_scores = {
-        score["category"]: score["value"]
-        for score in updated_entry["scores"]
+        score["category"]: score["value"] for score in updated_entry["scores"]
     }
 
     assert returned_scores == updated_payload["scores"]
 
 
+@pytest.mark.api
 def test_delete_entry(client, valid_game_payload):
     payload = copy.deepcopy(valid_game_payload)
 
