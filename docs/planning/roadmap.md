@@ -557,6 +557,34 @@ The tests prioritize behavioral DOM assertions over screenshots or visual snapsh
 * Added browser-level regression coverage for Archive Profile and its frontend integration with profile data.
 * Added browser-level coverage for the Recommendations placeholder contract.
 
+### Archive Profile contracts
+
+Archive Profile presentation behavior is now explicitly documented in:
+
+* `docs/planning/archive-profile-presentation-contract.md`
+* `docs/planning/archive-profile-e2e-edge-case-test-plan.md`
+
+The presentation contract defines the expected user-facing behavior for:
+
+* 0 entries — Empty Archive
+* 1–14 entries — Early Archive
+* 15–19 entries — Developing Archive
+* 20+ entries — Full Archive Profile
+
+These presentation ranges are intentionally distinct from the underlying intelligence model. In particular, Identity eligibility is governed by the existing Identity minimum-entry requirements and should not be conflated with signal strength or archive maturity.
+
+The E2E edge-case plan defines browser-level regression coverage for the critical boundaries:
+
+* 0 entries
+* 1 entry
+* 14 entries
+* 15 entries
+* 19 entries
+* 20 entries
+* 21 entries
+
+The 0-entry case currently represents a presentation gap requiring an intentional empty-state implementation. The Identity boundary cases are intended to protect the existing 15-entry and 20-entry eligibility thresholds.
+
 ### Testing principle
 
 E2E tests should validate actual application behavior rather than compensate for application timing or initialization problems with arbitrary delays.
@@ -579,8 +607,12 @@ Remaining work should focus on:
   * Identify and explicitly mark tests protecting known historical regressions
 
 * Edge cases
-* Empty/sparse archive behavior
-* Intelligence boundary cases
+
+  * Complete Archive Profile empty-state presentation
+  * Add Archive Profile boundary E2E coverage for 0, 1, 14, 15, 19, 20, and 21 entries
+  * Test additional empty/sparse archive behavior
+  * Test intelligence boundary cases
+
 * API consistency
 * Frontend/backend terminology consistency
 * Removal of accidental duplication

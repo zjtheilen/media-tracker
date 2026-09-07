@@ -443,6 +443,10 @@ async function renderUniversalScoringRadar(archiveProfile) {
         "universal-profile-radar"
     );
 
+    if (!canvas) {
+        return;
+    }
+
     const entries = await getEntries();
 
     const averages = calculateUniversalAverages(entries);
@@ -673,6 +677,19 @@ async function renderArchiveProfileCard() {
     const card = document.getElementById(
         "favorite-media-type-card"
     );
+
+    if (archiveProfile.entryCount === 0) {
+        card.innerHTML = `
+                <div class="empty-state">
+                    <p class="empty-state-title">Your archive is empty.</p>
+                    <p class="empty-state-body">
+                        Add completed media to begin building your Archive Profile.
+                    </p>
+                </div>
+            `;
+
+        return;
+    }
 
     const observationsHtml = archiveObservations
         .map(

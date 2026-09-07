@@ -292,6 +292,20 @@ test("Archive Profile handles an empty archive", async ({
 
     const card = page.locator("#favorite-media-type-card");
 
-    await expect(card).toBeEmpty();
+    await expect(card).toBeVisible();
+
+    await expect(card).toContainText("Your archive is empty.");
+    await expect(card).toContainText(
+        "Add completed media to begin building your Archive Profile."
+    );
+
+    await expect(card).not.toContainText("Designation");
+    await expect(card).not.toContainText("Signal Strength");
+    await expect(card).not.toContainText("Identity");
+    await expect(card).not.toContainText("Archive Findings");
+    await expect(card).not.toContainText("Archive Observations");
+    await expect(card).not.toContainText("Archive Interpretation");
+
+    await expect(page.locator("#universal-profile-radar")).not.toBeVisible();
 });
 
