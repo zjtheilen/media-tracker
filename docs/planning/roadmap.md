@@ -485,7 +485,7 @@ Core regression coverage is now established across both backend/domain behavior 
 ### Current baseline
 
 **245 passing Python tests.**
-**33 passing Playwright E2E tests.**
+**37 passing Playwright E2E tests.**
 
 The Python suite provides coverage for backend, domain, API, and intelligence behavior.
 
@@ -493,7 +493,7 @@ The Playwright suite provides browser-level coverage for critical user-facing be
 
 ### Playwright coverage
 
-The current E2E suite covers the primary Library, Analytics, and navigation workflows:
+The current E2E suite covers the primary Library, Analytics, and Lists workflows, along with application loading and navigation:
 
 * Application loading
 * Navigation across all five primary pages
@@ -523,6 +523,10 @@ The current E2E suite covers the primary Library, Analytics, and navigation work
 * Analytics rating distribution
 * Analytics genre average ratings
 * Analytics multi-genre participation in genre average ratings
+* Overall top-five Lists ranking
+* Media-specific Lists ranking
+* Recent Archive Additions ordering
+* Archive Hall of Fame threshold and ordering
 
 ### E2E environment
 
@@ -557,8 +561,8 @@ Condition-based synchronization is preferred when asynchronous application behav
 
 Remaining work should focus on:
 
-* Lists browser coverage
 * Archive Profile browser coverage
+* Recommendations browser coverage
 * Regression prevention
 * Edge cases
 * Empty/sparse archive behavior
@@ -567,7 +571,6 @@ Remaining work should focus on:
 * Frontend/backend terminology consistency
 * Removal of accidental duplication
 * Additional browser-level coverage for critical user flows
-
 
 ---
 

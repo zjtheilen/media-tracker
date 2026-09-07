@@ -696,6 +696,12 @@ test("analytics genre average ratings chart reflects archive data", async ({
 
     await expect(chart).toBeVisible();
 
+    await expect.poll(async () => {
+        return await chart.evaluate((canvas) => {
+            return !!Chart.getChart(canvas);
+        });
+    }).toBe(true);
+
     const chartData = await chart.evaluate((canvas) => {
         const chartInstance = Chart.getChart(canvas);
 
