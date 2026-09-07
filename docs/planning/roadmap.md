@@ -486,7 +486,7 @@ Core regression coverage is now established across both backend/domain behavior 
 
 **245 passing Python tests.**
 
-**39 passing Playwright E2E tests.**
+**40 passing Playwright E2E tests.**
 
 The Python suite provides coverage for backend, domain, API, and intelligence behavior.
 
@@ -494,7 +494,7 @@ The Playwright suite provides browser-level coverage for critical user-facing be
 
 ### Playwright coverage
 
-The current E2E suite covers the primary Library, Analytics, Lists, and Archive Profile workflows, along with application loading and navigation:
+The current E2E suite covers the primary Library, Analytics, Lists, Archive Profile, and Recommendations workflows, along with application loading and navigation:
 
 * Application loading
 * Navigation across all five primary pages
@@ -532,6 +532,7 @@ The current E2E suite covers the primary Library, Analytics, Lists, and Archive 
 * Archive Profile interpretation, findings, and observations
 * Archive Profile universal scoring radar
 * Archive Profile empty-archive behavior
+* Recommendations placeholder rendering
 
 ### E2E environment
 
@@ -554,6 +555,7 @@ The tests prioritize behavioral DOM assertions over screenshots or visual snapsh
 * Added browser-level regression coverage for the Analytics charts and their underlying data transformations.
 * Added condition-based synchronization for asynchronous Chart.js initialization where chart rendering can occur after the canvas itself becomes visible.
 * Added browser-level regression coverage for Archive Profile and its frontend integration with profile data.
+* Added browser-level coverage for the Recommendations placeholder contract.
 
 ### Testing principle
 
@@ -567,8 +569,15 @@ Condition-based synchronization is preferred when asynchronous application behav
 
 Remaining work should focus on:
 
-* Recommendations browser coverage
 * Regression prevention
+
+  * Establish a test categorization strategy
+  * Define pytest markers for meaningful test categories
+  * Define Playwright tags for meaningful test categories
+  * Apply markers/tags to existing tests
+  * Document how to run targeted test groups
+  * Identify and explicitly mark tests protecting known historical regressions
+
 * Edge cases
 * Empty/sparse archive behavior
 * Intelligence boundary cases
@@ -576,7 +585,6 @@ Remaining work should focus on:
 * Frontend/backend terminology consistency
 * Removal of accidental duplication
 * Additional browser-level coverage for critical user flows
-
 
 ---
 
