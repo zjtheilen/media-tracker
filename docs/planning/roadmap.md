@@ -485,7 +485,8 @@ Core regression coverage is now established across both backend/domain behavior 
 ### Current baseline
 
 **245 passing Python tests.**
-**37 passing Playwright E2E tests.**
+
+**39 passing Playwright E2E tests.**
 
 The Python suite provides coverage for backend, domain, API, and intelligence behavior.
 
@@ -493,7 +494,7 @@ The Playwright suite provides browser-level coverage for critical user-facing be
 
 ### Playwright coverage
 
-The current E2E suite covers the primary Library, Analytics, and Lists workflows, along with application loading and navigation:
+The current E2E suite covers the primary Library, Analytics, Lists, and Archive Profile workflows, along with application loading and navigation:
 
 * Application loading
 * Navigation across all five primary pages
@@ -527,6 +528,10 @@ The current E2E suite covers the primary Library, Analytics, and Lists workflows
 * Media-specific Lists ranking
 * Recent Archive Additions ordering
 * Archive Hall of Fame threshold and ordering
+* Archive Profile designation and confidence
+* Archive Profile interpretation, findings, and observations
+* Archive Profile universal scoring radar
+* Archive Profile empty-archive behavior
 
 ### E2E environment
 
@@ -548,6 +553,7 @@ The tests prioritize behavioral DOM assertions over screenshots or visual snapsh
 * Fixed an application initialization race in which asynchronous startup could overwrite user navigation after the page had already become interactive.
 * Added browser-level regression coverage for the Analytics charts and their underlying data transformations.
 * Added condition-based synchronization for asynchronous Chart.js initialization where chart rendering can occur after the canvas itself becomes visible.
+* Added browser-level regression coverage for Archive Profile and its frontend integration with profile data.
 
 ### Testing principle
 
@@ -561,7 +567,6 @@ Condition-based synchronization is preferred when asynchronous application behav
 
 Remaining work should focus on:
 
-* Archive Profile browser coverage
 * Recommendations browser coverage
 * Regression prevention
 * Edge cases
@@ -571,6 +576,7 @@ Remaining work should focus on:
 * Frontend/backend terminology consistency
 * Removal of accidental duplication
 * Additional browser-level coverage for critical user flows
+
 
 ---
 
