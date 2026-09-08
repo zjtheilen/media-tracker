@@ -5,6 +5,11 @@ module.exports = defineConfig({
 
     workers: 1,
 
+    reporter: [
+        ["list"],
+        ["junit", { outputFile: "reports/playwright/results.xml" }],
+    ],
+
     use: {
         baseURL: "http://127.0.0.1:3000",
         trace: "on-first-retry",
@@ -19,7 +24,7 @@ module.exports = defineConfig({
         {
             command: "uvicorn main:app --host 127.0.0.1 --port 8000",
             url: "http://127.0.0.1:8000/docs",
-            reuseExistingServer: true,
+            reuseExistingServer: false,
             env: {
                 DB_PATH: "e2e_database.db",
             },
