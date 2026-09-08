@@ -238,7 +238,9 @@ function createDetailCard(entry) {
                         ${entry.media_type.charAt(0).toUpperCase() + entry.media_type.slice(1)}
                         Scoring
                     </h4>
-                    <canvas id="media-chart-${entry.id}"></canvas>
+                    <div class="chart-container chart-container-bars">
+                        <canvas id="media-chart-${entry.id}"></canvas>
+                    </div>
                 </div>
 
             </div>

@@ -486,7 +486,7 @@ Core regression coverage is now established across both backend/domain behavior 
 
 **245 passing Python tests.**
 
-**40 passing Playwright E2E tests.**
+**46 passing Playwright E2E tests.**
 
 The Python suite provides coverage for backend, domain, API, and intelligence behavior.
 
@@ -556,6 +556,8 @@ The tests prioritize behavioral DOM assertions over screenshots or visual snapsh
 * Added condition-based synchronization for asynchronous Chart.js initialization where chart rendering can occur after the canvas itself becomes visible.
 * Added browser-level regression coverage for Archive Profile and its frontend integration with profile data.
 * Added browser-level coverage for the Recommendations placeholder contract.
+* Fixed runaway media-specific chart height when switching between library entries.
+* Added E2E regression coverage verifying the chart remains bounded at 220px across repeated entry switching.
 
 ### Archive Profile contracts
 

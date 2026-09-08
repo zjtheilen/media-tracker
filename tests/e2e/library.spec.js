@@ -1115,7 +1115,7 @@ test("canceling an edit leaves the original record unchanged", async ({ page, re
             hasText: "Silent Hill 2",
         })
     ).toBeVisible();
-    
+
     await expect(
         entriesContainer.locator(".detail-card", {
             hasText: "Should Not Save",
@@ -1202,4 +1202,110 @@ test("invalid Add Entry submission shows validation error and creates no record"
             (entry) => entry.title === "Invalid Test Record"
         )
     ).toBeFalsy();
+});
+
+test("media-specific chart remains bounded when switching between records", async ({ page, request }) => {
+    await clearEntries(request);
+    await seedEntries(request);
+
+    await page.goto("/");
+
+    const entriesContainer = page.locator("#entries-container");
+
+    // Open the first record.
+    await entriesContainer.locator(".library-item", {
+        hasText: "Silent Hill 2",
+    }).click();
+
+    const firstDetail = entriesContainer.locator(".detail-card", {
+        hasText: "Silent Hill 2",
+    });
+
+    await expect(firstDetail).toBeVisible();
+
+    const firstChartPanel = firstDetail.locator(".chart-panel", {
+        hasText: "Game Scoring",
+    });
+
+    await expect(firstChartPanel).toBeVisible();
+
+    const firstChartContainer = firstChartPanel.locator(".chart-container");
+
+    await expect(firstChartContainer).toBeVisible();
+    await expect(firstChartContainer).toHaveCSS("height", "220px");
+
+    // Switch to the second record.
+    await entriesContainer.locator(".library-item", {
+        hasText: "The Shining",
+    }).click();
+
+    const secondDetail = entriesContainer.locator(".detail-card", {
+        hasText: "The Shining",
+    });
+
+    await expect(secondDetail).toBeVisible();
+
+    const secondChartPanel = secondDetail.locator(".chart-panel", {
+        hasText: "Video Scoring",
+    });
+
+    await expect(secondChartPanel).toBeVisible();
+
+    const secondChartContainer = secondChartPanel.locator(".chart-container");
+
+    await expect(secondChartContainer).toBeVisible();
+    await expect(secondChartContainer).toHaveCSS("height", "220px");
+
+    // Switch to the third record.
+    await entriesContainer.locator(".library-item", {
+        hasText: "Project Hail Mary",
+    }).click();
+
+    const thirdDetail = entriesContainer.locator(".detail-card", {
+        hasText: "Project Hail Mary",
+    });
+
+    await expect(thirdDetail).toBeVisible();
+
+    const thirdChartPanel = thirdDetail.locator(".chart-panel", {
+        hasText: "Book Scoring",
+    });
+
+    await expect(thirdChartPanel).toBeVisible();
+
+    const thirdChartContainer = thirdChartPanel.locator(".chart-container");
+
+    await expect(thirdChartContainer).toBeVisible();
+    await expect(thirdChartContainer).toHaveCSS("height", "220px");
+
+    // Switch back through entries repeatedly to catch runaway chart growth.
+    for (const [title, scoringLabel] of [
+        ["Silent Hill 2", "Game Scoring"],
+        ["The Shining", "Video Scoring"],
+        ["Project Hail Mary", "Book Scoring"],
+        ["Silent Hill 2", "Game Scoring"],
+        ["The Shining", "Video Scoring"],
+        ["Project Hail Mary", "Book Scoring"],
+    ]) {
+        await entriesContainer.locator(".library-item", {
+            hasText: title,
+        }).click();
+
+        const detail = entriesContainer.locator(".detail-card", {
+            hasText: title,
+        });
+
+        await expect(detail).toBeVisible();
+
+        const chartPanel = detail.locator(".chart-panel", {
+            hasText: scoringLabel,
+        });
+
+        await expect(chartPanel).toBeVisible();
+
+        const chartContainer = chartPanel.locator(".chart-container");
+
+        await expect(chartContainer).toBeVisible();
+        await expect(chartContainer).toHaveCSS("height", "220px");
+    }
 });
