@@ -1,6 +1,9 @@
+import pytest
+
 from models.services.archive_statistics import calculate_genre_distribution
 
 
+@pytest.mark.unit
 def test_genre_distribution():
 
     entries = [

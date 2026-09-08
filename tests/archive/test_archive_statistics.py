@@ -1,3 +1,5 @@
+import pytest
+
 from models.services.archive_statistics import (
     calculate_archive_average_score,
     get_highest_rated_entry,
@@ -8,6 +10,7 @@ from models.services.designation_basis import (
 )
 
 
+@pytest.mark.unit
 def test_archive_average_score():
 
     entries = [
@@ -18,6 +21,7 @@ def test_archive_average_score():
     assert calculate_archive_average_score(entries) == 85
 
 
+@pytest.mark.unit
 def test_highest_rated_entry():
 
     entries = [
@@ -30,6 +34,7 @@ def test_highest_rated_entry():
     assert result["title"] == "B"
 
 
+@pytest.mark.unit
 def test_lowest_rated_entry():
 
     entries = [
@@ -42,6 +47,7 @@ def test_lowest_rated_entry():
     assert result["title"] == "A"
 
 
+@pytest.mark.unit
 def test_generate_designation_basis():
 
     result = generate_designation_basis(

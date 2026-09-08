@@ -1,8 +1,10 @@
+import pytest
+
 from models.services.archive_narrative import (
     format_trait_score,
+    get_designation_signal_strength_label,
     get_trait_description,
     get_trait_intensity,
-    get_designation_signal_strength_label,
 )
 from models.services.trait_calculator import normalize_trait_signal
 
@@ -13,11 +15,12 @@ GENRE_DESCRIPTIONS = {
     "surreal": "surreal and reality-bending experiences",
 }
 
-
+@pytest.mark.unit
 def test_format_trait_score():
     assert format_trait_score(9.666) == "9.7/10"
 
 
+@pytest.mark.unit
 def test_trait_description():
     assert (
         get_trait_description("art_atmosphere")
@@ -25,6 +28,7 @@ def test_trait_description():
     )
 
 
+@pytest.mark.unit
 def test_trait_intensity():
     assert get_trait_intensity(9.2) == "strongly"
     assert get_trait_intensity(8.3) == "consistently"
@@ -32,12 +36,14 @@ def test_trait_intensity():
     assert get_trait_intensity(6.5) == "occasionally"
 
 
+@pytest.mark.unit
 def test_confidence_label():
     assert get_designation_signal_strength_label(9.1) == "Very High"
     assert get_designation_signal_strength_label(8.2) == "High"
     assert get_designation_signal_strength_label(7.4) == "Moderate"
 
 
+@pytest.mark.unit
 def test_trait_signal_normalization_scales_between_boundaries():
 
     assert normalize_trait_signal(6) == 0
@@ -47,6 +53,7 @@ def test_trait_signal_normalization_scales_between_boundaries():
     assert normalize_trait_signal(10) == 1.0
 
 
+@pytest.mark.unit
 def test_trait_signal_normalization_clamps_to_zero_one():
 
     assert normalize_trait_signal(0) == 0

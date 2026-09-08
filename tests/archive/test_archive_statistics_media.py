@@ -1,3 +1,5 @@
+import pytest
+
 from models.services.archive_statistics import calculate_media_distribution
 from models.services.archive_utils import calculate_designation_signal_strength
 from models.services.designation_basis import (
@@ -5,6 +7,7 @@ from models.services.designation_basis import (
 )
 
 
+@pytest.mark.unit
 def test_media_distribution():
 
     entries = [
@@ -21,6 +24,7 @@ def test_media_distribution():
     assert result["book"] == 1
 
 
+@pytest.mark.unit
 def test_generate_designation_basis():
 
     result = generate_designation_basis(
@@ -34,6 +38,7 @@ def test_generate_designation_basis():
     }
 
 
+@pytest.mark.unit
 def test_calculate_designation_signal_strength():
 
     result = calculate_designation_signal_strength(

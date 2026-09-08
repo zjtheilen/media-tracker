@@ -1,8 +1,11 @@
+import pytest
+
 from models.services.archive_engine import build_archive_profile
 from models.services.finding_engine import evaluate_findings
 from models.services.identity_engine import generate_identity
 
 
+@pytest.mark.unit
 def test_concept_driven_finding():
 
     profile = {"universalAverages": {"originality": 9, "depth": 8.5}}
@@ -12,6 +15,7 @@ def test_concept_driven_finding():
     assert results[0]["id"] == "concept-driven"
 
 
+@pytest.mark.unit
 def test_concept_driven_not_triggered():
 
     profile = {"universalAverages": {"originality": 7, "depth": 9}}
@@ -21,6 +25,7 @@ def test_concept_driven_not_triggered():
     assert not any(finding["id"] == "concept-driven" for finding in results)
 
 
+@pytest.mark.unit
 def test_identity_finding_exists():
 
     profile = {
@@ -38,6 +43,7 @@ def test_identity_finding_exists():
     assert any(finding["id"] == "identity-profile" for finding in findings)
 
 
+@pytest.mark.unit
 def test_empty_findings():
 
     results = evaluate_findings({})
@@ -45,6 +51,7 @@ def test_empty_findings():
     assert results == []
 
 
+@pytest.mark.unit
 def test_archive_designation_is_not_a_finding():
 
     entries = [
@@ -70,6 +77,7 @@ def test_archive_designation_is_not_a_finding():
     assert not any(finding["id"] == "archive-designation" for finding in findings)
 
 
+@pytest.mark.unit
 def test_findings_have_neutral_structure():
     entries = [
         {
@@ -97,6 +105,7 @@ def test_findings_have_neutral_structure():
     assert "evidence" in finding
 
 
+@pytest.mark.unit
 def test_concept_driven_triggers_at_both_thresholds():
 
     profile = {
@@ -114,6 +123,7 @@ def test_concept_driven_triggers_at_both_thresholds():
     )
 
 
+@pytest.mark.unit
 def test_concept_driven_requires_both_thresholds():
 
     profile = {
@@ -131,6 +141,7 @@ def test_concept_driven_requires_both_thresholds():
     )
 
 
+@pytest.mark.unit
 def test_atmospheric_interest_triggers_from_art_atmosphere():
 
     profile = {
@@ -147,6 +158,7 @@ def test_atmospheric_interest_triggers_from_art_atmosphere():
     )
 
 
+@pytest.mark.unit
 def test_atmospheric_interest_triggers_from_surreal_presence():
 
     profile = {
