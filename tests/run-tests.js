@@ -89,6 +89,9 @@ function parseJUnitResults(reportPath) {
 
 function runSuite(suite) {
     return new Promise((resolve) => {
+        if (suite.report && fs.existsSync(suite.report)) {
+            fs.rmSync(suite.report);
+        }
         const child = spawn(suite.command, suite.args, {
             stdio: "inherit",
             shell: true,
@@ -102,7 +105,7 @@ function runSuite(suite) {
 
                 result = {
                     ...suite,
-                    passed: code === 0,
+                    passed: code === 0 && testResults !== null,
                     actual: testResults?.passed ?? 0,
                     total: testResults?.total ?? suite.expected,
                     failedTests: testResults?.failedTests ?? [],
