@@ -22,6 +22,11 @@ def test_archive_average_score():
 
 
 @pytest.mark.unit
+def test_archive_average_score_empty():
+    assert calculate_archive_average_score([]) == 0
+
+
+@pytest.mark.unit
 def test_highest_rated_entry():
 
     entries = [
@@ -35,6 +40,11 @@ def test_highest_rated_entry():
 
 
 @pytest.mark.unit
+def test_highest_rated_entry_empty():
+    assert get_highest_rated_entry([]) is None
+
+
+@pytest.mark.unit
 def test_lowest_rated_entry():
 
     entries = [
@@ -45,6 +55,11 @@ def test_lowest_rated_entry():
     result = get_lowest_rated_entry(entries)
 
     assert result["title"] == "A"
+
+
+@pytest.mark.unit
+def test_lowest_rated_entry_empty():
+    assert get_lowest_rated_entry([]) is None
 
 
 @pytest.mark.unit
