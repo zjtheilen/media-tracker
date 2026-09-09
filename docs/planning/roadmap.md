@@ -497,11 +497,15 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **1 passing Node configuration test.**
 
-**245 passing Python tests.**
+**258 passing Python tests.**
 
 **46 passing Playwright E2E tests.**
 
-**292 passing tests across the complete automated test suite.**
+**305 passing tests across the complete automated test suite.**
+
+The Python regression suite currently provides **96% line coverage** across **318 instrumented branches**, with **26 partial branches**. Coverage is being used as an investigative map to identify meaningful uncovered behavior rather than as a target percentage.
+
+A focused coverage investigation identified the previously untested `models/analytics/genre_statistics.py` module as a genuine regression-coverage gap. Direct unit coverage was added for genre aggregation, score and media-type aggregation, top-genre ranking, minimum-count filtering, result limits, genre combinations, multi-genre pairing, and media/genre affinity behavior. The module now has **100% line coverage**.
 
 ### Test infrastructure
 
@@ -521,7 +525,9 @@ The unified runner and failure reporting have been verified by intentionally int
 
 The complete suite has subsequently passed three consecutive times, with **292/292 tests passing on each run**, providing an initial repeatability check for the regression environment.
 
-This establishes the Phase 6 test execution and reporting infrastructure. It does not establish test categorization or code-coverage completeness; those remain subsequent Phase 6 work.
+The Python suite has since expanded to **258 passing tests** as part of the Phase 6 coverage investigation. The current complete-suite baseline is therefore **305 tests**.
+
+The test infrastructure establishes reliable test execution, reporting, database isolation, and failure identification. It does not imply complete behavioral, API-contract, accessibility, or browser coverage.
 
 ### Playwright coverage
 
@@ -589,6 +595,8 @@ The tests prioritize behavioral DOM assertions over screenshots or visual snapsh
 * Added browser-level coverage for the Recommendations placeholder contract.
 * Fixed runaway media-specific chart height when switching between library entries.
 * Added E2E regression coverage verifying the chart remains bounded at 220px across repeated entry switching.
+* Added direct Python regression coverage for the genre statistics analytics module.
+* Established Python line and branch coverage measurement and used it to identify meaningful uncovered production behavior.
 
 ### Archive Profile contracts
 
@@ -630,14 +638,7 @@ Condition-based synchronization is preferred when asynchronous application behav
 
 Remaining work should focus on:
 
-* Coverage investigation
-
-  * Measure Python code coverage across the current regression suite
-  * Identify meaningful uncovered code paths
-  * Distinguish intentional coverage gaps from error paths, dead/simple plumbing, and functional gaps
-  * Use coverage as an investigative map rather than a target percentage
-
-* API and contract coverage
+* **API and contract coverage**
 
   * Build an endpoint coverage matrix
   * Identify direct backend/API coverage
@@ -645,7 +646,7 @@ Remaining work should focus on:
   * Identify important success and error paths
   * Identify response-contract assertions that require explicit protection
 
-* Regression prevention
+* **Regression prevention**
 
   * Establish a test categorization strategy
   * Define pytest markers for meaningful test categories
@@ -654,17 +655,21 @@ Remaining work should focus on:
   * Document how to run targeted test groups
   * Identify and explicitly mark tests protecting known historical regressions
 
-* Edge cases
+* **Edge cases**
 
   * Complete Archive Profile empty-state presentation
   * Add Archive Profile boundary E2E coverage for 0, 1, 14, 15, 19, 20, and 21 entries
   * Test additional empty/sparse archive behavior
   * Test intelligence boundary cases
 
-* Accessibility
-* Frontend/backend terminology consistency
-* Removal of accidental duplication
-* Additional browser-level coverage for critical user flows
+* **Accessibility**
+
+* **Frontend/backend terminology consistency**
+
+* **Removal of accidental duplication**
+
+* **Additional browser-level coverage for critical user flows**
+
 
 ---
 

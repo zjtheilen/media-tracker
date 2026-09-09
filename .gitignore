@@ -11,3 +11,4 @@ e2e_database.db
 test-results/
 playwright-report/
 reports/
+.coverage
