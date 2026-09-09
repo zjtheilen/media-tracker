@@ -2,6 +2,7 @@ import pytest
 
 from models.services.archive_narrative import (
     format_trait_score,
+    generate_trait_statement,
     get_designation_signal_strength_label,
     get_trait_description,
     get_trait_intensity,
@@ -14,6 +15,7 @@ GENRE_DESCRIPTIONS = {
     "horror": "horror-driven tension and unsettling ideas",
     "surreal": "surreal and reality-bending experiences",
 }
+
 
 @pytest.mark.unit
 def test_format_trait_score():
@@ -58,3 +60,34 @@ def test_trait_signal_normalization_clamps_to_zero_one():
 
     assert normalize_trait_signal(0) == 0
     assert normalize_trait_signal(12) == 1
+
+
+@pytest.mark.unit
+def test_trait_description_falls_back_to_readable_trait_name():
+    assert get_trait_description("some_new_trait") == "some new trait"
+
+
+@pytest.mark.unit
+def test_confidence_label_lower_ranges():
+    assert get_designation_signal_strength_label(6.5) == "Emerging"
+    assert get_designation_signal_strength_label(5.9) == "Tentative"
+
+
+@pytest.mark.unit
+def test_generate_trait_statement():
+    assert (
+        generate_trait_statement("depth", 9.2)
+        == "Your archive strongly favors complex, thought-provoking ideas (9.2/10)."
+    )
+
+
+@pytest.mark.unit
+def test_generate_trait_statement_for_preferences():
+    assert (
+        generate_trait_statement(
+            "depth",
+            8.5,
+            prefix="Your preferences",
+        )
+        == "Your preferences consistently favor complex, thought-provoking ideas (8.5/10)."
+    )

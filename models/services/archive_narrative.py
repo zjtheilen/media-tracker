@@ -88,7 +88,7 @@ def get_preference_verb(prefix):
     Returns the correct verb agreement for preference statements.
     """
 
-    if prefix.endswith("preferences") or prefix.endswith("preferences "):
+    if prefix.endswith(("preferences", "preferences ")):
         return "favor"
 
     return "favors"
