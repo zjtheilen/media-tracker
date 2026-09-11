@@ -1,7 +1,11 @@
+import pytest
+
 from models.services.identity_derived_traits import calculate_derived_trait
+from models.services.identity_engine import _identity_evidence_key, resolve_identity_candidates
 from models.services.identity_scorer import (
     evaluate_identity_scores,
     get_primary_identity,
+    score_identity,
 )
 from models.services.identity_scoring import resolve_identity_trait_value
 from tests.helpers.fixture_loader import load_profile_fixture
@@ -277,3 +281,39 @@ def test_unknown_identity_trait_resolves_to_zero():
     )
 
     assert result == 0
+
+
+@pytest.mark.unit
+def test_score_identity_sums_and_rounds(monkeypatch):
+    monkeypatch.setattr(
+        "models.services.identity_scorer.calculate_identity_breakdown",
+        lambda identity, profile, normalize: [
+            {"contribution": 0.1234},
+            {"contribution": 0.4567},
+        ],
+    )
+
+    result = score_identity({"id": "test"}, {})
+
+    assert result == 0.58   # 0.1234 + 0.4567 = 0.5801 → round(..., 3)
+
+
+@pytest.mark.unit
+def test_identity_evidence_key_missing_breakdown():
+    assert _identity_evidence_key({}) == ()
+    assert _identity_evidence_key({"breakdown": []}) == ()
+
+@pytest.mark.unit
+def test_resolve_identity_candidates_no_tie(monkeypatch):
+    # primary clearly higher than everything else → no tie path
+    monkeypatch.setattr(
+        "models.services.identity_engine.evaluate_identity_scores",
+        lambda profile: [
+            {"id": "A", "score": 0.9, "breakdown": []},
+            {"id": "B", "score": 0.7, "breakdown": []},
+        ],
+    )
+    # also stub SECONDARY_MIN_SCORE if needed, or keep the real constant
+    primary, secondary = resolve_identity_candidates({})
+    assert primary["id"] == "A"
+    assert secondary["id"] == "B"

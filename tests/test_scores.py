@@ -1,3 +1,5 @@
+from datetime import date
+
 import pytest
 
 from models.entry import Entry
@@ -96,3 +98,31 @@ def test_score_to_dict_contains_metric_meaning():
     assert result["category"] == "depth"
     assert result["value"] == 9
     assert result["metricMeaning"] == get_metric_meaning("depth", 9)
+
+
+@pytest.mark.unit
+def test_entry_to_dict():
+    media_item = MediaItem("Test Game", "game")
+    scores = make_uniform_scores(8)
+
+    entry = Entry(
+    media_item=media_item,
+    genres=["horror", "psychological"],
+    scores=scores,
+    notes="A strong example",
+    date_consumed=date(2026, 1, 15),   # ← real date object
+    completion_status="completed",
+)
+
+    result = entry.to_dict()
+
+    assert result["title"] == "Test Game"
+    assert result["media_type"] == "game"
+    assert result["media_item"] == media_item.to_dict()
+    assert result["genres"] == ["horror", "psychological"]
+    assert result["notes"] == "A strong example"
+    assert result["date_consumed"] == "2026-01-15"
+    assert result["completion_status"] == "completed"
+    assert result["total_score"] == 80
+    assert result["universal_scores"] == entry.get_universal_scores()
+    assert result["media_scores"] == entry.get_media_scores()

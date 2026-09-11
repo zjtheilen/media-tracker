@@ -1,5 +1,9 @@
 import pytest
 
+from models.services.archive_interpretation import (
+    generate_genre_signature_sentence,
+    generate_media_signature_sentence,
+)
 from models.services.archive_narrative import (
     format_trait_score,
     generate_trait_statement,
@@ -91,3 +95,41 @@ def test_generate_trait_statement_for_preferences():
         )
         == "Your preferences consistently favor complex, thought-provoking ideas (8.5/10)."
     )
+
+
+@pytest.mark.unit
+def test_generate_genre_signature_sentence_single_meaningful_genre():
+    genre_distribution = {
+        "horror": {"percentage": 50},
+        "sci-fi": {"percentage": 10},
+    }
+
+    assert (
+        generate_genre_signature_sentence(genre_distribution)
+        == "Your archive demonstrates recurring interest in horror experiences."
+    )
+
+
+@pytest.mark.unit
+def test_generate_media_signature_sentence():
+    assert (
+        generate_media_signature_sentence("art_atmosphere", 9.2)
+        == "Your media preferences strongly align with immersive atmosphere and visual design (9.2/10)."
+    )
+
+
+@pytest.mark.unit
+def test_generate_genre_signature_returns_none_when_no_genres_are_meaningful():
+    distribution = {
+        "racing": {"percentage": 5.6},
+        "sports": {"percentage": 12.5},
+    }
+
+    assert generate_genre_signature_sentence(distribution) is None
+
+
+@pytest.mark.unit
+def test_designation_signal_strength_label_below_all_thresholds():
+    # Use a value strictly below the lowest threshold in CONFIDENCE_LABELS
+    assert get_designation_signal_strength_label(-1) == "Tentative"
+    # or 0 if the lowest threshold is > 0

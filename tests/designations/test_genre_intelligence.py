@@ -1,11 +1,13 @@
+import pytest
+
 from models.services.genre_intelligence import (
     calculate_genre_affinity,
     calculate_genre_combinations,
 )
 
 
+@pytest.mark.unit
 def test_genre_affinity():
-
     profile = {
         "genreDistribution": {
             "horror": {"count": 5, "percentage": 50},
@@ -19,8 +21,8 @@ def test_genre_affinity():
     assert result["sci-fi"] == 0.2
 
 
+@pytest.mark.unit
 def test_genre_combinations_detects_hybrid_preferences():
-
     profile = {
         "entries": [
             {
@@ -46,3 +48,14 @@ def test_genre_combinations_detects_hybrid_preferences():
     result = calculate_genre_combinations(profile)
 
     assert result["horror+psychological"] == 0.67
+
+
+@pytest.mark.unit
+def test_genre_affinity_empty_profile():
+    assert calculate_genre_affinity({}) == {}
+
+
+@pytest.mark.unit
+def test_genre_combinations_empty_profile():
+    assert calculate_genre_combinations({}) == {}
+    assert calculate_genre_combinations({"entries": []}) == {}
