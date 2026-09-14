@@ -1,7 +1,10 @@
 import pytest
 
 from models.services.identity_derived_traits import calculate_derived_trait
-from models.services.identity_engine import _identity_evidence_key, resolve_identity_candidates
+from models.services.identity_engine import (
+    _identity_evidence_key,
+    resolve_identity_candidates,
+)
 from models.services.identity_scorer import (
     evaluate_identity_scores,
     get_primary_identity,
@@ -18,15 +21,6 @@ def test_get_primary_identity_returns_breadth_philosophy_for_boundary_explorer_p
     identity = get_primary_identity(profile)
 
     assert identity["id"] == "breadth_philosophy"
-
-
-def test_boundary_explorer_profile_scores_breadth_philosophy_highest():
-
-    profile = load_profile_fixture("boundary_explorer_profile.json")
-
-    results = evaluate_identity_scores(profile)
-
-    assert results[0]["id"] == "breadth_philosophy"
 
 
 def test_boundary_explorer_profile_scores_breadth_above_exploratory_above_interpretive():

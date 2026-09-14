@@ -127,32 +127,6 @@ def test_archive_profile_contains_observation_summary():
     assert "evidenceStrength" in result["observations"][0]
 
 
-def test_observation_summary_exists():
-
-    entries = [
-        {
-            "title": "Test Archive Entry",
-            "media_type": "movie",
-            "genres": [
-                "experimental",
-                "surreal",
-            ],
-            "total_score": 95,
-            "universal_scores": {
-                "originality": 10,
-                "depth": 10,
-            },
-            "media_scores": {
-                "art_atmosphere": 10,
-            },
-        }
-    ]
-
-    result = build_archive_profile(entries)
-
-    assert result["observations"]
-
-
 def test_archive_profile_includes_identities():
 
     entries = [

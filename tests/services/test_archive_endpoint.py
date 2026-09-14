@@ -1,21 +1,7 @@
 from models.services.scoring_rubric import get_metric_meaning
 
 
-def test_archive_profile_endpoint(client):
-
-    response = client.get("/archive-profile")
-
-    assert response.status_code == 200
-
-    data = response.json()
-
-    assert "designations" in data
-    assert "primaryDesignation" in data
-    assert "findings" in data
-
-
-def test_archive_profile_contains_designations(client):
-
+def test_archive_profile_endpoint_contract(client):
     response = client.get("/archive-profile")
 
     assert response.status_code == 200
@@ -25,18 +11,6 @@ def test_archive_profile_contains_designations(client):
     assert "designations" in data
     assert "primaryDesignation" in data
     assert "designationBasis" in data
-
-
-def test_archive_profile_contains_analysis(client):
-
-    response = client.get("/archive-profile")
-
-    assert response.status_code == 200
-
-    data = response.json()
-
-    assert "designations" in data
-    assert "primaryDesignation" in data
     assert "findings" in data
 
 

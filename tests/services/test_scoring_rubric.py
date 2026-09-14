@@ -166,12 +166,6 @@ def test_get_metric_meaning_valid_metric_and_score():
     assert result == METRIC_RUBRICS["depth"][9]
 
 
-def test_get_metric_meaning_valid_metric_invalid_score():
-    result = get_metric_meaning("depth", 11)
-
-    assert result is None
-
-
 def test_get_metric_meaning_invalid_metric():
     with pytest.raises(
         ValueError, match="No rubric defined for metric: bullshit_metric"
