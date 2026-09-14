@@ -377,11 +377,11 @@ The current regression baseline is:
 
 **1 passing Node configuration test.**
 
-**245 passing Python tests.**
+**304 passing Python tests.**
 
 **46 passing Playwright E2E tests.**
 
-**292 passing tests across the complete automated test suite.**
+**351 passing tests across the complete automated test suite.**
 
 The automated test suite is executed through the unified `npm test` runner, which runs the Node configuration guardrail, the Python regression suite, and the Playwright E2E suite and reports their results together.
 
@@ -391,11 +391,16 @@ The Playwright suite covers critical browser-level application behavior and inte
 
 The Node configuration test protects critical E2E environment assumptions, including isolated database usage and prevention of development-server reuse.
 
-The current full-suite baseline has been verified across three consecutive complete runs with **292/292 tests passing on each run**.
+The current Python coverage baseline is **99% statement coverage across 747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
+
+All implemented `models` modules currently have **100% statement and branch coverage**. The only uncovered production code is the intentional recommendation-scoring stub in `models/recommendations/scoring.py`, which remains unimplemented and is therefore intentionally not covered by a test that would merely assert placeholder behavior.
+
+Coverage is being used as an investigative map to identify meaningful uncovered behavior rather than as a target percentage.
 
 Historical test counts are preserved as historical milestones and should not be interpreted as the current baseline.
 
 The current counts should be updated whenever intentional implementation changes alter the regression suite.
+
 
 ---
 
@@ -497,19 +502,37 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **1 passing Node configuration test.**
 
-**258 passing Python tests.**
+**304 passing Python tests.**
 
 **46 passing Playwright E2E tests.**
 
-**305 passing tests across the complete automated test suite.**
+**351 passing tests across the complete automated test suite.**
 
-The Python regression suite currently provides **96% line coverage** across **318 instrumented branches**, with **26 partial branches**. Coverage is being used as an investigative map to identify meaningful uncovered behavior rather than as a target percentage.
+The Python regression suite currently provides **99% statement coverage** across **747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
 
-A focused coverage investigation identified the previously untested `models/analytics/genre_statistics.py` module as a genuine regression-coverage gap. Direct unit coverage was added for genre aggregation, score and media-type aggregation, top-genre ranking, minimum-count filtering, result limits, genre combinations, multi-genre pairing, and media/genre affinity behavior. The module now has **100% line coverage**.
+All implemented `models` modules currently have **100% statement and branch coverage**.
+
+The remaining uncovered production code is the intentional recommendation-scoring stub in `models/recommendations/scoring.py`. The stub is not currently part of the implemented recommendation behavior, so no test has been added solely to exercise its placeholder return value. Recommendation scoring remains intentionally deferred rather than being implemented for the purpose of increasing coverage.
+
+Coverage is being used as an investigative map to identify meaningful uncovered behavior rather than as a target percentage.
+
+A focused coverage investigation identified several genuine regression-coverage gaps in the model and service layers. Direct unit coverage was added for meaningful behavior including:
+
+* Entry serialization
+* Entry scoring edge cases
+* Archive score mapping
+* Unrecognized archive score categories
+* Identity tie-breaking when component evidence is stronger
+* Identity tie-breaking when candidate evidence is weaker
+* Identity secondary selection behavior
+* Archive interpretation
+* Genre statistics and analytics behavior
+
+The resulting Python suite provides complete statement and branch coverage for the implemented model layer.
 
 ### Test infrastructure
 
-The automated regression suite now has a unified execution and reporting layer.
+The automated regression suite has a unified execution and reporting layer.
 
 The root `npm test` command runs:
 
@@ -523,15 +546,11 @@ The Playwright environment uses a dedicated E2E SQLite database and explicitly p
 
 The unified runner and failure reporting have been verified by intentionally introducing failures into both the Python and Playwright suites and confirming that the runner correctly identified the failing test.
 
-The complete suite has subsequently passed three consecutive times, with **292/292 tests passing on each run**, providing an initial repeatability check for the regression environment.
-
-The Python suite has since expanded to **258 passing tests** as part of the Phase 6 coverage investigation. The current complete-suite baseline is therefore **305 tests**.
-
-The test infrastructure establishes reliable test execution, reporting, database isolation, and failure identification. It does not imply complete behavioral, API-contract, accessibility, or browser coverage.
-
 ### Playwright coverage
 
-The current E2E suite covers the primary Library, Analytics, Lists, Archive Profile, and Recommendations workflows, along with application loading and navigation:
+The current E2E suite covers the primary Library, Analytics, Lists, Archive Profile, and Recommendations workflows, along with application loading and navigation.
+
+Coverage includes:
 
 * Application loading
 * Navigation across all five primary pages
@@ -596,7 +615,56 @@ The tests prioritize behavioral DOM assertions over screenshots or visual snapsh
 * Fixed runaway media-specific chart height when switching between library entries.
 * Added E2E regression coverage verifying the chart remains bounded at 220px across repeated entry switching.
 * Added direct Python regression coverage for the genre statistics analytics module.
-* Established Python line and branch coverage measurement and used it to identify meaningful uncovered production behavior.
+* Established Python statement and branch coverage measurement and used it to identify meaningful uncovered production behavior.
+* Added direct regression coverage for Entry serialization and scoring edge cases.
+* Added direct regression coverage for archive score mapping, including unrecognized score categories.
+* Added direct regression coverage for Identity tie-breaking and evidence comparison behavior.
+* Corrected SQLite connection lifecycle management so database connections are explicitly closed when their context-managed operations complete.
+* Verified the database connection fix by running the Python suite with `ResourceWarning` treated as an error. The previously repeated unclosed-database warnings no longer occur.
+
+### Testing principle
+
+E2E tests should validate actual application behavior rather than compensate for application timing or initialization problems with arbitrary delays.
+
+When an E2E test exposes inconsistent behavior, the preferred response is to determine whether the inconsistency represents an application defect, test defect, or environment issue before adding synchronization.
+
+Condition-based synchronization is preferred when asynchronous application behavior is legitimate. Arbitrary timeouts should not be used to mask application races or unreliable test behavior.
+
+### Remaining stability work
+
+Remaining work should focus on:
+
+* **API and contract coverage**
+
+  * Build an endpoint coverage matrix
+  * Identify direct backend/API coverage
+  * Identify browser-level coverage
+  * Identify important success and error paths
+  * Identify response-contract assertions that require explicit protection
+
+* **Regression prevention**
+
+  * Establish a test categorization strategy
+  * Define pytest markers for meaningful test categories
+  * Define Playwright tags for meaningful test categories
+  * Apply markers/tags to existing tests
+  * Document how to run targeted test groups
+  * Identify and explicitly mark tests protecting known historical regressions
+
+* **Edge cases**
+
+  * Complete Archive Profile empty-state presentation
+  * Add Archive Profile boundary E2E coverage for 0, 1, 14, 15, 19, 20, and 21 entries
+  * Test additional empty/sparse archive behavior
+  * Test intelligence boundary cases
+
+* **Accessibility**
+
+* **Frontend/backend terminology consistency**
+
+* **Removal of accidental duplication**
+
+* **Additional browser-level coverage for critical user flows**
 
 ### Archive Profile contracts
 

@@ -104,25 +104,48 @@ def test_score_to_dict_contains_metric_meaning():
 def test_entry_to_dict():
     media_item = MediaItem("Test Game", "game")
     scores = make_uniform_scores(8)
+    consumed_date = date(2026, 1, 15)
 
     entry = Entry(
-    media_item=media_item,
-    genres=["horror", "psychological"],
-    scores=scores,
-    notes="A strong example",
-    date_consumed=date(2026, 1, 15),   # ← real date object
-    completion_status="completed",
-)
+        media_item=media_item,
+        genres=["horror", "psychological"],
+        scores=scores,
+        notes="A strong example",
+        date_consumed=consumed_date,
+        completion_status="completed",
+    )
 
     result = entry.to_dict()
 
     assert result["title"] == "Test Game"
     assert result["media_type"] == "game"
     assert result["media_item"] == media_item.to_dict()
+    assert result["scores"] == [score.to_dict() for score in scores]
     assert result["genres"] == ["horror", "psychological"]
     assert result["notes"] == "A strong example"
     assert result["date_consumed"] == "2026-01-15"
     assert result["completion_status"] == "completed"
-    assert result["total_score"] == 80
+    assert result["total_score"] == entry.total_score()
     assert result["universal_scores"] == entry.get_universal_scores()
     assert result["media_scores"] == entry.get_media_scores()
+
+
+@pytest.mark.unit
+def test_total_score_ignores_unweighted_score():
+    scores = [
+        Score("emotional_impact", 10),
+        Score("depth", 10),
+        Score("not_a_real_score", 10),
+        Score("craft", 10),
+        Score("engagement", 10),
+        Score("presentation", 10),
+        Score("originality", 10),
+    ]
+
+    entry = Entry(
+        media_item=MediaItem("Test Game", "game"),
+        genres=["horror"],
+        scores=scores,
+    )
+
+    assert entry.total_score() == 100

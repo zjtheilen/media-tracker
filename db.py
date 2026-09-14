@@ -1,5 +1,6 @@
-import sqlite3
 import os
+import sqlite3
+from contextlib import contextmanager
 
 SCHEMA_VERSION = 2
 
@@ -8,10 +9,14 @@ def get_db_path():
     return os.getenv("DB_PATH", "database.db")
 
 
+@contextmanager
 def get_connection():
     conn = sqlite3.connect(get_db_path())
     conn.row_factory = sqlite3.Row
-    return conn
+    try:
+        yield conn
+    finally:
+        conn.close()
 
 
 def get_db_version(cursor):

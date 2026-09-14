@@ -1,14 +1,15 @@
+from models.scoring_profile import (
+    MEDIA_SCORING_PROFILES,
+    UNIVERSAL_SCORING_PROFILE,
+)
+
+
 def entry_to_archive_format(entry):
 
     scores = entry.scores
 
     universal = {}
     media = {}
-
-    from models.scoring_profile import (
-        UNIVERSAL_SCORING_PROFILE,
-        MEDIA_SCORING_PROFILES,
-    )
 
     universal_categories = set(UNIVERSAL_SCORING_PROFILE.keys())
 
