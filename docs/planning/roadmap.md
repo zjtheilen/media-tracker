@@ -1028,6 +1028,27 @@ Future intelligence should distinguish between:
 3. Whether there is enough data to interpret it.
 4. What conclusion the evidence supports.
 
+### Future Intelligence Evidence
+
+Future intelligence expansion should prioritize richer evidence over simply adding additional labels or metrics.
+
+Potential evidence work, in priority order:
+
+- [ ] Add score distribution / variance analysis
+- [ ] Restore completion-state metadata to the active archive workflow
+- [ ] Define semantics for substantially experienced but unfinished media
+- [ ] Expand temporal consumption analysis
+- [ ] Analyze score × completion relationships
+- [ ] Analyze media type × scoring behavior
+- [ ] Expand archive-derived genre relationship intelligence
+- [ ] Investigate repeat-consumption behavior
+- [ ] Investigate creator/franchise repetition where reliable metadata exists
+- [ ] Evaluate future structured use of review/notes data
+
+These items are evidence-development opportunities, not a commitment to implement all of them together.
+
+New evidence should be prioritized when it enables defensible intelligence that current evidence cannot support.
+
 ---
 
 # 20. Empty and Sparse Archives

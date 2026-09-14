@@ -1001,3 +1001,107 @@ No new intelligence category should be implemented solely from these findings.
 The next phase is to make the unresolved conceptual decisions explicit, determine which evidence represents meaningful intelligence, and only then select implementation work.
 
 **Audit conclusion: investigation complete; conceptual decisions remain open.**
+
+---
+
+# Conceptual Decisions Following the Audit
+
+## Status
+
+The original audit concluded with several conceptual questions still open. The following reconciliation records the decisions subsequently established from those questions.
+
+These decisions supersede the audit's open-status framing where explicitly marked as resolved. Items marked provisionally unresolved or deferred remain open pending richer evidence.
+
+## Identity Signal Independence
+
+**Status: Provisionally unresolved pending richer evidence**
+
+Shared evidence is permitted when distinct signals serve legitimately different conceptual purposes. However, correlated or derived signals must not be treated as independent corroboration.
+
+The current `experimental_affinity` and `novelty` Identity signals both derive from experimental genre prevalence and are currently mathematically identical. They should therefore remain in place provisionally without being treated as independent evidence.
+
+Their conceptual distinction should be revisited when richer evidence becomes available that can meaningfully distinguish the constructs.
+
+No immediate scoring change is required.
+
+## Shared Evidence and Double-Counting
+
+**Status: Resolved direction**
+
+Intelligence layers may reuse underlying evidence when they answer different conceptual questions.
+
+Shared evidence does not become independent evidence merely because it is represented by multiple signals or outputs.
+
+Downstream synthesis and future recommendation logic must avoid treating multiple correlated interpretations of the same underlying evidence as independent confirmation.
+
+## Atmospheric Focus and Atmospheric Interest
+
+**Status: Provisionally deferred pending richer evidence**
+
+`Atmospheric Focus` is currently supported as an Observation.
+
+`Atmospheric Interest` does not currently provide sufficiently distinct interpretive value beyond that Observation to justify treating it as an independent Finding.
+
+The Finding concept should be preserved as a possible future interpretation, but no additional meaning should be manufactured until richer evidence can support a distinct Finding.
+
+## Genre Representation and Interpretation
+
+**Status: Resolved direction**
+
+Genre representation is archive evidence about composition.
+
+`genreDistribution`, `genreAffinity`, genre presence/strength representations, and genre diversity metrics may provide different representations or transformations of that evidence, but they do not constitute independent evidence.
+
+Genre-derived traits are interpretive proxies rather than direct proof of intentional preference.
+
+Predefined related-genre metadata is distinct from archive-derived genre combinations and should remain conceptually separate.
+
+## Evidence Expansion
+
+**Status: Resolved direction; implementation deferred**
+
+Future evidence expansion should prioritize evidence that materially increases WASABI's ability to distinguish archive composition, evaluation, behavior, relationships, and change over time.
+
+Evidence should be added when it enables defensible interpretations that current evidence cannot support, rather than simply increasing the quantity of available metrics or intelligence labels.
+
+Priority evidence areas include:
+
+- score distributions and variance
+- completion behavior
+- temporal consumption behavior
+- score/completion relationships
+- media-type/scoring relationships
+- richer genre relationships
+- repeat-consumption behavior
+- creator/franchise repetition where reliable metadata exists
+- structured use of user-authored review/notes data where appropriate
+
+These are evidence opportunities, not an instruction to implement all items immediately.
+
+## Completion as Future Behavioral Evidence
+
+The original archive model emphasized completed media because scoring was intended to represent a sufficiently experienced work.
+
+The current project direction preserves that rationale while recognizing that substantially experienced but unfinished media can also provide meaningful behavioral evidence, particularly for video games.
+
+Completion status should therefore be preserved as a future intelligence input without making completion a universal prerequisite for evaluation.
+
+The exact completion-state semantics and frontend workflow remain implementation decisions for a future phase.
+
+## Temporal Evidence
+
+Temporal behavior is a strategic future intelligence direction.
+
+Date-consumed data should eventually support analysis of persistence, change, sequence, and shifts in archive behavior where sufficient data exists.
+
+Repeated representation in an archive must not be described as temporal persistence unless temporal evidence actually supports that claim.
+
+## Dynamic Taxonomy
+
+**Status: Operational definition resolved**
+
+Dynamic taxonomy means an intentionally extensible conceptual vocabulary whose realized outputs vary according to archive evidence.
+
+New categories require explicit conceptual justification. The system should not autonomously invent categories merely because an archive is unusual.
+
+Different archives may legitimately produce different numbers or combinations of intelligence outputs, including zero outputs where evidence is insufficient.

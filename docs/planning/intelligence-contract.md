@@ -127,6 +127,16 @@ Genre-derived signals are useful evidence, but they must not automatically be tr
 
 A genre pattern can support a conclusion without proving why the curator chose those works.
 
+### Genre as Evidence
+
+Genre metadata primarily describes archive composition and should be treated as evidence about what is represented in the archive.
+
+Genre representation does not, by itself, establish intentional preference or motivation. Genre-derived traits may serve as interpretive proxies, but interpretations must remain bounded by the evidence from which they are derived.
+
+Multiple representations of genre evidence may exist for different consumers or semantic purposes. These representations do not constitute independent evidence merely because they use different names or scales.
+
+Predefined relationships between genres are domain metadata and should remain distinct from archive-derived genre relationships such as observed genre combinations.
+
 ---
 
 ## 4.3 Observations
@@ -314,6 +324,18 @@ Identity must not become:
 Identity may use evidence that also contributes to Designations.
 
 The distinction comes from interpretation, not mandatory evidence exclusivity.
+
+### Dynamic Taxonomy
+
+Dynamic taxonomy means an intentionally extensible intelligence vocabulary whose realized outputs vary according to the evidence present in each archive.
+
+Different archives may legitimately produce different combinations or numbers of Designations, Identities, Observations, Findings, or other intelligence outputs.
+
+New taxonomy categories require explicit conceptual justification when existing categories cannot adequately represent a defensible recurring pattern.
+
+The system should not autonomously invent taxonomy merely because an archive is unusual.
+
+Absence of a category is a valid outcome when the available evidence is insufficient.
 
 ### Governing rule
 
@@ -641,6 +663,18 @@ A strong Trait signal does not automatically mean the resulting conclusion has s
 
 Conversely, a conclusion may have strong evidence because several moderate signals converge.
 
+### Evidence Lineage and Shared Evidence
+
+Intelligence layers may reuse underlying evidence when that evidence serves distinct conceptual purposes.
+
+Shared evidence does not constitute independent corroboration merely because it appears through multiple signals, derived traits, or intelligence outputs.
+
+Distinct signals must have a defensible semantic distinction. When multiple signals derive from the same underlying evidence and the available evidence cannot establish a meaningful distinction between them, that distinction remains provisional rather than being treated as independent evidence.
+
+This permits evidence reuse across Designations, Identities, Observations, Findings, and future Recommendation Signals while preventing correlated representations of the same underlying fact from being treated as separate confirmations.
+
+Evidence lineage should remain conceptually visible when downstream synthesis or recommendation logic evaluates multiple signals.
+
 ---
 
 # 18. Classification Confidence
@@ -843,6 +877,12 @@ Strong evidence cannot compensate conceptually for insufficient archive data, an
 ### Observation vs Finding
 
 An Observation and Finding represent different levels of synthesis.
+
+A Finding must provide interpretive value beyond merely restating an Observation.
+
+Where an existing Observation already captures the available evidence and no additional defensible interpretation can currently be established, a corresponding Finding should remain deferred rather than duplicating the Observation.
+
+The current Atmospheric Interest Finding is therefore considered provisionally unresolved relative to the Atmospheric Focus Observation pending richer evidence that can establish a distinct interpretive role.
 
 ### Observable evidence vs inferred intent
 

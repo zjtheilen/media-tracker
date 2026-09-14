@@ -1084,6 +1084,37 @@ Do not invent a new scoring rule, Trait, Identity, Designation, or evidence mode
 
 The issue remains gated pending an explicit decision.
 
+## Post-Audit Conceptual Alignment
+
+The intelligence expansion audit has established the following implementation consequences.
+
+### No Immediate Intelligence Rewrite
+
+The following conceptual decisions do not currently require implementation changes:
+
+- shared evidence may be reused across intelligence layers
+- correlated signals must not be treated as independent corroboration
+- `experimental_affinity` and `novelty` remain provisionally distinct
+- genre representations may remain distinct when they serve different semantic purposes, without being treated as independent evidence
+- dynamic taxonomy remains intentionally extensible rather than automatically generated
+- Atmospheric Interest remains deferred as a distinct Finding
+
+### Future Evidence Work
+
+The following are future evidence opportunities rather than immediate implementation requirements:
+
+- completion behavior
+- temporal consumption behavior
+- score distributions / variance
+- score × completion relationships
+- media type × scoring relationships
+- richer genre relationships
+- repeat-consumption behavior
+- creator/franchise repetition
+- future use of review/notes as structured intelligence input
+
+These should be evaluated individually when their evidence and conceptual purpose are sufficiently defined.
+
 ---
 
 # 41. Recommendation Metadata Boundary

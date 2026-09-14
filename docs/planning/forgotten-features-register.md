@@ -468,6 +468,24 @@ Determine whether the product should distinguish:
 
 This should not be invented during Phase 1 intelligence work, but the possibility should not disappear.
 
+### Current Direction
+
+Completion state should be preserved as future behavioral evidence.
+
+The original design treated completion as closely associated with whether an item had been sufficiently experienced to receive a fair evaluation. That principle remains valid for evaluation semantics.
+
+However, substantially experienced but unfinished media—particularly video games—can itself represent meaningful archive behavior.
+
+Completion should therefore eventually be restored as metadata without automatically making completion a prerequisite for scoring.
+
+Potential future uses include:
+
+- completion behavior
+- score/completion relationships
+- temporal analysis
+- engagement interpretation
+- recommendation signals
+
 ---
 
 ## 5.4 Library Density Modes
