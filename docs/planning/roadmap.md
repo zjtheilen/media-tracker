@@ -755,6 +755,63 @@ The 0-entry case currently represents a presentation gap requiring an intentiona
 
 ---
 
+## Phase 7 — Evidence Expansion & Product Evolution
+
+Phase 7 focuses on expanding the evidence available to WASABI and using that evidence to evolve the intelligence and product surfaces without manufacturing intelligence.
+
+The guiding principle remains:
+
+> Evidence before labels. Concepts before implementation. Evolution, not rewrite.
+
+### 7.1 Evidence Foundation
+
+- [ ] Add score distribution / variance analysis
+- [ ] Restore completion-state metadata to the active archive workflow
+- [ ] Define semantics for substantially experienced but unfinished media
+- [ ] Preserve completion as behavioral evidence rather than a prerequisite for scoring
+
+### 7.2 Temporal Evidence
+
+- [ ] Expand consumption timeline evidence
+- [ ] Analyze temporal consumption patterns
+- [ ] Investigate meaningful change-over-time signals
+
+### 7.3 Cross-Dimensional Evidence
+
+- [ ] Analyze score × completion relationships
+- [ ] Analyze media type × scoring behavior
+- [ ] Expand archive-derived genre relationship intelligence
+
+### 7.4 Intelligence Evolution
+
+- [ ] Re-evaluate existing Designations against expanded evidence
+- [ ] Identify recurring evidence-supported patterns not represented by the current vocabulary
+- [ ] Determine whether existing Designations adequately represent those patterns
+- [ ] Introduce new Designations only where explicitly justified
+- [ ] Revisit provisionally deferred intelligence concepts as richer evidence becomes available
+- [ ] Re-evaluate Identity signal independence as richer evidence becomes available
+
+Dynamic taxonomy does not mean automatically generating new categories. New intelligence categories require explicit conceptual justification, defensible evidence, explainability, and regression protection.
+
+### 7.5 Product Surface Evolution
+
+- [ ] Expand explainability presentation
+- [ ] Expand evidence presentation and "Why?" explanations
+- [ ] Improve Designation and intelligence evidence visibility
+- [ ] Implement archive-state communication
+- [ ] Harden accessibility
+- [ ] Perform targeted UX polish based on actual product behavior
+
+### Phase 7 Guardrails
+
+Phase 7 should not become a label-generation exercise.
+
+New evidence should be added when it enables defensible intelligence that current evidence cannot support. New Designations, Findings, Identities, or other intelligence outputs should emerge from evidence and explicit conceptual decisions rather than being created to satisfy a target number of categories.
+
+Completion, variance, temporal behavior, and cross-dimensional relationships are evidence-development work first. Their eventual intelligence uses should be determined after the evidence is understood.
+
+Recommendation scoring remains deferred until its conceptual inputs and evidence are sufficiently mature.
+
 # 13. Current Work Queue
 
 The immediate development queue should remain targeted.
