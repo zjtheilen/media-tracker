@@ -1010,15 +1010,6 @@ test("Hall of Fame includes only scores of 95 or higher in descending order", as
 
     expect(response.ok()).toBeTruthy();
 
-    const entries = await response.json();
-
-    console.log(
-        entries.map(entry => ({
-            title: entry.title,
-            total_score: entry.total_score,
-        }))
-    );
-
     await page.goto("/");
     await page.locator("#lists-tab").click();
 

@@ -21,7 +21,7 @@ const suites = [
     {
         name: "Playwright",
         command: "npm",
-        args: ["run", "test:e2e"],
+        args: ["run", "test:e2e:quiet"],
         expected: 46,
         report: "reports/playwright/results.xml",
     },
