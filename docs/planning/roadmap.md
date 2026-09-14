@@ -1164,15 +1164,3 @@ Document the reasoning behind changes.
 Protect intentional behavior with tests.
 
 And ensure that the API describes the intelligence system that actually exists.
-
-````
-
-A couple of things I **deliberately did not do**: I didn't rewrite your older conceptual sections just because they could be worded differently, and I didn't turn the roadmap into a test inventory. The important thing here is that the roadmap now tells the truth about **where Phase 6 actually stands**.
-
-After replacing the file, run:
-
-```powershell
-git diff -- docs/planning/roadmap.md
-````
-
-If the diff looks sane, then we'll do the final `git status`, commit, and push.

@@ -387,5 +387,3 @@ After implementation, Archive Profile E2E coverage should establish:
 |    19 | Developing Archive      | Breadth eligible |
 |    20 | Full Archive Profile    | All eligible     |
 |    21 | Full Archive Profile    | All eligible     |
-
-This gives us coverage of every meaningful boundary without turning Playwright into a duplicate of the backend intelligence test suite.

@@ -2199,5 +2199,3 @@ every identifier aesthetically uniform.
 The goal is to make the interface accurately communicate the semantics of the
 existing intelligence architecture while preserving behavior and avoiding
 unnecessary implementation churn.
-
-These two are now aligned with the **post-Identity-migration state**, rather than the older Phase 1 state where Identity eligibility/secondary behavior and Observation terminology were still unresolved. The main thing I intentionally **didn't** do is turn every historical internal name into a rename just for cleanliness.
