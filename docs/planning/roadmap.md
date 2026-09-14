@@ -381,11 +381,11 @@ The current regression baseline is:
 
 **1 passing Node configuration test.**
 
-**306 passing Python tests.**
+**300 passing Python tests.**
 
 **46 passing Playwright E2E tests.**
 
-**353 passing tests across the complete automated test suite.**
+**347 passing tests across the complete automated test suite.**
 
 The automated test suite is executed through the unified `npm test` runner, which runs the Node configuration guardrail, the Python regression suite, and the Playwright E2E suite and reports their results together.
 
@@ -505,11 +505,11 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **1 passing Node configuration test.**
 
-**306 passing Python tests.**
+**300 passing Python tests.**
 
 **46 passing Playwright E2E tests.**
 
-**353 passing tests across the complete automated test suite.**
+**347 passing tests across the complete automated test suite.**
 
 The Python regression suite currently provides **99% statement coverage** across **747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
 
@@ -720,8 +720,10 @@ Remaining work should focus on:
 
 * **Additional browser-level coverage for critical user flows**
 
-  * Identify genuinely important user behaviors not already protected by the existing E2E suite.
-  * Add coverage only where it protects meaningful application behavior rather than duplicating lower-level tests.
+  * Audit the existing E2E suite and application controls for genuinely important user behaviors not already protected.
+  * No additional browser-level test was warranted. Existing coverage protects the critical Library CRUD, cancel/destructive flows, navigation, Lists, Analytics, Archive Profile boundaries, empty states, and application loading behavior.
+  * Recommendations remains intentionally limited to placeholder rendering because recommendation scoring is not yet implemented; adding tests beyond that would constitute coverage theater rather than meaningful regression protection.
+  * Phase 6 browser-level coverage is therefore considered complete without increasing the E2E test count.
 
 ### Archive Profile contracts
 
