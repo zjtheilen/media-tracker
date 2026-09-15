@@ -6,6 +6,7 @@ const suites = [
         name: "Node",
         command: "npm",
         args: ["run", "test:config:quiet"],
+        expected: 1,
     },
     {
         name: "Pytest",
