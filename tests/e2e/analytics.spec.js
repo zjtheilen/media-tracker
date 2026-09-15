@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 async function clearEntries(request) {
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -11,7 +11,7 @@ async function clearEntries(request) {
 
     for (const entry of entries) {
         const deleteResponse = await request.delete(
-            `http://127.0.0.1:8000/entries/${entry.id}`
+            `http://127.0.0.1:8001/entries/${entry.id}`
         );
 
         expect(deleteResponse.ok()).toBeTruthy();
@@ -81,7 +81,7 @@ async function seedEntries(request) {
 
     for (const entry of testEntries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -192,7 +192,7 @@ async function seedRatingDistributionEntries(request) {
 
     for (const entry of entries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -274,7 +274,7 @@ async function seedMonthlyCompletionEntries(request) {
 
     for (const entry of entries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -350,7 +350,7 @@ async function seedGenreAverageEntries(request) {
 
     for (const entry of entries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -472,7 +472,7 @@ test("analytics average score chart reflects archive data", async ({
     await seedEntries(request);
 
     const entriesResponse = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(entriesResponse.ok()).toBeTruthy();
@@ -590,7 +590,7 @@ test("analytics monthly completion chart reflects archive data", async ({
     await seedMonthlyCompletionEntries(request);
 
     const entriesResponse = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(entriesResponse.ok()).toBeTruthy();
@@ -656,7 +656,7 @@ test("analytics genre average ratings chart reflects archive data", async ({
     await seedGenreAverageEntries(request);
 
     const entriesResponse = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(entriesResponse.ok()).toBeTruthy();

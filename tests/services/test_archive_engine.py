@@ -24,6 +24,8 @@ def test_build_archive_profile():
 
     assert result["entryCount"] == 1
 
+    assert result["scoreVariance"] == 0
+
     assert result["universalAverages"]["depth"] == 10
 
     assert result["mediaAverages"]["art_atmosphere"] == 10
@@ -82,6 +84,8 @@ def test_archive_profile_shape():
         "mediaDistribution",
         "genreDistribution",
         "averageScore",
+        "scoreVariance",
+        "completionDistribution",
         "highestRatedEntry",
         "lowestRatedEntry",
         "topUniversal",
@@ -284,3 +288,22 @@ def test_archive_profile_includes_primary_identity():
     assert "primaryIdentity" in profile
     assert profile["primaryIdentity"] is not None
     assert profile["primaryIdentity"]["id"] == profile["identities"][0]["id"]
+
+
+def test_empty_archive_profile_includes_score_variance():
+
+    result = build_archive_profile([])
+
+    assert result["scoreVariance"] == 0
+
+
+def test_empty_archive_profile_includes_completion_distribution():
+
+    result = build_archive_profile([])
+
+    assert result["completionDistribution"] == {
+        "completed": 0,
+        "in-progress": 0,
+        "dropped": 0,
+        "planned": 0,
+    }

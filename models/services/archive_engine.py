@@ -1,7 +1,9 @@
 from models.services.archive_statistics import (
     calculate_archive_average_score,
+    calculate_completion_distribution,
     calculate_genre_distribution,
     calculate_media_distribution,
+    calculate_score_variance,
     get_highest_rated_entry,
     get_lowest_rated_entry,
 )
@@ -81,6 +83,10 @@ def _build_statistics(entries):
 
     average_score = calculate_archive_average_score(entries)
 
+    score_variance = calculate_score_variance(entries)
+
+    completion_distribution = calculate_completion_distribution(entries)
+
     highest_rated_entry = get_highest_rated_entry(entries)
 
     lowest_rated_entry = get_lowest_rated_entry(entries)
@@ -95,6 +101,8 @@ def _build_statistics(entries):
         "mediaDistribution": media_distribution,
         "genreDistribution": genre_distribution,
         "averageScore": average_score,
+        "scoreVariance": score_variance,
+        "completionDistribution": completion_distribution,
         "highestRatedEntry": highest_rated_entry,
         "lowestRatedEntry": lowest_rated_entry,
         "topUniversal": top_universal,
@@ -153,8 +161,8 @@ def _build_designations(archive_profile):
         archive_profile["topMedia"][0],
     )
 
-    archive_profile["designationConfidenceLabel"] = get_designation_signal_strength_label(
-        archive_profile["designationConfidence"]
+    archive_profile["designationConfidenceLabel"] = (
+        get_designation_signal_strength_label(archive_profile["designationConfidence"])
     )
 
     archive_profile["designations"] = evaluate_designations(archive_profile)
@@ -200,6 +208,13 @@ def _empty_profile():
         },
         "genreDistribution": {},
         "averageScore": 0,
+        "scoreVariance": 0,
+        "completionDistribution": {
+            "completed": 0,
+            "in-progress": 0,
+            "dropped": 0,
+            "planned": 0,
+        },
         "highestRatedEntry": None,
         "lowestRatedEntry": None,
         "topUniversal": [],

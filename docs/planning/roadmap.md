@@ -765,10 +765,10 @@ The guiding principle remains:
 
 ### 7.1 Evidence Foundation
 
-- [ ] Add score distribution / variance analysis
-- [ ] Restore completion-state metadata to the active archive workflow
-- [ ] Define semantics for substantially experienced but unfinished media
-- [ ] Preserve completion as behavioral evidence rather than a prerequisite for scoring
+- [x] Add score distribution / variance analysis
+- [x] Restore completion-state metadata to the active archive workflow
+- [x] Define semantics for substantially experienced but unfinished media
+- [x] Preserve completion as behavioral evidence rather than a prerequisite for scoring
 
 ### 7.2 Temporal Evidence
 
@@ -1091,9 +1091,9 @@ Future intelligence expansion should prioritize richer evidence over simply addi
 
 Potential evidence work, in priority order:
 
-- [ ] Add score distribution / variance analysis
-- [ ] Restore completion-state metadata to the active archive workflow
-- [ ] Define semantics for substantially experienced but unfinished media
+- [x] Add score distribution / variance analysis
+- [x] Restore completion-state metadata to the active archive workflow
+- [x] Define semantics for substantially experienced but unfinished media
 - [ ] Expand temporal consumption analysis
 - [ ] Analyze score × completion relationships
 - [ ] Analyze media type × scoring behavior

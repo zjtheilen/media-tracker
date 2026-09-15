@@ -1,4 +1,7 @@
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL =
+    window.location.port === "3001"
+        ? "http://127.0.0.1:8001"
+        : "http://127.0.0.1:8000";
 
 const ARCHIVE_COLORS = {
     text: "#d6e2d8",

@@ -3,27 +3,28 @@ const fs = require("node:fs");
 
 const suites = [
     {
-        name: "Node config",
+        name: "Node",
         command: "npm",
-        args: ["run", "test:config"],
-        expected: 1,
+        args: ["run", "test:config:quiet"],
     },
     {
         name: "Pytest",
         command: "pytest",
         args: [
             "-q",
+            "-p",
+            "tests.pytest_progress",
             "--junitxml=reports/pytest/results.xml",
         ],
-        expected: 245,
         report: "reports/pytest/results.xml",
+        progressFile: "reports/pytest/progress.json",
     },
     {
         name: "Playwright",
         command: "npm",
         args: ["run", "test:e2e:quiet"],
-        expected: 46,
         report: "reports/playwright/results.xml",
+        progressFile: "reports/playwright/progress.json",
     },
 ];
 
@@ -69,7 +70,8 @@ function parseJUnitResults(reportPath) {
         }
 
         const nameMatch = attributes.match(/\bname="([^"]*)"/);
-        const classnameMatch = attributes.match(/\bclassname="([^"]*)"/);
+        const classnameMatch =
+            attributes.match(/\bclassname="([^"]*)"/);
 
         failedTests.push({
             classname: classnameMatch?.[1] || "Unknown test class",
@@ -92,33 +94,127 @@ function runSuite(suite) {
         if (suite.report && fs.existsSync(suite.report)) {
             fs.rmSync(suite.report);
         }
+
+        if (suite.progressFile && fs.existsSync(suite.progressFile)) {
+            fs.rmSync(suite.progressFile);
+        }
+
+        console.log(`${suite.name} test`);
+
         const child = spawn(suite.command, suite.args, {
-            stdio: "inherit",
+            stdio: "ignore",
             shell: true,
         });
 
+        const barWidth = 20;
+        const barCharacter = "#";
+        const spinnerCharacters = ["|", "/", "-", "\\"];
+
+        let spinnerPosition = 0;
+        let completed = 0;
+        let total = suite.expected || 0;
+
+        const readProgress = () => {
+            if (!suite.progressFile || !fs.existsSync(suite.progressFile)) {
+                return;
+            }
+
+            try {
+                const progress = JSON.parse(
+                    fs.readFileSync(suite.progressFile, "utf8")
+                );
+
+                completed = progress.completed ?? 0;
+                total = progress.total ?? total;
+            } catch {
+                // Progress file may be mid-write; try again next tick.
+            }
+        };
+
+        const renderProgress = () => {
+            readProgress();
+
+            const ratio = total > 0
+                ? Math.min(completed / total, 1)
+                : 0;
+
+            const filled = Math.round(ratio * barWidth);
+            const empty = barWidth - filled;
+            const spinner =
+                spinnerCharacters[spinnerPosition];
+
+            process.stdout.write(
+                `\r[${barCharacter.repeat(filled)}${" ".repeat(empty)} ${spinner}]`
+            );
+
+            spinnerPosition =
+                (spinnerPosition + 1) % spinnerCharacters.length;
+        };
+
+        renderProgress();
+
+        const progressTimer = setInterval(
+            renderProgress,
+            100
+        );
+
         child.on("close", (code) => {
+            clearInterval(progressTimer);
+
+            readProgress();
+
             let result;
 
             if (suite.report) {
-                const testResults = parseJUnitResults(suite.report);
+                const testResults =
+                    parseJUnitResults(suite.report);
 
                 result = {
                     ...suite,
-                    passed: code === 0 && testResults !== null,
-                    actual: testResults?.passed ?? 0,
-                    total: testResults?.total ?? suite.expected,
-                    failedTests: testResults?.failedTests ?? [],
+                    passed:
+                        code === 0 &&
+                        testResults !== null,
+                    actual:
+                        testResults?.passed ?? 0,
+                    total:
+                        testResults?.total ?? total,
+                    failedTests:
+                        testResults?.failedTests ?? [],
                 };
             } else {
                 result = {
                     ...suite,
                     passed: code === 0,
-                    actual: code === 0 ? suite.expected : 0,
+                    actual:
+                        code === 0
+                            ? suite.expected
+                            : 0,
                     total: suite.expected,
                     failedTests: [],
                 };
             }
+
+            process.stdout.write("\r\x1b[2K");
+
+            const finalBar =
+                `[${barCharacter.repeat(barWidth)}]`;
+
+            console.log(
+                result.passed
+                    ? green(finalBar)
+                    : red(finalBar)
+            );
+
+            const suiteText =
+                `${suite.name} ${result.actual}/${result.total} passed`;
+
+            console.log(
+                result.passed
+                    ? green(suiteText)
+                    : red(suiteText)
+            );
+
+            console.log("");
 
             results.push(result);
 
@@ -131,8 +227,19 @@ async function main() {
     fs.mkdirSync("reports/pytest", { recursive: true });
     fs.mkdirSync("reports/playwright", { recursive: true });
 
+    console.log("");
+    console.log("========================================");
+    console.log("             WASABI TEST RUN");
+    console.log("========================================");
+    console.log("");
+
     for (const suite of suites) {
         await runSuite(suite);
+
+        if (suite !== suites[suites.length - 1]) {
+            console.log("----------------------------------------");
+            console.log("");
+        }
     }
 
     const totalExpected = results.reduce(
@@ -145,34 +252,25 @@ async function main() {
         0
     );
 
-    const allPassed = results.every((suite) => suite.passed);
+    const allPassed = results.every(
+        (suite) => suite.passed
+    );
 
-    const totalText = `${totalPassed}/${totalExpected} passed`;
+    const totalText =
+        `TOTAL: ${totalPassed}/${totalExpected} passed`;
 
-    console.log("");
     console.log("========================================");
-    console.log("           WASABI TEST SUMMARY");
-    console.log("========================================");
-
-    for (const suite of results) {
-        const suiteText = `${suite.actual}/${suite.total} passed`;
-
-        console.log(
-            `${suite.name.padEnd(16)} ${suite.passed ? green(suiteText) : red(suiteText)
-            }`
-        );
-    }
-
-    console.log("----------------------------------------");
 
     console.log(
-        `TOTAL:           ${allPassed ? green(totalText) : red(totalText)
-        }`
+        allPassed
+            ? green(totalText)
+            : red(totalText)
     );
 
     console.log(
-        `STATUS:          ${allPassed ? green("PASSED") : red("FAILED")
-        }`
+        allPassed
+            ? green("STATUS: PASSED")
+            : red("STATUS: FAILED")
     );
 
     if (!allPassed) {

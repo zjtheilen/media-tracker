@@ -126,7 +126,7 @@ async function seedTopRatedEntries(request) {
 
     for (const entry of entries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -142,7 +142,7 @@ async function seedTopRatedEntries(request) {
 
 async function clearEntries(request) {
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -151,7 +151,7 @@ async function clearEntries(request) {
 
     for (const entry of entries) {
         const deleteResponse = await request.delete(
-            `http://127.0.0.1:8000/entries/${entry.id}`
+            `http://127.0.0.1:8001/entries/${entry.id}`
         );
 
         expect(deleteResponse.ok()).toBeTruthy();
@@ -591,7 +591,7 @@ async function seedMediaSpecificEntries(request) {
 
     for (const entry of entries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -811,7 +811,7 @@ async function seedRecentArchiveEntries(request) {
 
     for (const entry of entries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -987,7 +987,7 @@ async function seedHallOfFameEntries(request) {
 
     for (const entry of entries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -1005,7 +1005,7 @@ test("Hall of Fame includes only scores of 95 or higher in descending order", as
     await seedHallOfFameEntries(request);
 
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();

@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 async function clearEntries(request) {
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -11,7 +11,7 @@ async function clearEntries(request) {
 
     for (const entry of entries) {
         const deleteResponse = await request.delete(
-            `http://127.0.0.1:8000/entries/${entry.id}`
+            `http://127.0.0.1:8001/entries/${entry.id}`
         );
 
         expect(deleteResponse.ok()).toBeTruthy();
@@ -65,7 +65,7 @@ function bookScores(value = 6) {
 
 async function createEntry(request, entry) {
     const response = await request.post(
-        "http://127.0.0.1:8000/entries/",
+        "http://127.0.0.1:8001/entries/",
         {
             data: entry,
         }

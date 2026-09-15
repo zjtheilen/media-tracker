@@ -165,6 +165,26 @@ It is not the same thing as Signal Strength.
 
 > **An Observation identifies a supported pattern in the available evidence.**
 
+### Completion as Behavioral Evidence
+
+Completion status describes the state of a user's experience with a work independently of evaluation eligibility.
+
+A work may be scored when it has been substantially experienced even if it is ultimately unfinished. This is particularly relevant to media such as games, where a user may experience most of a work but stop before completion.
+
+Completion status must not be interpreted as a proxy for enjoyment, engagement, quality, interest, or motivation. In particular, `dropped` does not imply dislike, and `completed` does not imply positive evaluation.
+
+Completion status is therefore behavioral evidence that may support future intelligence when combined with richer evidence, but it does not independently establish the reason for or meaning of the completion state.
+
+### Score Variance as Archive Evidence
+
+Score variance describes the dispersion of total scores across the archive.
+
+It is descriptive archive evidence about how widely scores are distributed. It does not independently establish preference consistency, unpredictability, or any other psychological interpretation.
+
+**Semantic rule**
+
+> **Score Variance describes score dispersion; it does not explain the reason for that dispersion.**
+
 ---
 
 ## 4.4 Findings

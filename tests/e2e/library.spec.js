@@ -62,7 +62,7 @@ const testEntries = [
 
 async function clearEntries(request) {
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -71,7 +71,7 @@ async function clearEntries(request) {
 
     for (const entry of entries) {
         const deleteResponse = await request.delete(
-            `http://127.0.0.1:8000/entries/${entry.id}`
+            `http://127.0.0.1:8001/entries/${entry.id}`
         );
 
         expect(deleteResponse.ok()).toBeTruthy();
@@ -81,7 +81,7 @@ async function clearEntries(request) {
 async function seedEntries(request) {
     for (const entry of testEntries) {
         const response = await request.post(
-            "http://127.0.0.1:8000/entries/",
+            "http://127.0.0.1:8001/entries/",
             {
                 data: entry,
             }
@@ -317,6 +317,7 @@ test("user can create a new library record", async ({ page, request }) => {
     // Fill record identity.
     await page.locator("#title").fill("Test Game");
     await page.locator("#media-type").selectOption("game");
+    await page.locator("#completion-status").selectOption("in-progress");
 
     // Select a valid genre.
     const horrorGenre = page.getByRole("button", {
@@ -357,6 +358,19 @@ test("user can create a new library record", async ({ page, request }) => {
 
     await expect(entriesContainer).toContainText("Test Game");
 
+    const response = await request.get(
+        "http://127.0.0.1:8001/entries/"
+    );
+
+    expect(response.ok()).toBeTruthy();
+
+    const entries = await response.json();
+    const createdEntry = entries.find(
+        (entry) => entry.title === "Test Game"
+    );
+
+    expect(createdEntry.completion_status).toBe("in-progress");
+
     // The form is reset after successful creation and remains open.
     await expect(page.locator("#entryModal")).toBeVisible();
 
@@ -364,6 +378,7 @@ test("user can create a new library record", async ({ page, request }) => {
 
     await expect(page.locator("#submitBtn")).toHaveText("Add Entry");
 });
+
 
 test("user can edit a library record and existing scores are preserved", async ({ page, request }) => {
     await clearEntries(request);
@@ -397,22 +412,29 @@ test("user can edit a library record and existing scores are preserved", async (
 
     // Existing record data should be loaded into the form.
     await expect(page.locator("#title")).toHaveValue("Silent Hill 2");
-    await expect(page.locator("#media-type")).toHaveValue("game");
+    await expect(page.locator("#completion-status")).toHaveValue("completed");
 
     // Existing scores should be restored.
     await expect(page.locator("#depth")).toHaveValue("8");
     await expect(page.locator("#originality")).toHaveValue("9");
     await expect(page.locator("#gameplay_mechanics")).toHaveValue("9");
 
-    // Change the title and one score.
+    // Amend the record.
     await page.locator("#title").fill("Silent Hill 2 - Amended");
+    await page.locator("#completion-status").selectOption("dropped");
     await page.locator("#depth").fill("10");
 
     await page.locator("#submitBtn").click();
 
-    // Verify the backend immediately after save.
+    await expect(page.locator("#submitBtn")).toHaveText("Add Entry");
+
+    // resetFormState() changes the button back only after the save
+    // and refresh have completed.
+    await expect(page.locator("#submitBtn")).toHaveText("Add Entry");
+
+    // Verify the backend after the save has completed.
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -423,7 +445,12 @@ test("user can edit a library record and existing scores are preserved", async (
         (entry) => entry.title === "Silent Hill 2 - Amended"
     );
 
-    expect(updatedEntry).toBeTruthy();
+    expect(
+        updatedEntry,
+        `Expected amended entry, got: ${JSON.stringify(entries)}`
+    ).toBeTruthy();
+
+    expect(updatedEntry.completion_status).toBe("dropped");
 
     const scores = Object.fromEntries(
         updatedEntry.scores.map((score) => [
@@ -446,6 +473,7 @@ test("user can edit a library record and existing scores are preserved", async (
     expect(scores.level_design_progression).toBe(8);
     expect(scores.replayability_systems).toBe(7);
 });
+
 
 test("library search clear button restores all records", async ({ page, request }) => {
     await clearEntries(request);
@@ -549,7 +577,7 @@ test("library multiple genre filters require records to match all selected genre
     };
 
     const response = await request.post(
-        "http://127.0.0.1:8000/entries/",
+        "http://127.0.0.1:8001/entries/",
         {
             data: multiGenreEntry,
         }
@@ -789,7 +817,7 @@ test("canceling purge leaves the library record intact", async ({ page, request 
 
     // Backend should still contain all three records.
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -860,7 +888,7 @@ test("confirming purge removes the library record", async ({ page, request }) =>
 
     // Verify deletion persisted to the backend.
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -1056,7 +1084,7 @@ test("canceling Add Entry leaves the library unchanged", async ({ page, request 
 
     // Verify nothing was accidentally created in the backend.
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -1124,7 +1152,7 @@ test("canceling an edit leaves the original record unchanged", async ({ page, re
 
     // Verify the original data still exists in the backend.
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();
@@ -1188,7 +1216,7 @@ test("invalid Add Entry submission shows validation error and creates no record"
 
     // Verify no record was created in the backend.
     const response = await request.get(
-        "http://127.0.0.1:8000/entries/"
+        "http://127.0.0.1:8001/entries/"
     );
 
     expect(response.ok()).toBeTruthy();

@@ -8,6 +8,21 @@ def calculate_archive_average_score(entries):
     return total / len(entries)
 
 
+def calculate_score_variance(entries):
+
+    if not entries:
+        return 0
+
+    scores = [entry["total_score"] for entry in entries]
+
+    if len(scores) == 1:
+        return 0
+
+    mean = sum(scores) / len(scores)
+
+    return sum((score - mean) ** 2 for score in scores) / len(scores)
+
+
 def get_highest_rated_entry(entries):
 
     if not entries:
@@ -51,5 +66,23 @@ def calculate_media_distribution(entries):
 
         if media_type in distribution:
             distribution[media_type] += 1
+
+    return distribution
+
+
+def calculate_completion_distribution(entries):
+
+    distribution = {
+        "completed": 0,
+        "in-progress": 0,
+        "dropped": 0,
+        "planned": 0,
+    }
+
+    for entry in entries:
+        completion_status = entry.get("completion_status")
+
+        if completion_status in distribution:
+            distribution[completion_status] += 1
 
     return distribution

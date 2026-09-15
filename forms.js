@@ -166,6 +166,8 @@ async function startEdit(id) {
     document.getElementById("media-type").value = entry.media_type;
     document.getElementById("notes").value = entry.notes || "";
     document.getElementById("date-consumed").value = entry.date_consumed || "";
+    document.getElementById("completion-status").value =
+        entry.completion_status || "completed";
 
     submitBtn.textContent = "Save Changes";
 
@@ -271,6 +273,7 @@ form.addEventListener("submit", async (event) => {
         genres: selectedGenres,
         notes: document.getElementById("notes").value,
         date_consumed: document.getElementById("date-consumed").value || null,
+        completion_status: document.getElementById("completion-status").value,
     };
 
     if (!data.title) {

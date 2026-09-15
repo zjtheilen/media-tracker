@@ -1,13 +1,12 @@
 __pycache__/
 *.pyc
 .pytest_cache
-database.db
-test_database.db
 *.db-journal
+*.db
+*.db.*
 *.vscode/
 .venv
 node_modules
-e2e_database.db
 test-results/
 playwright-report/
 reports/

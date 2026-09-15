@@ -2,6 +2,7 @@ import pytest
 
 from models.services.archive_statistics import (
     calculate_archive_average_score,
+    calculate_score_variance,
     get_highest_rated_entry,
     get_lowest_rated_entry,
 )
@@ -24,6 +25,41 @@ def test_archive_average_score():
 @pytest.mark.unit
 def test_archive_average_score_empty():
     assert calculate_archive_average_score([]) == 0
+
+
+@pytest.mark.unit
+def test_score_variance():
+
+    entries = [
+        {"total_score": 80},
+        {"total_score": 90},
+        {"total_score": 100},
+    ]
+
+    result = calculate_score_variance(entries)
+
+    assert abs(result - (200 / 3)) < 0.0001
+
+
+@pytest.mark.unit
+def test_score_variance_empty():
+    assert calculate_score_variance([]) == 0
+
+
+@pytest.mark.unit
+def test_score_variance_single_entry():
+    assert calculate_score_variance([{"total_score": 85}]) == 0
+
+
+@pytest.mark.unit
+def test_score_variance_identical_scores():
+    entries = [
+        {"total_score": 85},
+        {"total_score": 85},
+        {"total_score": 85},
+    ]
+
+    assert calculate_score_variance(entries) == 0
 
 
 @pytest.mark.unit
