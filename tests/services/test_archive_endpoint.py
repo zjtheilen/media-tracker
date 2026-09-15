@@ -13,6 +13,7 @@ def test_archive_profile_endpoint_contract(client):
     assert "designationBasis" in data
     assert "findings" in data
     assert "completionDistribution" in data
+    assert "monthlyArchiveActivity" in data
 
 
 def test_archive_profile_contains_interpretation(client):

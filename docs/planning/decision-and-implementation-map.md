@@ -1104,7 +1104,7 @@ The following conceptual decisions do not currently require implementation chang
 The following are future evidence opportunities rather than immediate implementation requirements:
 
 - completion behavior
-- temporal consumption behavior
+- expanded temporal consumption behavior and analysis
 - score distributions / variance
 - score × completion relationships
 - media type × scoring relationships

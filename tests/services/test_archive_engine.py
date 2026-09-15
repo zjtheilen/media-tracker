@@ -7,6 +7,7 @@ def test_build_archive_profile():
         {
             "title": "Silent Hill 2",
             "media_type": "game",
+            "date_consumed": "2026-09-15",
             "genres": ["horror"],
             "total_score": 92,
             "universal_scores": {
@@ -25,6 +26,10 @@ def test_build_archive_profile():
     assert result["entryCount"] == 1
 
     assert result["scoreVariance"] == 0
+
+    assert result["monthlyArchiveActivity"] == {
+        "2026-09": 1,
+    }
 
     assert result["universalAverages"]["depth"] == 10
 
@@ -95,6 +100,7 @@ def test_archive_profile_shape():
         "designations",
         "primaryDesignation",
         "findings",
+        "monthlyArchiveActivity",
     }
 
     assert required_keys.issubset(result.keys())
@@ -307,3 +313,9 @@ def test_empty_archive_profile_includes_completion_distribution():
         "dropped": 0,
         "planned": 0,
     }
+
+
+def test_empty_archive_profile_includes_monthly_archive_activity():
+    result = build_archive_profile([])
+
+    assert result["monthlyArchiveActivity"] == {}

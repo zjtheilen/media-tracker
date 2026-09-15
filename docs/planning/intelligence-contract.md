@@ -185,6 +185,22 @@ It is descriptive archive evidence about how widely scores are distributed. It d
 
 > **Score Variance describes score dispersion; it does not explain the reason for that dispersion.**
 
+### Temporal Activity as Archive Evidence
+
+Temporal activity describes the timing and distribution of recorded archive activity based on
+`date_consumed`.
+
+The current temporal evidence representation is a sparse monthly count of recorded entries.
+Undated entries are excluded, and missing months are not represented as zero evidence.
+
+Temporal activity is descriptive archive evidence. It does not establish unrecorded consumption,
+explain gaps in the archive, or independently establish changes in taste, engagement, motivation,
+seasonality, or other behavioral causes.
+
+**Semantic rule**
+
+> **Temporal evidence describes when recorded archive activity occurred; it does not explain why.**
+
 ---
 
 ## 4.4 Findings

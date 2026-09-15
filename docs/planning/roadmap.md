@@ -772,6 +772,9 @@ The guiding principle remains:
 
 ### 7.2 Temporal Evidence
 
+- [x] Establish monthly archive activity evidence
+- [x] Define temporal evidence semantics
+- [x] Expose monthly archive activity through the archive profile
 - [ ] Expand consumption timeline evidence
 - [ ] Analyze temporal consumption patterns
 - [ ] Investigate meaningful change-over-time signals
@@ -1094,6 +1097,7 @@ Potential evidence work, in priority order:
 - [x] Add score distribution / variance analysis
 - [x] Restore completion-state metadata to the active archive workflow
 - [x] Define semantics for substantially experienced but unfinished media
+- [x] Establish monthly archive activity evidence
 - [ ] Expand temporal consumption analysis
 - [ ] Analyze score × completion relationships
 - [ ] Analyze media type × scoring behavior

@@ -86,3 +86,19 @@ def calculate_completion_distribution(entries):
             distribution[completion_status] += 1
 
     return distribution
+
+
+def calculate_monthly_archive_activity(entries):
+
+    activity = {}
+
+    for entry in entries:
+        date_consumed = entry.get("date_consumed")
+
+        if not date_consumed:
+            continue
+
+        month = date_consumed[:7]
+        activity[month] = activity.get(month, 0) + 1
+
+    return activity
