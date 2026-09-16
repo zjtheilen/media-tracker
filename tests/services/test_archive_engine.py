@@ -31,6 +31,14 @@ def test_build_archive_profile():
         "2026-09": 1,
     }
 
+    assert result["monthlyMediaDistribution"] == {
+        "2026-09": {
+            "video": 0,
+            "game": 1,
+            "book": 0,
+        },
+    }
+
     assert result["universalAverages"]["depth"] == 10
 
     assert result["mediaAverages"]["art_atmosphere"] == 10
@@ -101,6 +109,7 @@ def test_archive_profile_shape():
         "primaryDesignation",
         "findings",
         "monthlyArchiveActivity",
+        "monthlyMediaDistribution",
     }
 
     assert required_keys.issubset(result.keys())
@@ -319,3 +328,9 @@ def test_empty_archive_profile_includes_monthly_archive_activity():
     result = build_archive_profile([])
 
     assert result["monthlyArchiveActivity"] == {}
+
+
+def test_empty_archive_profile_includes_monthly_media_distribution():
+    result = build_archive_profile([])
+
+    assert result["monthlyMediaDistribution"] == {}

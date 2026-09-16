@@ -4,6 +4,7 @@ from models.services.archive_statistics import (
     calculate_genre_distribution,
     calculate_media_distribution,
     calculate_monthly_archive_activity,
+    calculate_monthly_media_distribution,
     calculate_score_variance,
     get_highest_rated_entry,
     get_lowest_rated_entry,
@@ -90,6 +91,8 @@ def _build_statistics(entries):
 
     monthly_archive_activity = calculate_monthly_archive_activity(entries)
 
+    monthly_media_distribution = calculate_monthly_media_distribution(entries)
+
     highest_rated_entry = get_highest_rated_entry(entries)
 
     lowest_rated_entry = get_lowest_rated_entry(entries)
@@ -107,6 +110,7 @@ def _build_statistics(entries):
         "scoreVariance": score_variance,
         "completionDistribution": completion_distribution,
         "monthlyArchiveActivity": monthly_archive_activity,
+        "monthlyMediaDistribution": monthly_media_distribution,
         "highestRatedEntry": highest_rated_entry,
         "lowestRatedEntry": lowest_rated_entry,
         "topUniversal": top_universal,
@@ -220,6 +224,7 @@ def _empty_profile():
             "planned": 0,
         },
         "monthlyArchiveActivity": {},
+        "monthlyMediaDistribution": {},
         "highestRatedEntry": None,
         "lowestRatedEntry": None,
         "topUniversal": [],
