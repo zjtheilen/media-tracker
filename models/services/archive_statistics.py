@@ -98,7 +98,7 @@ def calculate_monthly_archive_activity(entries):
         if not date_consumed:
             continue
 
-        month = date_consumed[:7]
+        month = str(date_consumed)[:7]
         activity[month] = activity.get(month, 0) + 1
 
     return activity
@@ -115,7 +115,7 @@ def calculate_monthly_media_distribution(entries):
         if not date_consumed or media_type not in {"video", "game", "book"}:
             continue
 
-        month = date_consumed[:7]
+        month = str(date_consumed)[:7]
 
         if month not in distribution:
             distribution[month] = {

@@ -208,7 +208,7 @@ async function seedRatingDistributionEntries(request) {
     }
 }
 
-async function seedMonthlyCompletionEntries(request) {
+async function seedMonthlyActivityEntries(request) {
     const entries = [
         {
             title: "August Completion 1",
@@ -374,7 +374,7 @@ test("analytics page loads its core visualizations", async ({ page }) => {
         "#media-distribution-chart",
         "#avg-score-chart",
         "#rating-distribution-chart",
-        "#monthly-completion-chart",
+        "#monthly-activity-chart",
         "#genre-average-ratings-chart",
     ];
 
@@ -409,7 +409,7 @@ test("analytics page handles an empty archive", async ({ page, request }) => {
         "#media-distribution-chart",
         "#avg-score-chart",
         "#rating-distribution-chart",
-        "#monthly-completion-chart",
+        "#monthly-activity-chart",
         "#genre-average-ratings-chart",
     ];
 
@@ -587,7 +587,7 @@ test("analytics monthly completion chart reflects archive data", async ({
     request,
 }) => {
     await clearEntries(request);
-    await seedMonthlyCompletionEntries(request);
+    await seedMonthlyActivityEntries(request);
 
     const entriesResponse = await request.get(
         "http://127.0.0.1:8001/entries/"
@@ -613,7 +613,7 @@ test("analytics monthly completion chart reflects archive data", async ({
 
     await page.locator("#analytics-tab").click();
 
-    const chart = page.locator("#monthly-completion-chart");
+    const chart = page.locator("#monthly-activity-chart");
 
     await expect(chart).toBeVisible();
 

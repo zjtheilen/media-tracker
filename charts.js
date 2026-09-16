@@ -201,7 +201,7 @@ async function renderAverageScoreByMediaTypeChart() {
     });
 }
 
-async function renderMonthlyCompletionChart() {
+async function renderMonthlyActivityChart() {
     const entries = await getEntries();
 
     const monthlyCounts = {};
@@ -221,16 +221,16 @@ async function renderMonthlyCompletionChart() {
     const labels = Object.keys(monthlyCounts).sort();
     const data = labels.map((month) => monthlyCounts[month]);
 
-    const ctx = document.getElementById("monthly-completion-chart").getContext("2d");
+    const ctx = document.getElementById("monthly-activity-chart").getContext("2d");
 
-    destroyChart("monthly-completion");
+    destroyChart("monthly-activity");
 
-    chartInstances["monthly-completion"] = new Chart(ctx, {
+    chartInstances["monthly-activity"] = new Chart(ctx, {
         type: "bar",
         data: {
             labels,
             datasets: [{
-                label: "Entries Completed",
+                label: "Archive Activity",
                 data,
                 backgroundColor: "rgba(197,155,74,0.9)"
             }],

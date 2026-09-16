@@ -89,7 +89,7 @@ The project favors:
 
 The core media archive is functional.
 
-The application supports recording and managing completed media entries with information including:
+The application supports recording and managing media entries with information including:
 
 * Title
 * Media type
@@ -381,11 +381,11 @@ The current regression baseline is:
 
 **1 passing Node configuration test.**
 
-**300 passing Python tests.**
+**316 passing Python tests.**
 
 **46 passing Playwright E2E tests.**
 
-**347 passing tests across the complete automated test suite.**
+**363 passing tests across the complete automated test suite.**
 
 The automated test suite is executed through the unified `npm test` runner, which runs the Node configuration guardrail, the Python regression suite, and the Playwright E2E suite and reports their results together.
 
@@ -505,11 +505,11 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **1 passing Node configuration test.**
 
-**300 passing Python tests.**
+**316 passing Python tests.**
 
 **46 passing Playwright E2E tests.**
 
-**347 passing tests across the complete automated test suite.**
+**363 passing tests across the complete automated test suite.**
 
 The Python regression suite currently provides **99% statement coverage** across **747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
 
@@ -775,6 +775,7 @@ The guiding principle remains:
 - [x] Establish monthly archive activity evidence
 - [x] Define temporal evidence semantics
 - [x] Expose monthly archive activity through the archive profile
+- [x] Establish monthly media distribution evidence
 - [ ] Expand consumption timeline evidence
 - [ ] Analyze temporal consumption patterns
 - [ ] Investigate meaningful change-over-time signals
@@ -811,7 +812,11 @@ Phase 7 should not become a label-generation exercise.
 
 New evidence should be added when it enables defensible intelligence that current evidence cannot support. New Designations, Findings, Identities, or other intelligence outputs should emerge from evidence and explicit conceptual decisions rather than being created to satisfy a target number of categories.
 
-Completion, variance, temporal behavior, and cross-dimensional relationships are evidence-development work first. Their eventual intelligence uses should be determined after the evidence is understood.
+Completion, variance, temporal behavior, and cross-dimensional relationships are evidence-development work first.
+
+Current temporal evidence is intentionally descriptive: monthly archive activity describes when recorded activity occurred, while monthly media distribution describes which media types made up that recorded activity. Neither should be interpreted as evidence of taste change, preference transition, motivation, engagement, seasonality, or other behavioral causes without additional supporting evidence.
+
+Their eventual intelligence uses should be determined after the evidence is understood.
 
 Recommendation scoring remains deferred until its conceptual inputs and evidence are sufficiently mature.
 
@@ -1094,17 +1099,18 @@ Future intelligence expansion should prioritize richer evidence over simply addi
 
 Potential evidence work, in priority order:
 
-- [x] Add score distribution / variance analysis
-- [x] Restore completion-state metadata to the active archive workflow
-- [x] Define semantics for substantially experienced but unfinished media
-- [x] Establish monthly archive activity evidence
-- [ ] Expand temporal consumption analysis
-- [ ] Analyze score × completion relationships
-- [ ] Analyze media type × scoring behavior
-- [ ] Expand archive-derived genre relationship intelligence
-- [ ] Investigate repeat-consumption behavior
-- [ ] Investigate creator/franchise repetition where reliable metadata exists
-- [ ] Evaluate future structured use of review/notes data
+* [x] Add score distribution / variance analysis
+* [x] Restore completion-state metadata to the active archive workflow
+* [x] Define semantics for substantially experienced but unfinished media
+* [x] Establish monthly archive activity evidence
+* [x] Establish monthly media distribution evidence
+* [ ] Expand temporal consumption analysis
+* [ ] Analyze score × completion relationships
+* [ ] Analyze media type × scoring behavior
+* [ ] Expand archive-derived genre relationship intelligence
+* [ ] Investigate repeat-consumption behavior
+* [ ] Investigate creator/franchise repetition where reliable metadata exists
+* [ ] Evaluate future structured use of review/notes data
 
 These items are evidence-development opportunities, not a commitment to implement all of them together.
 

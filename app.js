@@ -3,7 +3,7 @@ async function refreshApp() {
 
     await renderMediaDistributionChart();
     await renderAverageScoreByMediaTypeChart();
-    await renderMonthlyCompletionChart();
+    await renderMonthlyActivityChart();
     await renderRatingDistributionChart();
     await renderGenreAverageScoresChart();
     await renderArchiveProfileCard();

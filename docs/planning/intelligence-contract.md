@@ -45,7 +45,7 @@ Terminology alignment is therefore a controlled evolution of the existing Media 
 
 ## 3. Intelligence System Overview
 
-Media Tracker transforms an archive of completed media experiences into progressively more interpretive forms of information.
+Media Tracker transforms an archive of recorded media experiences into progressively more interpretive forms of information.
 
 At a high level:
 
@@ -190,16 +190,27 @@ It is descriptive archive evidence about how widely scores are distributed. It d
 Temporal activity describes the timing and distribution of recorded archive activity based on
 `date_consumed`.
 
-The current temporal evidence representation is a sparse monthly count of recorded entries.
-Undated entries are excluded, and missing months are not represented as zero evidence.
+The current temporal evidence representations include:
 
-Temporal activity is descriptive archive evidence. It does not establish unrecorded consumption,
-explain gaps in the archive, or independently establish changes in taste, engagement, motivation,
-seasonality, or other behavioral causes.
+* **Monthly Archive Activity** — a sparse monthly count of recorded entries.
+* **Monthly Media Distribution** — the media types represented within each month of recorded archive activity.
 
-**Semantic rule**
+Undated entries are excluded from both representations, and missing months are not represented as zero evidence.
+
+Monthly Archive Activity describes **when** recorded archive activity occurred.
+
+Monthly Media Distribution describes **what media types** made up that recorded activity during a represented month.
+
+Both are descriptive archive evidence. Neither establishes unrecorded consumption, explains gaps in the archive, or independently establishes changes in taste, preference, engagement, motivation, seasonality, or other behavioral causes.
+
+Monthly Media Distribution should not be interpreted as evidence of a media preference transition merely because the composition of recorded activity differs between periods.
+
+### Semantic rules
 
 > **Temporal evidence describes when recorded archive activity occurred; it does not explain why.**
+
+> **Monthly media distribution describes what media types made up recorded activity during a period; it does not establish why that composition occurred.**
+
 
 ---
 

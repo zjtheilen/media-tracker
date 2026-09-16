@@ -21,13 +21,9 @@ def entry_to_archive_format(entry):
     if isinstance(scores, dict):
         score_items = scores.items()
     else:
-        score_items = (
-            (score.category, score.value)
-            for score in scores
-        )
+        score_items = ((score.category, score.value) for score in scores)
 
     for category, value in score_items:
-
         if category in universal_categories:
             universal[category] = value
 
@@ -38,6 +34,8 @@ def entry_to_archive_format(entry):
         "title": entry.title,
         "media_type": entry.media_type,
         "genres": entry.genres,
+        "date_consumed": getattr(entry, "date_consumed", None),
+        "completion_status": getattr(entry, "completion_status", None),
         "total_score": entry.total_score,
         "universal_scores": universal,
         "media_scores": media,

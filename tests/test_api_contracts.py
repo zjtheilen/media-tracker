@@ -69,3 +69,34 @@ def test_genre_stats_contract(
 
     assert data["media_affinity"]["horror"]["game"]["count"] == 2
     assert data["media_affinity"]["sci-fi"]["book"]["count"] == 1
+
+
+@pytest.mark.api
+def test_archive_profile_temporal_evidence_contract(
+    client,
+    valid_game_payload,
+):
+    game_payload = copy.deepcopy(valid_game_payload)
+    game_payload["date_consumed"] = "2026-09-15"
+
+    response = client.post("/entries/", json=game_payload)
+
+    assert response.status_code == 200
+
+    response = client.get("/archive-profile")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["monthlyArchiveActivity"] == {
+        "2026-09": 1,
+    }
+
+    assert data["monthlyMediaDistribution"] == {
+        "2026-09": {
+            "video": 0,
+            "game": 1,
+            "book": 0,
+        },
+    }
