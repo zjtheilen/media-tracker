@@ -7,6 +7,7 @@ from models.scoring_profile import (
     UNIVERSAL_SCORING_PROFILE,
     get_universal_categories,
 )
+from models.services.archive_statistics import calculate_monthly_average_score
 
 
 @pytest.mark.api
@@ -99,4 +100,26 @@ def test_archive_profile_temporal_evidence_contract(
             "game": 1,
             "book": 0,
         },
+    }
+
+
+def test_calculate_monthly_average_score():
+    entries = [
+        {
+            "date_consumed": "2026-01-10",
+            "total_score": 80,
+        },
+        {
+            "date_consumed": "2026-01-20",
+            "total_score": 100,
+        },
+        {
+            "date_consumed": "2026-02-10",
+            "total_score": 60,
+        },
+    ]
+
+    assert calculate_monthly_average_score(entries) == {
+        "2026-01": 90.0,
+        "2026-02": 60.0,
     }

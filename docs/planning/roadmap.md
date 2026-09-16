@@ -776,6 +776,9 @@ The guiding principle remains:
 - [x] Define temporal evidence semantics
 - [x] Expose monthly archive activity through the archive profile
 - [x] Establish monthly media distribution evidence
+- [x] Monthly archive activity
+- [x] Monthly media distribution
+- [x] Monthly average score
 - [ ] Expand consumption timeline evidence
 - [ ] Analyze temporal consumption patterns
 - [ ] Investigate meaningful change-over-time signals

@@ -127,3 +127,26 @@ def calculate_monthly_media_distribution(entries):
         distribution[month][media_type] += 1
 
     return distribution
+
+
+def calculate_monthly_average_score(entries):
+    scores = {}
+
+    for entry in entries:
+        date_consumed = entry.get("date_consumed")
+        total_score = entry.get("total_score")
+
+        if not date_consumed or total_score is None:
+            continue
+
+        month = str(date_consumed)[:7]
+
+        if month not in scores:
+            scores[month] = []
+
+        scores[month].append(total_score)
+
+    return {
+        month: sum(values) / len(values)
+        for month, values in scores.items()
+    }

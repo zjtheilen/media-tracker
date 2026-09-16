@@ -194,6 +194,7 @@ The current temporal evidence representations include:
 
 * **Monthly Archive Activity** — a sparse monthly count of recorded entries.
 * **Monthly Media Distribution** — the media types represented within each month of recorded archive activity.
+* **Monthly Average Score** — the average total score associated with records having a recorded consumption date within each represented month.
 
 Undated entries are excluded from both representations, and missing months are not represented as zero evidence.
 
@@ -201,7 +202,9 @@ Monthly Archive Activity describes **when** recorded archive activity occurred.
 
 Monthly Media Distribution describes **what media types** made up that recorded activity during a represented month.
 
-Both are descriptive archive evidence. Neither establishes unrecorded consumption, explains gaps in the archive, or independently establishes changes in taste, preference, engagement, motivation, seasonality, or other behavioral causes.
+Monthly Average Score describes the scores associated with records dated within a period. It does not establish when those scores were assigned, whether scoring behavior changed over time, or whether differences between periods represent changes in preference or taste.
+
+All are descriptive archive evidence. Neither establishes unrecorded consumption, explains gaps in the archive, or independently establishes changes in taste, preference, engagement, motivation, seasonality, or other behavioral causes.
 
 Monthly Media Distribution should not be interpreted as evidence of a media preference transition merely because the composition of recorded activity differs between periods.
 
@@ -210,6 +213,8 @@ Monthly Media Distribution should not be interpreted as evidence of a media pref
 > **Temporal evidence describes when recorded archive activity occurred; it does not explain why.**
 
 > **Monthly media distribution describes what media types made up recorded activity during a period; it does not establish why that composition occurred.**
+
+> **Monthly average score describes the scores associated with records dated within a period; it does not establish why those scores differ between periods.**
 
 
 ---
