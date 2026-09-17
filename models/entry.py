@@ -21,7 +21,7 @@ class Entry:
         self.media_item = media_item
         self.scores = scores if scores is not None else []
         self.notes = notes
-        self.date_consumed = date_consumed or date.today()
+        self.date_consumed = date_consumed
         self.completion_status = completion_status
         self.genres = genres
 

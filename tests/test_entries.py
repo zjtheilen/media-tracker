@@ -113,3 +113,20 @@ def test_delete_entry(client, valid_game_payload):
     get_response = client.get(f"/entries/{entry_id}")
 
     assert get_response.status_code == 404
+
+
+@pytest.mark.api
+@pytest.mark.regression
+def test_create_entry_without_consumed_date_preserves_null(
+    client, valid_game_payload
+):
+    payload = copy.deepcopy(valid_game_payload)
+    payload["date_consumed"] = None
+
+    response = client.post("/entries/", json=payload)
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["date_consumed"] is None
