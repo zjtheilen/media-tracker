@@ -380,8 +380,13 @@ def get_stats():
             1 for r in rows if r["completion_status"] == "completed"
         )
 
-        total_score = sum(r["total_score"] for r in rows)
-        average_score = total_score / total_entries if total_entries else 0
+        scored_rows = [
+            row for row in rows
+            if row["total_score"] is not None and row["total_score"] != 0
+        ]
+
+        total_score = sum(r["total_score"] for r in scored_rows)
+        average_score = total_score / len(scored_rows) if scored_rows else 0
 
         media_type_counts = {}
 

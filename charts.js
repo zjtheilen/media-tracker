@@ -10,12 +10,18 @@ function destroyChart(id) {
     }
 }
 
+function isScoredEntry(entry) {
+    return Object.keys(entry.universal_scores || {}).length > 0;
+}
+
 function calculateAverage(entries) {
+    const scoredEntries = entries.filter(isScoredEntry);
+
     return (
-        entries.reduce(
+        scoredEntries.reduce(
             (sum, entry) => sum + entry.total_score,
             0
-        ) / entries.length
+        ) / scoredEntries.length
     );
 }
 
@@ -281,7 +287,7 @@ async function renderRatingDistributionChart() {
         "Below 60": 0,
     };
 
-    entries.forEach((entry) => {
+    entries.filter(isScoredEntry).forEach((entry) => {
         const score = entry.total_score;
 
         if (score >= 90) {
@@ -355,7 +361,9 @@ async function renderGenreAverageScoresChart() {
     const entries = await getEntries();
 
     const genreGroups = groupEntries(
-        entries.filter(entry => Array.isArray(entry.genres)),
+        entries.filter(
+            entry => Array.isArray(entry.genres) && isScoredEntry(entry)
+        ),
         entry => entry.genres
     );
 

@@ -8,12 +8,13 @@ from models.analytics.genre_statistics import (
 )
 
 
-def make_entry(entry_id, genres, score, media_type):
+def make_entry(entry_id, genres, score, media_type, universal_scores=None):
     return SimpleNamespace(
         id=entry_id,
         genres=genres,
         total_score=score,
         media_type=media_type,
+        universal_scores=universal_scores,
     )
 
 
@@ -90,6 +91,21 @@ def test_genre_statistics_aggregates_scores():
         "book": 1,
         "movie": 1,
     }
+
+
+def test_genre_statistics_ignores_unscored_entries():
+    entries = [
+        make_entry("1", ["horror"], 90, "game", {"depth": 9}),
+        make_entry("2", ["horror"], 80, "game", {"depth": 8}),
+        make_entry("3", ["horror"], 0, "game", {}),
+    ]
+
+    result = get_genre_statistics(entries)
+
+    horror = result["genres"]["horror"]
+
+    assert horror["count"] == 3
+    assert horror["average_score"] == 85
 
 
 def test_get_top_genres_by_score_ranks_by_average_score():
@@ -247,6 +263,25 @@ def test_get_media_genre_affinity_empty_entries():
     assert result == {}
 
 
+def test_get_media_genre_affinity_ignores_unscored_entries():
+    entries = [
+        make_entry("1", ["horror"], 90, "game", {"depth": 9}),
+        make_entry("2", ["horror"], 80, "game", {"depth": 8}),
+        make_entry("3", ["horror"], 0, "game", {}),
+    ]
+
+    result = get_media_genre_affinity(entries)
+
+    assert result == {
+        "horror": {
+            "game": {
+                "count": 3,
+                "average_score": 85.0,
+            },
+        },
+    }
+
+
 def test_get_favorite_genre_combinations_applies_limit():
     entries = [
         make_entry("1", ["a", "b"], 90, "game"),
@@ -263,4 +298,40 @@ def test_get_favorite_genre_combinations_applies_limit():
         {"genres": ["a", "b"], "count": 1, "average_score": 90.0},
         {"genres": ["a", "c"], "count": 1, "average_score": 85.0},
         {"genres": ["a", "d"], "count": 1, "average_score": 80.0},
+    ]
+
+
+def test_get_favorite_genre_combinations_ignores_unscored_entries():
+    entries = [
+        make_entry(
+            "1",
+            ["horror", "psychological"],
+            90,
+            "game",
+            {"depth": 9},
+        ),
+        make_entry(
+            "2",
+            ["horror", "psychological"],
+            80,
+            "book",
+            {"depth": 8},
+        ),
+        make_entry(
+            "3",
+            ["horror", "psychological"],
+            0,
+            "movie",
+            {},
+        ),
+    ]
+
+    result = get_favorite_genre_combinations(entries)
+
+    assert result == [
+        {
+            "genres": ["horror", "psychological"],
+            "count": 3,
+            "average_score": 85.0,
+        }
     ]

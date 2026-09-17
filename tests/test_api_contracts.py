@@ -1,4 +1,5 @@
 import copy
+import sqlite3
 
 import pytest
 
@@ -25,6 +26,63 @@ def test_scoring_profile_contract(client):
     assert data["universal"]["weights"] == UNIVERSAL_SCORING_PROFILE
 
     assert data["media"] == MEDIA_SCORING_PROFILES
+
+
+@pytest.mark.api
+def test_stats_average_score_excludes_unscored_entries(
+    client,
+    valid_game_payload,
+):
+    first_payload = copy.deepcopy(valid_game_payload)
+
+    second_payload = copy.deepcopy(valid_game_payload)
+    second_payload["title"] = "Second Scored Entry"
+
+    first_response = client.post("/entries/", json=first_payload)
+    second_response = client.post("/entries/", json=second_payload)
+
+    assert first_response.status_code == 200
+    assert second_response.status_code == 200
+
+    scored_score = first_response.json()["total_score"]
+
+    conn = sqlite3.connect("test_database.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        INSERT INTO entries (
+            title,
+            media_type,
+            genres,
+            notes,
+            completion_status,
+            total_score
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (
+            "Unscored Entry",
+            "game",
+            '["horror"]',
+            "Not yet evaluated",
+            "completed",
+            None,
+        ),
+    )
+
+    conn.commit()
+    conn.close()
+
+    response = client.get("/stats/")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["total_entries"] == 3
+    assert data["average_score"] == scored_score
+    assert data["media_type_counts"]["game"] == 3
 
 
 @pytest.mark.api

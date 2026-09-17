@@ -1,5 +1,6 @@
 function getTopEntries(entries, scoreFn, limit = 5) {
     return [...entries]
+        .filter(isScoredEntry)
         .sort((a, b) => scoreFn(b) - scoreFn(a))
         .slice(0, limit);
 }

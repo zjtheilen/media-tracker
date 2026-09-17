@@ -1,6 +1,15 @@
 from itertools import combinations
 
 
+def _is_scored_entry(entry):
+    universal_scores = getattr(entry, "universal_scores", None)
+
+    if universal_scores is not None:
+        return bool(universal_scores)
+
+    return entry.total_score not in (None, 0)
+
+
 def get_genre_statistics(entries):
     genre_stats = {}
 
@@ -10,6 +19,7 @@ def get_genre_statistics(entries):
                 genre_stats[genre] = {
                     "count": 0,
                     "total_score": 0,
+                    "scored_count": 0,
                     "media_types": {},
                     "entries": [],
                 }
@@ -17,7 +27,11 @@ def get_genre_statistics(entries):
             stats = genre_stats[genre]
 
             stats["count"] += 1
-            stats["total_score"] += entry.total_score
+
+            if _is_scored_entry(entry):
+                stats["total_score"] += entry.total_score
+                stats["scored_count"] += 1
+
             stats["entries"].append(entry.id)
 
             media_type = entry.media_type
@@ -26,7 +40,11 @@ def get_genre_statistics(entries):
             )
 
     for genre, stats in genre_stats.items():
-        stats["average_score"] = round(stats["total_score"] / stats["count"], 2)
+        stats["average_score"] = (
+            round(stats["total_score"] / stats["scored_count"], 2)
+            if stats["scored_count"]
+            else 0
+        )
 
         del stats["total_score"]
 
@@ -65,13 +83,21 @@ def get_favorite_genre_combinations(entries, limit=5):
         genres = sorted(entry.genres)
 
         for pair in combinations(genres, 2):
+
             key = tuple(pair)
 
             if key not in combinations_found:
-                combinations_found[key] = {"count": 0, "total_score": 0}
+                combinations_found[key] = {
+                    "count": 0,
+                    "total_score": 0,
+                    "scored_count": 0,
+                }
 
             combinations_found[key]["count"] += 1
-            combinations_found[key]["total_score"] += entry.total_score
+
+            if _is_scored_entry(entry):
+                combinations_found[key]["total_score"] += entry.total_score
+                combinations_found[key]["scored_count"] += 1
 
     results = []
 
@@ -80,7 +106,11 @@ def get_favorite_genre_combinations(entries, limit=5):
             {
                 "genres": list(genres),
                 "count": data["count"],
-                "average_score": round(data["total_score"] / data["count"], 2),
+                "average_score": (
+                    round(data["total_score"] / data["scored_count"], 2)
+                    if data["scored_count"]
+                    else 0
+                ),
             }
         )
 
@@ -99,17 +129,27 @@ def get_media_genre_affinity(entries):
             media = entry.media_type
 
             if media not in affinity[genre]:
-                affinity[genre][media] = {"count": 0, "total_score": 0}
+                affinity[genre][media] = {
+                    "count": 0,
+                    "total_score": 0,
+                    "scored_count": 0,
+                }
 
             affinity[genre][media]["count"] += 1
-            affinity[genre][media]["total_score"] += entry.total_score
 
-    for genre in affinity:
-        for media in affinity[genre]:
-            data = affinity[genre][media]
+            if _is_scored_entry(entry):
+                affinity[genre][media]["total_score"] += entry.total_score
+                affinity[genre][media]["scored_count"] += 1
 
-            data["average_score"] = round(data["total_score"] / data["count"], 2)
+    for genre, media_types in affinity.items():
+        for media, data in media_types.items():
+            data["average_score"] = (
+                round(data["total_score"] / data["scored_count"], 2)
+                if data["scored_count"]
+                else 0
+            )
 
             del data["total_score"]
+            del data["scored_count"]
 
     return affinity

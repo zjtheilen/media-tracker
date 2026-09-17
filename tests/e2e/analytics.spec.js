@@ -360,6 +360,21 @@ async function seedGenreAverageEntries(request) {
     }
 }
 
+async function mockUnscoredArchive(page, entries) {
+    await page.route("**/entries/", async (route) => {
+        if (route.request().method() !== "GET") {
+            await route.continue();
+            return;
+        }
+
+        await route.fulfill({
+            status: 200,
+            contentType: "application/json",
+            json: entries,
+        });
+    });
+}
+
 test("analytics page loads its core visualizations", async ({ page }) => {
     await page.goto("/");
 
@@ -533,6 +548,190 @@ test("analytics average score chart reflects archive data", async ({
             expectedAverages[mediaType]
         );
     }
+});
+
+test("analytics average score chart excludes unevaluated entries", async ({
+    page,
+}) => {
+    const entries = [
+        {
+            id: "scored-90",
+            title: "Scored 90",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 90,
+            universal_scores: {
+                depth: 9,
+            },
+        },
+        {
+            id: "scored-80",
+            title: "Scored 80",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 80,
+            universal_scores: {
+                depth: 8,
+            },
+        },
+        {
+            id: "unscored",
+            title: "Not Yet Evaluated",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 0,
+            universal_scores: {},
+        },
+    ];
+
+    await mockUnscoredArchive(page, entries);
+
+    await page.goto("/");
+
+    await page.locator("#analytics-tab").click();
+
+    const chart = page.locator("#avg-score-chart");
+
+    await expect(chart).toBeVisible();
+
+    const chartData = await chart.evaluate((canvas) => {
+        const chartInstance = Chart.getChart(canvas);
+
+        return {
+            labels: chartInstance.data.labels,
+            data: chartInstance.data.datasets[0].data,
+        };
+    });
+
+    const gameIndex = chartData.labels.indexOf("game");
+
+    expect(gameIndex).toBeGreaterThanOrEqual(0);
+    expect(chartData.data[gameIndex]).toBe(85);
+});
+
+test("analytics rating distribution chart excludes unevaluated entries", async ({
+    page,
+}) => {
+    const entries = [
+        {
+            id: "scored-90",
+            title: "Scored 90",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 90,
+            universal_scores: {
+                depth: 9,
+            },
+        },
+        {
+            id: "scored-80",
+            title: "Scored 80",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 80,
+            universal_scores: {
+                depth: 8,
+            },
+        },
+        {
+            id: "unscored",
+            title: "Not Yet Evaluated",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 0,
+            universal_scores: {},
+        },
+    ];
+
+    await mockUnscoredArchive(page, entries);
+
+    await page.goto("/");
+
+    await page.locator("#analytics-tab").click();
+
+    const chart = page.locator("#rating-distribution-chart");
+
+    await expect(chart).toBeVisible();
+
+    const chartData = await chart.evaluate((canvas) => {
+        const chartInstance = Chart.getChart(canvas);
+
+        return {
+            labels: chartInstance.data.labels,
+            data: chartInstance.data.datasets[0].data,
+        };
+    });
+
+    const below60Index = chartData.labels.indexOf("Below 60");
+    const eightiesIndex = chartData.labels.indexOf("80-89");
+    const ninetiesIndex = chartData.labels.indexOf("90-100");
+
+    expect(below60Index).toBeGreaterThanOrEqual(0);
+    expect(eightiesIndex).toBeGreaterThanOrEqual(0);
+    expect(ninetiesIndex).toBeGreaterThanOrEqual(0);
+
+    expect(chartData.data[below60Index]).toBe(0);
+    expect(chartData.data[eightiesIndex]).toBe(1);
+    expect(chartData.data[ninetiesIndex]).toBe(1);
+});
+
+test("analytics genre average ratings chart excludes unevaluated entries", async ({
+    page,
+}) => {
+    const entries = [
+        {
+            id: "scored-90",
+            title: "Scored 90",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 90,
+            universal_scores: {
+                depth: 9,
+            },
+        },
+        {
+            id: "scored-80",
+            title: "Scored 80",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 80,
+            universal_scores: {
+                depth: 8,
+            },
+        },
+        {
+            id: "unscored",
+            title: "Not Yet Evaluated",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 0,
+            universal_scores: {},
+        },
+    ];
+
+    await mockUnscoredArchive(page, entries);
+
+    await page.goto("/");
+
+    await page.locator("#analytics-tab").click();
+
+    const chart = page.locator("#genre-average-ratings-chart");
+
+    await expect(chart).toBeVisible();
+
+    const chartData = await chart.evaluate((canvas) => {
+        const chartInstance = Chart.getChart(canvas);
+
+        return {
+            labels: chartInstance.data.labels,
+            data: chartInstance.data.datasets[0].data,
+        };
+    });
+
+    const horrorIndex = chartData.labels.indexOf("horror");
+
+    expect(horrorIndex).toBeGreaterThanOrEqual(0);
+    expect(chartData.data[horrorIndex]).toBe(85);
 });
 
 test("analytics rating distribution chart reflects archive data", async ({

@@ -158,6 +158,21 @@ async function clearEntries(request) {
     }
 }
 
+async function mockUnscoredArchive(page, entries) {
+    await page.route("**/entries/", async (route) => {
+        if (route.request().method() !== "GET") {
+            await route.continue();
+            return;
+        }
+
+        await route.fulfill({
+            status: 200,
+            contentType: "application/json",
+            json: entries,
+        });
+    });
+}
+
 test("top rated overall list displays the five highest scored records in descending order", async ({
     page,
     request,
@@ -218,6 +233,82 @@ test("top rated overall list displays the five highest scored records in descend
     );
 
     await expect(list).not.toContainText("Top Rated 50");
+});
+
+test("top rated overall list excludes unevaluated entries", async ({
+    page,
+}) => {
+    const entries = [
+        {
+            id: "scored-95",
+            title: "Scored 95",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 95,
+            universal_scores: {
+                depth: 9,
+            },
+        },
+        {
+            id: "scored-90",
+            title: "Scored 90",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 90,
+            universal_scores: {
+                depth: 9,
+            },
+        },
+        {
+            id: "scored-80",
+            title: "Scored 80",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 80,
+            universal_scores: {
+                depth: 8,
+            },
+        },
+        {
+            id: "scored-70",
+            title: "Scored 70",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 70,
+            universal_scores: {
+                depth: 7,
+            },
+        },
+        {
+            id: "unscored",
+            title: "Not Yet Evaluated",
+            media_type: "game",
+            genres: ["horror"],
+            total_score: 0,
+            universal_scores: {},
+        },
+    ];
+
+    await mockUnscoredArchive(page, entries);
+
+    await page.goto("/");
+
+    await page.locator("#lists-tab").click();
+
+    const list = page.locator("#top-rated-overall-list");
+
+    await expect(list).toBeVisible();
+
+    const items = list.locator(".top-list-item");
+
+    await expect(items).toHaveCount(4);
+
+    await expect(items.nth(0)).toContainText("Scored 95");
+    await expect(items.nth(1)).toContainText("Scored 90");
+    await expect(items.nth(2)).toContainText("Scored 80");
+    await expect(items.nth(3)).toContainText("Scored 70");
+
+    await expect(list).not.toContainText("Not Yet Evaluated");
 });
 
 async function seedMediaSpecificEntries(request) {
