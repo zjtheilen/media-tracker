@@ -381,11 +381,11 @@ The current regression baseline is:
 
 **1 passing Node configuration test.**
 
-**316 passing Python tests.**
+**333 passing Python tests.**
 
-**46 passing Playwright E2E tests.**
+**50 passing Playwright E2E tests.**
 
-**363 passing tests across the complete automated test suite.**
+**384 passing tests across the complete automated test suite.**
 
 The automated test suite is executed through the unified `npm test` runner, which runs the Node configuration guardrail, the Python regression suite, and the Playwright E2E suite and reports their results together.
 
@@ -505,11 +505,11 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **1 passing Node configuration test.**
 
-**316 passing Python tests.**
+**333 passing Python tests.**
 
-**46 passing Playwright E2E tests.**
+**50 passing Playwright E2E tests.**
 
-**363 passing tests across the complete automated test suite.**
+**384 passing tests across the complete automated test suite.**
 
 The Python regression suite currently provides **99% statement coverage** across **747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
 
@@ -650,6 +650,11 @@ The tests prioritize behavioral DOM assertions over screenshots or visual snapsh
 * Corrected SQLite connection lifecycle management so database connections are explicitly closed when their context-managed operations complete.
 * Verified the database connection fix by running the Python suite with `ResourceWarning` treated as an error. The previously repeated unclosed-database warnings no longer occur.
 * Added direct API contract coverage for the remaining previously uncovered `/scoring-profile` and `/genre-stats` routes.
+* Added regression protection ensuring score-derived archive statistics exclude unevaluated entries while archive-membership statistics continue to include them.
+* Updated genre statistics so archive membership counts remain inclusive while score-derived averages use only evaluated entries.
+* Added browser-level regression coverage ensuring Analytics score visualizations exclude unevaluated entries.
+* Added browser-level regression coverage ensuring score-derived Lists exclude unevaluated entries.
+* Added API regression coverage ensuring `/stats/` excludes unevaluated entries from average-score calculations.
 
 ### Testing principle
 

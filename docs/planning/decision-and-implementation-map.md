@@ -15,7 +15,7 @@ A media tracking, rating, and analytics app by Zachary Theilen
 **Status:** Current implementation authority
 **Guiding principle:** **Evolution, not rewrite.**
 
-**Current test status:** **245 passing tests / 0 failing tests**
+**Current test status:** **384 passing tests / 0 failing tests**
 
 ---
 
@@ -212,9 +212,9 @@ The Phase 1 goal is alignment, not subsystem replacement.
 
 The current regression baseline is:
 
-> **245 passing tests / 0 failing tests**
+> **384 passing tests / 0 failing tests**
 
-This is the post-Identity-migration baseline.
+This was the post-Identity-migration baseline.
 
 Historical checkpoints:
 
@@ -222,7 +222,8 @@ Historical checkpoints:
 * **210 passing** — earlier Phase 1 baseline
 * **218 passing** — post-forensic baseline
 * **247 passing** — pre-Identity-migration checkpoint
-* **245 passing** — current post-migration baseline
+* **245 passing** — post-Identity-migration baseline
+* **384 passing** — current Phase 7 regression baseline
 
 The difference between 247 and 245 must not be interpreted mechanically as regression.
 
@@ -1099,21 +1100,35 @@ The following conceptual decisions do not currently require implementation chang
 - dynamic taxonomy remains intentionally extensible rather than automatically generated
 - Atmospheric Interest remains deferred as a distinct Finding
 
-### Future Evidence Work
+## Phase 7 Evidence Expansion Status
 
-The following are future evidence opportunities rather than immediate implementation requirements:
+### Implemented evidence
 
-- completion behavior
-- expanded temporal consumption behavior and analysis
-- score distributions / variance
-- score × completion relationships
-- media type × scoring relationships
-- richer genre relationships
-- repeat-consumption behavior
-- creator/franchise repetition
-- future use of review/notes as structured intelligence input
+* score distribution / variance
+* completion-state metadata
+* completion semantics for substantially experienced unfinished media
+* monthly archive activity
+* monthly media distribution
+* monthly average score
+* evaluation eligibility for score-derived statistics
 
-These should be evaluated individually when their evidence and conceptual purpose are sufficiently defined.
+### Remaining evidence work
+
+* expanded consumption timeline
+* temporal consumption-pattern analysis
+* meaningful change-over-time signals
+* score × completion relationships
+* media type × scoring behavior
+* richer archive-derived genre relationships
+* repeat-consumption behavior
+* creator/franchise repetition
+* future use of review/notes as structured intelligence input
+
+### Implementation Policy
+
+Archive membership and evaluation membership are distinct.
+
+Archive-level membership, composition, completion, and activity statistics may include unevaluated records. Score-derived statistics and visualizations require current scoring evidence and must exclude unevaluated records.
 
 ---
 
@@ -1303,7 +1318,7 @@ After backend terminology alignment, verify:
 
 Current baseline:
 
-> **245 passing tests / 0 failing tests**
+> **384 passing tests / 0 failing tests**
 
 Final regression must occur after all implementation changes are complete.
 
