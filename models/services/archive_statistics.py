@@ -1,19 +1,35 @@
+def _get_scored_entries(entries):
+    return [
+        entry
+        for entry in entries
+        if (
+            entry.get("universal_scores")
+            if "universal_scores" in entry
+            else entry.get("total_score") not in (None, 0)
+        )
+    ]
+
+
 def calculate_archive_average_score(entries):
 
-    if not entries:
+    scored_entries = _get_scored_entries(entries)
+
+    if not scored_entries:
         return 0
 
-    total = sum(entry["total_score"] for entry in entries)
+    total = sum(entry["total_score"] for entry in scored_entries)
 
-    return total / len(entries)
+    return total / len(scored_entries)
 
 
 def calculate_score_variance(entries):
 
-    if not entries:
+    scored_entries = _get_scored_entries(entries)
+
+    if not scored_entries:
         return 0
 
-    scores = [entry["total_score"] for entry in entries]
+    scores = [entry["total_score"] for entry in scored_entries]
 
     if len(scores) == 1:
         return 0
@@ -25,18 +41,22 @@ def calculate_score_variance(entries):
 
 def get_highest_rated_entry(entries):
 
-    if not entries:
+    scored_entries = _get_scored_entries(entries)
+
+    if not scored_entries:
         return None
 
-    return max(entries, key=lambda entry: entry["total_score"])
+    return max(scored_entries, key=lambda entry: entry["total_score"])
 
 
 def get_lowest_rated_entry(entries):
 
-    if not entries:
+    scored_entries = _get_scored_entries(entries)
+
+    if not scored_entries:
         return None
 
-    return min(entries, key=lambda entry: entry["total_score"])
+    return min(scored_entries, key=lambda entry: entry["total_score"])
 
 
 def calculate_genre_distribution(entries):
@@ -132,7 +152,7 @@ def calculate_monthly_media_distribution(entries):
 def calculate_monthly_average_score(entries):
     scores = {}
 
-    for entry in entries:
+    for entry in _get_scored_entries(entries):
         date_consumed = entry.get("date_consumed")
         total_score = entry.get("total_score")
 
@@ -146,7 +166,4 @@ def calculate_monthly_average_score(entries):
 
         scores[month].append(total_score)
 
-    return {
-        month: sum(values) / len(values)
-        for month, values in scores.items()
-    }
+    return {month: sum(values) / len(values) for month, values in scores.items()}

@@ -23,6 +23,18 @@ def test_archive_average_score():
 
 
 @pytest.mark.unit
+def test_archive_average_score_ignores_unscored_entries():
+
+    entries = [
+        {"total_score": 80, "universal_scores": {"depth": 8}},
+        {"total_score": 90, "universal_scores": {"depth": 9}},
+        {"total_score": 0, "universal_scores": {}},
+    ]
+
+    assert calculate_archive_average_score(entries) == 85
+
+
+@pytest.mark.unit
 def test_archive_average_score_empty():
     assert calculate_archive_average_score([]) == 0
 
@@ -39,6 +51,20 @@ def test_score_variance():
     result = calculate_score_variance(entries)
 
     assert abs(result - (200 / 3)) < 0.0001
+
+
+@pytest.mark.unit
+def test_score_variance_ignores_unscored_entries():
+
+    entries = [
+        {"total_score": 80, "universal_scores": {"depth": 8}},
+        {"total_score": 90, "universal_scores": {"depth": 9}},
+        {"total_score": 0, "universal_scores": {}},
+    ]
+
+    result = calculate_score_variance(entries)
+
+    assert result == 25
 
 
 @pytest.mark.unit
@@ -73,6 +99,58 @@ def test_highest_rated_entry():
     result = get_highest_rated_entry(entries)
 
     assert result["title"] == "B"
+
+
+@pytest.mark.unit
+def test_highest_rated_entry_ignores_unscored_entries():
+
+    entries = [
+        {
+            "title": "A",
+            "total_score": 80,
+            "universal_scores": {"depth": 8},
+        },
+        {
+            "title": "B",
+            "total_score": 90,
+            "universal_scores": {"depth": 9},
+        },
+        {
+            "title": "C",
+            "total_score": 100,
+            "universal_scores": {},
+        },
+    ]
+
+    result = get_highest_rated_entry(entries)
+
+    assert result["title"] == "B"
+
+
+@pytest.mark.unit
+def test_lowest_rated_entry_ignores_unscored_entries():
+
+    entries = [
+        {
+            "title": "A",
+            "total_score": 80,
+            "universal_scores": {"depth": 8},
+        },
+        {
+            "title": "B",
+            "total_score": 90,
+            "universal_scores": {"depth": 9},
+        },
+        {
+            "title": "C",
+            "total_score": 0,
+            "universal_scores": {},
+        },
+    ]
+
+    result = get_lowest_rated_entry(entries)
+
+    assert result["title"] == "A"
 
 
 @pytest.mark.unit

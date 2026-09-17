@@ -123,3 +123,28 @@ def test_calculate_monthly_average_score():
         "2026-01": 90.0,
         "2026-02": 60.0,
     }
+
+
+def test_calculate_monthly_average_score_ignores_unscored_entries():
+    entries = [
+        {
+            "date_consumed": "2026-01-10",
+            "total_score": 80,
+            "universal_scores": {"depth": 8},
+        },
+        {
+            "date_consumed": "2026-01-20",
+            "total_score": 0,
+            "universal_scores": {},
+        },
+        {
+            "date_consumed": "2026-02-10",
+            "total_score": 60,
+            "universal_scores": {"depth": 6},
+        },
+    ]
+
+    assert calculate_monthly_average_score(entries) == {
+        "2026-01": 80.0,
+        "2026-02": 60.0,
+    }

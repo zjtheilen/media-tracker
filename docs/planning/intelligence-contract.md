@@ -185,6 +185,18 @@ It is descriptive archive evidence about how widely scores are distributed. It d
 
 > **Score Variance describes score dispersion; it does not explain the reason for that dispersion.**
 
+### Evaluation Eligibility
+
+Score-derived archive statistics operate on records with current scoring evidence.
+
+An archive record without current scoring evidence remains part of the archive and may contribute to archive membership, composition, completion, and activity statistics, but it does not contribute to calculations that require an evaluated score.
+
+The absence of current scoring evidence must not be interpreted as a score of zero.
+
+### Semantic rule
+
+> **Score-derived statistics describe evaluated records; archive-membership statistics describe the archive as a whole.**
+
 ### Temporal Activity as Archive Evidence
 
 Temporal activity describes the timing and distribution of recorded archive activity based on
