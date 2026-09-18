@@ -385,7 +385,7 @@ The current regression baseline is:
 
 **50 passing Playwright E2E tests.**
 
-**384 passing tests across the complete automated test suite.**
+**388 passing tests across the complete automated test suite.**
 
 The automated test suite is executed through the unified `npm test` runner, which runs the Node configuration guardrail, the Python regression suite, and the Playwright E2E suite and reports their results together.
 
@@ -509,7 +509,7 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **50 passing Playwright E2E tests.**
 
-**384 passing tests across the complete automated test suite.**
+**388 passing tests across the complete automated test suite.**
 
 The Python regression suite currently provides **99% statement coverage** across **747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
 
@@ -827,6 +827,8 @@ Current temporal evidence is intentionally descriptive: monthly archive activity
 Their eventual intelligence uses should be determined after the evidence is understood.
 
 Recommendation scoring remains deferred until its conceptual inputs and evidence are sufficiently mature.
+
+Initial score × completion and media type × scoring investigations have been documented, but neither relationship is currently considered sufficiently established to drive new intelligence.
 
 # 13. Current Work Queue
 

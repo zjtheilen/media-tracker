@@ -1194,6 +1194,82 @@ Archive membership and evaluation membership are distinct.
 
 Archive-level membership, composition, completion, and activity statistics may include unevaluated records. Score-derived statistics and visualizations require current scoring evidence and must exclude unevaluated records.
 
+## Phase 7 Cross-Dimensional Evidence Investigation
+
+### Status
+
+**INVESTIGATION IN PROGRESS**
+
+The initial Phase 7.3 investigation has begun for:
+
+* score × completion relationships;
+* media type × scoring behavior.
+
+Initial archive evidence has been recorded in:
+
+`docs/planning/phase-7-cross-dimensional-evidence.md`
+
+### Current findings
+
+The current investigation contains:
+
+* 27 completed scored entries with an average score of 81.61, median 86.45, and variance 204.53;
+* 8 completed scored books with an average score of 87.83 and median 87.84;
+* 8 completed scored games with an average score of 68.94 and median 69.88;
+* 11 completed scored videos with an average score of 86.30 and median 86.45.
+
+These figures are descriptive evidence only.
+
+The current completed-only population does not establish a score × completion relationship because multiple scored completion states have not yet been compared.
+
+The observed media-type score differences do not establish a media-type preference or causal scoring effect. The current samples are small and completion state may interact with media type.
+
+### Implementation decision
+
+No new intelligence behavior is authorized from these observations at this stage.
+
+Specifically, the current evidence does not authorize:
+
+* new Traits;
+* new Observations;
+* new Findings;
+* new Designations;
+* new Identities;
+* recommendation signals;
+* media-type preference classifications;
+* completion-based preference classifications.
+
+### Required next evidence
+
+The next investigation should calculate score statistics across every applicable scored completion state and then examine the interaction between:
+
+```text
+completion state
+        ×
+media type
+        ×
+score behavior
+```
+
+The analysis should use the current archive's actual status vocabulary and scoring semantics.
+
+The following statistics should be collected for each sufficiently represented group:
+
+* N;
+* average;
+* median;
+* variance;
+* minimum;
+* maximum.
+
+Historical scoring artifacts must remain distinguishable from current scoring evidence.
+
+### Guardrail
+
+> **Cross-dimensional relationships are evidence-development work first. A measurable difference is not automatically an intelligence signal.**
+
+The Phase 7.3 roadmap items therefore remain open.
+
 ---
 
 # 41. Recommendation Metadata Boundary
