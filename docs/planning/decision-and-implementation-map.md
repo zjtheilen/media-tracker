@@ -206,6 +206,70 @@ Unless a direct conceptual conflict is established, preserve:
 
 The Phase 1 goal is alignment, not subsystem replacement.
 
+## 5.1 Canonical Genre Related Metadata
+
+**Status**
+
+**PRESERVE / IMPLEMENTED**
+
+The canonical genre registry includes curated `related_genres` metadata for canonical genres.
+
+This metadata represents **predefined semantic relationships within the genre taxonomy**. It is domain metadata rather than evidence derived from the user's archive.
+
+For example, a genre may define several semantically related genres even when none of those genres currently co-occur in the archive.
+
+The implementation provides:
+
+* canonical genre metadata through `GENRE_METADATA`;
+* `related_genres` relationships for the defined canonical genres;
+* `get_genre_metadata()` as the metadata accessor;
+* regression coverage ensuring metadata keys are canonical genres;
+* regression coverage ensuring related genres are canonical genres;
+* regression coverage preventing self-referential relationships.
+
+### Semantic boundary
+
+`related_genres` must remain distinct from archive-derived genre intelligence.
+
+In particular:
+
+| Relationship        | Meaning                                                     |
+| ------------------- | ----------------------------------------------------------- |
+| `related_genres`    | Curated semantic relationship within the canonical taxonomy |
+| `genreCombinations` | Observed genre co-occurrence within the archive             |
+| `genreDistribution` | Genre prevalence within the archive                         |
+| `genreAffinity`     | Archive-derived genre affinity representation               |
+
+Archive co-occurrence must not automatically modify `related_genres`, and the presence of a `related_genres` relationship must not be interpreted as evidence that the user has consumed or preferred the related genre.
+
+### Implementation boundary
+
+This metadata currently provides taxonomy-level infrastructure only.
+
+It does **not**:
+
+* alter genre validation;
+* alter scoring;
+* generate or infer genres;
+* modify archive-derived genre statistics;
+* create new Designations, Findings, or Identities;
+* implement recommendations;
+* automatically add related genres to Archive Profile output.
+
+Future consumers may use the metadata where an explicit conceptual decision establishes a legitimate product or intelligence need.
+
+### Regression protection
+
+The canonical metadata contract is protected by tests covering:
+
+* expected related-genre metadata retrieval;
+* canonical metadata keys;
+* canonical related-genre values;
+* prevention of self-referential relationships.
+
+The full unified regression suite remains the authoritative verification mechanism for the implementation.
+
+
 ---
 
 # 6. Current Regression Baseline

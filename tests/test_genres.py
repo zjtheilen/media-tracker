@@ -2,6 +2,15 @@ import copy
 
 import pytest
 
+from models.genre_registry import (
+    BOOK_GENRES,
+    CORE_GENRES,
+    GAME_GENRES,
+    GENRE_METADATA,
+    VIDEO_GENRES,
+    get_genre_metadata,
+)
+
 
 @pytest.mark.api
 def test_get_genres_returns_200(client):
@@ -156,3 +165,41 @@ def test_duplicate_genres_allowed_and_deduplicated(client, valid_book_payload):
     entry = response.json()
 
     assert entry["genres"] == ["horror"]
+
+
+def test_genre_metadata_returns_related_genres():
+    metadata = get_genre_metadata("horror")
+
+    assert "related_genres" in metadata
+    assert metadata["related_genres"] == [
+        "psychological",
+        "supernatural",
+        "surreal",
+        "thriller",
+    ]
+
+
+def test_genre_metadata_keys_are_canonical():
+    canonical_genres = set(
+        CORE_GENRES
+        + GAME_GENRES
+        + BOOK_GENRES
+        + VIDEO_GENRES
+    )
+
+    assert set(GENRE_METADATA).issubset(canonical_genres)
+
+
+def test_genre_metadata_related_genres_are_canonical_and_not_self_referential():
+    canonical_genres = set(
+        CORE_GENRES
+        + GAME_GENRES
+        + BOOK_GENRES
+        + VIDEO_GENRES
+    )
+
+    for genre, metadata in GENRE_METADATA.items():
+        related_genres = metadata.get("related_genres", [])
+
+        assert set(related_genres).issubset(canonical_genres)
+        assert genre not in related_genres
