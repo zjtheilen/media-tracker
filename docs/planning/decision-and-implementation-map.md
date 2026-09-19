@@ -1270,6 +1270,16 @@ Historical scoring artifacts must remain distinguishable from current scoring ev
 
 The Phase 7.3 roadmap items therefore remain open.
 
+### Future Scoring-Model Investigation
+
+The Phase 7.3 scoring investigation identified a potential future question:
+whether the relative weighting of universal and media-specific dimensions should
+differ by media type, particularly for games.
+
+This remains an investigation item only. No scoring weights should change until
+the intended semantic meaning of `total_score` and the consequences of any
+alternative weighting model have been explicitly evaluated.
+
 ---
 
 # 41. Recommendation Metadata Boundary

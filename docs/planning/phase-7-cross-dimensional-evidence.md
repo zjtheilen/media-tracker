@@ -88,6 +88,49 @@ No new intelligence should be derived from score × completion until the full sc
 
 ## 4. Media Type × Scoring Behavior
 
+### Media-Specific Scoring Weight Review
+
+The initial scoring investigation raises a future design question about whether
+the current universal/media weighting should be calibrated differently by media
+type.
+
+The current scoring model applies the same universal weighting across all media
+types while applying media-specific dimensions through the existing scoring
+profile. The current evidence shows that some games can receive high scores in
+engagement and game-specific dimensions while receiving substantially lower
+scores in universal dimensions such as emotional impact and depth.
+
+This creates a legitimate question about whether the current game weighting
+accurately represents the intended meaning of a game score.
+
+This question was prompted by the observed game scores in the initial Phase 7.3
+investigation. Several lower-composite games received high engagement and
+game-specific scores while receiving substantially lower universal scores.
+
+This is a design question, not an implementation decision.
+
+No weighting changes are authorized from the current evidence. Before changing
+weights, the project should establish:
+
+* what `total_score` is intended to represent;
+* whether that meaning should be consistent across media types;
+* whether universal dimensions should carry the same relative influence across
+  media types;
+* whether game-specific dimensions should have greater or different influence;
+* how any proposed weighting would affect the existing archive;
+* whether the resulting scores remain explainable;
+* whether historical scores must remain isolated from any revised scoring model;
+* whether existing intelligence and analytics would change as a consequence.
+
+Any future weighting change must be treated as a scoring-model change rather
+than as an intelligence discovery.
+
+The current evidence therefore authorizes investigation of media-specific
+weighting, but does not authorize changing the scoring profile.
+
+> **A weighting problem must be demonstrated before a weighting change is
+> justified.**
+
 ### 4.1 Current Evidence
 
 The initial investigation examined scored completed entries by media type.
