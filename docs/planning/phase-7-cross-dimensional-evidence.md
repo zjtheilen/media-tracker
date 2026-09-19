@@ -131,6 +131,91 @@ weighting, but does not authorize changing the scoring profile.
 > **A weighting problem must be demonstrated before a weighting change is
 > justified.**
 
+### 4.0 Game Scoring Semantic Investigation
+
+A follow-up investigation examined whether the observed lower game scores indicate a weighting problem or instead reflect the semantic separation between universal and game-specific scoring dimensions.
+
+The investigation used the eight completed scored games currently represented in the archive.
+
+#### Weighting Counterfactual
+
+The current scoring model allocates 70% of the total score to universal dimensions and 30% to media-specific dimensions.
+
+A read-only counterfactual recalculated the existing game scores using the same internal dimension weights while changing only the universal/media bucket split:
+
+| Bucket split | Average game score |
+| ------------ | -----------------: |
+| 70 / 30      |              68.94 |
+| 60 / 40      |              69.94 |
+| 50 / 50      |              70.92 |
+
+The 60/40 and 50/50 scenarios produced limited changes to the observed ranking structure. Six of the eight games retained the same relative rank across all three scenarios. The only ranking change occurred between the two highest-scoring games under the 50/50 scenario.
+
+The counterfactual therefore does not demonstrate that the current 70/30 weighting is the primary cause of the lower observed game scores.
+
+#### Universal Dimension Distribution
+
+The universal dimensions were then examined by media type.
+
+The largest differences were concentrated in emotional impact and depth:
+
+| Dimension        | Book Avg | Game Avg | Video Avg |
+| ---------------- | -------: | -------: | --------: |
+| Emotional impact |     8.88 |     5.25 |      8.45 |
+| Depth            |     8.75 |     5.25 |      8.45 |
+| Craft            |     8.75 |     8.00 |      8.73 |
+| Engagement       |     9.00 |     8.50 |      8.91 |
+| Presentation     |     8.88 |     8.00 |      8.82 |
+| Originality      |     8.88 |     7.12 |      8.45 |
+
+Game emotional impact and depth also showed substantially greater variation than the corresponding book and video populations. Emotional impact ranged from 1–10 among games, while depth ranged from 1–9.
+
+This indicates that games are not uniformly receiving lower universal scores. The observed difference is concentrated in specific dimensions.
+
+#### Semantic Inspection
+
+Individual game records provide additional evidence that the lower universal scores are not necessarily a failure to recognize game quality.
+
+For example:
+
+* **Mario Kart DS** has emotional impact 1 and depth 3 while receiving 8 for gameplay mechanics, 9 for level design/progression, 9 for replayability/systems, and 9 for art/atmosphere.
+* **Kirby's Block Ball** has emotional impact 1 and depth 2 while receiving 9 for gameplay mechanics, 9 for level design/progression, 9 for replayability/systems, and 10 for art/atmosphere.
+* **Doki Doki Literature Club** has emotional impact 10 and depth 9 while also receiving 10 for gameplay mechanics and 10 for originality.
+* **Zero Escape: Virtue's Last Reward** has emotional impact 9 and depth 9 alongside high scores across its game-specific dimensions.
+
+The observed records therefore demonstrate that universal emotional or conceptual dimensions can diverge substantially from game-specific measures of mechanical and systemic quality.
+
+This distinction is consistent with the current scoring architecture. The universal `depth` and `emotional_impact` dimensions describe qualities such as conceptual substance, thematic or intellectual depth, emotional response, emotional connection, and lasting resonance. The game-specific dimensions separately measure gameplay mechanics, level design and progression, replayability and systems, and art/atmosphere.
+
+Under these semantics, a game can be highly successful mechanically and systemically without necessarily producing substantial emotional or conceptual impact.
+
+#### Interpretation
+
+The current evidence does **not** demonstrate a game-specific weighting problem or a semantic defect in the universal dimensions.
+
+Instead, the evidence currently supports the following narrower interpretation:
+
+> The observed lower scores for some games are substantially associated with lower scores in universal emotional impact and depth, while game-specific dimensions can independently capture strong mechanical, progression, replayability, and atmospheric qualities.
+
+This is an explainable distinction within the existing scoring model rather than evidence that game scores should be normalized upward or that game-specific dimensions require greater weighting.
+
+The investigation therefore does not authorize changes to:
+
+* the 70/30 universal/media weighting;
+* universal dimension weights;
+* game-specific dimension weights;
+* universal dimension semantics;
+* game-specific dimension semantics.
+
+This conclusion is limited by the current sample size and archive composition. The eight-game population is a personal archive rather than a representative sample of games generally, and the observed polarization may change as additional games are scored.
+
+Future evidence may justify revisiting the question if a substantially larger game population produces patterns inconsistent with the current semantic separation.
+
+**Evidence Gate: INVESTIGATION COMPLETE FOR CURRENT EVIDENCE**
+
+The current evidence is sufficient to close the immediate weighting question without a scoring-model change. The broader Phase 7 media-type investigation remains in progress pending the completion-state × media-type analysis described below.
+
+
 ### 4.1 Current Evidence
 
 The initial investigation examined scored completed entries by media type.
