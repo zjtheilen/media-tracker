@@ -215,6 +215,36 @@ Future evidence may justify revisiting the question if a substantially larger ga
 
 The current evidence is sufficient to close the immediate weighting question without a scoring-model change. The broader Phase 7 media-type investigation remains in progress pending the completion-state × media-type analysis described below.
 
+### 4.1 Completion-State Scoring Boundary Investigation
+
+The archive was inspected to determine whether completion state has an observable relationship with scoring.
+
+The current archive contains 115 entries:
+
+- Completed: 92
+  - Book: 16
+  - Game: 26
+  - Video: 50
+- In-progress: 23
+  - Book: 4
+  - Game: 19
+  - Video: 0
+
+Scoring coverage is entirely restricted to completed entries:
+
+- Completed entries: 27 scored, 65 unscored
+- In-progress entries: 0 scored, 23 unscored
+- Completed scored population average: 81.61
+- Completed scored population range: 36.98–94.25
+
+This establishes that `completion_status` currently functions as a scoring boundary rather than an independent scoring dimension. In-progress entries do not currently participate in the score population, so there is no current evidence base for evaluating score differences by completion state.
+
+No completion-state scoring changes are justified by this evidence.
+
+**Evidence gate: INVESTIGATION COMPLETE FOR CURRENT EVIDENCE**
+
+The completion-state investigation does not identify a scoring defect or weighting issue. Future analysis could revisit this boundary if the application permits scoring before completion, but that would represent a change in scoring semantics rather than an interpretation of the current archive.
+
 
 ### 4.1 Current Evidence
 
