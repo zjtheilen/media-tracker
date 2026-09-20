@@ -61,6 +61,21 @@ The project began as a straightforward media-tracking application and has evolve
 - Selenium
 - Pytest
 
+### Database Inspection
+
+Media Tracker uses SQLite for persistent storage. Application runtime database access is handled through Python's built-in `sqlite3` module.
+
+For direct development-time inspection, schema exploration, validation, and ad-hoc analytical queries, the SQLite command-line shell (`sqlite3`) can be used against the application database.
+
+This provides two distinct database access paths:
+
+* **Application runtime:** Python `sqlite3` → SQLite
+* **Development inspection:** `sqlite3` CLI → SQLite
+
+The CLI is a development and analysis tool rather than a separate application data-access layer. It is particularly useful for validating application behavior against the underlying database and for investigating archive-level patterns without routing every question through the application.
+
+Current database inspection work is read-only unless a database modification is explicitly intended.
+
 The architecture intentionally remains relatively lightweight. The goal is not to build a large platform, but to provide a maintainable application whose intelligence can be understood and evolved.
 
 ---
