@@ -221,21 +221,23 @@ The archive was inspected to determine whether completion state has an observabl
 
 The current archive contains 115 entries:
 
-- Completed: 92
-  - Book: 16
-  - Game: 26
-  - Video: 50
-- In-progress: 23
-  - Book: 4
-  - Game: 19
-  - Video: 0
+* Completed: 92
+
+  * Book: 16
+  * Game: 26
+  * Video: 50
+* In-progress: 23
+
+  * Book: 4
+  * Game: 19
+  * Video: 0
 
 Scoring coverage is entirely restricted to completed entries:
 
-- Completed entries: 27 scored, 65 unscored
-- In-progress entries: 0 scored, 23 unscored
-- Completed scored population average: 81.61
-- Completed scored population range: 36.98–94.25
+* Completed entries: 27 scored, 65 unscored
+* In-progress entries: 0 scored, 23 unscored
+* Completed scored population average: 81.61
+* Completed scored population range: 36.98–94.25
 
 This establishes that `completion_status` currently functions as a scoring boundary rather than an independent scoring dimension. In-progress entries do not currently participate in the score population, so there is no current evidence base for evaluating score differences by completion state.
 
@@ -243,43 +245,43 @@ No completion-state scoring changes are justified by this evidence.
 
 **Evidence gate: INVESTIGATION COMPLETE FOR CURRENT EVIDENCE**
 
-The completion-state investigation does not identify a scoring defect or weighting issue. Future analysis could revisit this boundary if the application permits scoring before completion, but that would represent a change in scoring semantics rather than an interpretation of the current archive.
+Future analysis could revisit this boundary if the application permits scoring before completion, but that would represent a change in scoring semantics rather than an interpretation of the current archive.
 
+### 4.2 Media-Type Score Distribution Investigation
 
-### 4.1 Current Evidence
+The scored archive was examined by media type to determine whether observed differences in average scores were primarily driven by isolated outliers or by broader distribution differences.
 
-The initial investigation examined scored completed entries by media type.
+The current scored population contains:
 
-| Media type |  N | Average | Median |
-| ---------- | -: | ------: | -----: |
-| Book       |  8 |   87.83 |  87.84 |
-| Game       |  8 |   68.94 |  69.88 |
-| Video      | 11 |   86.30 |  86.45 |
+| Media type |  n | Average | Median |       Range | Variance |
+| ---------- | -: | ------: | -----: | ----------: | -------: |
+| Book       |  8 |   87.83 |  87.84 | 82.95–94.25 |    10.10 |
+| Game       |  8 |   68.94 |  69.88 | 36.98–92.00 |   387.17 |
+| Video      | 11 |   86.30 |  86.45 | 72.02–94.03 |    46.28 |
 
-The current completed scored population therefore shows descriptive differences in observed score distributions between the three media types.
+The observed differences are descriptive evidence only. The current data does not establish that media type causes or determines scoring behavior.
 
-### 4.2 Interpretation
+The ordered score distributions show that the elevated game variance is not attributable to a single low-scoring outlier. The eight game scores range from 36.98 to 92.00, with four scores below 63 and four above 77. Book scores remain tightly clustered in the 82.95–94.25 range, while video scores span 72.02–94.03.
 
-These differences are descriptive evidence only.
-
-The current data does **not** establish that media type causes or determines scoring behavior.
+This establishes that the current scored game population differs from books and videos in both central tendency and dispersion. The game population is not simply experiencing a uniform downward shift: multiple games occupy the lower portion of the archive while several others score within the upper range of the other media types.
 
 Several limitations apply:
 
 * the sample sizes are small;
-* the analysis currently includes completed scored entries only;
-* completion behavior may interact with media type;
+* the analysis includes completed scored entries only;
+* completion behavior differs by media type;
 * the archive is a personal collection rather than a population sample;
 * historical scoring records may have different semantics from the current scoring model;
 * aggregate differences do not establish why those differences exist.
 
-The current evidence can therefore support statements such as:
+Combined with the preceding game scoring semantic investigation, the current evidence supports treating game score dispersion as an observed property of the archive rather than sufficient evidence of a weighting defect. The available sample does not justify changing universal or game-specific weights.
 
-> Completed scored books, games, and videos currently have different observed score distributions in the archive.
+No scoring-weight changes are authorized by this evidence.
 
-It cannot support stronger claims such as:
+**Evidence gate: INVESTIGATION COMPLETE FOR CURRENT EVIDENCE**
 
-> The curator inherently scores one media type higher than another.
+Future investigation could revisit media-type distribution as the scored archive grows, particularly if additional games materially change the observed distribution.
+
 
 ### 4.3 Required Follow-Up Evidence
 
