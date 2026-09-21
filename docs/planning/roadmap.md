@@ -784,15 +784,15 @@ The guiding principle remains:
 - [x] Monthly archive activity
 - [x] Monthly media distribution
 - [x] Monthly average score
-- [ ] Expand consumption timeline evidence
-- [ ] Analyze temporal consumption patterns
-- [ ] Investigate meaningful change-over-time signals
+- [x] Expand consumption timeline evidence
+- [x] Analyze temporal consumption patterns
+- [x] Investigate meaningful change-over-time signals
 
 ### 7.3 Cross-Dimensional Evidence
 
-- [ ] Analyze score × completion relationships
-- [ ] Analyze media type × scoring behavior
-- [ ] Expand archive-derived genre relationship intelligence
+- [x] Analyze score × completion relationships
+- [x] Analyze media type × scoring behavior
+- [x] Expand archive-derived genre relationship intelligence
 
 ### 7.4 Intelligence Evolution
 

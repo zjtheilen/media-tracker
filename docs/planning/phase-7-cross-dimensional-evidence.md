@@ -433,9 +433,9 @@ No current evidence authorizes:
 * new Trait, Observation, Finding, Designation, or Identity semantics;
 * recommendation logic based on the observed media-type distributions.
 
-**Phase 7.3 remains IN PROGRESS.**
+**Phase 7.3 investigation complete / evidence boundary reached**
 
-The remaining work is evidence expansion rather than reinterpretation of the completed scoring investigations.
+The Phase 7.3 evidence investigations are complete for the current archive boundary. Further investigation should wait for materially richer evidence rather than repeat the completed analyses.
 
 ---
 
