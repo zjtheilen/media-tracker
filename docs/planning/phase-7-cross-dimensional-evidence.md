@@ -61,28 +61,23 @@ In particular:
 * a single completion state cannot demonstrate that completion status is associated with score;
 * completion itself does not establish enjoyment, quality, engagement, or motivation.
 
-### 3.3 Required Follow-Up Evidence
+### 3.3 Completion-State Evidence Boundary
 
-The next investigation should calculate score distributions across every completion state represented by the current archive that contains scored records.
+The current archive was examined across its represented completion states.
 
-For each applicable state, collect:
+All 27 currently scored entries are completed. The archive contains 23 in-progress entries, but none currently have scores.
 
-* record count;
-* average score;
-* median score;
-* variance;
-* minimum score;
-* maximum score.
+Therefore, the current archive does not provide scored observations across multiple completion states. A meaningful score × completion comparison cannot be performed without scored entries in more than one completion state.
 
-The same analysis should then be repeated by media type where sample sizes permit.
+This establishes a current evidence boundary rather than a score × completion relationship.
 
-The exact completion-state vocabulary should come from the current application data model rather than being invented for this analysis.
+Future investigation may revisit this question if the archive develops scored entries across additional completion states or if scoring semantics change to permit scoring before completion.
 
 ### 3.4 Evidence Gate
 
-**Status: NOT YET RESOLVED**
+**Status: INVESTIGATION COMPLETE FOR CURRENT EVIDENCE**
 
-No new intelligence should be derived from score × completion until the full scored population has been examined.
+The current evidence does not establish a score × completion relationship. No completion-based preference, behavioral classification, or new intelligence signal should be derived from the absence of scored in-progress entries.
 
 ---
 
@@ -213,7 +208,7 @@ Future evidence may justify revisiting the question if a substantially larger ga
 
 **Evidence Gate: INVESTIGATION COMPLETE FOR CURRENT EVIDENCE**
 
-The current evidence is sufficient to close the immediate weighting question without a scoring-model change. The broader Phase 7 media-type investigation remains in progress pending the completion-state × media-type analysis described below.
+The broader Phase 7 media-type investigation is complete for the current evidence boundary. Section 4.3 records the resulting evidence boundary for completion state × media type.
 
 ### 4.1 Completion-State Scoring Boundary Investigation
 
@@ -283,30 +278,44 @@ No scoring-weight changes are authorized by this evidence.
 Future investigation could revisit media-type distribution as the scored archive grows, particularly if additional games materially change the observed distribution.
 
 
-### 4.3 Required Follow-Up Evidence
+### 4.3 Cross-Dimensional Evidence Boundary
 
-The next investigation should calculate scoring behavior across the full current scored population and separate the results by:
+The required descriptive scoring statistics have now been reproduced from the current SQLite database for the full scored population and by media type.
 
-* media type;
-* completion state;
-* media type × completion state where sample sizes are sufficient.
+The current scored population consists entirely of completed entries. As established in Section 4.1, no in-progress entries currently have scores. Therefore, the current archive does not contain sufficient scored observations to perform a meaningful media type × completion state comparison.
 
-For each meaningful group, collect:
+The completed scored population contains 27 records:
+
+* Book: 8 scored
+* Game: 8 scored
+* Video: 11 scored
+
+The complete media-type scoring distribution is documented in Section 4.2 and was independently reproduced through direct SQLite analysis using the current `entries` table. The analysis collected:
 
 * record count;
 * average score;
 * median score;
-* variance;
+* population variance;
 * minimum score;
 * maximum score.
 
-The analysis should also distinguish current scoring evidence from historical migration artifacts.
+The available evidence supports the following descriptive conclusions:
 
-### 4.4 Evidence Gate
+* score distributions differ across the three represented media types;
+* game scores show substantially greater dispersion than book or video scores;
+* the observed game distribution is not explained by a single low-scoring outlier;
+* all currently scored entries are completed;
+* completion state therefore currently acts as a boundary on scoring rather than providing an independent scored comparison group.
 
-**Status: INITIAL EVIDENCE RECORDED**
+These findings remain descriptive. They do not establish that media type or completion state causes differences in scoring behavior, nor do they establish a media-type preference, completion-based preference, or new intelligence signal.
 
-The current archive contains observable media-type scoring differences, but the evidence is not yet sufficient to establish a new intelligence signal or behavioral classification.
+The current archive therefore does not provide a sufficient evidence base for a media type × completion state scoring relationship. Such an investigation can be revisited if scoring becomes available for multiple completion states.
+
+The current scoring evidence remains consistent with the conclusions recorded in Sections 4.0–4.2. No scoring-model changes or new intelligence semantics are authorized by this evidence.
+
+**Evidence Gate: INVESTIGATION COMPLETE FOR CURRENT EVIDENCE**
+
+Future investigation may revisit this boundary as the scored archive grows or if the application permits scoring across additional completion states.
 
 ---
 
@@ -408,41 +417,47 @@ Only then should a downstream intelligence decision be considered.
 
 ## 9. Phase 7.3 Status
 
-| Evidence area                       | Status                                                    |
-| ----------------------------------- | --------------------------------------------------------- |
-| Score × completion relationships    | Investigation begun; insufficient evidence for conclusion |
-| Media type × scoring behavior       | Initial descriptive evidence recorded                     |
-| Archive-derived genre relationships | Not yet investigated as a Phase 7.3 evidence task         |
+The current evidence investigations have established the following:
 
-Phase 7.3 remains **IN PROGRESS**.
+* **Score × completion relationships:** Investigated at the current archive boundary; all scored entries are completed, so no independent scored comparison across completion states is currently available.
+* **Media type × scoring behavior:** Investigation complete for the current scored population. Descriptive differences in score distribution have been reproduced and documented without introducing new scoring or intelligence semantics.
+* **Game scoring semantics:** Investigation complete for the current scored game population. Lower game scores are associated with lower universal emotional-impact and depth scores, while game-specific dimensions capture separate mechanical, progression, replayability, and atmospheric qualities.
+* **Archive-derived genre relationships:** Not yet investigated as a Phase 7.3 evidence task.
+* **Historical scoring artifacts:** Kept separate from current scoring evidence and used only within their documented migration/validation boundary.
 
-The roadmap checkboxes should remain unchecked until the corresponding evidence investigations produce a defensible result.
+No current evidence authorizes:
+
+* scoring-model weighting changes;
+* new media-type preference classifications;
+* completion-based preference classifications;
+* new Trait, Observation, Finding, Designation, or Identity semantics;
+* recommendation logic based on the observed media-type distributions.
+
+**Phase 7.3 remains IN PROGRESS.**
+
+The remaining work is evidence expansion rather than reinterpretation of the completed scoring investigations.
 
 ---
 
 ## 10. Next Investigation
 
-The immediate next evidence pass should produce a complete scored-population matrix:
+The next Phase 7 investigation should address the remaining evidence gap rather than repeat the completed media-type scoring analysis.
 
-```text
-completion state
-    ×
-media type
-    ×
-score statistics
-```
+The primary remaining question is whether archive-derived genre relationships provide a sufficiently observable cross-dimensional signal to justify further investigation.
 
-This should be based on the current archive's actual statuses and scoring semantics.
+The next investigation should:
 
-The resulting evidence can then answer:
+1. identify genre co-occurrence patterns within the current archive;
+2. distinguish raw archive frequency from relationships that may be meaningful relative to the available media population;
+3. preserve media type as a separate dimension rather than assuming genre behavior is media-independent;
+4. distinguish descriptive co-occurrence from evidence of preference, identity, or recommendation value;
+5. keep historical migration artifacts outside current archive-derived genre evidence unless explicitly required for a separate historical analysis.
 
-* Are meaningful score differences associated with completion state?
-* Are those differences consistent across media types?
-* Are apparent media-type differences still present after completion state is considered?
-* Are the available sample sizes sufficient for any further interpretation?
-* Does any observed pattern represent genuinely new evidence, or does it duplicate an existing signal?
+The existing score × completion and media type × scoring investigations should be treated as completed evidence boundaries rather than reopened unless new data materially changes the underlying observations.
 
-Until those questions are answered, the evidence remains descriptive.
+No new intelligence semantics should be introduced unless the resulting evidence passes the same evidence-before-intelligence boundary established elsewhere in this document.
+
+**Governing principle:** Measure the relationship before interpreting the relationship.
 
 ---
 
