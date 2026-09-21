@@ -422,7 +422,7 @@ The current evidence investigations have established the following:
 * **Score × completion relationships:** Investigated at the current archive boundary; all scored entries are completed, so no independent scored comparison across completion states is currently available.
 * **Media type × scoring behavior:** Investigation complete for the current scored population. Descriptive differences in score distribution have been reproduced and documented without introducing new scoring or intelligence semantics.
 * **Game scoring semantics:** Investigation complete for the current scored game population. Lower game scores are associated with lower universal emotional-impact and depth scores, while game-specific dimensions capture separate mechanical, progression, replayability, and atmospheric qualities.
-* **Archive-derived genre relationships:** Not yet investigated as a Phase 7.3 evidence task.
+* **Genre relationships:** INVESTIGATION COMPLETE FOR CURRENT EVIDENCE
 * **Historical scoring artifacts:** Kept separate from current scoring evidence and used only within their documented migration/validation boundary.
 
 No current evidence authorizes:
@@ -458,6 +458,120 @@ The existing score × completion and media type × scoring investigations should
 No new intelligence semantics should be introduced unless the resulting evidence passes the same evidence-before-intelligence boundary established elsewhere in this document.
 
 **Governing principle:** Measure the relationship before interpreting the relationship.
+
+## 10.1 Archive-Derived Genre Relationships
+
+### Investigation Scope
+
+This investigation examined genre relationships within the current 115-entry archive using the stored JSON genre arrays in `entries.genres`.
+
+The investigation proceeded in layers:
+
+1. Enumerate the archive's raw genre values.
+2. Measure genre frequency across the full archive.
+3. Compare genre frequency by media type.
+4. Measure genre pair co-occurrence.
+5. Measure conditional co-occurrence within each media type.
+6. Compare observed pair frequency against a simple independence baseline based on the individual frequencies of each genre within that media type.
+
+This investigation is descriptive. It does not authorize changes to genre metadata, genre classification, scoring, recommendations, or other application behavior.
+
+### Archive Genre Distribution
+
+The archive contains 28 distinct genre values.
+
+The most common genres across all media are:
+
+* horror — 35 entries
+* sci-fi — 35
+* thriller — 27
+* psychological — 26
+* mystery — 22
+* surreal — 18
+* adventure — 15
+* comedy — 15
+
+Genre frequency varies substantially by media type. Books are dominated by horror and sci-fi, games by mystery, platformer, and visual novel, and videos by horror, thriller, sci-fi, and psychological.
+
+This establishes that genre usage is not uniform across the three media types.
+
+### Media-Type Genre Relationships
+
+#### Books
+
+The strongest recurring book relationships include:
+
+* adventure + fantasy — 4 occurrences
+* adventure + litrpg — 4
+* fantasy + litrpg — 4
+* horror + psychological — 6
+* drama + sci-fi — 3
+* horror + mystery — 3
+
+The adventure/fantasy/litrpg combinations form a recurring three-way grouping: each pair occurs four times, substantially above the simple frequency-based expectation for those genres.
+
+Horror + psychological is another recurring relationship, occurring six times versus an expected 2.7 occurrences under the independence baseline.
+
+#### Games
+
+The clearest game-specific relationship is:
+
+* mystery + visual novel — 11 occurrences
+
+There are 12 mystery-tagged games and 12 visual-novel-tagged games, with 11 entries carrying both labels. The observed 11 co-occurrences are substantially above the expected 3.2 based on the individual genre frequencies.
+
+Other recurring game relationships include:
+
+* adventure + RPG — 5 occurrences
+* action + platformer — 3
+* RPG + sci-fi — 3
+
+These relationships are primarily descriptive of the current archive rather than evidence that the genre system should classify games differently.
+
+#### Videos
+
+Video genre relationships show a different structure from books and games.
+
+The largest recurring pairs are:
+
+* sci-fi + thriller — 11 occurrences
+* horror + psychological — 10
+* psychological + thriller — 9
+* horror + surreal — 7
+* horror + thriller — 7
+* sci-fi + surreal — 6
+
+However, raw frequency does not necessarily indicate unusually strong association. For example, sci-fi + thriller occurs 11 times but has an observed/expected ratio of approximately 1.10 because both genres are already highly prevalent in the video archive.
+
+Conversely, several smaller relationships occur substantially more often than their individual genre frequencies would predict, including experimental + horror, horror + supernatural, action + thriller, and crime + thriller.
+
+The video archive also contains several pairs below the simple independence baseline, including horror + sci-fi and surreal + thriller. These are descriptive archive patterns and should not be interpreted as evidence of preference, avoidance, or causal genre relationships.
+
+### Evidence Interpretation
+
+The genre investigation indicates that the archive contains distinct genre structures by media type rather than one unified genre distribution.
+
+The strongest recurring structures are:
+
+* **Books:** adventure/fantasy/litrpg and horror/psychological groupings.
+* **Games:** mystery/visual-novel and adventure/RPG groupings.
+* **Videos:** horror/psychological/surreal and sci-fi/thriller groupings, with several smaller concentrated relationships.
+
+The analysis also demonstrates that raw co-occurrence counts alone are insufficient. Common genres naturally produce more pairings, while rare genres can produce apparently extreme percentages from very small samples. Conditional co-occurrence and observed-versus-expected comparison therefore provide useful additional context.
+
+Because the archive is relatively small and several genre values have low frequencies, these findings should be treated as **archive-derived evidence rather than generalized genre rules**.
+
+### Evidence Boundary
+
+This investigation identifies recurring relationships in the current archive. It does **not** establish:
+
+* that any genre relationship represents an intentional classification rule;
+* that genre metadata should be changed;
+* that related-genre mappings should be implemented;
+* that genre relationships predict scoring or preference;
+* that the observed relationships generalize beyond the current archive.
+
+Any future genre metadata or recommendation work should treat these findings as evidence to consider rather than predetermined rules.
 
 ---
 
