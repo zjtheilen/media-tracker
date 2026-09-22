@@ -39,7 +39,7 @@ Signals were classified conceptually as:
 
 ---
 
-# 3. Current Signal Architecture
+## 3. Current Signal Architecture
 
 The current archive profile produces several distinct signal layers.
 
@@ -95,7 +95,7 @@ They should not automatically be interpreted as preference signals.
 
 ---
 
-# 4. Boundary Explorer Signal Audit
+## 4. Boundary Explorer Signal Audit
 
 Current inputs:
 
@@ -132,7 +132,7 @@ It establishes that the current implementation should be treated as a **proxy-ba
 
 ---
 
-# 5. Curator Signal Audit
+## 5. Curator Signal Audit
 
 Current inputs:
 
@@ -177,7 +177,7 @@ The signal architecture therefore supports a more evidence-bounded Curator conce
 
 ---
 
-# 6. Engagement Architect Signal Audit
+## 6. Engagement Architect Signal Audit
 
 Current inputs:
 
@@ -218,7 +218,7 @@ It establishes an implementation boundary:
 
 ---
 
-# 7. Deep Diver Signal Audit
+## 7. Deep Diver Signal Audit
 
 Current inputs:
 
@@ -257,7 +257,7 @@ The current rule therefore represents a reasonable prototype but should not be i
 
 ---
 
-# 8. Cross-Designation Signal Overlap
+## 8. Cross-Designation Signal Overlap
 
 Several signals appear in multiple Designations.
 
@@ -280,7 +280,7 @@ However, the more heavily multiple Designations rely on the same signals, the mo
 
 ---
 
-# 9. Normalized Trait Boundary
+## 9. Normalized Trait Boundary
 
 The current trait normalization is:
 
@@ -310,7 +310,7 @@ A Designation may use a high trait score as evidence, but the trait should not b
 
 ---
 
-# 10. Archive Statistics Boundary
+## 10. Archive Statistics Boundary
 
 Several current Designation inputs are archive statistics:
 
@@ -336,7 +336,7 @@ This creates a recurring architectural rule:
 
 ---
 
-# 11. Current Designation Confidence Boundary
+## 11. Current Designation Confidence Boundary
 
 The archive profile currently exposes:
 
@@ -368,7 +368,7 @@ It establishes that the current field should remain conceptually distinct from f
 
 ---
 
-# 12. Fixture-Level Adversarial Finding
+## 12. Fixture-Level Adversarial Finding
 
 The existing fixture set exposes an important limitation in the current Designation architecture.
 
@@ -399,7 +399,7 @@ The resulting score exceeds the Curator score.
 
 ---
 
-# 13. Interpretation of the Generalist Finding
+## 13. Interpretation of the Generalist Finding
 
 This does **not** establish that Boundary Explorer is conceptually invalid.
 
@@ -419,7 +419,7 @@ A general-purpose Designation system must survive profiles that differ substanti
 
 ---
 
-# 14. Fixture Evidence Boundary
+## 14. Fixture Evidence Boundary
 
 The current fixtures successfully demonstrate that the scoring engine can produce differentiated Designation results.
 
@@ -449,7 +449,7 @@ They identify the evidence needed before the current rules can be considered sem
 
 ---
 
-# 15. Current Architecture Assessment
+## 15. Current Architecture Assessment
 
 | Designation          | Primary signal quality      | Major proxy                         | Major boundary                                 |
 | -------------------- | --------------------------- | ----------------------------------- | ---------------------------------------------- |
@@ -462,7 +462,7 @@ The current architecture is therefore **conceptually usable but not yet evidence
 
 ---
 
-# 16. What This Investigation Does Not Justify
+## 16. What This Investigation Does Not Justify
 
 This investigation does not authorize:
 
@@ -482,7 +482,7 @@ The purpose is to establish the evidence boundary before implementation changes.
 
 ---
 
-# 17. Investigation Result
+## 17. Investigation Result
 
 Phase 7.4.3 establishes four important architectural conclusions.
 
@@ -518,7 +518,7 @@ It is testing whether the current Designations remain distinct when presented wi
 
 ---
 
-# 18. Next Investigation
+## 18. Next Investigation
 
 The next Phase 7.4 investigation should therefore be:
 
@@ -541,7 +541,7 @@ The existing fixtures should be treated as evidence inputs rather than proof tha
 
 ---
 
-# 19. Governing Rules
+## 19. Governing Rules
 
 The following rules continue to govern Designation evolution:
 
