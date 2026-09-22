@@ -796,9 +796,9 @@ The guiding principle remains:
 
 ### 7.4 Intelligence Evolution
 
-- [ ] Re-evaluate existing Designations against expanded evidence
-- [ ] Identify recurring evidence-supported patterns not represented by the current vocabulary
-- [ ] Determine whether existing Designations adequately represent those patterns
+- [x] Re-evaluate existing Designations against expanded evidence
+- [x] Identify recurring evidence-supported patterns not represented by the current vocabulary
+- [x] Determine whether existing Designations adequately represent those patterns
 - [ ] Introduce new Designations only where explicitly justified
 - [ ] Revisit provisionally deferred intelligence concepts as richer evidence becomes available
 - [ ] Re-evaluate Identity signal independence as richer evidence becomes available
