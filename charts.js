@@ -797,9 +797,9 @@ async function renderArchiveProfileCard() {
 
                             <h3>Identity</h3>
 
-                            <h2>
-                            ${archiveProfile.primaryIdentity.title}
-                            </h2>
+                            <p class="profile-title">
+                                ${archiveProfile.primaryIdentity.title}
+                            </p>
 
                             <h3>Identity Score</h3>
 
@@ -895,7 +895,7 @@ async function renderArchiveProfileCard() {
                         <h3>Universal Scoring Profile</h3>
                     
                         <div class="chart-container chart-container-radar">
-                            <canvas id="universal-profile-radar"></canvas>
+                            <canvas id="universal-profile-radar" role="img" aria-label="Universal scoring profile"></canvas>
                         </div>
             
                     </div>
@@ -906,7 +906,7 @@ async function renderArchiveProfileCard() {
                         <h3>Book Profile</h3>
 
                         <div class="chart-container chart-container-bars">
-                            <canvas id="book-profile-chart"></canvas>
+                            <canvas id="book-profile-chart" role="img" aria-label="Book scoring profile"></canvas>
                         </div>
 
                     </div>
@@ -916,7 +916,7 @@ async function renderArchiveProfileCard() {
                 
                         <h3>Video Profile</h3>
                         <div class="chart-container">
-                            <canvas id="video-profile-chart"></canvas>
+                            <canvas id="video-profile-chart" role="img" aria-label="Video scoring profile"></canvas>
                         </div>
                 
                     </div>
@@ -927,7 +927,7 @@ async function renderArchiveProfileCard() {
                         <h3>Game Profile</h3>
                 
                         <div class="chart-container">
-                            <canvas id="game-profile-chart"></canvas>
+                            <canvas id="game-profile-chart" role="img" aria-label="Game scoring profile"></canvas>
                         </div>
                 
                     </div>

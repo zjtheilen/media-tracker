@@ -51,30 +51,41 @@ function showPage(page) {
     archiveProfileTab?.classList.remove("active");
     recommendationsTab?.classList.remove("active");
 
+    libraryTab?.removeAttribute("aria-current");
+    analyticsTab?.removeAttribute("aria-current");
+    listsTab?.removeAttribute("aria-current");
+    archiveProfileTab?.removeAttribute("aria-current");
+    recommendationsTab?.removeAttribute("aria-current");
+
     switch (page) {
         case "library":
             libraryPage.hidden = false;
             libraryTab.classList.add("active");
+            libraryTab.setAttribute("aria-current", "page");
             break;
 
         case "analytics":
             analyticsPage.hidden = false;
             analyticsTab.classList.add("active");
+            analyticsTab.setAttribute("aria-current", "page");
             break;
 
         case "lists":
             listsPage.hidden = false;
             listsTab.classList.add("active");
+            listsTab.setAttribute("aria-current", "page");
             break;
 
         case "archive-profile":
             archiveProfilePage.hidden = false;
             archiveProfileTab.classList.add("active");
+            archiveProfileTab.setAttribute("aria-current", "page");
             break;
 
         case "recommendations":
             recommendationsPage.hidden = false;
             recommendationsTab.classList.add("active");
+            recommendationsTab.setAttribute("aria-current", "page");
             break;
     }
 }

@@ -74,9 +74,10 @@
                                 id="title"
                                 placeholder="Title"
                                 required
+                                aria-label="Title"
                             />
 
-                            <select id="media-type">
+                            <select id="media-type" aria-label="Media Type">
                                 <option value="video">video</option>
                                 <option value="game">game</option>
                                 <option value="book">book</option>
@@ -84,7 +85,7 @@
 
                             <div id="genre-selector"></div>
 
-                            <textarea id="notes" placeholder="Notes"></textarea>
+                            <textarea id="notes" placeholder="Notes" aria-label="Notes"></textarea>
 
                             <label for="date-consumed">Date Consumed</label>
                             <input type="date" id="date-consumed" />
@@ -149,11 +150,11 @@
                 <div class="archive-control-section">
                     <div class="archive-control-header">
                         <i class="media-icon" data-lucide="arrow-up-down"></i>
-                        <span>SORT</span>
+                        <span id="sort-label">SORT</span>
                     </div>
 
                     <div class="archive-control-body">
-                        <select id="sort-select">
+                        <select id="sort-select" aria-labelledby="sort-label">
                             <option value="date_desc">
                                 Date Consumed (Newest)
                             </option>
@@ -197,12 +198,14 @@
                                 type="text"
                                 id="search-input"
                                 placeholder="Search Archive..."
+                                aria-label="Search archive"
                             />
 
                             <button
                                 id="search-clear"
                                 class="search-clear-btn"
                                 type="button"
+                                aria-label="Clear search"
                             >
                                 ×
                             </button>
@@ -332,7 +335,7 @@
                     </div>
                 </div>
             </section>
-            <section id="archive-profile-page">
+            <section id="archive-profile-page" hidden>
                 <div class="page-header">
                     <h2>Archive Profile</h2>
                     <p>What does your archive say about you?</p>
@@ -352,7 +355,7 @@
                 </div>
             </section>
 
-            <section id="recommendations-page">
+            <section id="recommendations-page" hidden>
                 <div class="page-header">
                     <h2>Recommendations</h2>
                     <p>What should you consume next?</p>

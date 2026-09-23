@@ -810,8 +810,8 @@ Dynamic taxonomy does not mean automatically generating new categories. New inte
 - [ ] Expand explainability presentation
 - [ ] Expand evidence presentation and "Why?" explanations
 - [ ] Improve Designation and intelligence evidence visibility
-- [ ] Implement archive-state communication
-- [ ] Harden accessibility
+- [x] Implement archive-state communication
+- [x] Harden accessibility
 - [ ] Perform targeted UX polish based on actual product behavior
 
 ### Phase 7 Guardrails
