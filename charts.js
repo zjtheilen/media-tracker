@@ -792,6 +792,48 @@ async function renderArchiveProfileCard() {
 
                     </div>
 
+                    ${archiveProfile.primaryIdentity ? `
+                        <div class="profile-section">
+
+                            <h3>Identity</h3>
+
+                            <h2>
+                            ${archiveProfile.primaryIdentity.title}
+                            </h2>
+
+                            <h3>Identity Score</h3>
+
+                            <p>
+                                ${archiveProfile.primaryIdentity.score.toFixed(2)}
+                            </p>
+
+                            <p class="archive-summary">
+                                ${archiveProfile.primaryIdentity.description}
+                            </p>
+
+                            <h4>Data Sufficiency</h4>
+
+                            <p>
+                                ${(archiveProfile.primaryIdentity.data_sufficiency * 100).toFixed(0)}%
+                            </p>
+
+                            ${archiveProfile.primaryIdentity.secondary_identity ? `
+                                <div class="basis-item">
+
+                                    <span class="category-label">
+                                        Secondary Identity
+                                    </span>
+
+                                    <div>
+                                        ${archiveProfile.primaryIdentity.secondary_identity.title}
+                                        (${archiveProfile.primaryIdentity.secondary_identity.score.toFixed(2)})
+                                    </div>
+
+                                </div>
+                            ` : ""}
+
+                        </div>
+                    ` : ""}
 
                     <div class="profile-section">
 
