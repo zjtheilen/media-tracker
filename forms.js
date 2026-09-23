@@ -239,7 +239,7 @@ function renderGenreFormSelector(mediaType) {
 }
 
 function updateSubmitButton() {
-    submitBtn.textContent = editingEntryId ? "Save Changes" : "Add Entry";
+    submitBtn.textContent = editingEntryId ? "Save Changes" : "Create Record";
 }
 
 function showError(message) {

@@ -376,7 +376,7 @@ test("user can create a new library record", async ({ page, request }) => {
 
     await expect(page.locator("#title")).toHaveValue("");
 
-    await expect(page.locator("#submitBtn")).toHaveText("Add Entry");
+    await expect(page.locator("#submitBtn")).toHaveText("Create Record");
 });
 
 
@@ -426,11 +426,9 @@ test("user can edit a library record and existing scores are preserved", async (
 
     await page.locator("#submitBtn").click();
 
-    await expect(page.locator("#submitBtn")).toHaveText("Add Entry");
-
     // resetFormState() changes the button back only after the save
     // and refresh have completed.
-    await expect(page.locator("#submitBtn")).toHaveText("Add Entry");
+    await expect(page.locator("#submitBtn")).toHaveText("Create Record");
 
     // Verify the backend after the save has completed.
     const response = await request.get(
