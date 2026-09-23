@@ -94,7 +94,7 @@ The UI must not present:
 * zero confidence as though it were a weak positive signal;
 * sparse data as though it established a broad curator philosophy.
 
-When an intelligence system cannot produce a result because its data requirements are not met, the presentation should communicate that the result is **not yet established/available**.
+When an intelligence system cannot produce a result because its data requirements are not met, the presentation may omit that intelligence section entirely or communicate that the result is **not yet established/available**. The UI must not fabricate or display a low-scoring substitute for an unavailable result.
 
 ---
 
@@ -328,8 +328,9 @@ The frontend must safely handle backend values such as:
 primaryDesignation = null
 designationBasis = null
 primaryIdentity = null
-secondaryIdentity = null
 ```
+
+When `primaryIdentity` is present, an optional secondary Identity is provided as `primaryIdentity.secondary_identity`. The renderer must not assume either Identity object exists.
 
 The renderer must not assume these objects exist when the archive is empty or when an intelligence system is unavailable.
 
