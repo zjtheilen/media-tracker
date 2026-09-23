@@ -206,8 +206,4 @@ A signal becomes a candidate for new intelligence only when its semantics are es
 
 ## 12. Next Investigation
 
-The next relevant Phase 7.4 investigation is:
-
-> **Re-evaluate Identity signal independence as richer evidence becomes available.**
-
-The `system_design` signal may be relevant to that investigation, but no implementation or semantic change is implied by this investigation.
+The focused 7.4 investigations following this audit have now examined Identity signal independence for system_design, Systems / Construction Appreciation, and Concept-First / Conceptualist. None produced evidence sufficient to justify new intelligence concepts or implementation changes. Broader Identity signal independence remains an open Phase 7 question and is not considered complete by these focused investigations.
