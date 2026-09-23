@@ -801,7 +801,7 @@ The guiding principle remains:
 - [x] Determine whether existing Designations adequately represent those patterns
 - [x] Introduce new Designations only where explicitly justified
 - [x] Revisit provisionally deferred intelligence concepts as richer evidence becomes available
-- [ ] Re-evaluate Identity signal independence as richer evidence becomes available
+- [x] Re-evaluate Identity signal independence as richer evidence becomes available
 
 Dynamic taxonomy does not mean automatically generating new categories. New intelligence categories require explicit conceptual justification, defensible evidence, explainability, and regression protection.
 
