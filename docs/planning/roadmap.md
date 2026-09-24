@@ -756,7 +756,7 @@ The E2E edge-case plan defines browser-level regression coverage for the critica
 * 20 entries
 * 21 entries
 
-The 0-entry case currently represents a presentation gap requiring an intentional empty-state implementation. The Identity boundary cases are intended to protect the existing 15-entry and 20-entry eligibility thresholds.
+The 0-entry case now has an intentional empty-state presentation. The Identity boundary cases are intended to protect the existing 15-entry and 20-entry eligibility thresholds.
 
 ---
 
@@ -812,7 +812,7 @@ Dynamic taxonomy does not mean automatically generating new categories. New inte
 - [x] Improve Designation and intelligence evidence visibility
 - [x] Implement archive-state communication
 - [x] Harden accessibility
-- [ ] Perform targeted UX polish based on actual product behavior
+- [x] Perform targeted UX polish based on actual product behavior
 
 ### Phase 7 Guardrails
 
@@ -1103,7 +1103,7 @@ Future intelligence should distinguish between:
 3. Whether there is enough data to interpret it.
 4. What conclusion the evidence supports.
 
-### Future Intelligence Evidence
+### Future Intelligence Evidence & Revisit Opportunities
 
 Future intelligence expansion should prioritize richer evidence over simply adding additional labels or metrics.
 
@@ -1114,10 +1114,10 @@ Potential evidence work, in priority order:
 * [x] Define semantics for substantially experienced but unfinished media
 * [x] Establish monthly archive activity evidence
 * [x] Establish monthly media distribution evidence
-* [ ] Expand temporal consumption analysis
-* [ ] Analyze score × completion relationships
-* [ ] Analyze media type × scoring behavior
-* [ ] Expand archive-derived genre relationship intelligence
+* [x] Investigate temporal consumption analysis
+* [x] Analyze score × completion relationships
+* [x] Analyze media type × scoring behavior
+* [x] Expand archive-derived genre relationship intelligence
 * [ ] Investigate repeat-consumption behavior
 * [ ] Investigate creator/franchise repetition where reliable metadata exists
 * [ ] Evaluate future structured use of review/notes data
