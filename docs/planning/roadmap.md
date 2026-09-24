@@ -809,7 +809,7 @@ Dynamic taxonomy does not mean automatically generating new categories. New inte
 
 - [x] Expand explainability presentation
 - [x] Expand evidence presentation and "Why?" explanations
-- [ ] Improve Designation and intelligence evidence visibility
+- [x] Improve Designation and intelligence evidence visibility
 - [x] Implement archive-state communication
 - [x] Harden accessibility
 - [ ] Perform targeted UX polish based on actual product behavior
