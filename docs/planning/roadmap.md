@@ -381,7 +381,7 @@ The current regression baseline is:
 
 **1 passing Node configuration test.**
 
-**333 passing Python tests.**
+**337 passing Python tests.**
 
 **50 passing Playwright E2E tests.**
 
@@ -505,7 +505,7 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **1 passing Node configuration test.**
 
-**333 passing Python tests.**
+**337 passing Python tests.**
 
 **50 passing Playwright E2E tests.**
 
@@ -807,7 +807,7 @@ Dynamic taxonomy does not mean automatically generating new categories. New inte
 
 ### 7.5 Product Surface Evolution
 
-- [ ] Expand explainability presentation
+- [x] Expand explainability presentation
 - [ ] Expand evidence presentation and "Why?" explanations
 - [ ] Improve Designation and intelligence evidence visibility
 - [x] Implement archive-state communication
