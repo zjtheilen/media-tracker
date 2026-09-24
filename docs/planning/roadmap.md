@@ -808,7 +808,7 @@ Dynamic taxonomy does not mean automatically generating new categories. New inte
 ### 7.5 Product Surface Evolution
 
 - [x] Expand explainability presentation
-- [ ] Expand evidence presentation and "Why?" explanations
+- [x] Expand evidence presentation and "Why?" explanations
 - [ ] Improve Designation and intelligence evidence visibility
 - [x] Implement archive-state communication
 - [x] Harden accessibility
