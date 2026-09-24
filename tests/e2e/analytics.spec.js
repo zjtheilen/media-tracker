@@ -653,6 +653,10 @@ test("analytics rating distribution chart excludes unevaluated entries", async (
 
     await expect(chart).toBeVisible();
 
+    await expect.poll(async () => {
+        return await chart.evaluate((canvas) => !!Chart.getChart(canvas));
+    }).toBe(true);
+
     const chartData = await chart.evaluate((canvas) => {
         const chartInstance = Chart.getChart(canvas);
 
@@ -718,6 +722,12 @@ test("analytics genre average ratings chart excludes unevaluated entries", async
     const chart = page.locator("#genre-average-ratings-chart");
 
     await expect(chart).toBeVisible();
+
+    await expect.poll(async () => {
+        return await chart.evaluate((canvas) => {
+            return !!Chart.getChart(canvas);
+        });
+    }).toBe(true);
 
     const chartData = await chart.evaluate((canvas) => {
         const chartInstance = Chart.getChart(canvas);
