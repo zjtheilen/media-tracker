@@ -4,53 +4,104 @@ const scoreContainer = document.getElementById("score-container");
 const submitBtn = document.getElementById("submitBtn");
 const formMessage = document.getElementById("form-message");
 
-function renderScoreInputs(mediaType, existingScores = {}) {
-    scoreContainer.innerHTML = "";
+function createScoreSection(title) {
+    const section = document.createElement("div");
 
-    const categories = scoringProfiles[mediaType];
+    section.innerHTML = `
+        <h3 class="score-section-title">
+            ${title}
+        </h3>
+    `;
 
-    if (!categories) {
-        console.error("Missing scoring categories for:", mediaType);
-        return;
-    }
+    scoreContainer.appendChild(section);
+}
 
+function renderScoreCategoryList(categories, existingScores) {
     categories.forEach((category) => {
         const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
 
-        const scoreValue = existingScores[normalizedKey] || 5;
+        const existingScore = Array.isArray(existingScores)
+            ? existingScores.find(score => score.category === normalizedKey)
+            : null;
+
+        const scoreValue = existingScore ? existingScore.value : 5;
+
+
+        const metricRubric = scoringRubrics[category] || {};
 
         const wrapper = document.createElement("div");
 
         wrapper.innerHTML = `
-      <div class="score-row">
-        <label class="score-input-label" for="${category}">
-          ${category}:
-          <span id="${category}-value">${scoreValue}</span>
-        </label>
+            <div class="score-row">
 
-        <input 
-          type="range"
-          min="1"
-          max="10"
-          value="${scoreValue}"
-          id="${category}"
-          class="score-input-slider"
-        >
-      </div>
-    `;
+                <label class="score-input-label" for="${category}">
+                    ${formatScoreCategory(category)}:
+                    <span id="${category}-value">${scoreValue}</span>
+                </label>
+
+                <input 
+                    type="range"
+                    min="1"
+                    max="10"
+                    value="${scoreValue}"
+                    id="${category}"
+                    class="score-input-slider"
+                >
+
+                <div class="score-meaning" id="${category}-meaning">
+                    ${metricRubric[scoreValue] || ""}
+                </div>
+
+            </div>
+        `;
 
         scoreContainer.appendChild(wrapper);
 
         const slider = document.getElementById(category);
-        const valueDisplay = document.getElementById(`${category}-value`);
+        const valueDisplay =
+            document.getElementById(`${category}-value`);
+        const meaningDisplay =
+            document.getElementById(`${category}-meaning`);
 
         slider.addEventListener("input", () => {
             valueDisplay.textContent = slider.value;
+
+            meaningDisplay.textContent =
+                metricRubric[Number(slider.value)] || "";
         });
     });
 }
 
-function renderGenreSelector(mediaType) {
+function renderScoreInputs(mediaType, existingScores = {}) {
+
+    scoreContainer.innerHTML = "";
+
+    const universalCategories =
+        scoringProfiles.universal.categories;
+
+    const mediaCategories =
+        Object.keys(scoringProfiles.media[mediaType]);
+
+
+    createScoreSection("Universal Scoring");
+
+    renderScoreCategoryList(
+        universalCategories,
+        existingScores
+    );
+
+
+    createScoreSection(
+        `${mediaType.charAt(0).toUpperCase() + mediaType.slice(1)} Scoring`
+    );
+
+    renderScoreCategoryList(
+        mediaCategories,
+        existingScores
+    );
+}
+
+function renderEntryGenreSelector(mediaType) {
     const container = document.getElementById("genre-selector");
 
     container.innerHTML = "";
@@ -94,7 +145,16 @@ function toggleGenre(genre) {
     }
     clearMessage();
 
-    renderGenreSelector(mediaTypeSelect.value);
+    renderGenreFormSelector(mediaTypeSelect.value);
+}
+
+function formatScoreCategory(category) {
+    return category
+        .split("_")
+        .map(word =>
+            word.charAt(0).toUpperCase() + word.slice(1)
+        )
+        .join(" ");
 }
 
 async function startEdit(id) {
@@ -117,7 +177,7 @@ async function startEdit(id) {
 
     selectedGenres = [...entry.genres];
 
-    renderGenreSelector(entry.media_type);
+    renderGenreFormSelector(entry.media_type);
 
     refreshIcons();
 }
@@ -127,10 +187,8 @@ function resetFormState() {
 
     form.reset();
 
-    document.getElementById("completion-status").value = "completed";
-
     selectedGenres = [];
-    renderGenreSelector(mediaTypeSelect.value);
+    renderGenreFormSelector(mediaTypeSelect.value);
     renderScoreInputs(mediaTypeSelect.value, {});
 
     clearMessage();
@@ -139,8 +197,49 @@ function resetFormState() {
     submitBtn.disabled = false;
 }
 
+function renderGenreFormSelector(mediaType) {
+
+    const container =
+        document.getElementById("genre-selector");
+
+    container.innerHTML = "";
+
+    const coreGenres =
+        genreRegistry.core || [];
+
+    const mediaGenres =
+        genreRegistry[mediaType] || [];
+
+    const allGenres =
+        [...new Set([...coreGenres, ...mediaGenres])];
+
+    allGenres.forEach((genre) => {
+
+        const chip =
+            document.createElement("button");
+
+        chip.type = "button";
+
+        chip.className =
+            "genre-select-chip";
+
+        chip.textContent = genre;
+
+        if (selectedGenres.includes(genre)) {
+            chip.classList.add("selected");
+        }
+
+        chip.addEventListener("click", () => {
+            toggleGenre(genre);
+        });
+
+        container.appendChild(chip);
+
+    });
+}
+
 function updateSubmitButton() {
-    submitBtn.textContent = editingEntryId ? "Save Changes" : "Add Entry";
+    submitBtn.textContent = editingEntryId ? "Save Changes" : "Create Record";
 }
 
 function showError(message) {
@@ -202,14 +301,23 @@ form.addEventListener("submit", async (event) => {
     }
 
     const scores = {};
-    const categories = scoringProfiles[data.media_type];
 
-    categories.forEach((category) => {
+    const universalCategories =
+        scoringProfiles.universal.categories;
+
+    const mediaCategories =
+        Object.keys(scoringProfiles.media[data.media_type]);
+
+
+    [
+        ...universalCategories,
+        ...mediaCategories
+    ].forEach((category) => {
+
         const slider = document.getElementById(category);
 
-        const normalizedKey = category.toLowerCase().replaceAll(" ", "_");
+        scores[category] = Number(slider.value);
 
-        scores[normalizedKey] = Number(slider.value);
     });
 
     data.scores = scores;

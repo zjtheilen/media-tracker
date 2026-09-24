@@ -1,357 +1,537 @@
-# media-tracker
+```
+__    __  ___     ___  ___   ____  ___
+\ \/\/ / / O \   _\\  / O \  | D ) | |
+ \_/\_/O/_/ \_\O/__/O/_/ \_\O|_D_)O|_|O
+WEIGHTED ARCHIVE SYSTEM for ANALYSIS & BEHAVIORAL INSIGHTS
 
-A personal media tracking and analytics application for logging, scoring, and exploring consumed media across books, games, and video.
+A media tracking, rating, and analytics app by Zachary Theilen
+```
 
-The project focuses on:
-- structured scoring systems
-- weighted category analysis
-- personal taste analytics
-- long-term preference tracking
-- lightweight but scalable architecture
+# Media Tracker
 
-Built with:
-- Frontend: HTML / CSS / JavaScript
-- Backend: FastAPI (Python)
-- Database: SQLite
-- Visualization: Chart.js
+A personal media archive and taste-intelligence application for logging, scoring, and exploring consumed books, games, and video.
+
+Media Tracker combines a working media archive with a layered intelligence system that can identify measurable patterns in the archive and explain how those patterns support its conclusions.
+
+> **Evolution, not rewrite.**
+>
+> The system should evolve from the architecture that already works. New intelligence should be added through explicit conceptual decisions, evidence, and targeted implementation rather than unnecessary rewrites.
 
 ---
 
-# To run
+## What It Does
 
-`uvicorn main:app --reload`
-start server from IDE
-connect to `127.0.0.1:5000`
+Media Tracker lets you:
 
-# Current Features
+- Track completed books, games, and video.
+- Record genres, notes, completion dates, and scores.
+- Apply weighted scoring profiles appropriate to different media types.
+- Explore universal and media-specific scoring traits.
+- Analyze genre patterns across the archive.
+- Generate observations and findings from measurable archive evidence.
+- Identify recurring Designations and Identities.
+- View an explainable Archive Profile describing the archive as a whole.
+- Explore generated lists and visualizations based on archive data.
 
-## Entry Management
+The project began as a straightforward media-tracking application and has evolved into a broader system for analyzing patterns in a personal media archive.
 
-Users can create and store entries for:
-- Books
-- Video / Film
-- Games
+---
 
-Each entry currently supports:
-- Title
+## Technology
+
+### Frontend
+
+- HTML
+- CSS
+- JavaScript
+- Chart.js
+
+### Backend
+
+- Python
+- FastAPI
+- SQLite
+
+### Development
+
+- Git
+- Automated regression testing
+- CI/CD workflows
+- Playwright
+- Selenium
+- Pytest
+
+### Database Inspection
+
+Media Tracker uses SQLite for persistent storage. Application runtime database access is handled through Python's built-in `sqlite3` module.
+
+For direct development-time inspection, schema exploration, validation, and ad-hoc analytical queries, the SQLite command-line shell (`sqlite3`) can be used against the application database.
+
+This provides two distinct database access paths:
+
+* **Application runtime:** Python `sqlite3` → SQLite
+* **Development inspection:** `sqlite3` CLI → SQLite
+
+The CLI is a development and analysis tool rather than a separate application data-access layer. It is particularly useful for validating application behavior against the underlying database and for investigating archive-level patterns without routing every question through the application.
+
+Current database inspection work is read-only unless a database modification is explicitly intended.
+
+The architecture intentionally remains relatively lightweight. The goal is not to build a large platform, but to provide a maintainable application whose intelligence can be understood and evolved.
+
+---
+
+## Scoring
+
+Media Tracker uses weighted scoring rather than treating every media type identically.
+
+Each entry can contain:
+
+- A title
 - Media type
-- Structured genre tags
-- Weighted scoring categories
+- Genres
+- Universal scoring dimensions
+- Media-specific scoring dimensions
 - Notes
-- Completion status
-- Date consumed
+- Completion information
 
-Data persists between sessions using SQLite.
+Scoring profiles allow different media types to emphasize characteristics appropriate to that medium.
 
----
+The system also derives higher-level traits from the underlying scores.
 
-## Dynamic Scoring Profiles
-
-Each media type has its own scoring profile.
-
-Example categories include:
-- Writing
-- Pacing
-- Originality
-- Engagement
-- Emotional Impact
-- Gameplay
-- Acting
-- Curiosity
-- Art
-- Cinematography
-
-Scoring categories are dynamically generated based on media type.
+The scoring architecture is intentionally separate from the archive intelligence system. Intelligence consumes scoring signals; it does not redefine the underlying scoring model.
 
 ---
 
-## Weighted Scoring System
+## Genre Intelligence
 
-The application supports weighted scoring categories.
+Genres are treated as measurable archive signals rather than merely descriptive labels.
 
-Example:
-- Gameplay may matter more for games
-- Writing may matter more for books
-- Emotional impact may carry heavier weight globally
+Genre data supports:
 
-Weighted averages are calculated automatically when entries are created.
+- Genre prevalence
+- Genre diversity
+- Genre scoring patterns
+- Genre-derived traits
+- Genre signatures
+- Higher-level Designation and Identity evidence
 
----
-
-## Genre System
-
-The app uses a structured genre/tag system.
-
-Universal genres include:
-- horror
-- sci-fi
-- fantasy
-- romance
-- comedy
-- thriller
-- mystery
-- drama
-- action
-- adventure
-
-Media-specific genres are also supported.
-
-Example game-only genres:
-- rpg
-- platformer
-- racing
-- visual novel
-- shooter
-- metroidvania
-
-Genres are validated by the backend.
+Genre-derived signals are useful evidence, but they are not automatically treated as direct observations of intent or personality.
 
 ---
 
-## Visualization
+## Archive Intelligence
 
-Currently implemented:
-- Radar charts per entry using Chart.js
+The archive intelligence system consists of several distinct analytical concepts.
 
-Radar charts visualize category strengths and weaknesses for each entry.
+### Traits
 
----
+Traits represent measurable characteristics derived from scoring and archive data.
 
-# Project Structure
+Traits can originate from:
 
-```bash
-media-tracker/
-│
-├── data/
-│   └── genres.py
-│
-├── models/
-│   ├── entry.py
-│   ├── media_item.py
-│   ├── score.py
-│   ├── scoring_category.py
-│   └── scoring_profile.py
-│
-├── static/
-│   ├── app.js
-│   ├── styles.css
-│   └── index.html
-│
-├── db.py
-├── main.py
-└── database.db
-```
+- Universal scoring
+- Media-specific scoring
+- Derived archive patterns
+
+Derived traits may use genre or other observable archive characteristics as proxies.
 
 ---
 
-# Scoring Philosophy
+### Genre Signals
 
-The scoring system intentionally blends:
-- objective craftsmanship
-- emotional reaction
-- engagement
-- originality
-- thematic depth
+Genre signals describe measurable patterns in the genres represented by the archive.
 
-The project is designed less as a "review site" and more as a:
-> personal taste analysis tool
+They can contribute to higher-level analysis such as:
 
-The goal is to discover patterns in:
-- emotional resonance
-- genre preferences
-- pacing tolerance
-- narrative interests
-- gameplay priorities
-- experimental media affinity
+- Genre diversity
+- Genre signatures
+- Genre-derived traits
+- Designation evidence
+- Identity evidence
+
+Genre signals are evidence about the archive, not psychological claims about the person maintaining it.
 
 ---
 
-# API Overview
+### Observations
 
-## Create Entry
+Observations identify notable patterns in the archive.
 
-```python
+They are evidence-oriented and expose an `evidenceStrength` value describing how strongly the available evidence supports the observation.
+
+Observations answer questions such as:
+
+- What measurable patterns are present?
+- Which characteristics stand out?
+- How strongly is a particular pattern expressed?
+
+---
+
+### Findings
+
+Findings represent higher-level conclusions derived from archive evidence.
+
+They are distinct from Observations.
+
+An Observation identifies a notable pattern.
+
+A Finding interprets a set of evidence into a broader conclusion.
+
+This distinction allows the system to separate evidence discovery from higher-level interpretation.
+
+---
+
+### Designations
+
+Designations classify recognizable characteristics of the media relationship.
+
+The current Designation catalog is:
+
+- **Boundary Explorer**
+- **Engagement Architect**
+- **Deep Diver**
+- **Curator**
+
+The core question for a Designation is:
+
+> **What do you tend to like?**
+
+A Designation is not intended to be:
+
+- A personality diagnosis
+- A psychological assessment
+- A personal identity
+- A single favorite genre
+- An arbitrary recommendation category
+- A broad philosophy of curation
+- A conclusion based on one isolated preference
+
+Designations are ranked using measurable evidence from the archive.
+
+---
+
+### Identities
+
+Identities describe broader recurring orientations through which the curator engages with the media they consume.
+
+The current Identity catalog is:
+
+- **Interpretive Philosophy**
+- **Exploratory Philosophy**
+- **Breadth Philosophy**
+
+The core question for an Identity is:
+
+> **What relationship do you tend to establish with what you like?**
+
+The current Identity concepts are intentionally distinct from the Designation layer.
+
+#### Interpretive Philosophy
+
+Interpretive Philosophy describes engagement with media through depth, reflection, complexity, and interpretation.
+
+Its strongest current observable signal is depth, supported by emotional impact and contextual indicators such as reflection, ambiguity, and analysis.
+
+It is not simply another name for Deep Diver.
+
+#### Exploratory Philosophy
+
+Exploratory Philosophy describes a relationship with unfamiliar territory and movement beyond established preferences.
+
+Current evidence is indirect and includes signals such as originality, genre diversity, depth, experimental affinity, and novelty.
+
+High experimentation alone does not establish an exploratory orientation.
+
+#### Breadth Philosophy
+
+Breadth Philosophy describes the range of territory represented in the archive.
+
+Its strongest current observable signal is genre diversity.
+
+Media-type breadth and archive composition can provide supporting context.
+
+Archive size alone does not establish breadth or intentional diversification.
+
+---
+
+## Designation vs Identity
+
+The distinction between these two layers is foundational.
+
+> **A Designation describes the characteristics of the media relationship. An Identity describes the recurring orientation through which the curator engages with those characteristics.**
+
+In shorthand:
+
+> **Designation:** What do you tend to like?
+
+> **Identity:** What relationship do you tend to establish with what you like?
+
+The two systems may use some of the same underlying evidence.
+
+That is intentional.
+
+**Evidence can overlap. Meaning cannot.**
+
+Shared evidence is acceptable when different systems interpret that evidence differently.
+
+Shared conclusions are not.
+
+Identity should not be created by simply renaming, reweighting, or restating a Designation.
+
+---
+
+## Explainability
+
+Media Tracker is designed so that intelligence can be explained rather than presented as an opaque result.
+
+Where appropriate, the system exposes:
+
+- Scores
+- Contributing traits
+- Weighted contributions
+- Evidence strength
+- Data sufficiency
+- Designation evidence
+- Identity evidence
+- Observations
+- Findings
+- Narrative explanations
+
+Identity scoring exposes a contribution breakdown showing:
+
+- Trait
+- Value
+- Weight
+- Normalized value
+- Contribution
+
+This makes it possible to inspect why an Identity received its score rather than treating the result as an unexplained label.
+
+---
+
+## Signal Strength, Data Sufficiency, and Evidence Strength
+
+The project deliberately distinguishes several related concepts.
+
+### Signal Strength
+
+Signal Strength describes how strongly a measurable characteristic is expressed.
+
+A strong signal does not automatically mean there is enough data to support a conclusion.
+
+---
+
+### Data Sufficiency
+
+Data Sufficiency describes whether enough archive data exists for a conclusion to be evaluated meaningfully.
+
+A high signal in a very small archive does not necessarily provide sufficient evidence for a reliable higher-level interpretation.
+
+---
+
+### Evidence Strength
+
+Evidence Strength describes how strongly the available evidence supports a particular observation or conclusion.
+
+These concepts should not be collapsed into a single universal `confidence` value.
+
+---
+
+### Classification Confidence
+
+Classification Confidence is a historical terminology concept that is not currently used as the active universal intelligence measure.
+
+The project does not currently implement a universal probabilistic classification-confidence model.
+
+---
+
+## Archive States
+
+The system recognizes that archives can exist in different states of informational sufficiency.
+
+An archive may be:
+
+- Empty
+- Sparse
+- Established
+
+These states are conceptually distinct from the strength of individual signals.
+
+A sparse archive may contain strong signals while still lacking sufficient evidence for some higher-level conclusions.
+
+The exact operational thresholds for Archive State remain an implementation/planning concern rather than a universal intelligence rule.
+
+---
+
+## API
+
+The backend exposes API endpoints for archive management, scoring, statistics, and intelligence.
+
+### Entries
+
+```text
 POST /entries/
-```
-
-## Get All Entries
-
-```python
 GET /entries/
-```
-
-## Get Single Entry
-
-```python
 GET /entries/{entry_id}
-```
-
-## Delete Entry
-
-```python
+PUT /entries/{entry_id}
 DELETE /entries/{entry_id}
 ```
 
-## Stats Endpoint
+### Statistics
 
-```python
+```text
 GET /stats/
 ```
 
----
+### Archive Intelligence
 
-# Development Roadmap
+```text
+GET /archive-profile
+GET /identities
+GET /identity
+```
 
-## Phase 1 — Core Stability & CRUD
+### Supporting Data
 
-### In Progress
-- Edit entry functionality
-- Update existing scores
-- Update title/genres/notes/media type
-- User-provided date consumed
-- Frontend validation feedback
-- Form reset after submit
-- Auto-close modal after submit
+```text
+GET /genres/
+GET /scoring-profile
+GET /scoring-rubric
+```
 
-### Backend Improvements
-- Update/edit endpoint
-- Stronger validation
-- Response models
-- API error consistency
-- Migration strategy planning
+The API is intended to describe the intelligence system that actually exists.
+
+Implementation details and conceptual authority are documented separately in the planning documentation.
 
 ---
 
-## Phase 2 — Scoring System Finalization
+## Visualizations
 
-### Weighted Scoring
-- Finalize weighting philosophy
-- Visual weighting indicators
-- Stable scoring scale decision
+The frontend provides visualizations and generated views for exploring the archive.
 
-### Category Design
-- Finalize scoring categories
-- Refine cross-media consistency
-- Add category descriptions/tooltips
-- Explore user-configurable weights
+These include:
 
----
+- Media distribution
+- Average scores by media type
+- Archive activity
+- Score distribution
+- Genre averages
+- Universal scoring profiles
+- Media scoring profiles
+- Entry-level scoring
+- Highest scored records
+- Highest scored books
+- Highest scored games
+- Highest scored videos
+- Recent additions
+- Hall of Fame
+- Archive intelligence
 
-## Phase 3 — Genre / Tag System
+Visualizations are presentation layers over the underlying archive and scoring data.
 
-### Genre Features
-- Multi-select genre UI
-- Genre filtering
-- Clickable genre tags
-- Genre analytics
-
-### Future Tag Expansion
-- Mood tags
-- Tone tags
-- Experimental tags
-- User-defined tags
+They should not become independent sources of intelligence logic.
 
 ---
 
-## Phase 4 — UI / UX Refactor
+## Current Development Status
 
-### Entry List Rework
-- Collapsible list items
-- Compact summary view
-- Expanded detail view
+The core archive, scoring, and intelligence architecture is functional.
 
-### UI Improvements
-- CSS polish
-- Mobile responsiveness
-- Better modals
-- Hover/focus states
-- Empty-state UI
-- Loading/error states
-- Accessibility improvements
+Current completed areas include:
 
----
+- Core media archive
+- Entry management
+- Universal scoring
+- Media-specific scoring
+- Genre intelligence
+- Measurable traits
+- Observation infrastructure
+- Finding infrastructure
+- Designation infrastructure
+- Identity scoring infrastructure
+- Identity-derived traits
+- Identity contribution and explanation
+- Archive Profile backend
+- Template-driven archive narrative
+- Recommendation infrastructure/stub
+- Automated regression coverage
+- Frontend terminology alignment
+- Identity and Designation ontology alignment
+- Intelligence documentation reconciliation
 
-## Phase 5 — Analytics & Visualization
+Current regression baseline:
 
-### Planned Charts
-- Media distribution pie chart
-- Average score per media type
-- Entries over time
-- Weighted category averages
-- Global category averages
-- Taste profile visualization
-- Cross-media comparisons
+**245 tests passing, 0 failing.**
 
-### Future Analytics
-- Emotional impact rankings
-- Genre preference trends
-- Correlation analysis
-- Recommendation experimentation
+The project continues to follow an evolution-based development model rather than treating every new requirement as a reason to redesign the existing system.
 
 ---
 
-## Phase 6 — Architecture Cleanup
+## Documentation
 
-### Ongoing Cleanup
-- Remove inline styles
-- Improve project structure
-- Documentation cleanup
-- Naming consistency
+The detailed project documentation lives under `docs/planning/`.
 
-### Future Technical Decisions
-- TypeScript evaluation
-- Frontend framework evaluation
-- ORM/migrations
-- API versioning
+### Current Conceptual Authority
 
----
+- `docs/planning/intelligence-contract.md`
+- `docs/planning/decision-and-implementation-map.md`
+- `docs/planning/identity-and-designation-contract.md`
+- `docs/planning/identity-fixture-contract.md`
+- `docs/planning/identity-evidence-mapping.md`
 
-## Phase 7 — Optional Expansion
+These documents define the current conceptual contracts and implementation decisions.
 
-### Potential Features
-- Search
-- Timeline/history view
-- Favorites system
-- Recommendation engine
-- Import/export support
-- External API integrations
-- Automatic cover art/posters
-- Plotly Dash dashboard
-- User accounts/authentication
+### Historical and Forensic Records
 
----
+- `docs/planning/intelligence-alignment.md`
+- `docs/planning/intelligence-forensic-audit.md`
+- `docs/planning/identity-catalog.md`
 
-# Current Status
+These documents preserve historical reasoning, forensic findings, and the evolution of the intelligence system.
 
-Implemented:
-- FastAPI backend
-- SQLite persistence
-- Dynamic scoring profiles
-- Weighted scoring
-- Radar charts
-- Entry deletion
-- Structured genre schema
-- Genre validation
-- Dynamic sliders
-- Chart.js integration
-- Completion status support
+### Supporting Documentation
 
-Current High Priority:
-1. Genre multi-select UI
-2. Edit/update functionality
-3. User-provided dates
-4. Collapsible entry layout
-5. Analytics charts
-6. Validation and UX polish
+- `docs/planning/terminology-and-api-rename-map.md`
+- `docs/planning/frontend-terminology-alignment.md`
+- `docs/planning/forgotten-features-register.md`
+- `docs/planning/roadmap.md`
+
+The README is an orientation document.
+
+The detailed planning documents are the authoritative sources for current conceptual and implementation decisions.
 
 ---
 
-# Goals
+## Project Philosophy
 
-The long-term goal is to evolve media-tracker into:
-- a personal media archive
-- a taste analysis engine
-- a lightweight recommendation laboratory
-- a highly personalized analytics dashboard
+Media Tracker is intentionally being developed as an evolving system rather than a collection of disconnected features.
 
-without losing the simplicity and speed of the original concept.
+The central development philosophy is:
+
+> **Evolution, not rewrite.**
+
+Existing behavior should be preserved unless an explicit conceptual decision requires changing it.
+
+When a new intelligence concept is introduced, the intended sequence is:
+
+1. Define the concept.
+2. Define its semantic boundaries.
+3. Identify the available evidence.
+4. Determine what the evidence can and cannot establish.
+5. Compare the concept against existing intelligence.
+6. Test for conceptual overlap and negative space.
+7. Define implementation requirements.
+8. Make targeted changes.
+9. Protect the resulting behavior with regression tests.
+
+This keeps the intelligence system understandable and prevents terminology changes from quietly becoming algorithm changes.
+
+---
+
+## Governing Principle
+
+> **The API should describe the intelligence system that actually exists, while the intelligence system should only change when an explicit conceptual decision requires it.**
+
+Terminology alignment is therefore a controlled evolution of the existing Media Tracker architecture, not a justification for rewriting it.
+
+The project establishes the semantic contract first, then aligns terminology and implementation to that contract without changing behavior unless an explicit conceptual decision requires the change.

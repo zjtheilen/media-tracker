@@ -1,6 +1,9 @@
 import copy
 
+import pytest
 
+
+@pytest.mark.api
 def test_stats_empty(client):
     response = client.get("/stats/")
 
@@ -13,6 +16,7 @@ def test_stats_empty(client):
     assert data["genre_counts"] == {}
 
 
+@pytest.mark.api
 def test_stats_single_entry(client, valid_game_payload):
     client.post("/entries/", json=valid_game_payload)
 
@@ -25,6 +29,7 @@ def test_stats_single_entry(client, valid_game_payload):
     assert data["genre_counts"]["horror"] == 1
 
 
+@pytest.mark.api
 def test_stats_multiple_entries(client, valid_game_payload):
     client.post("/entries/", json=valid_game_payload)
 

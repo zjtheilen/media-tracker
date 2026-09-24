@@ -1,0 +1,23 @@
+{
+    "id": "breadth_philosophy",
+    "title": "Breadth Philosophy",
+    "category": "curatorial_variety",
+    "icon": "compass",
+    "description": "Engages with a wide range of genres and areas of the media landscape.",
+    "identity": [
+        "genre_diversity"
+    ],
+    "recommendation_bias": [
+        "underrepresented genres",
+        "underrepresented media types",
+        "adjacent areas of the media landscape",
+        "works that broaden the range of the existing archive",
+        "areas of media not yet represented in the archive"
+    ],
+    "requirements": {
+        "minimum_entries": 15
+    },
+    "identity_weights": {
+        "genre_diversity": 1.0
+    }
+}

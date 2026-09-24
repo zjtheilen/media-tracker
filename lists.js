@@ -1,5 +1,6 @@
 function getTopEntries(entries, scoreFn, limit = 5) {
     return [...entries]
+        .filter(isScoredEntry)
         .sort((a, b) => scoreFn(b) - scoreFn(a))
         .slice(0, limit);
 }
@@ -147,16 +148,16 @@ function getReportTitle(containerId) {
 
     const titles = {
         "top-rated-overall-list":
-            "<i class='media-icon' data-lucide='file-text'></i>Highest Evaluated Records",
+            "<i class='media-icon' data-lucide='file-text'></i>Highest Scored Records",
 
         "top-books-list":
-            "<i class='media-icon' data-lucide='book'></i>Highest Rated Books",
+            "<i class='media-icon' data-lucide='book'></i>Highest Scored Books",
 
         "top-games-list":
-            "<i class='media-icon' data-lucide='gamepad-2'></i>Highest Rated Games",
+            "<i class='media-icon' data-lucide='gamepad-2'></i>Highest Scored Games",
 
         "top-movies-list":
-            "<i class='media-icon' data-lucide='film'></i>Highest Rated Videos",
+            "<i class='media-icon' data-lucide='film'></i>Highest Scored Videos",
 
         "recent-archive-list":
             "<i class='media-icon' data-lucide='clock-3'></i>Recent Archive Additions",
@@ -173,13 +174,13 @@ function getReportQuery(containerId) {
 
     const queries = {
         "top-rated-overall-list":
-            "ORDER BY EVALUATION INDEX DESC",
+            "ORDER BY SCORE DESC",
 
         "recent-archive-list":
             "SORT BY ARCHIVE DATE DESC",
 
         "hall-of-fame-list":
-            "FILTER: EVALUATION INDEX >= 95%"
+            "FILTER: SCORE >= 95"
     };
 
     return queries[containerId] || "GENERATED REPORT";

@@ -9,9 +9,11 @@ from contextlib import asynccontextmanager
 
 from models.media_item import MediaItem
 from models.scoring_profile import (
-    CATEGORY_WEIGHTS,
-    SCORING_CATEGORIES,
     VALID_MEDIA_TYPES,
+    UNIVERSAL_SCORING_PROFILE,
+    MEDIA_SCORING_PROFILES,
+    get_universal_categories,
+    get_all_categories,
 )
 
 from models.score import Score
@@ -32,6 +34,19 @@ from models.genre_registry import (
     VIDEO_GENRES,
     get_allowed_genres,
 )
+
+from models.services.archive_mapper import entry_to_archive_format
+from models.services.archive_engine import build_archive_profile
+from models.services.scoring_rubric import METRIC_RUBRICS
+
+from models.analytics.genre_statistics import (
+    get_genre_statistics,
+    get_favorite_genre_combinations,
+    get_media_genre_affinity,
+    get_top_genres_by_score,
+)
+from models.services.identity_engine import generate_identity
+from models.services.identity_scorer import evaluate_identity_scores
 
 VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
 
@@ -110,7 +125,7 @@ def validate_entry(entry_data: EntryCreate):
 
     genres = validate_genres(entry_data.media_type, entry_data.genres)
 
-    validate_scores(entry_data.scores)
+    validate_scores(entry_data.media_type, entry_data.scores)
     validate_completion_status(entry_data.completion_status)
 
     return title, genres
@@ -123,8 +138,8 @@ def validate_title(title: str):
     return title
 
 
-def validate_scores(scores: Dict[str, int]):
-    valid_categories = set(SCORING_CATEGORIES)
+def validate_scores(media_type: str, scores: Dict[str, int]):
+    valid_categories = set(get_all_categories(media_type))
     submitted_categories = set(scores.keys())
 
     missing = valid_categories - submitted_categories
@@ -330,17 +345,17 @@ def update_entry(entry_id: str, entry_data: EntryCreate):
                 updated_entry.media_item.media_type,
                 json.dumps(genres),
                 updated_entry.notes,
-                updated_entry.date_consumed.isoformat()
-                if updated_entry.date_consumed
-                else None,
+                (
+                    updated_entry.date_consumed.isoformat()
+                    if updated_entry.date_consumed
+                    else None
+                ),
                 updated_entry.completion_status,
                 updated_entry.total_score(),
                 json.dumps(entry_data.scores),
                 entry_id,
             ),
         )
-
-        print(cursor.rowcount)
 
         conn.commit()
 
@@ -365,8 +380,13 @@ def get_stats():
             1 for r in rows if r["completion_status"] == "completed"
         )
 
-        total_score = sum(r["total_score"] for r in rows)
-        average_score = total_score / total_entries if total_entries else 0
+        scored_rows = [
+            row for row in rows
+            if row["total_score"] is not None and row["total_score"] != 0
+        ]
+
+        total_score = sum(r["total_score"] for r in scored_rows)
+        average_score = total_score / len(scored_rows) if scored_rows else 0
 
         media_type_counts = {}
 
@@ -393,4 +413,59 @@ def get_stats():
 
 @app.get("/scoring-profile")
 def get_scoring_profile():
-    return {"categories": SCORING_CATEGORIES, "weights": CATEGORY_WEIGHTS}
+    return {
+        "universal": {
+            "categories": get_universal_categories(),
+            "weights": UNIVERSAL_SCORING_PROFILE,
+        },
+        "media": MEDIA_SCORING_PROFILES,
+    }
+
+
+@app.get("/scoring-rubric")
+def get_scoring_rubric():
+    return METRIC_RUBRICS
+
+
+@app.get("/archive-profile")
+def get_archive_profile():
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM entries")
+        rows = cursor.fetchall()
+
+    entries = [entry_to_archive_format(row_to_entry_response(row)) for row in rows]
+
+    return build_archive_profile(entries)
+
+
+@app.get("/identities")
+def get_identities():
+
+    profile = get_archive_profile()
+
+    return evaluate_identity_scores(profile)
+
+
+@app.get("/genre-stats")
+def get_genre_stats():
+    entries = get_entries()
+
+    stats = get_genre_statistics(entries)
+
+    return {
+        "summary": stats["summary"],
+        "top_genres": get_top_genres_by_score(stats),
+        "genre_combinations": get_favorite_genre_combinations(entries),
+        "media_affinity": get_media_genre_affinity(entries),
+    }
+
+
+@app.get("/identity")
+def get_identity():
+
+    profile = get_archive_profile()
+
+    return generate_identity(profile)

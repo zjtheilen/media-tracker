@@ -1,6 +1,21 @@
 const chartInstances = {};
 
-let scoringProfiles = {};
+let scoringProfiles = {
+    universal: {
+        categories: [],
+        weights: {}
+    },
+    media: {}
+};
+
+let scoringRubrics = {};
+
+let expandedGenreGroups = {
+    Core: false,
+    Games: false,
+    Books: false,
+    Video: false,
+};
 
 let genreRegistry = {};
 
@@ -9,6 +24,7 @@ let expandedEntryId = null;
 let selectedGenres = [];
 let cachedEntries = []
 
-let activeGenreFilter = null;
+let activeGenreFilters = [];
 let activeSort = "date_desc";
 let searchQuery = "";
+let genreSearchQuery = "";

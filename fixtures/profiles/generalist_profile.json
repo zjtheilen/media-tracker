@@ -1,0 +1,89 @@
+{
+    "entryCount": 50,
+    "averageScore": 79,
+    "universalAverages": {
+        "originality": 7.2,
+        "depth": 7.0,
+        "craft": 7.4,
+        "engagement": 7.3,
+        "presentation": 7.1,
+        "emotional_impact": 7.0
+    },
+    "mediaAverages": {
+        "art_atmosphere": 7.2,
+        "world_building": 7.1,
+        "gameplay_mechanics": 7.3
+    },
+    "genreDistribution": {
+        "action": {
+            "count": 6,
+            "percentage": 12
+        },
+        "adventure": {
+            "count": 6,
+            "percentage": 12
+        },
+        "drama": {
+            "count": 6,
+            "percentage": 12
+        },
+        "horror": {
+            "count": 6,
+            "percentage": 12
+        },
+        "mystery": {
+            "count": 5,
+            "percentage": 10
+        },
+        "psychological": {
+            "count": 5,
+            "percentage": 10
+        },
+        "sci-fi": {
+            "count": 5,
+            "percentage": 10
+        },
+        "surreal": {
+            "count": 4,
+            "percentage": 8
+        },
+        "experimental": {
+            "count": 3,
+            "percentage": 6
+        },
+        "rpg": {
+            "count": 4,
+            "percentage": 8
+        }
+    },
+    "traits": {
+        "average_score_strength": 0.48,
+        "originality_strength": 0.30,
+        "depth_strength": 0.25,
+        "craft_strength": 0.35,
+        "engagement_strength": 0.32,
+        "emotional_strength": 0.25,
+        "presentation_strength": 0.27,
+        "gameplay_strength": 0.32,
+        "atmosphere_strength": 0.30,
+        "world_building_strength": 0.27,
+        "pacing_strength": 0.00,
+        "experimental_presence": 0.06,
+        "surreal_presence": 0.08,
+        "sci_fi_presence": 0.10,
+        "psychological_presence": 0.10,
+        "horror_presence": 0.12
+    },
+    "genreAffinity": {
+        "action": 0.12,
+        "adventure": 0.12,
+        "drama": 0.12,
+        "horror": 0.12,
+        "mystery": 0.10,
+        "psychological": 0.10,
+        "sci-fi": 0.10,
+        "surreal": 0.08,
+        "experimental": 0.06,
+        "rpg": 0.08
+    }
+}

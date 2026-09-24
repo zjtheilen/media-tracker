@@ -1,7 +1,13 @@
 __pycache__/
 *.pyc
-database.db
-test_database.db
+.pytest_cache
 *.db-journal
+*.db
+*.db.*
 *.vscode/
+.venv
 node_modules
+test-results/
+playwright-report/
+reports/
+.coverage

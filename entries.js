@@ -4,11 +4,20 @@ function renderEntry(entry) {
 
         const card = createDetailCard(entry);
 
-        const canvas = card.querySelector("canvas");
+        const universalCanvas = card.querySelector(
+            `#universal-chart-${entry.id}`
+        );
 
+        const mediaCanvas = card.querySelector(
+            `#media-chart-${entry.id}`
+        );
 
-        if (canvas) {
-            renderRadarChart(entry, canvas);
+        if (universalCanvas) {
+            renderUniversalScoreChart(entry, universalCanvas);
+        }
+
+        if (mediaCanvas) {
+            renderMediaScoreChart(entry, mediaCanvas);
         }
 
         return card;
@@ -55,7 +64,7 @@ function renderEntryHeader(entry, isExpanded) {
 function renderEntryMetadata(entry) {
     const percentScore = Number(entry.total_score).toFixed(1);
     let icon
-    switch (entry.media_type)  {
+    switch (entry.media_type) {
         case "video":
             icon = "film"
             break;
@@ -85,7 +94,7 @@ function renderEntryMetadata(entry) {
 
                 <div class="meta-label">
                     <i class="media-icon" data-lucide="${icon}"></i>
-                    <strong>CLASSIFICATION</strong>
+                    <strong>MEDIA TYPE</strong>
                 </div>
             
                 <span>${entry.media_type.toUpperCase()}</span>
@@ -95,7 +104,7 @@ function renderEntryMetadata(entry) {
             <div class="meta-item">
                 <div class="meta-label">
                     <i class="media-icon" data-lucide="badge-percent"></i>
-                    <strong>EVALUATION INDEX</strong>
+                    <strong>SCORE</strong>
                 </div>
                 
                 <span>${percentScore}%</span>
@@ -104,7 +113,6 @@ function renderEntryMetadata(entry) {
         </div>
 
         <div class="genre-chip-container">
-        TEST
             ${renderGenreChips(entry.genres)}
         </div>
     `;
@@ -201,25 +209,45 @@ function createDetailCard(entry) {
         <div class="entry-overview">
 
             <div class="entry-details">
+
                 ${renderEntryHeader(entry, true)}
                 ${renderEntryMetadata(entry)}
+
+                <div class="detail-section">
+                    <h4>Notes</h4>
+                    ${renderEntryNotes(entry)}
+                </div>
+
+                <div class="detail-section">
+                    <h4>Actions</h4>
+                    ${renderEntryActions(entry)}
+                </div>
+
             </div>
 
-            <div class="entry-chart">
-                <canvas id="chart-${entry.id}"></canvas>
+
+            <div class="entry-charts">
+
+                <div class="chart-panel radar-panel">
+                    <h4>Universal Scoring</h4>
+                    <canvas id="universal-chart-${entry.id}"></canvas>
+                </div>
+
+                <div class="chart-panel">
+                    <h4>
+                        ${entry.media_type.charAt(0).toUpperCase() + entry.media_type.slice(1)}
+                        Scoring
+                    </h4>
+                    <div class="chart-container chart-container-bars">
+                        <canvas id="media-chart-${entry.id}"></canvas>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
-        <div class="detail-section">
-            <h4>Observations</h4>
-            ${renderEntryNotes(entry)}
-        </div>
 
-        <div class="detail-section">
-            <h4>Actions</h4>
-            ${renderEntryActions(entry)}
-        </div>
     `;
 
     refreshIcons();
@@ -284,7 +312,10 @@ function renderGenreChips(genres) {
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(" ");
 
-            const isActive = activeGenreFilter === genre.toLowerCase();
+            const isActive =
+                activeGenreFilters.includes(
+                    genre.toLowerCase()
+                );
 
             return `
         <span 

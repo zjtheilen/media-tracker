@@ -3,10 +3,17 @@ async function refreshApp() {
 
     await renderMediaDistributionChart();
     await renderAverageScoreByMediaTypeChart();
-    await renderMonthlyCompletionChart();
+    await renderMonthlyActivityChart();
     await renderRatingDistributionChart();
-    await renderGenreAverageRatingsChart();
-    await renderFavoriteMediaType();
+    await renderGenreAverageScoresChart();
+    await renderArchiveProfileCard();
+
+    await new Promise(resolve =>
+        requestAnimationFrame(resolve)
+    );
+
+    await renderUniversalScoringRadar();
+    await renderMediaBarCharts();
 
     await renderTopRatedOverall();
     await renderTopBooks();
@@ -17,20 +24,14 @@ async function refreshApp() {
 }
 
 async function loadScoringProfiles() {
-    const data = await getScoringProfiles();
-
-    scoringProfiles = {
-        video: data.categories,
-        book: data.categories,
-        game: data.categories,
-    };
+    scoringProfiles = await getScoringProfiles();
 }
 
 mediaTypeSelect.addEventListener("change", () => {
     selectedGenres = [];
 
     renderScoreInputs(mediaTypeSelect.value, {});
-    renderGenreSelector(mediaTypeSelect.value);
+    renderGenreFormSelector(mediaTypeSelect.value);
 });
 
 const modal = document.getElementById("entryModal");
@@ -45,6 +46,14 @@ openBtn.addEventListener("click", () => {
     modal.showModal();
 
     document.getElementById("title").focus();
+});
+
+entryModal.addEventListener("click", (event) => {
+
+    if (event.target === entryModal) {
+        entryModal.close();
+    }
+
 });
 
 closeBtn.addEventListener("click", () => {
@@ -69,6 +78,14 @@ const deleteModal = document.getElementById("deleteModal");
 const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
 
+deleteModal.addEventListener("click", (event) => {
+
+    if (event.target === deleteModal) {
+        deleteModal.close();
+    }
+
+});
+
 let pendingDeleteId = null;
 
 async function loadGenres() {
@@ -76,20 +93,26 @@ async function loadGenres() {
     renderGenreFilters();
 }
 
+async function loadScoringRubric() {
+    scoringRubrics = await getScoringRubric();
+}
+
 async function initializeApp() {
     initializeNavigation();
 
+    showPage("library");
+
     await loadGenres();
     await loadScoringProfiles();
+    await loadScoringRubric();
 
     initializeFilters();
 
-    renderGenreSelector(mediaTypeSelect.value);
+    renderGenreFormSelector(mediaTypeSelect.value);
     renderScoreInputs(mediaTypeSelect.value);
 
     await refreshApp();
 
-    showPage("library");
     lucide.createIcons();
 }
 

@@ -1,0 +1,64 @@
+{
+    "entryCount": 40,
+    "averageScore": 88,
+    "universalAverages": {
+        "originality": 9.4,
+        "depth": 8.8,
+        "craft": 7.5,
+        "engagement": 7.2,
+        "presentation": 7.9,
+        "emotional_impact": 7.8
+    },
+    "mediaAverages": {
+        "art_atmosphere": 8.8,
+        "world_building": 8.5,
+        "gameplay_mechanics": 6.5
+    },
+    "genreDistribution": {
+        "experimental": {
+            "count": 12,
+            "percentage": 30
+        },
+        "surreal": {
+            "count": 10,
+            "percentage": 25
+        },
+        "sci-fi": {
+            "count": 8,
+            "percentage": 20
+        },
+        "horror": {
+            "count": 10,
+            "percentage": 25
+        },
+        "psychological": {
+            "count": 10,
+            "percentage": 25
+        }
+    },
+    "traits": {
+        "average_score_strength": 0.70,
+        "originality_strength": 0.85,
+        "depth_strength": 0.70,
+        "craft_strength": 0.37,
+        "engagement_strength": 0.30,
+        "emotional_strength": 0.45,
+        "presentation_strength": 0.48,
+        "gameplay_strength": 0.13,
+        "atmosphere_strength": 0.70,
+        "world_building_strength": 0.62,
+        "pacing_strength": 0.00,
+        "experimental_presence": 0.30,
+        "surreal_presence": 0.25,
+        "sci_fi_presence": 0.20,
+        "psychological_presence": 0.25,
+        "horror_presence": 0.25
+    },
+    "genreAffinity": {
+        "experimental": 0.3,
+        "surreal": 0.25,
+        "sci-fi": 0.20,
+        "horror": 0.25,
+        "psychological": 0.25
+    }
+}

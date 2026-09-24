@@ -1,0 +1,32 @@
+{
+    "id": "interpretive_philosophy",
+    "title": "Interpretive Philosophy",
+    "category": "interpretive",
+    "icon": "diver",
+    "description": "Engages with media through depth, reflection, complexity, and interpretation.",
+    "identity": [
+        "depth",
+        "emotional_impact",
+        "reflection",
+        "ambiguity",
+        "analysis"
+    ],
+    "recommendation_bias": [
+        "layered narratives",
+        "ambiguous endings",
+        "psychologically rich works",
+        "reflective storytelling",
+        "complex or multi-interpretive experiences",
+        "works that reward close attention"
+    ],
+    "requirements": {
+        "minimum_entries": 20
+    },
+    "identity_weights": {
+        "depth": 0.45,
+        "emotional_impact": 0.25,
+        "reflection": 0.12,
+        "ambiguity": 0.10,
+        "analysis": 0.08
+    }
+}

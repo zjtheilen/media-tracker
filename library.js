@@ -8,82 +8,30 @@ function refreshIcons() {
     }
 }
 
-function renderRadarChart(entry, canvas) {
-
-    const colors = MEDIA_TYPE_COLORS[entry.media_type] || {
-        border: "rgba(150,150,150,1)",
-        background: "rgba(150,150,150,0.2)"
-    };
-
-    const ctx = canvas.getContext("2d");
-
-    if (chartInstances[entry.id]) {
-        chartInstances[entry.id].destroy();
-    }
-
-    chartInstances[entry.id] = new Chart(ctx, {
-        type: "radar",
-        data: {
-            labels: Object.keys(entry.scores || {}),
-            datasets: [
-                {
-                    label: entry.title,
-                    data: Object.values(entry.scores || {}),
-                    fill: true,
-                    backgroundColor: "rgba(127,174,135,0.15)",
-                    borderColor: ARCHIVE_COLORS.green,
-                    borderWidth: 2,
-                    pointBackgroundColor: ARCHIVE_COLORS.amber,
-                },
-            ],
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-            scales: {
-                r: {
-                    min: 1,
-                    max: 10,
-
-                    ticks: {
-                        display: false,
-                    },
-
-                    grid: {
-                        color: ARCHIVE_COLORS.grid,
-                    },
-
-                    angleLines: {
-                        color: ARCHIVE_COLORS.grid,
-                    },
-
-                    pointLabels: {
-                        color: ARCHIVE_COLORS.text,
-                        font: {
-                            family: "monospace",
-                            size: 12,
-                        },
-                    },
-                },
-            },
-        },
-    });
-}
-
 async function loadEntries() {
     cachedEntries = await getEntries();
 
     let workingEntries = [...cachedEntries];
 
-    if (activeGenreFilter) {
-        workingEntries = workingEntries.filter(
-            (entry) =>
-                Array.isArray(entry.genres) &&
-                entry.genres.some((g) => g === activeGenreFilter),
-        );
+    if (activeGenreFilters.length > 0) {
+
+        workingEntries =
+            workingEntries.filter(
+                (entry) => {
+
+                    if (!Array.isArray(entry.genres)) {
+                        return false;
+                    }
+
+
+                    return activeGenreFilters.every(
+                        (selectedGenre) =>
+                            entry.genres.includes(selectedGenre)
+                    );
+
+                }
+            );
+
     }
 
     if (searchQuery.trim() !== "") {

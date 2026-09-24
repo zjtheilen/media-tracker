@@ -1,17 +1,22 @@
-import sqlite3
 import os
+import sqlite3
+from contextlib import contextmanager
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 
 def get_db_path():
     return os.getenv("DB_PATH", "database.db")
 
 
+@contextmanager
 def get_connection():
     conn = sqlite3.connect(get_db_path())
     conn.row_factory = sqlite3.Row
-    return conn
+    try:
+        yield conn
+    finally:
+        conn.close()
 
 
 def get_db_version(cursor):
@@ -28,7 +33,21 @@ def migrate_to_v2(cursor):
 
     cursor.execute("""
         ALTER TABLE entries
-        ADD COLUMN favorite INTEGER DEFAULT 0               
+        ADD COLUMN favorite INTEGER DEFAULT 0
+    """)
+
+
+def migrate_to_v3(cursor):
+    print("Applying migration v3...")
+
+    cursor.execute("""
+        ALTER TABLE entries
+        ADD COLUMN historical_score REAL
+    """)
+
+    cursor.execute("""
+        ALTER TABLE entries
+        ADD COLUMN historical_scores TEXT
     """)
 
 
@@ -67,5 +86,10 @@ def init_db():
             if current_version < 2:
                 migrate_to_v2(cursor)
                 set_db_version(cursor, 2)
+                current_version = 2
+
+            if current_version < 3:
+                migrate_to_v3(cursor)
+                set_db_version(cursor, 3)
 
         conn.commit()

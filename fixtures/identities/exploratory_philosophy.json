@@ -1,0 +1,32 @@
+{
+    "id": "exploratory_philosophy",
+    "title": "Exploratory Philosophy",
+    "category": "exploratory",
+    "icon": "compass",
+    "description": "Extends beyond established preferences through engagement with unfamiliar territory.",
+    "identity": [
+        "originality",
+        "genre_diversity",
+        "depth",
+        "experimental_affinity",
+        "novelty"
+    ],
+    "recommendation_bias": [
+        "experiences that expand existing territory",
+        "unfamiliar genres",
+        "unfamiliar media types",
+        "adjacent-but-unfamiliar works",
+        "experiences outside the archive's established comfort zone",
+        "works that extend established preferences"
+    ],
+    "requirements": {
+        "minimum_entries": 20
+    },
+    "identity_weights": {
+        "originality": 0.35,
+        "genre_diversity": 0.25,
+        "depth": 0.15,
+        "experimental_affinity": 0.15,
+        "novelty": 0.10
+    }
+}

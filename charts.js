@@ -10,14 +10,46 @@ function destroyChart(id) {
     }
 }
 
+function isScoredEntry(entry) {
+    return Object.keys(entry.universal_scores || {}).length > 0;
+}
+
 function calculateAverage(entries) {
+    const scoredEntries = entries.filter(isScoredEntry);
+
     return (
-        entries.reduce(
+        scoredEntries.reduce(
             (sum, entry) => sum + entry.total_score,
             0
-        ) / entries.length
+        ) / scoredEntries.length
     );
 }
+
+
+function getTopCategories(averages, count = 2) {
+    return Object.entries(averages)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, count);
+}
+
+function formatTraitScore(score) {
+    return `${score.toFixed(1)} / 10`;
+}
+
+function getTraitIntensity(score) {
+
+    if (score >= 9.5) return "overwhelmingly";
+
+    if (score >= 9.0) return "strongly";
+
+    if (score >= 8.0) return "consistently";
+
+    if (score >= 7.0) return "frequently";
+
+    return "occasionally";
+
+}
+
 
 function groupEntries(entries, keySelector) {
     return entries.reduce((groups, entry) => {
@@ -102,6 +134,7 @@ async function renderMediaDistributionChart() {
 }
 
 async function renderAverageScoreByMediaTypeChart() {
+
     const entries = await getEntries();
 
     const grouped = groupEntries(
@@ -115,7 +148,9 @@ async function renderAverageScoreByMediaTypeChart() {
         Number(calculateAverage(grouped[type]).toFixed(2))
     );
 
-    const ctx = document.getElementById("avg-score-chart").getContext("2d");
+    const ctx = document
+        .getElementById("avg-score-chart")
+        .getContext("2d");
 
     destroyChart("avg-score");
 
@@ -165,14 +200,14 @@ async function renderAverageScoreByMediaTypeChart() {
                 },
                 title: {
                     display: true,
-                    text: "Average Evaluation Index by Classification",
+                    text: "Average Score by Media Type",
                 }
             },
         },
     });
 }
 
-async function renderMonthlyCompletionChart() {
+async function renderMonthlyActivityChart() {
     const entries = await getEntries();
 
     const monthlyCounts = {};
@@ -192,16 +227,16 @@ async function renderMonthlyCompletionChart() {
     const labels = Object.keys(monthlyCounts).sort();
     const data = labels.map((month) => monthlyCounts[month]);
 
-    const ctx = document.getElementById("monthly-completion-chart").getContext("2d");
+    const ctx = document.getElementById("monthly-activity-chart").getContext("2d");
 
-    destroyChart("monthly-completion");
+    destroyChart("monthly-activity");
 
-    chartInstances["monthly-completion"] = new Chart(ctx, {
+    chartInstances["monthly-activity"] = new Chart(ctx, {
         type: "bar",
         data: {
             labels,
             datasets: [{
-                label: "Entries Completed",
+                label: "Archive Activity",
                 data,
                 backgroundColor: "rgba(197,155,74,0.9)"
             }],
@@ -252,7 +287,7 @@ async function renderRatingDistributionChart() {
         "Below 60": 0,
     };
 
-    entries.forEach((entry) => {
+    entries.filter(isScoredEntry).forEach((entry) => {
         const score = entry.total_score;
 
         if (score >= 90) {
@@ -315,18 +350,20 @@ async function renderRatingDistributionChart() {
             plugins: {
                 title: {
                     display: true,
-                    text: "Evaluation Index Distribution",
+                    text: "Score Distribution",
                 }
             },
         },
     });
 }
 
-async function renderGenreAverageRatingsChart() {
+async function renderGenreAverageScoresChart() {
     const entries = await getEntries();
 
     const genreGroups = groupEntries(
-        entries.filter(entry => Array.isArray(entry.genres)),
+        entries.filter(
+            entry => Array.isArray(entry.genres) && isScoredEntry(entry)
+        ),
         entry => entry.genres
     );
 
@@ -361,7 +398,7 @@ async function renderGenreAverageRatingsChart() {
             labels,
             datasets: [
                 {
-                    label: "Average Rating",
+                    label: "Average Score",
                     data,
                     backgroundColor: "rgba(197,155,74,0.9)",
                     borderColor: "#0b0f0e",
@@ -396,11 +433,11 @@ async function renderGenreAverageRatingsChart() {
             },
             plugins: {
                 legend: {
-                    display:false
+                    display: false
                 },
-                title:{
-                    display:true,
-                    text:"Average Rating"
+                title: {
+                    display: true,
+                    text: "Average Rating"
                 }
             }
         },
@@ -408,39 +445,808 @@ async function renderGenreAverageRatingsChart() {
 
 }
 
-async function renderFavoriteMediaType() {
-    const entries = await getEntries();
+async function renderUniversalScoringRadar(archiveProfile) {
 
-    const grouped = groupEntries(
-        entries,
-        entry => entry.media_type
+    const canvas = document.getElementById(
+        "universal-profile-radar"
     );
 
-    const averages = {};
+    if (!canvas) {
+        return;
+    }
 
-    Object.keys(grouped).forEach((type) => {
-        averages[type] = calculateAverage(grouped[type]);
+    const entries = await getEntries();
+
+    const averages = calculateUniversalAverages(entries);
+
+    const radarData = prepareRadarData(averages);
+
+    const ctx = canvas.getContext("2d");
+
+    destroyChart("universal-profile-radar");
+
+
+    chartInstances["universal-profile-radar"] = new Chart(ctx, {
+
+        type: "radar",
+
+        data: {
+            labels: radarData.labels,
+
+            datasets: [
+                {
+                    label: "Universal Scoring",
+                    data: radarData.values,
+
+                    backgroundColor: "rgba(127,174,135,0.25)",
+                    borderColor: "rgba(127,174,135,1)",
+                    borderWidth: 2,
+
+                    pointBackgroundColor:
+                        "rgba(127,174,135,1)",
+                },
+            ],
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            layout: {
+                padding: {
+                    top: 0,
+                    bottom: 0
+                }
+            },
+
+            scales: {
+                r: {
+                    min: 0,
+                    max: 10,
+
+                    ticks: {
+                        color: ARCHIVE_COLORS.muted,
+                        backdropColor: "transparent"
+                    },
+
+                    grid: {
+                        color: ARCHIVE_COLORS.grid
+                    },
+
+                    angleLines: {
+                        color: ARCHIVE_COLORS.grid
+                    },
+
+                    pointLabels: {
+                        color: ARCHIVE_COLORS.text,
+                        font: {
+                            family: "monospace"
+                        }
+                    }
+                }
+            },
+
+            plugins: {
+
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function calculateUniversalAverages(entries) {
+    const totals = {};
+    const counts = {};
+
+    entries.forEach(entry => {
+        Object.entries(entry.universal_scores || {})
+            .forEach(([category, value]) => {
+
+                if (!totals[category]) {
+                    totals[category] = 0;
+                    counts[category] = 0;
+                }
+
+                totals[category] += value;
+                counts[category]++;
+            });
     });
 
-    const favorite = Object.entries(averages).reduce((best, current) => {
-        return current[1] > best[1] ? current : best;
-    });
+    return Object.keys(totals).reduce((result, category) => {
+        result[category] =
+            Number((totals[category] / counts[category]).toFixed(2));
 
-    const favoriteType = favorite[0];
-    const favoriteAverage = favorite[1].toFixed(1);
-    const favoriteCount = grouped[favoriteType].length;
+        return result;
+    }, {});
+}
 
-    const card = document.getElementById("favorite-media-type-card");
+function prepareRadarData(averages) {
+
+    const categories = [
+        "emotional_impact",
+        "depth",
+        "craft",
+        "engagement",
+        "presentation",
+        "originality",
+    ];
+
+    return {
+        labels: categories.map(formatScoreCategory),
+
+        values: categories.map(
+            category => averages[category] ?? 0
+        ),
+    };
+}
+
+function formatFindingEvidence(evidence) {
+
+    if (Array.isArray(evidence)) {
+        return evidence
+            .map(item => {
+
+                if (item.unit === "percent") {
+                    return `
+                        <div class="finding-evidence-item">
+                            <strong>${item.label}:</strong>
+                            ${item.value}%
+                        </div>
+                    `;
+                }
+
+                if (item.unit === "score") {
+                    return `
+                        <div class="finding-evidence-item">
+                            <strong>${item.label}:</strong>
+                            ${Number(item.value).toFixed(1)} / 10
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="finding-evidence-item">
+                        <strong>${item.label}:</strong>
+                        ${item.value}
+                    </div>
+                `;
+            })
+            .join("");
+    }
+
+    if (evidence && evidence.traits) {
+        return evidence.traits
+            .map(item => `
+                <div class="finding-evidence-item">
+                <strong>${item.trait.replaceAll("_", " ").replace(/\b\w/g, char => char.toUpperCase())}:</strong>
+                    ${item.value}
+                </div>
+            `)
+            .join("");
+    }
+
+    return "";
+}
+
+async function renderArchiveProfileCard() {
+
+    const archiveProfile =
+        await getArchiveProfile();
+
+    const archiveFindings =
+        archiveProfile.findings || [];
+
+    const archiveObservations =
+        archiveProfile.observations || [];
+
+    const archiveSummary =
+        archiveProfile.archiveSummary || "";
+
+    const observationSummary =
+        archiveProfile.observationSummary || "";
+
+    const signalStrengthLabel = archiveProfile.designationConfidenceLabel;
+
+    const findingsHtml = archiveFindings
+        .map(
+            finding => `
+                <div class="archive-finding">
+
+                    <div class="category-label">
+                        ${finding.category}
+                    </div>
+
+                    <h5>${finding.title}</h5>
+
+                    <p>${finding.description}</p>
+
+                    <div class="finding-evidence">
+                        ${formatFindingEvidence(finding.evidence)}
+                    </div>
+
+                </div>
+            `
+        )
+        .join("");
+
+    const primaryTraitSentence =
+        archiveProfile.primaryTrait;
+
+    const secondaryTraitSentence =
+        archiveProfile.secondaryTrait;
+
+    const genreSignatureSentence =
+        archiveProfile.genreSignature;
+
+    const card = document.getElementById(
+        "favorite-media-type-card"
+    );
+
+    if (archiveProfile.entryCount === 0) {
+        card.innerHTML = `
+                <div class="empty-state">
+                    <p class="empty-state-title">Your archive is empty.</p>
+                    <p class="empty-state-body">
+                        Add completed media to begin building your Archive Profile.
+                    </p>
+                </div>
+            `;
+
+        return;
+    }
+
+    const observationsHtml = archiveObservations
+        .map(
+            observation => `
+            <div class="archive-observation">
+
+                <div class="category-label">
+                    ${observation.category}
+                </div>
+
+                <h5>${observation.title}</h5>
+
+                <p>${observation.description}</p>
+
+                <div class="finding-evidence">
+                    ${formatFindingEvidence(observation.evidence)}
+                </div>
+
+            </div>
+        `
+        )
+        .join("");
 
     card.innerHTML = `
-        <div>
-            <h3>${favoriteType.charAt(0).toUpperCase() + favoriteType.slice(1)}</h3>
+        <div class="archive-profile-card">
 
-            <p><strong>Average Rating</strong></p>
-            <p>${favoriteAverage}%</p>
+            <div class="archive-profile-layout">
 
-            <p><strong>Entries</strong></p>
-            <p>${favoriteCount}</p>
+                <div class="archive-profile-info">
+
+                    <div class="profile-section">
+
+                        <h3>Designation</h3>
+
+                        <h2>
+                            ${archiveProfile.primaryDesignation.title.toUpperCase()}
+                        </h2>
+
+
+                        <h3>Signal Strength</h3>
+
+                        <p>
+                            ${signalStrengthLabel}
+                            (${archiveProfile.designationConfidence.toFixed(1)} / 10)
+                        </p>
+
+
+                        <h3>Designation Basis</h3>
+
+
+                        <div class="basis-item">
+
+                            <span class="category-label">
+                                Primary Indicator
+                            </span>
+
+                            <div>
+                                ${archiveProfile.designationBasis.primary.name}
+                                (${archiveProfile.designationBasis.primary.score.toFixed(1)} / 10)
+                            </div>
+
+                        </div>
+
+
+                        <div class="basis-item">
+
+                            <span class="category-label">
+                                Secondary Indicator
+                            </span>
+
+                            <div>
+                                ${archiveProfile.designationBasis.secondary.name}
+                                (${archiveProfile.designationBasis.secondary.score.toFixed(1)} / 10)
+                            </div>
+
+                        </div>
+
+
+                        <div class="basis-item media-signature">
+
+                            <span class="category-label">
+                                Media Signal
+                            </span>
+
+                            <div>
+                                ${archiveProfile.designationBasis.media.name}
+                                (${archiveProfile.designationBasis.media.score.toFixed(1)} / 10)
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    ${archiveProfile.primaryIdentity ? `
+                        <div class="profile-section">
+
+                            <h3>Identity</h3>
+
+                            <p class="profile-title">
+                                ${archiveProfile.primaryIdentity.title}
+                            </p>
+
+                            <h3>Identity Score</h3>
+
+                            <p>
+                                ${archiveProfile.primaryIdentity.score.toFixed(2)}
+                            </p>
+
+                            <p class="archive-summary">
+                                ${archiveProfile.primaryIdentity.description}
+                            </p>
+
+                            <h4>Data Sufficiency</h4>
+
+                            <p>
+                                ${(archiveProfile.primaryIdentity.data_sufficiency * 100).toFixed(0)}%
+                            </p>
+
+                            ${archiveProfile.primaryIdentity.secondary_identity ? `
+                                <div class="basis-item">
+
+                                    <span class="category-label">
+                                        Secondary Identity
+                                    </span>
+
+                                    <div>
+                                        ${archiveProfile.primaryIdentity.secondary_identity.title}
+                                        (${archiveProfile.primaryIdentity.secondary_identity.score.toFixed(2)})
+                                    </div>
+
+                                </div>
+                            ` : ""}
+
+                        </div>
+                    ` : ""}
+
+                    <div class="profile-section">
+
+                        <h3>Archive Interpretation</h3>
+
+                        <p class="archive-summary">
+                            ${archiveSummary}
+                        </p>
+
+                        <p class="archive-summary">
+                            ${primaryTraitSentence}
+                        </p>
+
+                        <p class="archive-summary">
+                            ${secondaryTraitSentence}
+                        </p>
+
+                        <p class="archive-summary">
+                            ${observationSummary}
+                        </p>
+
+                        <p class="archive-summary">
+                            ${genreSignatureSentence}
+                        </p>
+
+                        
+
+                    </div>
+
+                    <div class="profile-section">
+
+                        <h3>Archive Observations</h3>
+
+                        <div class="archive-observations">
+                            ${observationsHtml}
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-section">
+
+                        <h3>Archive Findings</h3>
+
+                        <div class="archive-findings">
+                            ${findingsHtml}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="archive-profile-charts">
+
+                    <div class="chart-panel">
+
+                        <h3>Universal Scoring Profile</h3>
+                    
+                        <div class="chart-container chart-container-radar">
+                            <canvas id="universal-profile-radar" role="img" aria-label="Universal scoring profile"></canvas>
+                        </div>
+            
+                    </div>
+                
+                
+                    <div class="chart-panel">
+
+                        <h3>Book Profile</h3>
+
+                        <div class="chart-container chart-container-bars">
+                            <canvas id="book-profile-chart" role="img" aria-label="Book scoring profile"></canvas>
+                        </div>
+
+                    </div>
+                
+                
+                    <div class="chart-panel">
+                
+                        <h3>Video Profile</h3>
+                        <div class="chart-container">
+                            <canvas id="video-profile-chart" role="img" aria-label="Video scoring profile"></canvas>
+                        </div>
+                
+                    </div>
+                
+                
+                    <div class="chart-panel">
+                
+                        <h3>Game Profile</h3>
+                
+                        <div class="chart-container">
+                            <canvas id="game-profile-chart" role="img" aria-label="Game scoring profile"></canvas>
+                        </div>
+                
+                    </div>
+                
+                </div>
+
+
+            </div>
+
         </div>
     `;
+
+    return archiveProfile;
+}
+
+function formatChartLabel(category) {
+    return category
+        .split("_")
+        .map(word =>
+            word.charAt(0).toUpperCase() + word.slice(1)
+        )
+        .join(" ");
+}
+
+
+function renderUniversalScoreChart(entry, canvas) {
+
+    if (!canvas) return;
+
+    destroyChart(`universal-${entry.id}`);
+
+    const labels = Object.keys(entry.universal_scores)
+        .map(formatChartLabel);
+
+    const data = Object.values(entry.universal_scores);
+
+
+    chartInstances[`universal-${entry.id}`] =
+        new Chart(canvas, {
+
+            type: "radar",
+
+            data: {
+                labels,
+
+                datasets: [{
+                    label: "Universal Scoring",
+                    data,
+
+                    backgroundColor:
+                        "rgba(127,174,135,0.25)",
+
+                    borderColor:
+                        "rgba(127,174,135,1)",
+
+                    borderWidth: 2,
+                }]
+            },
+
+            options: {
+                animation: {
+                    duration: 800,
+                    easing: "easeOutQuart"
+                },
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                responsive: true,
+
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 10,
+
+                        ticks: {
+                            stepSize: 2,
+                            color: ARCHIVE_COLORS.muted,
+                            backdropColor: "transparent"
+                        },
+
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        },
+
+                        angleLines: {
+                            color: ARCHIVE_COLORS.grid
+                        },
+
+                        pointLabels: {
+                            color: ARCHIVE_COLORS.text,
+                            font: {
+                                family: "monospace"
+                            }
+                        }
+                    }
+                }
+            }
+        });
+}
+
+function renderMediaScoreChart(entry, canvas) {
+
+    if (!canvas) return;
+
+
+    destroyChart(`media-${entry.id}`);
+
+
+    const labels = Object.keys(entry.media_scores)
+        .map(formatChartLabel);
+
+    const data = Object.values(entry.media_scores);
+
+
+    chartInstances[`media-${entry.id}`] =
+        new Chart(canvas, {
+
+            type: "bar",
+
+            data: {
+                labels,
+
+                datasets: [{
+                    label: "Media Scoring",
+                    data,
+
+                    backgroundColor:
+                        "rgba(197,155,74,0.9)",
+
+                    borderColor:
+                        "#0b0f0e",
+
+                    borderWidth: 2
+                }]
+            },
+
+            options: {
+                animation: {
+                    duration: 800,
+                    easing: "easeOutQuart"
+                },
+
+                scales: {
+                    y: {
+                        min: 5,
+                        max: 10,
+                        ticks: {
+                            color: ARCHIVE_COLORS.muted
+                        },
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        }
+                    },
+
+                    x: {
+                        ticks: {
+                            color: ARCHIVE_COLORS.muted
+                        },
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+}
+
+
+async function renderMediaBarCharts() {
+
+    const archiveProfile = await getArchiveProfile();
+
+    renderMediaBarChart(
+        "book-profile-chart",
+        "Book Profile",
+        {
+            prose_writing: archiveProfile.mediaAverages.prose_writing,
+            character_development: archiveProfile.mediaAverages.character_development,
+            world_building: archiveProfile.mediaAverages.world_building,
+            narrative_pacing: archiveProfile.mediaAverages.narrative_pacing,
+        }
+    );
+
+
+    renderMediaBarChart(
+        "video-profile-chart",
+        "Video Profile",
+        {
+            cinematography_visuals: archiveProfile.mediaAverages.cinematography_visuals,
+            acting_performances: archiveProfile.mediaAverages.acting_performances,
+            directing_editing: archiveProfile.mediaAverages.directing_editing,
+            sound_music: archiveProfile.mediaAverages.sound_music,
+        }
+    );
+
+
+    renderMediaBarChart(
+        "game-profile-chart",
+        "Game Profile",
+        {
+            gameplay_mechanics: archiveProfile.mediaAverages.gameplay_mechanics,
+            level_design_progression: archiveProfile.mediaAverages.level_design_progression,
+            replayability_systems: archiveProfile.mediaAverages.replayability_systems,
+            art_atmosphere: archiveProfile.mediaAverages.art_atmosphere,
+        }
+    );
+}
+
+
+function renderMediaBarChart(
+    canvasId,
+    label,
+    scores
+) {
+
+    const canvas = document.getElementById(canvasId);
+
+    if (!canvas) return;
+
+
+    const labels = Object.keys(scores)
+        .map(formatScoreCategory);
+
+    const values = Object.values(scores);
+
+
+    destroyChart(canvasId);
+
+
+    chartInstances[canvasId] = new Chart(
+        canvas.getContext("2d"),
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels,
+
+                datasets: [
+                    {
+                        label,
+
+                        data: values,
+
+                        backgroundColor:
+                            "rgba(127,174,135,0.35)",
+
+                        borderColor:
+                            "rgba(127,174,135,1)",
+
+                        borderWidth: 1,
+                    }
+                ]
+            },
+
+
+            options: {
+
+                indexAxis: "y",
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                scales: {
+
+                    x: {
+                        min: 0,
+                        max: 10,
+
+                        ticks: {
+                            color: ARCHIVE_COLORS.muted
+                        },
+
+                        grid: {
+                            color: ARCHIVE_COLORS.grid
+                        }
+                    },
+
+
+                    y: {
+
+                        ticks: {
+                            color: ARCHIVE_COLORS.text,
+
+                            font: {
+                                family: "monospace"
+                            }
+                        },
+
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        }
+    );
 }

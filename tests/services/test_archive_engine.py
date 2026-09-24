@@ -1,0 +1,336 @@
+from models.services.archive_engine import build_archive_profile
+
+
+def test_build_archive_profile():
+
+    entries = [
+        {
+            "title": "Silent Hill 2",
+            "media_type": "game",
+            "date_consumed": "2026-09-15",
+            "genres": ["horror"],
+            "total_score": 92,
+            "universal_scores": {
+                "depth": 10,
+                "originality": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+                "gameplay_mechanics": 9,
+            },
+        }
+    ]
+
+    result = build_archive_profile(entries)
+
+    assert result["entryCount"] == 1
+
+    assert result["scoreVariance"] == 0
+
+    assert result["monthlyArchiveActivity"] == {
+        "2026-09": 1,
+    }
+
+    assert result["monthlyMediaDistribution"] == {
+        "2026-09": {
+            "video": 0,
+            "game": 1,
+            "book": 0,
+        },
+    }
+
+    assert result["universalAverages"]["depth"] == 10
+
+    assert result["mediaAverages"]["art_atmosphere"] == 10
+
+    assert result["genreDistribution"]["horror"]["count"] == 1
+
+    assert result["designationConfidence"] == 9.7
+
+    assert result["designationConfidenceLabel"] == "Very High"
+
+    assert result["designationBasis"]["primary"]["name"] == "Depth"
+
+    assert result["designationBasis"]["media"]["name"] == "Art Atmosphere"
+
+    assert result["designations"][0]["id"] == "deep_diver"
+
+    assert result["primaryDesignation"]["id"] == "deep_diver"
+
+    assert any(finding["id"] == "concept-driven" for finding in result["findings"])
+
+    assert any(
+        observation["id"] == "interpretive-depth"
+        for observation in result["observations"]
+    )
+
+
+def test_archive_profile_shape():
+
+    entries = [
+        {
+            "title": "Coherence",
+            "media_type": "video",
+            "genres": ["psychological", "mystery"],
+            "total_score": 95,
+            "universal_scores": {
+                "depth": 9,
+                "originality": 10,
+                "craft": 9,
+                "emotional_impact": 8,
+                "engagement": 10,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+                "narrative_pacing": 9,
+            },
+        }
+    ]
+
+    result = build_archive_profile(entries)
+
+    required_keys = {
+        "entries",
+        "entryCount",
+        "universalAverages",
+        "mediaAverages",
+        "mediaDistribution",
+        "genreDistribution",
+        "averageScore",
+        "scoreVariance",
+        "completionDistribution",
+        "highestRatedEntry",
+        "lowestRatedEntry",
+        "topUniversal",
+        "topMedia",
+        "designationConfidence",
+        "designationBasis",
+        "designations",
+        "primaryDesignation",
+        "findings",
+        "monthlyArchiveActivity",
+        "monthlyMediaDistribution",
+    }
+
+    assert required_keys.issubset(result.keys())
+
+
+def test_archive_profile_contains_observation_summary():
+
+    entries = [
+        {
+            "title": "Silent Hill 2",
+            "media_type": "game",
+            "genres": ["horror"],
+            "total_score": 92,
+            "universal_scores": {
+                "depth": 10,
+                "originality": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+                "gameplay_mechanics": 9,
+            },
+        }
+    ]
+
+    result = build_archive_profile(entries)
+
+    assert result["observationSummary"] is not None
+    assert "observations" in result
+    assert len(result["observations"]) > 0
+
+    assert "traits" in result["observations"][0]
+    assert "genres" in result["observations"][0]
+    assert "relatedDesignations" in result["observations"][0]
+    assert "evidenceStrength" in result["observations"][0]
+
+
+def test_archive_profile_includes_identities():
+
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+                "novelty": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(20)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert "identities" in profile
+    assert len(profile["identities"]) > 0
+
+
+def test_archive_profile_identities_are_sorted():
+
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 10,
+                "novelty": 10,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(30)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    identities = profile["identities"]
+
+    scores = [identity["score"] for identity in identities]
+
+    assert scores == sorted(scores, reverse=True)
+
+
+def test_archive_profile_keeps_designations_and_identities_separate():
+
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 10,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(30)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert "designations" in profile
+    assert "identities" in profile
+
+    assert profile["designations"] != profile["identities"]
+
+
+def test_archive_profile_handles_missing_media_scores():
+
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 10,
+            },
+        }
+        for _ in range(30)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert profile["topMedia"] == [("none", 0)]
+
+
+def test_archive_profile_contains_all_sections():
+
+    entries = [
+        {
+            "title": "Test Film",
+            "media_type": "video",
+            "genres": ["horror"],
+            "total_score": 90,
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert "universalAverages" in profile
+    assert "mediaAverages" in profile
+    assert "traits" in profile
+    assert "designations" in profile
+    assert "identities" in profile
+    assert "observations" in profile
+    assert "findings" in profile
+    assert "archiveSummary" in profile
+
+
+def test_archive_profile_includes_primary_identity():
+    entries = [
+        {
+            "title": "Experimental Film",
+            "total_score": 95,
+            "media_type": "video",
+            "genres": ["experimental"],
+            "universal_scores": {
+                "originality": 10,
+                "depth": 9,
+                "novelty": 9,
+            },
+            "media_scores": {
+                "art_atmosphere": 10,
+            },
+        }
+        for _ in range(20)
+    ]
+
+    profile = build_archive_profile(entries)
+
+    assert "primaryIdentity" in profile
+    assert profile["primaryIdentity"] is not None
+    assert profile["primaryIdentity"]["id"] == profile["identities"][0]["id"]
+
+
+def test_empty_archive_profile_includes_score_variance():
+
+    result = build_archive_profile([])
+
+    assert result["scoreVariance"] == 0
+
+
+def test_empty_archive_profile_includes_completion_distribution():
+
+    result = build_archive_profile([])
+
+    assert result["completionDistribution"] == {
+        "completed": 0,
+        "in-progress": 0,
+        "dropped": 0,
+        "planned": 0,
+    }
+
+
+def test_empty_archive_profile_includes_monthly_archive_activity():
+    result = build_archive_profile([])
+
+    assert result["monthlyArchiveActivity"] == {}
+
+
+def test_empty_archive_profile_includes_monthly_media_distribution():
+    result = build_archive_profile([])
+
+    assert result["monthlyMediaDistribution"] == {}

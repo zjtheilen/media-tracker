@@ -1,0 +1,270 @@
+from models.services.evidence_utils import genre_evidence, metric_evidence
+from models.services.observation_utils import score_confidence
+
+OBSERVATION_RULES = [
+    {
+        "id": "boundary-preference",
+        "evidence_strength": lambda profile: score_confidence(
+            profile.get("universalAverages", {}).get("originality", 0),
+            8,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "originality",
+            "depth",
+        ],
+        "genres": [
+            "experimental",
+            "surreal",
+            "sci-fi",
+        ],
+        "related_designations": [
+            "boundary_explorer",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("universalAverages", {}).get("originality", 0) >= 8
+            and (
+                profile.get("genreDistribution", {})
+                .get("experimental", {})
+                .get("percentage", 0)
+                >= 20
+                or profile.get("genreDistribution", {})
+                .get("surreal", {})
+                .get("percentage", 0)
+                >= 20
+            )
+        ),
+        "generate": lambda profile: {
+            "title": "Boundary Preference",
+            "description": (
+                "The archive consistently favors unusual concepts, "
+                "altered realities, and works that challenge "
+                "conventional structures."
+            ),
+            "evidence": [
+                metric_evidence(
+                    "originality",
+                    "Originality",
+                    profile.get("universalAverages", {}).get("originality", 0),
+                ),
+                genre_evidence(
+                    "experimental",
+                    "Experimental Presence",
+                    profile.get("genreDistribution", {})
+                    .get("experimental", {})
+                    .get("percentage", 0),
+                ),
+                genre_evidence(
+                    "surreal",
+                    "Surreal Presence",
+                    profile.get("genreDistribution", {})
+                    .get("surreal", {})
+                    .get("percentage", 0),
+                ),
+            ],
+        },
+    },
+    {
+        "id": "systems-affinity",
+        "evidence_strength": lambda profile: score_confidence(
+            profile.get("mediaAverages", {}).get("gameplay_mechanics", 0),
+            9,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "gameplay_mechanics",
+        ],
+        "genres": [
+            "strategy",
+            "simulation",
+            "game",
+        ],
+        "related_designations": [
+            "engagement_architect",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("mediaAverages", {}).get("gameplay_mechanics", 0) >= 9
+        ),
+        "generate": lambda profile: {
+            "title": "Systems Affinity",
+            "description": (
+                "The archive consistently rewards carefully designed "
+                "mechanics, interactions, and structured experiences."
+            ),
+            "evidence": [
+                metric_evidence(
+                    "gameplay_mechanics",
+                    "Gameplay Mechanics",
+                    profile.get("mediaAverages", {}).get(
+                        "gameplay_mechanics",
+                        0,
+                    ),
+                ),
+            ],
+        },
+    },
+    {
+        "id": "interpretive-depth",
+        "evidence_strength": lambda profile: score_confidence(
+            profile.get("universalAverages", {}).get("depth", 0),
+            8,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "depth",
+            "emotional_impact",
+        ],
+        "genres": [
+            "psychological",
+            "mystery",
+            "drama",
+            "horror",
+        ],
+        "related_designations": [
+            "deep_diver",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("universalAverages", {}).get("depth", 0) >= 8
+        ),
+        "generate": lambda profile: {
+            "title": "Interpretive Depth",
+            "description": (
+                "Highly rated entries consistently encourage "
+                "analysis, reflection, and layered interpretation."
+            ),
+            "evidence": [
+                metric_evidence(
+                    "depth",
+                    "Depth",
+                    profile.get("universalAverages", {}).get(
+                        "depth",
+                        0,
+                    ),
+                ),
+            ],
+        },
+    },
+    {
+        "id": "atmospheric-focus",
+        "evidence_strength": lambda profile: score_confidence(
+            profile.get("mediaAverages", {}).get("art_atmosphere", 0),
+            8.5,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "art_atmosphere",
+        ],
+        "genres": [
+            "surreal",
+            "horror",
+        ],
+        "related_designations": [
+            "boundary_explorer",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("mediaAverages", {}).get("art_atmosphere", 0) >= 8.5
+            or profile.get("genreDistribution", {})
+            .get("surreal", {})
+            .get("percentage", 0)
+            >= 20
+        ),
+        "generate": lambda profile: {
+            "title": "Atmospheric Focus",
+            "description": (
+                "The archive consistently rewards atmosphere, "
+                "visual identity, and immersive mood alongside "
+                "traditional storytelling."
+            ),
+            "evidence": [
+                metric_evidence(
+                    "art_atmosphere",
+                    "Art Atmosphere",
+                    profile.get("mediaAverages", {}).get(
+                        "art_atmosphere",
+                        0,
+                    ),
+                ),
+                genre_evidence(
+                    "surreal",
+                    "Surreal Presence",
+                    profile.get("genreDistribution", {})
+                    .get("surreal", {})
+                    .get("percentage", 0),
+                ),
+            ],
+        },
+    },
+    {
+        "id": "emotional-resonance",
+        "evidence_strength": lambda profile: score_confidence(
+            profile.get("universalAverages", {}).get("emotional_impact", 0),
+            8.5,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "emotional_impact",
+        ],
+        "genres": [
+            "drama",
+            "psychological",
+        ],
+        "related_designations": [
+            "deep_diver",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("universalAverages", {}).get("emotional_impact", 0) >= 8.5
+        ),
+        "generate": lambda profile: {
+            "title": "Emotional Resonance",
+            "description": (
+                "Highly rated entries consistently leave "
+                "a lasting emotional impression."
+            ),
+            "evidence": [
+                metric_evidence(
+                    "emotional_impact",
+                    "Emotional Impact",
+                    profile.get("universalAverages", {}).get(
+                        "emotional_impact",
+                        0,
+                    ),
+                ),
+            ],
+        },
+    },
+    {
+        "id": "craft-appreciation",
+        "evidence_strength": lambda profile: score_confidence(
+            profile.get("universalAverages", {}).get("craft", 0),
+            8.5,
+        ),
+        "category": "Archive Observation",
+        "traits": [
+            "craft",
+        ],
+        "genres": [],
+        "related_designations": [
+            "engagement_architect",
+        ],
+        "evaluate": lambda profile: (
+            profile.get("universalAverages", {}).get("craft", 0) >= 8.5
+        ),
+        "generate": lambda profile: {
+            "title": "Craft Appreciation",
+            "description": (
+                "The archive consistently rewards strong execution "
+                "and technical craftsmanship."
+            ),
+            "evidence": [
+                metric_evidence(
+                    "craft",
+                    "Craft",
+                    profile.get("universalAverages", {}).get(
+                        "craft",
+                        0,
+                    ),
+                ),
+            ],
+        },
+    },
+]

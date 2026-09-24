@@ -1,0 +1,1264 @@
+```
+__    __  ___     ___  ___   ____  ___
+\ \/\/ / / O \   _\\  / O \  | D ) | |
+ \_/\_/O/_/ \_\O/__/O/_/ \_\O|_D_)O|_|O
+WEIGHTED ARCHIVE SYSTEM for ANALYSIS & BEHAVIORAL INSIGHTS
+
+A media tracking, rating, and analytics app by Zachary Theilen
+```
+
+# Media Tracker — Master Roadmap
+
+**Status:** Current Project Roadmap
+
+**Authoritative Development Branch:** `develop-3`
+
+**Guiding Principle:** **Evolution, not rewrite.**
+
+---
+
+# 1. Purpose
+
+This document describes the development trajectory of Media Tracker.
+
+It answers four questions:
+
+1. What exists today?
+2. What has been completed?
+3. What is currently being worked on?
+4. What remains to be developed?
+
+The roadmap is an orientation and sequencing document.
+
+It is **not** the authoritative specification for individual intelligence concepts, scoring formulas, fixtures, API semantics, or terminology decisions. Those details belong in the appropriate planning documents.
+
+The roadmap should therefore remain intentionally higher-level.
+
+---
+
+# 2. Project Overview
+
+Media Tracker is a personal media archive and taste-intelligence application.
+
+The application began as a system for recording books, games, and video and calculating weighted scores.
+
+It has evolved into a layered archive-analysis system capable of identifying measurable patterns in the archive and presenting those patterns through explainable intelligence.
+
+The current architecture combines:
+
+* Media archive management
+* Universal scoring
+* Media-specific scoring
+* Genre intelligence
+* Derived traits
+* Observations
+* Findings
+* Designations
+* Identities
+* Archive Profile generation
+* Narrative presentation
+* Recommendation infrastructure
+* Frontend visualizations
+* Automated regression coverage
+
+The project remains deliberately lightweight and modular.
+
+---
+
+# 3. Governing Development Principle
+
+> **The API should describe the intelligence system that actually exists, while the intelligence system should only change when an explicit conceptual decision requires it.**
+
+Terminology alignment is therefore treated as controlled evolution rather than justification for architectural rewriting.
+
+The project favors:
+
+* Explicit conceptual decisions
+* Evidence-backed changes
+* Targeted implementation
+* Explainability
+* Regression protection
+* Preservation of working behavior
+* Clear separation between current authority and historical reasoning
+
+---
+
+# 4. Current State
+
+## 4.1 Archive
+
+The core media archive is functional.
+
+The application supports recording and managing media entries with information including:
+
+* Title
+* Media type
+* Genres
+* Scores
+* Notes
+* Completion information
+
+The archive supports books, games, and video.
+
+---
+
+## 4.2 Scoring
+
+The scoring system is functional.
+
+Current capabilities include:
+
+* Universal scoring
+* Media-specific scoring
+* Weighted scoring
+* Score normalization
+* Derived scoring traits
+* Entry-level score presentation
+* Archive-level score analysis
+
+The underlying scoring architecture is considered established and should not be redesigned merely to support terminology alignment.
+
+---
+
+## 4.3 Genre Intelligence
+
+Genre intelligence is functional.
+
+The system uses genre information to support:
+
+* Genre prevalence
+* Genre diversity
+* Genre averages
+* Genre-derived traits
+* Genre signatures
+* Higher-level intelligence evidence
+
+Genre-derived signals remain observable proxies rather than direct measurements of intent.
+
+---
+
+## 4.4 Archive Intelligence
+
+The archive intelligence architecture is functional.
+
+Current intelligence layers include:
+
+### Traits
+
+Measurable characteristics derived from scoring and archive data.
+
+### Genre Signals
+
+Measurable patterns in the genres represented by the archive.
+
+### Observations
+
+Evidence-oriented descriptions of notable archive patterns.
+
+### Findings
+
+Higher-level conclusions derived from archive evidence.
+
+### Designations
+
+Recognizable taste classifications.
+
+Current Designations:
+
+* Boundary Explorer
+* Engagement Architect
+* Deep Diver
+* Curator
+
+### Identities
+
+Broader recurring orientations through which the curator engages with media.
+
+Current Identities:
+
+* Interpretive Philosophy
+* Exploratory Philosophy
+* Breadth Philosophy
+
+### Archive Profile
+
+A higher-level representation combining archive statistics, traits, Designations, Identities, observations, findings, and narrative interpretation.
+
+---
+
+# 5. Identity System Status
+
+The Identity subsystem has completed its major conceptual alignment work.
+
+Completed work includes:
+
+* Identity vs Designation differentiation
+* Identity ontology differentiation
+* Historical Identity catalog review
+* Identity evidence mapping
+* Identity fixture contract
+* Identity fixture migration
+* Minimum-entry eligibility
+* Deterministic selection
+* Primary/secondary resolution
+* Contribution explanation
+* Identity test migration
+* Regression protection
+
+The current Identity catalog is:
+
+1. **Interpretive Philosophy**
+2. **Exploratory Philosophy**
+3. **Breadth Philosophy**
+
+The three concepts intentionally occupy different analytical dimensions:
+
+> **Interpretive:** How do you engage with what you consume?
+
+> **Exploratory:** How do you relate to the boundaries of what you consume?
+
+> **Breadth:** How wide is the territory you consume?
+
+The Identity system is considered conceptually aligned for the current development stage.
+
+Future Identity changes remain possible, but they should be driven by evidence or an explicit conceptual decision rather than by the need to make the catalog appear more complete.
+
+---
+
+# 6. Designation System Status
+
+The Designation architecture is established and remains separate from Identity.
+
+Current Designations:
+
+* Boundary Explorer
+* Engagement Architect
+* Deep Diver
+* Curator
+
+The current architecture supports:
+
+* Multiple candidate Designations
+* Ranked scores
+* Primary Designation selection
+* Deterministic selection
+* Designation-specific evidence metadata
+* Recommendation bias metadata
+* Archive Profile integration
+
+The current Designation catalog remains a working behavioral classification system rather than a claim that these four classifications exhaust every possible taste pattern.
+
+Known conceptual areas for future refinement include:
+
+* Boundary Explorer evidence definition
+* Engagement Architect evidence definition
+* Deep Diver classification boundaries
+* Curator's archive-size signal
+
+These are refinement opportunities, not reasons to rewrite the current Designation system.
+
+---
+
+# 7. Explainability Status
+
+Explainability infrastructure is established.
+
+The system exposes evidence and contributing signals where appropriate rather than presenting intelligence as opaque labels.
+
+Current explainability mechanisms include:
+
+* Trait values
+* Weighted contributions
+* Identity breakdowns
+* Evidence strength
+* Data sufficiency
+* Designation basis
+* Observations
+* Findings
+* Archive narrative
+
+The project should continue favoring explainable intelligence over opaque classification.
+
+---
+
+# 8. Terminology Alignment Status
+
+The terminology alignment pass is complete for the current scope.
+
+The project now distinguishes:
+
+* **Signal Strength** — strength of an expressed measurable signal
+* **Data Sufficiency** — whether enough archive data exists for evaluation
+* **Evidence Strength** — strength of evidence supporting a conclusion
+* **Classification Confidence** — historical/retired terminology rather than an active universal measure
+
+The public API retains compatibility-sensitive field names where changing them would create unnecessary downstream breakage.
+
+For example:
+
+* `designationConfidence` remains as an API field.
+* Its semantic interpretation is Designation Signal Strength.
+* `designationConfidenceLabel` remains as an API field.
+* Its displayed meaning is Signal Strength.
+
+Internal helper terminology has been aligned where appropriate without changing scoring behavior.
+
+---
+
+# 9. Frontend Alignment Status
+
+Frontend terminology has been aligned with the current scoring and intelligence vocabulary.
+
+Completed alignment includes:
+
+* Evaluation → Scoring terminology
+* Average Rating → Average Score where the underlying value is a score
+* Highest Evaluated → Highest Scored
+* Media Evaluation → Media Scoring
+* Universal Evaluation → Universal Scoring
+
+Presentation terminology is now intended to reflect the semantics of the backend rather than preserve historical wording merely for familiarity.
+
+Public API compatibility remains a separate constraint from frontend terminology.
+
+A later frontend/backend terminology investigation confirmed that the current frontend usage of Analytics, Archive Profile, Designation, Identity, Trait, Observation, Finding, and Recommendation remains coherent with the established conceptual model. No additional terminology changes were identified.
+
+---
+
+# 10. Documentation Reconciliation Status
+
+The major documentation reconciliation pass is underway/completing its current stage.
+
+The project documentation has been reorganized around a simple principle:
+
+> **One authoritative home for each kind of current knowledge, with historical reasoning preserved separately and no document allowed to masquerade as current authority when it isn't.**
+
+Current documentation responsibilities are divided between:
+
+### Conceptual Authority
+
+* `docs/planning/intelligence-contract.md`
+* `docs/planning/decision-and-implementation-map.md`
+* `docs/planning/identity-and-designation-contract.md`
+
+### Fixture Authority
+
+* `docs/planning/identity-fixture-contract.md`
+
+### Evidence Mapping
+
+* `docs/planning/identity-evidence-mapping.md`
+
+### Historical Alignment
+
+* `docs/planning/intelligence-alignment.md`
+* `docs/planning/identity-catalog.md`
+
+### Forensic Evidence
+
+* `docs/planning/intelligence-forensic-audit.md`
+
+### Terminology
+
+* `docs/planning/terminology-and-api-rename-map.md`
+* `docs/planning/frontend-terminology-alignment.md`
+
+### Product and Feature Recovery
+
+* `docs/planning/forgotten-features-register.md`
+
+### Roadmap
+
+* This document.
+
+The roadmap should point toward these authorities rather than duplicate them.
+
+---
+
+# 11. Regression Status
+
+The current regression baseline is:
+
+**1 passing Node configuration test.**
+
+**337 passing Python tests.**
+
+**50 passing Playwright E2E tests.**
+
+**388 passing tests across the complete automated test suite.**
+
+The automated test suite is executed through the unified `npm test` runner, which runs the Node configuration guardrail, the Python regression suite, and the Playwright E2E suite and reports their results together.
+
+The Python suite covers backend, domain, API, and intelligence behavior.
+
+The Playwright suite covers critical browser-level application behavior and integration.
+
+The Node configuration test protects critical E2E environment assumptions, including isolated database usage and prevention of development-server reuse.
+
+The current Python coverage baseline is **99% statement coverage across 747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
+
+All implemented `models` modules currently have **100% statement and branch coverage**. The only uncovered production code is the intentional recommendation-scoring stub in `models/recommendations/scoring.py`, which remains unimplemented and is therefore intentionally not covered by a test that would merely assert placeholder behavior.
+
+Coverage is being used as an investigative map to identify meaningful uncovered behavior rather than as a target percentage.
+
+Historical test counts are preserved as historical milestones and should not be interpreted as the current baseline.
+
+The current counts should be updated whenever intentional implementation changes alter the regression suite.
+
+---
+
+# 12. Completed Development Phases
+
+The original project was developed through several broad phases.
+
+The exact boundaries evolved as the application grew, so these phases should be understood as development milestones rather than rigid architectural layers.
+
+## Phase 1 — Core Library
+
+Completed.
+
+Established:
+
+* Media entry management
+* Persistent storage
+* Media types
+* Genres
+* Notes
+* Completion information
+* Basic scoring
+
+---
+
+## Phase 2 — Scoring and Analytics
+
+Completed.
+
+Established:
+
+* Weighted scoring
+* Universal scoring
+* Media-specific scoring
+* Score normalization
+* Archive statistics
+* Genre analysis
+* Scoring visualizations
+
+---
+
+## Phase 3 — Generated Lists and Archive Exploration
+
+Completed.
+
+Established:
+
+* Generated archive lists
+* High-score views
+* Recent additions
+* Hall of Fame-style views
+* Additional archive exploration tools
+
+---
+
+## Phase 4 — Frontend Refactor
+
+Substantially completed.
+
+Established or improved:
+
+* Frontend organization
+* Visualization structure
+* Scoring terminology
+* Archive presentation
+* Entry detail presentation
+* Generated-list presentation
+
+Remaining frontend work should be treated as polish or targeted maintenance rather than another broad refactor.
+
+---
+
+## Phase 5 — Intelligence and Polish
+
+Core intelligence infrastructure completed.
+
+Established:
+
+* Trait analysis
+* Genre-derived intelligence
+* Observations
+* Findings
+* Designations
+* Identities
+* Archive Profile
+* Narrative generation
+* Recommendation infrastructure/stub
+* Explainability infrastructure
+
+Current work in this phase is primarily refinement, terminology, UX, documentation, and integration.
+
+---
+
+## Phase 6 — Testing and Stability
+
+Core regression coverage is now established across backend/domain behavior and browser-level application behavior.
+
+### Current baseline
+
+**1 passing Node configuration test.**
+
+**337 passing Python tests.**
+
+**50 passing Playwright E2E tests.**
+
+**388 passing tests across the complete automated test suite.**
+
+The Python regression suite currently provides **99% statement coverage** across **747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
+
+All implemented `models` modules currently have **100% statement and branch coverage**.
+
+The remaining uncovered production code is the intentional recommendation-scoring stub in `models/recommendations/scoring.py`. The stub is not currently part of the implemented recommendation behavior, so no test has been added solely to exercise its placeholder return value. Recommendation scoring remains intentionally deferred rather than being implemented for the purpose of increasing coverage.
+
+Coverage is being used as an investigative map to identify meaningful uncovered behavior rather than as a target percentage.
+
+A focused coverage investigation identified several genuine regression-coverage gaps in the model and service layers. Direct unit coverage was added for meaningful behavior including:
+
+* Entry serialization
+* Entry scoring edge cases
+* Archive score mapping
+* Unrecognized archive score categories
+* Identity tie-breaking when component evidence is stronger
+* Identity tie-breaking when candidate evidence is weaker
+* Identity secondary selection behavior
+* Archive interpretation
+* Genre statistics and analytics behavior
+
+The resulting Python suite provides complete statement and branch coverage for the implemented model layer.
+
+### Test infrastructure
+
+The automated regression suite has a unified execution and reporting layer.
+
+The root `npm test` command runs:
+
+* Node configuration tests
+* Pytest backend/domain/API/intelligence tests
+* Playwright browser-level E2E tests
+
+Pytest and Playwright produce machine-readable JUnit reports, which are consumed by the unified test runner to produce an aggregate pass/fail summary and identify individual failing tests.
+
+The Playwright environment uses a dedicated E2E SQLite database and explicitly prevents reuse of an existing development backend server.
+
+The unified runner and failure reporting have been verified by intentionally introducing failures into both the Python and Playwright suites and confirming that the runner correctly identified the failing test.
+
+### API and contract coverage
+
+API contract coverage is complete for the current route surface.
+
+The application currently exposes 13 declared API routes, all of which have meaningful direct test coverage.
+
+Direct API contract tests were added for:
+
+* `/scoring-profile`
+* `/genre-stats`
+
+The API contract tests verify response structure and meaningful contract values without duplicating underlying business-logic calculations already covered by unit tests.
+
+### Regression categorization
+
+Regression categorization has been established using meaningful pytest markers:
+
+* `unit`
+* `api`
+* `regression`
+
+Markers are applied where they provide useful test categorization.
+
+Known historical regressions are explicitly marked where appropriate. Additional regression markers are not added merely to populate the category.
+
+### Playwright coverage
+
+The current E2E suite covers the primary Library, Analytics, Lists, Archive Profile, and Recommendations workflows, along with application loading and navigation.
+
+Coverage includes:
+
+* Application loading
+* Navigation across all five primary pages
+* Library search
+* Genre filtering
+* Multiple genre filtering
+* Genre filter toggling
+* Sorting by title, date, score, and media type
+* Clearing individual search filters
+* Clearing combined filters
+* Expanding and collapsing library records
+* Switching between expanded records
+* Creating a new record
+* Canceling record creation
+* Editing an existing record
+* Preservation of existing scores during editing
+* Purging a record
+* Canceling a purge
+* Confirming a purge
+* Empty archive behavior
+* No-match search behavior
+* No-match genre behavior
+* Application validation failure behavior
+* Analytics media distribution
+* Analytics average score by media type
+* Analytics monthly completion
+* Analytics rating distribution
+* Analytics genre average ratings
+* Analytics multi-genre participation in genre average ratings
+* Overall top-five Lists ranking
+* Media-specific Lists ranking
+* Recent Archive Additions ordering
+* Archive Hall of Fame threshold and ordering
+* Archive Profile designation and confidence
+* Archive Profile interpretation, findings, and observations
+* Archive Profile universal scoring radar
+* Archive Profile empty-archive behavior
+* Recommendations placeholder rendering
+
+### E2E environment
+
+Playwright runs the frontend and FastAPI backend as part of the test environment.
+
+E2E tests use a dedicated SQLite database and run with a single worker to prevent shared database state from introducing test races.
+
+Complex test data is seeded through the API rather than through the UI. The UI is exercised for the behavior being tested.
+
+The tests prioritize behavioral DOM assertions over screenshots or visual snapshots.
+
+### Stability fixes completed
+
+* Fixed amendment behavior so existing universal and media scores are restored when editing a record.
+* Stabilized Archive Profile responsive charts by placing canvases inside dedicated containers with explicit dimensions.
+* Corrected the `maintainAspectRatio` configuration typo in media score charts.
+* Restored the application shell wrapper so the existing layout width and page spacing rules apply consistently.
+* Added Playwright browser-level regression coverage for application loading and navigation across all five primary pages.
+* Fixed an application initialization race in which asynchronous startup could overwrite user navigation after the page had already become interactive.
+* Added browser-level regression coverage for the Analytics charts and their underlying data transformations.
+* Added condition-based synchronization for asynchronous Chart.js initialization where chart rendering can occur after the canvas itself becomes visible.
+* Added browser-level regression coverage for Archive Profile and its frontend integration with profile data.
+* Added browser-level coverage for the Recommendations placeholder contract.
+* Fixed runaway media-specific chart height when switching between library entries.
+* Added E2E regression coverage verifying the chart remains bounded at 220px across repeated entry switching.
+* Added direct Python regression coverage for the genre statistics analytics module.
+* Established Python statement and branch coverage measurement and used it to identify meaningful uncovered production behavior.
+* Added direct regression coverage for Entry serialization and scoring edge cases.
+* Added direct regression coverage for archive score mapping, including unrecognized score categories.
+* Added direct regression coverage for Identity tie-breaking and evidence comparison behavior.
+* Corrected SQLite connection lifecycle management so database connections are explicitly closed when their context-managed operations complete.
+* Verified the database connection fix by running the Python suite with `ResourceWarning` treated as an error. The previously repeated unclosed-database warnings no longer occur.
+* Added direct API contract coverage for the remaining previously uncovered `/scoring-profile` and `/genre-stats` routes.
+* Added regression protection ensuring score-derived archive statistics exclude unevaluated entries while archive-membership statistics continue to include them.
+* Updated genre statistics so archive membership counts remain inclusive while score-derived averages use only evaluated entries.
+* Added browser-level regression coverage ensuring Analytics score visualizations exclude unevaluated entries.
+* Added browser-level regression coverage ensuring score-derived Lists exclude unevaluated entries.
+* Added API regression coverage ensuring `/stats/` excludes unevaluated entries from average-score calculations.
+
+### Testing principle
+
+E2E tests should validate actual application behavior rather than compensate for application timing or initialization problems with arbitrary delays.
+
+When an E2E test exposes inconsistent behavior, the preferred response is to determine whether the inconsistency represents an application defect, test defect, or environment issue before adding synchronization.
+
+Condition-based synchronization is preferred when asynchronous application behavior is legitimate. Arbitrary timeouts should not be used to mask application races or unreliable test behavior.
+
+### Edge-case investigation
+
+Archive Profile boundary behavior has been investigated across the existing unit, service, designation, identity, and endpoint test layers.
+
+Existing coverage includes:
+
+* Empty archives
+* Missing archive data
+* Missing requirements
+* Below-minimum identity eligibility
+* Exact minimum-entry boundaries
+* Above-minimum eligibility
+* Sparse data
+* Missing scoring information
+* Identity evidence boundaries
+* Deterministic selection and tie behavior
+
+Additional Archive Profile boundary tests are not currently required solely to increase coverage.
+
+Presentation-specific empty and sparse archive behavior remains a product/UX concern where an actual gap is identified.
+
+### Accessibility
+
+Dedicated automated accessibility auditing has been investigated and deferred for the current Phase 6 scope.
+
+Existing E2E tests use some accessibility-aware selectors, including role-based selectors.
+
+A dedicated accessibility testing dependency has not been added.
+
+Accessibility remains a valid future product-quality concern but should not be added solely to expand the Phase 6 test matrix.
+
+### Frontend/backend terminology consistency
+
+Frontend/backend terminology has been investigated against the established conceptual model.
+
+The review covered:
+
+* Analytics
+* Archive Profile
+* Designation
+* Identity
+* Trait
+* Observation
+* Finding
+* Recommendation
+
+The frontend terminology is coherent with the backend concepts and established Phase 1 terminology.
+
+No corrective terminology changes were identified.
+
+### Remaining stability work
+
+Remaining work should focus on:
+
+* **Removal of accidental duplication**
+
+  * Review tests and implementation for genuinely redundant coverage or repeated behavior.
+  * Remove duplication only where it improves maintainability without reducing meaningful regression protection.
+
+* **Additional browser-level coverage for critical user flows**
+
+  * Audit the existing E2E suite and application controls for genuinely important user behaviors not already protected.
+  * No additional browser-level test was warranted. Existing coverage protects the critical Library CRUD, cancel/destructive flows, navigation, Lists, Analytics, Archive Profile boundaries, empty states, and application loading behavior.
+  * Recommendations remains intentionally limited to placeholder rendering because recommendation scoring is not yet implemented; adding tests beyond that would constitute coverage theater rather than meaningful regression protection.
+  * Phase 6 browser-level coverage is therefore considered complete without increasing the E2E test count.
+
+### Archive Profile contracts
+
+Archive Profile presentation behavior is documented in:
+
+* `docs/planning/archive-profile-presentation-contract.md`
+* `docs/planning/archive-profile-e2e-edge-case-test-plan.md`
+
+The presentation contract defines the expected user-facing behavior for:
+
+* 0 entries — Empty Archive
+* 1–14 entries — Early Archive
+* 15–19 entries — Developing Archive
+* 20+ entries — Full Archive Profile
+
+These presentation ranges are intentionally distinct from the underlying intelligence model. In particular, Identity eligibility is governed by the existing Identity minimum-entry requirements and should not be conflated with signal strength or archive maturity.
+
+The E2E edge-case plan defines browser-level regression coverage for the critical boundaries:
+
+* 0 entries
+* 1 entry
+* 14 entries
+* 15 entries
+* 19 entries
+* 20 entries
+* 21 entries
+
+The 0-entry case now has an intentional empty-state presentation. The Identity boundary cases are intended to protect the existing 15-entry and 20-entry eligibility thresholds.
+
+---
+
+## Phase 7 — Evidence Expansion & Product Evolution
+
+Phase 7 focuses on expanding the evidence available to WASABI and using that evidence to evolve the intelligence and product surfaces without manufacturing intelligence.
+
+The guiding principle remains:
+
+> Evidence before labels. Concepts before implementation. Evolution, not rewrite.
+
+### 7.1 Evidence Foundation
+
+- [x] Add score distribution / variance analysis
+- [x] Restore completion-state metadata to the active archive workflow
+- [x] Define semantics for substantially experienced but unfinished media
+- [x] Preserve completion as behavioral evidence rather than a prerequisite for scoring
+
+### 7.2 Temporal Evidence
+
+- [x] Establish monthly archive activity evidence
+- [x] Define temporal evidence semantics
+- [x] Expose monthly archive activity through the archive profile
+- [x] Establish monthly media distribution evidence
+- [x] Monthly archive activity
+- [x] Monthly media distribution
+- [x] Monthly average score
+- [x] Expand consumption timeline evidence
+- [x] Analyze temporal consumption patterns
+- [x] Investigate meaningful change-over-time signals
+
+### 7.3 Cross-Dimensional Evidence
+
+- [x] Analyze score × completion relationships
+- [x] Analyze media type × scoring behavior
+- [x] Expand archive-derived genre relationship intelligence
+
+### 7.4 Intelligence Evolution
+
+- [x] Re-evaluate existing Designations against expanded evidence
+- [x] Identify recurring evidence-supported patterns not represented by the current vocabulary
+- [x] Determine whether existing Designations adequately represent those patterns
+- [x] Introduce new Designations only where explicitly justified
+- [x] Revisit provisionally deferred intelligence concepts as richer evidence becomes available
+- [x] Re-evaluate Identity signal independence as richer evidence becomes available
+
+Dynamic taxonomy does not mean automatically generating new categories. New intelligence categories require explicit conceptual justification, defensible evidence, explainability, and regression protection.
+
+### 7.5 Product Surface Evolution
+
+- [x] Expand explainability presentation
+- [x] Expand evidence presentation and "Why?" explanations
+- [x] Improve Designation and intelligence evidence visibility
+- [x] Implement archive-state communication
+- [x] Harden accessibility
+- [x] Perform targeted UX polish based on actual product behavior
+
+### Phase 7 Guardrails
+
+Phase 7 should not become a label-generation exercise.
+
+New evidence should be added when it enables defensible intelligence that current evidence cannot support. New Designations, Findings, Identities, or other intelligence outputs should emerge from evidence and explicit conceptual decisions rather than being created to satisfy a target number of categories.
+
+Completion, variance, temporal behavior, and cross-dimensional relationships are evidence-development work first.
+
+Current temporal evidence is intentionally descriptive: monthly archive activity describes when recorded activity occurred, while monthly media distribution describes which media types made up that recorded activity. Neither should be interpreted as evidence of taste change, preference transition, motivation, engagement, seasonality, or other behavioral causes without additional supporting evidence.
+
+Their eventual intelligence uses should be determined after the evidence is understood.
+
+Recommendation scoring remains deferred until its conceptual inputs and evidence are sufficiently mature.
+
+Initial score × completion and media type × scoring investigations have been documented, but neither relationship is currently considered sufficiently established to drive new intelligence.
+
+# 13. Current Work Queue
+
+The immediate development queue should remain targeted.
+
+## 13.1 Archive Profile Polish
+
+Continue refining the Archive Profile presentation and integration without changing the underlying intelligence architecture unless an explicit conceptual decision requires it.
+
+Areas include:
+
+* UX
+* Presentation
+* Narrative clarity
+* Empty/sparse archive handling
+* Targeted accessibility improvements
+* Targeted terminology polish where an actual inconsistency is identified
+
+---
+
+## 13.2 Observation Presentation
+
+Continue reviewing how Observations are surfaced to users.
+
+The current distinction remains:
+
+> Observation = evidence-oriented notable pattern.
+
+Observation presentation should preserve the distinction between evidence and higher-level interpretation.
+
+---
+
+## 13.3 Finding Presentation
+
+Continue reviewing how Findings are represented.
+
+The current distinction remains:
+
+> Finding = higher-level conclusion derived from evidence.
+
+Finding work should not collapse Findings into Observations or Designations.
+
+---
+
+## 13.4 Archive State
+
+Finalize the operational treatment of archive sufficiency.
+
+The conceptual states remain:
+
+* Empty
+* Sparse
+* Established
+
+The exact operational thresholds should be treated as an explicit implementation decision rather than inferred from historical documentation.
+
+---
+
+## 13.5 Recommendation Infrastructure
+
+Recommendation infrastructure exists as a foundation/stub.
+
+Future work may develop recommendation behavior using the existing `recommendation_bias` metadata.
+
+This does **not** currently constitute a completed recommendation engine.
+
+Recommendation development should remain separate from Designation and Identity classification.
+
+---
+
+## 13.6 API and Configuration Polish
+
+Continue reviewing:
+
+* API terminology
+* Configuration
+* Documentation
+* Compatibility-sensitive fields
+* Backend/frontend contracts
+
+The goal is consistency without unnecessary breaking changes.
+
+---
+
+# 14. Deferred Conceptual Work
+
+Some concepts have been intentionally deferred.
+
+## 14.1 Construction / Systems Philosophy
+
+A Construction / Systems Philosophy Identity was evaluated and deferred.
+
+The current evidence overlaps too strongly with Engagement Architect.
+
+A future version would require broader structural evidence rather than simply renaming or reweighting existing Engagement Architect signals.
+
+---
+
+## 14.2 Direct Exploration Measurement
+
+Exploratory Philosophy currently relies partly on indirect evidence.
+
+The system does not currently observe deliberate exploration directly.
+
+Future work could revisit this if the archive begins collecting evidence capable of supporting that conclusion.
+
+The project should not invent an exploration metric merely to make the Identity concept appear more measurable.
+
+---
+
+## 14.3 Intentional Diversification
+
+Breadth Philosophy currently measures observable variety.
+
+Observable variety does not prove deliberate diversification.
+
+Future evidence could potentially distinguish:
+
+* Large archive
+* Diverse archive
+* Deliberately diversified archive
+
+These should not be treated as equivalent without supporting evidence.
+
+---
+
+## 14.4 Curator Archive-Size Signal
+
+The Curator Designation currently includes archive-size-related evidence.
+
+The known conceptual concern is:
+
+> Quantity does not automatically establish deliberateness, care, or curatorial breadth.
+
+The existing calculation should remain stable unless an explicit conceptual decision changes it.
+
+Future refinement may separate archive quantity from stronger evidence of curatorial behavior.
+
+---
+
+# 15. Evidence Architecture — Future Direction
+
+The project currently supports several kinds of evidence:
+
+* Direct scoring traits
+* Media-specific traits
+* Genre-derived proxies
+* Archive composition
+* Weighted contributions
+* Evidence strength
+* Data sufficiency
+
+The system does **not** currently require one universal evidence schema.
+
+Different intelligence subsystems may legitimately use different evidence mechanisms.
+
+Future evidence architecture should therefore be introduced only when a real cross-system need appears.
+
+The governing rule remains:
+
+> **Evidence can overlap. Meaning cannot.**
+
+---
+
+# 16. Intelligence Evolution Rules
+
+New intelligence concepts should follow a deliberate process.
+
+## Step 1 — Define the Concept
+
+Describe what the concept means.
+
+## Step 2 — Define the Boundaries
+
+Describe what the concept is not.
+
+## Step 3 — Identify Evidence
+
+Determine what observable evidence could support the concept.
+
+## Step 4 — Identify Evidence Limits
+
+Determine what the evidence cannot establish.
+
+## Step 5 — Compare Existing Intelligence
+
+Test the proposed concept against existing Designations, Identities, Traits, Observations, and Findings.
+
+## Step 6 — Test Negative Space
+
+Verify that unrelated or insufficient evidence does not automatically produce the concept.
+
+## Step 7 — Define Implementation Requirements
+
+Only after the conceptual contract is established should implementation requirements be defined.
+
+## Step 8 — Implement Targeted Changes
+
+Change only the code required by the explicit decision.
+
+## Step 9 — Protect the Result
+
+Add or update regression coverage.
+
+This sequence prevents implementation convenience from silently becoming conceptual policy.
+
+---
+
+# 17. Things That Should Not Be Invented Just to Fill Gaps
+
+The roadmap does not authorize invention of:
+
+* Universal confidence math
+* Arbitrary near-tie thresholds
+* Co-primary Identity behavior
+* Universal evidence schemas
+* Intentionality measurements without evidence
+* New Identity concepts merely to increase catalog size
+* Recommendation scoring without a recommendation design
+* Psychological interpretation
+* Machine-learning classification without a deliberate architectural decision
+* New Archive State thresholds based only on stale historical prose
+* New Designations merely because a signal is strong
+
+Gaps in observable evidence are valid system states.
+
+---
+
+# 18. Architectural Stability
+
+The intelligence architecture should remain modular.
+
+The major intelligence concepts are analytically related but should not be collapsed into one generic classification subsystem merely for implementation convenience.
+
+The project currently benefits from keeping separate:
+
+* Trait calculation
+* Genre analysis
+* Observation evaluation
+* Finding generation
+* Designation classification
+* Identity scoring
+* Archive Profile composition
+* Narrative presentation
+* Recommendation infrastructure
+
+The existence of shared evidence does not require these systems to become one system.
+
+---
+
+# 19. Data Sufficiency
+
+Data sufficiency should remain an explicit concern throughout future development.
+
+The project recognizes that:
+
+> **A strong signal is not necessarily sufficient evidence for a strong conclusion.**
+
+This is especially important for:
+
+* Identity classification
+* Archive State
+* Genre-derived conclusions
+* Sparse archives
+* Intentionality claims
+* Future recommendation behavior
+
+Future intelligence should distinguish between:
+
+1. What the archive measures.
+2. How strongly it measures it.
+3. Whether there is enough data to interpret it.
+4. What conclusion the evidence supports.
+
+### Future Intelligence Evidence & Revisit Opportunities
+
+Future intelligence expansion should prioritize richer evidence over simply adding additional labels or metrics.
+
+Potential evidence work, in priority order:
+
+* [x] Add score distribution / variance analysis
+* [x] Restore completion-state metadata to the active archive workflow
+* [x] Define semantics for substantially experienced but unfinished media
+* [x] Establish monthly archive activity evidence
+* [x] Establish monthly media distribution evidence
+* [x] Investigate temporal consumption analysis
+* [x] Analyze score × completion relationships
+* [x] Analyze media type × scoring behavior
+* [x] Expand archive-derived genre relationship intelligence
+* [ ] Investigate repeat-consumption behavior
+* [ ] Investigate creator/franchise repetition where reliable metadata exists
+* [ ] Evaluate future structured use of review/notes data
+
+These items are evidence-development opportunities, not a commitment to implement all of them together.
+
+New evidence should be prioritized when it enables defensible intelligence that current evidence cannot support.
+
+---
+
+# 20. Empty and Sparse Archives
+
+Empty and sparse archives are valid states.
+
+The system should not assume that every archive contains enough information to produce every intelligence result.
+
+Future changes should preserve graceful behavior for:
+
+* No entries
+* Very small archives
+* Single-media archives
+* Low genre diversity
+* Missing optional scoring signals
+* Partially populated archive data
+
+The absence of evidence should not automatically become a negative personality or taste conclusion.
+
+---
+
+# 21. Future Product Development
+
+Potential future work includes:
+
+* More sophisticated recommendations
+* Expanded archive exploration
+* Additional intelligence concepts
+* Improved Archive Profile UX
+* Better narrative generation
+* Additional visualizations
+* Broader media support
+* Release/deployment improvements
+
+These are possibilities, not commitments to implement every item.
+
+Future features should be evaluated against the existing architecture and evidence before being added.
+
+---
+
+# 22. Documentation Authority
+
+When documents disagree, authority should be resolved according to the following hierarchy:
+
+1. **Current code and passing tests** establish proven current behavior.
+2. **Current conceptual contracts** establish intended semantics.
+3. **Current implementation maps** establish explicit implementation decisions.
+4. **Historical alignment and forensic documents** preserve reasoning and evidence.
+5. **The roadmap** describes sequence and project status.
+
+Historical documents should not silently override current authoritative decisions.
+
+Likewise, the roadmap should not become a competing source of detailed implementation policy.
+
+---
+
+# 23. Current Authoritative Documents
+
+For current conceptual and implementation decisions, consult:
+
+* `docs/planning/intelligence-contract.md`
+* `docs/planning/decision-and-implementation-map.md`
+* `docs/planning/identity-and-designation-contract.md`
+* `docs/planning/identity-fixture-contract.md`
+* `docs/planning/identity-evidence-mapping.md`
+
+For historical reasoning and forensic evidence, consult:
+
+* `docs/planning/intelligence-alignment.md`
+* `docs/planning/intelligence-forensic-audit.md`
+* `docs/planning/identity-catalog.md`
+
+For terminology decisions, consult:
+
+* `docs/planning/terminology-and-api-rename-map.md`
+* `docs/planning/frontend-terminology-alignment.md`
+
+For recovered or deferred product ideas, consult:
+
+* `docs/planning/forgotten-features-register.md`
+
+---
+
+# 24. Success Criteria
+
+The project is progressing successfully when:
+
+* The archive remains reliable.
+* Scoring remains understandable.
+* Intelligence remains explainable.
+* Designations remain distinct from Identities.
+* Evidence is not mistaken for certainty.
+* Data sufficiency is not confused with signal strength.
+* Terminology reflects actual behavior.
+* Historical reasoning remains recoverable.
+* Tests protect intentional behavior.
+* New intelligence requires explicit conceptual justification.
+* The system evolves without unnecessary rewrites.
+
+---
+
+# 25. North Star
+
+Media Tracker should become a system that can answer increasingly sophisticated questions about a personal media archive while remaining understandable enough to explain **why** it reached those conclusions.
+
+The goal is not to make the application appear intelligent.
+
+The goal is to make the intelligence that already exists:
+
+* measurable,
+* explainable,
+* testable,
+* conceptually coherent,
+* and useful.
+
+The project should continue to evolve from the architecture that works rather than replacing it merely because the system has become more sophisticated.
+
+---
+
+# 26. Final Principle
+
+> **Evolution, not rewrite.**
+
+Preserve working behavior.
+
+Make conceptual decisions explicitly.
+
+Let evidence determine what the system can reasonably claim.
+
+Keep intelligence layers distinct even when they share evidence.
+
+Document the reasoning behind changes.
+
+Protect intentional behavior with tests.
+
+And ensure that the API describes the intelligence system that actually exists.
