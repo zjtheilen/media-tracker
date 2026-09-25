@@ -87,6 +87,5 @@ def test_scoring_rubric_endpoint(client):
     assert "originality" in data
 
     assert data["depth"]["9"] == (
-        "Ask whether the work is exceptionally rich in ideas, themes, or layers, "
-        "repeatedly rewarding analysis and revealing meaningful depth with very few shortcomings."
+        "Exceptional richness and depth; repeatedly rewards analysis"
     )

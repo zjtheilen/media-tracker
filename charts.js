@@ -1076,7 +1076,7 @@ function renderMediaScoreChart(entry, canvas) {
 
                 scales: {
                     y: {
-                        min: 5,
+                        min: 0,
                         max: 10,
                         ticks: {
                             color: ARCHIVE_COLORS.muted
