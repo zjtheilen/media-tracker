@@ -1135,3 +1135,52 @@ test("Hall of Fame includes only scores of 95 or higher in descending order", as
     );
 });
 
+test("lists report title icon stays on the same row as the title text", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+    await seedTopRatedEntries(request);
+
+    await page.goto("/");
+    await page.getByRole("button", { name: "Lists" }).click();
+
+    const reportTitle = page.locator(
+        "#top-rated-overall-list .report-header h2"
+    );
+    const icon = reportTitle.locator("svg.lucide");
+    const titleText = reportTitle.locator("text=Highest Scored Records");
+
+    await expect(icon).toBeVisible();
+
+    const iconBox = await icon.boundingBox();
+    const textBox = await titleText.boundingBox();
+
+    expect(iconBox).not.toBeNull();
+    expect(textBox).not.toBeNull();
+
+    expect(Math.abs(iconBox.y - textBox.y)).toBeLessThan(12);
+
+    const iconCenter = iconBox.y + iconBox.height / 2;
+    const textCenter = textBox.y + textBox.height / 2;
+
+    expect(Math.abs(iconCenter - textCenter)).toBeLessThan(8);
+});
+
+
+test("hall of fame list shows an empty state when no entries qualify", async ({
+    page,
+}) => {
+    await mockUnscoredArchive(page, []);
+
+    await page.goto("/");
+    await page.locator("#lists-tab").click();
+
+    const list = page.locator("#hall-of-fame-list");
+
+    await expect(list.locator(".top-list-item")).toHaveCount(0);
+
+    await expect(list.locator(".empty-state-title")).toHaveText(
+        "No records yet."
+    );
+});
