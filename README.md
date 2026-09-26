@@ -19,6 +19,25 @@ Media Tracker combines a working media archive with a layered intelligence syste
 
 ---
 
+## Screenshots
+
+### Archive Profile
+![WASABI Archive Profile](docs/images/archive-profile.png)
+
+### Library
+![WASABI Library](docs/images/library.png)
+
+### Scoring
+![WASABI Scoring](docs/images/scoring.png)
+
+### Lists
+![WASABI Lists](docs/images/lists.png)
+
+### Analytics
+![WASABI Analytics](docs/images/analytics.png)
+
+---
+
 ## What It Does
 
 Media Tracker lets you:
@@ -27,6 +46,7 @@ Media Tracker lets you:
 - Record genres, notes, completion dates, and scores.
 - Apply weighted scoring profiles appropriate to different media types.
 - Explore universal and media-specific scoring traits.
+- Filter and sort the archive by genre, media type, and score.
 - Analyze genre patterns across the archive.
 - Generate observations and findings from measurable archive evidence.
 - Identify recurring Designations and Identities.
@@ -58,7 +78,6 @@ The project began as a straightforward media-tracking application and has evolve
 - Automated regression testing
 - CI/CD workflows
 - Playwright
-- Selenium
 - Pytest
 
 ### Database Inspection
@@ -461,7 +480,7 @@ Current completed areas include:
 
 Current regression baseline:
 
-**245 tests passing, 0 failing.**
+**390 tests passing, 0 failing.**
 
 The project continues to follow an evolution-based development model rather than treating every new requirement as a reason to redesign the existing system.
 

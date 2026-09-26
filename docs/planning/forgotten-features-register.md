@@ -10,7 +10,7 @@ A media tracking, rating, and analytics app by Zachary Theilen
 # Media Tracker — Forgotten Features Register
 
 **Project:** Media Tracker  
-**Authoritative branch:** `develop-3`  
+**Authoritative branch:** `develop-4`  
 **Purpose:** Preserve previously identified product intent that could be lost while Phase 1 focuses on Intelligence Alignment  
 **Status:** Product-intent preservation register
 **Guiding principle:** Recover intent without automatically turning historical ideas into requirements

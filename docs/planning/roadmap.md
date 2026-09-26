@@ -11,7 +11,7 @@ A media tracking, rating, and analytics app by Zachary Theilen
 
 **Status:** Current Project Roadmap
 
-**Authoritative Development Branch:** `develop-3`
+**Authoritative Development Branch:** `develop-4`
 
 **Guiding Principle:** **Evolution, not rewrite.**
 
@@ -383,9 +383,9 @@ The current regression baseline is:
 
 **337 passing Python tests.**
 
-**50 passing Playwright E2E tests.**
+**52 passing Playwright E2E tests.**
 
-**388 passing tests across the complete automated test suite.**
+**390 passing tests across the complete automated test suite.**
 
 The automated test suite is executed through the unified `npm test` runner, which runs the Node configuration guardrail, the Python regression suite, and the Playwright E2E suite and reports their results together.
 
@@ -507,9 +507,9 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **337 passing Python tests.**
 
-**50 passing Playwright E2E tests.**
+**52 passing Playwright E2E tests.**
 
-**388 passing tests across the complete automated test suite.**
+**390 passing tests across the complete automated test suite.**
 
 The Python regression suite currently provides **99% statement coverage** across **747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
 

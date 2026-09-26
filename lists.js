@@ -94,6 +94,18 @@ function renderTopList(
         getReportQuery(containerId)
     );
 
+    if (entries.length === 0) {
+        container.insertAdjacentHTML("beforeend", `
+            <div class="empty-state">
+                <p class="empty-state-title">No records yet.</p>
+                <p class="empty-state-body">
+                    No entries currently meet the criteria for this list.
+                </p>
+            </div>
+        `);
+        return;
+    }
+
     entries.forEach((entry, index) => {
         const item = document.createElement("div");
         item.className = "top-list-item"
