@@ -130,3 +130,32 @@ def test_create_entry_without_consumed_date_preserves_null(
     data = response.json()
 
     assert data["date_consumed"] is None
+
+
+@pytest.mark.api
+def test_get_entries_pagination(client, valid_game_payload):
+    for index in range(3):
+        payload = copy.deepcopy(valid_game_payload)
+        payload["title"] = f"Game {index}"
+        client.post("/entries/", json=payload)
+
+    response = client.get("/entries/?page=1&limit=2")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert len(data) == 2
+
+
+@pytest.mark.api
+def test_get_entries_pagination_invalid_parameters(client):
+    response = client.get("/entries/?page=0")
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Page must be at least 1"
+
+    response = client.get("/entries/?limit=0")
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Limit must be at least 1"

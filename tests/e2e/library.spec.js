@@ -1335,3 +1335,64 @@ test("media-specific chart remains bounded when switching between records", asyn
         await expect(chartContainer).toHaveCSS("height", "220px");
     }
 });
+
+
+test("library paginates records", async ({ page, request }) => {
+    await clearEntries(request);
+
+    for (let i = 1; i <= 26; i++) {
+        const response = await request.post(
+            "http://127.0.0.1:8001/entries/",
+            {
+                data: {
+                    ...testEntries[0],
+                    title: `Pagination Test ${i}`,
+                },
+            }
+        );
+
+        expect(response.ok()).toBeTruthy();
+    }
+
+    await page.goto("/");
+
+    const entriesContainer = page.locator("#entries-container");
+    const libraryItems = entriesContainer.locator(".library-item");
+
+    await expect(
+        page.locator("#pagination-status")
+    ).toHaveText("Page 1 of 2");
+
+    await expect(libraryItems).toHaveCount(25);
+
+    await page.locator("#pagination-next").click();
+
+    await expect(
+        page.locator("#pagination-status")
+    ).toHaveText("Page 2 of 2");
+
+    await expect(libraryItems).toHaveCount(1);
+
+    await expect(
+        page.locator("#pagination-prev")
+    ).toBeEnabled();
+
+    await expect(
+        page.locator("#pagination-next")
+    ).toBeDisabled();
+});
+
+
+test("library hides pagination when all records fit on one page", async ({
+    page,
+    request,
+}) => {
+    await clearEntries(request);
+    await seedEntries(request);
+
+    await page.goto("/");
+
+    await expect(
+        page.locator("#pagination-controls")
+    ).toBeHidden();
+});

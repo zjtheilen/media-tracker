@@ -34,8 +34,28 @@ async function apiRequest(endpoint, options = {}) {
 }
 
 
-async function getEntries() {
-    return await apiRequest("/entries/");
+async function getEntries(page = null, limit = null, genre = null) {
+
+    const params = new URLSearchParams();
+
+    if (page !== null) {
+        params.set("page", page);
+    }
+
+    if (limit !== null) {
+        params.set("limit", limit);
+    }
+
+    if (genre) {
+        params.set("genre", genre);
+    }
+
+    const query = params.toString();
+
+    return await apiRequest(
+        query ? `/entries/?${query}` : "/entries/"
+    );
+
 }
 
 async function getEntry(id) {

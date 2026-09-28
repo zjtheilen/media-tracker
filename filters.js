@@ -278,6 +278,7 @@ function toggleGenreFilter(genre) {
 
     renderGenreFilterResults();
     renderActiveFilters();
+    currentPage = 1;
     loadEntries();
 }
 
@@ -323,6 +324,7 @@ function renderActiveFilters() {
 
         document.getElementById("search-input").value = "";
 
+        currentPage = 1;
         loadEntries();
         renderGenreFilters();
     });
@@ -338,6 +340,7 @@ function initializeFilters() {
         .getElementById("sort-select")
         .addEventListener("change", (event) => {
             activeSort = event.target.value;
+            currentPage = 1;
             loadEntries();
         });
 
@@ -360,6 +363,7 @@ function initializeFilters() {
                 "search-clear"
             );
 
+            currentPage = 1;
             loadEntries();
         }
     );
@@ -380,6 +384,7 @@ function initializeFilters() {
                     "search-clear"
                 );
 
+                currentPage = 1;
                 loadEntries();
 
                 searchInput.focus();
