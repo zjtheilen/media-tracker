@@ -19,6 +19,16 @@ Media Tracker combines a working media archive with a layered intelligence syste
 
 ---
 
+## Download
+
+**WASABI v1.1.0** is available as a standalone Windows executable.
+
+[Download WASABI v1.1.0](https://github.com/zjtheilen/media-tracker/releases/latest/download/WASABI.exe)
+
+Download the executable, place it somewhere convenient, and double-click it to launch WASABI in your browser. Your personal archive database is stored separately in your Windows user data directory and persists between launches.
+
+---
+
 ## Screenshots
 
 ### Archive Profile
