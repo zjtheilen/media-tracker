@@ -63,6 +63,21 @@ async function loadEntries() {
         }
     });
 
+    const totalPages = Math.max(
+        1,
+        Math.ceil(workingEntries.length / entriesPerPage),
+    );
+
+    if (currentPage > totalPages) {
+        currentPage = totalPages;
+    }
+
+    const startIndex = (currentPage - 1) * entriesPerPage;
+    const paginatedEntries = workingEntries.slice(
+        startIndex,
+        startIndex + entriesPerPage,
+    );
+
     const container = document.getElementById("entries-container");
 
     container.innerHTML = "";
@@ -78,7 +93,7 @@ async function loadEntries() {
     } else {
         const fragment = document.createDocumentFragment();
 
-        workingEntries.forEach((entry) => {
+        paginatedEntries.forEach((entry) => {
             const el = renderEntry(entry);
 
             el.dataset.id = entry.id;
@@ -92,4 +107,42 @@ async function loadEntries() {
     }
 
     renderActiveFilters();
+    updatePaginationControls(workingEntries.length);
 }
+
+
+function updatePaginationControls(totalItems) {
+    const controls = document.getElementById("pagination-controls");
+    const previousButton = document.getElementById("pagination-prev");
+    const nextButton = document.getElementById("pagination-next");
+    const status = document.getElementById("pagination-status");
+
+    const totalPages = Math.max(
+        1,
+        Math.ceil(totalItems / entriesPerPage),
+    );
+
+    controls.hidden = totalItems <= entriesPerPage;
+
+    previousButton.disabled = currentPage <= 1;
+    nextButton.disabled = currentPage >= totalPages;
+
+    status.textContent = `Page ${currentPage} of ${totalPages}`;
+}
+
+
+document
+    .getElementById("pagination-prev")
+    .addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage -= 1;
+            loadEntries();
+        }
+    });
+
+document
+    .getElementById("pagination-next")
+    .addEventListener("click", () => {
+        currentPage += 1;
+        loadEntries();
+    });

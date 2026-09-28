@@ -85,7 +85,11 @@
 
                             <div id="genre-selector"></div>
 
-                            <textarea id="notes" placeholder="Notes" aria-label="Notes"></textarea>
+                            <textarea
+                                id="notes"
+                                placeholder="Notes"
+                                aria-label="Notes"
+                            ></textarea>
 
                             <label for="date-consumed">Date Consumed</label>
                             <input type="date" id="date-consumed" />
@@ -99,9 +103,10 @@
                                 <option value="dropped">Dropped</option>
                                 <option value="planned">Planned</option>
                             </select>
-                            
+
                             <p class="score-purpose">
-                                Your scores help WASABI analyze your archive and build your Archive Profile.
+                                Your scores help WASABI analyze your archive and
+                                build your Archive Profile.
                             </p>
 
                             <div id="score-container"></div>
@@ -221,6 +226,32 @@
 
                 <h2>Archive Records</h2>
                 <div id="entries-container"></div>
+
+                <div
+                    id="pagination-controls"
+                    class="pagination-controls"
+                    aria-label="Archive pagination"
+                >
+                    <button
+                        type="button"
+                        id="pagination-prev"
+                        class="button-neutral"
+                        aria-label="Previous page"
+                    >
+                        Previous
+                    </button>
+
+                    <span id="pagination-status"></span>
+
+                    <button
+                        type="button"
+                        id="pagination-next"
+                        class="button-neutral"
+                        aria-label="Next page"
+                    >
+                        Next
+                    </button>
+                </div>
             </section>
 
             <section id="analytics-page" class="page-section" hidden>

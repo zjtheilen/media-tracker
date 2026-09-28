@@ -28,3 +28,6 @@ let activeGenreFilters = [];
 let activeSort = "date_desc";
 let searchQuery = "";
 let genreSearchQuery = "";
+
+let currentPage = 1;
+const entriesPerPage = 25;
