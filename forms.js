@@ -187,6 +187,10 @@ function resetFormState() {
 
     form.reset();
 
+    if (window.location.port === "8000") {
+        document.getElementById("entryModal").close();
+    }
+
     selectedGenres = [];
     renderGenreFormSelector(mediaTypeSelect.value);
     renderScoreInputs(mediaTypeSelect.value, {});

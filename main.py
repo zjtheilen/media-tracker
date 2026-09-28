@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Dict, Optional
 from datetime import date
@@ -499,3 +500,17 @@ def get_identity():
     profile = get_archive_profile()
 
     return generate_identity(profile)
+
+
+@app.api_route(
+    "/entries",
+    methods=["GET", "POST"],
+    include_in_schema=False,
+)
+async def entries_redirect(request: Request):
+    query = request.url.query
+    url = "/entries/" + (f"?{query}" if query else "")
+    return RedirectResponse(url=url, status_code=307)
+
+
+app.mount("/", StaticFiles(directory=".", html=True), name="frontend")

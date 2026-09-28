@@ -1,12 +1,28 @@
 import os
 import sqlite3
+import sys
 from contextlib import contextmanager
 
 SCHEMA_VERSION = 3
 
 
 def get_db_path():
-    return os.getenv("DB_PATH", "database.db")
+    db_path = os.getenv("DB_PATH")
+
+    if db_path:
+        return db_path
+
+    if getattr(sys, "frozen", False):
+        app_data = os.getenv("LOCALAPPDATA")
+        if not app_data:
+            raise RuntimeError("LOCALAPPDATA is not available")
+
+        data_dir = os.path.join(app_data, "WASABI")
+        os.makedirs(data_dir, exist_ok=True)
+
+        return os.path.join(data_dir, "database.db")
+
+    return "database.db"
 
 
 @contextmanager
