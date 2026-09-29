@@ -7,7 +7,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from db import get_connection, init_db
 from models.analytics.genre_statistics import (
@@ -44,7 +44,13 @@ from models.services.archive_engine import build_archive_profile
 from models.services.archive_mapper import entry_to_archive_format
 from models.services.identity_engine import generate_identity
 from models.services.identity_scorer import evaluate_identity_scores
-from models.services.portable_archive import archive_to_json, export_archive
+from models.services.portable_archive import (
+    archive_to_json,
+    compare_archives,
+    export_archive,
+    json_to_archive,
+    restore_archive,
+)
 from models.services.scoring_rubric import CONDENSED_RUBRICS
 
 VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
@@ -517,10 +523,44 @@ async def export_archive_endpoint():
     return Response(
         content=archive_to_json(archive),
         media_type="application/json",
-        headers={
-            "Content-Disposition": 'attachment; filename="wasabi-archive.json"'
-        },
+        headers={"Content-Disposition": 'attachment; filename="wasabi-archive.json"'},
     )
+
+
+@app.post("/archive/import/preview")
+async def import_archive_preview(request: Request):
+    json_text = (await request.body()).decode("utf-8")
+
+    try:
+        imported_archive = json_to_archive(json_text)
+    except (json.JSONDecodeError, ValidationError) as exc:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid archive",
+        ) from exc
+
+    current_archive = export_archive()
+
+    return compare_archives(imported_archive, current_archive)
+
+
+@app.post("/archive/import")
+async def import_archive(request: Request):
+    json_text = (await request.body()).decode("utf-8")
+
+    try:
+        archive = json_to_archive(json_text)
+    except (json.JSONDecodeError, ValidationError) as exc:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid archive",
+        ) from exc
+
+    restore_archive(archive)
+
+    return {
+        "imported_count": len(archive.entries),
+    }
 
 
 app.mount("/", StaticFiles(directory=".", html=True), name="frontend")

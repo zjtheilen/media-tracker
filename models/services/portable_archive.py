@@ -2,7 +2,14 @@ import json
 from datetime import datetime, timezone
 
 from db import get_connection
-from models.portable_archive import PortableArchive, PortableArchiveEntry, RestorePreview
+from models.entry import Entry
+from models.media_item import MediaItem
+from models.portable_archive import (
+    PortableArchive,
+    PortableArchiveEntry,
+    RestorePreview,
+)
+from models.score import Score
 
 
 def _row_to_portable_entry(row) -> PortableArchiveEntry:
@@ -29,6 +36,39 @@ def _row_to_portable_entry(row) -> PortableArchiveEntry:
         historical_score=row["historical_score"],
         historical_scores=historical_scores,
     )
+
+
+def _portable_entry_to_row(entry: PortableArchiveEntry) -> tuple:
+    return (
+        entry.id,
+        entry.media_type,
+        entry.title,
+        json.dumps(entry.genres),
+        entry.completion_status,
+        entry.notes,
+        entry.date_consumed.isoformat() if entry.date_consumed else None,
+        json.dumps(entry.scores),
+        int(entry.favorite),
+        entry.historical_score,
+        json.dumps(entry.historical_scores)
+        if entry.historical_scores is not None
+        else None,
+    )
+
+
+def _portable_entry_total_score(entry: PortableArchiveEntry) -> float:
+    scores = [Score(category, value) for category, value in entry.scores.items()]
+
+    model_entry = Entry(
+        media_item=MediaItem(entry.title, entry.media_type),
+        genres=entry.genres,
+        scores=scores,
+        notes=entry.notes or "",
+        date_consumed=entry.date_consumed,
+        completion_status=entry.completion_status,
+    )
+
+    return model_entry.total_score()
 
 
 def export_archive() -> PortableArchive:
@@ -66,6 +106,11 @@ def archive_to_json(archive: PortableArchive) -> str:
     return archive.model_dump_json(indent=2)
 
 
+def json_to_archive(json_text: str) -> PortableArchive:
+    data = json.loads(json_text)
+    return PortableArchive.model_validate(data)
+
+
 def compare_archives(
     imported_archive: PortableArchive,
     current_archive: PortableArchive,
@@ -98,3 +143,50 @@ def compare_archives(
         unchanged_count=len(unchanged_ids),
         validation_errors=[],
     )
+
+
+def restore_archive(archive: PortableArchive) -> None:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM entries")
+
+        for entry in archive.entries:
+            cursor.execute(
+                """
+                INSERT INTO entries (
+                    id,
+                    media_type,
+                    title,
+                    genres,
+                    completion_status,
+                    total_score,
+                    notes,
+                    date_consumed,
+                    scores,
+                    favorite,
+                    historical_score,
+                    historical_scores
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    entry.id,
+                    entry.media_type,
+                    entry.title,
+                    json.dumps(entry.genres),
+                    entry.completion_status,
+                    _portable_entry_total_score(entry),
+                    entry.notes,
+                    entry.date_consumed.isoformat()
+                    if entry.date_consumed
+                    else None,
+                    json.dumps(entry.scores),
+                    int(entry.favorite),
+                    entry.historical_score,
+                    json.dumps(entry.historical_scores)
+                    if entry.historical_scores is not None
+                    else None,
+                ),
+            )
+        conn.commit()

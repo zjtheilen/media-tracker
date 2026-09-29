@@ -6,15 +6,22 @@ from datetime import date, datetime, timezone
 import pytest
 from pydantic import ValidationError
 
+from models.entry import Entry
+from models.media_item import MediaItem
 from models.portable_archive import (
     PortableArchive,
     PortableArchiveEntry,
     RestorePreview,
 )
+from models.score import Score
 from models.services.portable_archive import (
+    _portable_entry_to_row,
+    _portable_entry_total_score,
     archive_to_json,
     compare_archives,
     export_archive,
+    json_to_archive,
+    restore_archive,
 )
 
 
@@ -440,3 +447,329 @@ def test_import_archive_from_json():
 def test_import_archive_from_invalid_json():
     with pytest.raises((ValidationError, ValueError)):
         PortableArchive.model_validate_json("{not valid json")
+
+
+def test_json_to_archive_round_trip():
+    archive = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=[PortableArchiveEntry(**valid_entry_data())],
+    )
+
+    json_text = archive_to_json(archive)
+    restored = json_to_archive(json_text)
+
+    assert restored.format == archive.format
+    assert restored.version == archive.version
+    assert restored.exported_at == archive.exported_at
+    assert restored.entries == archive.entries
+
+
+def test_json_to_archive_rejects_invalid_json():
+    with pytest.raises(json.JSONDecodeError):
+        json_to_archive("{not valid json")
+
+    invalid_archive = json.dumps({
+        "format": "wasabi-archive",
+        "version": 999,
+        "exported_at": "2026-09-28T12:34:56Z",
+        "entries": [],
+    })
+
+    with pytest.raises(ValidationError):
+        json_to_archive(invalid_archive)
+
+
+def test_portable_entry_total_score_uses_existing_scoring():
+    entry = PortableArchiveEntry(**valid_entry_data())
+
+    scores = [Score(category, value) for category, value in entry.scores.items()]
+
+    model_entry = Entry(
+        media_item=MediaItem(entry.title, entry.media_type),
+        genres=entry.genres,
+        scores=scores,
+        notes=entry.notes or "",
+        date_consumed=entry.date_consumed,
+        completion_status=entry.completion_status,
+    )
+
+    assert _portable_entry_total_score(entry) == model_entry.total_score()
+
+
+def test_portable_entry_to_row_preserves_persisted_fields():
+    entry = PortableArchiveEntry(**valid_entry_data())
+
+    row = _portable_entry_to_row(entry)
+
+    assert row == (
+        entry.id,
+        entry.media_type,
+        entry.title,
+        json.dumps(entry.genres),
+        entry.completion_status,
+        entry.notes,
+        entry.date_consumed.isoformat(),
+        json.dumps(entry.scores),
+        1,
+        entry.historical_score,
+        json.dumps(entry.historical_scores),
+    )
+
+
+def test_restore_archive_inserts_entries():
+    archive = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=[PortableArchiveEntry(**valid_entry_data())],
+    )
+
+    restore_archive(archive)
+
+    conn = sqlite3.connect(os.environ["DB_PATH"])
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM entries WHERE id = ?", (archive.entries[0].id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    assert row is not None
+    assert row["id"] == archive.entries[0].id
+    assert row["title"] == "Example Title"
+    assert row["media_type"] == "game"
+    assert json.loads(row["genres"]) == ["rpg"]
+    assert json.loads(row["scores"]) == {"story": 9, "gameplay": 8}
+    assert row["favorite"] == 1
+    assert row["notes"] == "Example notes."
+    assert row["date_consumed"] == "2026-09-20"
+    assert row["completion_status"] == "completed"
+    assert row["historical_score"] == 91.5
+    assert json.loads(row["historical_scores"]) == {
+        "story": 9,
+        "gameplay": 8,
+    }
+
+
+def test_restore_archive_replaces_existing_archive():
+    current_entry_data = valid_entry_data()
+    current_entry_data["title"] = "Existing Entry"
+
+    removed_entry_data = valid_entry_data()
+    removed_entry_data["id"] = "550e8400-e29b-41d4-a716-446655440001"
+    removed_entry_data["title"] = "Entry To Remove"
+
+    imported_entry_data = valid_entry_data()
+    imported_entry_data["title"] = "Imported Replacement"
+
+    new_entry_data = valid_entry_data()
+    new_entry_data["id"] = "550e8400-e29b-41d4-a716-446655440002"
+    new_entry_data["title"] = "New Imported Entry"
+
+    current_entries = [
+        PortableArchiveEntry(**current_entry_data),
+        PortableArchiveEntry(**removed_entry_data),
+    ]
+
+    imported_entries = [
+        PortableArchiveEntry(**imported_entry_data),
+        PortableArchiveEntry(**new_entry_data),
+    ]
+
+    current_archive = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=current_entries,
+    )
+
+    imported_archive = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=imported_entries,
+    )
+
+    restore_archive(current_archive)
+    restore_archive(imported_archive)
+
+    restored = export_archive()
+
+    assert len(restored.entries) == 2
+    assert {entry.id for entry in restored.entries} == {
+        imported_entries[0].id,
+        imported_entries[1].id,
+    }
+
+    replacement = next(
+        entry for entry in restored.entries if entry.id == imported_entries[0].id
+    )
+    assert replacement.title == "Imported Replacement"
+
+    assert not any(entry.id == current_entries[1].id for entry in restored.entries)
+
+
+def test_restore_archive_rolls_back_on_failure(monkeypatch):
+    existing_entry_data = valid_entry_data()
+    existing_entry_data["title"] = "Existing Entry"
+
+    existing_archive = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=[PortableArchiveEntry(**existing_entry_data)],
+    )
+
+    restore_archive(existing_archive)
+
+    first_entry_data = valid_entry_data()
+    first_entry_data["title"] = "Imported Entry"
+
+    second_entry_data = valid_entry_data()
+    second_entry_data["id"] = "550e8400-e29b-41d4-a716-446655440001"
+    second_entry_data["title"] = "Second Imported Entry"
+
+    failing_archive = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=[
+            PortableArchiveEntry(**first_entry_data),
+            PortableArchiveEntry(**second_entry_data),
+        ],
+    )
+
+    original_total_score = _portable_entry_total_score
+
+    call_count = 0
+
+    def fail_on_second_entry(entry):
+        nonlocal call_count
+        call_count += 1
+
+        if call_count == 2:
+            raise RuntimeError("Simulated restore failure")
+
+        return original_total_score(entry)
+
+    monkeypatch.setattr(
+        "models.services.portable_archive._portable_entry_total_score",
+        fail_on_second_entry,
+    )
+
+    with pytest.raises(RuntimeError, match="Simulated restore failure"):
+        restore_archive(failing_archive)
+
+    restored = export_archive()
+
+    assert len(restored.entries) == 1
+    assert restored.entries[0].id == existing_archive.entries[0].id
+    assert restored.entries[0].title == "Existing Entry"
+
+
+def test_import_archive_preview_endpoint(client):
+    response = client.post(
+        "/archive/import/preview",
+        content=json.dumps(valid_archive_data()),
+        headers={"Content-Type": "application/json"},
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["imported_count"] == 1
+    assert data["current_count"] == 0
+    assert data["add_count"] == 1
+    assert data["replace_count"] == 0
+    assert data["remove_count"] == 0
+    assert data["unchanged_count"] == 0
+    assert data["validation_errors"] == []
+
+
+def test_import_archive_preview_does_not_modify_archive(client):
+    existing_entry_data = valid_entry_data()
+    existing_entry_data["title"] = "Existing Entry"
+
+    existing_archive = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=[PortableArchiveEntry(**existing_entry_data)],
+    )
+
+    restore_archive(existing_archive)
+
+    imported_entry_data = valid_entry_data()
+    imported_entry_data["id"] = "550e8400-e29b-41d4-a716-446655440001"
+    imported_entry_data["title"] = "Imported Entry"
+
+    imported_archive_data = {
+        "format": "wasabi-archive",
+        "version": 1,
+        "exported_at": "2026-09-28T12:34:56Z",
+        "entries": [imported_entry_data],
+    }
+
+    response = client.post(
+        "/archive/import/preview",
+        content=json.dumps(imported_archive_data),
+        headers={"Content-Type": "application/json"},
+    )
+
+    assert response.status_code == 200
+
+    restored = export_archive()
+
+    assert len(restored.entries) == 1
+    assert restored.entries[0].id == existing_archive.entries[0].id
+    assert restored.entries[0].title == "Existing Entry"
+
+
+def test_import_archive_endpoint_restores_archive(client):
+    response = client.post(
+        "/archive/import",
+        content=json.dumps(valid_archive_data()),
+        headers={"Content-Type": "application/json"},
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"imported_count": 1}
+
+    restored = export_archive()
+
+    assert len(restored.entries) == 1
+    assert restored.entries[0].id == valid_entry_data()["id"]
+    assert restored.entries[0].title == "Example Title"
+
+
+def test_import_archive_endpoint_rejects_invalid_archive(client):
+    response = client.post(
+        "/archive/import",
+        content=json.dumps({
+            "format": "wasabi-archive",
+            "version": 999,
+            "exported_at": "2026-09-28T12:34:56Z",
+            "entries": [],
+        }),
+        headers={"Content-Type": "application/json"},
+    )
+
+    assert response.status_code == 400
+
+
+def test_import_archive_preview_rejects_invalid_archive(client):
+    response = client.post(
+        "/archive/import/preview",
+        content=json.dumps({
+            "format": "wasabi-archive",
+            "version": 999,
+            "exported_at": "2026-09-28T12:34:56Z",
+            "entries": [],
+        }),
+        headers={"Content-Type": "application/json"},
+    )
+
+    assert response.status_code == 400
