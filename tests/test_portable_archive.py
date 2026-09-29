@@ -6,8 +6,16 @@ from datetime import date, datetime, timezone
 import pytest
 from pydantic import ValidationError
 
-from models.portable_archive import PortableArchive, PortableArchiveEntry
-from models.services.portable_archive import archive_to_json, export_archive
+from models.portable_archive import (
+    PortableArchive,
+    PortableArchiveEntry,
+    RestorePreview,
+)
+from models.services.portable_archive import (
+    archive_to_json,
+    compare_archives,
+    export_archive,
+)
 
 
 def valid_entry_data():
@@ -261,3 +269,174 @@ def test_export_archive_endpoint_includes_entries(client):
     }
     assert data["entries"][0]["favorite"] is True
     assert data["entries"][0]["historical_score"] == 91.5
+
+
+def test_valid_restore_preview():
+    preview = RestorePreview(
+        imported_count=94,
+        current_count=87,
+        add_count=12,
+        replace_count=70,
+        remove_count=5,
+        unchanged_count=12,
+        validation_errors=[],
+    )
+
+    assert preview.imported_count == 94
+    assert preview.current_count == 87
+    assert preview.add_count == 12
+    assert preview.replace_count == 70
+    assert preview.remove_count == 5
+    assert preview.unchanged_count == 12
+    assert preview.validation_errors == []
+
+
+def test_restore_preview_can_contain_validation_errors():
+    preview = RestorePreview(
+        imported_count=0,
+        current_count=94,
+        add_count=0,
+        replace_count=0,
+        remove_count=0,
+        unchanged_count=0,
+        validation_errors=["Unsupported archive version"],
+    )
+
+    assert preview.validation_errors == ["Unsupported archive version"]
+
+
+def test_compare_archives_classifies_entries():
+    current = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=[
+            valid_entry_data(),
+            {
+                **valid_entry_data(),
+                "id": "650e8400-e29b-41d4-a716-446655440000",
+                "title": "Unchanged Title",
+            },
+            {
+                **valid_entry_data(),
+                "id": "750e8400-e29b-41d4-a716-446655440000",
+                "title": "Local Only",
+            },
+        ],
+    )
+
+    imported = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T13:34:56Z",
+        entries=[
+            valid_entry_data(),
+            {
+                **valid_entry_data(),
+                "id": "650e8400-e29b-41d4-a716-446655440000",
+                "title": "Unchanged Title",
+            },
+            {
+                **valid_entry_data(),
+                "id": "850e8400-e29b-41d4-a716-446655440000",
+                "title": "Imported Only",
+            },
+        ],
+    )
+
+    preview = compare_archives(imported, current)
+
+    assert preview.imported_count == 3
+    assert preview.current_count == 3
+    assert preview.add_count == 1
+    assert preview.replace_count == 0
+    assert preview.remove_count == 1
+    assert preview.unchanged_count == 2
+    assert preview.validation_errors == []
+
+
+def test_compare_archives_classifies_replaced_entry():
+    current = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T12:34:56Z",
+        entries=[valid_entry_data()],
+    )
+
+    imported_entry = {
+        **valid_entry_data(),
+        "title": "Updated Title",
+    }
+
+    imported = PortableArchive(
+        format="wasabi-archive",
+        version=1,
+        exported_at="2026-09-28T13:34:56Z",
+        entries=[imported_entry],
+    )
+
+    preview = compare_archives(imported, current)
+
+    assert preview.imported_count == 1
+    assert preview.current_count == 1
+    assert preview.add_count == 0
+    assert preview.replace_count == 1
+    assert preview.remove_count == 0
+    assert preview.unchanged_count == 0
+    assert preview.validation_errors == []
+
+
+def test_portable_archive_rejects_duplicate_entry_ids():
+    entry = valid_entry_data()
+
+    with pytest.raises(ValidationError):
+        PortableArchive(
+            format="wasabi-archive",
+            version=1,
+            exported_at="2026-09-28T12:34:56Z",
+            entries=[
+                entry,
+                {**entry, "title": "Duplicate ID"},
+            ],
+        )
+
+
+def test_portable_archive_rejects_invalid_format():
+    data = valid_archive_data()
+    data["format"] = "not-wasabi"
+
+    with pytest.raises(ValidationError):
+        PortableArchive(**data)
+
+
+def test_portable_archive_rejects_unsupported_version():
+    data = valid_archive_data()
+    data["version"] = 999
+
+    with pytest.raises(ValidationError):
+        PortableArchive(**data)
+
+
+def test_portable_archive_rejects_non_utc_exported_at():
+    data = valid_archive_data()
+    data["exported_at"] = "2026-09-28T12:34:56"
+
+    with pytest.raises(ValidationError):
+        PortableArchive(**data)
+
+
+def test_import_archive_from_json():
+    data = valid_archive_data()
+
+    archive = PortableArchive.model_validate_json(json.dumps(data))
+
+    assert archive.format == "wasabi-archive"
+    assert archive.version == 1
+    assert len(archive.entries) == 1
+    assert archive.entries[0].title == "Example Title"
+    assert archive.entries[0].date_consumed == date(2026, 9, 20)
+
+
+def test_import_archive_from_invalid_json():
+    with pytest.raises((ValidationError, ValueError)):
+        PortableArchive.model_validate_json("{not valid json")

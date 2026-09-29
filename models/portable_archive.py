@@ -2,7 +2,7 @@ from datetime import date, datetime
 from typing import Any
 from uuid import UUID
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, model_validator
 
 from models.scoring_profile import VALID_MEDIA_TYPES
 
@@ -12,6 +12,9 @@ VALID_COMPLETION_STATUSES = {
     "dropped",
     "planned",
 }
+
+PORTABLE_ARCHIVE_FORMAT = "wasabi-archive"
+SUPPORTED_PORTABLE_ARCHIVE_VERSION = 1
 
 
 class PortableArchiveEntry(BaseModel):
@@ -46,7 +49,6 @@ class PortableArchiveEntry(BaseModel):
         if value not in VALID_MEDIA_TYPES:
             raise ValueError("Invalid media type")
         return value
-
 
     @field_validator("genres")
     @classmethod
@@ -83,3 +85,47 @@ class PortableArchive(BaseModel):
     version: int
     exported_at: datetime
     entries: list[PortableArchiveEntry]
+
+    @model_validator(mode="after")
+    def validate_unique_entry_ids(self):
+        ids = [entry.id for entry in self.entries]
+
+        if len(ids) != len(set(ids)):
+            raise ValueError("Duplicate entry IDs are not allowed")
+
+        return self
+
+    @field_validator("format")
+    @classmethod
+    def validate_format(cls, value: str) -> str:
+        if value != PORTABLE_ARCHIVE_FORMAT:
+            raise ValueError("Invalid archive format")
+        return value
+
+    @field_validator("version")
+    @classmethod
+    def validate_version(cls, value: int) -> int:
+        if value != SUPPORTED_PORTABLE_ARCHIVE_VERSION:
+            raise ValueError("Unsupported archive version")
+        return value
+
+    @field_validator("exported_at")
+    @classmethod
+    def validate_exported_at(cls, value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("exported_at must include a timezone")
+
+        if value.utcoffset().total_seconds() != 0:
+            raise ValueError("exported_at must be in UTC")
+
+        return value
+
+
+class RestorePreview(BaseModel):
+    imported_count: int
+    current_count: int
+    add_count: int
+    replace_count: int
+    remove_count: int
+    unchanged_count: int
+    validation_errors: list[str]
