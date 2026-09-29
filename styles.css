@@ -1302,7 +1302,8 @@ textarea {
    ============================================================= */
 
 #entryModal,
-#deleteModal {
+#deleteModal,
+#importPreviewModal {
     width: min(90vw, 650px);
     max-height: 85vh;
 
@@ -1323,23 +1324,27 @@ textarea {
 }
 
 #entryModal::-webkit-scrollbar,
-#deleteModal::-webkit-scrollbar {
+#deleteModal::-webkit-scrollbar,
+#importPreviewModal::-webkit-scrollbar {
     width: 8px;
 }
 
 #entryModal::-webkit-scrollbar-track,
-#deleteModal::-webkit-scrollbar-track {
+#deleteModal::-webkit-scrollbar-track,
+#importPreviewModal::-webkit-scrollbar-track {
     background: transparent;
 }
 
 #entryModal::-webkit-scrollbar-thumb,
-#deleteModal::-webkit-scrollbar-thumb {
+#deleteModal::-webkit-scrollbar-thumb,
+#importPreviewModal::-webkit-scrollbar-thumb {
     background: var(--accent);
     border-radius: var(--radius-sm);
 }
 
 #entryModal::-webkit-scrollbar-thumb:hover,
-#deleteModal::-webkit-scrollbar-thumb:hover {
+#deleteModal::-webkit-scrollbar-thumb:hover,
+#importPreviewModal::-webkit-scrollbar-thumb:hover {
     background: var(--highlight);
 }
 

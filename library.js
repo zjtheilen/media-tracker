@@ -1,3 +1,18 @@
+const exportBtn = document.getElementById("exportBtn");
+const importBtn = document.getElementById("importBtn");
+const importFile = document.getElementById("importFile");
+
+const importPreviewModal = document.getElementById("importPreviewModal");
+const cancelImportBtn = document.getElementById("cancelImportBtn");
+const restoreImportBtn = document.getElementById("restoreImportBtn");
+
+const previewImportedCount = document.getElementById("previewImportedCount");
+const previewUnchangedCount = document.getElementById("previewUnchangedCount");
+const previewAddCount = document.getElementById("previewAddCount");
+const previewReplaceCount = document.getElementById("previewReplaceCount");
+const previewRemoveCount = document.getElementById("previewRemoveCount");
+
+
 function createBaseEntry() {
     return document.createElement("div");
 }
@@ -146,3 +161,90 @@ document
         currentPage += 1;
         loadEntries();
     });
+
+exportBtn.addEventListener("click", () => {
+    window.location.href = `${API_BASE_URL}/archive/export`;
+});
+
+importBtn.addEventListener("click", () => {
+    importFile.click();
+});
+
+importFile.addEventListener("change", async () => {
+    const file = importFile.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const jsonText = await file.text();
+    pendingImportJson = jsonText;
+
+    let response;
+
+    try {
+        response = await fetch(
+            `${API_BASE_URL}/archive/import/preview`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: jsonText,
+            },
+        );
+    } catch (error) {
+        alert("Unable to preview the archive.");
+        return;
+    }
+
+    if (!response.ok) {
+        alert("The selected file is not a valid WASABI archive.");
+        return;
+    }
+
+    const preview = await response.json();
+
+    previewImportedCount.textContent = preview.imported_count;
+    previewUnchangedCount.textContent = preview.unchanged_count;
+    previewAddCount.textContent = preview.add_count;
+    previewReplaceCount.textContent = preview.replace_count;
+    previewRemoveCount.textContent = preview.remove_count;
+
+    importPreviewModal.showModal();
+
+    importFile.value = "";
+});
+
+cancelImportBtn.addEventListener("click", () => {
+    importPreviewModal.close();
+});
+
+restoreImportBtn.addEventListener("click", async () => {
+    let response;
+
+    try {
+        response = await fetch(
+            `${API_BASE_URL}/archive/import`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: pendingImportJson,
+            },
+        );
+    } catch (error) {
+        alert("Unable to restore the archive.");
+        return;
+    }
+
+    if (!response.ok) {
+        alert("The archive could not be restored.");
+        return;
+    }
+
+    importPreviewModal.close();
+    pendingImportJson = null;
+    await loadEntries();
+});

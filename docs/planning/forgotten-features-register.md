@@ -209,7 +209,7 @@ This should be treated as scale work rather than an invitation to redesign the L
 
 ## 4.5 Import / Export
 
-**Status:** `ROADMAP-LOCKED`  
+**Status:** Implemented in v1.2.
 **Phase:** Phase 5
 
 ### JSON Export

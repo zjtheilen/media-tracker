@@ -64,6 +64,20 @@
                     <i class="media-icon" data-lucide="plus"></i>
                     Create Archive Record
                 </button>
+                <button type="button" id="exportBtn" class="button-neutral">
+                    <i class="media-icon" data-lucide="download"></i>
+                    Export Archive
+                </button>
+                <input
+                    type="file"
+                    id="importFile"
+                    accept=".json,application/json"
+                    hidden
+                />
+                <button type="button" id="importBtn" class="button-neutral">
+                    <i class="media-icon" data-lucide="upload"></i>
+                    Import Archive
+                </button>
 
                 <dialog id="entryModal">
                     <form id="entry-form">
@@ -129,6 +143,44 @@
                             </button>
                         </div>
                     </form>
+                </dialog>
+                <dialog id="importPreviewModal">
+                    <h2>Import Archive</h2>
+
+                    <div id="importPreview">
+                        <p>Review the changes before restoring your archive.</p>
+
+                        <ul>
+                            <li>
+                                Imported:
+                                <span id="previewImportedCount"></span>
+                            </li>
+                            <li>
+                                Unchanged:
+                                <span id="previewUnchangedCount"></span>
+                            </li>
+                            <li>Added: <span id="previewAddCount"></span></li>
+                            <li>
+                                Replaced: <span id="previewReplaceCount"></span>
+                            </li>
+                            <li>
+                                Removed: <span id="previewRemoveCount"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="dialog-actions">
+                        <button
+                            type="button"
+                            id="cancelImportBtn"
+                            class="button-neutral"
+                        >
+                            Cancel
+                        </button>
+                        <button type="button" id="restoreImportBtn">
+                            Restore Archive
+                        </button>
+                    </div>
                 </dialog>
                 <dialog id="deleteModal">
                     <p>
