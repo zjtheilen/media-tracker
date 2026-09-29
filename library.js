@@ -180,16 +180,28 @@ importFile.addEventListener("change", async () => {
     const jsonText = await file.text();
     pendingImportJson = jsonText;
 
-    const response = await fetch(
-        `${API_BASE_URL}/archive/import/preview`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+    let response;
+
+    try {
+        response = await fetch(
+            `${API_BASE_URL}/archive/import/preview`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: jsonText,
             },
-            body: jsonText,
-        },
-    );
+        );
+    } catch (error) {
+        alert("Unable to preview the archive.");
+        return;
+    }
+
+    if (!response.ok) {
+        alert("The selected file is not a valid WASABI archive.");
+        return;
+    }
 
     const preview = await response.json();
 
@@ -200,6 +212,8 @@ importFile.addEventListener("change", async () => {
     previewRemoveCount.textContent = preview.remove_count;
 
     importPreviewModal.showModal();
+
+    importFile.value = "";
 });
 
 cancelImportBtn.addEventListener("click", () => {
@@ -207,18 +221,28 @@ cancelImportBtn.addEventListener("click", () => {
 });
 
 restoreImportBtn.addEventListener("click", async () => {
-    const response = await fetch(
-        `${API_BASE_URL}/archive/import`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: pendingImportJson,
-        },
-    );
+    let response;
 
-    const result = await response.json();
+    try {
+        response = await fetch(
+            `${API_BASE_URL}/archive/import`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: pendingImportJson,
+            },
+        );
+    } catch (error) {
+        alert("Unable to restore the archive.");
+        return;
+    }
+
+    if (!response.ok) {
+        alert("The archive could not be restored.");
+        return;
+    }
 
     importPreviewModal.close();
     pendingImportJson = null;
