@@ -100,6 +100,8 @@ The application supports recording and managing media entries with information i
 
 The archive supports books, games, and video.
 
+The archive is portable through JSON export and import. Exported archives preserve user-owned archive data independently of the SQLite storage schema and can be restored through a validation and preview workflow.
+
 ---
 
 ## 4.2 Scoring
@@ -385,7 +387,7 @@ The current regression baseline is:
 
 **52 passing Playwright E2E tests.**
 
-**390 passing tests across the complete automated test suite.**
+**429 passing tests across the complete automated test suite.**
 
 The automated test suite is executed through the unified `npm test` runner, which runs the Node configuration guardrail, the Python regression suite, and the Playwright E2E suite and reports their results together.
 

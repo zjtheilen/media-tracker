@@ -27,6 +27,16 @@ Media Tracker combines a working media archive with a layered intelligence syste
 
 Download the executable, place it somewhere convenient, and double-click it to launch WASABI in your browser. Your personal archive database is stored separately in your Windows user data directory and persists between launches.
 
+### Archive Backup and Restore
+
+WASABI can export your personal archive as a portable JSON file and restore it later.
+
+Use **Export Archive** from the Library to create `wasabi-archive.json`. The exported archive contains your recorded media data and can be used as a backup or transferred to another WASABI installation.
+
+To restore an archive, use **Import Archive** and select a previously exported JSON file. WASABI validates the archive and shows a preview of the changes before anything is written to the database. Restoring an archive requires explicit confirmation and replaces the current archive with the imported archive.
+
+Portable archives are independent of the application's SQLite database schema and are designed to preserve the archive across application installations and schema changes.
+
 ---
 
 ## Screenshots

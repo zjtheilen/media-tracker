@@ -50,7 +50,7 @@ The following derived fields are excluded:
 - Validate before mutation.
 - Import is transactional.
 - Partial imports are never committed.
-- Portable archive validation is distinct from new-entry creation validation; existing archive data must be accepted when it can be restored without loss.
+- Portable archive validation is distinct from new-entry creation validation. Import validation must preserve existing archive data when it can be restored without loss, including historical values that may no longer be accepted by current entry-creation validation.
 
 ## Field-Level Contract
 
@@ -76,7 +76,7 @@ The portable archive format is a representation of user-owned archive data. It i
 | `id`                | string    |      Yes |       No | `entries.id`                | Valid UUID                                                             |
 | `title`             | string    |      Yes |       No | `entries.title`             | Non-empty                                                              |
 | `media_type`        | string    |      Yes |       No | `entries.media_type`        | Valid WASABI media type                                                |
-| `genres`            | array     |      Yes |       No | `entries.genres`            | Array of valid WASABI genres; may be empty                             |
+| `genres`            | array     |      Yes |       No | `entries.genres`            | array of non-empty strings, may be empty                               |
 | `scores`            | object    |      Yes |       No | `entries.scores`            | Object of valid score categories and integer values 1–10; may be empty |
 | `notes`             | string    |       No |      Yes | `entries.notes`             | String or null; preserved without interpretation                       |
 | `date_consumed`     | string    |       No |      Yes | `entries.date_consumed`     | ISO-8601 date (YYYY-MM-DD) or null                                     |
