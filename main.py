@@ -1,53 +1,51 @@
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse, RedirectResponse
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
-from typing import Dict, Optional
-from datetime import date
 import json
 from contextlib import asynccontextmanager
+from datetime import date
+from typing import Dict, Optional
 
-from models.media_item import MediaItem
-from models.scoring_profile import (
-    VALID_MEDIA_TYPES,
-    UNIVERSAL_SCORING_PROFILE,
-    MEDIA_SCORING_PROFILES,
-    get_universal_categories,
-    get_all_categories,
-)
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, RedirectResponse, Response
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
-from models.score import Score
-from models.entry import Entry
-from db import init_db, get_connection
-from models.responses import (
-    EntryResponse,
-    UpdateEntryResponse,
-    DeleteEntryResponse,
-    StatsResponse,
-    row_to_entry_response,
-)
-
-from models.genre_registry import (
-    CORE_GENRES,
-    GAME_GENRES,
-    BOOK_GENRES,
-    VIDEO_GENRES,
-    get_allowed_genres,
-)
-
-from models.services.archive_mapper import entry_to_archive_format
-from models.services.archive_engine import build_archive_profile
-from models.services.scoring_rubric import CONDENSED_RUBRICS
-
+from db import get_connection, init_db
 from models.analytics.genre_statistics import (
-    get_genre_statistics,
     get_favorite_genre_combinations,
+    get_genre_statistics,
     get_media_genre_affinity,
     get_top_genres_by_score,
 )
+from models.entry import Entry
+from models.genre_registry import (
+    BOOK_GENRES,
+    CORE_GENRES,
+    GAME_GENRES,
+    VIDEO_GENRES,
+    get_allowed_genres,
+)
+from models.media_item import MediaItem
+from models.responses import (
+    DeleteEntryResponse,
+    EntryResponse,
+    StatsResponse,
+    UpdateEntryResponse,
+    row_to_entry_response,
+)
+from models.score import Score
+from models.scoring_profile import (
+    MEDIA_SCORING_PROFILES,
+    UNIVERSAL_SCORING_PROFILE,
+    VALID_MEDIA_TYPES,
+    get_all_categories,
+    get_universal_categories,
+)
+from models.services.archive_engine import build_archive_profile
+from models.services.archive_mapper import entry_to_archive_format
 from models.services.identity_engine import generate_identity
 from models.services.identity_scorer import evaluate_identity_scores
+from models.services.portable_archive import archive_to_json, export_archive
+from models.services.scoring_rubric import CONDENSED_RUBRICS
 
 VALID_COMPLETION_STATUSES = {"completed", "in-progress", "dropped", "planned"}
 
@@ -511,6 +509,18 @@ async def entries_redirect(request: Request):
     query = request.url.query
     url = "/entries/" + (f"?{query}" if query else "")
     return RedirectResponse(url=url, status_code=307)
+
+
+@app.get("/archive/export")
+async def export_archive_endpoint():
+    archive = export_archive()
+    return Response(
+        content=archive_to_json(archive),
+        media_type="application/json",
+        headers={
+            "Content-Disposition": 'attachment; filename="wasabi-archive.json"'
+        },
+    )
 
 
 app.mount("/", StaticFiles(directory=".", html=True), name="frontend")

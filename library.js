@@ -1,3 +1,6 @@
+const exportBtn = document.getElementById("exportBtn");
+
+
 function createBaseEntry() {
     return document.createElement("div");
 }
@@ -146,3 +149,7 @@ document
         currentPage += 1;
         loadEntries();
     });
+
+exportBtn.addEventListener("click", () => {
+    window.location.href = `${API_BASE_URL}/archive/export`;
+});
