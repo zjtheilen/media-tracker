@@ -385,7 +385,7 @@ The current regression baseline is:
 
 **337 passing Python tests.**
 
-**52 passing Playwright E2E tests.**
+**54 passing Playwright E2E tests.**
 
 **429 passing tests across the complete automated test suite.**
 
@@ -509,9 +509,9 @@ Core regression coverage is now established across backend/domain behavior and b
 
 **337 passing Python tests.**
 
-**52 passing Playwright E2E tests.**
+**54 passing Playwright E2E tests.**
 
-**390 passing tests across the complete automated test suite.**
+**429 passing tests across the complete automated test suite.**
 
 The Python regression suite currently provides **99% statement coverage** across **747 instrumented statements**, with **224 instrumented branches and 0 partial branches**.
 

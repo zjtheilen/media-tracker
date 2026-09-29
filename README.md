@@ -500,7 +500,7 @@ Current completed areas include:
 
 Current regression baseline:
 
-**390 tests passing, 0 failing.**
+**429 tests passing, 0 failing.**
 
 The project continues to follow an evolution-based development model rather than treating every new requirement as a reason to redesign the existing system.
 
