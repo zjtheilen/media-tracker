@@ -15,20 +15,23 @@ The areas and their boundaries remain subject to review before detailed requirem
 
 ## 2. Capability Area Overview
 
-| ID    | Capability Area                                    | Primary Responsibility                                                                                                     |
-| ----- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| CA-01 | Archive and Collection Management                  | Maintain the user's personal media archive as the authoritative record of their collection and experience.                 |
-| CA-02 | Work Identity and Content Understanding            | Identify archived works and develop an enriched understanding of their content and characteristics.                        |
-| CA-03 | Shared Evidence and Knowledge Foundation           | Organize evidence, information, provenance, uncertainty, and derived findings in a consistent shared foundation.           |
-| CA-04 | Media Experience and Response Modeling             | Represent and interpret the user's evaluations, enjoyment, engagement, and completion information without conflating them. |
-| CA-05 | Affinity Intelligence                              | Investigate recurring relationships between the user's responses and characteristics of media works.                       |
-| CA-06 | Relationship Intelligence                          | Identify meaningful connections, similarities, contrasts, and associations among works and characteristics.                |
-| CA-07 | Evolution Intelligence                             | Identify how the user's interests, attention, and responses change over time.                                              |
-| CA-08 | Exception Intelligence                             | Identify unusual works and deviations from established patterns that may reveal something meaningful.                      |
-| CA-09 | Cross-Family Intelligence and Synthesis            | Combine independently established findings into broader and potentially emergent discoveries.                              |
-| CA-10 | Intelligence Lifecycle, Discovery, and Exploration | Keep intelligence current and make discoveries accessible, understandable, and explorable.                                 |
+| ID    | Capability Area                             | Primary Responsibility                                                                                                                      |
+| ----- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| CA-01 | Archive and Collection Management           | Maintain the user's personal media archive as the authoritative record of their collection and experience.                                  |
+| CA-02 | Work Identity and Content Understanding     | Identify archived works and develop an enriched understanding of their content and characteristics.                                         |
+| CA-03 | Shared Evidence and Knowledge Foundation    | Organize evidence, information, provenance, uncertainty, and derived findings in a consistent shared foundation.                            |
+| CA-04 | Media Experience and Response Modeling      | Represent and interpret the user's evaluations, enjoyment, engagement, and completion information without conflating them.                  |
+| CA-05 | Affinity Intelligence                       | Investigate recurring relationships between the user's responses and characteristics of media works.                                        |
+| CA-06 | Relationship Intelligence                   | Identify meaningful connections, similarities, contrasts, and associations among works and characteristics.                                 |
+| CA-07 | Evolution Intelligence                      | Identify how the user's interests, attention, and responses change over time.                                                               |
+| CA-08 | Exception Intelligence                      | Identify unusual works and deviations from established patterns that may reveal something meaningful.                                       |
+| CA-09 | Cross-Family Intelligence and Synthesis     | Combine independently established findings into broader and potentially emergent discoveries.                                               |
+| CA-10 | Intelligence Lifecycle and Reassessment     | Keep intelligence current as archive records, enriched information, and supporting evidence change.                                         |
+| CA-11 | Discovery Experience and Exploration        | Present discoveries and provide meaningful ways to navigate, investigate, and explore intelligence findings.                                |
+| CA-12 | Work Profiles and User Agency               | Provide unified work-level experiences and preserve the user's ability to inspect, manage, and interpret information.                       |
+| CA-13 | External Media Discovery and Recommendation | Identify and recommend external media works using established affinity evidence, with transparent explanations of recommendation rationale. |
 
-Work Profiles and user controls are included as important capabilities within the relevant areas below, rather than being treated as independent intelligence systems.
+These capability areas collectively represent the product's responsibilities. They are conceptually distinct but interconnected, and they should not be interpreted as independent technical modules or a prescribed implementation architecture.
 
 ## 3. Capability Area Definitions
 
