@@ -53,9 +53,9 @@ A more capable system for discovering, investigating, and explaining patterns in
 
 **C. Personal media companion — extension**
 
-Selected capabilities that use the archive's insights to help users explore interests, revisit preferences, and make informed media choices.
+Selected capabilities that use the archive's insights to help users explore their interests and make informed media choices. The initial 2.0 direction includes recommending new-to-the-archive movies based on the user's established affinities, with explanations grounded in supporting evidence.
 
-The intended balance is a mature archive and intelligence platform, with elements of a personal media companion.
+The intended balance is a mature archive and intelligence platform, with selected elements of a personal media companion.
 
 The archive supports the intelligence system. The intelligence system is the defining product experience. Companion capabilities are a natural extension rather than the primary identity.
 
@@ -928,25 +928,31 @@ The user explicitly selected **all of the following, plus other kinds of connect
 
 This is a broad endorsement of the Relationships concept, not a commitment to a specific implementation or exhaustive taxonomy.
 
-## 6.3 Scope Boundary: Archive Relationships vs. External Discovery
+## 6.3 Scope Boundary: Archive Relationships vs. External Recommendations
 
-Two different ambitions have been identified.
+WASABI has two distinct capabilities for exploring connections beyond an individual archived work.
 
 **Archive-internal relationships**
 
-WASABI compares things the user has already experienced and identifies unexpected connections.
+Relationships investigates works and characteristics already represented in the user's archive, identifying meaningful connections, similarities, contrasts, and associations.
 
-This is an archive-intelligence capability.
+Its purpose is to reveal what the user's existing collection has in common, including connections the user might not have recognized independently.
 
-**Relationships with the wider media world**
+This is an archive-intelligence capability and should remain valuable independently of any external media catalog.
 
-WASABI connects the user's archive and preferences to works they haven't experienced, potentially helping them discover new things.
+**External recommendations**
 
-This begins to overlap with recommendations and the personal media companion.
+Recommendations looks beyond the archive to identify works the user has not yet recorded. It uses established intelligence, particularly the user's established affinities, to identify potentially relevant works and explain why they may be a good fit.
 
-The two should remain conceptually separate during investigation.
+This is a personal media companion capability rather than an additional discovery family. Its recommendations should be grounded in established evidence, while remaining distinct from the analysis that produced that evidence.
 
-Relationships should be valuable even if WASABI never connects to an external media catalog.
+**The boundary**
+
+Relationships answers: _What do the works and characteristics already in my archive have in common?_
+
+Recommendations answers: _What might I want to experience next, and why might it be right for me?_
+
+The two capabilities may draw on related intelligence, but they have different subjects and responsibilities. Recommendations may consume established findings from the intelligence system; it does not replace or redefine the work of the discovery families.
 
 ## 6.4 Current Status
 
@@ -1359,7 +1365,16 @@ Work Profiles may present established, evidence-supported relationships as part 
 | Cross-family synthesis                  | The four discovery families retain independent analytical responsibilities and establish their own findings. Cross-family synthesis may combine independently established findings into broader discoveries, including emergent connections, without becoming a fifth discovery family or allowing one family's conclusions to substitute for another's evidence.                               |
 | Affinity                                | Must investigate positive, negative, conditional, neutral, and mixed associations, while distinguishing insufficient evidence from no demonstrated association.                                                                                                                                                                                                                                 |
 | Relationships                           | Should include all three proposed discovery experiences and other unexpected connections                                                                                                                                                                                                                                                                                                        |
-| External discovery                      | Keep distinct from archive-internal relationships during investigation                                                                                                                                                                                                                                                                                                                          |
+| External recommendations                | A distinct personal media companion capability, separate from archive-internal Relationships. Recommendations consume established intelligence to identify new works the user may want to experience and explain why.                                                                                                                                                                           |
+| Recommendation media scope              | 2.0 recommendations are limited to movies. Books and games are deferred to 2.x.                                                                                                                                                                                                                                                                                                                 |
+| Recommendation candidates               | Recommend only movies that are new to the user's archive. Previously recorded works are excluded in 2.0, regardless of whether they are completed, in progress, or unwatched.                                                                                                                                                                                                                   |
+| Recommendation evidence                 | Recommendations must be grounded in established affinities. A single strongly established positive affinity may be sufficient; multiple affinities may provide additional support. Weak, emerging, or insufficiently supported associations must not be presented as established evidence.                                                                                                      |
+| Negative affinities in recommendations  | Established negative affinities should be considered as contextual evidence, not automatic exclusion rules. A negative response to one work does not by itself establish a negative affinity. Where relevant, recommendation explanations should identify potential mismatches alongside positive matches.                                                                                      |
+| Recommendation explanations             | Every recommendation must explain why it was selected, connecting it to specific established affinities and inspectable supporting evidence.                                                                                                                                                                                                                                                    |
+| Recommendation presentation             | Recommendations should be presented as an unranked collection, without implying a comparative order or unsupported precision.                                                                                                                                                                                                                                                                   |
+| Recommendation generation               | Intelligence reassessment maintains and updates established affinities. Recommendation generation is a separate capability that consumes the latest available intelligence when recommendations are needed; it is not automatically coupled to every reassessment.                                                                                                                              |
+| Saved recommendations                   | Users may save recommendations for later, view saved recommendations, and remove them. Saving is organizational only: it does not constitute evidence of preference, influence affinities or future recommendation selection, or train the intelligence system. A recommendation remains separate from the archive until the user actually records the work.                                    |
+| Recommendation discovery boundaries     | Exploratory recommendations intended to challenge or broaden established taste, recommendations for previously recorded works, recommendations for books or games, user-triggered refresh, streaming availability, and advanced recommendation feedback or personalization are deferred to 2.x.                                                                                                 |
 | Discovery priority                      | Favor revelation while retaining confirmation                                                                                                                                                                                                                                                                                                                                                   |
 | Relationship discovery                  | Prioritize meaningful, evidence-supported, non-obvious connections without excluding confirmatory findings                                                                                                                                                                                                                                                                                      |
 | Archive completeness                    | Intelligence must account for missing entries, incomplete scores, and limitations in archive coverage                                                                                                                                                                                                                                                                                           |
@@ -1472,6 +1487,11 @@ Work Profiles may present established, evidence-supported relationships as part 
 - How should Affinity and Exceptions coordinate when an inconsistent response also qualifies as an unusual individual entry?
 - How should Affinity and Evolution coordinate when an association changes over time?
 - How should WASABI select external information sources for different types of media and subject areas?
+- How should WASABI identify and assemble a suitable candidate pool of external movies for recommendation?
+- What criteria should guide candidate evaluation against established positive and negative affinities, without turning contextual mismatches into automatic exclusions?
+- What external movie information is necessary to identify candidates, evaluate their relevance, and support evidence-based recommendation explanations?
+- How should potential movie-data providers be evaluated for catalog coverage, metadata quality, reliability, licensing, cost, and API limitations?
+- How should saved recommendations behave as the archive and its established affinities change?
 - How should source reliability be evaluated in a subject-specific way, and how should that differ from WASABI's confidence in its own interpretations?
 - How should WASABI distinguish independent corroboration from repeated claims that originate from the same underlying source?
 - How should work-matching confidence be calibrated, and what evidence is sufficient for automatic association?

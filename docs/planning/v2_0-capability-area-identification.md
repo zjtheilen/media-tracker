@@ -15,18 +15,18 @@ The areas and their boundaries remain subject to review before detailed requirem
 
 ## 2. Capability Area Overview
 
-| ID | Capability Area | Primary Responsibility |
-|---|---|---|
-| CA-01 | Archive and Collection Management | Maintain the user's personal media archive as the authoritative record of their collection and experience. |
-| CA-02 | Work Identity and Content Understanding | Identify archived works and develop an enriched understanding of their content and characteristics. |
-| CA-03 | Shared Evidence and Knowledge Foundation | Organize evidence, information, provenance, uncertainty, and derived findings in a consistent shared foundation. |
-| CA-04 | Media Experience and Response Modeling | Represent and interpret the user's evaluations, enjoyment, engagement, and completion information without conflating them. |
-| CA-05 | Affinity Intelligence | Investigate recurring relationships between the user's responses and characteristics of media works. |
-| CA-06 | Relationship Intelligence | Identify meaningful connections, similarities, contrasts, and associations among works and characteristics. |
-| CA-07 | Evolution Intelligence | Identify how the user's interests, attention, and responses change over time. |
-| CA-08 | Exception Intelligence | Identify unusual works and deviations from established patterns that may reveal something meaningful. |
-| CA-09 | Cross-Family Intelligence and Synthesis | Combine independently established findings into broader and potentially emergent discoveries. |
-| CA-10 | Intelligence Lifecycle, Discovery, and Exploration | Keep intelligence current and make discoveries accessible, understandable, and explorable. |
+| ID    | Capability Area                                    | Primary Responsibility                                                                                                     |
+| ----- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| CA-01 | Archive and Collection Management                  | Maintain the user's personal media archive as the authoritative record of their collection and experience.                 |
+| CA-02 | Work Identity and Content Understanding            | Identify archived works and develop an enriched understanding of their content and characteristics.                        |
+| CA-03 | Shared Evidence and Knowledge Foundation           | Organize evidence, information, provenance, uncertainty, and derived findings in a consistent shared foundation.           |
+| CA-04 | Media Experience and Response Modeling             | Represent and interpret the user's evaluations, enjoyment, engagement, and completion information without conflating them. |
+| CA-05 | Affinity Intelligence                              | Investigate recurring relationships between the user's responses and characteristics of media works.                       |
+| CA-06 | Relationship Intelligence                          | Identify meaningful connections, similarities, contrasts, and associations among works and characteristics.                |
+| CA-07 | Evolution Intelligence                             | Identify how the user's interests, attention, and responses change over time.                                              |
+| CA-08 | Exception Intelligence                             | Identify unusual works and deviations from established patterns that may reveal something meaningful.                      |
+| CA-09 | Cross-Family Intelligence and Synthesis            | Combine independently established findings into broader and potentially emergent discoveries.                              |
+| CA-10 | Intelligence Lifecycle, Discovery, and Exploration | Keep intelligence current and make discoveries accessible, understandable, and explorable.                                 |
 
 Work Profiles and user controls are included as important capabilities within the relevant areas below, rather than being treated as independent intelligence systems.
 
@@ -255,13 +255,17 @@ General discovery feedback, user confirmation or rejection of family findings, a
 The following expectations apply across the capability areas. They are not separate product modules or discovery families; they are standards that the capabilities must collectively uphold.
 
 ### 4.1 Evidence and Explainability
+
 Findings should be grounded in identifiable evidence, and the user should be able to understand why WASABI reached an interpretation.
 
 ### 4.2 Provenance and Uncertainty
+
 Information should retain its origin and appropriate uncertainty. Source reliability, model confidence, and finding strength must remain distinguishable.
 
 ### 4.3 Separation of Concepts
+
 WASABI must preserve distinctions between:
+
 - Archive observations and inferred interpretations.
 - Work characteristics and user responses.
 - Evaluation, enjoyment, engagement, and completion.
@@ -271,15 +275,19 @@ WASABI must preserve distinctions between:
 - User curation and analytical feedback.
 
 ### 4.4 Independent Reasoning
+
 Each discovery family must retain its own purpose, evidence assessment, and reasoning. Shared information should enable collaboration without erasing those distinctions.
 
 ### 4.5 Reassessment and Reversibility
+
 Findings should be revisable as evidence changes. New information should not silently overwrite the user's original archive records or experience.
 
 ### 4.6 User Interpretive Authority
+
 WASABI should communicate what it observes and how it reached its conclusions while leaving the user authority over what those conclusions mean personally.
 
 ### 4.7 Consistency and Usability
+
 The product should provide a coherent experience across capability areas, with consistent presentation and understandable interactions.
 
 ## 5. Known Scope Boundaries
