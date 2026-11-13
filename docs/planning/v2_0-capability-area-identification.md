@@ -254,20 +254,17 @@ More extensive chains of derived findings are not a baseline 2.0 requirement.
 
 **Purpose:** Keep WASABI's intelligence responsive to changes in the archive, enriched work information, and supporting evidence.
 
-This area is responsible for coordinating the lifecycle of intelligence findings, ensuring that relevant changes can trigger appropriate investigation and that findings remain traceable as their supporting evidence evolves.
+This area is responsible for coordinating the reassessment and continued maintenance of intelligence findings as the information supporting them changes.
 
 Its capability responsibilities include:
 
-- Identifying changes to archive records, enriched work information, and shared evidence that may affect existing findings.
-- Triggering targeted reassessment when relevant information changes.
-- Coordinating cross-family investigation when changes may affect findings across multiple discovery families.
-- Supporting broader periodic reassessment to identify findings that may require renewed investigation.
-- Determining which findings and dependent interpretations may be affected by changes in supporting evidence.
+- Identifying which findings and dependent interpretations may be affected by changes in supporting evidence.
+- Supporting targeted, cross-family, and broader periodic reassessment.
+- Maintaining the status of findings as evidence changes.
+- Identifying findings that may be outdated or require renewed investigation.
 - Supporting incremental reassessment where appropriate rather than requiring unnecessary full recalculation.
-- Maintaining the status of findings as they move between emerging, established, outdated, or otherwise relevant states.
-- Identifying findings that may no longer be supported by current evidence.
 - Preserving the relationship between findings and the evidence available when they were established or reassessed.
-- Communicating reassessment status and relevant changes in findings to the other product capabilities.
+- Communicating reassessment status and relevant changes to the other product capabilities.
 - Supporting automated lifecycle management without requiring users to coordinate routine intelligence maintenance.
 
 **Boundary:** Intelligence lifecycle management coordinates when and how findings are reassessed; it does not own the analytical reasoning or conclusions of individual discovery families. Each family remains responsible for evaluating its own evidence, while Cross-Family Intelligence and Synthesis remains responsible for combining independently established findings.
@@ -320,7 +317,7 @@ Its capability responsibilities include:
 
 **Boundary:** Work Profiles bring together information and established findings but do not independently generate or validate intelligence conclusions. Correcting or excluding work-level information is not the same as providing general feedback on whether a discovery-family conclusion is valid.
 
-User curation must not alter analytical conclusions, scoring, or significance prioritization. General discovery feedback, user confirmation or rejection of family findings, and feedback-driven learning remain future 2.x capabilities. Tentative or emerging relationships, user-created relationships, and richer bidirectional relationship exploration also remain outside the baseline 2.0 commitment.
+General discovery feedback, user confirmation or rejection of family findings, and feedback-driven learning remain future 2.x capabilities. Tentative or emerging relationships, user-created relationships, and richer bidirectional relationship exploration also remain outside the baseline 2.0 commitment.
 
 ### CA-13 — External Media Discovery and Recommendation
 
