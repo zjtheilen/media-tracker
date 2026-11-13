@@ -991,7 +991,6 @@ Still to investigate:
 - How should similarity and contrast be represented?
 - How should WASABI avoid inventing connections?
 - How should relationship discoveries differ from Affinity?
-- Where does Relationships end and Recommendations begin?
 
 No specific algorithms, AI systems, embeddings, external catalogs, or implementation approaches have been selected.
 

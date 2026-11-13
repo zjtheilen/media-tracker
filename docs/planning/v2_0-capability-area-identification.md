@@ -315,7 +315,7 @@ Its capability responsibilities include:
 - Providing appropriate ways to navigate between a work and its established connections or related discoveries.
 - Preserving the user's ability to interpret discoveries without requiring them to accept WASABI's conclusions.
 
-**Boundary:** Work Profiles bring together information and established findings but do not independently generate or validate intelligence conclusions. Correcting or excluding work-level information is not the same as providing general feedback on whether a discovery-family conclusion is valid.
+Boundary: Work Profiles bring together information and established findings but do not independently generate or validate intelligence conclusions. Correcting or excluding work-level information is not the same as providing general feedback on whether a discovery-family conclusion is valid.
 
 General discovery feedback, user confirmation or rejection of family findings, and feedback-driven learning remain future 2.x capabilities. Tentative or emerging relationships, user-created relationships, and richer bidirectional relationship exploration also remain outside the baseline 2.0 commitment.
 
