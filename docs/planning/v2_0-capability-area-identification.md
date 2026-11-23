@@ -15,21 +15,21 @@ The areas and their boundaries remain subject to review before detailed requirem
 
 ## 2. Capability Area Overview
 
-| ID    | Capability Area                             | Primary Responsibility                                                                                                                      |
-| ----- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| CA-01 | Archive and Collection Management           | Maintain the user's personal media archive as the authoritative record of their collection and experience.                                  |
-| CA-02 | Work Identity and Content Understanding     | Identify archived works and develop an enriched understanding of their content and characteristics.                                         |
-| CA-03 | Shared Evidence and Knowledge Foundation    | Organize evidence, information, provenance, uncertainty, and derived findings in a consistent shared foundation.                            |
-| CA-04 | Media Experience and Response Modeling      | Represent and interpret the user's evaluations, enjoyment, engagement, and completion information without conflating them.                  |
-| CA-05 | Affinity Intelligence                       | Investigate recurring relationships between the user's responses and characteristics of media works.                                        |
-| CA-06 | Relationship Intelligence                   | Identify meaningful connections, similarities, contrasts, and associations among works and characteristics.                                 |
-| CA-07 | Evolution Intelligence                      | Identify how the user's interests, attention, and responses change over time.                                                               |
-| CA-08 | Exception Intelligence                      | Identify unusual works and deviations from established patterns that may reveal something meaningful.                                       |
-| CA-09 | Cross-Family Intelligence and Synthesis     | Combine independently established findings into broader and potentially emergent discoveries.                                               |
-| CA-10 | Intelligence Lifecycle and Reassessment     | Keep intelligence current as archive records, enriched information, and supporting evidence change.                                         |
-| CA-11 | Discovery Experience and Exploration        | Present discoveries and provide meaningful ways to navigate, investigate, and explore intelligence findings.                                |
-| CA-12 | Work Profiles and User Agency               | Provide unified work-level experiences and preserve the user's ability to inspect, manage, and interpret information.                       |
-| CA-13 | External Media Discovery and Recommendation | Identify and recommend external media works using established affinity evidence, with transparent explanations of recommendation rationale. |
+| ID    | Capability Area                             | Primary Responsibility                                                                                                                               |
+| ----- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CA-01 | Archive and Collection Management           | Maintain the user's personal media archive as the authoritative record of their Works, Experiences, and associated personal information.             |
+| CA-02 | Work Identity and Content Understanding     | Identify archived works and develop an enriched understanding of their content and characteristics.                                                  |
+| CA-03 | Shared Evidence and Knowledge Foundation    | Organize evidence, information, provenance, uncertainty, and derived findings in a consistent shared foundation.                                     |
+| CA-04 | Media Experience and Response Modeling      | Represent and interpret Experience lifecycle, evaluations, enjoyment, engagement, and other aspects of the user's responses without conflating them. |
+| CA-05 | Affinity Intelligence                       | Investigate recurring relationships between the user's responses and characteristics of media works.                                                 |
+| CA-06 | Relationship Intelligence                   | Identify meaningful connections, similarities, contrasts, and associations among works and characteristics.                                          |
+| CA-07 | Evolution Intelligence                      | Identify how the user's interests, attention, and responses change over time.                                                                        |
+| CA-08 | Exception Intelligence                      | Identify unusual works and deviations from established patterns that may reveal something meaningful.                                                |
+| CA-09 | Cross-Family Intelligence and Synthesis     | Combine independently established findings into broader and potentially emergent discoveries.                                                        |
+| CA-10 | Intelligence Lifecycle and Reassessment     | Keep intelligence current as archive records, enriched information, and supporting evidence change.                                                  |
+| CA-11 | Discovery Experience and Exploration        | Present discoveries and provide meaningful ways to navigate, investigate, and explore intelligence findings.                                         |
+| CA-12 | Work Profiles and User Agency               | Provide unified work-level experiences and preserve the user's ability to inspect, manage, and interpret information.                                |
+| CA-13 | External Media Discovery and Recommendation | Identify and recommend external media works using established affinity evidence, with transparent explanations of recommendation rationale.          |
 
 These capability areas collectively represent the product's responsibilities. They are conceptually distinct but interconnected, and they should not be interpreted as independent technical modules or a prescribed implementation architecture.
 
@@ -37,25 +37,30 @@ These capability areas collectively represent the product's responsibilities. Th
 
 ### CA-01 — Archive and Collection Management
 
-**Purpose:** Maintain the user's personal media archive as the authoritative record of their collection and recorded experiences.
+**Purpose:** Maintain the user's personal media archive as the authoritative record of their Works, Experiences, and associated personal information.
 
-This area is responsible for the integrity, completeness, organization, preservation, and continued maintenance of the archive.
+This area is responsible for the integrity, completeness, organization, preservation, and continued maintenance of the archive. It manages the records representing individual Works and the user's distinct Experiences with those Works, while preserving the separation between factual information, personal attributes, and Experience-specific responses.
 
 Its capability responsibilities include:
 
 - Maintaining records across supported media types.
-- Recording and maintaining information about individual works and the user's experiences with them.
-- Supporting evaluations, evaluation dimensions, completion information, and other recorded experience data.
+- Maintaining distinct Work and Experience records, including support for multiple Experiences associated with one Work.
+- Recording and maintaining factual Work metadata separately from the user's personal information.
+- Recording and maintaining structured Work-level personal attributes, including ownership status, format or edition, and standing personal flags.
+- Recording and maintaining personal response notes associated with individual Experiences rather than as general Work-level notes.
+- Maintaining Experience lifecycle information, including Started, Paused, Completed, and Abandoned states.
+- Preserving the history and temporal context of Experience state changes.
+- Supporting Experience evaluations, evaluation dimensions, optional completion context, and other recorded Experience information without requiring every Experience to be evaluated.
 - Distinguishing incomplete, missing, unknown, and intentionally unrecorded information.
-- Supporting correction and maintenance of existing records.
-- Identifying and addressing duplicate, inconsistent, or incomplete archive entries.
+- Supporting correction and maintenance of existing Work and Experience records.
+- Identifying and addressing duplicate, inconsistent, or incomplete archive records.
 - Preserving the distinction between the user's original records and information subsequently enriched or interpreted by WASABI.
 - Supporting the continued evolution of the archive without treating historical records as immutable.
-- Supporting archive backup and restoration so the user's collection and recorded experiences can be preserved and recovered.
+- Supporting archive backup and restoration so the user's collection and recorded Experiences can be preserved and recovered.
 - Supporting data portability so the user retains control over their archived information beyond the application.
 - Supporting the reconciliation of historical and externally maintained records with the authoritative archive while avoiding unintended duplication or loss of information.
 
-**Boundary:** The archive is the authoritative source for the user's recorded collection and experiences. It is not itself the intelligence engine, and missing archive information must not be silently interpreted as a neutral response or representative evidence.
+**Boundary:** The archive is the authoritative source for the user's recorded Works, Experiences, and personal information. It maintains the records and their history but does not independently determine what an Experience means or how the user's response should be interpreted. Those conceptual responsibilities belong to Media Experience and Response Modeling (CA-04). Factual Work understanding and external enrichment belong to Work Identity and Content Understanding (CA-02). Missing archive information must not be silently interpreted as a neutral response or representative evidence.
 
 ### CA-02 — Work Identity and Content Understanding
 
@@ -104,24 +109,34 @@ Its capability responsibilities include:
 
 ### CA-04 — Media Experience and Response Modeling
 
-**Purpose:** Represent the user's relationship with individual works accurately enough to support meaningful interpretation.
+**Purpose:** Represent and interpret the user's individual Experiences with media works, including their lifecycle, evaluations, enjoyment, engagement, and other aspects of personal response.
 
-This area is responsible for maintaining the conceptual distinctions between different kinds of personal response and experience, including how those responses are represented across supported media types.
+This area is responsible for establishing a coherent conceptual model of what constitutes an Experience and how its different aspects should be understood. It preserves distinctions between lifecycle state, evaluation, enjoyment, engagement, and personal response while accounting for differences across supported media types.
 
 Its capability responsibilities include:
 
+- Defining and maintaining the conceptual distinction between a Work and an individual Experience of that Work.
+- Supporting multiple distinct Experiences of the same Work without conflating their individual histories or responses.
+- Representing the four Experience lifecycle states: Started, Paused, Completed, and Abandoned.
+- Accounting for the reversible nature of Abandoned Experiences and the user's authority to resume an existing Experience or begin a new one.
+- Representing the history and temporal progression of an Experience, including its start, state changes, and completion where applicable.
 - Representing evaluation and its individual dimensions.
 - Representing enjoyment independently of evaluation.
 - Representing engagement independently of evaluation and enjoyment.
-- Representing completion as a distinct behavioral or experience signal.
-- Accounting for media-specific differences in how experiences are evaluated and recorded.
+- Representing completion as a distinct behavioral or Experience signal rather than as a measure of evaluation or enjoyment.
+- Supporting optional evaluations and personal response information without requiring them for every Experience or lifecycle transition.
+- Preserving the association between evaluations and the individual Experiences to which they belong.
+- Accounting for media-specific differences in how Experiences are evaluated, interpreted, and considered complete.
+- Supporting optional, user-defined completion context where a medium has subjective or variable completion expectations, particularly video games.
 - Supporting the interpretation of incomplete, inconsistent, or changing responses.
-- Preserving temporal context where it matters to understanding an experience.
+- Preserving temporal context where it matters to understanding an Experience and the user's response to it.
 - Distinguishing the absence of a recorded response from an explicitly neutral or negative response.
 - Preventing missing measurements from being treated as negative, neutral, or representative evidence.
-- Providing a coherent conceptual basis for interpreting recorded experiences across the product's intelligence capabilities.
+- Providing a coherent conceptual basis for interpreting recorded Experiences across the product's intelligence capabilities.
 
-**Boundary:** Evaluation, enjoyment, engagement, and completion are related but distinct forms of evidence. WASABI must not assume that one can automatically substitute for another. Completion does not establish enjoyment, and an unfinished work does not necessarily indicate a negative experience.
+**Boundary:** Experience lifecycle, evaluation, enjoyment, engagement, and personal response are related but distinct aspects of an Experience. WASABI must not assume that one can automatically substitute for another. Completion does not establish enjoyment, and an unfinished or abandoned Experience does not necessarily indicate a negative response.
+
+CA-04 establishes the conceptual meaning of Experience and response information. Archive and Collection Management (CA-01) is responsible for maintaining the corresponding Work and Experience records, including their recorded state and history. CA-04 does not own archive organization, Work metadata, or general Work-level personal attributes.
 
 The addition of new enjoyment or engagement measurements, and the precise way those experiences should be captured, remain open design questions.
 
