@@ -90,6 +90,16 @@ This preserves the distinction between a user's durable relationship with a Work
 
 Automatically obtaining and populating factual Work metadata from external sources is an attractive possibility. However, the scope, provider strategy, reconciliation behavior, and implementation cost remain unresolved. The conceptual distinction between metadata and personal information should be established independently of those decisions.
 
+**Personal response note revision direction:**
+
+The current direction is to retain the latest version of an Experience's personal response notes rather than preserving the history of ordinary edits.
+
+Personal response notes are free-form information intended to capture the user's feelings, reactions, reflections, and observations about an Experience. Preserving every edit to this text may retain substantial revision history without providing equivalent historical or analytical value.
+
+A future journal or dated-observation capability may provide a more meaningful way to preserve thoughts over time as separate entries rather than as revisions to a single note.
+
+This is an emerging direction rather than a fully established retention requirement. The distinction between ordinary response notes and a possible future journal capability remains to be explored.
+
 ### 2.2 Experience Lifecycle and State
 
 An Experience has an explicit lifecycle state representing where the user considers that particular experience to stand.
@@ -149,6 +159,43 @@ Evaluation and personal response information remain associated with their respec
 - A later Experience may be recorded without requiring a new evaluation.
 
 Completion and abandonment must not be treated as automatic indicators of enjoyment, dissatisfaction, or evaluation.
+
+#### 2.2.3.1 Evaluation Revision History
+
+WASABI must preserve the history of changes to an Experience's evaluation rather than retaining only its current value.
+
+**Established decisions:**
+
+- Every saved change to an evaluation must be preserved as a historical revision.
+- Previous evaluation revisions must remain inspectable.
+- The current evaluation represents the latest authoritative assessment, while historical revisions preserve how that assessment changed over time.
+- Each revision must distinguish when the change was recorded in WASABI from when the revised assessment is intended to apply.
+- Each revision must retain its recorded timestamp and effective timestamp.
+- Evaluation revisions may be identified as either corrections or reassessments.
+- This classification is optional and must not require users to provide an explanation for every change.
+- Evaluation history belongs to the individual Experience. A new Experience with the same Work has its own independent evaluation and revision history.
+
+**Correction and reassessment distinction:**
+
+- A **correction** changes previously recorded evaluation information because the earlier information was inaccurate or incorrectly entered.
+- A **reassessment** changes the evaluation because the user's assessment or opinion has evolved.
+
+Both are preserved as evaluation revisions. The distinction describes the reason for the change rather than establishing separate kinds of evaluation data.
+
+**Recorded time and effective time:**
+
+- **Recorded timestamp:** When the revision was entered into WASABI.
+- **Effective timestamp:** When the revised assessment is intended to apply.
+
+This distinction supports both retrospective corrections and changes in opinion. For example, a user may change an evaluation today because their opinion has evolved, or correct an evaluation today while indicating that the corrected assessment should apply from an earlier date.
+
+**Open questions:**
+
+- How should users inspect and navigate evaluation revision history?
+- What additional revision classifications, if any, may be useful?
+- How should evaluation revisions affect intelligence findings and their supporting evidence?
+
+The preservation of evaluation revisions and their separate recorded and effective timestamps are established requirements. Their detailed representation and presentation remain to be defined.
 
 #### 2.2.4 Media-Specific Completion Context
 
@@ -242,6 +289,17 @@ Lifecycle events must distinguish:
 - **Recorded timestamp:** When WASABI received and recorded the information.
 
 This distinction allows users to record events retrospectively without confusing the real-world chronology with the history of information recorded by WASABI.
+
+**Evaluation revision timestamps:**
+
+Evaluation revisions use the same distinction between recorded time and effective time.
+
+- The recorded timestamp identifies when the evaluation revision was entered into WASABI.
+- The effective timestamp identifies when the revised assessment is intended to apply.
+- A revision may be recorded after its effective date when correcting previously recorded information.
+- A reassessment may take effect at the time the user's assessment changes, independently of when the Experience originally occurred.
+
+Evaluation revision timestamps are distinct from lifecycle event timestamps. Both preserve the difference between real-world chronology and the history of information recorded in WASABI.
 
 **Corrections and historical preservation:**
 
@@ -354,6 +412,11 @@ No specific intelligence-retention or reassessment behavior has been decided.
 | Work-level personal attributes               | Small, structured set established                                   |
 | Experience response notes                    | Scoped to individual Experiences                                    |
 | Repeat evaluation                            | Optional                                                            |
+| Evaluation revision history                  | Every saved evaluation change is preserved and inspectable          |
+| Evaluation revision timestamps               | Recorded and effective timestamps retained separately               |
+| Evaluation revision classification           | Optional correction or reassessment classification                  |
+| Evaluation history scope                     | Independent for each Experience                                     |
+| Personal response note revision history      | Latest-version-only direction; emerging, not yet established        |
 | Experience lifecycle                         | Started, Paused, Completed, Abandoned                               |
 | Initial state of a newly recorded Experience | Started                                                             |
 | Abandoned Experiences                        | Reversible; user decides whether to resume or restart               |
