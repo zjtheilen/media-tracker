@@ -179,94 +179,151 @@ Illustrative completion descriptions include:
 
 These are examples, not a predefined mandatory taxonomy.
 
-### 2.3 Unfinished Experiences and Archive Membership
+### 2.3 Experience Creation and Archive Membership
 
-The original archive model focused primarily on recording and evaluating completed experiences. Further discussion identified meaningful reasons to represent experiences that have begun but have not been completed.
-
-Video games make this particularly apparent, but the same need applies to movies and books. A user may invest meaningful time in a Work, pause it, return to it, or abandon it.
+WASABI 2.0 is intended to represent actual Experiences with media Works, rather than works the user is merely interested in or intends to consume.
 
 **Established decisions:**
 
-- An Experience does not need to be completed to be represented in the archive.
-- Started, Paused, and Abandoned Experiences are valid archive records.
+- A Work may initially enter the archive only when the user has actually started or completed an Experience with it.
+- A Work cannot be recorded solely because the user intends to consume it in the future.
+- An Experience cannot exist in a not-yet-started state.
+- An Experience may be recorded while it is underway or retrospectively after it has been completed.
+- An Experience recorded while already underway has an initial state of Started.
+- Recording an already-underway Experience does not require WASABI to fabricate historical state transitions that occurred before the Experience was recorded.
+- The Experience's state-change history begins when WASABI starts tracking its lifecycle.
+- The user may provide the actual historical start date when known, independently of when the Experience is recorded.
+- Started, Paused, Completed, and Abandoned Experiences are valid archive records.
 - An unfinished Experience may still have an evaluation and personal response notes.
 - Completion is not a prerequisite for recording or evaluating an Experience.
-- Experience lifecycle states apply across media types rather than being limited to games.
 
-**Scope boundary:**
+**Pre-experience intentions and queues:**
 
-A queue of unconsumed works, such as a watchlist, reading list, or play-later backlog, is outside the baseline 2.0 scope.
+Queues of unconsumed Works, such as watchlists, reading lists, play-later backlogs, and similar planned-consumption collections, are outside the baseline 2.0 scope.
 
-This functionality is deferred to a later version, potentially v3.0.
+These capabilities may be considered for a later version, potentially 2.x or v3.0 and beyond.
 
-WASABI 2.0 is intended to represent actual experiences, not merely works the user is interested in or intends to experience.
+The archive represents Works with which the user has actually begun or completed an Experience. It does not represent future intentions as archived Experiences.
 
-The exact point at which a Work or Experience becomes part of the archive, including the relationship between creating an Experience and recording its start, remains subject to further discovery.
+### 2.4 Dates, Temporal Information, and Correction History
 
-### 2.4 Dates and Temporal Information
+WASABI 2.0 must preserve the distinction between when an Experience or lifecycle event actually occurred and when that information was recorded in WASABI.
 
-Experience lifecycle and historical analysis require more temporal information than the current application records.
+**Established temporal information:**
 
-**Established conceptual requirements:**
+Each Work and Experience has its own archive-entry timestamp.
 
-An Experience must account for:
+- A Work receives an automatic archive-entry timestamp when it is first recorded.
+- Each Experience receives its own automatic archive-entry timestamp when it is created.
+- Adding another Experience to an existing Work does not change the Work's original archive-entry timestamp.
+- Archive-entry timestamps represent when the corresponding records entered WASABI, not when the real-world Experience began or ended.
 
-- **Start date:** When the Experience began.
-- **State-change dates or timestamps:** When each recorded lifecycle transition occurred.
-- **Completion date:** When the Experience reaches Completed.
+An Experience must account for the following temporal information:
 
-These dates support the representation of an Experience's duration, interruptions, returns, and completion history.
+- **Start date:** When the Experience actually began. Optional, but encouraged when known.
+- **State-change timestamps:** When each recorded lifecycle transition actually occurred.
+- **Completion date:** When the Experience actually reached completion. Optional, but encouraged when known.
+- **Archive-entry timestamp:** When the Experience was first recorded in WASABI.
 
-The system must preserve the chronology of state changes rather than representing only the latest state.
+The Work's archive-entry timestamp is maintained separately from the timestamps of its individual Experiences.
 
-**Current implementation observation:**
+**Historical and retrospective recording:**
 
-- The existing application has an optional `date_consumed` field.
-- It does not have a distinct Experience start date.
-- It does not maintain a history of Experience state transitions.
-- Archive-added dates are not distinct from consumption dates in the current model.
+- Users may enter start and completion dates retrospectively.
+- Users may record a lifecycle transition after it actually occurred and provide the effective date or timestamp of that transition.
+- Unknown dates must remain unknown rather than being inferred from the archive-entry timestamp or another unrelated date.
+- When an Experience is first recorded while already underway, its initial state is Started. WASABI does not fabricate earlier state transitions. Its recorded state-change history begins when WASABI starts tracking the Experience.
 
-**Open questions:**
+**Recorded time and effective time:**
 
-- What date precision is necessary for Experience starts and state transitions?
-- Should users be able to enter or correct dates retroactively?
-- How should the system handle a transition whose date is unknown?
-- How should a completion date relate to the timestamp of the transition into Completed?
-- Should archive-added dates be recorded independently from Experience dates?
-- What additional temporal information is necessary to understand the evolution of an Experience?
+Lifecycle events must distinguish:
 
-The conceptual need for a start date, state-change history with dates, and a completion date is established. Their exact representation and detailed rules remain open.
+- **Effective timestamp:** When the state change actually occurred.
+- **Recorded timestamp:** When WASABI received and recorded the information.
 
-### 2.5 Historical Preservation and Removal
+This distinction allows users to record events retrospectively without confusing the real-world chronology with the history of information recorded by WASABI.
 
-Discussion of the existing Purge Record functionality raised concerns about unrestricted permanent deletion.
+**Corrections and historical preservation:**
 
-The current application physically deletes an entire entry and its associated information. Recovery currently requires restoring a previously exported portable archive, which replaces the entire active archive.
+Users may correct previously recorded start dates, completion dates, and lifecycle transition timestamps.
 
-For WASABI 2.0, the product direction is increasingly toward preserving historical information rather than granting users unrestricted power to erase their recorded history.
+Corrections must preserve the previous value and the history of the correction.
 
-Potential preservation mechanisms include:
+- The corrected value becomes the current authoritative value.
+- The previous value remains available in correction history.
+- The correction itself is recorded with its timestamp.
+- The history must distinguish the original event information, subsequent corrections, and when WASABI recorded each version.
+- Correcting a date or timestamp must not silently rewrite the historical sequence of lifecycle events.
 
-- Retaining a backup of removed information.
-- Recording removal in a historical diary or audit record.
-- Preserving sufficient information to establish that a Work or Experience previously existed in the archive.
-
-**Emerging direction:**
-
-Historical preservation should take priority over irreversible deletion, particularly where accidental removal could destroy meaningful personal history.
+Users should also be able to correct an incorrectly recorded lifecycle state, subject to keeping storage requirements and architectural complexity proportionate. Such corrections must preserve the original entry and correction history.
 
 **Open questions:**
 
-- What should happen when an individual Experience is removed?
-- What should happen when a Work is removed?
-- Does purging a Work also remove its associated Experiences?
-- Should removed records remain recoverable?
-- What information should survive removal?
-- Should a full archive purge preserve historical records or create an external backup?
-- How should users distinguish ordinary removal, archival preservation, and permanent destruction?
-- What safeguards should prevent accidental loss of an entire archive?
+- What date and timestamp precision should be supported?
+- How should timezone information be represented?
+- How should users inspect and navigate temporal and correction history?
+- How should the completion date relate internally to the effective timestamp of the transition into Completed?
+- What additional temporal information, if any, is necessary for historical analysis?
 
-The meaning and behavior of Purge in WASABI 2.0 remain undecided.
+The conceptual temporal requirements, retrospective recording, separate archive-entry timestamps, and preservation of correction history are established. Their exact representation and detailed interaction rules remain to be defined.
+
+### 2.5 Removal, Recovery, and Historical Preservation
+
+WASABI 2.0 must distinguish ordinary removal from permanent deletion. Removing a record should not immediately destroy the information it contains.
+
+Work and Experience records have independent removal and recovery behavior, while preserving their relationship within the archive.
+
+**Established decisions:**
+
+**Independent Work and Experience removal**
+
+- Removing an individual Experience does not remove its associated Work or other Experiences.
+- A Work may remain in the archive with zero active Experiences.
+- Removing a Work does not permanently delete it or its associated Experiences.
+- Removing a Work places the Work and all its associated Experiences into a recoverably removed state. The removal history must preserve which Experiences were already independently removed and which were removed as a consequence of the Work removal.
+- Removing a Work does not erase the distinction between Experiences that were already independently removed and Experiences removed as a consequence of the Work removal.
+
+**Recoverable removal and retention**
+
+- Work and Experience removal is recoverable by default.
+- Recoverably removed records remain recoverable indefinitely until the user explicitly restores or permanently deletes them.
+- WASABI must not automatically expire or permanently delete recoverably removed records in the baseline 2.0 scope.
+- Recoverably removed records are presented in a dedicated Recently Removed or Trash area, separate from the active archive.
+- The removal history must distinguish independently initiated Experience removals from removals performed as a consequence of Work removal.
+
+**Restoring Experiences and Works**
+
+- An independently removed Experience may be restored while its Work remains active.
+- An Experience cannot be independently restored while its parent Work is still removed.
+- Restoring the Work automatically restores Experiences that were removed as a consequence of that Work removal.
+- Experiences that had already been independently removed remain removed when the Work is restored.
+- Once the Work has been restored, independently removed Experiences may be restored individually.
+- Permanently deleted Experiences are not restored when their Work is restored.
+
+**Permanent deletion**
+
+Permanent deletion is a separate, deliberate action rather than an automatic consequence of ordinary removal.
+
+- Permanently deleting an individual Experience deletes only that Experience.
+- Permanently deleting an individual Experience never automatically deletes its Work, even when it is the Work's only Experience.
+- An individual Experience may be permanently deleted even while its parent Work is recoverably removed.
+- Permanently deleting a Work permanently deletes all associated Experiences, including Experiences that were independently removed.
+- Permanent Work deletion is a cascading operation. The user must be informed that all associated Experiences are included.
+- Permanently deleting an individual Experience does not affect other Experiences associated with the same Work.
+
+**Permanent deletion safeguards**
+
+- Every permanent deletion requires explicit user confirmation.
+- The confirmation must clearly identify the record or records that will be permanently deleted.
+- Before confirming permanent deletion, users must be able to inspect the contents of the affected Work and its associated Experiences, including when the Work is recoverably removed.
+- For an individual Experience deletion, the user must be able to inspect the Experience being deleted.
+- Permanent deletion is irreversible through normal WASABI recovery.
+
+**Boundary:**
+
+Work and Experience removal are separate operations with different scopes. Recoverable removal preserves the information and relationships necessary for restoration. Permanent deletion deliberately destroys the selected records and, when a Work is permanently deleted, all of its associated Experiences.
+
+The detailed presentation of the Trash area, restoration interactions, and permanent-deletion confirmation experience remain subject to requirements discovery.
 
 ### 2.6 Effects on Intelligence and Evidence
 
@@ -288,31 +345,43 @@ No specific intelligence-retention or reassessment behavior has been decided.
 
 ## 3. CA-01 Decision Summary
 
-| Subject                               | Current position                                      |
-| ------------------------------------- | ----------------------------------------------------- |
-| Work and Experience                   | Conceptually distinct                                 |
-| Multiple Experiences per Work         | Established                                           |
-| Independent Experience records        | Established                                           |
-| Work metadata                         | Distinct from personal information                    |
-| Work-level personal attributes        | Small, structured set established                     |
-| Experience response notes             | Scoped to individual Experiences                      |
-| Repeat evaluation                     | Optional                                              |
-| Experience lifecycle                  | Started, Paused, Completed, Abandoned                 |
-| Abandoned Experiences                 | Reversible; user decides whether to resume or restart |
-| State-change history                  | Retained and inspectable                              |
-| State transitions                     | Explicitly recorded by user in 2.0                    |
-| Experience start date                 | Established                                           |
-| State-change dates                    | Established                                           |
-| Completion date                       | Established                                           |
-| Game completion context               | Optional, video games only                            |
-| Movie/book completion context         | No additional mechanism currently needed              |
-| Unconsumed-work queue                 | Deferred, potentially v3.0                            |
-| Metadata auto-population              | Attractive direction; scope unresolved                |
-| Archive-added date                    | Open                                                  |
-| Historical preservation               | Emerging direction                                    |
-| Work and Experience removal semantics | Open                                                  |
-| Purge behavior                        | Open                                                  |
-| Intelligence consequences of removal  | Open                                                  |
+| Subject                                      | Current position                                                    |
+| -------------------------------------------- | ------------------------------------------------------------------- |
+| Work and Experience                          | Conceptually distinct                                               |
+| Multiple Experiences per Work                | Established                                                         |
+| Independent Experience records               | Established                                                         |
+| Work metadata                                | Distinct from personal information                                  |
+| Work-level personal attributes               | Small, structured set established                                   |
+| Experience response notes                    | Scoped to individual Experiences                                    |
+| Repeat evaluation                            | Optional                                                            |
+| Experience lifecycle                         | Started, Paused, Completed, Abandoned                               |
+| Initial state of a newly recorded Experience | Started                                                             |
+| Abandoned Experiences                        | Reversible; user decides whether to resume or restart               |
+| State-change history                         | Retained and inspectable                                            |
+| State transitions                            | Explicitly recorded by user in 2.0                                  |
+| Work archive membership                      | Requires an actual started or completed Experience                  |
+| Pre-experience queues                        | Deferred to a later version, potentially 2.x or v3.0+               |
+| Experience start date                        | Optional; encouraged when known                                     |
+| State-change effective timestamps            | Retained; retrospective entry and correction supported              |
+| State-change recorded timestamps             | Retained separately from effective timestamps                       |
+| Completion date                              | Optional; encouraged when known                                     |
+| Archive-entry timestamps                     | Automatic and separate for each Work and Experience                 |
+| Date and lifecycle corrections               | Previous values and correction history preserved                    |
+| Lifecycle-state corrections                  | Supported subject to proportionate storage and complexity           |
+| Game completion context                      | Optional, video games only                                          |
+| Movie/book completion context                | No additional mechanism currently needed                            |
+| Metadata auto-population                     | Attractive direction; scope unresolved                              |
+| Removal and historical preservation          | Recoverable by default; permanent deletion requires explicit action |
+| Recently Removed / Trash                     | Dedicated area for recoverably removed records                      |
+| Automatic removal expiration                 | Not permitted in baseline 2.0                                       |
+| Experience removal                           | Independent and recoverable                                         |
+| Work removal                                 | Recoverably removes Work and associated Experiences                 |
+| Work restoration                             | Restores Experiences removed as a consequence of Work removal       |
+| Independent Experience restoration           | Requires parent Work to be active                                   |
+| Permanent Experience deletion                | Deletes only that Experience                                        |
+| Permanent Work deletion                      | Cascades to all associated Experiences                              |
+| Permanent deletion confirmation              | Required; scope and affected records must be inspectable            |
+| Intelligence consequences of removal         | Open                                                                |
 
 ## 4. Next Areas of Investigation
 
@@ -320,11 +389,11 @@ CA-01 decomposition remains in progress.
 
 The next discussions should investigate:
 
-1. Work and Experience lifecycle, including archive entry and removal.
-2. Experience evaluation and other recorded response information.
-3. Historical preservation, backup, restoration, and purge semantics.
-4. Archive integrity, correction, duplicate handling, and reconciliation.
-5. Temporal information and historical activity.
+1. Experience evaluation and other recorded response information.
+2. Archive integrity, correction, duplicate detection, and reconciliation.
+3. Detailed requirements for Work and Experience record maintenance.
+4. Backup, restoration, export, and data portability.
+5. The effects of record correction, removal, and permanent deletion on intelligence findings and supporting evidence.
 
 These topics should be explored in a controlled sequence. Decisions should be recorded as they become sufficiently established rather than treating the entire capability area as settled at once.
 
