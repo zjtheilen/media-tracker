@@ -401,50 +401,193 @@ The current application regenerates its analytical outputs from the remaining ar
 
 No specific intelligence-retention or reassessment behavior has been decided.
 
+### 2.7 Archive Integrity, Correction, and Reconciliation
+
+WASABI 2.0 must help users maintain an accurate, understandable, and sufficiently complete archive. Archive integrity includes identifying missing information, recognizing potentially contradictory or duplicate records, preserving the history of changes, and supporting deliberate reconciliation with external information sources.
+
+These capabilities must preserve the user's authority over their archive. WASABI may identify potential problems and propose changes, but must not silently invent information, merge uncertain records, or overwrite existing archive values.
+
+#### 2.7.1 Completeness and Information Integrity
+
+WASABI should actively identify incomplete records and communicate what information is missing.
+
+**Emerging directions:**
+
+- Completeness should be assessed against the relevant record type and its current lifecycle state.
+- Completeness expectations should combine system-defined baseline requirements with optional additional expectations defined by the user.
+- Completeness expectations must account for Experience lifecycle state. For example, a Started Experience should not be considered incomplete solely because it has no completion date.
+- An incomplete record is not necessarily invalid. Historical records may legitimately lack information that was never collected.
+- Missing or unknown information must remain missing or unknown. WASABI must not silently invent values, assume neutral values, or treat missing evaluations as representative.
+- Incompleteness should be visible to the user without necessarily preventing the record from being created or maintained.
+
+WASABI should distinguish conceptually between:
+
+- **Incomplete:** Expected information is missing.
+- **Inconsistent:** Recorded information appears contradictory or does not fit together.
+- **Invalid:** Information violates a rule or constraint that makes the record unacceptable.
+- **Unknown:** The information is not known.
+- **Intentionally unrecorded:** Information has deliberately not been supplied.
+- **Emerging direction:** WASABI should distinguish conceptually between:
+
+The exact completeness rules, user customization options, and any media-type-specific expectations remain to be defined.
+
+#### 2.7.2 Inconsistency Detection and Review
+
+WASABI should identify information that appears contradictory or inconsistent and present potential issues for the user to review.
+
+**Emerging directions:**
+
+- Potential inconsistencies should be flagged rather than automatically corrected.
+- An apparent contradiction does not necessarily establish that the underlying information is wrong.
+- Users should be able to dismiss a flagged inconsistency as intentional.
+- WASABI should remember that decision to avoid repeatedly presenting the same issue.
+- Dismissing a flag does not change the underlying record or erase its history.
+
+The detailed rules for identifying inconsistencies, presenting them, and managing dismissed flags remain to be defined.
+
+#### 2.7.3 Duplicate Detection
+
+WASABI should be able to identify potential duplicate records without automatically merging them.
+
+Potential duplicates must be considered at two distinct levels:
+
+- **Potential duplicate Works:** Records that may represent the same underlying media Work.
+- **Potential duplicate Experiences:** Records that may represent the same individual encounter recorded more than once.
+
+These cases must not be conflated. Multiple Experiences associated with the same Work are legitimate and must not be treated as duplicates merely because they refer to the same Work.
+
+**Established decisions:**
+
+- Automatic detection of potential duplicates is acceptable.
+- Automatic merging is not acceptable.
+- Matching titles and media types are insufficient to establish that two Works represent the same underlying Work.
+- Users should be able to dismiss a potential duplicate suggestion as "not a duplicate."
+- WASABI should remember dismissed suggestions to avoid repeatedly presenting the same pair.
+- Users should be able to explicitly request that dismissed suggestions be reconsidered through a "Recheck for duplicates" action.
+
+**Open questions:**
+
+- Should rechecking apply to the entire archive or selected record pairs?
+- What matching information and criteria should be used to identify potential duplicate Works and Experiences?
+- How should duplicate detection account for changes to records or additional identifying information?
+
+#### 2.7.4 Record Correction and Change History
+
+WASABI should preserve a rich history of changes to Work and Experience information rather than retaining only current values.
+
+**Emerging directions:**
+
+- Changes to recorded information should preserve both the previous and new values.
+- This history should apply consistently across record fields rather than selectively preserving only certain types of changes.
+- History should make it possible to understand what changed, when it changed, and what the previous and new values were.
+- The current value remains authoritative for ordinary archive use, while historical values remain available to understand how the record evolved.
+- Meaningful changes to relationships and associations should also be preserved. Examples include moving an Experience from one Work to another or merging two Works.
+- Routine internal relationship operations that do not affect the user's archive or its interpretation do not necessarily require historical records.
+
+**Change provenance:**
+
+Where practical, provenance should be retained consistently for recorded values and changes.
+
+Provenance should distinguish between:
+
+- **Information source:** Where the information originated, such as a manual entry, spreadsheet, or another external source.
+- **Change actor or process:** Who or what introduced or changed the information, such as the user, an import or reconciliation process, or an automated WASABI operation.
+
+The reason for a change may also be recorded when known, but providing a reason should be optional. Examples include correcting an inaccurate entry, accepting newer external information, or resolving a discrepancy.
+
+These directions extend historical preservation beyond the evaluation-specific revision history established in earlier sections.
+
+The detailed representation, retention, and presentation of general record-change history and provenance remain to be defined.
+
+#### 2.7.5 External Information and Reconciliation
+
+WASABI should support comparing information from external sources against existing archive records and reconciling differences through deliberate user review.
+
+**Established decisions:**
+
+- Reconciliation should focus on existing WASABI archive records.
+- Identifying entirely new archive records from an external source is outside the current reconciliation scope.
+- External information should be presented as proposed changes rather than automatically replacing existing archive values.
+- The user decides which proposed changes to accept.
+- Reconciliation must avoid accidental duplication or loss of existing information.
+- The WASABI archive remains the authoritative record until the user accepts an external change.
+
+**Emerging directions:**
+
+- Reconciliation should identify and present differences between external information and existing archive records.
+- Accepted changes should follow the same record-history and provenance principles described above.
+- Source information should remain available to help users evaluate conflicting values.
+- Reconciliation should preserve the distinction between the origin of information and the process that introduced it into WASABI.
+
+**Open questions:**
+
+- How should WASABI identify and handle uncertain matches between external records and existing archive records?
+- How should users review and resolve multiple conflicting values or sources?
+- What external source formats and reconciliation workflows should be supported?
+- How should reconciliation handle records or values that have changed since an earlier comparison?
+
+The current product vision identifies existing external spreadsheet information as a source of potential archive updates. A repeatable, general-purpose import and reconciliation capability remains subject to further scope and requirements investigation.
+
 ## 3. CA-01 Decision Summary
 
-| Subject                                      | Current position                                                    |
-| -------------------------------------------- | ------------------------------------------------------------------- |
-| Work and Experience                          | Conceptually distinct                                               |
-| Multiple Experiences per Work                | Established                                                         |
-| Independent Experience records               | Established                                                         |
-| Work metadata                                | Distinct from personal information                                  |
-| Work-level personal attributes               | Small, structured set established                                   |
-| Experience response notes                    | Scoped to individual Experiences                                    |
-| Repeat evaluation                            | Optional                                                            |
-| Evaluation revision history                  | Every saved evaluation change is preserved and inspectable          |
-| Evaluation revision timestamps               | Recorded and effective timestamps retained separately               |
-| Evaluation revision classification           | Optional correction or reassessment classification                  |
-| Evaluation history scope                     | Independent for each Experience                                     |
-| Personal response note revision history      | Latest-version-only direction; emerging, not yet established        |
-| Experience lifecycle                         | Started, Paused, Completed, Abandoned                               |
-| Initial state of a newly recorded Experience | Started                                                             |
-| Abandoned Experiences                        | Reversible; user decides whether to resume or restart               |
-| State-change history                         | Retained and inspectable                                            |
-| State transitions                            | Explicitly recorded by user in 2.0                                  |
-| Work archive membership                      | Requires an actual started or completed Experience                  |
-| Pre-experience queues                        | Deferred to a later version, potentially 2.x or v3.0+               |
-| Experience start date                        | Optional; encouraged when known                                     |
-| State-change effective timestamps            | Retained; retrospective entry and correction supported              |
-| State-change recorded timestamps             | Retained separately from effective timestamps                       |
-| Completion date                              | Optional; encouraged when known                                     |
-| Archive-entry timestamps                     | Automatic and separate for each Work and Experience                 |
-| Date and lifecycle corrections               | Previous values and correction history preserved                    |
-| Lifecycle-state corrections                  | Supported subject to proportionate storage and complexity           |
-| Game completion context                      | Optional, video games only                                          |
-| Movie/book completion context                | No additional mechanism currently needed                            |
-| Metadata auto-population                     | Attractive direction; scope unresolved                              |
-| Removal and historical preservation          | Recoverable by default; permanent deletion requires explicit action |
-| Recently Removed / Trash                     | Dedicated area for recoverably removed records                      |
-| Automatic removal expiration                 | Not permitted in baseline 2.0                                       |
-| Experience removal                           | Independent and recoverable                                         |
-| Work removal                                 | Recoverably removes Work and associated Experiences                 |
-| Work restoration                             | Restores Experiences removed as a consequence of Work removal       |
-| Independent Experience restoration           | Requires parent Work to be active                                   |
-| Permanent Experience deletion                | Deletes only that Experience                                        |
-| Permanent Work deletion                      | Cascades to all associated Experiences                              |
-| Permanent deletion confirmation              | Required; scope and affected records must be inspectable            |
-| Intelligence consequences of removal         | Open                                                                |
+| Subject                                      | Current position                                                                     |
+| -------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Work and Experience                          | Conceptually distinct                                                                |
+| Multiple Experiences per Work                | Established                                                                          |
+| Independent Experience records               | Established                                                                          |
+| Work metadata                                | Distinct from personal information                                                   |
+| Work-level personal attributes               | Small, structured set established                                                    |
+| Experience response notes                    | Scoped to individual Experiences                                                     |
+| Repeat evaluation                            | Optional                                                                             |
+| Evaluation revision history                  | Every saved evaluation change is preserved and inspectable                           |
+| Evaluation revision timestamps               | Recorded and effective timestamps retained separately                                |
+| Evaluation revision classification           | Optional correction or reassessment classification                                   |
+| Evaluation history scope                     | Independent for each Experience                                                      |
+| Personal response note revision history      | Latest-version-only direction; emerging, not yet established                         |
+| Experience lifecycle                         | Started, Paused, Completed, Abandoned                                                |
+| Initial state of a newly recorded Experience | Started                                                                              |
+| Abandoned Experiences                        | Reversible; user decides whether to resume or restart                                |
+| State-change history                         | Retained and inspectable                                                             |
+| State transitions                            | Explicitly recorded by user in 2.0                                                   |
+| Work archive membership                      | Requires an actual started or completed Experience                                   |
+| Pre-experience queues                        | Deferred to a later version, potentially 2.x or v3.0+                                |
+| Experience start date                        | Optional; encouraged when known                                                      |
+| State-change effective timestamps            | Retained; retrospective entry and correction supported                               |
+| State-change recorded timestamps             | Retained separately from effective timestamps                                        |
+| Completion date                              | Optional; encouraged when known                                                      |
+| Archive-entry timestamps                     | Automatic and separate for each Work and Experience                                  |
+| Date and lifecycle corrections               | Previous values and correction history preserved                                     |
+| Lifecycle-state corrections                  | Supported subject to proportionate storage and complexity                            |
+| Game completion context                      | Optional, video games only                                                           |
+| Movie/book completion context                | No additional mechanism currently needed                                             |
+| Metadata auto-population                     | Attractive direction; scope unresolved                                               |
+| Removal and historical preservation          | Recoverable by default; permanent deletion requires explicit action                  |
+| Recently Removed / Trash                     | Dedicated area for recoverably removed records                                       |
+| Automatic removal expiration                 | Not permitted in baseline 2.0                                                        |
+| Experience removal                           | Independent and recoverable                                                          |
+| Work removal                                 | Recoverably removes Work and associated Experiences                                  |
+| Work restoration                             | Restores Experiences removed as a consequence of Work removal                        |
+| Independent Experience restoration           | Requires parent Work to be active                                                    |
+| Permanent Experience deletion                | Deletes only that Experience                                                         |
+| Permanent Work deletion                      | Cascades to all associated Experiences                                               |
+| Permanent deletion confirmation              | Required; scope and affected records must be inspectable                             |
+| Archive completeness                         | Missing information actively identified and communicated; lifecycle-aware assessment |
+| Completeness expectations                    | System-defined baseline plus optional user-defined expectations; details open        |
+| Incomplete records                           | Remain valid unless a separate integrity issue exists                                |
+| Inconsistent information                     | Flagged for user review rather than automatically corrected                          |
+| Dismissed inconsistency flags                | User may acknowledge an inconsistency as intentional; dismissal remembered           |
+| Potential duplicate detection                | Works and Experiences considered separately                                          |
+| Automatic duplicate merging                  | Not permitted                                                                        |
+| Dismissed duplicate suggestions              | "Not a duplicate" decisions remembered; explicit rechecking supported                |
+| General record-change history                | Previous and new values preserved; emerging direction                                |
+| Relationship-change history                  | Meaningful changes to Work and Experience relationships preserved                    |
+| Change provenance                            | Information source and change actor or process distinguished                         |
+| Change reasons                               | May be recorded when known; optional                                                 |
+| Reconciliation                               | User reviews and decides whether to accept external changes                          |
+| Archive authority                            | WASABI remains authoritative until an external change is accepted                    |
+| Reconciliation scope                         | Existing archive records only; new-record discovery excluded                         |
+| Uncertain external record matching           | Open                                                                                 |
+| Intelligence consequences of removal         | Open                                                                                 |
 
 ## 4. Next Areas of Investigation
 
@@ -452,14 +595,15 @@ CA-01 decomposition remains in progress.
 
 The next discussions should investigate:
 
-1. Experience evaluation and other recorded response information.
-2. Archive integrity, correction, duplicate detection, and reconciliation.
-3. Detailed requirements for Work and Experience record maintenance.
-4. Backup, restoration, export, and data portability.
-5. The effects of record correction, removal, and permanent deletion on intelligence findings and supporting evidence.
+1. Detailed requirements for Work and Experience record maintenance.
+2. Backup, restoration, export, and data portability.
+3. The effects of record correction, removal, and permanent deletion on intelligence findings and supporting evidence.
 
-These topics should be explored in a controlled sequence. Decisions should be recorded as they become sufficiently established rather than treating the entire capability area as settled at once.
+Archive integrity, correction, duplicate detection, and reconciliation have been explored at the capability level. Their remaining open questions should be addressed when defining the relevant detailed requirements rather than prematurely resolving implementation or interface decisions.
 
 ---
 
-**Document history:** Initial decomposition checkpoint recorded November 20, 2026.
+**Document history:**
+
+- Initial decomposition checkpoint recorded November 20, 2026.
+- Archive integrity, correction, duplicate detection, and reconciliation discovery checkpoint recorded November 26, 2026.
